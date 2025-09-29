@@ -17,7 +17,10 @@ import { Channel } from "revolt.js";
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
+
+import { CONFIGURATION } from "@revolt/common";
 import {
   CompositionMediaPicker,
   FileCarousel,
@@ -26,9 +29,12 @@ import {
   IconButton,
   MessageBox,
   MessageReplyPreview,
+  Row,
+  humanFileSize
 } from "@revolt/ui";
 import { generateSearchSpaceFrom } from "@revolt/ui/components/utils/autoComplete";
 import { Symbol } from "@revolt/ui/components/utils/Symbol"
+
 
 
 interface Props {
@@ -50,6 +56,7 @@ export function MessageComposition(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
+  const { openModal } = useModals();
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
@@ -183,15 +190,39 @@ export function MessageComposition(props: Props) {
    * @param files List of files
    */
   function onFiles(files: File[]) {
+    const rejectedFiles: File[] = [];
+    const validFiles: File[] = [];
+
     for (const file of files) {
-      if (file.size > 20_000_000) {
-        alert("file too large");
+      if (file.size > CONFIGURATION.MAX_FILE_SIZE) {
+        console.log("File too large:", file);
+        rejectedFiles.push(file);
+      } else {
+        validFiles.push(file);
       }
     }
 
-    const validFiles = Array.from(files).filter(
-      (file) => file.size <= 20_000_000,
-    );
+    if (rejectedFiles.length > 0) {
+      const maxSizeFormatted = humanFileSize(CONFIGURATION.MAX_FILE_SIZE);
+
+      if (rejectedFiles.length === 1) {
+        const file = rejectedFiles[0];
+        const fileSize = humanFileSize(file.size);
+        const error = new Error(t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`);
+        error.name = "File too large";
+        openModal({
+          type: "error2",
+          error,
+        });
+      } else {
+        const error = new Error(t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`);
+        error.name = "Files too large";
+        openModal({
+          type: "error2",
+          error,
+        });
+      }
+    }
 
     for (const file of validFiles) {
       state.draft.addFile(props.channel.id, file);

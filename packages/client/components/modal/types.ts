@@ -16,6 +16,7 @@ import {
   ServerRole,
   Session,
   User,
+  VideoEmbed,
 } from "revolt.js";
 import { ProtocolV1 } from "revolt.js/lib/events/v1";
 
@@ -158,6 +159,7 @@ export type Modals =
   | {
       type: "image_viewer";
       embed?: ImageEmbed;
+      gif?: VideoEmbed;
       file?: File;
     }
   | {

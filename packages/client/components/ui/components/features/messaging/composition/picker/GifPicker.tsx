@@ -264,6 +264,7 @@ const GifItem = (props: {
     <Gif
       loop
       autoplay
+      muted
       preload="auto"
       role="listitem"
       style={props.style}

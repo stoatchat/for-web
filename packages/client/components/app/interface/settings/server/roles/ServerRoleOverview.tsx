@@ -1,3 +1,4 @@
+import { BiRegularListUl } from "solid-icons/bi";
 import { Show } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
@@ -6,10 +7,11 @@ import { Server } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, Draggable, Text } from "@revolt/ui";
+import { CategoryButton, Column, Draggable, Text, iconSize } from "@revolt/ui";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 
 import MdDragIndicator from "@material-design-icons/svg/outlined/drag_indicator.svg?component-solid";
+import MdGroupAdd from "@material-design-icons/svg/outlined/group_add.svg?component-solid";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -39,7 +41,7 @@ export function ServerRoleOverview(props: { context: Server }) {
     <Column gap="lg">
       <Column gap="sm">
         <CategoryButton
-          icon="blank"
+          icon={<BiRegularListUl size={20} />}
           action="chevron"
           description={<Trans>Affects all roles and users</Trans>}
           onClick={() => navigate("roles/default")}
@@ -47,7 +49,7 @@ export function ServerRoleOverview(props: { context: Server }) {
           <Trans>Default Permissions</Trans>
         </CategoryButton>
         <CategoryButton
-          icon="blank"
+          icon={<MdGroupAdd {...iconSize(20)} />}
           action="chevron"
           description={<Trans>Create a new role</Trans>}
           onClick={createRole}
@@ -57,9 +59,13 @@ export function ServerRoleOverview(props: { context: Server }) {
       </Column>
 
       <Column gap="sm">
-        <Show when={change.isPending}>
-          <Text>Saving... (i am TEMPORARY UI)</Text>
-        </Show>
+        <Text class="label">
+          <Trans>Server Roles</Trans>
+          <Show when={change.isPending}>
+            {" "}
+            <Trans>(changes are being saved…)</Trans>
+          </Show>
+        </Text>
         <Draggable
           dragHandles
           items={props.context.orderedRoles}

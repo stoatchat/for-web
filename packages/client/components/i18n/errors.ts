@@ -10,6 +10,10 @@ export function useError() {
     // TODO: requests
     // TODO: HTTP errors
 
+    if (error && typeof error.message === 'string' && error.message.trim()) {
+      return error.message;
+    }
+
     return t`Something went wrong! Try again later.`;
   };
 }

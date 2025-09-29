@@ -1,15 +1,17 @@
-import { Match, Show, Switch } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { Message } from "revolt.js";
 
 import { useClient, useUser } from "@revolt/client";
+import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 
 import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
+import MdDeleteSweep from "@material-design-icons/svg/outlined/delete_sweep.svg?component-solid";
 import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
 import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
 import MdPin from "@material-design-icons/svg/outlined/pin_invoke.svg?component-solid";
@@ -18,10 +20,13 @@ import MdReport from "@material-design-icons/svg/outlined/report.svg?component-s
 import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
 import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
 
+import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
+
 import {
   ContextMenu,
   ContextMenuButton,
   ContextMenuDivider,
+  ContextMenuSubMenu,
 } from "./ContextMenu";
 
 /**
@@ -150,6 +155,42 @@ export function MessageContextMenu(props: { message: Message }) {
               <Trans>Unpin message</Trans>
             </Match>
           </Switch>
+        </ContextMenuButton>
+      </Show>
+      <Show
+        when={
+          props.message.reactions.size &&
+          props.message.channel?.havePermission("ManageMessages")
+        }
+      >
+        <ContextMenuSubMenu
+          icon={MdDeleteSweep}
+          onClick={() => props.message.clearReactions()}
+          destructive
+          buttonContent={<Trans>Remove reaction</Trans>}
+        >
+          <For each={[...props.message.reactions.keys()]}>
+            {(key) => (
+              <ContextMenuButton
+                onClick={() => props.message.unreact(key, true)}
+              >
+                <Switch fallback={<UnicodeEmoji emoji={key} />}>
+                  <Match when={key.length === 26}>
+                    <CustomEmoji id={key} />
+                  </Match>
+                </Switch>
+              </ContextMenuButton>
+            )}
+          </For>
+        </ContextMenuSubMenu>
+      </Show>
+      <Show when={props.message.reactions.size}>
+        <ContextMenuButton
+          symbol={MdSentimentContent}
+          onClick={() => props.message.clearReactions()}
+          destructive
+        >
+          <Trans>Remove all reactions</Trans>
         </ContextMenuButton>
       </Show>
       <Show

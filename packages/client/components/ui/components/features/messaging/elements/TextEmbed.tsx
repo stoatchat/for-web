@@ -5,6 +5,7 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Markdown } from "@revolt/markdown";
+import { RenderAnchor } from "@revolt/markdown/plugins/anchors";
 import { useModals } from "@revolt/modal";
 import { Text } from "@revolt/ui/components/design";
 import { Column } from "@revolt/ui/components/layout";
@@ -53,7 +54,7 @@ const PreviewImage = styled("img", {
   },
 });
 
-const Title = styled("a", {
+const Title = styled("span", {
   base: {
     minWidth: 0,
     flexShrink: 1,
@@ -110,9 +111,11 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
         </Show>
 
         <Show when={props.embed.title}>
-          <Title href={props.embed.url}>
-            <OverflowingText>{props.embed.title}</OverflowingText>
-          </Title>
+          <RenderAnchor href={props.embed.url}>
+            <Title>
+              <OverflowingText>{props.embed.title}</OverflowingText>
+            </Title>
+          </RenderAnchor>
         </Show>
 
         <Show when={props.embed.description}>

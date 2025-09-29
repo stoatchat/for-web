@@ -4,6 +4,7 @@ import { ServerMember } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
+import { useState } from "@revolt/state";
 
 import { AutoCompleteState } from "../../directives";
 import { Avatar } from "../design";
@@ -18,6 +19,9 @@ import { ColouredText } from "../utils";
 export function AutoComplete(
   props: Exclude<JSX.Directives["floating"]["autoComplete"], undefined>,
 ) {
+  const state = useState();
+  const emoji_pack = state.settings.getValue("appearance:unicode_emoji");
+
   return (
     <Base>
       <Switch>
@@ -39,6 +43,7 @@ export function AutoComplete(
                     <>
                       <UnicodeEmoji
                         emoji={(match as { codepoint: string }).codepoint}
+                        pack={emoji_pack}
                       />{" "}
                       <Name>:{match.shortcode}:</Name>
                     </>
@@ -150,7 +155,7 @@ const Entry = styled("div", {
     selected: {
       true: {
         background:
-        "color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent)",
+          "color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent)",
       },
     },
   },

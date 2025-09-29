@@ -13,7 +13,7 @@ type Props = Omit<
     JSX.DirectiveAttributes &
     Pick<
       JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-      "role" | "tabIndex" | "aria-selected"
+      "role" | "tabIndex" | "aria-selected" | "disabled"
     >,
   "onClick" | "_permitAnimation"
 > & {
@@ -372,7 +372,7 @@ const button = cva({
       disabled: true,
       css: {
         "--color":
-          "color-mix(in srgb, 38% var(--md-sys-color-outline-variant), transparent)",
+          "color-mix(in srgb, 38% var(--md-sys-color-on-surface), transparent)",
         background:
           "color-mix(in srgb, 10% var(--md-sys-color-on-surface), transparent)",
       },

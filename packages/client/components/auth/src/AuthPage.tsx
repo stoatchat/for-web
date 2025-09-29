@@ -19,7 +19,7 @@ import { FlowBase } from "./flows/Flow";
 const Base = styled("div", {
   base: {
     width: "100%",
-    height: "100%",
+    height: "calc(100% - 29px)", // todo: un hard-code (see <Titlebar />)
     padding: "40px 35px",
 
     userSelect: "none",

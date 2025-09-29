@@ -49,7 +49,7 @@ const Interface = (props: { children: JSX.Element }) => {
       style={{
         display: "flex",
         "flex-direction": "column",
-        height: "100%",
+        height: "calc(100% - 29px)", // todo: un hard-code (see <Titlebar />)
       }}
     >
       <Notice>

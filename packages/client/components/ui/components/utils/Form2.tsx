@@ -335,9 +335,15 @@ const FormResetButton = (props: {
 const FormSubmitButton = (props: {
   group: IFormGroup;
   children: JSX.Element;
+  requireDirty?: boolean;
 }) => {
   return (
-    <Button type="submit" isDisabled={!canSubmit(props.group)}>
+    <Button
+      type="submit"
+      isDisabled={
+        !canSubmit(props.group) || !props.requireDirty || !props.group.isDirty
+      }
+    >
       {props.children}
     </Button>
   );

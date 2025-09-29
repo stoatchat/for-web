@@ -4,8 +4,9 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import { API, Channel, Server } from "revolt.js";
 import { DEFAULT_PERMISSION_DIRECT_MESSAGE } from "revolt.js";
 import { css } from "styled-system/css";
+import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox2, OverrideSwitch, Text } from "@revolt/ui";
+import { Button, Checkbox2, OverrideSwitch, Row, Text } from "@revolt/ui";
 
 type Props =
   | { type: "server_default"; context: Server }
@@ -71,6 +72,13 @@ export function ChannelPermissionsEditor(props: Props) {
       [b1, b2] = value();
 
     return a1 !== b1 || a2 !== b2;
+  }
+
+  /**
+   * Reset to the current value
+   */
+  function reset() {
+    setValue(currentValue());
   }
 
   /**
@@ -193,7 +201,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ChangeNickname",
-      value: 1 << 9,
+      value: 1 << 10,
       title: t`Change Nickname`,
       description: {
         Server: t`Change own nickname`,
@@ -201,7 +209,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageNicknames",
-      value: 1 << 10,
+      value: 1 << 11,
       title: t`Manage Nicknames`,
       description: {
         Server: t`Change other members' nicknames`,
@@ -385,10 +393,6 @@ export function ChannelPermissionsEditor(props: Props) {
 
   return (
     <div class={css({ display: "flex", flexDirection: "column" })}>
-      <Show when={unsavedChanges()}>
-        <Button onPress={save}>Save Pending Changes (i am TEMPORARY UI)</Button>
-      </Show>
-
       <For each={Permissions}>
         {(entry) => (
           <Show when={description(entry)}>
@@ -447,9 +451,40 @@ export function ChannelPermissionsEditor(props: Props) {
           </Show>
         )}
       </For>
+
+      <StickyPanel>
+        <Row>
+          <Button
+            isDisabled={!unsavedChanges()}
+            variant="text"
+            size={unsavedChanges() ? "md" : "sm"}
+            onPress={reset}
+          >
+            Reset
+          </Button>
+          <Button
+            isDisabled={!unsavedChanges()}
+            size={unsavedChanges() ? "md" : "sm"}
+            onPress={save}
+          >
+            Save permissions
+          </Button>
+        </Row>
+      </StickyPanel>
     </div>
   );
 }
+
+const StickyPanel = styled("div", {
+  base: {
+    position: "sticky",
+    width: "fit-content",
+    padding: "var(--gap-md)",
+    bottom: "var(--gap-lg)",
+    borderRadius: "var(--borderRadius-xl)",
+    background: "var(--md-sys-color-surface)",
+  },
+});
 
 function ChannelPermissionToggle(props: {
   key: string;

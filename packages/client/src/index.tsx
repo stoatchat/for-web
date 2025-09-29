@@ -7,12 +7,11 @@ import { Portal, render } from "solid-js/web";
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
 import { Navigate, Route, Router, useParams } from "@solidjs/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
-import { isTauri } from "@tauri-apps/api/core";
-import { getCurrentWindow } from "@tauri-apps/api/window";
 import "mdui/mdui.css";
 import { PublicBot, PublicChannelInvite } from "revolt.js";
 import { css } from "styled-system/css";
 
+import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
 import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
 import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
@@ -27,13 +26,7 @@ import { KeybindContext } from "@revolt/keybinds";
 import { ModalContext, ModalRenderer, useModals } from "@revolt/modal";
 import { VoiceContext } from "@revolt/rtc";
 import { StateContext, SyncWorker, useState } from "@revolt/state";
-import {
-  Button,
-  FloatingManager,
-  LoadTheme,
-  Titlebar,
-  iconSize,
-} from "@revolt/ui";
+import { Button, FloatingManager, LoadTheme, iconSize } from "@revolt/ui";
 /* @refresh reload */
 import "@revolt/ui/styles";
 
@@ -119,7 +112,6 @@ function BotRedirect() {
 
 function MountContext(props: { children?: JSX.Element }) {
   const state = useState();
-  const appWindow = isTauri() ? getCurrentWindow() : null;
 
   /**
    * Tanstack Query client
@@ -133,14 +125,7 @@ function MountContext(props: { children?: JSX.Element }) {
           <VoiceContext>
             <I18nProvider>
               <QueryClientProvider client={client}>
-                <Show when={window.__TAURI__}>
-                  <Titlebar
-                    isBuildDev={import.meta.env.DEV}
-                    onMinimize={() => appWindow?.minimize?.()}
-                    onMaximize={() => appWindow?.toggleMaximize?.()}
-                    onClose={() => appWindow?.hide?.()}
-                  />
-                </Show>
+                <Titlebar />
                 {props.children}
                 <ModalRenderer />
                 <FloatingManager />

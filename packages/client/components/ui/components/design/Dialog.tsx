@@ -139,8 +139,6 @@ Dialog.Scrim = styled("div", {
     animationDuration: "0.1s",
     animationFillMode: "forwards",
     transition: "var(--transitions-medium) all",
-
-    "--background": "rgba(0, 0, 0, 0.6)",
   },
   variants: {
     show: {
@@ -160,11 +158,20 @@ Dialog.Scrim = styled("div", {
         overflowY: "auto",
       },
     },
+    dark: {
+      true: {
+        "--background": "rgba(0, 0, 0, 0.9)",
+      },
+      false: {
+        "--background": "rgba(0, 0, 0, 0.6)",
+      },
+    },
   },
   defaultVariants: {
     show: true,
     padding: true,
     overflow: true,
+    dark: false,
   },
 });
 
