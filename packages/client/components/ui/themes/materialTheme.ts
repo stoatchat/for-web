@@ -243,7 +243,7 @@ function generateMaterialYouScheme(
 }
 
 /**
- * Colours imported from Revolt for Android project
+ * Colours imported from Stoat for Android project
  * https://github.com/revoltchat/android/blob/dev/app/src/main/java/chat/revolt/ui/theme/Colour.kt
  */
 const AndroidNeutralColours:

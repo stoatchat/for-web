@@ -171,7 +171,7 @@ export function NotificationsWorker() {
       body,
       timestamp: message.createdAt,
       tag: message.channelId,
-      badge: "/assets/icons/android-chrome-512x512.png",
+      badge: "/assets/web/android-chrome-512x512.png",
       silent: true,
     });
 

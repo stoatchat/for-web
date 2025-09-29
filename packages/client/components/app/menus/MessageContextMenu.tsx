@@ -85,11 +85,11 @@ export function MessageContextMenu(props: { message: Message }) {
   }
 
   /**
-   * Open message in Revolt Admin Panel
+   * Open message in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://admin.revolt.chat/panel/inspect/message/${props.message.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/message/${props.message.id}`,
       "_blank",
     );
   }

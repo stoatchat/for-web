@@ -22,7 +22,7 @@ export function Feedback() {
     <Column gap="lg">
       <CategoryButtonGroup>
         <Link
-          href="https://github.com/orgs/revoltchat/projects/6/views/4"
+          href="https://example.com" // TODO-STOAT-WEB
           target="_blank"
         >
           <CategoryButton
@@ -35,7 +35,7 @@ export function Feedback() {
           </CategoryButton>
         </Link>
         <Link
-          href="https://github.com/orgs/revoltchat/discussions"
+          href="https://example.com" // TODO-STOAT-WEB
           target="_blank"
         >
           <CategoryButton
@@ -43,14 +43,14 @@ export function Feedback() {
             icon={<MdStar {...iconSize(22)} />}
             onClick={() => void 0}
             description={
-              <Trans>Suggest new Revolt features on GitHub discussions.</Trans>
+              <Trans>Suggest new Stoat features on GitHub discussions.</Trans>
             }
           >
             <Trans>Submit feature suggestion</Trans>
           </CategoryButton>
         </Link>
         <Link
-          href="https://github.com/revoltchat/frontend/issues/new/choose"
+          href="https://example.com" // TODO-STOAT-WEB
           target="_blank"
         >
           <CategoryButton
@@ -63,7 +63,7 @@ export function Feedback() {
           </CategoryButton>
         </Link>
         <Link
-          href="https://github.com/orgs/revoltchat/projects/3"
+          href="https://example.com" // TODO-STOAT-WEB
           target="_blank"
         >
           <CategoryButton
@@ -79,7 +79,7 @@ export function Feedback() {
       <CategoryButtonGroup>
         <CategoryButton
           action="chevron"
-          icon={<MdExitToApp {...iconSize(22)} />}
+          icon={<MdExitToApp {...iconSize(22)} />} // TODO-STOAT-WEB
           onClick={() => void 0}
           description={
             <Trans>
@@ -88,7 +88,7 @@ export function Feedback() {
             </Trans>
           }
         >
-          <Trans>Join the Revolt Lounge</Trans>
+          <Trans>Join the Stoat Lounge</Trans>
         </CategoryButton>
       </CategoryButtonGroup>
     </Column>

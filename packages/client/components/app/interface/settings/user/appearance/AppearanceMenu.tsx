@@ -71,10 +71,10 @@ export function AppearanceMenu() {
         {/* <Row justify="stretch">
           <Button
             group="connected-start"
-            groupActive={state.theme.preset === "revolt"}
-            onPress={() => state.theme.setPreset("revolt")}
+            groupActive={state.theme.preset === "stoat"}
+            onPress={() => state.theme.setPreset("stoat")}
           >
-            <Trans>Revolt</Trans>
+            <Trans>Stoat</Trans>
           </Button>
           <Button
             group="connected-end"

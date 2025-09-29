@@ -17,7 +17,7 @@ async function createSymlink() {
     await lnk(resolve(revoltAssets), resolve(publicFolder), {
       rename: "assets",
     });
-    console.info(`Configured Revolt assets.`);
+    console.info(`Configured Stoat assets.`);
   } catch (error) {
     if (error === "Empty Directory" || error.code === "ENOENT") {
       await lnk(resolve(fallbackAssets), resolve(publicFolder), {

@@ -504,9 +504,9 @@ export default class ClientController {
         os = "iPadOS";
       }
 
-      friendly_name = `Revolt Web (${name} on ${os})`;
+      friendly_name = `Stoat for Web (${name} on ${os})`;
     } else {
-      friendly_name = "Revolt Web (Unknown Device)";
+      friendly_name = "Stoat for Web (Unknown Device)";
     }
 
     // Try to login with given credentials

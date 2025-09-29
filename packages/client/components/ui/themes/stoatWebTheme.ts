@@ -1,11 +1,11 @@
 import { SelectedTheme } from "@revolt/state/stores/Theme";
 
 /**
- * Generate Revolt for Web variables
+ * Generate Stoat for Web variables
  * @param theme Theme
  * @returns CSS Variables
  */
-export function createRevoltWebVariables(theme: SelectedTheme) {
+export function createStoatWebVariables(theme: SelectedTheme) {
   return {
     // helper variables
     "--unset-fg": "red",

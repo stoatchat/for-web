@@ -61,7 +61,7 @@ export default function FlowVerify() {
   });
 
   /**
-   * Use MFA ticket to log into Revolt
+   * Use MFA ticket to login
    */
   async function performLogin() {
     const v = state();

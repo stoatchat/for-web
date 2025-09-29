@@ -25,7 +25,7 @@ export default function Native() {
           onClick={() => void 0}
           icon={<MdExitToApp {...iconSize(22)} />}
           description={
-            <Trans>Launch Revolt when you log into your computer.</Trans>
+            <Trans>Launch Stoat when you log into your computer.</Trans>
           }
         >
           <Trans>Start with Computer</Trans>
@@ -35,7 +35,7 @@ export default function Native() {
           onClick={() => void 0}
           icon={<MdCancelPresentation {...iconSize(22)} />}
           description={
-            <Trans>Instead of closing, Revolt will hide in your tray.</Trans>
+            <Trans>Instead of closing, Stoat will hide in your tray.</Trans>
           }
         >
           <Trans>Minimise to Tray</Trans>
@@ -46,7 +46,7 @@ export default function Native() {
           action={<Checkbox checked onChange={(value) => void value} />}
           onClick={() => void 0}
           icon={<MdWebAsset {...iconSize(22)} />}
-          description={<Trans>Let Revolt use its own custom titlebar.</Trans>}
+          description={<Trans>Let Stoat use its own custom titlebar.</Trans>}
         >
           <Trans>Custom window frame</Trans>
         </CategoryButton>
@@ -56,7 +56,7 @@ export default function Native() {
           icon={<MdDesktopWindows {...iconSize(22)} />}
           description="Version 1.0.0"
         >
-          <Trans>Revolt Desktop</Trans>
+          <Trans>Stoat Desktop</Trans>
         </CategoryButton>
       </CategoryButtonGroup>
     </Column>
