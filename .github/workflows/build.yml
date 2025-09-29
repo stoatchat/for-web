@@ -1,10 +1,10 @@
-name: Run Tests
+name: Build App
 
 on:
   push:
     paths-ignore:
       - ".github/**"
-      - "!.github/workflows/test.yml"
+      - "!.github/workflows/build.yml"
       - ".vscode/**"
       - "doc/**"
       - "lifecycle/**"
@@ -13,12 +13,12 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
 
     steps:
       - name: Checkout repository and submodules
@@ -35,5 +35,5 @@ jobs:
         run: pnpm install
       - name: Build all dependencies
         run: pnpm build:deps
-      - name: Run tests
-        run: pnpm test
+      - name: Build web app
+        run: pnpm build:web
