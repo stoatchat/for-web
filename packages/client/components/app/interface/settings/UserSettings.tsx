@@ -115,14 +115,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
       ),
       append: (
         <Text class="label">
-          <Trans>
-            <span class={css({ userSelect: "none", fontWeight: "bold" })}>
-              Version:{" "}
-            </span>
-            <span class={css({ userSelect: "all" })}>
-              {pkg.version} ({pkg["version-date"]})
-            </span>
-          </Trans>
+          <span class={css({ userSelect: "none", fontWeight: "bold" })}>
+            <Trans>Version:</Trans>
+          </span>{" "}
+          <span class={css({ userSelect: "all" })}>
+            {pkg.version} ({pkg["version-date"]})
+          </span>
         </Text>
       ),
       entries: [
