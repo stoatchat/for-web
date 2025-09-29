@@ -1,4 +1,4 @@
-import { BiRegularAt, BiRegularHash, BiSolidNotepad } from "solid-icons/bi";
+import { BiRegularAt } from "solid-icons/bi";
 import { Accessor, Match, Setter, Show, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
@@ -31,6 +31,7 @@ import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
 
 import { SidebarState } from "./text/TextChannel";
+import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 interface Props {
   /**
@@ -104,7 +105,7 @@ export function ChannelHeader(props: Props) {
           }
         >
           <HeaderIcon>
-            <BiRegularHash size={24} />
+            <Symbol>grid_3x3</Symbol>
           </HeaderIcon>
           <NonBreakingText
             class={typography({ class: "title", size: "medium" })}
@@ -146,14 +147,14 @@ export function ChannelHeader(props: Props) {
         </Match>
         <Match when={props.channel.type === "DirectMessage"}>
           <HeaderIcon>
-            <BiRegularAt size={24} />
+            <Symbol>alternate_email</Symbol>
           </HeaderIcon>
           <TextWithEmoji content={props.channel.recipient?.username} />
           <UserStatus status={props.channel.recipient?.presence} size="8px" />
         </Match>
         <Match when={props.channel.type === "SavedMessages"}>
           <HeaderIcon>
-            <BiSolidNotepad size={24} />
+            <Symbol>note_stack</Symbol>
           </HeaderIcon>
           <Trans>Saved Notes</Trans>
         </Match>

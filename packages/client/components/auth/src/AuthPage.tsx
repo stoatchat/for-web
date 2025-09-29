@@ -3,6 +3,7 @@ import { JSX } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
+import { css } from "styled-system/css";
 
 import { useState } from "@revolt/state";
 import { Button, IconButton, iconSize } from "@revolt/ui";
@@ -126,7 +127,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
 
   return (
-    <Base style={{ "--url": `url('${background}')` }}>
+    <Base style={{ "--url": `url('${background}')` }} css={{ scrollbar: "hidden" }}>
       <Nav>
         <div />
         <IconButton

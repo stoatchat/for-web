@@ -212,6 +212,9 @@ importers:
       lodash.isequal:
         specifier: ^4.5.0
         version: 4.5.0
+      material-symbols:
+        specifier: ^0.36.0
+        version: 0.36.0
       mdast:
         specifier: ^3.0.0
         version: 3.0.0
@@ -5965,6 +5968,9 @@ packages:
     peerDependencies:
       react: '>= 0.14.0'
 
+  material-symbols@0.36.0:
+    resolution: {integrity: sha512-Lqcg4VTpKygcsLIy6Fnq3Anoon98+xYATPFzlJ5ZFw/dTped7wlcLLq+jgCYn5qeZaiYSFIUVL9oIDHoNb1T6g==}
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -8307,7 +8313,7 @@ snapshots:
       '@babel/helper-compilation-targets': 7.27.2
       '@babel/helper-module-transforms': 7.27.1(@babel/core@7.27.1)
       '@babel/helpers': 7.27.1
-      '@babel/parser': 7.27.2
+      '@babel/parser': 7.28.3
       '@babel/template': 7.27.2
       '@babel/traverse': 7.28.3
       '@babel/types': 7.28.2
@@ -14315,6 +14321,8 @@ snapshots:
   markdown-to-jsx@7.7.6(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  material-symbols@0.36.0: {}
 
   math-intrinsics@1.1.0: {}
 

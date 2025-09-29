@@ -44,6 +44,7 @@ import { ServerHome } from "./interface/ServerHome";
 import { ChannelPage } from "./interface/channels/ChannelPage";
 import "./sentry";
 import "./serviceWorkerInterface";
+import "material-symbols"
 
 attachDevtoolsOverlay();
 

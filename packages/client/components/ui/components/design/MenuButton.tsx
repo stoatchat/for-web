@@ -104,6 +104,7 @@ const base = cva({
     position: "relative",
 
     display: "flex",
+    alignItems: "center",
     margin: "0 var(--gap-md)",
     padding: "0 var(--gap-md)",
     borderRadius: "var(--borderRadius-xl)",

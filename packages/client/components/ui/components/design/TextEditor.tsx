@@ -244,6 +244,7 @@ export function TextEditor(props: Props) {
     position: "absolute",
     whiteSpace: "nowrap",
     userSelect: "none",
+    opacity: 0.5,
   });
 
   // initialise auto complete

@@ -1,4 +1,3 @@
-import { BiSolidHome, BiSolidNotepad, BiSolidUserDetail } from "solid-icons/bi";
 import { Match, Show, Switch, createMemo, splitProps } from "solid-js";
 
 import { Plural, Trans, useLingui } from "@lingui-solid/solid/macro";
@@ -27,6 +26,7 @@ import MdPlus from "@material-design-icons/svg/outlined/add.svg?component-solid"
 import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 
 import { SidebarBase } from "./common";
+import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 interface Props {
   /**
@@ -77,7 +77,7 @@ export const HomeSidebar = (props: Props) => {
           <a href="/app">
             <MenuButton
               size="normal"
-              icon={<BiSolidHome size={24} />}
+              icon={<Symbol css={{alignSelf: "center", paddingBottom: "2px"}}>home</Symbol>}
               attention={location.pathname === "/app" ? "selected" : "normal"}
             >
               <ButtonTitle>
@@ -86,29 +86,34 @@ export const HomeSidebar = (props: Props) => {
             </MenuButton>
           </a>
 
+          <div style={{ height: "5px" }} />
+
           <a href="/friends">
             <MenuButton
               size="normal"
-              icon={<BiSolidUserDetail size={24} />}
+              icon={<Symbol css={{alignSelf: "center", paddingBottom: "1px"}}>group</Symbol>}
               attention={
                 location.pathname === "/friends" ? "selected" : "normal"
               }
             >
               <ButtonTitle>
-                <Trans>Friends</Trans>{" "}
+                <Trans>Friends</Trans>
+                <div style={{ flex: "1 1 auto" }} />
                 <Show when={pendingRequests()}>
                   <PendingBadge>{pendingRequests()} requests</PendingBadge>
                 </Show>
               </ButtonTitle>
             </MenuButton>
           </a>
+            
+          <div style={{ height: "5px" }} />
 
           <Switch
             fallback={
               <MenuButton
                 size="normal"
                 attention={"normal"}
-                icon={<BiSolidNotepad size={24} />}
+                icon={<Symbol css={{alignSelf: "center", paddingBottom: "2px"}}>note_stack</Symbol>}
                 onClick={() => props.openSavedNotes(navigate)}
               >
                 <ButtonTitle>
@@ -121,7 +126,7 @@ export const HomeSidebar = (props: Props) => {
               <a href={`/channel/${savedNotesChannelId()}`}>
                 <MenuButton
                   size="normal"
-                  icon={<BiSolidNotepad size={24} />}
+                  icon={<Symbol css={{alignSelf: "center", paddingBottom: "2px"}}>note_stack</Symbol>}
                   attention={
                     props.channelId && savedNotesChannelId() === props.channelId
                       ? "selected"
@@ -155,7 +160,7 @@ export const HomeSidebar = (props: Props) => {
                 },
               }}
             >
-              <MdPlus {...iconSize(14)} />
+              <Symbol fontSize="1.4em !important" marginTop="2px">add</Symbol>
             </a>
           </Category>
 
@@ -196,8 +201,8 @@ export const HomeSidebar = (props: Props) => {
  */
 const SidebarTitle = styled("p", {
   base: {
-    paddingBlock: "var(--gap-md)",
-    paddingInline: "var(--gap-lg)",
+    paddingBlock: "calc(var(--gap-md) + 15px)",
+    paddingInline: "var(--gap-md)",
 
     ...typography.raw({ class: "title" }),
   },
@@ -228,12 +233,14 @@ const PendingBadge = styled("div", {
 const Category = styled("div", {
   base: {
     display: "flex",
-    paddingTop: "var(--gap-md)",
     paddingInline: "var(--gap-lg)",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingTop: "calc(var(--gap-xl) - 5px)",
+    paddingBottom: "var(--gap-md)",
 
     ...typography.raw({ class: "label", size: "small" }),
+    fontSize: "13px",
   },
 });
 
@@ -390,7 +397,7 @@ function Entry(
  */
 const List = styled("div", {
   base: {
-    paddingRight: "var(--gap-md)",
+    paddingLeft: "var(--gap-md)",
     width: "var(--layout-width-channel-sidebar)",
   },
 });
