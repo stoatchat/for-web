@@ -7,6 +7,7 @@ import { Portal, render } from "solid-js/web";
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
 import { Navigate, Route, Router, useParams } from "@solidjs/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import "material-symbols";
 import "mdui/mdui.css";
 import { PublicBot, PublicChannelInvite } from "revolt.js";
 import { css } from "styled-system/css";
@@ -44,7 +45,6 @@ import { ServerHome } from "./interface/ServerHome";
 import { ChannelPage } from "./interface/channels/ChannelPage";
 import "./sentry";
 import "./serviceWorkerInterface";
-import "material-symbols"
 
 attachDevtoolsOverlay();
 
@@ -125,7 +125,6 @@ function MountContext(props: { children?: JSX.Element }) {
           <VoiceContext>
             <I18nProvider>
               <QueryClientProvider client={client}>
-                <Titlebar />
                 {props.children}
                 <ModalRenderer />
                 <FloatingManager />

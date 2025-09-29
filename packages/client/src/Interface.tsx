@@ -4,6 +4,7 @@ import { Server } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
 import { ChannelContextMenu, ServerContextMenu } from "@revolt/app";
+import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
@@ -44,59 +45,31 @@ const Interface = (props: { children: JSX.Element }) => {
     }
   });
 
+  function isDisconnected() {
+    return [
+      State.Connecting,
+      State.Disconnected,
+      State.Reconnecting,
+      State.Offline,
+    ].includes(lifecycle.state());
+  }
+
   return (
     <div
       style={{
         display: "flex",
         "flex-direction": "column",
-        height: "calc(100% - 29px)", // todo: un hard-code (see <Titlebar />)
+        height: "100%",
       }}
     >
-      <Notice>
-        ⚠️ Beta software, things will break!{" "}
-        {/*<strong class={css({ color: "var(--md-sys-color-on-surface)" })}>
-          <a href="#" target="_blank">
-            📣 Click here to give us feedback!
-          </a>
-        </strong>{" "}*/}
-        State:{" "}
-        <Switch>
-          <Match when={lifecycle.state() === State.Connecting}>
-            Connecting
-          </Match>
-          <Match when={lifecycle.state() === State.Connected}>Connected</Match>
-          <Match when={lifecycle.state() === State.Disconnected}>
-            Disconnected{" "}
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
-            >
-              (reconnect now)
-            </a>
-          </Match>
-          <Match when={lifecycle.state() === State.Reconnecting}>
-            Reconnecting
-          </Match>
-          <Match when={lifecycle.state() === State.Offline}>
-            Device is offline
-          </Match>
-        </Switch>
-        <Show when={pendingUpdate()}>
-          {" "}
-          <Button size="sm" onPress={pendingUpdate()}>
-            Update
-          </Button>
-        </Show>
-      </Notice>
+      <Titlebar />
       <Switch fallback={<CircularProgress />}>
         <Match when={!isLoggedIn()}>
           <Navigate href="/login" />
         </Match>
         <Match when={lifecycle.loadedOnce()}>
           <Layout
+            disconnected={isDisconnected()}
             style={{ "flex-grow": 1, "min-height": 0 }}
             onDragOver={(e) => {
               if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
@@ -140,9 +113,19 @@ const Notice = styled("div", {
     textAlign: "center",
     fontSize: "0.8em",
     padding: "8px",
-    color: "var(--md-sys-color-outline)",
-    background: "var(--md-sys-color-surface-container-high)",
     // borderRadius: "var(--borderRadius-md)",
+  },
+  variants: {
+    disconnected: {
+      true: {
+        color: "var(--md-sys-color-on-primary-container)",
+        background: "var(--md-sys-color-primary-container)",
+      },
+      false: {
+        color: "var(--md-sys-color-outline)",
+        background: "var(--md-sys-color-surface-container-high)",
+      },
+    },
   },
 });
 
@@ -153,8 +136,19 @@ const Layout = styled("div", {
   base: {
     display: "flex",
     height: "100%",
-    background: "var(--md-sys-color-surface-container-high)",
     minWidth: 0,
+  },
+  variants: {
+    disconnected: {
+      true: {
+        color: "var(--md-sys-color-on-primary-container)",
+        background: "var(--md-sys-color-primary-container)",
+      },
+      false: {
+        color: "var(--md-sys-color-outline)",
+        background: "var(--md-sys-color-surface-container-high)",
+      },
+    },
   },
 });
 
