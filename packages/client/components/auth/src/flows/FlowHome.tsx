@@ -2,15 +2,16 @@ import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { cva } from "styled-system/css";
+import { styled } from "styled-system/jsx";
 
 import { useClientLifecycle } from "@revolt/client";
 import { TransitionType } from "@revolt/client/Controller";
 import { Navigate } from "@revolt/routing";
 import { Button, Column } from "@revolt/ui";
 
-import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
+import wordmark from "../../../../public/assets/web/wordmark.svg";
 
-const logo = cva({
+const Logo = styled("img", {
   base: {
     width: "100%",
     objectFit: "contain",
@@ -33,7 +34,7 @@ export default function FlowHome() {
           </Show>
 
           <Column gap="xl">
-            <Wordmark class={logo()} />
+            <Logo src={wordmark} />
 
             <Column>
               <b
