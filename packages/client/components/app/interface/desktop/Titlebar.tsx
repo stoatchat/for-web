@@ -85,7 +85,7 @@ export function Titlebar() {
                 </Match>
                 {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
                 <Match when={lifecycle.state() === State.Disconnected}>
-                  Disconnected{" "}
+                  Disconnected
                   <a
                     onClick={() =>
                       lifecycle.transition({
@@ -93,7 +93,7 @@ export function Titlebar() {
                       })
                     }
                   >
-                    <strong>(reconnect now)</strong>
+                    <strong> (reconnect now)</strong>
                   </a>
                 </Match>
                 <Match when={lifecycle.state() === State.Reconnecting}>
@@ -101,6 +101,15 @@ export function Titlebar() {
                 </Match>
                 <Match when={lifecycle.state() === State.Offline}>
                   Device is offline
+                  <a
+                    onClick={() =>
+                      lifecycle.transition({
+                        type: TransitionType.Retry,
+                      })
+                    }
+                  >
+                    <strong> (reconnect now)</strong>
+                  </a>
                 </Match>
               </Switch>
               <Show when={pendingUpdate()}>
@@ -184,9 +193,11 @@ const DragHandle = styled("div", {
     height: "100%",
 
     display: "flex",
+    gap: "var(--gap-md)",
     alignItems: "center",
     paddingInlineStart: "var(--gap-md)",
-    ...typography.raw({ class: "title", size: "small" }),
+
+    ...typography.raw({ class: "label", size: "large" }),
   },
 });
 
