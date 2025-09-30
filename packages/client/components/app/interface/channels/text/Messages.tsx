@@ -19,7 +19,8 @@ import isEqual from "lodash.isequal";
 import { Channel, Message as MessageInterface } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
-import { useClient } from "@revolt/client";
+import { useClient, useClientLifecycle } from "@revolt/client";
+import { State } from "@revolt/client/Controller";
 import { useTime } from "@revolt/i18n";
 import { useState } from "@revolt/state";
 import {
@@ -97,6 +98,7 @@ interface Props {
  */
 export function Messages(props: Props) {
   const cache = useMessageCache();
+  const lifecycle = useClientLifecycle();
   const client = useClient();
   const state = useState();
   const dayjs = useTime();
@@ -682,6 +684,23 @@ export function Messages(props: Props) {
     c.removeListener("messageCreate", onMessage);
     c.removeListener("messageDelete", onMessageDelete);
   });
+
+  // Ensure that we reload when lifecycle state changes
+  createEffect(
+    on(
+      () => lifecycle.lifecycle.state(),
+      (state) => {
+        if (
+          state === State.Connected &&
+          atEnd() &&
+          !props.highlightedMessageId
+        ) {
+          caseInitialLoad();
+        }
+      },
+      { defer: true },
+    ),
+  );
 
   // We need to cache created objects to prevent needless re-rendering
   const objectCache = new Map();

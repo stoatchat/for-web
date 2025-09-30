@@ -355,6 +355,9 @@ class Lifecycle {
           case TransitionType.DeviceOnline:
             this.#enter(State.Reconnecting);
             break;
+          case TransitionType.Retry:
+            this.#enter(State.Reconnecting);
+            break;
           case TransitionType.Logout:
             this.#enter(State.Dispose);
             break;

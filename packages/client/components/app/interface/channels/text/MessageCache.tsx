@@ -1,12 +1,17 @@
 import {
   type JSX,
   createContext,
+  createEffect,
+  on,
   onCleanup,
   onMount,
   useContext,
 } from "solid-js";
 
 import { Channel, Client, Message } from "revolt.js";
+
+import { useClientLifecycle } from "@revolt/client";
+import { State } from "@revolt/client/Controller";
 
 type ChannelState = {
   messages: Message[];
@@ -25,6 +30,7 @@ const CacheContext = createContext<{
  * Persistent message & channel state cache
  */
 export function MessageCache(props: { client: Client; children: JSX.Element }) {
+  const lifecycle = useClientLifecycle();
   const cache: Record<string, ChannelState> = {};
 
   /**
@@ -58,6 +64,21 @@ export function MessageCache(props: { client: Client; children: JSX.Element }) {
     props.client.removeListener("messageCreate", onMessage);
     props.client.removeListener("messageDelete", onMessageDelete);
   });
+
+  // Clear cache when we reconnect
+  createEffect(
+    on(
+      () => lifecycle.lifecycle.state(),
+      (state) => {
+        if (state === State.Connected) {
+          for (const key of Object.keys(cache)) {
+            delete cache[key];
+          }
+        }
+      },
+      { defer: true },
+    ),
+  );
 
   return (
     <CacheContext.Provider
