@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { createFormControl, createFormGroup } from "solid-forms";
 import { BiSolidPalette, BiSolidSpeaker } from "solid-icons/bi";
-import { For } from "solid-js";
+import { For, createSignal, createEffect } from "solid-js";
 
 import { PublicBot, PublicChannelInvite } from "revolt.js";
 import { cva } from "styled-system/css";
@@ -23,6 +23,8 @@ import {
   Text,
   TextField,
   iconSize,
+  InputTimePicker,
+  main
 } from "@revolt/ui";
 
 import Face from "@material-design-icons/svg/filled/face.svg?component-solid";
@@ -76,6 +78,13 @@ export function DevelopmentPage() {
   const client = useClient();
   const { openModal } = useModals();
 
+  const [offset, setOffset] = createSignal(0);
+  const [date, setDate] = createSignal("");
+
+  createEffect(() => {
+    setDate((new Date(offset())).toISOString())
+  })
+
   function open() {
     openModal({
       type: "channel_toggle_mature",
@@ -113,184 +122,194 @@ export function DevelopmentPage() {
   const manyData = new Array(1000).fill(0).map((_, idx) => idx);
 
   return (
-    <Column>
-      <Button
-        onPress={() => {
-          client()
-            .api.get("/invites/Testers")
-            .then((invite) => PublicChannelInvite.from(client(), invite))
-            .then((invite) => openModal({ type: "invite", invite }));
-        }}
-      >
-        invite test
-      </Button>
-      <Button
-        onPress={() => {
-          client()
-            .api.get("/bots/01FHGJ3NPP7XANQQH8C2BE44ZY/invite")
-            .then((bot) => new PublicBot(client(), bot))
-            .then((bot) => openModal({ type: "add_bot", invite: bot }));
-        }}
-      >
-        bot test
-      </Button>
 
-      <Button onPress={changelog}>Changelog Modal</Button>
+    <main class={main()}>
+      <Column style={{"overflow": "scroll"}}>
+	<Button
+          onPress={() => {
+            client()
+              .api.get("/invites/Testers")
+              .then((invite) => PublicChannelInvite.from(client(), invite))
+              .then((invite) => openModal({ type: "invite", invite }));
+          }}
+	>
+           invite test
+	</Button>
+	<Button
+          onPress={() => {
+            client()
+              .api.get("/bots/01FHGJ3NPP7XANQQH8C2BE44ZY/invite")
+              .then((bot) => new PublicBot(client(), bot))
+              .then((bot) => openModal({ type: "add_bot", invite: bot }));
+          }}
+	>
+           bot test
+	</Button>
 
-      <Row align>
-        <Button variant="elevated">Elevated</Button>
-        <Button variant="filled">Filled</Button>
-        <Button variant="tonal">Tonal</Button>
-        <Button variant="outlined">Outlined</Button>
-        <Button variant="text">Text</Button>
-      </Row>
+	<Button onPress={changelog}>Changelog Modal</Button>
 
-      <Row align>
-        <IconButton variant="filled">
-          <Face />
-        </IconButton>
-        <IconButton variant="tonal">
-          <Face />
-        </IconButton>
-        <IconButton variant="outlined">
-          <Face />
-        </IconButton>
-        <IconButton variant="standard">
-          <Face />
-        </IconButton>
-      </Row>
-      <Row align>
-        <IconButton size="xs" shape="square">
-          <Face />
-        </IconButton>
-        <IconButton size="sm" shape="square">
-          <Face />
-        </IconButton>
-        <IconButton size="md" shape="square">
-          <Face />
-        </IconButton>
-        <IconButton size="lg" shape="square">
-          <Face />
-        </IconButton>
-        <IconButton size="xl" shape="square">
-          <Face />
-        </IconButton>
-      </Row>
+	<Row align>
+          <Button variant="elevated">Elevated</Button>
+          <Button variant="filled">Filled</Button>
+          <Button variant="tonal">Tonal</Button>
+          <Button variant="outlined">Outlined</Button>
+          <Button variant="text">Text</Button>
+	</Row>
 
-      <DataTable
-        header={<Text class="title">Table Title</Text>}
-        columns={["idx", "hello", "2"]}
-        itemCount={manyData.length}
-      >
-        {(page, itemsPerPage) => (
-          <For
-            each={manyData.slice(
-              page * itemsPerPage,
-              page * itemsPerPage + itemsPerPage,
-            )}
-          >
-            {(item) => (
-              <DataTable.Row>
-                <DataTable.Cell>{item}</DataTable.Cell>
-                <DataTable.Cell>rahh</DataTable.Cell>
-                <DataTable.Cell>123</DataTable.Cell>
-              </DataTable.Row>
-            )}
-          </For>
-        )}
-      </DataTable>
+	<Row align>
+          <IconButton variant="filled">
+            <Face />
+          </IconButton>
+          <IconButton variant="tonal">
+            <Face />
+          </IconButton>
+          <IconButton variant="outlined">
+            <Face />
+          </IconButton>
+          <IconButton variant="standard">
+            <Face />
+          </IconButton>
+	</Row>
+	<Row align>
+          <IconButton size="xs" shape="square">
+            <Face />
+          </IconButton>
+          <IconButton size="sm" shape="square">
+            <Face />
+          </IconButton>
+          <IconButton size="md" shape="square">
+            <Face />
+          </IconButton>
+          <IconButton size="lg" shape="square">
+            <Face />
+          </IconButton>
+          <IconButton size="xl" shape="square">
+            <Face />
+          </IconButton>
+	</Row>
 
-      <FormTest />
+	<DataTable
+          header={<Text class="title">Table Title</Text>}
+          columns={["idx", "hello", "2"]}
+          itemCount={manyData.length}
+	>
+          {(page, itemsPerPage) => (
+            <For
+              each={manyData.slice(
+		page * itemsPerPage,
+		page * itemsPerPage + itemsPerPage,
+              )}
+            >
+              {(item) => (
+		<DataTable.Row>
+                  <DataTable.Cell>{item}</DataTable.Cell>
+                  <DataTable.Cell>rahh</DataTable.Cell>
+                  <DataTable.Cell>123</DataTable.Cell>
+		</DataTable.Row>
+              )}
+            </For>
+          )}
+	</DataTable>
 
-      <div
-        style={{
-          width: "480px",
-          height: "480px",
-          display: "grid",
-          "place-items": "center",
-        }}
-      >
-        <Face fill="red" {...iconSize(128)} />
-      </div>
+	<FormTest />
 
-      <TextField
-        variant="outlined"
-        label="Outlined Input"
-        placeholder="Type here :D"
-      />
+	<div
+          style={{
+            width: "480px",
+            height: "480px",
+            display: "grid",
+            "place-items": "center",
+          }}
+	>
+          <Face fill="red" {...iconSize(128)} />
+	</div>
 
-      <TextField
-        variant="filled"
-        label="Filled Input"
-        placeholder="Type here :D"
-      />
+	<TextField
+          variant="outlined"
+          label="Outlined Input"
+          placeholder="Type here :D"
+	/>
 
-      <div
-        // have to wrap the component in something that can receive a directive
-        use:floating={{ tooltip: { content: "hello", placement: "bottom" } }}
-      >
-        <NewComponent>hello, but im from panda-css</NewComponent>
-      </div>
+	<TextField
+          variant="filled"
+          label="Filled Input"
+          placeholder="Type here :D"
+	/>
 
-      <div
-        class={newComponent()}
-        use:floating={{ tooltip: { content: "hello", placement: "bottom" } }}
-      >
-        best of both worlds?
-      </div>
+	<div
+          // have to wrap the component in something that can receive a directive
+          use:floating={{ tooltip: { content: "hello", placement: "bottom" } }}
+	>
+          <NewComponent>hello, but im from panda-css</NewComponent>
+	</div>
 
-      <Button onPress={open}>Open Modal</Button>
-      <Button
-        use:floating={{ tooltip: { content: "hi", placement: "bottom" } }}
-      >
-        I'm a button with a tooltip!
-      </Button>
-      <div style={{ padding: "1em", width: "400px" }}>
-        <Column>
-          <CategoryButton
-            icon={<BiSolidPalette size={24} />}
-            description="description!"
-            onClick={() => void 0}
-          >
-            I am a button
-          </CategoryButton>
-          <CategoryCollapse
-            icon={<BiSolidSpeaker size={24} />}
-            description="description!"
-            title="Choose output device tbh"
-          >
+	<div
+          class={newComponent()}
+          use:floating={{ tooltip: { content: "hello", placement: "bottom" } }}
+	>
+           best of both worlds?
+	</div>
+
+	<Button onPress={open}>Open Modal</Button>
+	<Button
+          use:floating={{ tooltip: { content: "hi", placement: "bottom" } }}
+	>
+           I'm a button with a tooltip!
+	</Button>
+	<div style={{ padding: "1em", width: "400px" }}>
+          <Column>
             <CategoryButton
-              description="Active device"
+              icon={<BiSolidPalette size={24} />}
+              description="description!"
               onClick={() => void 0}
-              icon={<div style={{ width: "24px" }} />}
             >
-              Realtek Audio
+               I am a button
             </CategoryButton>
-            <CategoryButton
-              onClick={() => void 0}
-              icon={<div style={{ width: "24px" }} />}
+            <CategoryCollapse
+              icon={<BiSolidSpeaker size={24} />}
+              description="description!"
+              title="Choose output device tbh"
             >
-              Line-Out Speaker
-            </CategoryButton>
-            <CategoryButton
-              onClick={() => void 0}
-              icon={<div style={{ width: "24px" }} />}
-            >
-              Airpods 3
-            </CategoryButton>
-            <CategoryButton
-              icon={<div style={{ width: "24px" }} />}
-              action={
-                <ComboBox>
-                  <option>deez</option>
-                </ComboBox>
-              }
-            >
-              combo box
-            </CategoryButton>
-          </CategoryCollapse>
-        </Column>
-      </div>
-    </Column>
+              <CategoryButton
+		description="Active device"
+		onClick={() => void 0}
+		icon={<div style={{ width: "24px" }} />}
+              >
+		 Realtek Audio
+              </CategoryButton>
+              <CategoryButton
+		onClick={() => void 0}
+		icon={<div style={{ width: "24px" }} />}
+              >
+		 Line-Out Speaker
+              </CategoryButton>
+              <CategoryButton
+		onClick={() => void 0}
+		icon={<div style={{ width: "24px" }} />}
+              >
+		 Airpods 3
+              </CategoryButton>
+              <CategoryButton
+		icon={<div style={{ width: "24px" }} />}
+		action={
+                  <ComboBox>
+                    <option>deez</option>
+                  </ComboBox>
+		}
+              >
+		 combo box
+              </CategoryButton>
+            </CategoryCollapse>
+          </Column>
+	</div>
+
+	<Text>Time picker without Days input</Text>
+	<InputTimePicker></InputTimePicker>
+
+	<Text>Time picker with days input</Text>
+	<InputTimePicker onChange={setOffset} includeDays></InputTimePicker>
+	<Text>Value: {offset()} -> {date()}</Text>
+      </Column>
+    </main>
   );
 }
