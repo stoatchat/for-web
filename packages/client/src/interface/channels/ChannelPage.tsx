@@ -42,7 +42,6 @@ const TEXT_CHANNEL_TYPES: Channel["type"][] = [
  * Channel component
  */
 export const ChannelPage: Component = () => {
-  const state = useState();
   const params = useParams();
   const client = useClient();
   const channel = createMemo(() => client()!.channels.get(params.channel)!);
@@ -62,22 +61,11 @@ export const ChannelPage: Component = () => {
           <Match when={TEXT_CHANNEL_TYPES.includes(channel()!.type)}>
             <TextChannel channel={channel()} />
           </Match>
-          <Match when={channel()!.type === "VoiceChannel"}>
+          {/* <Match when={channel()!.type === "VoiceChannel"}>
             <Header placement="primary">
               <ChannelHeader channel={channel()} />
             </Header>
-            <Show
-              when={state.experiments.isEnabled("voice_chat")}
-              fallback={
-                <Text>
-                  We are working on bringing you a new voice experience shortly.{" "}
-                  <br /> Sorry for the inconvenience.
-                </Text>
-              }
-            >
-              <Demo />
-            </Show>
-          </Match>
+          </Match> */}
         </Switch>
       </AgeGate>
     </Base>

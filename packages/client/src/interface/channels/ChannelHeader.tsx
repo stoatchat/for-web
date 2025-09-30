@@ -163,10 +163,7 @@ export function ChannelHeader(props: Props) {
       <Spacer />
 
       <Show
-        when={
-          state.experiments.isEnabled("voice_chat") &&
-          props.channel.type !== "SavedMessages"
-        }
+        when={props.channel.type !== "SavedMessages" && props.channel.isVoice}
       >
         <IconButton
           variant="standard"

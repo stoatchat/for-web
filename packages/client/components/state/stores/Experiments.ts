@@ -5,16 +5,12 @@ import { AbstractStore } from ".";
 /**
  * Union type of available experiments.
  */
-export type Experiment = "gif_picker" | "plugins" | "voice_chat";
+export type Experiment = "gif_picker" | "plugins";
 
 /**
  * Currently active experiments.
  */
-export const AVAILABLE_EXPERIMENTS: Experiment[] = [
-  "gif_picker",
-  "plugins",
-  "voice_chat",
-];
+export const AVAILABLE_EXPERIMENTS: Experiment[] = ["gif_picker", "plugins"];
 
 /**
  * Experiments enabled by default.
@@ -39,10 +35,6 @@ export const EXPERIMENTS: {
   plugins: {
     title: "Plugins v2 Placeholder",
     description: "Not available yet.",
-  },
-  voice_chat: {
-    title: "Voice Chat Placeholder",
-    description: "Not available yet, coming very soon!",
   },
 };
 
