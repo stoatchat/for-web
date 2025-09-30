@@ -31,6 +31,7 @@ import {
 } from "@revolt/ui";
 
 import { Message } from "./Message";
+import { useMessageCache } from "./MessageCache";
 
 /**
  * Default fetch limit
@@ -95,6 +96,7 @@ interface Props {
  * Render messages in a Channel
  */
 export function Messages(props: Props) {
+  const cache = useMessageCache();
   const client = useClient();
   const state = useState();
   const dayjs = useTime();
@@ -211,10 +213,21 @@ export function Messages(props: Props) {
 
     try {
       // Fetch messages for channel
-      const { messages } = await props.channel.fetchMessagesWithUsers({
-        limit: props.fetchLimit,
-        nearby,
-      });
+      let messages;
+
+      const existingState = cache!.unmanage(props.channel);
+      const useExistingState = existingState && !nearby;
+
+      if (useExistingState) {
+        messages = existingState.messages;
+      } else {
+        messages = await props.channel
+          .fetchMessagesWithUsers({
+            limit: props.fetchLimit,
+            nearby,
+          })
+          .then(({ messages }) => messages);
+      }
 
       // Cancel if we've been pre-empted
       if (preempted()) return;
@@ -231,8 +244,16 @@ export function Messages(props: Props) {
         );
       }
       // Check if we're at the start of the conversation otherwise
-      else if (messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)) {
+      else if (
+        !useExistingState &&
+        messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)
+      ) {
         setStart(true);
+      }
+      // Apply existing state if present
+      else if (existingState) {
+        setStart(existingState.atStart);
+        setEnd(existingState.atEnd);
       }
 
       // Merge list with any new ones that have come in if we are at the end
@@ -253,6 +274,25 @@ export function Messages(props: Props) {
 
       // Mark as fetching has ended
       setFetching();
+
+      // If we're not at the end, restore scroll position
+      if (existingState && !existingState.atEnd) {
+        setTimeout(() =>
+          listRef!.scrollTo({
+            top: existingState.scrollTop!,
+            behavior: "instant",
+          }),
+        );
+      }
+      // Or... reset scroll to the end
+      else if (atEnd()) {
+        setTimeout(() =>
+          listRef!.scrollTo({
+            top: 9999999,
+            behavior: "instant",
+          }),
+        );
+      }
     } catch (err) {
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
@@ -573,7 +613,21 @@ export function Messages(props: Props) {
   createEffect(
     on(
       () => props.channel,
-      () => caseInitialLoad(props.highlightedMessageId()),
+      (channel) => {
+        caseInitialLoad(props.highlightedMessageId());
+
+        // move state into cache when navigating away
+        onCleanup(() => {
+          if (fetching() !== "initial") {
+            cache!.manage(channel, {
+              messages: messages(),
+              atStart: atStart(),
+              atEnd: atEnd(),
+              scrollTop: listRef?.scrollTop,
+            });
+          }
+        });
+      },
     ),
   );
 

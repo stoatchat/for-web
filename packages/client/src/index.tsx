@@ -12,6 +12,7 @@ import "mdui/mdui.css";
 import { PublicBot, PublicChannelInvite } from "revolt.js";
 import { css } from "styled-system/css";
 
+import { MessageCache } from "@revolt/app/interface/channels/text/MessageCache";
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
 import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";

@@ -49,7 +49,7 @@ export function MessageContextMenu(props: { message: Message }) {
    * Mark message as unread
    */
   function markAsUnread() {
-    props.message.ack();
+    props.message.ack(true, false, true);
   }
 
   /**
