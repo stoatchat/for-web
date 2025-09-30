@@ -323,12 +323,21 @@ msgstr ""
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr ""
 
+#: components/i18n/errors.ts:22
+msgid "Already friends with this user."
+msgstr "Bu kullanıcı ile zaten arkadaşsınız."
+
 #: components/app/interface/settings/user/Language.tsx:156
 msgid "American (MM/DD/YYYY)"
 msgstr ""
 
 #: components/modal/modals/Error2.tsx:18
 msgid "An error occurred."
+msgstr ""
+
+#. placeholder {0}: err.location
+#: components/i18n/errors.ts:72
+msgid "An internal error occurred. ({0})"
 msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx:192
@@ -484,6 +493,10 @@ msgstr ""
 #: components/app/interface/settings/user/Account.tsx:322
 msgid "Cannot delete account until servers are deleted or transferred"
 msgstr "Sunucular silinene veya aktarılana kadar hesap silinemez"
+
+#: components/i18n/errors.ts:42
+msgid "Cannot edit this message."
+msgstr ""
 
 #: components/modal/modals/EditUsername.tsx:59
 #: components/modal/modals/EditPassword.tsx:45
@@ -712,6 +725,10 @@ msgstr "Kullanıcı ID'sini kopyala"
 msgid "Copy webhook URL"
 msgstr ""
 
+#: components/i18n/errors.ts:87
+msgid "Could not find what you requested."
+msgstr ""
+
 #: components/modal/modals/CreateWebhook.tsx:45
 #: components/modal/modals/CreateServer.tsx:46
 #: components/modal/modals/CreateRole.tsx:41
@@ -826,6 +843,11 @@ msgstr "Özelleştirme"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:60
 msgid "Dark"
+msgstr ""
+
+#. placeholder {0}: err.location
+#: components/i18n/errors.ts:54
+msgid "Database error, please contact support. ({0})"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:366
@@ -1062,6 +1084,10 @@ msgstr "Tercih ettiğiniz kullanıcı adınızı girin."
 #: components/modal/modals/LinkWarning.tsx:38
 msgid "External links can be dangerous!"
 msgstr "Harici bağlantılar tehlikeli olabilir!"
+
+#: components/i18n/errors.ts:70
+msgid "Failed to process the image you provided."
+msgstr ""
 
 #: components/app/interface/channels/text/DraftMessage.tsx:48
 msgid "Failed to send"
@@ -1741,6 +1767,10 @@ msgstr "Lütfen seçilen yöntemi kullanarak bu eylemi onayla."
 msgid "Please enter your email."
 msgstr "Lütfen e-postanızı girin."
 
+#: components/i18n/errors.ts:76
+msgid "Please log in again."
+msgstr ""
+
 #: components/modal/modals/MFARecovery.tsx:77
 msgid "Please save these to a safe location."
 msgstr "Lütfen bunları güvenli bir yere kaydedin."
@@ -1771,6 +1801,10 @@ msgstr "Profil"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx:177
 msgid "Profile Bio"
+msgstr ""
+
+#: components/i18n/errors.ts:74
+msgid "Provided email or password is wrong."
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:321
@@ -2111,7 +2145,12 @@ msgstr ""
 msgid "Something cool about me..."
 msgstr ""
 
-#: components/i18n/errors.ts:17
+#. placeholder {0}: err.error
+#: components/i18n/errors.ts:62
+msgid "Something is wrong with your request, {0}."
+msgstr ""
+
+#: components/i18n/errors.ts:139
 msgid "Something went wrong! Try again later."
 msgstr ""
 
@@ -2215,6 +2254,10 @@ msgstr "Kullanım Koşulları"
 msgid "Text Channel"
 msgstr "Metin Kanalı"
 
+#: components/i18n/errors.ts:83
+msgid "That action had no effect."
+msgstr ""
+
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx:211
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
@@ -2223,6 +2266,10 @@ msgstr ""
 #: components/app/interface/settings/user/Sync.tsx:44
 msgid "Theme"
 msgstr "Tema"
+
+#: components/i18n/errors.ts:40
+msgid "This bot is private and can only be added by the creator."
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx:103
 msgid "This channel is about..."
@@ -2240,6 +2287,23 @@ msgstr ""
 msgid "This content is not available in your region."
 msgstr ""
 
+#: components/i18n/errors.ts:64
+msgid "This feature is currently disabled."
+msgstr ""
+
+#: components/i18n/errors.ts:66
+msgid "This file type is not allowed."
+msgstr ""
+
+#. placeholder {0}: err.max
+#: components/i18n/errors.ts:68
+msgid "This group is too large, you can have up to {0} users."
+msgstr ""
+
+#: components/i18n/errors.ts:58
+msgid "This has already been sent."
+msgstr ""
+
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx:29
 msgid "This is the start of your conversation."
 msgstr "Bu, konuşmanızın başlangıcıdır."
@@ -2248,12 +2312,32 @@ msgstr "Bu, konuşmanızın başlangıcıdır."
 msgid "This is the start of your notes."
 msgstr "Bu, notlarınızın başlangıcıdır."
 
+#: components/i18n/errors.ts:30
+msgid "This message is already pinned."
+msgstr ""
+
+#: components/i18n/errors.ts:60
+msgid "This message is empty and has not been sent."
+msgstr ""
+
 #: components/app/interface/settings/server/Overview.tsx:155
 msgid "This server is about..."
 msgstr ""
 
+#: components/i18n/errors.ts:38
+msgid "This user has blocked you."
+msgstr "Bu kullanıcı sizi engelledi."
+
 #: components/modal/modals/BanNonMember.tsx:60
 msgid "This user is not part of the server and may already be banned"
+msgstr ""
+
+#: components/i18n/errors.ts:91
+msgid "This username is already taken."
+msgstr ""
+
+#: components/i18n/errors.ts:78
+msgid "This username is not allowed."
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:189
@@ -2464,6 +2548,10 @@ msgstr ""
 msgid "You are about to kick {0}"
 msgstr ""
 
+#: components/i18n/errors.ts:34
+msgid "You are banned from this server."
+msgstr ""
+
 #: src/interface/Home.tsx:214
 msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 msgstr "Ayrıca sol üstteki kullanıcı simgesine sağ tıklayabilirsin veya eğer ana sayfadaysan sol tıklayabilirsin."
@@ -2478,6 +2566,26 @@ msgstr "Daha sonra tekrar açabilirsin, ancak her iki tarafta da kaybolacaktır.
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "Sorunları bildirebilir ve gelişmeleri bizimle doğrudan buradan paylaşabilirsin."
 
+#: components/i18n/errors.ts:44
+msgid "You cannot give yourself missing permissions."
+msgstr ""
+
+#: components/i18n/errors.ts:46
+msgid "You cannot join this call."
+msgstr ""
+
+#: components/i18n/errors.ts:48
+msgid "You cannot remove yourself."
+msgstr ""
+
+#: components/i18n/errors.ts:50
+msgid "You cannot report yourself."
+msgstr ""
+
+#: components/i18n/errors.ts:52
+msgid "You cannot timeout yourself."
+msgstr ""
+
 #: components/modal/modals/SignOutSessions.tsx:36
 msgid "You cannot undo this action."
 msgstr "Bu eylemi geri alamazsınız."
@@ -2487,9 +2595,17 @@ msgstr "Bu eylemi geri alamazsınız."
 msgid "You clicked on \"{0}\""
 msgstr ""
 
+#: components/i18n/errors.ts:81
+msgid "You do not have permission to do this."
+msgstr ""
+
 #: components/ui/components/features/messaging/composition/MessageBox.tsx:201
 msgid "You don't have permission to send messages in this channel."
 msgstr "Bu kanalda mesaj gönderme izniniz yok."
+
+#: components/i18n/errors.ts:36
+msgid "You have this user blocked."
+msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx:91
 msgid "You were logged out!"
@@ -2504,8 +2620,17 @@ msgstr "Destek ekibiyle iletişime geçmediğin sürece hesabına erişemezsin -
 msgid "You won't be able to rejoin unless you are re-invited."
 msgstr "Yeniden davet edilmediğin sürece tekrar katılamazsın."
 
+#: components/i18n/errors.ts:24
+msgid "You're already part of this group."
+msgstr ""
+
 #: components/modal/modals/Invite.tsx:77
+#: components/i18n/errors.ts:26
 msgid "You're already part of this server."
+msgstr ""
+
+#: components/i18n/errors.ts:32
+msgid "You've already sent a request to this user."
 msgstr ""
 
 #: components/modal/modals/Invite.tsx:79
@@ -2516,6 +2641,10 @@ msgstr ""
 msgid "You've been signed out of Stoat!"
 msgstr ""
 
+#: components/i18n/errors.ts:89
+msgid "You've reached your personal bot limit."
+msgstr ""
+
 #: components/app/interface/settings/user/Account.tsx:313
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
 msgstr ""
@@ -2524,6 +2653,18 @@ msgstr ""
 msgid "Your account has been verified!"
 msgstr "Hesabınız doğrulandı!"
 
+#: components/i18n/errors.ts:56
+msgid "Your discriminator change has been ratelimited, please try again later."
+msgstr ""
+
 #: components/modal/modals/MFARecovery.tsx:61
 msgid "Your recovery codes"
 msgstr "Kurtarma kodların"
+
+#: components/i18n/errors.ts:85
+msgid "Your role ranking is too low to take this action."
+msgstr ""
+
+#: components/i18n/errors.ts:28
+msgid "Your user has already been created? Try logging in again or refreshing the app."
+msgstr ""
