@@ -185,7 +185,7 @@ export function HomePage() {
             </CategoryButton>
           </SeparatedColumn>
           <SeparatedColumn>
-            <Show when={CONFIGURATION.IS_REVOLT}>
+            <Show when={CONFIGURATION.IS_STOAT}>
               <CategoryButton
                 onClick={() => navigate("/discover")}
                 description={
