@@ -42,7 +42,7 @@ export const EXPERIMENTS: {
   },
   voice_chat: {
     title: "Voice Chat Placeholder",
-    description: "Not available yet.",
+    description: "Not available yet, coming very soon!",
   },
 };
 

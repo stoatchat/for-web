@@ -39,6 +39,14 @@ export function AppearanceMenu() {
 
   return (
     <Column gap="lg">
+      <MessagePreview>
+        <Text>
+          Welcome to the new appearance menu, custom themes are not available
+          just yet but we are looking for feedback on how to best implement
+          them!
+        </Text>
+      </MessagePreview>
+
       <Column>
         <Text class="title" size="small">
           Colours

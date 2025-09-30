@@ -1,4 +1,4 @@
-import { Component, Match, Switch, createMemo } from "solid-js";
+import { Component, Match, Show, Switch, createMemo } from "solid-js";
 
 import { Channel } from "revolt.js";
 import { styled } from "styled-system/jsx";
@@ -7,7 +7,8 @@ import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { Navigate, useParams } from "@revolt/routing";
 import { Demo } from "@revolt/rtc/Demo";
-import { Header } from "@revolt/ui";
+import { useState } from "@revolt/state";
+import { Header, Text } from "@revolt/ui";
 
 import { AgeGate } from "./AgeGate";
 import { ChannelHeader } from "./ChannelHeader";
@@ -41,6 +42,7 @@ const TEXT_CHANNEL_TYPES: Channel["type"][] = [
  * Channel component
  */
 export const ChannelPage: Component = () => {
+  const state = useState();
   const params = useParams();
   const client = useClient();
   const channel = createMemo(() => client()!.channels.get(params.channel)!);
@@ -64,7 +66,17 @@ export const ChannelPage: Component = () => {
             <Header placement="primary">
               <ChannelHeader channel={channel()} />
             </Header>
-            <Demo />
+            <Show
+              when={state.experiments.isEnabled("voice_chat")}
+              fallback={
+                <Text>
+                  We are working on bringing you a new voice experience shortly.{" "}
+                  <br /> Sorry for the inconvenience.
+                </Text>
+              }
+            >
+              <Demo />
+            </Show>
           </Match>
         </Switch>
       </AgeGate>
