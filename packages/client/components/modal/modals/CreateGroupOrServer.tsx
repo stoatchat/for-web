@@ -31,9 +31,9 @@ export function CreateGroupOrServer(
         {
           text: "Server",
           onClick: () => {
-            openModal({ 
-              type: "create_server", 
-              client: props.client 
+            openModal({
+              type: "create_server",
+              client: props.client,
             });
           },
         },
