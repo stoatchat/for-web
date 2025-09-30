@@ -159,7 +159,7 @@ export function MessageComposition(props: Props) {
 
     if (typeof useContent === "string") {
       const currentDraft = draft();
-      if (currentDraft?.replies?.length) {
+      if (currentDraft?.replies?.length && !currentDraft.content && !currentDraft.files?.length) {
         state.draft.setDraft(props.channel.id, { 
           ...currentDraft,
           content: useContent 
