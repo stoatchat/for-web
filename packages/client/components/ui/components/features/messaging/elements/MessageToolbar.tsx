@@ -60,13 +60,7 @@ export function MessageToolbar(props: { message?: Message }) {
               replies: [{ id: props.message.id, mention: true }],
             })
           }
-          onTextReplacement={(emoji) =>
-            props.message!.react(
-              emoji.type === schema.nodes.rfm_custom_emoji
-                ? emoji.attrs.id
-                : emoji.textContent,
-            )
-          }
+          onTextReplacement={(emoji) => props.message!.react(emoji.attrs.id)}
         >
           {(triggerProps) => (
             <div

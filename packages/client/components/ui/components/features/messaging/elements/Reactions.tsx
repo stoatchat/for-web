@@ -123,13 +123,7 @@ export function Reactions(props: Props) {
         </For>
         <CompositionMediaPicker
           onMessage={props.sendGIF}
-          onTextReplacement={(emoji) =>
-            props.addReaction(
-              emoji.type === schema.nodes.rfm_custom_emoji
-                ? emoji.attrs.id
-                : emoji.textContent,
-            )
-          }
+          onTextReplacement={(emoji) => props.addReaction(emoji.attrs.id)}
         >
           {(triggerProps) => (
             <div ref={triggerProps.ref} onClick={triggerProps.onClickEmoji}>
