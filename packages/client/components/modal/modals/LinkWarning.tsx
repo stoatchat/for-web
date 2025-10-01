@@ -18,12 +18,18 @@ export function LinkWarningModal(
   const [value, setValue] = createSignal(false);
 
   const scrutiny = createMemo(() => {
-    if (props.url.toString() !== props.display) {
+    let destUrlString = props.url.toString();
+    if (destUrlString !== props.display) {
       try {
-        new URL(props.display);
-        return 2;
+        let displayUrl = new URL(props.display);
+        if (destUrlString !== displayUrl.toString()) {
+          return 2;
+        } else {
+          return 1;
+        }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_) {
+        // URL parsing failed; the link is likely not intentionally misleading.
         return 1;
       }
     }
