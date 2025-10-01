@@ -60,7 +60,7 @@ const SeparatorContainer = styled("div", {
   }
 })
 
-function toOffset(
+export function toOffset(
   seconds?: number = 0,
   minutes?: number = 0,
   hours?: number = 0,

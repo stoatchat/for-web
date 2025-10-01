@@ -3,7 +3,17 @@ import { useMutation } from "@tanstack/solid-query";
 
 import { createSignal } from "solid-js";
 
-import { Avatar, Column, Dialog, DialogProps, Text, InputTimePicker } from "@revolt/ui";
+import {
+  Avatar,
+  Column,
+  Dialog,
+  DialogProps,
+  Text,
+  InputTimePicker,
+  toOffset,
+  Row,
+  Chip
+} from "@revolt/ui";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -17,6 +27,13 @@ export function TimeoutMemberModal(
   const { showError } = useModals();
 
   const [offset, setOffset] = createSignal(0);
+  const presets = [
+    [0,30,0,0], // 30 Minutes
+    [0,0,1,0],  // 1 Hour 
+    [0,0,12,0], // 12 Hours
+    [0,0,0,1],  // 1 Day
+    [0,0,0,7],  // 7 Days (week)
+  ];
 
   const timeout = useMutation(() => ({
     mutationFn: () => props.member.edit({
@@ -29,7 +46,9 @@ export function TimeoutMemberModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Timeout Member</Trans>}
+      title={<Column align>
+	       <Trans>Timeout Member</Trans>
+	     </Column>}
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
@@ -44,7 +63,18 @@ export function TimeoutMemberModal(
         <Text>
           <Trans>You are about to timeout {props.member.user?.username} (You can undo this via the context menu)</Trans>
         </Text>
-	<InputTimePicker onChange={setOffset} />
+	<Column align>
+	  <Row>
+	    <For each={presets}>
+	      {(preset) => {
+		const amount = toOffset(preset);
+		
+		return (<Chip variant="assist" value={amount}>TODO!{preset.join(",")}</Chip>);
+	      }}
+	    </For>
+	  </Row>
+	  <InputTimePicker includeDays onChange={setOffset} />
+	</Column>
       </Column>
     </Dialog>
   );
