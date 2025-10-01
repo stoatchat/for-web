@@ -197,6 +197,10 @@ export function TextChannel(props: ChannelPageProps) {
           <MessageComposition
             channel={props.channel}
             onMessageSend={() => jumpToBottomRef?.()}
+            member={client().serverMembers.getByKey({
+              server: props.channel.serverId,
+              user: client().user!.id,
+            })}
           />
         </main>
         <Show

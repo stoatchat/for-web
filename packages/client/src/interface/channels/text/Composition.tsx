@@ -4,23 +4,22 @@ import {
   Show,
   Switch,
   createEffect,
-  createSignal,
   createMemo,
+  createSignal,
   on,
   onCleanup,
 } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Node } from "prosemirror-model";
-import { Channel } from "revolt.js";
+import { Channel, ServerMember } from "revolt.js";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { CONFIGURATION } from "@revolt/common";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-
-import { CONFIGURATION } from "@revolt/common";
 import {
   CompositionMediaPicker,
   FileCarousel,
@@ -30,18 +29,21 @@ import {
   MessageBox,
   MessageReplyPreview,
   Row,
-  humanFileSize
+  humanFileSize,
 } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { generateSearchSpaceFrom } from "@revolt/ui/components/utils/autoComplete";
-import { Symbol } from "@revolt/ui/components/utils/Symbol"
-
-
 
 interface Props {
   /**
    * Channel to compose for
    */
   channel: Channel;
+
+  /**
+   * Member object for the user
+   */
+  member?: ServerMember;
 
   /**
    * Notify parent component when a message is sent
@@ -208,14 +210,18 @@ export function MessageComposition(props: Props) {
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];
         const fileSize = humanFileSize(file.size);
-        const error = new Error(t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`);
+        const error = new Error(
+          t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`,
+        );
         error.name = "File too large";
         openModal({
           type: "error2",
           error,
         });
       } else {
-        const error = new Error(t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`);
+        const error = new Error(
+          t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`,
+        );
         error.name = "Files too large";
         openModal({
           type: "error2",
@@ -357,7 +363,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !props.member?.timeout
+        }
+        timeout={props.member?.timeout}
         autoCompleteSearchSpace={generateSearchSpaceFrom(
           props.channel,
           client(),
