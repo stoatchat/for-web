@@ -113,7 +113,7 @@ export function MessageReply(props: Props) {
       content = content.slice(0, 128) + "...";
     }
 
-    return renderSimpleMarkdown(content.replace(/\n/g, ""));
+    return renderSimpleMarkdown(content.replace(/\n/g, " "));
   };
 
   return (
