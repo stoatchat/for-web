@@ -1,29 +1,36 @@
 import type { JSX } from "solid-js";
-import { For, createSignal, createEffect } from "solid-js";
-import { Text } from "@revolt/ui";
+import { For, createEffect, createSignal } from "solid-js";
 
-import { styled } from "styled-system/jsx"
+import { styled } from "styled-system/jsx";
 
+import { Chip, Column, Row, Text } from "@revolt/ui";
+
+type AssistChipProps = {
+  label: string;
+  value: number;
+};
 
 type Props = {
-  onChange?: (v: number) => void,
-  includedays?: boolean
+  value?: number;
+  onChange?: (v: number) => void;
+  includeDays?: boolean;
+  assistChips?: AssistChipProps[];
 };
 
 const TimePickerContainer = styled("div", {
   base: {
     display: "inline-flex",
-    alignItems: "center"  
-  }
-})
+    alignItems: "center",
+  },
+});
 
 const InputFieldContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-xs)"
-  }
-})
+    gap: "var(--gap-xs)",
+  },
+});
 
 const InputField = styled("input", {
   base: {
@@ -44,9 +51,9 @@ const InputField = styled("input", {
       backgroundColor: "var(--md-sys-color-primary-container)",
       outline: "none",
       borderColor: "var(--md-sys-color-on-primary-container)",
-    }
-  }
-})
+    },
+  },
+});
 
 const SeparatorContainer = styled("div", {
   base: {
@@ -56,23 +63,62 @@ const SeparatorContainer = styled("div", {
     height: "96px",
     marginInline: "2px",
     fontSize: "57px",
-    userSelect: "none"
-  }
-})
+    userSelect: "none",
+  },
+});
 
 export function toOffset(
-  seconds?: number = 0,
-  minutes?: number = 0,
-  hours?: number = 0,
-  days?: number = 0
+  seconds: number = 0,
+  minutes: number = 0,
+  hours: number = 0,
+  days: number = 0,
 ) {
-  if ((seconds > 60 && seconds < 0) || (minutes > 60 && minutes < 0) || (hours > 24 && hours < 0)) {
-    throw "Invalid time"
+  if (
+    (seconds > 60 && seconds < 0) ||
+    (minutes > 60 && minutes < 0) ||
+    (hours > 24 && hours < 0)
+  ) {
+    throw "Invalid time";
   }
 
-  return (seconds + (minutes * 60) + (hours * (60 * 60)) + (days * (24 * 60 * 60))) * 1000
+  return (
+    (seconds + minutes * 60 + hours * (60 * 60) + days * (24 * 60 * 60)) * 1000
+  );
 }
 
+type DecodedOffset = {
+  days: number;
+  minutes: number;
+  hours: number;
+  seconds: number;
+};
+
+function decodeOffset(offset: number): DecodedOffset {
+  const MS_PER_SECOND = 1000;
+  const MS_PER_MINUTE = MS_PER_SECOND * 60;
+  const MS_PER_HOUR = MS_PER_MINUTE * 60;
+  const MS_PER_DAY = MS_PER_HOUR * 24;
+
+  let remaining = offset;
+
+  const days = Math.floor(remaining / MS_PER_DAY);
+  remaining %= MS_PER_DAY;
+
+  const hours = Math.floor(remaining / MS_PER_HOUR);
+  remaining %= MS_PER_HOUR;
+
+  const minutes = Math.floor(remaining / MS_PER_MINUTE);
+  remaining %= MS_PER_MINUTE;
+
+  const seconds = Math.floor(remaining / MS_PER_SECOND);
+
+  return {
+    days,
+    hours,
+    minutes,
+    seconds,
+  };
+}
 
 /**
  * Time pickers let users set the time for time-dependant actions.
@@ -84,69 +130,91 @@ export function InputTimePicker(props: Props) {
   const [minutes, setMinutes] = createSignal(0);
   const [seconds, setSeconds] = createSignal(0);
 
+  // [FIXME] this is genuinely ugly. there are probably better ways to handle this
+  function setPreset(value: number) {
+    const { days, hours, minutes, seconds } = decodeOffset(value);
+    setDays(days);
+    setHours(hours);
+    setMinutes(minutes);
+    setSeconds(seconds);
+  }
+
   createEffect(() => {
     if (props.onChange) {
-      const offset = toOffset(
-	Number(seconds()),
-	Number(minutes()),
-	Number(hours()),
-	Number(days())
-      )
-      console.log("Current offset:", offset)
-      props.onChange(offset)
+      const offset = toOffset(seconds(), minutes(), hours(), days());
+      console.log("Current offset:", offset);
+      props.onChange(offset);
     }
-  })
+  });
 
   return (
-    <TimePickerContainer>
-      {props.includeDays &&
-	<>	
-	  <InputFieldContainer>
-	    <InputField
-	      type="number"
-	      value={days()}
-	      onChange={(e) => setDays(e.currentTarget.value)}
-	      max={99} min={0}
-	    ></InputField>
-	    <Text>Days</Text>
-	  </InputFieldContainer>
-	  <SeparatorContainer>
-	    <span role="presentation">&nbsp;</span>
-	  </SeparatorContainer>
-	</>
-      }
-      <InputFieldContainer>
-	<InputField
-	  type="number"
-	  value={hours()}
-	  onChange={(e) => setHours(e.currentTarget.value)}
-	  max={24} min={0}
-	></InputField>
-	<Text>Hours</Text>
-      </InputFieldContainer>
-      <SeparatorContainer>
-	<span role="presentation">:</span>
-      </SeparatorContainer>
-      <InputFieldContainer>
-	<InputField
-	  type="number"
-	  value={minutes()}
-	  onChange={(e) => setMinutes(e.currentTarget.value)}
-	  max={60} min={0}
-	></InputField>
-	<Text>Minutes</Text>
-      </InputFieldContainer>
-      <SeparatorContainer>
-	<span role="presentation">:</span>
-      </SeparatorContainer>
-      <InputFieldContainer>
-	<InputField
-	  type="number"
-	  value={seconds()}
-	  onChange={(e) => setSeconds(e.currentTarget.value)}
-	  max={60} min={0}></InputField>
-	<Text>Seconds</Text>
-      </InputFieldContainer>
-    </TimePickerContainer>
-  )
+    <Column gap="md" align>
+      {props.assistChips && (
+        <Row>
+          <For each={props.assistChips}>
+            {(chip) => (
+              <Chip variant="assist" onClick={() => setPreset(chip.value)}>
+                {chip.label}
+              </Chip>
+            )}
+          </For>
+        </Row>
+      )}
+      <TimePickerContainer>
+        {props.includeDays && (
+          <>
+            <InputFieldContainer>
+              <InputField
+                type="number"
+                value={days()}
+                onChange={(e) => setDays(Number(e.currentTarget.value))}
+                max={99}
+                min={0}
+              ></InputField>
+              <Text>Days</Text>
+            </InputFieldContainer>
+            <SeparatorContainer>
+              <span role="presentation">&nbsp;</span>
+            </SeparatorContainer>
+          </>
+        )}
+        <InputFieldContainer>
+          <InputField
+            type="number"
+            value={hours()}
+            onChange={(e) => setHours(Number(e.currentTarget.value))}
+            max={24}
+            min={0}
+          ></InputField>
+          <Text>Hours</Text>
+        </InputFieldContainer>
+        <SeparatorContainer>
+          <span role="presentation">:</span>
+        </SeparatorContainer>
+        <InputFieldContainer>
+          <InputField
+            type="number"
+            value={minutes()}
+            onChange={(e) => setMinutes(Number(e.currentTarget.value))}
+            max={60}
+            min={0}
+          ></InputField>
+          <Text>Minutes</Text>
+        </InputFieldContainer>
+        <SeparatorContainer>
+          <span role="presentation">:</span>
+        </SeparatorContainer>
+        <InputFieldContainer>
+          <InputField
+            type="number"
+            value={seconds()}
+            onChange={(e) => setSeconds(Number(e.currentTarget.value))}
+            max={60}
+            min={0}
+          ></InputField>
+          <Text>Seconds</Text>
+        </InputFieldContainer>
+      </TimePickerContainer>
+    </Column>
+  );
 }

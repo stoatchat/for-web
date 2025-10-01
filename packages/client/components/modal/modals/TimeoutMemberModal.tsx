@@ -1,18 +1,19 @@
-import { Trans } from "@lingui-solid/solid/macro";
-import { useMutation } from "@tanstack/solid-query";
+import { For, createSignal } from "solid-js";
 
-import { createSignal } from "solid-js";
+import { Trans } from "@lingui-solid/solid/macro";
+import { t } from "@lingui/core/macro";
+import { useMutation } from "@tanstack/solid-query";
 
 import {
   Avatar,
+  Chip,
   Column,
   Dialog,
   DialogProps,
-  Text,
   InputTimePicker,
-  toOffset,
   Row,
-  Chip
+  Text,
+  toOffset,
 } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -27,18 +28,21 @@ export function TimeoutMemberModal(
   const { showError } = useModals();
 
   const [offset, setOffset] = createSignal(0);
+
   const presets = [
-    [0,30,0,0], // 30 Minutes
-    [0,0,1,0],  // 1 Hour 
-    [0,0,12,0], // 12 Hours
-    [0,0,0,1],  // 1 Day
-    [0,0,0,7],  // 7 Days (week)
+    // Translations are not handled within the InputTimePicker component
+    { label: t`30 Minutes`, value: 1800 * 1000 },
+    { label: t`1 Hour`, value: 3600 * 1000 },
+    { label: t`12 Hours`, value: 43200 * 1000 },
+    { label: t`1 Day`, value: 86400 * 1000 },
+    { label: t`1 Week`, value: 604800 * 1000 },
   ];
 
   const timeout = useMutation(() => ({
-    mutationFn: () => props.member.edit({
-      timeout: (new Date(Date.now() + offset())).toISOString()
-    }),
+    mutationFn: () =>
+      props.member.edit({
+        timeout: new Date(Date.now() + offset()).toISOString(),
+      }),
     onError: showError,
   }));
 
@@ -46,9 +50,11 @@ export function TimeoutMemberModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Column align>
-	       <Trans>Timeout Member</Trans>
-	     </Column>}
+      title={
+        <Column align>
+          <Trans>Timeout Member</Trans>
+        </Column>
+      }
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
@@ -61,20 +67,18 @@ export function TimeoutMemberModal(
       <Column align>
         <Avatar src={props.member.user?.animatedAvatarURL} size={64} />
         <Text>
-          <Trans>You are about to timeout {props.member.user?.username} (You can undo this via the context menu)</Trans>
+          <Trans>
+            You are about to timeout {props.member.user?.username} (You can undo
+            this via the context menu)
+          </Trans>
         </Text>
-	<Column align>
-	  <Row>
-	    <For each={presets}>
-	      {(preset) => {
-		const amount = toOffset(preset);
-		
-		return (<Chip variant="assist" value={amount}>TODO!{preset.join(",")}</Chip>);
-	      }}
-	    </For>
-	  </Row>
-	  <InputTimePicker includeDays onChange={setOffset} />
-	</Column>
+        <Column align>
+          <InputTimePicker
+            assistChips={presets}
+            includeDays
+            onChange={setOffset}
+          />
+        </Column>
       </Column>
     </Dialog>
   );
