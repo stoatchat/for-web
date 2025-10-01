@@ -93,11 +93,12 @@ const Base = styled("div", {
     flexShrink: 0,
 
     paddingInlineEnd: "var(--gap-md)",
+    paddingBlock: "var(--gap-sm)",
     borderRadius: "var(--borderRadius-xl)",
 
     display: "flex",
-    background: "var(--md-sys-color-primary-container)",
-    color: "var(--md-sys-color-on-primary-container)",
+    background: "var(--md-sys-color-surface-container-high)",
+    color: "var(--md-sys-color-on-surface)",
   },
 });
 

@@ -39,6 +39,14 @@ export function AppearanceMenu() {
 
   return (
     <Column gap="lg">
+      <MessagePreview>
+        <Text>
+          Welcome to the new appearance menu, custom themes are not available
+          just yet but we are looking for feedback on how to best implement
+          them!
+        </Text>
+      </MessagePreview>
+
       <Column>
         <Text class="title" size="small">
           Colours
@@ -71,10 +79,10 @@ export function AppearanceMenu() {
         {/* <Row justify="stretch">
           <Button
             group="connected-start"
-            groupActive={state.theme.preset === "revolt"}
-            onPress={() => state.theme.setPreset("revolt")}
+            groupActive={state.theme.preset === "stoat"}
+            onPress={() => state.theme.setPreset("stoat")}
           >
-            <Trans>Revolt</Trans>
+            <Trans>Stoat</Trans>
           </Button>
           <Button
             group="connected-end"

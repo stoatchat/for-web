@@ -15,10 +15,15 @@ import { Room, Track } from "livekit-client";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { UserContextMenu } from "@revolt/app";
+import { useClient } from "@revolt/client";
+import { useUser } from "@revolt/markdown/users";
+import { useSmartParams } from "@revolt/routing";
 import {
   Avatar,
   Button,
   Column,
+  IconButton,
   OverflowingText,
   Row,
   iconSize,
@@ -129,6 +134,8 @@ export function LeParticipant() {
   });
   const isSpeaking = useIsSpeaking(participant);
 
+  const user = useUser(participant.identity);
+
   return (
     <Tile speaking={isSpeaking() ? "yes" : undefined}>
       {/*{participant.identity}<br/>muted? {isMuted() ? 'yes' : 'no'}*/}
@@ -140,9 +147,16 @@ export function LeParticipant() {
               display: "grid",
               placeItems: "center",
             })}
+            // yeah good enough lmao
+            use:floating={{
+              contextMenu: () => (
+                <UserContextMenu user={user().user!} member={user().member!} />
+              ),
+            }}
           >
             <Avatar
-              fallback={Math.random().toString()[2]}
+              src={user().avatar}
+              fallback={user().username}
               size={64}
               interactive={false}
             />
@@ -200,7 +214,35 @@ export function LeParticipant() {
 }
 
 export function Demo() {
+  const client = useClient();
   const voice = useVoice()!;
+  const params = useSmartParams();
+
+  /**
+   * Join voice call
+   * copy pasted from channelheader
+   * todo: make this consistnet
+   */
+  async function joinCall() {
+    const [h, v] = client()!.authenticationHeader;
+
+    const { token, url } = await fetch(
+      client()!.api.config.baseURL +
+        `/channels/${params().channelId!}/join_call`,
+      {
+        method: "POST",
+        headers: {
+          [h]: v,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ node: "worldwide" }),
+      },
+    ).then((r) => r.json());
+
+    if (token && url) {
+      voice.connect(url, token);
+    }
+  }
 
   return (
     /*<div>
@@ -238,7 +280,7 @@ export function Demo() {
     </div>*/
     <Column
       class={css({
-        height: "100vh",
+        height: "400px",
       })}
     >
       {/* <FakeParticipants /> */}
@@ -253,13 +295,13 @@ export function Demo() {
       <Row justify>
         <Actions>
           <Show when={voice.state() !== "READY"}>
-            <Button variant="secondary" onPress={() => voice.toggleMute()}>
+            <IconButton variant="filled" onPress={() => voice.toggleMute()}>
               <Switch fallback={<MdMicOff {...iconSize(20)} />}>
                 <Match when={voice.microphone()}>
                   <MdMicOn {...iconSize(20)} />
                 </Match>
               </Switch>
-            </Button>
+            </IconButton>
           </Show>
 
           <Switch
@@ -267,25 +309,45 @@ export function Demo() {
               <Button onPress={() => voice.disconnect()}>Leave Call</Button>
             }
           >
-            <Match when={voice.state() === "READY"}>disconected</Match>
+            <Match when={voice.state() === "READY"}>
+              <Button onPress={joinCall}>Join Call</Button>
+            </Match>
           </Switch>
 
           <Show when={voice.state() !== "READY"}>
-            <Button variant="secondary">
+            {/* <Button variant="secondary">
               <MdHeadset {...iconSize(20)} />
-            </Button>
+            </Button> */}
 
-            <Button onPress={() => voice.toggleCamera()}>
-              <Switch fallback="Camera">
-                <Match when={voice.video()}>Sharing camera</Match>
-              </Switch>
-            </Button>
+            <div
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: "Coming soon! 👀",
+                },
+              }}
+            >
+              <Button onPress={() => voice.toggleCamera()} isDisabled>
+                <Switch fallback="Camera">
+                  <Match when={voice.video()}>Sharing camera</Match>
+                </Switch>
+              </Button>
+            </div>
 
-            <Button onPress={() => voice.toggleScreenshare()}>
-              <Switch fallback="Share screen">
-                <Match when={voice.screenshare()}>Sharing screen</Match>
-              </Switch>
-            </Button>
+            <div
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: "Coming soon! 👀",
+                },
+              }}
+            >
+              <Button onPress={() => voice.toggleScreenshare()} isDisabled>
+                <Switch fallback="Share screen">
+                  <Match when={voice.screenshare()}>Sharing screen</Match>
+                </Switch>
+              </Button>
+            </div>
           </Show>
         </Actions>
       </Row>

@@ -5,7 +5,7 @@ import { useState } from "@revolt/state";
 import {
   createMaterialColourVariables,
   createMduiColourTriplets,
-  createRevoltWebVariables,
+  createStoatWebVariables,
 } from ".";
 import { Masks } from "./Masks";
 import { FONTS, MONOSPACE_FONTS } from "./fonts";
@@ -35,8 +35,8 @@ export function LoadTheme() {
         }),
         {},
       ),
-      // mount Revolt for Web variables
-      ...createRevoltWebVariables(activeTheme),
+      // mount Stoat for Web variables
+      ...createStoatWebVariables(activeTheme),
       // mount --md-sys-color variables
       ...createMaterialColourVariables(activeTheme, "--md-sys-color-"),
       // mount --mdui-color triplet variables

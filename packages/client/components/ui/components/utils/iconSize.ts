@@ -13,6 +13,8 @@ export function iconSize(size: string | number, viewBox?: string) {
 }
 
 /**
+ * @deprecated Use [Symbol](Symbol.tsx) component to render Material Symbols
+ * 
  * Generate SVG props to configure symbol icon size
  * @param size Target size
  * @returns Props

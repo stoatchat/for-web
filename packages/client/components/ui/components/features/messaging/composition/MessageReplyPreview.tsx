@@ -1,4 +1,3 @@
-import { BiRegularAt, BiSolidXCircle } from "solid-icons/bi";
 import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
@@ -8,6 +7,7 @@ import { styled } from "styled-system/jsx";
 import { Row } from "@revolt/ui/components/layout";
 
 import { MessageReply } from "../elements";
+import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 interface Props {
   /**
@@ -112,7 +112,7 @@ export function MessageReplyPreview(props: Props) {
       <Row gap="lg" align>
         <Show when={!props.self}>
           <MentionToggle mention={props.mention} onClick={props.toggle}>
-            <BiRegularAt size={16} />
+            <Symbol fontSize="1.25em !important">alternate_email</Symbol>
             <Switch fallback={<Trans>Off</Trans>}>
               <Match when={props.mention}>
                 <Trans>On</Trans>
@@ -121,7 +121,7 @@ export function MessageReplyPreview(props: Props) {
           </MentionToggle>
         </Show>
         <Dismiss onClick={props.dismiss}>
-          <BiSolidXCircle size={16} />
+          <Symbol fontSize="1.25em !important" fill>cancel</Symbol>
         </Dismiss>
       </Row>
     </Base>

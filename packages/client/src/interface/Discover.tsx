@@ -9,7 +9,7 @@ import { paramsFromPathname, useLocation, useNavigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
 
 /**
- * rvlt.gg wrapper
+ * stt.gg wrapper
  */
 export function Discover() {
   const state = useState();
@@ -24,7 +24,7 @@ export function Discover() {
     if (!frame) return;
 
     const url = new URL(message.origin);
-    if (url.origin !== "https://rvlt.gg") return;
+    if (url.origin !== "https://stt.gg") return;
 
     const data = JSON.parse(message.data);
     console.info(data);
@@ -83,7 +83,7 @@ export function Discover() {
   // Render the URL once, update path in browser through messaging
   const query = new URLSearchParams(location.query as Record<string, string>);
   query.set("embedded", "true");
-  const src = `https://rvlt.gg/${location.pathname}?${query}`;
+  const src = `https://stt.gg/${location.pathname}?${query}`;
 
   return <Base ref={setRef} src={src} />;
 }

@@ -10,11 +10,11 @@ const baseStyles = cva({
   variants: {
     direction: {
       x: {
-        overflowX: "scroll",
+        overflowX: "auto",
         overflowY: "hidden",
       },
       y: {
-        overflowY: "scroll",
+        overflowY: "auto",
         overflowX: "hidden",
       },
     },

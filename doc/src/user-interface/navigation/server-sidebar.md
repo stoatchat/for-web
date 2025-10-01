@@ -6,7 +6,7 @@ Categories may be collapsed, and continue to show the active channels when colla
 
 <img src="./server-sidebar.webp" width="120px" style="margin:auto;display:block" />
 
-<h6 style="margin:1em auto;display:block;width:fit-content">The server sidebar as it appears in Revolt for Web</h6>
+<h6 style="margin:1em auto;display:block;width:fit-content">The server sidebar as it appears in Stoat for Web</h6>
 
 ## Ordered Channels Algorithm
 

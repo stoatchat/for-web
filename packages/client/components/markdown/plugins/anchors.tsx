@@ -59,8 +59,8 @@ export function RenderAnchor(
   try {
     let url = new URL(localProps.href);
 
-    // Remap Revolt discover links to native links
-    if (url.origin === "https://rvlt.gg") {
+    // Remap discover links to native links
+    if (url.origin === "https://rvlt.gg" || url.origin === "https://stt.gg") {
       if (/^\/[\w\d]+$/.test(url.pathname)) {
         url = new URL(`/invite${url.pathname}`, location.origin);
       } else if (url.pathname.startsWith("/discover")) {
@@ -72,8 +72,11 @@ export function RenderAnchor(
     if (
       [
         location.origin,
+        // legacy
         "https://app.revolt.chat",
         "https://revolt.chat",
+        // new
+        "https://stoat.chat",
       ].includes(url.origin)
     ) {
       const client = useClient();

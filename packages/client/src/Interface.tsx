@@ -4,7 +4,9 @@ import { Server } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
 import { ChannelContextMenu, ServerContextMenu } from "@revolt/app";
-import { useClientLifecycle } from "@revolt/client";
+import { MessageCache } from "@revolt/app/interface/channels/text/MessageCache";
+import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
+import { useClient, useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
@@ -21,6 +23,7 @@ import { pendingUpdate } from "./serviceWorkerInterface";
  */
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
+  const client = useClient();
   const { openModal } = useModals();
   const { isLoggedIn, lifecycle } = useClientLifecycle();
 
@@ -44,94 +47,68 @@ const Interface = (props: { children: JSX.Element }) => {
     }
   });
 
+  function isDisconnected() {
+    return [
+      State.Connecting,
+      State.Disconnected,
+      State.Reconnecting,
+      State.Offline,
+    ].includes(lifecycle.state());
+  }
+
   return (
-    <div
-      style={{
-        display: "flex",
-        "flex-direction": "column",
-        height: "calc(100% - 29px)", // todo: un hard-code (see <Titlebar />)
-      }}
-    >
-      <Notice>
-        ⚠️ Beta software, things will break!{" "}
-        {/*<strong class={css({ color: "var(--md-sys-color-on-surface)" })}>
-          <a href="#" target="_blank">
-            📣 Click here to give us feedback!
-          </a>
-        </strong>{" "}*/}
-        State:{" "}
-        <Switch>
-          <Match when={lifecycle.state() === State.Connecting}>
-            Connecting
+    <MessageCache client={client()}>
+      <div
+        style={{
+          display: "flex",
+          "flex-direction": "column",
+          height: "100%",
+        }}
+      >
+        <Titlebar />
+        <Switch fallback={<CircularProgress />}>
+          <Match when={!isLoggedIn()}>
+            <Navigate href="/login" />
           </Match>
-          <Match when={lifecycle.state() === State.Connected}>Connected</Match>
-          <Match when={lifecycle.state() === State.Disconnected}>
-            Disconnected{" "}
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
+          <Match when={lifecycle.loadedOnce()}>
+            <Layout
+              disconnected={isDisconnected()}
+              style={{ "flex-grow": 1, "min-height": 0 }}
+              onDragOver={(e) => {
+                if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
+              }}
+              onDrop={(e) => e.preventDefault()}
             >
-              (reconnect now)
-            </a>
-          </Match>
-          <Match when={lifecycle.state() === State.Reconnecting}>
-            Reconnecting
-          </Match>
-          <Match when={lifecycle.state() === State.Offline}>
-            Device is offline
+              <Sidebar
+                menuGenerator={(target) => ({
+                  contextMenu: () => {
+                    return (
+                      <>
+                        {target instanceof Server ? (
+                          <ServerContextMenu server={target} />
+                        ) : (
+                          <ChannelContextMenu channel={target} />
+                        )}
+                      </>
+                    );
+                  },
+                })}
+              />
+              <Content
+                sidebar={state.layout.getSectionState(
+                  LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
+                  true,
+                )}
+              >
+                {props.children}
+              </Content>
+            </Layout>
           </Match>
         </Switch>
-        <Show when={pendingUpdate()}>
-          {" "}
-          <Button size="sm" onPress={pendingUpdate()}>
-            Update
-          </Button>
-        </Show>
-      </Notice>
-      <Switch fallback={<CircularProgress />}>
-        <Match when={!isLoggedIn()}>
-          <Navigate href="/login" />
-        </Match>
-        <Match when={lifecycle.loadedOnce()}>
-          <Layout
-            style={{ "flex-grow": 1, "min-height": 0 }}
-            onDragOver={(e) => {
-              if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
-            }}
-            onDrop={(e) => e.preventDefault()}
-          >
-            <Sidebar
-              menuGenerator={(target) => ({
-                contextMenu: () => {
-                  return (
-                    <>
-                      {target instanceof Server ? (
-                        <ServerContextMenu server={target} />
-                      ) : (
-                        <ChannelContextMenu channel={target} />
-                      )}
-                    </>
-                  );
-                },
-              })}
-            />
-            <Content
-              sidebar={state.layout.getSectionState(
-                LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
-                true,
-              )}
-            >
-              {props.children}
-            </Content>
-          </Layout>
-        </Match>
-      </Switch>
 
-      <NotificationsWorker />
-    </div>
+        <NotificationsWorker />
+      </div>
+    </MessageCache>
   );
 };
 
@@ -140,9 +117,19 @@ const Notice = styled("div", {
     textAlign: "center",
     fontSize: "0.8em",
     padding: "8px",
-    color: "var(--md-sys-color-outline)",
-    background: "var(--md-sys-color-surface-container-high)",
     // borderRadius: "var(--borderRadius-md)",
+  },
+  variants: {
+    disconnected: {
+      true: {
+        color: "var(--md-sys-color-on-primary-container)",
+        background: "var(--md-sys-color-primary-container)",
+      },
+      false: {
+        color: "var(--md-sys-color-outline)",
+        background: "var(--md-sys-color-surface-container-high)",
+      },
+    },
   },
 });
 
@@ -153,8 +140,19 @@ const Layout = styled("div", {
   base: {
     display: "flex",
     height: "100%",
-    background: "var(--md-sys-color-surface-container-high)",
     minWidth: 0,
+  },
+  variants: {
+    disconnected: {
+      true: {
+        color: "var(--md-sys-color-on-primary-container)",
+        background: "var(--md-sys-color-primary-container)",
+      },
+      false: {
+        color: "var(--md-sys-color-outline)",
+        background: "var(--md-sys-color-surface-container-high)",
+      },
+    },
   },
 });
 

@@ -7,14 +7,15 @@ import { Portal, render } from "solid-js/web";
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
 import { Navigate, Route, Router, useParams } from "@solidjs/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import "material-symbols";
 import "mdui/mdui.css";
 import { PublicBot, PublicChannelInvite } from "revolt.js";
 import { css } from "styled-system/css";
 
-import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
 import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
 import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
+import FlowDeleteAccount from "@revolt/auth/src/flows/FlowDelete";
 import FlowHome from "@revolt/auth/src/flows/FlowHome";
 import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
@@ -124,7 +125,6 @@ function MountContext(props: { children?: JSX.Element }) {
           <VoiceContext>
             <I18nProvider>
               <QueryClientProvider client={client}>
-                <Titlebar />
                 {props.children}
                 <ModalRenderer />
                 <FloatingManager />
@@ -143,10 +143,7 @@ render(
     <StateContext>
       <Router root={MountContext}>
         <Route path="/login" component={AuthPage as never}>
-          <Route
-            path="/delete/:token"
-            component={() => <span>TODO OP#238</span>}
-          />
+          <Route path="/delete/:token" component={FlowDeleteAccount} />
           <Route path="/check" component={FlowCheck} />
           <Route path="/create" component={FlowCreate} />
           <Route path="/auth" component={FlowLogin} />
@@ -174,7 +171,7 @@ render(
       </Router>
 
       <LoadTheme />
-      <ReportBug />
+      {/* <ReportBug /> */}
     </StateContext>
   ),
   document.getElementById("root") as HTMLElement,

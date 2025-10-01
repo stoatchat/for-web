@@ -24,6 +24,7 @@ import { Tooltip } from "../../../../components/ui/components/floating";
 import { Draggable } from "../../../../components/ui/components/utils/Draggable";
 
 import { UserMenu } from "./UserMenu";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 interface Props {
   /**
@@ -167,6 +168,11 @@ export const ServerList = (props: Props) => {
             />
           </a>
           <UserMenu anchor={menuButton} />
+        </Tooltip>
+        <Tooltip placement="right" content="Switch back to legacy app">
+          <a href="https://app.revolt.chat" class={entryContainer()}>
+          <Symbol>history</Symbol>
+          </a>
         </Tooltip>
         <For each={props.unreadConversations.slice(0, 9)}>
           {(conversation) => (

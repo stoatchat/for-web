@@ -23,13 +23,9 @@ import {
   Username,
   iconSize,
 } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-import MdCloud from "@material-design-icons/svg/filled/cloud.svg?component-solid";
 import MdLink from "@material-design-icons/svg/filled/link.svg?component-solid";
-import MdNotificationsOff from "@material-design-icons/svg/filled/notifications_off.svg?component-solid";
-import MdShield from "@material-design-icons/svg/filled/shield.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/filled/smart_toy.svg?component-solid";
-import MdSpa from "@material-design-icons/svg/filled/spa.svg?component-solid";
 
 import { MessageContextMenu } from "../../../menus/MessageContextMenu";
 import {
@@ -173,27 +169,46 @@ export function Message(props: Props) {
               content={t`Message was sent on another platform`}
               placement="top"
             >
-              <MdLink {...iconSize(16)} />
+              <Symbol css={{ fontSize: "1rem !important", paddingTop: "5px" }}>
+                link
+              </Symbol>
             </Tooltip>
           </Match>
           <Match when={props.message.author?.privileged}>
             <Tooltip content={t`Official Communication`} placement="top">
-              <MdShield {...iconSize(16)} />
+              <Symbol css={{ fontSize: "1rem !important", paddingTop: "5px" }}>
+                brightness_alert
+              </Symbol>
             </Tooltip>
           </Match>
           <Match when={props.message.author?.bot}>
             <Tooltip content={t`Bot`} placement="top">
-              <MdSmartToy {...iconSize(16)} />
+              <Symbol
+                css={{ fontSize: "1rem !important", paddingTop: "5px" }}
+                fill
+              >
+                smart_toy
+              </Symbol>
             </Tooltip>
           </Match>
           <Match when={props.message.webhook}>
             <Tooltip content={t`Webhook`} placement="top">
-              <MdCloud {...iconSize(16)} />
+              <Symbol
+                css={{ fontSize: "1rem !important", paddingTop: "5px" }}
+                fill
+              >
+                cloud
+              </Symbol>
             </Tooltip>
           </Match>
           <Match when={props.message.isSuppressed}>
             <Tooltip content={t`Silent`} placement="top">
-              <MdNotificationsOff {...iconSize(16)} />
+              <Symbol
+                css={{ fontSize: "1rem !important", paddingTop: "5px" }}
+                fill
+              >
+                notifications_off
+              </Symbol>
             </Tooltip>
           </Match>
           <Match
@@ -203,8 +218,13 @@ export function Message(props: Props) {
             }
           >
             <NewUser>
-              <Tooltip content={t`New to Revolt`} placement="top">
-                <MdSpa {...iconSize(16)} />
+              <Tooltip content={t`New to Stoat`} placement="top">
+                <Symbol
+                  css={{ fontSize: "1rem !important", paddingTop: "5px" }}
+                  fill
+                >
+                  spa
+                </Symbol>
               </Tooltip>
             </NewUser>
           </Match>
@@ -216,7 +236,11 @@ export function Message(props: Props) {
           >
             <NewUser>
               <Tooltip content={t`New to the server`} placement="top">
-                <MdSpa {...iconSize(16)} />
+                <Symbol
+                  css={{ fontSize: "1rem !important", paddingTop: "5px" }}
+                >
+                  spa
+                </Symbol>
               </Tooltip>
             </NewUser>
           </Match>

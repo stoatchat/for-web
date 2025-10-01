@@ -36,13 +36,8 @@ import {
   main,
 } from "@revolt/ui";
 
-import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
-import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
-import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
-import MdWavingHand from "@material-design-icons/svg/outlined/waving_hand.svg?component-solid";
-
 import { HeaderIcon } from "./common/CommonHeader";
+import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 /**
  * Base layout of the friends page
@@ -113,7 +108,7 @@ export function Friends() {
     <Base>
       <Header placement="primary">
         <HeaderIcon>
-          <BiSolidUserDetail size={24} />
+          <Symbol>group</Symbol>
         </HeaderIcon>
         <Trans>Friends</Trans>
       </Header>
@@ -143,17 +138,17 @@ export function Friends() {
                   },
                 }}
               >
-                <MdAdd />
+                <Symbol>add</Symbol>
               </IconButton>
             </div>
 
-            <NavigationRailItem icon={<MdWavingHand />} value="online">
+            <NavigationRailItem icon={<Symbol css={{marginTop: "10px"}}>waving_hand</Symbol>} value="online">
               <Trans>Online</Trans>
             </NavigationRailItem>
-            <NavigationRailItem icon={<MdGroup />} value="all">
+            <NavigationRailItem icon={<Symbol css={{marginTop: "10px"}}>all_inbox</Symbol>} value="all">
               <Trans>All</Trans>
             </NavigationRailItem>
-            <NavigationRailItem icon={<MdNotifications />} value="pending">
+            <NavigationRailItem icon={<Symbol css={{marginTop: "10px"}}>notifications</Symbol>} value="pending">
               <Trans>Pending</Trans>
               <Show when={pending()}>
                 <Badge slot="badge" variant="large">
@@ -161,7 +156,7 @@ export function Friends() {
                 </Badge>
               </Show>
             </NavigationRailItem>
-            <NavigationRailItem icon={<MdBlock />} value="blocked">
+            <NavigationRailItem icon={<Symbol css={{marginTop: "10px"}}>block</Symbol>} value="blocked">
               <Trans>Blocked</Trans>
             </NavigationRailItem>
           </NavigationRail>

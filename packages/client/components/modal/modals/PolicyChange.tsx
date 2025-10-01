@@ -8,9 +8,11 @@ import {
   Dialog,
   DialogProps,
   List,
+  Row,
   Text,
   Time,
 } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdPolicy from "@material-design-icons/svg/outlined/policy.svg?component-solid";
 
@@ -54,16 +56,19 @@ export function PolicyChangeModal(
         <For each={props.changes}>
           {(change) => (
             <List.Item onClick={() => window.open(change.url, "_blank")}>
-              <Column gap="none">
-                <Text class="title">{change.description}</Text>
-                <Text class="label">
-                  <Trans>
-                    Effective{" "}
-                    <Time format="iso8601" value={change.effective_time} /> (
-                    <Time format="relative" value={change.effective_time} />)
-                  </Trans>
-                </Text>
-              </Column>
+              <Row align>
+                <Column gap="none" grow>
+                  <Text class="title">{change.description}</Text>
+                  <Text class="label">
+                    <Trans>
+                      Effective{" "}
+                      <Time format="iso8601" value={change.effective_time} /> (
+                      <Time format="relative" value={change.effective_time} />)
+                    </Trans>
+                  </Text>
+                </Column>
+                <Symbol>open_in_new</Symbol>
+              </Row>
             </List.Item>
           )}
         </For>
