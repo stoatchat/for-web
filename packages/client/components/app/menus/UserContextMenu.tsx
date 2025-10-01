@@ -23,6 +23,7 @@ import MdFace from "@material-design-icons/svg/outlined/face.svg?component-solid
 import MdPersonAddAlt from "@material-design-icons/svg/outlined/person_add_alt.svg?component-solid";
 import MdPersonRemove from "@material-design-icons/svg/outlined/person_remove.svg?component-solid";
 import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
+import MdSchedule from "@material-design-icons/svg/outlined/schedule.svg?component-solid";
 
 import {
   ContextMenu,
@@ -80,6 +81,16 @@ export function UserContextMenu(props: {
   function editIdentity() {
     openModal({
       type: "server_identity",
+      member: props.member!,
+    });
+  }
+
+  /**
+   * Timeout the user
+   */
+  function timeoutMember() {
+    openModal({
+      type: "timeout_member",
       member: props.member!,
     });
   }
@@ -248,7 +259,21 @@ export function UserContextMenu(props: {
             <Trans>Edit roles</Trans>
           </ContextMenuButton>
         </Show>
-        {/** TODO: #287 timeout users */}
+        <Show
+          when={
+            !props.user.self &&
+            props.member?.server?.havePermission("TimeoutMembers") &&
+            props.member.inferiorTo(props.member.server.member!)
+          }
+        >
+          <ContextMenuButton
+            icon={MdSchedule}
+            onClick={timeoutMember}
+            destructive
+          >
+            <Trans>Timeout member</Trans>
+          </ContextMenuButton>
+        </Show>
         <Show
           when={
             !props.user.self &&
