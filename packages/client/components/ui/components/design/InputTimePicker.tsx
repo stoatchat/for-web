@@ -129,6 +129,7 @@ export function InputTimePicker(props: Props) {
   const [hours, setHours] = createSignal(0);
   const [minutes, setMinutes] = createSignal(0);
   const [seconds, setSeconds] = createSignal(0);
+  const [calculatedOffset, setCalculatedOffset] = createSignal(0);
 
   // [FIXME] this is genuinely ugly. there are probably better ways to handle this
   function setPreset(value: number) {
@@ -142,6 +143,7 @@ export function InputTimePicker(props: Props) {
   createEffect(() => {
     if (props.onChange) {
       const offset = toOffset(seconds(), minutes(), hours(), days());
+      setCalculatedOffset(offset);
       console.log("Current offset:", offset);
       props.onChange(offset);
     }
@@ -153,7 +155,11 @@ export function InputTimePicker(props: Props) {
         <Row>
           <For each={props.assistChips}>
             {(chip) => (
-              <Chip variant="assist" onClick={() => setPreset(chip.value)}>
+              <Chip
+                variant="assist"
+                selected={chip.value === calculatedOffset()}
+                onClick={() => setPreset(chip.value)}
+              >
                 {chip.label}
               </Chip>
             )}

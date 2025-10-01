@@ -19,6 +19,7 @@ type Props = Omit<
   loading?: boolean;
   selectable?: boolean;
   deletable?: boolean;
+  selected?: boolean;
   value?: any;
 };
 
