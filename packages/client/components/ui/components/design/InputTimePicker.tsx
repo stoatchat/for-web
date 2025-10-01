@@ -1,6 +1,7 @@
 import type { JSX } from "solid-js";
 import { For, createEffect, createSignal } from "solid-js";
 
+import { Trans } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Chip, Column, Row, Text } from "@revolt/ui";
@@ -177,7 +178,9 @@ export function InputTimePicker(props: Props) {
                 max={99}
                 min={0}
               ></InputField>
-              <Text>Days</Text>
+              <Text>
+                <Trans>Days</Trans>
+              </Text>
             </InputFieldContainer>
             <SeparatorContainer>
               <span role="presentation">&nbsp;</span>
@@ -192,7 +195,9 @@ export function InputTimePicker(props: Props) {
             max={24}
             min={0}
           ></InputField>
-          <Text>Hours</Text>
+          <Text>
+            <Trans>Hours</Trans>
+          </Text>
         </InputFieldContainer>
         <SeparatorContainer>
           <span role="presentation">:</span>
@@ -205,7 +210,9 @@ export function InputTimePicker(props: Props) {
             max={60}
             min={0}
           ></InputField>
-          <Text>Minutes</Text>
+          <Text>
+            <Trans>Minutes</Trans>
+          </Text>
         </InputFieldContainer>
         <SeparatorContainer>
           <span role="presentation">:</span>
@@ -218,7 +225,9 @@ export function InputTimePicker(props: Props) {
             max={60}
             min={0}
           ></InputField>
-          <Text>Seconds</Text>
+          <Text>
+            <Trans>Seconds</Trans>
+          </Text>
         </InputFieldContainer>
       </TimePickerContainer>
     </Column>
