@@ -30,7 +30,7 @@ export function TimeoutMemberModal(
   const [offset, setOffset] = createSignal(0);
 
   const presets = [
-    // Translations are not handled within the InputTimePicker component
+    // Translations are not handled within the InputTimePicker component due to limitations in how useTime() is implemented
     { label: t`30 Minutes`, value: 1800 * 1000 },
     { label: t`1 Hour`, value: 3600 * 1000 },
     { label: t`12 Hours`, value: 43200 * 1000 },
