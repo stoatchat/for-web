@@ -118,8 +118,18 @@ const components = () => ({
 const replyComponents = () => ({
   unicodeEmoji: RenderUnicodeEmoji,
   customEmoji: RenderCustomEmoji,
-  mention: RenderMention,
-  spoiler: RenderSpoiler,
+  mention: (props: any) => {
+    props.disabled = true;
+    return RenderMention(props);
+  },
+  spoiler: (props: any) => {
+    props.disabled = true;
+    return RenderSpoiler(props);
+  },
+  a: (props: any) => {
+    props.disabled = true;
+    return RenderAnchor(props);
+  },
 
   strong: elements.strong,
   em: elements.emphasis,
@@ -143,7 +153,6 @@ const replyComponents = () => ({
   timestamp: RenderTimestamp,
   pre: Null,
   table: Null,
-  a: Null,
   img: Null,
   video: Null,
   figure: Null,

@@ -45,12 +45,16 @@ const internalLink = cva({
 });
 
 export function RenderAnchor(
-  props: JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
+  props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
   /* eslint-disable solid/reactivity */
   /* eslint-disable solid/components-return-once */
 
-  const [localProps, remoteProps] = splitProps(props, ["href", "target"]);
+  const [localProps, remoteProps] = splitProps(props, [
+    "href",
+    "target",
+    "disabled",
+  ]);
 
   // Handle case where there is no link
   if (!localProps.href) return <span>{remoteProps.children}</span>;
@@ -100,7 +104,11 @@ export function RenderAnchor(
             }
           >
             <Match when={channel()}>
-              <a class={internalLink()} href={internalUrl()}>
+              <LinkComponent
+                class={internalLink()}
+                disabled={localProps.disabled}
+                href={internalUrl()}
+              >
                 <MdTag {...iconSize("1em")} />
                 {channel()!.name}
                 {params.exactMessage && (
@@ -109,7 +117,7 @@ export function RenderAnchor(
                     <MdChat {...iconSize("1em")} />
                   </>
                 )}
-              </a>
+              </LinkComponent>
             </Match>
           </Switch>
         );
@@ -128,9 +136,13 @@ export function RenderAnchor(
             }
           >
             <Match when={server()}>
-              <a class={internalLink()} href={internalUrl()}>
+              <LinkComponent
+                class={internalLink()}
+                disabled={localProps.disabled}
+                href={internalUrl()}
+              >
                 <Avatar size={16} src={server()?.iconURL} /> {server()?.name}
-              </a>
+              </LinkComponent>
             </Match>
           </Switch>
         );
@@ -138,14 +150,22 @@ export function RenderAnchor(
         params.inviteId &&
         // only display invites if it is just the plain link:
         Array.isArray(remoteProps.children) &&
-        remoteProps.children[0] === localProps.href
+        remoteProps.children[0] === localProps.href &&
+        !localProps.disabled
       ) {
         return <Invite code={params.inviteId} />;
       } else {
         const internalUrl = () =>
           new URL(url.pathname, location.origin).toString();
 
-        return <a {...remoteProps} class={link()} href={internalUrl()} />;
+        return (
+          <LinkComponent
+            {...remoteProps}
+            class={link()}
+            disabled={localProps.disabled}
+            href={internalUrl()}
+          />
+        );
       }
     }
 
@@ -171,17 +191,19 @@ export function RenderAnchor(
       <Show
         when={state.linkSafety.isTrusted(url)}
         fallback={
-          <a
+          <LinkComponent
             {...remoteProps}
             class={link()}
+            disabled={localProps.disabled}
             onClick={onHandleWarning}
             onAuxClick={onHandleWarning}
           />
         }
       >
-        <a
+        <LinkComponent
           {...remoteProps}
           class={link()}
+          disabled={localProps.disabled}
           href={localProps.href}
           target={"_blank"}
           rel="noreferrer"
@@ -194,4 +216,14 @@ export function RenderAnchor(
     // invalid URL
     return <span>{props.children}</span>;
   }
+}
+
+function LinkComponent(
+  props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
+) {
+  const [localProps, remoteProps] = splitProps(props, ["disabled"]);
+  if (localProps.disabled) {
+    return <span class={remoteProps.class}>{remoteProps.children}</span>;
+  }
+  return <a {...remoteProps} />;
 }

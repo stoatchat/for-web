@@ -31,11 +31,15 @@ const Spoiler = styled("span", {
   },
 });
 
-export function RenderSpoiler(props: { children: Element }) {
+export function RenderSpoiler(props: {
+  children: Element;
+  disabled?: boolean;
+}) {
   const [shown, setShown] = createSignal(false);
+  const action = props.disabled ? undefined : () => setShown(true);
 
   return (
-    <Spoiler shown={shown()} onClick={() => setShown(true)}>
+    <Spoiler shown={shown()} onClick={action}>
       {props.children}
     </Spoiler>
   );
