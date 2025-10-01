@@ -20,6 +20,7 @@ import MdChat from "@material-design-icons/svg/outlined/chat.svg?component-solid
 import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 import MdDoNotDisturbOn from "@material-design-icons/svg/outlined/do_not_disturb_on.svg?component-solid";
 import MdFace from "@material-design-icons/svg/outlined/face.svg?component-solid";
+import MdHistoryToggleOff from "@material-design-icons/svg/outlined/history_toggle_off.svg?component-solid";
 import MdPersonAddAlt from "@material-design-icons/svg/outlined/person_add_alt.svg?component-solid";
 import MdPersonRemove from "@material-design-icons/svg/outlined/person_remove.svg?component-solid";
 import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
@@ -93,6 +94,10 @@ export function UserContextMenu(props: {
       type: "timeout_member",
       member: props.member!,
     });
+  }
+
+  function removeTimeoutForMember() {
+    props.member!.edit({ remove: ["Timeout"] });
   }
 
   /**
@@ -263,7 +268,8 @@ export function UserContextMenu(props: {
           when={
             !props.user.self &&
             props.member?.server?.havePermission("TimeoutMembers") &&
-            props.member.inferiorTo(props.member.server.member!)
+            props.member.inferiorTo(props.member.server.member!) &&
+            !props.member.timeout
           }
         >
           <ContextMenuButton
@@ -272,6 +278,22 @@ export function UserContextMenu(props: {
             destructive
           >
             <Trans>Timeout member</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show
+          when={
+            !props.user.self &&
+            props.member?.server?.havePermission("TimeoutMembers") &&
+            props.member.inferiorTo(props.member.server.member!) &&
+            props.member.timeout
+          }
+        >
+          <ContextMenuButton
+            icon={MdHistoryToggleOff}
+            onClick={removeTimeoutForMember}
+            destructive
+          >
+            <Trans>Remove timeout</Trans>
           </ContextMenuButton>
         </Show>
         <Show
