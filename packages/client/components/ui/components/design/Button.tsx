@@ -13,9 +13,9 @@ type Props = Omit<
     JSX.DirectiveAttributes &
     Pick<
       JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-      "role" | "tabIndex" | "aria-selected" | "disabled"
+      "role" | "tabIndex" | "aria-selected"
     >,
-  "onClick" | "_permitAnimation"
+  "onClick" | "_permitAnimation" | "disabled"
 > & {
   groupActive?: boolean;
   bg?: string;

@@ -37,7 +37,7 @@ const ghIssues: {
   number: number;
   title: string;
 }[] = await fetch(
-  "https://api.github.com/repos/revoltchat/frontend/issues?per_page=100&sort=created",
+  "https://api.github.com/repos/stoatchat/for-web/issues?per_page=100&sort=created",
 ).then((r) => r.json());
 
 const issues: {
@@ -95,7 +95,7 @@ for (const issue of issues) {
         );
 
         await fetch(
-          `https://api.github.com/repos/revoltchat/frontend/issues/${ghIssue.number}`,
+          `https://api.github.com/repos/stoatchat/for-web/issues/${ghIssue.number}`,
           {
             method: "PATCH",
             headers: {
@@ -117,7 +117,7 @@ for (const issue of issues) {
 
     const PREFIX = `[OP#${issue.id}] `;
     const result: { html_url: string } = await fetch(
-      `https://api.github.com/repos/revoltchat/frontend/issues`,
+      `https://api.github.com/repos/stoatchat/for-web/issues`,
       {
         method: "POST",
         headers: {

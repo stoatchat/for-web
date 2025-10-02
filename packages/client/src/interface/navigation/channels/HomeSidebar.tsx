@@ -361,11 +361,12 @@ function Entry(
                 <TextWithEmoji content={local.channel.name!} />
               </OverflowingText>
               <span class={typography({ class: "_status" })}>
-                <Plural
+                {/* <Plural
                   value={local.channel.recipientIds.size}
                   one="# Member"
                   other="# Members"
-                />
+                /> */}
+                {local.channel.recipientIds.size} {local.channel.recipientIds.size > 1 ? `Members` : 'Member'}
               </span>
             </Match>
             <Match when={local.channel.type === "DirectMessage"}>

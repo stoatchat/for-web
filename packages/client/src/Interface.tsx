@@ -4,8 +4,9 @@ import { Server } from "revolt.js";
 import { styled } from "styled-system/jsx";
 
 import { ChannelContextMenu, ServerContextMenu } from "@revolt/app";
+import { MessageCache } from "@revolt/app/interface/channels/text/MessageCache";
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
-import { useClientLifecycle } from "@revolt/client";
+import { useClient, useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
@@ -22,6 +23,7 @@ import { pendingUpdate } from "./serviceWorkerInterface";
  */
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
+  const client = useClient();
   const { openModal } = useModals();
   const { isLoggedIn, lifecycle } = useClientLifecycle();
 
@@ -55,56 +57,58 @@ const Interface = (props: { children: JSX.Element }) => {
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        "flex-direction": "column",
-        height: "100%",
-      }}
-    >
-      <Titlebar />
-      <Switch fallback={<CircularProgress />}>
-        <Match when={!isLoggedIn()}>
-          <Navigate href="/login" />
-        </Match>
-        <Match when={lifecycle.loadedOnce()}>
-          <Layout
-            disconnected={isDisconnected()}
-            style={{ "flex-grow": 1, "min-height": 0 }}
-            onDragOver={(e) => {
-              if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
-            }}
-            onDrop={(e) => e.preventDefault()}
-          >
-            <Sidebar
-              menuGenerator={(target) => ({
-                contextMenu: () => {
-                  return (
-                    <>
-                      {target instanceof Server ? (
-                        <ServerContextMenu server={target} />
-                      ) : (
-                        <ChannelContextMenu channel={target} />
-                      )}
-                    </>
-                  );
-                },
-              })}
-            />
-            <Content
-              sidebar={state.layout.getSectionState(
-                LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
-                true,
-              )}
+    <MessageCache client={client()}>
+      <div
+        style={{
+          display: "flex",
+          "flex-direction": "column",
+          height: "100%",
+        }}
+      >
+        <Titlebar />
+        <Switch fallback={<CircularProgress />}>
+          <Match when={!isLoggedIn()}>
+            <Navigate href="/login" />
+          </Match>
+          <Match when={lifecycle.loadedOnce()}>
+            <Layout
+              disconnected={isDisconnected()}
+              style={{ "flex-grow": 1, "min-height": 0 }}
+              onDragOver={(e) => {
+                if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
+              }}
+              onDrop={(e) => e.preventDefault()}
             >
-              {props.children}
-            </Content>
-          </Layout>
-        </Match>
-      </Switch>
+              <Sidebar
+                menuGenerator={(target) => ({
+                  contextMenu: () => {
+                    return (
+                      <>
+                        {target instanceof Server ? (
+                          <ServerContextMenu server={target} />
+                        ) : (
+                          <ChannelContextMenu channel={target} />
+                        )}
+                      </>
+                    );
+                  },
+                })}
+              />
+              <Content
+                sidebar={state.layout.getSectionState(
+                  LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
+                  true,
+                )}
+              >
+                {props.children}
+              </Content>
+            </Layout>
+          </Match>
+        </Switch>
 
-      <NotificationsWorker />
-    </div>
+        <NotificationsWorker />
+      </div>
+    </MessageCache>
   );
 };
 

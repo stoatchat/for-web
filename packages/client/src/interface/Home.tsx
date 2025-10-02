@@ -26,11 +26,11 @@ import MdPayments from "@material-design-icons/svg/filled/payments.svg?component
 import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
-import RevoltSvg from "../../public/assets/wordmark_wide_500px.svg?component-solid";
+import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
 import { HeaderIcon } from "./common/CommonHeader";
 
-const Logo = styled(RevoltSvg, {
+const Logo = styled(Wordmark, {
   base: {
     fill: "var(--md-sys-color-on-surface)",
   },
@@ -173,7 +173,7 @@ export function HomePage() {
               variant="tertiary"
               onClick={() =>
                 window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/",
+                  "https://wiki.revolt.chat/notes/project/financial-support/", // TODO-STOAT-WEB
                 )
               }
               description={
@@ -181,11 +181,11 @@ export function HomePage() {
               }
               icon={<MdPayments />}
             >
-              <Trans>Donate to Revolt</Trans>
+              <Trans>Donate to Stoat</Trans>
             </CategoryButton>
           </SeparatedColumn>
           <SeparatedColumn>
-            <Show when={CONFIGURATION.IS_REVOLT}>
+            <Show when={CONFIGURATION.IS_STOAT}>
               <CategoryButton
                 onClick={() => navigate("/discover")}
                 description={
@@ -195,7 +195,7 @@ export function HomePage() {
                 }
                 icon={<MdExplore />}
               >
-                <Trans>Discover Revolt</Trans>
+                <Trans>Discover Stoat</Trans>
               </CategoryButton>
             </Show>
             <CategoryButton
@@ -206,7 +206,7 @@ export function HomePage() {
               }
               icon={<MdRateReview {...iconSize(22)} />}
             >
-              <Trans>Give feedback on Revolt</Trans>
+              <Trans>Give feedback on Stoat</Trans>
             </CategoryButton>
             <CategoryButton
               onClick={() => openModal({ type: "settings", config: "user" })}

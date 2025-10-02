@@ -1,4 +1,5 @@
 import { Match, Show, Switch, createSignal } from "solid-js";
+import { Motion, Presence } from "solid-motionone";
 
 import { styled } from "styled-system/jsx";
 
@@ -12,6 +13,7 @@ import MdCollapseContent from "@material-symbols/svg-400/outlined/collapse_conte
 import MdExpandContent from "@material-symbols/svg-400/outlined/expand_content.svg?component-solid";
 import MdMinimize from "@material-symbols/svg-400/outlined/minimize.svg?component-solid";
 
+import wordmark from "../../../../assets/web/wordmark.svg";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
 declare global {
@@ -52,75 +54,94 @@ export function Titlebar() {
   }
 
   return (
-    <Base disconnected={isDisconnected()}>
-      <Title
-        style={{
-          "-webkit-user-select": "none",
-          "-webkit-app-region": "drag",
-        }}
-      >
-        My Cool Chat App{" "}
-        <Show when={import.meta.env.DEV}>
-          <MdBuild {...symbolSize(16)} />
-        </Show>
-      </Title>
-      <DragHandle
-        style={{
-          "-webkit-user-select": "none",
-          "-webkit-app-region": "drag",
-        }}
-      >
-        <Switch>
-          <Match when={lifecycle.state() === State.Connecting}>
-            Connecting
-          </Match>
-          {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
-          <Match when={lifecycle.state() === State.Disconnected}>
-            Disconnected{" "}
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
+    <Presence>
+      <Show when={window.native || isDisconnected()}>
+        <Motion.div
+          initial={{ height: 0 }}
+          animate={{ height: "29px" }}
+          exit={{ height: 0 }}
+        >
+          <Base disconnected={isDisconnected()}>
+            <Title
+              style={{
+                "-webkit-user-select": "none",
+                "-webkit-app-region": "drag",
+              }}
             >
-              (reconnect now)
-            </a>
-          </Match>
-          <Match when={lifecycle.state() === State.Reconnecting}>
-            Reconnecting
-          </Match>
-          <Match when={lifecycle.state() === State.Offline}>
-            Device is offline
-          </Match>
-        </Switch>
-        <Show when={pendingUpdate()}>
-          {" "}
-          <Button size="sm" onPress={pendingUpdate()}>
-            Update
-          </Button>
-        </Show>
-      </DragHandle>
-      <Show when={window.native}>
-        <Action onClick={window.native.minimise}>
-          <Ripple />
-          <MdMinimize {...symbolSize(20)} />
-        </Action>
-        <Action onClick={window.native.maximise}>
-          <Ripple />
-          <Show
-            when={isMaximised()}
-            fallback={<MdExpandContent {...symbolSize(20)} />}
-          >
-            <MdCollapseContent {...symbolSize(20)} />
-          </Show>
-        </Action>
-        <Action onClick={window.native.close}>
-          <Ripple />
-          <MdClose {...symbolSize(20)} />
-        </Action>
+              <Wordmark src={wordmark} />{" "}
+              <Show when={import.meta.env.DEV}>
+                <MdBuild {...symbolSize(16)} />
+              </Show>
+            </Title>
+            <DragHandle
+              style={{
+                "-webkit-user-select": "none",
+                "-webkit-app-region": "drag",
+              }}
+            >
+              <Switch>
+                <Match when={lifecycle.state() === State.Connecting}>
+                  Connecting
+                </Match>
+                {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
+                <Match when={lifecycle.state() === State.Disconnected}>
+                  Disconnected
+                  <a
+                    onClick={() =>
+                      lifecycle.transition({
+                        type: TransitionType.Retry,
+                      })
+                    }
+                  >
+                    <strong> (reconnect now)</strong>
+                  </a>
+                </Match>
+                <Match when={lifecycle.state() === State.Reconnecting}>
+                  Reconnecting
+                </Match>
+                <Match when={lifecycle.state() === State.Offline}>
+                  Device is offline
+                  <a
+                    onClick={() =>
+                      lifecycle.transition({
+                        type: TransitionType.Retry,
+                      })
+                    }
+                  >
+                    <strong> (reconnect now)</strong>
+                  </a>
+                </Match>
+              </Switch>
+              <Show when={pendingUpdate()}>
+                {" "}
+                <Button size="sm" onPress={pendingUpdate()}>
+                  Update
+                </Button>
+              </Show>
+            </DragHandle>
+            <Show when={window.native}>
+              <Action onClick={window.native.minimise}>
+                <Ripple />
+                <MdMinimize {...symbolSize(20)} />
+              </Action>
+              <Action onClick={window.native.maximise}>
+                <Ripple />
+                <Show
+                  when={isMaximised()}
+                  fallback={<MdExpandContent {...symbolSize(20)} />}
+                >
+                  <MdCollapseContent {...symbolSize(20)} />
+                </Show>
+              </Action>
+              <Action onClick={window.native.close}>
+                <Ripple />
+                <MdClose {...symbolSize(20)} />
+              </Action>
+            </Show>
+          </Base>
+        </Motion.div>
       </Show>
-    </Base>
+    </Presence>
   );
 }
 
@@ -147,6 +168,13 @@ const Base = styled("div", {
   },
 });
 
+const Wordmark = styled("img", {
+  base: {
+    height: "18px",
+    marginBlockStart: "4px",
+  },
+});
+
 const Title = styled("div", {
   base: {
     display: "flex",
@@ -165,9 +193,11 @@ const DragHandle = styled("div", {
     height: "100%",
 
     display: "flex",
+    gap: "var(--gap-md)",
     alignItems: "center",
     paddingInlineStart: "var(--gap-md)",
-    ...typography.raw({ class: "title", size: "small" }),
+
+    ...typography.raw({ class: "label", size: "large" }),
   },
 });
 

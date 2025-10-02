@@ -37,16 +37,17 @@ function map(node: Node): RootContent {
             } as never) as PhrasingContent,
           ],
         };
-      case "strikethrough":
-        return {
-          type: "delete",
-          children: [
-            map({
-              ...node,
-              marks: node.marks.slice(1),
-            } as never) as PhrasingContent,
-          ],
-        };
+      // todo: enable the gfm delete plugin ONLY
+      // case "strikethrough":
+      //   return {
+      //     type: "delete",
+      //     children: [
+      //       map({
+      //         ...node,
+      //         marks: node.marks.slice(1),
+      //       } as never) as PhrasingContent,
+      //     ],
+      //   };
       case "link":
         return {
           type: "link",

@@ -1,8 +1,12 @@
 packages:
-  - "packages/client"
-  - "packages/revolt.js"
-  - "packages/solid-livekit-components"
-  - "packages/solid-dnd-directive"
-  - "packages/js-lingui-solid/packages/jest-mocks"
-  - "packages/js-lingui-solid/packages/babel-plugin-extract-messages"
-  - "packages/js-lingui-solid/packages/babel-plugin-lingui-macro"
+  - packages/client
+  - packages/revolt.js
+  - packages/solid-livekit-components
+  - packages/solid-dnd-directive
+  - packages/js-lingui-solid/packages/jest-mocks
+  - packages/js-lingui-solid/packages/babel-plugin-extract-messages
+  - packages/js-lingui-solid/packages/babel-plugin-lingui-macro
+nodeLinker: isolated
+onlyBuiltDependencies:
+  - '@swc/core'
+  - esbuild

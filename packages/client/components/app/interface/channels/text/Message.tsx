@@ -228,7 +228,7 @@ export function Message(props: Props) {
             }
           >
             <NewUser>
-              <Tooltip content={t`New to Revolt`} placement="top">
+              <Tooltip content={t`New to Stoat`} placement="top">
                 <Symbol
                   css={{ fontSize: "1rem !important", paddingTop: "5px" }}
                   fill

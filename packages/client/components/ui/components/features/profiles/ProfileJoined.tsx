@@ -19,7 +19,7 @@ export function ProfileJoined(props: { user: User; member?: ServerMember }) {
         <Trans>Joined</Trans>
       </Text>
       <Text class="label">
-        <OverflowingText>Revolt</OverflowingText>
+        <OverflowingText>Stoat</OverflowingText>
         {/* <Trans>Account Created</Trans> */}
       </Text>
       <Text>{dayjs(props.user.createdAt).format("DD MMM YYYY")}</Text>

@@ -115,14 +115,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
       ),
       append: (
         <Text class="label">
-          <Trans>
-            <span class={css({ userSelect: "none", fontWeight: "bold" })}>
-              Version:{" "}
-            </span>
-            <span class={css({ userSelect: "all" })}>
-              {pkg.version} ({pkg["version-date"]})
-            </span>
-          </Trans>
+          <span class={css({ userSelect: "none", fontWeight: "bold" })}>
+            <Trans>Version:</Trans>
+          </span>{" "}
+          <span class={css({ userSelect: "all" })}>
+            {pkg.version} ({pkg["version-date"]})
+          </span>
         </Text>
       ),
       entries: [
@@ -148,7 +146,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           ],
         },
         {
-          title: "Revolt",
+          title: "Stoat",
           entries: [
             {
               id: "bots",
@@ -160,11 +158,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
               icon: <MdRateReview {...iconSize(20)} />,
               title: <Trans>Feedback</Trans>,
             },
-            {
-              href: "https://wiki.revolt.chat/notes/project/financial-support/",
-              icon: <MdLocalCafe {...iconSize(20)} />,
-              title: <Trans>Donate</Trans>,
-            },
+            // {  // TODO-STOAT-WEB
+            //   href: "https://wiki.revolt.chat/notes/project/financial-support/",
+            //   icon: <MdLocalCafe {...iconSize(20)} />,
+            //   title: <Trans>Donate</Trans>,
+            // },
           ],
         },
         {

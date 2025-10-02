@@ -49,7 +49,7 @@ export function MFAEnableTOTPModal(
    * Generate OTP URI
    */
   const uri = () =>
-    `otpauth://totp/Revolt:${props.identifier}?secret=${props.secret}&issuer=Revolt`;
+    `otpauth://totp/Stoat:${props.identifier}?secret=${props.secret}&issuer=Stoat`;
 
   async function onSubmit() {
     try {

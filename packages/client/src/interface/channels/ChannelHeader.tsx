@@ -21,6 +21,7 @@ import {
   UserStatus,
   typography,
 } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdCall from "@material-design-icons/svg/outlined/call.svg?component-solid";
 import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
@@ -31,7 +32,6 @@ import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
 
 import { SidebarState } from "./text/TextChannel";
-import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 interface Props {
   /**
@@ -163,7 +163,7 @@ export function ChannelHeader(props: Props) {
       <Spacer />
 
       <Show
-        when={import.meta.env.DEV && props.channel.type !== "SavedMessages"}
+        when={props.channel.type !== "SavedMessages" && props.channel.isVoice}
       >
         <IconButton
           variant="standard"
