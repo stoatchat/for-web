@@ -3,6 +3,10 @@ import { Match, Show, Switch } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { File } from "revolt.js";
 
+import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
+import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
+import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
+
 import {
   ContextMenu,
   ContextMenuButton,
@@ -36,13 +40,13 @@ export function FileContextMenu(props: { file: File }) {
 
   return (
     <ContextMenu>
-      <ContextMenuButton onClick={OpenFile}>
+      <ContextMenuButton icon={MdOpenInNew} onClick={OpenFile}>
         <Trans>Open file</Trans>
       </ContextMenuButton>
-      <ContextMenuButton onClick={CopyLink}>
+      <ContextMenuButton icon={MdLink} onClick={CopyLink}>
         <Trans>Copy link</Trans>
       </ContextMenuButton>
-      <ContextMenuButton onClick={SaveFile}>
+      <ContextMenuButton icon={MdDownload} onClick={SaveFile}>
         <Trans>Save file</Trans>
       </ContextMenuButton>
     </ContextMenu>
