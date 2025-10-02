@@ -17,6 +17,7 @@ import { CreateChannelModal } from "./modals/CreateChannel";
 import { CreateGroupModal } from "./modals/CreateGroup";
 import { CreateInviteModal } from "./modals/CreateInvite";
 import { CreateOrJoinServerModal } from "./modals/CreateOrJoinServer";
+import { CreateGroupOrServer } from "./modals/CreateGroupOrServer";
 import { CreateRoleModal } from "./modals/CreateRole";
 import { CreateServerModal } from "./modals/CreateServer";
 import { CreateWebhookModal } from "./modals/CreateWebhook";
@@ -99,6 +100,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <CreateInviteModal {...modalProps} />;
     case "create_or_join_server":
       return <CreateOrJoinServerModal {...modalProps} />;
+    case "create_group_or_server":
+      return <CreateGroupOrServer {...modalProps} />;
     case "create_role":
       return <CreateRoleModal {...modalProps} />;
     case "create_server":

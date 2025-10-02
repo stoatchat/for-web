@@ -88,6 +88,10 @@ export type Modals =
       client: Client;
     }
   | {
+      type: "create_group_or_server";
+      client: Client;
+    }
+  | {
       type: "create_invite";
       channel: Channel;
     }
