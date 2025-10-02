@@ -102,8 +102,8 @@ export function HomePage() {
   const navigate = useNavigate();
   const client = useClient();
 
-  // check if we're revolt.chat; if so, check if the user is in the Lounge
-  const showLoungeButton = CONFIGURATION.IS_REVOLT;
+  // check if we're stoat.chat; if so, check if the user is in the Lounge
+  const showLoungeButton = CONFIGURATION.IS_STOAT;
   const isInLounge =
     client()!.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") !== undefined;
 
@@ -153,7 +153,7 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Go to the Revolt Lounge</Trans>
+                  <Trans>Go to the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
               <Match when={showLoungeButton && !isInLounge}>
@@ -172,7 +172,7 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Join the Revolt Lounge</Trans>
+                  <Trans>Join the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
             </Switch>
