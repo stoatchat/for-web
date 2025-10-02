@@ -28,7 +28,7 @@ export function FileContextMenu(props: { file: File }) {
   }
 
   /**
-   * Download the file in original quality
+   * Download the file in original quality, the original file link automatically starts a download
    */
   function SaveFile() {
     window.open(props.file.originalUrl, "_blank");
