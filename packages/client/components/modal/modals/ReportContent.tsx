@@ -1,5 +1,5 @@
 import { createFormControl, createFormGroup } from "solid-forms";
-import { For, Match, Switch } from "solid-js";
+import { For, Match, Switch, createSignal } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { t } from "@lingui/core/macro";
@@ -19,6 +19,9 @@ import {
 
 import { useModals } from "..";
 import { Modals } from "../types";
+
+import { TextEditor } from "@revolt/ui";
+import { AutoCompleteSearchSpace } from "@revolt/ui/components/design/TextEditor";
 
 const CONTENT_REPORT_REASONS: API.ContentReportReason[] = [
   "Illegal",
@@ -88,6 +91,17 @@ export function ReportContentModal(
   const reasons =
     props.target instanceof User ? USER_REPORT_REASONS : CONTENT_REPORT_REASONS;
 
+  const [detailValue, setDetailValue] = createSignal(
+    group.controls.detail.value,
+  );
+
+  const autoCompleteSpace: AutoCompleteSearchSpace = {
+    users: props.client.users.toList(),
+    channels: props.client.channels.toList(),
+    roles: [],
+    members: [],
+  };
+
   async function onSubmit() {
     try {
       const category = group.controls.category.value;
@@ -156,7 +170,7 @@ export function ReportContentModal(
       isDisabled={group.isPending}
     >
       <form onSubmit={Form2.submitHandler(group, onSubmit)}>
-        <Column>
+        <Column gap="md">
           <div class={contentContainer()}>
             {props.target instanceof User ? (
               <Column align>
@@ -177,7 +191,10 @@ export function ReportContentModal(
             )}
           </div>
 
-          <Form2.TextField.Select control={group.controls.category}>
+          <Form2.TextField.Select
+            control={group.controls.category}
+            placement="top"
+          >
             <MenuItem value="">
               <Trans>Please select a reason</Trans>
             </MenuItem>
@@ -186,22 +203,31 @@ export function ReportContentModal(
             </For>
           </Form2.TextField.Select>
 
-          {/* TODO: use TextEditor? */}
           <Form2.TextField
-            name="detail"
-            control={group.controls.detail}
             label={t`Give us some detail`}
-          />
+            control={group.controls.detail}
+          >
+            <TextEditor
+              initialValue={[detailValue()]}
+              autoCompleteSearchSpace={autoCompleteSpace}
+              placeholder={t`Provide more detail here...`}
+              onChange={(value) => {
+                setDetailValue(value);
+                group.controls.detail.setValue(value);
+              }}
+            />
+          </Form2.TextField>
         </Column>
       </form>
     </Dialog>
   );
 }
-
 const contentContainer = cva({
   base: {
+    width: "100%",
     maxWidth: "100%",
-    maxHeight: "240px",
+    maxHeight: "50vh", 
+    overflowY: "auto", 
     "& > div": {
       marginTop: "0 !important",
       pointerEvents: "none",
