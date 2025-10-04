@@ -101,8 +101,8 @@ export function HomePage() {
   const navigate = useNavigate();
   const client = useClient();
 
-  // check if we're revolt.chat; if so, check if the user is in the Lounge
-  const showLoungeButton = CONFIGURATION.IS_REVOLT;
+  // check if we're stoat.chat; if so, check if the user is in the Lounge
+  const showLoungeButton = CONFIGURATION.IS_STOAT;
   const isInLounge =
     client()!.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") !== undefined;
 
