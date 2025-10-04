@@ -59,6 +59,12 @@ export function MemberSidebar(props: Props) {
           scrollTargetElement={props.scrollTargetElement}
         />
       </Match>
+      <Match when={props.channel.type === "DirectMessage"}>
+        <DirectMessageSidebar
+          channel={props.channel}
+          scrollTargetElement={props.scrollTargetElement}
+        />
+      </Match>
     </Switch>
   );
 }
@@ -312,6 +318,46 @@ export function GroupMemberSidebar(props: Props) {
     </Container>
   );
 }
+
+export function DirectMessageSidebar(props: Props) {
+  const client = useClient();
+
+const participants = createMemo(() =>
+  [client().user, props.channel.recipient].filter(
+    (u): u is User => u !== undefined,
+  )
+);
+
+  return (
+    <Container>
+      <MemberTitle>
+        <Row align>{participants().length} members</Row>
+      </MemberTitle>
+
+      <Deferred>
+        <VirtualContainer
+          items={participants().toSorted((a, b) =>
+            (a.displayName ?? "").localeCompare(b.displayName ?? ""),
+          )}
+          scrollTarget={props.scrollTargetElement}
+          itemSize={{ height: 42 }}
+        >
+          {(item) => (
+            <div
+              style={{
+                ...item.style,
+                width: "100%",
+              }}
+            >
+              <Member user={item.item} />
+            </div>
+          )}
+        </VirtualContainer>
+      </Deferred>
+    </Container>
+  );
+}
+
 
 /**
  * Container styles
