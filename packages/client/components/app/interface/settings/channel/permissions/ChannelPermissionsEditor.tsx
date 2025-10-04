@@ -378,6 +378,23 @@ export function ChannelPermissionsEditor(props: Props) {
         // Server: t`Move members between voice channels`,
       },
     },
+    {
+      heading: "Mentions",
+      key: "MentionEveryone",
+      value: 1 << 37,
+      title: t`Mention Everyone`,
+      description: {
+        Any: t`Mention everyone and online members inside the server`,
+      },
+    },
+    {
+      key: "MentionRoles",
+      value: 1 << 38,
+      title: t`Mention Roles`,
+      description: {
+        Any: t`Mention specific roles`,
+      },
+    },
   ];
 
   /**
