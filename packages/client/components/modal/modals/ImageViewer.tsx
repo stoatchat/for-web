@@ -234,5 +234,6 @@ const Card = styled("div", {
     padding: "var(--gap-md)",
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-surface)",
+    color: "var(--md-sys-color-on-surface)",
   },
 });
