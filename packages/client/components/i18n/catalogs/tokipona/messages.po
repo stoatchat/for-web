@@ -47,10 +47,9 @@ msgstr ""
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 
-#. placeholder {0}: local.channel.recipientIds.size
 #: src/interface/navigation/channels/HomeSidebar.tsx:364
-msgid "{0, plural, one {# Member} other {# Members}}"
-msgstr ""
+#~ msgid "{0, plural, one {# Member} other {# Members}}"
+#~ msgstr ""
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx:189
@@ -243,7 +242,7 @@ msgstr ""
 msgid "Able to access this channel"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx:172
+#: components/auth/src/AuthPage.tsx:167
 msgid "About"
 msgstr "sona"
 
@@ -392,6 +391,10 @@ msgstr "sitelen pi suli jan"
 #: components/modal/modals/BanMember.tsx:43
 msgid "Ban"
 msgstr "o weka suli e jan"
+
+#: components/modal/modals/ReportContent.tsx:79
+msgid "Ban evasion"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:183
 msgid "Ban lower-ranking members from the server"
@@ -568,7 +571,7 @@ msgstr ""
 msgid "Channels"
 msgstr "poki toki"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:342
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:350
 msgid "Chat Input"
 msgstr ""
 
@@ -660,6 +663,10 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:332
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:333
 msgid "Connect to voice channel"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:62
+msgid "Content breaks one or more laws"
 msgstr ""
 
 #: components/modal/modals/MFAEnableTOTP.tsx:80
@@ -841,7 +848,7 @@ msgstr ""
 msgid "Customisation"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:60
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:68
 msgid "Dark"
 msgstr ""
 
@@ -935,7 +942,7 @@ msgstr ""
 msgid "Discover Stoat"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:247
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:255
 msgid "Display & Text"
 msgstr ""
 
@@ -966,6 +973,10 @@ msgstr ""
 
 #: components/modal/modals/MFARecovery.tsx:71
 msgid "Done"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:63
+msgid "Drugs or illegal goods"
 msgstr ""
 
 #. placeholder {0}: props.member.displayName
@@ -1034,7 +1045,7 @@ msgstr ""
 msgid "Email"
 msgstr "ilo Email"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:358
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:366
 msgid "Emoji Pack (affects your messages only)"
 msgstr ""
 
@@ -1054,7 +1065,7 @@ msgstr ""
 msgid "Enable Desktop Notifications"
 msgstr "o mu lon ilo ale"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:251
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:259
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr ""
 
@@ -1085,6 +1096,14 @@ msgstr "o sitelen e nimi ilo sina."
 msgid "External links can be dangerous!"
 msgstr "nimi nasin li ken tawa lipu ike!"
 
+#: components/modal/modals/ReportContent.tsx:64
+msgid "Extortion or blackmail"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:67
+msgid "Extreme violence, gore or animal cruelty"
+msgstr ""
+
 #: components/i18n/errors.ts:70
 msgid "Failed to process the image you provided."
 msgstr ""
@@ -1106,7 +1125,7 @@ msgstr "toki wile"
 msgid "Find a community based on your hobbies or interests."
 msgstr "o alasa e kulupu pi ijo musi sina."
 
-#: components/auth/src/flows/FlowHome.tsx:50
+#: components/auth/src/flows/FlowHome.tsx:51
 msgid "Find your com<0/>munity,<1/>connect with the world."
 msgstr ""
 
@@ -1147,7 +1166,7 @@ msgstr ""
 msgid "Friends"
 msgstr "jan pona"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:239
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:247
 msgid "Fruit Salad"
 msgstr ""
 
@@ -1173,6 +1192,10 @@ msgstr ""
 
 #: src/interface/Home.tsx:209
 msgid "Give feedback on Stoat"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:193
+msgid "Give us some detail"
 msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx:101
@@ -1202,6 +1225,10 @@ msgstr ""
 msgid "Grants {0} permissions and denies {1} permissions"
 msgstr ""
 
+#: components/modal/modals/ReportContent.tsx:74
+msgid "Harassment or cyberbullying"
+msgstr ""
+
 #: components/auth/src/flows/FlowCreate.tsx:49
 msgid "Hello!"
 msgstr "toki!"
@@ -1219,7 +1246,7 @@ msgstr ""
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:164
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:172
 msgid "High Contrast"
 msgstr ""
 
@@ -1243,15 +1270,23 @@ msgstr ""
 msgid "Idle"
 msgstr "weka"
 
-#: components/auth/src/AuthPage.tsx:183
+#: components/modal/modals/ReportContent.tsx:66
+msgid "Illegal hacking or cracking"
+msgstr ""
+
+#: components/auth/src/AuthPage.tsx:178
 msgid "Image by @fakurian"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:78
+msgid "Impersonation"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx:38
 msgid "Instead of closing, Stoat will hide in your tray."
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:311
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:319
 msgid "Interface Font"
 msgstr ""
 
@@ -1398,7 +1433,7 @@ msgstr ""
 msgid "Let us know how we can improve our app by giving us feedback."
 msgstr "sina wile pona e ilo mi la o toki e pilin sina tawa mi mute."
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:53
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:61
 msgid "Light"
 msgstr ""
 
@@ -1407,7 +1442,7 @@ msgstr ""
 msgid "Load file ({0})"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx:71
+#: components/auth/src/flows/FlowHome.tsx:72
 msgid "Log In"
 msgstr ""
 
@@ -1430,6 +1465,10 @@ msgstr "o kama sijelo"
 
 #: components/app/interface/settings/user/Sessions.tsx:121
 msgid "Logs you out of all sessions except this device."
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:73
+msgid "Malware or phishing"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:128
@@ -1516,7 +1555,7 @@ msgstr "o toki tawa jan ni"
 msgid "Message {0}"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:299
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:307
 msgid "Message Group Spacing"
 msgstr ""
 
@@ -1532,7 +1571,7 @@ msgstr "toki li kama"
 msgid "Message Sent"
 msgstr "sina toki"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:286
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:294
 msgid "Message Size"
 msgstr ""
 
@@ -1548,15 +1587,15 @@ msgstr ""
 msgid "Minimise to Tray"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:175
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:183
 msgid "Monochrome"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:326
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:334
 msgid "Monospace Font"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:156
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:164
 msgid "More Contrast"
 msgstr ""
 
@@ -1576,11 +1615,11 @@ msgstr ""
 msgid "Mute Server"
 msgstr ""
 
-#: src/interface/navigation/servers/ServerList.tsx:231
+#: src/interface/navigation/servers/ServerList.tsx:237
 msgid "Muted"
 msgstr "weka tan lukin"
 
-#: src/interface/navigation/servers/ServerList.tsx:233
+#: src/interface/navigation/servers/ServerList.tsx:239
 #: components/app/menus/ServerContextMenu.tsx:186
 #: components/app/menus/shared/NotificationContextMenu.tsx:43
 msgid "Muted until <0/>"
@@ -1602,7 +1641,7 @@ msgstr "sijelo mi"
 msgid "My Bots"
 msgstr "ilo jan mi"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:183
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:191
 msgid "Neutral"
 msgstr ""
 
@@ -1642,8 +1681,12 @@ msgstr ""
 msgid "None"
 msgstr "toki ala"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:148
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:156
 msgid "Normal"
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:80
+msgid "Not of minimum age to use the platform"
 msgstr ""
 
 #: components/app/menus/ServerContextMenu.tsx:238
@@ -1672,7 +1715,7 @@ msgstr "lon ala"
 #: components/modal/modals/SignedOut.tsx:19
 #: components/modal/modals/Error2.tsx:19
 #: components/modal/modals/CreateInvite.tsx:63
-#: components/auth/src/flows/FlowHome.tsx:104
+#: components/auth/src/flows/FlowHome.tsx:105
 msgid "OK"
 msgstr "pona"
 
@@ -1723,6 +1766,10 @@ msgstr ""
 #: src/interface/Home.tsx:221
 msgid "Open settings"
 msgstr "o open e nasin"
+
+#: components/modal/modals/ReportContent.tsx:75
+msgid "Other"
+msgstr ""
 
 #: components/app/interface/settings/ServerSettings.tsx:104
 #: components/app/interface/settings/ChannelSettings.tsx:113
@@ -1787,7 +1834,7 @@ msgstr ""
 msgid "Please select a reason"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx:178
+#: components/auth/src/AuthPage.tsx:173
 msgid "Privacy Policy"
 msgstr "lipu pi lawa pi sona jan"
 
@@ -1803,8 +1850,16 @@ msgstr "lipu jan"
 msgid "Profile Bio"
 msgstr ""
 
+#: components/modal/modals/ReportContent.tsx:68
+msgid "Promotes harm"
+msgstr ""
+
 #: components/i18n/errors.ts:74
 msgid "Provided email or password is wrong."
+msgstr ""
+
+#: components/modal/modals/ReportContent.tsx:70
+msgid "Raid or spam attack"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:321
@@ -1843,7 +1898,7 @@ msgstr "nimi open mute"
 msgid "Recovery Codes"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:140
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:148
 msgid "Reduced"
 msgstr ""
 
@@ -1960,6 +2015,10 @@ msgstr ""
 msgid "Retry sending"
 msgstr ""
 
+#: components/modal/modals/ReportContent.tsx:65
+msgid "Revenge or underage pornography"
+msgstr ""
+
 #: components/modal/modals/PolicyChange.tsx:40
 msgid "Review policy changes"
 msgstr ""
@@ -1996,6 +2055,10 @@ msgstr "o awen lon lipu pi sina taso"
 #: src/interface/channels/ChannelHeader.tsx:159
 msgid "Saved Notes"
 msgstr "lipu pi sina taso"
+
+#: components/modal/modals/ReportContent.tsx:72
+msgid "Scams or fraud"
+msgstr ""
 
 #: components/modal/modals/AddBot.tsx:132
 msgid "Search for groups..."
@@ -2121,7 +2184,7 @@ msgstr ""
 msgid "Several people are typing…"
 msgstr "jan mute li kama toki…"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:354
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:362
 msgid "Show send message button"
 msgstr ""
 
@@ -2129,7 +2192,7 @@ msgstr ""
 msgid "Sign into Stoat"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx:78
+#: components/auth/src/flows/FlowHome.tsx:79
 msgid "Sign Up"
 msgstr ""
 
@@ -2162,6 +2225,10 @@ msgstr "mu li tan seme"
 msgid "Source Code"
 msgstr "toki ilo pi ilo ni"
 
+#: components/modal/modals/ReportContent.tsx:71
+msgid "Spam or similar platform abuse"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:339
 msgid "Speak"
 msgstr ""
@@ -2186,7 +2253,7 @@ msgstr ""
 msgid "Stoat Founder"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx:60
+#: components/auth/src/flows/FlowHome.tsx:61
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 msgstr ""
 
@@ -2226,7 +2293,7 @@ msgstr ""
 msgid "Sync your currently chosen language."
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:67
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:75
 msgid "System"
 msgstr ""
 
@@ -2246,7 +2313,7 @@ msgstr ""
 msgid "Temporarily prevent lower-ranking members from interacting"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx:175
+#: components/auth/src/AuthPage.tsx:170
 msgid "Terms of Service"
 msgstr "lipu pi lawa ilo"
 
@@ -2348,7 +2415,7 @@ msgstr ""
 msgid "Toggle main sidebar"
 msgstr ""
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:191
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:199
 msgid "Tonal Spot"
 msgstr ""
 
@@ -2396,6 +2463,10 @@ msgstr ""
 msgid "Unsent message"
 msgstr ""
 
+#: components/modal/modals/ReportContent.tsx:69
+msgid "Unsolicited advertising or spam"
+msgstr ""
+
 #: components/app/menus/ServerContextMenu.tsx:214
 #: components/app/menus/shared/NotificationContextMenu.tsx:71
 msgid "Until I turn it back on"
@@ -2428,6 +2499,10 @@ msgstr ""
 #: components/app/interface/settings/UserSettings.tsx:128
 msgid "User Settings"
 msgstr "nasin ilo jan"
+
+#: components/modal/modals/ReportContent.tsx:77
+msgid "User's profile has inappropriate content"
+msgstr ""
 
 #: components/modal/modals/EditUsername.tsx:75
 #: components/auth/src/flows/Form.tsx:46
@@ -2607,7 +2682,7 @@ msgstr "sina ken ala toki lon poki toki ni."
 msgid "You have this user blocked."
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx:91
+#: components/auth/src/flows/FlowHome.tsx:92
 msgid "You were logged out!"
 msgstr ""
 

@@ -47,10 +47,9 @@ msgstr "(changes are being saved…)"
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr "{0, plural, one {# blocked message} other {# blocked messages}}"
 
-#. placeholder {0}: local.channel.recipientIds.size
 #: src/interface/navigation/channels/HomeSidebar.tsx:364
-msgid "{0, plural, one {# Member} other {# Members}}"
-msgstr "{0, plural, one {# Member} other {# Members}}"
+#~ msgid "{0, plural, one {# Member} other {# Members}}"
+#~ msgstr "{0, plural, one {# Member} other {# Members}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx:189
@@ -243,7 +242,7 @@ msgstr "Able to access channels on this server"
 msgid "Able to access this channel"
 msgstr "Able to access this channel"
 
-#: components/auth/src/AuthPage.tsx:172
+#: components/auth/src/AuthPage.tsx:167
 msgid "About"
 msgstr "About"
 
@@ -392,6 +391,10 @@ msgstr "Badges"
 #: components/modal/modals/BanMember.tsx:43
 msgid "Ban"
 msgstr "Ban"
+
+#: components/modal/modals/ReportContent.tsx:79
+msgid "Ban evasion"
+msgstr "Ban evasion"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:183
 msgid "Ban lower-ranking members from the server"
@@ -568,7 +571,7 @@ msgstr "Channel Settings"
 msgid "Channels"
 msgstr "Channels"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:342
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:350
 msgid "Chat Input"
 msgstr "Chat Input"
 
@@ -661,6 +664,10 @@ msgstr "Connect"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:333
 msgid "Connect to voice channel"
 msgstr "Connect to voice channel"
+
+#: components/modal/modals/ReportContent.tsx:62
+msgid "Content breaks one or more laws"
+msgstr "Content breaks one or more laws"
 
 #: components/modal/modals/MFAEnableTOTP.tsx:80
 #: components/modal/modals/LinkWarning.tsx:42
@@ -841,7 +848,7 @@ msgstr "Custom window frame"
 msgid "Customisation"
 msgstr "Customisation"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:60
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:68
 msgid "Dark"
 msgstr "Dark"
 
@@ -935,7 +942,7 @@ msgstr "Disable one-time password authenticator"
 msgid "Discover Stoat"
 msgstr "Discover Stoat"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:247
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:255
 msgid "Display & Text"
 msgstr "Display & Text"
 
@@ -967,6 +974,10 @@ msgstr "Donated to Stoat"
 #: components/modal/modals/MFARecovery.tsx:71
 msgid "Done"
 msgstr "Done"
+
+#: components/modal/modals/ReportContent.tsx:63
+msgid "Drugs or illegal goods"
+msgstr "Drugs or illegal goods"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx:26
@@ -1034,7 +1045,7 @@ msgstr "Effective <0/> (<1/>)"
 msgid "Email"
 msgstr "Email"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:358
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:366
 msgid "Emoji Pack (affects your messages only)"
 msgstr "Emoji Pack (affects your messages only)"
 
@@ -1054,7 +1065,7 @@ msgstr "Enable authenticator app"
 msgid "Enable Desktop Notifications"
 msgstr "Enable Desktop Notifications"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:251
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:259
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr "Enable transparency glass/blur effects (slow on older machines)"
 
@@ -1085,6 +1096,14 @@ msgstr "Enter your preferred username."
 msgid "External links can be dangerous!"
 msgstr "External links can be dangerous!"
 
+#: components/modal/modals/ReportContent.tsx:64
+msgid "Extortion or blackmail"
+msgstr "Extortion or blackmail"
+
+#: components/modal/modals/ReportContent.tsx:67
+msgid "Extreme violence, gore or animal cruelty"
+msgstr "Extreme violence, gore or animal cruelty"
+
 #: components/i18n/errors.ts:70
 msgid "Failed to process the image you provided."
 msgstr "Failed to process the image you provided."
@@ -1106,7 +1125,7 @@ msgstr "Feedback"
 msgid "Find a community based on your hobbies or interests."
 msgstr "Find a community based on your hobbies or interests."
 
-#: components/auth/src/flows/FlowHome.tsx:50
+#: components/auth/src/flows/FlowHome.tsx:51
 msgid "Find your com<0/>munity,<1/>connect with the world."
 msgstr "Find your com<0/>munity,<1/>connect with the world."
 
@@ -1147,7 +1166,7 @@ msgstr "For 8 hours"
 msgid "Friends"
 msgstr "Friends"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:239
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:247
 msgid "Fruit Salad"
 msgstr "Fruit Salad"
 
@@ -1174,6 +1193,10 @@ msgstr "Get active recovery codes"
 #: src/interface/Home.tsx:209
 msgid "Give feedback on Stoat"
 msgstr "Give feedback on Stoat"
+
+#: components/modal/modals/ReportContent.tsx:193
+msgid "Give us some detail"
+msgstr "Give us some detail"
 
 #: components/auth/src/flows/FlowVerify.tsx:101
 #: components/auth/src/flows/FlowVerify.tsx:116
@@ -1202,6 +1225,10 @@ msgstr "Good"
 msgid "Grants {0} permissions and denies {1} permissions"
 msgstr "Grants {0} permissions and denies {1} permissions"
 
+#: components/modal/modals/ReportContent.tsx:74
+msgid "Harassment or cyberbullying"
+msgstr "Harassment or cyberbullying"
+
 #: components/auth/src/flows/FlowCreate.tsx:49
 msgid "Hello!"
 msgstr "Hello!"
@@ -1219,7 +1246,7 @@ msgstr "Helped translate Stoat"
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr "Here is your new invite code: <0>{0}</0>"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:164
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:172
 msgid "High Contrast"
 msgstr "High Contrast"
 
@@ -1243,15 +1270,23 @@ msgstr "I understand the consequences"
 msgid "Idle"
 msgstr "Idle"
 
-#: components/auth/src/AuthPage.tsx:183
+#: components/modal/modals/ReportContent.tsx:66
+msgid "Illegal hacking or cracking"
+msgstr "Illegal hacking or cracking"
+
+#: components/auth/src/AuthPage.tsx:178
 msgid "Image by @fakurian"
 msgstr "Image by @fakurian"
+
+#: components/modal/modals/ReportContent.tsx:78
+msgid "Impersonation"
+msgstr "Impersonation"
 
 #: components/app/interface/settings/user/Native.tsx:38
 msgid "Instead of closing, Stoat will hide in your tray."
 msgstr "Instead of closing, Stoat will hide in your tray."
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:311
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:319
 msgid "Interface Font"
 msgstr "Interface Font"
 
@@ -1398,7 +1433,7 @@ msgstr "Let Stoat use its own custom titlebar."
 msgid "Let us know how we can improve our app by giving us feedback."
 msgstr "Let us know how we can improve our app by giving us feedback."
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:53
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:61
 msgid "Light"
 msgstr "Light"
 
@@ -1407,7 +1442,7 @@ msgstr "Light"
 msgid "Load file ({0})"
 msgstr "Load file ({0})"
 
-#: components/auth/src/flows/FlowHome.tsx:71
+#: components/auth/src/flows/FlowHome.tsx:72
 msgid "Log In"
 msgstr "Log In"
 
@@ -1431,6 +1466,10 @@ msgstr "Login"
 #: components/app/interface/settings/user/Sessions.tsx:121
 msgid "Logs you out of all sessions except this device."
 msgstr "Logs you out of all sessions except this device."
+
+#: components/modal/modals/ReportContent.tsx:73
+msgid "Malware or phishing"
+msgstr "Malware or phishing"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:128
 msgid "Manage Channel"
@@ -1516,7 +1555,7 @@ msgstr "Message"
 msgid "Message {0}"
 msgstr "Message {0}"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:299
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:307
 msgid "Message Group Spacing"
 msgstr "Message Group Spacing"
 
@@ -1532,7 +1571,7 @@ msgstr "Message Received"
 msgid "Message Sent"
 msgstr "Message Sent"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:286
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:294
 msgid "Message Size"
 msgstr "Message Size"
 
@@ -1548,15 +1587,15 @@ msgstr "Messaging"
 msgid "Minimise to Tray"
 msgstr "Minimise to Tray"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:175
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:183
 msgid "Monochrome"
 msgstr "Monochrome"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:326
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:334
 msgid "Monospace Font"
 msgstr "Monospace Font"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:156
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:164
 msgid "More Contrast"
 msgstr "More Contrast"
 
@@ -1576,11 +1615,11 @@ msgstr "Mute Members"
 msgid "Mute Server"
 msgstr "Mute Server"
 
-#: src/interface/navigation/servers/ServerList.tsx:231
+#: src/interface/navigation/servers/ServerList.tsx:237
 msgid "Muted"
 msgstr "Muted"
 
-#: src/interface/navigation/servers/ServerList.tsx:233
+#: src/interface/navigation/servers/ServerList.tsx:239
 #: components/app/menus/ServerContextMenu.tsx:186
 #: components/app/menus/shared/NotificationContextMenu.tsx:43
 msgid "Muted until <0/>"
@@ -1602,7 +1641,7 @@ msgstr "My Account"
 msgid "My Bots"
 msgstr "My Bots"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:183
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:191
 msgid "Neutral"
 msgstr "Neutral"
 
@@ -1642,9 +1681,13 @@ msgstr "Nobody here right now!"
 msgid "None"
 msgstr "None"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:148
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:156
 msgid "Normal"
 msgstr "Normal"
+
+#: components/modal/modals/ReportContent.tsx:80
+msgid "Not of minimum age to use the platform"
+msgstr "Not of minimum age to use the platform"
 
 #: components/app/menus/ServerContextMenu.tsx:238
 #: components/app/menus/shared/NotificationContextMenu.tsx:95
@@ -1672,7 +1715,7 @@ msgstr "Offline"
 #: components/modal/modals/SignedOut.tsx:19
 #: components/modal/modals/Error2.tsx:19
 #: components/modal/modals/CreateInvite.tsx:63
-#: components/auth/src/flows/FlowHome.tsx:104
+#: components/auth/src/flows/FlowHome.tsx:105
 msgid "OK"
 msgstr "OK"
 
@@ -1723,6 +1766,10 @@ msgstr "Open server settings"
 #: src/interface/Home.tsx:221
 msgid "Open settings"
 msgstr "Open settings"
+
+#: components/modal/modals/ReportContent.tsx:75
+msgid "Other"
+msgstr "Other"
 
 #: components/app/interface/settings/ServerSettings.tsx:104
 #: components/app/interface/settings/ChannelSettings.tsx:113
@@ -1787,7 +1834,7 @@ msgstr "Please select a method to authenticate your request."
 msgid "Please select a reason"
 msgstr "Please select a reason"
 
-#: components/auth/src/AuthPage.tsx:178
+#: components/auth/src/AuthPage.tsx:173
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -1803,9 +1850,17 @@ msgstr "Profile"
 msgid "Profile Bio"
 msgstr "Profile Bio"
 
+#: components/modal/modals/ReportContent.tsx:68
+msgid "Promotes harm"
+msgstr "Promotes harm"
+
 #: components/i18n/errors.ts:74
 msgid "Provided email or password is wrong."
 msgstr "Provided email or password is wrong."
+
+#: components/modal/modals/ReportContent.tsx:70
+msgid "Raid or spam attack"
+msgstr "Raid or spam attack"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:321
 msgid "React"
@@ -1843,7 +1898,7 @@ msgstr "Recovery Code"
 msgid "Recovery Codes"
 msgstr "Recovery Codes"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:140
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:148
 msgid "Reduced"
 msgstr "Reduced"
 
@@ -1960,6 +2015,10 @@ msgstr "Responsibly disclosed security issues"
 msgid "Retry sending"
 msgstr "Retry sending"
 
+#: components/modal/modals/ReportContent.tsx:65
+msgid "Revenge or underage pornography"
+msgstr "Revenge or underage pornography"
+
 #: components/modal/modals/PolicyChange.tsx:40
 msgid "Review policy changes"
 msgstr "Review policy changes"
@@ -1996,6 +2055,10 @@ msgstr "Save to your notes"
 #: src/interface/channels/ChannelHeader.tsx:159
 msgid "Saved Notes"
 msgstr "Saved Notes"
+
+#: components/modal/modals/ReportContent.tsx:72
+msgid "Scams or fraud"
+msgstr "Scams or fraud"
 
 #: components/modal/modals/AddBot.tsx:132
 msgid "Search for groups..."
@@ -2121,7 +2184,7 @@ msgstr "Setup recovery codes"
 msgid "Several people are typing…"
 msgstr "Several people are typing…"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:354
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:362
 msgid "Show send message button"
 msgstr "Show send message button"
 
@@ -2129,7 +2192,7 @@ msgstr "Show send message button"
 msgid "Sign into Stoat"
 msgstr "Sign into Stoat"
 
-#: components/auth/src/flows/FlowHome.tsx:78
+#: components/auth/src/flows/FlowHome.tsx:79
 msgid "Sign Up"
 msgstr "Sign Up"
 
@@ -2162,6 +2225,10 @@ msgstr "Sounds"
 msgid "Source Code"
 msgstr "Source Code"
 
+#: components/modal/modals/ReportContent.tsx:71
+msgid "Spam or similar platform abuse"
+msgstr "Spam or similar platform abuse"
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:339
 msgid "Speak"
 msgstr "Speak"
@@ -2186,7 +2253,7 @@ msgstr "Stoat Developer"
 msgid "Stoat Founder"
 msgstr "Stoat Founder"
 
-#: components/auth/src/flows/FlowHome.tsx:60
+#: components/auth/src/flows/FlowHome.tsx:61
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 msgstr "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 
@@ -2226,7 +2293,7 @@ msgstr "Sync your chosen theme, colours, and any custom CSS."
 msgid "Sync your currently chosen language."
 msgstr "Sync your currently chosen language."
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:67
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:75
 msgid "System"
 msgstr "System"
 
@@ -2246,7 +2313,7 @@ msgstr "Tell us what's wrong with this user"
 msgid "Temporarily prevent lower-ranking members from interacting"
 msgstr "Temporarily prevent lower-ranking members from interacting"
 
-#: components/auth/src/AuthPage.tsx:175
+#: components/auth/src/AuthPage.tsx:170
 msgid "Terms of Service"
 msgstr "Terms of Service"
 
@@ -2348,7 +2415,7 @@ msgstr "Timeout Members"
 msgid "Toggle main sidebar"
 msgstr "Toggle main sidebar"
 
-#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:191
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:199
 msgid "Tonal Spot"
 msgstr "Tonal Spot"
 
@@ -2396,6 +2463,10 @@ msgstr "Unpin message"
 msgid "Unsent message"
 msgstr "Unsent message"
 
+#: components/modal/modals/ReportContent.tsx:69
+msgid "Unsolicited advertising or spam"
+msgstr "Unsolicited advertising or spam"
+
 #: components/app/menus/ServerContextMenu.tsx:214
 #: components/app/menus/shared/NotificationContextMenu.tsx:71
 msgid "Until I turn it back on"
@@ -2428,6 +2499,10 @@ msgstr "User Management"
 #: components/app/interface/settings/UserSettings.tsx:128
 msgid "User Settings"
 msgstr "User Settings"
+
+#: components/modal/modals/ReportContent.tsx:77
+msgid "User's profile has inappropriate content"
+msgstr "User's profile has inappropriate content"
 
 #: components/modal/modals/EditUsername.tsx:75
 #: components/auth/src/flows/Form.tsx:46
@@ -2607,7 +2682,7 @@ msgstr "You don't have permission to send messages in this channel."
 msgid "You have this user blocked."
 msgstr "You have this user blocked."
 
-#: components/auth/src/flows/FlowHome.tsx:91
+#: components/auth/src/flows/FlowHome.tsx:92
 msgid "You were logged out!"
 msgstr "You were logged out!"
 
