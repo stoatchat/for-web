@@ -10,7 +10,7 @@ import { useModals } from "..";
 import { Modals } from "../types";
 
 /**
- * Create a new bot
+ * Modal to create a new category
  */
 export function CreateCategoryModal(
   props: DialogProps & Modals & { type: "create_category" },

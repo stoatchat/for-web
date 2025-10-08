@@ -113,6 +113,11 @@ export type Modals =
       channel: Channel;
     }
   | {
+      type: "delete_category";
+      server: Server;
+      categoryId: string;
+    }
+  | {
       type: "delete_message";
       message: Message;
     }

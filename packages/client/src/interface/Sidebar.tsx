@@ -3,7 +3,7 @@ import { JSX } from "solid-js";
 
 import { Channel, Server as ServerI } from "revolt.js";
 
-import { ChannelContextMenu, ServerSidebarContextMenu } from "@revolt/app";
+import { ChannelContextMenu, ServerSidebarContextMenu, CategoryContextMenu } from "@revolt/app";
 import { useClient, useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useLocation, useParams, useSmartParams } from "@revolt/routing";
@@ -152,8 +152,13 @@ const Server: Component = () => {
           contextMenu: () =>
             target instanceof Channel ? (
               <ChannelContextMenu channel={target} />
-            ) : (
+            ) : target instanceof ServerI ? (
               <ServerSidebarContextMenu server={target} />
+            ) : (
+              <CategoryContextMenu
+                server={server()}
+                category={target as any}
+              />
             ),
         })}
       />
