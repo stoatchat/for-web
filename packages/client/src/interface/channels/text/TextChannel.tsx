@@ -16,7 +16,7 @@ import { DraftMessages, Messages } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useNavigate, useSmartParams } from "@revolt/routing";
-import { Demo } from "@revolt/rtc/Demo";
+import { Demo, DemoWrapper } from "@revolt/rtc/Demo";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -164,7 +164,7 @@ export function TextChannel(props: ChannelPageProps) {
       </Header>
 
       <Show when={props.channel.isVoice}>
-        <Demo />
+        <DemoWrapper channel={props.channel} />
       </Show>
 
       <Content>

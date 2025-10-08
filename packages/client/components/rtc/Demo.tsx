@@ -35,6 +35,7 @@ import MdMicOn from "@material-design-icons/svg/outlined/mic.svg?component-solid
 import MdMicOff from "@material-design-icons/svg/outlined/mic_off.svg?component-solid";
 
 import { InRoom, useVoice } from ".";
+import { Channel } from "revolt.js";
 
 export function RoomParticipants() {
   const tracks = useTracks(
@@ -213,6 +214,21 @@ export function LeParticipant() {
   );
 }
 
+export function DemoWrapper(props: { channel: Channel }) {
+  const voice = useVoice()!;
+
+  const shouldShow = () => {
+    const room = voice.room();
+    return !room ? !!props.channel.server : voice.roomId() === props.channel.id;
+  }
+
+  return <Switch>
+    <Match when={shouldShow()}>
+      <Demo />
+    </Match>
+  </Switch>
+}
+
 export function Demo() {
   const client = useClient();
   const voice = useVoice()!;
@@ -240,7 +256,7 @@ export function Demo() {
     ).then((r) => r.json());
 
     if (token && url) {
-      voice.connect(url, token);
+      voice.connect(url, token, params().channelId!);
     }
   }
 

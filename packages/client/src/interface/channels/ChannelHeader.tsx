@@ -79,7 +79,7 @@ export function ChannelHeader(props: Props) {
     ).then((r) => r.json());
 
     if (token && url) {
-      rtc.connect(url, token);
+      rtc.connect(url, token, props.channel.id);
     }
   }
 

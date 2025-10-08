@@ -29,6 +29,9 @@ type State =
   | "RECONNECTING";
 
 class Voice {
+  roomId: Accessor<string | undefined>;
+  #setRoomId: Setter<string | undefined>;
+
   room: Accessor<Room | undefined>;
   #setRoom: Setter<Room | undefined>;
 
@@ -45,6 +48,10 @@ class Voice {
   #setScreenshare: Setter<boolean>;
 
   constructor() {
+    const [roomId, setRoomId] = createSignal<string>();
+    this.roomId = roomId;
+    this.#setRoomId = setRoomId;
+
     const [room, setRoom] = createSignal<Room>();
     this.room = room;
     this.#setRoom = setRoom;
@@ -66,11 +73,12 @@ class Voice {
     this.#setScreenshare = setScreenshare;
   }
 
-  async connect(url: string, token: string) {
+  async connect(url: string, token: string, roomId: string) {
     if (this.room()) throw "room already exists";
 
     const room = new Room();
     this.#setRoom(room);
+    this.#setRoomId(roomId);
     this.#setState("CONNECTING");
     room.addListener("connected", () => this.#setState("CONNECTED"));
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
@@ -85,6 +93,7 @@ class Voice {
     room.removeAllListeners();
     this.#setState("READY");
     this.#setRoom(undefined);
+    this.#setRoomId(undefined);
   }
 
   async toggleMute() {

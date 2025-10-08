@@ -120,11 +120,13 @@ export const ServerSidebar = (props: Props) => {
     }
   };
 
-  createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
+  // todo: I think these cause the infinite hang bug:
 
-  createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
-    navigateChannel(1),
-  );
+  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
+
+  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
+  //   navigateChannel(1),
+  // );
 
   createKeybind(KeybindAction.CHAT_MARK_SERVER_AS_READ, () => {
     if (props.server.unread) {
@@ -463,7 +465,7 @@ function Entry(
         icon={
           <>
             <Switch fallback={<Symbol fontSize="1.5em !important">grid_3x3</Symbol>}>
-              <Match when={props.channel.type === "VoiceChannel"}>
+              <Match when={props.channel.isVoice}>
                 <Symbol fontSize="1.5em !important">headset_mic</Symbol>
               </Match>
             </Switch>
