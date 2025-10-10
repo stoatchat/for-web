@@ -95,6 +95,9 @@ export function Titlebar() {
                         type: TransitionType.Retry,
                       })
                     }
+                    style={{
+                      "-webkit-app-region": "no-drag",
+                    }}
                   >
                     <strong> (reconnect now)</strong>
                   </a>
@@ -102,9 +105,15 @@ export function Titlebar() {
               </Switch>
               <Show when={pendingUpdate()}>
                 {" "}
-                <Button size="sm" onPress={pendingUpdate()}>
-                  Update
-                </Button>
+                <div
+                  style={{
+                    "-webkit-app-region": "no-drag",
+                  }}
+                >
+                  <Button size="sm" onPress={pendingUpdate()}>
+                    Update
+                  </Button>
+                </div>
               </Show>
             </DragHandle>
             <Show when={window.native}>
