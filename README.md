@@ -43,6 +43,9 @@ pnpm build:deps
 # or build a specific dep (e.g. revolt.js updates):
 # pnpm --filter revolt.js run build
 
+# customise the .env
+cp packages/client/.env.example packages/client/.env
+
 # run dev server
 pnpm dev:web
 ```
