@@ -291,7 +291,9 @@ export function Message(props: Props) {
       </Switch>
       <Show when={props.message.attachments}>
         <For each={props.message.attachments}>
-          {(attachment) => <Attachment file={attachment} />}
+          {(attachment) => (
+            <Attachment message={props.message} file={attachment} />
+          )}
         </For>
       </Show>
       <Show when={props.message.embeds}>
