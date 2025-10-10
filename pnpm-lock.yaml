@@ -3387,10 +3387,10 @@ packages:
       react-dom:
         optional: true
 
-  '@storybook/builder-vite@10.0.0-beta.9':
-    resolution: {integrity: sha512-R8nSDRWr9eFOF+Bi9+wfJA6jjXGcLCrbgBt2bLebzfXhCNmfHCMaqRG2ZaNdEV4u9KJyakKdzKEotvAkaPONUA==}
+  '@storybook/builder-vite@10.0.0-beta.10':
+    resolution: {integrity: sha512-Lr/nVrkZLzMBs1CIvIc0ddr2UyWRmqnoYalBLUKraGZUCOfCzpJ3ywzfj3lMhfOR4456Lld0X9SFd04DQFHDnQ==}
     peerDependencies:
-      storybook: ^10.0.0-beta.9
+      storybook: ^10.0.0-beta.10
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0
 
   '@storybook/components@8.6.12':
@@ -3401,12 +3401,12 @@ packages:
   '@storybook/core@8.3.5':
     resolution: {integrity: sha512-GOGfTvdioNa/n+Huwg4u/dsyYyBcM+gEcdxi3B7i5x4yJ3I912KoVshumQAOF2myKSRdI8h8aGWdx7nnjd0+5Q==}
 
-  '@storybook/csf-plugin@10.0.0-beta.9':
-    resolution: {integrity: sha512-0PfoiNKNJGNaWZBc31sevMOfhzX0VqrrKqE98DCMyEvZLUPnKy4t7iCE5TNFH+rUd5D7MdVzwgAmJ+CdtlmHIQ==}
+  '@storybook/csf-plugin@10.0.0-beta.10':
+    resolution: {integrity: sha512-sKCnWOHU97799zj6RoZuFygJCKPPUmohYZsESPddWQm6tHckjmKp1k4ISvd7Z5MIBwiEPYCnppQDDH1mOG6SPw==}
     peerDependencies:
       esbuild: '*'
       rollup: '*'
-      storybook: ^10.0.0-beta.9
+      storybook: ^10.0.0-beta.10
       vite: '*'
       webpack: '*'
     peerDependenciesMeta:
@@ -11212,9 +11212,9 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@storybook/builder-vite@10.0.0-beta.9(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))':
+  '@storybook/builder-vite@10.0.0-beta.10(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))':
     dependencies:
-      '@storybook/csf-plugin': 10.0.0-beta.9(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))
+      '@storybook/csf-plugin': 10.0.0-beta.10(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))
       storybook: 8.3.5
       ts-dedent: 2.2.0
       vite: 5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1)
@@ -11247,7 +11247,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@storybook/csf-plugin@10.0.0-beta.9(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))':
+  '@storybook/csf-plugin@10.0.0-beta.10(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))':
     dependencies:
       storybook: 8.3.5
       unplugin: 2.3.9
@@ -16035,7 +16035,7 @@ snapshots:
 
   storybook-solidjs-vite@1.0.0-beta.2(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1)):
     dependencies:
-      '@storybook/builder-vite': 10.0.0-beta.9(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))
+      '@storybook/builder-vite': 10.0.0-beta.10(esbuild@0.18.20)(rollup@2.79.2)(storybook@8.3.5)(vite@5.4.19(@types/node@22.15.17)(lightningcss@1.25.1)(terser@5.43.1))
     transitivePeerDependencies:
       - esbuild
       - rollup
