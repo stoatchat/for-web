@@ -312,4 +312,8 @@ export type Modals =
     }
   | {
       type: "import_theme";
+    }
+  | {
+      type: "timeout_member"
+      member: ServerMember
     };

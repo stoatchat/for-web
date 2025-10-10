@@ -211,6 +211,16 @@ export function Message(props: Props) {
               </Symbol>
             </Tooltip>
           </Match>
+          <Match when={props.message.member?.timeout}>
+            <Tooltip
+              content={t`User is timed out for ${dayjs(props.message.member?.timeout).fromNow(true)}`}
+              placement="top"
+            >
+              <Symbol css={{ fontSize: "1rem !important", paddingTop: "5px" }}>
+                schedule
+              </Symbol>
+            </Tooltip>
+          </Match>
           <Match
             when={
               props.message.authorId &&

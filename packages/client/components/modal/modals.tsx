@@ -55,6 +55,7 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
+import { TimeoutMemberModal } from "./modals/TimeoutMemberModal";
 
 /**
  * Render the modal
@@ -81,6 +82,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <BanMemberModal {...modalProps} />;
     case "ban_non_member":
       return <BanNonMemberModal {...modalProps} />;
+    case "timeout_member":
+      return <TimeoutMemberModal {...modalProps} />;
     case "changelog":
       return <ChangelogModal {...modalProps} />;
     case "add_members_to_group":

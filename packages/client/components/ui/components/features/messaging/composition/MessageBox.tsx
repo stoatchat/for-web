@@ -6,6 +6,7 @@ import { Node } from "prosemirror-model";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useTime } from "@revolt/i18n";
 import { Row, TextEditor } from "@revolt/ui";
 import { AutoCompleteSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 
@@ -70,6 +71,11 @@ interface Props {
    * Whether sending messages is allowed
    */
   sendingAllowed: boolean;
+
+  /**
+   * Timeout for sending messages
+   */
+  timeout?: Date;
 
   /**
    * Auto complete config
@@ -158,6 +164,8 @@ export function MessageBox(props: Props) {
   //   event.currentTarget.selectionEnd,
   // );
 
+  const dayjs = useTime();
+
   /**
    * Set initial draft selection
    */
@@ -196,6 +204,13 @@ export function MessageBox(props: Props) {
             </>
           }
         >
+          <Match when={props.timeout}>
+            <Blocked align>
+              <Trans>
+                You've been timed out for {dayjs(props.timeout).fromNow(true)}.
+              </Trans>
+            </Blocked>
+          </Match>
           <Match when={!props.sendingAllowed}>
             <Blocked align>
               <Trans>
