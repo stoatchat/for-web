@@ -36,6 +36,7 @@ import MdPersonAdd from "@material-design-icons/svg/filled/person_add.svg?compon
 
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
+import { CategoryContextMenu } from "@revolt/app";
 import { SidebarBase } from "./common";
 import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
@@ -180,7 +181,7 @@ export const ServerSidebar = (props: Props) => {
   }
 
   return (
-    <SidebarBase>
+    <SidebarBase use:floating={props.menuGenerator(props.server)}>
       <Switch
         fallback={
           <Header placement="secondary">
@@ -222,6 +223,7 @@ export const ServerSidebar = (props: Props) => {
         >
           {(entry) => (
             <Category
+              server={props.server}
               category={entry.item}
               channelId={props.channelId}
               menuGenerator={props.menuGenerator}
@@ -302,6 +304,7 @@ function ServerBadge(props: { flags: ServerFlags }) {
  */
 function Category(
   props: {
+    server: Server;
     category: CategoryData;
     channelId: string | undefined;
     noOrdering: Accessor<boolean>;
@@ -327,16 +330,18 @@ function Category(
   return (
     <CategorySection>
       <Show when={props.category.id !== "default"}>
+        <div use:floating={props.menuGenerator(props.category as any)}>
         <CategoryBase
           open={isOpen()}
-          onClick={() =>
+          onClick={(e) => {
             state.layout.toggleSectionState(props.category.id, true)
-          }
+          }}
           {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
         >
           {props.category.title}
           <MdChevronRight {...iconSize(12)} />
         </CategoryBase>
+        </div>
       </Show>
       <Draggable
         type="channels"

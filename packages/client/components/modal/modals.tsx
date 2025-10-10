@@ -23,6 +23,7 @@ import { CreateWebhookModal } from "./modals/CreateWebhook";
 import { CustomStatusModal } from "./modals/CustomStatus";
 import { DeleteBotModal } from "./modals/DeleteBot";
 import { DeleteChannelModal } from "./modals/DeleteChannel";
+import { DeleteCategoryModal } from "./modals/DeleteCategory";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
@@ -111,6 +112,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <DeleteBotModal {...modalProps} />;
     case "delete_channel":
       return <DeleteChannelModal {...modalProps} />;
+    case "delete_category":
+      return <DeleteCategoryModal {...modalProps} />;
     case "delete_message":
       return <DeleteMessageModal {...modalProps} />;
     case "delete_role":
