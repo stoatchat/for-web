@@ -104,7 +104,10 @@ The app currently needs the following routes:
 - `/login`
 - `/pwa`
 - `/dev`
+- `/discover`
 - `/settings`
+- `/invite`
+- `/bot`
 - `/friends`
 - `/server`
 - `/channel`

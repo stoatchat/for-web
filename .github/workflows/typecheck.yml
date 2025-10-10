@@ -36,4 +36,4 @@ jobs:
       - name: Build all dependencies
         run: pnpm build:deps
       - name: Run tests
-        run: pnpm test
+        run: pnpm test:typecheck
