@@ -1,6 +1,8 @@
 /**
  * Configure contexts and render App
  */
+import "./sentry";
+
 import { JSX, Show, createSignal, onMount } from "solid-js";
 import { Portal, render } from "solid-js/web";
 
@@ -43,7 +45,6 @@ import { Friends } from "./interface/Friends";
 import { HomePage } from "./interface/Home";
 import { ServerHome } from "./interface/ServerHome";
 import { ChannelPage } from "./interface/channels/ChannelPage";
-import "./sentry";
 import "./serviceWorkerInterface";
 
 attachDevtoolsOverlay();

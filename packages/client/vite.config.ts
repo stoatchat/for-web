@@ -31,7 +31,7 @@ export default defineConfig({
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 3000000,
+        maximumFileSizeToCacheInBytes: 4000000,
       },
       manifest: {
         name: "Stoat",
@@ -77,6 +77,7 @@ export default defineConfig({
     rollupOptions: {
       external: ["hast"],
     },
+    sourcemap: true
   },
   optimizeDeps: {
     exclude: ["hast"],
