@@ -27,7 +27,7 @@ export const AttachmentContainer = styled(Column, {
 /**
  * Render a given list of files
  */
-export function Attachment(props: { file: File; message: Message }) {
+export function Attachment(props: { file: File; message?: Message }) {
   const { openModal } = useModals();
 
   return (

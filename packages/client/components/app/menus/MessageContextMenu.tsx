@@ -35,7 +35,7 @@ import {
 /**
  * Context menu for messages
  */
-export function MessageContextMenu(props: { message: Message; file?: File }) {
+export function MessageContextMenu(props: { message?: Message; file?: File }) {
   const user = useUser();
   const state = useState();
   const client = useClient();
@@ -45,21 +45,21 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
    * Reply to this message
    */
   function reply() {
-    state.draft.addReply(props.message, user()!.id);
+    state.draft.addReply(props.message!, user()!.id);
   }
 
   /**
    * Mark message as unread
    */
   function markAsUnread() {
-    props.message.ack(true, false, true);
+    props.message!.ack(true, false, true);
   }
 
   /**
    * Copy message contents to clipboard
    */
   function copyText() {
-    navigator.clipboard.writeText(props.message.content);
+    navigator.clipboard.writeText(props.message!.content);
   }
 
   /**
@@ -68,7 +68,7 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
   function report() {
     openModal({
       type: "report_content",
-      target: props.message,
+      target: props.message!,
       client: client(),
     });
   }
@@ -78,11 +78,11 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
    */
   function deleteMessage(ev: MouseEvent) {
     if (ev.shiftKey) {
-      props.message.delete();
+      props.message!.delete();
     } else {
       openModal({
         type: "delete_message",
-        message: props.message,
+        message: props.message!,
       });
     }
   }
@@ -92,7 +92,7 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
    */
   function openAdminPanel() {
     window.open(
-      `https://legacy-admin.stoatinternal.com/panel/inspect/message/${props.message.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
       "_blank",
     );
   }
@@ -103,8 +103,8 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
   function copyLink() {
     navigator.clipboard.writeText(
       `${location.origin}${
-        props.message.server ? `/server/${props.message.server?.id}` : ""
-      }/channel/${props.message.channelId}/${props.message.id}`,
+        props.message!.server ? `/server/${props.message!.server?.id}` : ""
+      }/channel/${props.message!.channelId}/${props.message!.id}`,
     );
   }
 
@@ -112,7 +112,7 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
    * Copy message id to clipboard
    */
   function copyId() {
-    navigator.clipboard.writeText(props.message.id);
+    navigator.clipboard.writeText(props.message!.id);
   }
 
   /**
@@ -150,113 +150,119 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
 
         <ContextMenuDivider />
       </Show>
-      <Show when={props.message.channel?.havePermission("SendMessage")}>
-        <ContextMenuButton icon={MdReply} onClick={reply}>
-          <Trans>Reply</Trans>
+      <Show when={props.message}>
+        <Show when={props.message!.channel?.havePermission("SendMessage")}>
+          <ContextMenuButton icon={MdReply} onClick={reply}>
+            <Trans>Reply</Trans>
+          </ContextMenuButton>
+        </Show>
+        <ContextMenuButton icon={MdMarkChatUnread} onClick={markAsUnread}>
+          <Trans>Mark as unread</Trans>
         </ContextMenuButton>
-      </Show>
-      <ContextMenuButton icon={MdMarkChatUnread} onClick={markAsUnread}>
-        <Trans>Mark as unread</Trans>
-      </ContextMenuButton>
-      <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
-        <Trans>Copy text</Trans>
-      </ContextMenuButton>
-      <ContextMenuDivider />
-      <Show
-        when={
-          props.message.author?.self &&
-          props.message.channel?.havePermission("SendMessage")
-        }
-      >
-        <ContextMenuButton
-          icon={MdEdit}
-          onClick={() => state.draft.setEditingMessage(props.message)}
+        <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
+          <Trans>Copy text</Trans>
+        </ContextMenuButton>
+        <ContextMenuDivider />
+        <Show
+          when={
+            props.message!.author?.self &&
+            props.message!.channel?.havePermission("SendMessage")
+          }
         >
-          <Trans>Edit message</Trans>
-        </ContextMenuButton>
-      </Show>
-      <Show when={props.message.channel?.havePermission("ManageMessages")}>
-        <ContextMenuButton
-          icon={MdPin}
-          onClick={() => {
-            if (props.message.pinned) {
-              props.message.unpin().catch(showError);
-            } else {
-              props.message.pin().catch(showError);
-            }
-          }}
+          <ContextMenuButton
+            icon={MdEdit}
+            onClick={() => state.draft.setEditingMessage(props.message!)}
+          >
+            <Trans>Edit message</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={props.message!.channel?.havePermission("ManageMessages")}>
+          <ContextMenuButton
+            icon={MdPin}
+            onClick={() => {
+              if (props.message!.pinned) {
+                props.message!.unpin().catch(showError);
+              } else {
+                props.message!.pin().catch(showError);
+              }
+            }}
+          >
+            <Switch fallback={<Trans>Pin message</Trans>}>
+              <Match when={props.message!.pinned}>
+                <Trans>Unpin message</Trans>
+              </Match>
+            </Switch>
+          </ContextMenuButton>
+        </Show>
+        <Show
+          when={
+            props.message!.reactions.size &&
+            props.message!.channel?.havePermission("ManageMessages")
+          }
         >
-          <Switch fallback={<Trans>Pin message</Trans>}>
-            <Match when={props.message.pinned}>
-              <Trans>Unpin message</Trans>
-            </Match>
-          </Switch>
-        </ContextMenuButton>
-      </Show>
-      <Show
-        when={
-          props.message.reactions.size &&
-          props.message.channel?.havePermission("ManageMessages")
-        }
-      >
-        <ContextMenuSubMenu
-          icon={MdDeleteSweep}
-          onClick={() => props.message.clearReactions()}
-          destructive
-          buttonContent={<Trans>Remove reaction</Trans>}
+          <ContextMenuSubMenu
+            icon={MdDeleteSweep}
+            onClick={() => props.message!.clearReactions()}
+            destructive
+            buttonContent={<Trans>Remove reaction</Trans>}
+          >
+            <For each={[...props.message!.reactions.keys()]}>
+              {(key) => (
+                <ContextMenuButton
+                  onClick={() => props.message!.unreact(key, true)}
+                >
+                  <Switch fallback={<UnicodeEmoji emoji={key} />}>
+                    <Match when={key.length === 26}>
+                      <CustomEmoji id={key} />
+                    </Match>
+                  </Switch>
+                </ContextMenuButton>
+              )}
+            </For>
+          </ContextMenuSubMenu>
+        </Show>
+        <Show when={props.message!.reactions.size}>
+          <ContextMenuButton
+            symbol={MdSentimentContent}
+            onClick={() => props.message!.clearReactions()}
+            destructive
+          >
+            <Trans>Remove all reactions</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show
+          when={
+            props.message!.author?.self ||
+            props.message!.channel?.havePermission("ManageMessages")
+          }
         >
-          <For each={[...props.message.reactions.keys()]}>
-            {(key) => (
-              <ContextMenuButton
-                onClick={() => props.message.unreact(key, true)}
-              >
-                <Switch fallback={<UnicodeEmoji emoji={key} />}>
-                  <Match when={key.length === 26}>
-                    <CustomEmoji id={key} />
-                  </Match>
-                </Switch>
-              </ContextMenuButton>
-            )}
-          </For>
-        </ContextMenuSubMenu>
-      </Show>
-      <Show when={props.message.reactions.size}>
-        <ContextMenuButton
-          symbol={MdSentimentContent}
-          onClick={() => props.message.clearReactions()}
-          destructive
-        >
-          <Trans>Remove all reactions</Trans>
+          <ContextMenuButton
+            icon={MdDelete}
+            onClick={deleteMessage}
+            destructive
+          >
+            <Trans>Delete message</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={!props.message!.author?.self}>
+          <ContextMenuButton icon={MdReport} onClick={report} destructive>
+            <Trans>Report message</Trans>
+          </ContextMenuButton>
+        </Show>
+        <ContextMenuDivider />
+        <Show when={state.settings.getValue("advanced:admin_panel")}>
+          <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
+            <Trans>Admin Panel</Trans>
+          </ContextMenuButton>
+        </Show>
+        <ContextMenuButton icon={MdShare} onClick={copyLink}>
+          <Trans>Copy link</Trans>
         </ContextMenuButton>
-      </Show>
-      <Show
-        when={
-          props.message.author?.self ||
-          props.message.channel?.havePermission("ManageMessages")
-        }
-      >
-        <ContextMenuButton icon={MdDelete} onClick={deleteMessage} destructive>
-          <Trans>Delete message</Trans>
-        </ContextMenuButton>
-      </Show>
-      <Show when={!props.message.author?.self}>
-        <ContextMenuButton icon={MdReport} onClick={report} destructive>
-          <Trans>Report message</Trans>
-        </ContextMenuButton>
-      </Show>
-      <ContextMenuDivider />
-      <Show when={state.settings.getValue("advanced:admin_panel")}>
-        <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
-          <Trans>Admin Panel</Trans>
-        </ContextMenuButton>
-      </Show>
-      <ContextMenuButton icon={MdShare} onClick={copyLink}>
-        <Trans>Copy link</Trans>
-      </ContextMenuButton>
-      <Show when={state.settings.getValue("advanced:copy_id")}>
-        <ContextMenuButton icon={MdBadge} onClick={copyId}>
-          <Trans>Copy message ID</Trans>
-        </ContextMenuButton>
+        <Show when={state.settings.getValue("advanced:copy_id")}>
+          <ContextMenuButton icon={MdBadge} onClick={copyId}>
+            <Trans>Copy message ID</Trans>
+          </ContextMenuButton>
+        </Show>
       </Show>
     </ContextMenu>
   );
