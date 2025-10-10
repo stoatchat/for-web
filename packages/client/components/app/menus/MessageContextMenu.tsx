@@ -1,7 +1,7 @@
 import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { Message } from "revolt.js";
+import { File, Message } from "revolt.js";
 
 import { useClient, useUser } from "@revolt/client";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
@@ -12,8 +12,11 @@ import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-sol
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MdDeleteSweep from "@material-design-icons/svg/outlined/delete_sweep.svg?component-solid";
+import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
 import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
+import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
 import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
+import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
 import MdPin from "@material-design-icons/svg/outlined/pin_invoke.svg?component-solid";
 import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
 import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
@@ -32,7 +35,7 @@ import {
 /**
  * Context menu for messages
  */
-export function MessageContextMenu(props: { message: Message }) {
+export function MessageContextMenu(props: { message: Message; file?: File }) {
   const user = useUser();
   const state = useState();
   const client = useClient();
@@ -112,8 +115,38 @@ export function MessageContextMenu(props: { message: Message }) {
     navigator.clipboard.writeText(props.message.id);
   }
 
+  /**
+   * Opens the file preview in a new tab
+   */
+  function OpenFile() {
+    window.open(props.file?.originalUrl, "_blank");
+  }
+
+  /**
+   * Copies the link to the original url of the file
+   */
+  function CopyLink() {
+    navigator.clipboard.writeText(props.file?.originalUrl!);
+  }
+
   return (
     <ContextMenu>
+      <Show when={props.file}>
+        <ContextMenuButton icon={MdOpenInNew} onClick={OpenFile}>
+          <Trans>Open file</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton icon={MdLink} onClick={CopyLink}>
+          <Trans>Copy link</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton
+          download={props.file?.filename}
+          href={props.file?.originalUrl}
+          icon={MdDownload}
+        >
+          <Trans>Save file</Trans>
+        </ContextMenuButton>
+        <ContextMenuDivider />
+      </Show>
       <Show when={props.message.channel?.havePermission("SendMessage")}>
         <ContextMenuButton icon={MdReply} onClick={reply}>
           <Trans>Reply</Trans>
