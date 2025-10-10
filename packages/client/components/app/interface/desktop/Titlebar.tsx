@@ -17,7 +17,9 @@ import wordmark from "../../../../public/assets/web/wordmark.svg";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
 export function Titlebar() {
-  const [isMaximised, setIsMaximised] = createSignal(window.desktopConfig.get().windowState.isMaximised);
+  const [isMaximised, setIsMaximised] = createSignal(
+    window.native ? window.desktopConfig.get().windowState.isMaximised : false,
+  );
   const { lifecycle } = useClientLifecycle();
 
   function isDisconnected() {
@@ -31,12 +33,17 @@ export function Titlebar() {
 
   function maximise() {
     window.native.maximise();
-    setIsMaximised(t => !t);
+    setIsMaximised((t) => !t);
   }
 
   return (
     <Presence>
-      <Show when={window.desktopConfig?.get().customFrame || isDisconnected()}>
+      <Show
+        when={
+          (window.native && window.desktopConfig?.get().customFrame) ||
+          isDisconnected()
+        }
+      >
         <Motion.div
           initial={{ height: 0 }}
           animate={{ height: "29px" }}
