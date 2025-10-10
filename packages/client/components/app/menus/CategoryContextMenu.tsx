@@ -26,7 +26,7 @@ export type CategoryData = Omit<API.Category, "channels"> & {
  * Context menu for categories
  */
 export function CategoryContextMenu(props: {
-  server: Server
+  server: Server;
   category: CategoryData;
 }) {
   const state = useState();
@@ -35,12 +35,10 @@ export function CategoryContextMenu(props: {
   /**
    * Mark category as read
    */
-   function markAsRead() {
-    props.category.channels.forEach((ch) => {
-    if (ch.unread) {
-      ch.ack();
-    }
-    });
+  function markAsRead() {
+    props.category.channels
+      .filter((channel) => channel.unread)
+      .forEach((channel) => channel.ack());
   }
 
   /**
@@ -60,7 +58,7 @@ export function CategoryContextMenu(props: {
     openModal({
       type: "delete_category",
       server: props.server,
-      categoryId: props.category.id
+      categoryId: props.category.id,
     });
   }
 
@@ -71,20 +69,20 @@ export function CategoryContextMenu(props: {
     navigator.clipboard.writeText(props.category.id);
   }
 
-    /**
+  /**
    * Determine if any channel in category has unread messages
    */
   const hasUnread = () => {
     return props.category.channels.some((channel) => channel?.unread);
   };
-  
+
   return (
     <ContextMenu>
       <Show when={hasUnread()}>
         <ContextMenuButton icon={MdMarkChatRead} onClick={markAsRead}>
           <Trans>Mark as read</Trans>
         </ContextMenuButton>
-      <ContextMenuDivider />
+        <ContextMenuDivider />
       </Show>
 
       <Show when={props.server.havePermission("ManageChannel")}>
@@ -93,20 +91,12 @@ export function CategoryContextMenu(props: {
         </ContextMenuButton>
       </Show>
       <Show when={props.server.havePermission("ManageChannel")}>
-        <ContextMenuButton 
-        icon={MdDelete} 
-        onClick={deleteCategory}
-        destructive
-        >
+        <ContextMenuButton icon={MdDelete} onClick={deleteCategory} destructive>
           <Trans>Delete category</Trans>
         </ContextMenuButton>
       </Show>
 
-      <Show
-        when={
-          state.settings.getValue("advanced:copy_id")
-        }
-      >
+      <Show when={state.settings.getValue("advanced:copy_id")}>
         <ContextMenuDivider />
       </Show>
 
