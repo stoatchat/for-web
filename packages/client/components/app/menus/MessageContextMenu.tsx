@@ -138,13 +138,16 @@ export function MessageContextMenu(props: { message: Message; file?: File }) {
         <ContextMenuButton icon={MdLink} onClick={CopyLink}>
           <Trans>Copy link</Trans>
         </ContextMenuButton>
-        <ContextMenuButton
+        <a
+          target="_blank"
           download={props.file?.filename}
           href={props.file?.originalUrl}
-          icon={MdDownload}
         >
-          <Trans>Save file</Trans>
-        </ContextMenuButton>
+          <ContextMenuButton icon={MdDownload}>
+            <Trans>Save file</Trans>
+          </ContextMenuButton>
+        </a>
+
         <ContextMenuDivider />
       </Show>
       <Show when={props.message.channel?.havePermission("SendMessage")}>
