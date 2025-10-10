@@ -324,6 +324,22 @@ export function ChannelPermissionsEditor(props: Props) {
       },
     },
     {
+      key: "MentionEveryone",
+      value: 1 << 37,
+      title: t`Mention Everyone`,
+      description: {
+        Any: t`Mention everyone and online members inside the server`,
+      },
+    },
+    {
+      key: "MentionRoles",
+      value: 1 << 38,
+      title: t`Mention Roles`,
+      description: {
+        Any: t`Mention specific roles`,
+      },
+    },
+    {
       heading: t`Voice`,
       key: "Connect",
       value: 1 << 30,
