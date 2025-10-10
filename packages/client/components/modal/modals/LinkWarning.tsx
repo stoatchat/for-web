@@ -59,17 +59,16 @@ export function LinkWarningModal(
     >
       <Column>
         <span>
-          <Trans>
-            Are you sure you want to go to <Link>{props.url.toString()}</Link>?
-          </Trans>
+          <Trans>Are you sure you want to go to </Trans>
+          <Link>{props.url.toString()}</Link>
+          ?
         </span>
         <Switch
           fallback={
             <Checkbox checked={value()} onChange={() => setValue((v) => !v)}>
               <span>
-                <Trans>
-                  Don't ask me again for <Link>{props.url.origin}</Link>
-                </Trans>
+                <Trans>Don't ask me again for </Trans>
+                <Link>{props.url.origin}</Link>
               </span>
             </Checkbox>
           }
@@ -101,6 +100,7 @@ export function LinkWarningModal(
 const Link = styled("span", {
   base: {
     textDecoration: "underline",
+    overflowWrap: "anywhere",
   },
 });
 
