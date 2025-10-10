@@ -1,10 +1,10 @@
 import { Match, Show, Switch } from "solid-js";
 
-import { File, ImageEmbed, VideoEmbed } from "revolt.js";
+import { File, ImageEmbed, Message, VideoEmbed } from "revolt.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { FileContextMenu } from "@revolt/app";
+import { MessageContextMenu } from "@revolt/app";
 import { useModals } from "@revolt/modal";
 import { Column } from "@revolt/ui/components/layout";
 import { SizedContent, Spoiler } from "@revolt/ui/components/utils";
@@ -27,7 +27,7 @@ export const AttachmentContainer = styled(Column, {
 /**
  * Render a given list of files
  */
-export function Attachment(props: { file: File }) {
+export function Attachment(props: { file: File; message: Message }) {
   const { openModal } = useModals();
 
   return (
@@ -51,7 +51,9 @@ export function Attachment(props: { file: File }) {
             loading="lazy"
             src={props.file.createFileURL()}
             use:floating={{
-              contextMenu: () => <FileContextMenu file={props.file} />,
+              contextMenu: () => (
+                <MessageContextMenu message={props.message} file={props.file} />
+              ),
             }}
           />
         </SizedContent>
@@ -69,7 +71,9 @@ export function Attachment(props: { file: File }) {
             preload="metadata"
             src={props.file.originalUrl}
             use:floating={{
-              contextMenu: () => <FileContextMenu file={props.file} />,
+              contextMenu: () => (
+                <MessageContextMenu message={props.message} file={props.file} />
+              ),
             }}
           />
         </SizedContent>
@@ -82,7 +86,12 @@ export function Attachment(props: { file: File }) {
               controls
               src={props.file.originalUrl}
               use:floating={{
-                contextMenu: () => <FileContextMenu file={props.file} />,
+                contextMenu: () => (
+                  <MessageContextMenu
+                    message={props.message}
+                    file={props.file}
+                  />
+                ),
               }}
             />
           </SizedContent>
