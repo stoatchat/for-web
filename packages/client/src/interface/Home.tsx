@@ -1,6 +1,7 @@
 import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
+import { PublicChannelInvite } from "revolt.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -127,7 +128,7 @@ export function HomePage() {
             <CategoryButton
               onClick={() =>
                 openModal({
-                  type: "create_group",
+                  type: "create_group_or_server",
                   client: client()!,
                 })
               }
@@ -139,7 +140,7 @@ export function HomePage() {
               }
               icon={<MdAddCircle />}
             >
-              <Trans>Create a group</Trans>
+              <Trans>Create a group or server</Trans>
             </CategoryButton>
             <Switch fallback={null}>
               <Match when={showLoungeButton && isInLounge}>
@@ -153,11 +154,17 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Go to the testers server</Trans>
+                  <Trans>Go to the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
               <Match when={showLoungeButton && !isInLounge}>
                 <CategoryButton
+                  onClick={() => {
+                    client()
+                      .api.get("/invites/Testers")
+                      .then((invite) => PublicChannelInvite.from(client(), invite))
+                      .then((invite) => openModal({ type: "invite", invite }));
+                  }}
                   description={
                     <Trans>
                       You can report issues and discuss improvements with us
@@ -166,7 +173,7 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Go to the testers server</Trans>
+                  <Trans>Join the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
             </Switch>
@@ -200,6 +207,7 @@ export function HomePage() {
               </CategoryButton>
             </Show>
             <CategoryButton
+              onClick={() => openModal({ type: "settings", config: "user", context: { page: "feedback" } })}
               description={
                 <Trans>
                   Let us know how we can improve our app by giving us feedback.
@@ -213,8 +221,7 @@ export function HomePage() {
               onClick={() => openModal({ type: "settings", config: "user" })}
               description={
                 <Trans>
-                  You can also right-click the user icon in the top left, or
-                  left click it if you're already home.
+                  You can also click the gear icon in the bottom left.
                 </Trans>
               }
               icon={<MdSettings />}
