@@ -99,7 +99,7 @@ export function ListServerBans(props: { server: Server }) {
                   <DataTable.Cell>
                     <Row align>
                       <Avatar
-                        src={item.user?.avatar?.url}
+                        src={item.user?.avatar?.previewUrl}
                         fallback={item.user?.username}
                         size={32}
                       />

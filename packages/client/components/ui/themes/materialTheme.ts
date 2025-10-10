@@ -25,18 +25,6 @@ export function createMaterialColourVariables<P extends string>(
   prefix: P,
 ): addPrefixToObject<MaterialColours, P> {
   switch (theme.preset) {
-    case "neutral":
-      return Object.entries(AndroidNeutralColours)
-        .filter(([key]) =>
-          theme.darkMode ? key.endsWith("-dark") : key.endsWith("-light"),
-        )
-        .reduce(
-          (d, [key, value]) => ({
-            ...d,
-            [`${prefix}${key.replace(/-dark|-light/, "")}`]: value,
-          }),
-          {},
-        ) as never;
     case "you":
       return Object.entries(
         generateMaterialYouScheme(

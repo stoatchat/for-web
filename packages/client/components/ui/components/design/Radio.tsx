@@ -5,7 +5,7 @@ import "mdui/components/radio.js";
 
 interface GroupProps {
   value?: string;
-  onChange?: (event: { currentTarget: { checked: boolean } }) => void;
+  onChange?: (event: { currentTarget: { value: string; } }) => void;
   required?: boolean;
   disabled?: boolean;
   children?: JSX.Element;

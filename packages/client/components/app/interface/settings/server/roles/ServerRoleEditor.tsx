@@ -41,7 +41,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
   const editGroup = createFormGroup({
     name: createFormControl(role()?.name || ""),
-    colour: createFormControl(role()?.colour),
+    colour: createFormControl(role()?.colour || null),
     hoist: createFormControl(role()?.hoist == true),
   });
 

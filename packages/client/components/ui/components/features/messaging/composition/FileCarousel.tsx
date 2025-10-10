@@ -24,7 +24,7 @@ interface Props {
    */
   getFile(fileId: string): {
     file: File;
-    dataUri: string | undefined;
+    dataUri?: string;
   };
 
   /**
