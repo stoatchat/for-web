@@ -16,33 +16,9 @@ import MdMinimize from "@material-symbols/svg-400/outlined/minimize.svg?componen
 import wordmark from "../../../../public/assets/web/wordmark.svg";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
-declare global {
-  interface Window {
-    native: {
-      minimise(): void;
-      maximise(): void;
-      close(): void;
-    };
-  }
-}
-
 export function Titlebar() {
-  const [isMaximised, setIsMaximised] = createSignal(false);
+  const [isMaximised, setIsMaximised] = createSignal(window.desktopConfig.get().windowState.isMaximised);
   const { lifecycle } = useClientLifecycle();
-
-  // async function onResize() {
-  //   setIsMaximised(await window.isMaximized());
-  // }
-
-  // onMount(async () => {
-  //   setIsMaximised(await window.isMaximized());
-
-  //   const unlisten = await window?.onResized(onResize);
-
-  //   if (unlisten) {
-  //     onCleanup(unlisten);
-  //   }
-  // });
 
   function isDisconnected() {
     return [
@@ -53,9 +29,14 @@ export function Titlebar() {
     ].includes(lifecycle.state());
   }
 
+  function maximise() {
+    window.native.maximise();
+    setIsMaximised(t => !t);
+  }
+
   return (
     <Presence>
-      <Show when={window.native || isDisconnected()}>
+      <Show when={window.desktopConfig?.get().customFrame || isDisconnected()}>
         <Motion.div
           initial={{ height: 0 }}
           animate={{ height: "29px" }}
@@ -124,7 +105,7 @@ export function Titlebar() {
                 <Ripple />
                 <MdMinimize {...symbolSize(20)} />
               </Action>
-              <Action onClick={window.native.maximise}>
+              <Action onClick={maximise}>
                 <Ripple />
                 <Show
                   when={isMaximised()}

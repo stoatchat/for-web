@@ -26,12 +26,13 @@ import MdPayments from "@material-design-icons/svg/filled/payments.svg?component
 import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
-import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
+import wordmark from "../../public/assets/web/wordmark.svg";
 
 import { HeaderIcon } from "./common/CommonHeader";
 
-const Logo = styled(Wordmark, {
+const Logo = styled("img", {
   base: {
+    width: '160px',
     fill: "var(--md-sys-color-on-surface)",
   },
 });
@@ -119,7 +120,7 @@ export function HomePage() {
           <span class={typography({ class: "headline" })}>
             <Trans>Welcome to</Trans>
           </span>
-          <Logo />
+          <Logo src={wordmark} />
         </Column>
         <Buttons>
           <SeparatedColumn>

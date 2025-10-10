@@ -1,3 +1,5 @@
+import { Show } from "solid-js";
+
 import { Trans } from "@lingui-solid/solid/macro";
 import { Server } from "revolt.js";
 import { css } from "styled-system/css";
@@ -39,6 +41,8 @@ import { AppearanceMenu } from "./user/appearance";
 import { MyBots, ViewBot } from "./user/bots";
 import { EditProfile } from "./user/profile";
 import { EditSubscription } from "./user/subscriptions";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import Native from "./user/Native";
 
 const Config: SettingsConfiguration<{ server: Server }> = {
   /**
@@ -90,6 +94,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Feedback />;
       case "subscribe":
         return <EditSubscription />;
+      case 'native':
+        return <Native />;
       default:
         return null;
     }
@@ -114,14 +120,34 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         </Column>
       ),
       append: (
-        <Text class="label">
-          <span class={css({ userSelect: "none", fontWeight: "bold" })}>
-            <Trans>Version:</Trans>
-          </span>{" "}
-          <span class={css({ userSelect: "all" })}>
-            {pkg.version} ({pkg["version-date"]})
-          </span>
-        </Text>
+        <Column gap="none">
+          <Text class="label">
+            <span class={css({ userSelect: "none", fontWeight: "bold" })}>
+              <Trans>Version:</Trans>
+            </span>{" "}
+            <span class={css({ userSelect: "all" })}>
+              {pkg.version} ({pkg["version-date"]})
+            </span>
+          </Text>
+          <Show when={window.native}>
+            <Text class="label">
+              Stoat for Desktop {window.native.versions.desktop()}
+            </Text>
+            <Text class="label">
+              <span
+                class={css({
+                  fontSize: "0.8em",
+                  lineHeight: "0.8em",
+                  opacity: "0.5",
+                })}
+              >
+                {window.native.versions.electron()},{" "}
+                {window.native.versions.node()},{" "}
+                {window.native.versions.chrome()}
+              </span>
+            </Text>
+          </Show>
+        </Column>
       ),
       entries: [
         {
@@ -222,12 +248,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             //   icon: <MdSync {...iconSize(20)} />,
             //   title: t("app.settings.pages.sync.title"),
             // },
-            // {
-            //   id: "native",
-            //   hidden: false,
-            //   icon: <MdDesktopWindows {...iconSize(20)} />,
-            //   title: t("app.settings.pages.native.title"),
-            // },
+            {
+              id: "native",
+              hidden: !window.native,
+              icon: <Symbol fontSize="20px">desktop_windows</Symbol>,
+              title: <Trans>Desktop</Trans>,
+            },
             // {
             //   id: "experiments",
             //   icon: <MdScience {...iconSize(20)} />,
