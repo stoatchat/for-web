@@ -49,7 +49,7 @@ jobs:
       - run: pnpm build:deps
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm --filter client exec playwright install --with-deps
       - name: Build web app
         run: pnpm build:web
       - name: Run Playwright tests
