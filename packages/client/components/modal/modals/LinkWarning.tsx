@@ -55,7 +55,7 @@ export function LinkWarningModal(
         <span>
           <Trans>Are you sure you want to go to </Trans>
           <Link>{props.url.toString()}</Link>
-          <Trans>?</Trans>
+          ?
         </span>
         <Switch
           fallback={
