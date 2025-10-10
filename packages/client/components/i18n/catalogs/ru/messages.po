@@ -295,7 +295,7 @@ msgstr ""
 msgid "Admin Panel"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:254
+#: components/app/interface/settings/UserSettings.tsx:280
 msgid "Advanced"
 msgstr "Расширенные"
 
@@ -339,7 +339,7 @@ msgstr ""
 msgid "An internal error occurred. ({0})"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:192
+#: components/app/interface/settings/UserSettings.tsx:218
 #: components/app/interface/settings/user/Sync.tsx:34
 msgid "Appearance"
 msgstr "Внешний вид"
@@ -599,7 +599,7 @@ msgstr ""
 msgid "Click to show spoiler"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:180
+#: components/app/interface/settings/UserSettings.tsx:206
 msgid "Client Settings"
 msgstr "Настройки клиента"
 
@@ -747,7 +747,7 @@ msgstr ""
 msgid "Create"
 msgstr "Создать"
 
-#: src/interface/Home.tsx:141
+#: src/interface/Home.tsx:142
 msgid "Create a group"
 msgstr "Создать группу"
 
@@ -840,7 +840,7 @@ msgstr "Текущий пароль"
 msgid "Current Session"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx:51
+#: components/app/interface/settings/user/Native.tsx:99
 msgid "Custom window frame"
 msgstr ""
 
@@ -926,6 +926,10 @@ msgstr ""
 msgid "Description provided by {0}"
 msgstr ""
 
+#: components/app/interface/settings/UserSettings.tsx:255
+msgid "Desktop"
+msgstr ""
+
 #: components/app/interface/settings/user/bots/MyBots.tsx:72
 msgid "Developer Documentation"
 msgstr ""
@@ -938,7 +942,11 @@ msgstr "Отключить учетную запись"
 msgid "Disable one-time password authenticator"
 msgstr ""
 
-#: src/interface/Home.tsx:198
+#: components/app/interface/settings/user/Native.tsx:114
+msgid "Discord RPC"
+msgstr ""
+
+#: src/interface/Home.tsx:199
 msgid "Discover Stoat"
 msgstr ""
 
@@ -963,7 +971,7 @@ msgstr ""
 msgid "Don't notify others that you've left"
 msgstr ""
 
-#: src/interface/Home.tsx:184
+#: src/interface/Home.tsx:185
 msgid "Donate to Stoat"
 msgstr ""
 
@@ -1116,12 +1124,12 @@ msgstr ""
 msgid "Failed to verify!"
 msgstr "Не удалось проверить!"
 
-#: components/app/interface/settings/UserSettings.tsx:159
+#: components/app/interface/settings/UserSettings.tsx:185
 #: components/app/interface/settings/user/Feedback.tsx:62
 msgid "Feedback"
 msgstr "Обратная связь"
 
-#: src/interface/Home.tsx:192
+#: src/interface/Home.tsx:193
 msgid "Find a community based on your hobbies or interests."
 msgstr "Найдите сообщество по вашим хобби или интересам."
 
@@ -1190,7 +1198,7 @@ msgstr ""
 msgid "Get active recovery codes"
 msgstr ""
 
-#: src/interface/Home.tsx:209
+#: src/interface/Home.tsx:210
 msgid "Give feedback on Stoat"
 msgstr ""
 
@@ -1210,8 +1218,8 @@ msgstr "Вернуться ко входу"
 msgid "Go to account settings to edit your username"
 msgstr ""
 
-#: src/interface/Home.tsx:155
-#: src/interface/Home.tsx:168
+#: src/interface/Home.tsx:156
+#: src/interface/Home.tsx:169
 msgid "Go to the testers server"
 msgstr "Перейти на сервер тестировщиков"
 
@@ -1227,6 +1235,10 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx:74
 msgid "Harassment or cyberbullying"
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx:142
+msgid "Hardware Acceleration"
 msgstr ""
 
 #: components/auth/src/flows/FlowCreate.tsx:49
@@ -1250,7 +1262,7 @@ msgstr ""
 msgid "High Contrast"
 msgstr ""
 
-#: src/interface/Home.tsx:115
+#: src/interface/Home.tsx:116
 #: src/interface/navigation/channels/HomeSidebar.tsx:84
 msgid "Home"
 msgstr "Домашняя страница"
@@ -1282,7 +1294,7 @@ msgstr ""
 msgid "Impersonation"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx:38
+#: components/app/interface/settings/user/Native.tsx:84
 msgid "Instead of closing, Stoat will hide in your tray."
 msgstr ""
 
@@ -1294,7 +1306,7 @@ msgstr ""
 msgid "Invisible"
 msgstr "Невидимый"
 
-#: src/interface/Home.tsx:134
+#: src/interface/Home.tsx:135
 msgid "Invite all of your friends, some cool bots, and throw a big party."
 msgstr "Пригласите всех своих друзей, крутых ботов, и устройте большую вечеринку."
 
@@ -1384,7 +1396,7 @@ msgstr ""
 msgid "Kick Members"
 msgstr "Выгонять участников"
 
-#: components/app/interface/settings/UserSettings.tsx:218
+#: components/app/interface/settings/UserSettings.tsx:244
 #: components/app/interface/settings/user/Sync.tsx:52
 msgid "Language"
 msgstr "Язык"
@@ -1397,7 +1409,7 @@ msgstr ""
 msgid "Latest"
 msgstr "Последние"
 
-#: components/app/interface/settings/user/Native.tsx:28
+#: components/app/interface/settings/user/Native.tsx:70
 msgid "Launch Stoat when you log into your computer."
 msgstr ""
 
@@ -1425,11 +1437,11 @@ msgstr "Покинуть группу"
 msgid "Leave server"
 msgstr "Покинуть сервер"
 
-#: components/app/interface/settings/user/Native.tsx:49
+#: components/app/interface/settings/user/Native.tsx:97
 msgid "Let Stoat use its own custom titlebar."
 msgstr ""
 
-#: src/interface/Home.tsx:203
+#: src/interface/Home.tsx:204
 msgid "Let us know how we can improve our app by giving us feedback."
 msgstr "Дайте нам знать, как мы можем улучшить наше приложение, оставив нам отзыв."
 
@@ -1446,7 +1458,7 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:263
+#: components/app/interface/settings/UserSettings.tsx:289
 #: components/app/interface/settings/user/Sessions.tsx:169
 msgid "Log Out"
 msgstr "Выйти"
@@ -1583,7 +1595,7 @@ msgstr "Сообщение было отправлено на другой пл�
 msgid "Messaging"
 msgstr "Переписка"
 
-#: components/app/interface/settings/user/Native.tsx:41
+#: components/app/interface/settings/user/Native.tsx:87
 msgid "Minimise to Tray"
 msgstr ""
 
@@ -1637,7 +1649,7 @@ msgstr "Общие группы"
 msgid "My Account"
 msgstr "Мой аккаунт"
 
-#: components/app/interface/settings/UserSettings.tsx:154
+#: components/app/interface/settings/UserSettings.tsx:180
 msgid "My Bots"
 msgstr "Мои боты"
 
@@ -1702,7 +1714,7 @@ msgstr "Выкл"
 msgid "Official Communication"
 msgstr "Официальное сообщение"
 
-#: src/interface/navigation/channels/ServerSidebar.tsx:285
+#: src/interface/navigation/channels/ServerSidebar.tsx:287
 msgid "Official Server"
 msgstr "Официальный сервер"
 
@@ -1746,6 +1758,10 @@ msgstr ""
 msgid "Online"
 msgstr "В сети"
 
+#: src/interface/navigation/servers/UserMenu.tsx:162
+msgid "Only mentions will notify you"
+msgstr ""
+
 #: components/modal/modals/Invite.tsx:58
 msgid "Open"
 msgstr ""
@@ -1763,7 +1779,7 @@ msgstr ""
 msgid "Open server settings"
 msgstr ""
 
-#: src/interface/Home.tsx:221
+#: src/interface/Home.tsx:222
 msgid "Open settings"
 msgstr "Открыть настройки"
 
@@ -1842,7 +1858,7 @@ msgstr "Политика конфиденциальности"
 msgid "Private Channel"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:139
+#: components/app/interface/settings/UserSettings.tsx:165
 msgid "Profile"
 msgstr "Профиль"
 
@@ -1950,6 +1966,10 @@ msgstr ""
 
 #: components/modal/modals/RenameSession.tsx:36
 msgid "Rename Session"
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx:112
+msgid "Rep Stoat using Discord rich presence."
 msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx:119
@@ -2160,7 +2180,7 @@ msgstr "Название сервера"
 msgid "Server Roles"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:144
+#: components/app/interface/settings/UserSettings.tsx:170
 msgid "Sessions"
 msgstr "Сессии"
 
@@ -2183,6 +2203,10 @@ msgstr ""
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx:63
 msgid "Several people are typing…"
 msgstr "Несколько людей печатают…"
+
+#: components/app/interface/settings/user/Native.tsx:125
+msgid "Show corrections and suggestions as you type."
+msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:362
 msgid "Show send message button"
@@ -2221,7 +2245,7 @@ msgstr ""
 msgid "Sounds"
 msgstr "Звуки"
 
-#: components/app/interface/settings/UserSettings.tsx:249
+#: components/app/interface/settings/UserSettings.tsx:275
 msgid "Source Code"
 msgstr "Исходный код"
 
@@ -2233,7 +2257,11 @@ msgstr ""
 msgid "Speak"
 msgstr "Говорить"
 
-#: components/app/interface/settings/user/Native.tsx:31
+#: components/app/interface/settings/user/Native.tsx:128
+msgid "Spellchecker"
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx:73
 msgid "Start with Computer"
 msgstr ""
 
@@ -2242,11 +2270,15 @@ msgid "Status"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx:59
-msgid "Stoat Desktop"
-msgstr ""
+#~ msgid "Stoat Desktop"
+#~ msgstr ""
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx:49
 msgid "Stoat Developer"
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx:155
+msgid "Stoat for Desktop"
 msgstr ""
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx:38
@@ -2269,7 +2301,7 @@ msgstr "Отправить отзыв"
 msgid "Submit to Discover"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:169
+#: components/app/interface/settings/UserSettings.tsx:195
 msgid "Subscriptions"
 msgstr ""
 
@@ -2277,7 +2309,7 @@ msgstr ""
 msgid "Suggest new Stoat features on GitHub discussions."
 msgstr ""
 
-#: src/interface/Home.tsx:180
+#: src/interface/Home.tsx:181
 msgid "Support the project by donating - thank you!"
 msgstr "Поддержите проект пожертвованием - спасибо!"
 
@@ -2480,6 +2512,10 @@ msgstr "Загружать файлы"
 msgid "Use a code or invite link"
 msgstr ""
 
+#: components/app/interface/settings/user/Native.tsx:139
+msgid "Use the graphics card to improve performance."
+msgstr ""
+
 #: components/app/interface/settings/server/bans/ListBans.tsx:68
 msgid "User"
 msgstr "Пользователь"
@@ -2496,7 +2532,7 @@ msgstr "Пользователь покидает звонок"
 msgid "User Management"
 msgstr "Управление пользователями"
 
-#: components/app/interface/settings/UserSettings.tsx:128
+#: components/app/interface/settings/UserSettings.tsx:154
 msgid "User Settings"
 msgstr "Настройки пользователя"
 
@@ -2522,7 +2558,7 @@ msgstr ""
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
 
-#: src/interface/navigation/channels/ServerSidebar.tsx:285
+#: src/interface/navigation/channels/ServerSidebar.tsx:287
 msgid "Verified"
 msgstr ""
 
@@ -2530,7 +2566,8 @@ msgstr ""
 msgid "Verifying your account…"
 msgstr "Проверка вашего аккаунта…"
 
-#: components/app/interface/settings/UserSettings.tsx:119
+#: components/app/interface/settings/UserSettings.tsx:126
+#: components/app/interface/settings/user/Native.tsx:151
 msgid "Version:"
 msgstr ""
 
@@ -2590,7 +2627,7 @@ msgstr ""
 msgid "Webhooks"
 msgstr "Вебхуки"
 
-#: src/interface/Home.tsx:120
+#: src/interface/Home.tsx:121
 #: components/auth/src/flows/FlowLogin.tsx:112
 msgid "Welcome to"
 msgstr "Добро пожаловать в"
@@ -2627,7 +2664,7 @@ msgstr ""
 msgid "You are banned from this server."
 msgstr ""
 
-#: src/interface/Home.tsx:214
+#: src/interface/Home.tsx:215
 msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 msgstr "Также вы можете кликнуть правой кнопкой мыши по иконке пользователя в левом верхнем углу, или кликнуть левой кнопкой мыши, если вы на домашней странице."
 
@@ -2635,8 +2672,8 @@ msgstr "Также вы можете кликнуть правой кнопко�
 msgid "You can re-open it later, but it will disappear on both sides."
 msgstr "Вы можете снова открыть её позже, но она исчезнет с обеих сторон."
 
-#: src/interface/Home.tsx:148
-#: src/interface/Home.tsx:161
+#: src/interface/Home.tsx:149
+#: src/interface/Home.tsx:162
 #: components/app/interface/settings/user/Feedback.tsx:85
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "Вы можете сообщать об ошибках и обсуждать идеи с нами прямо здесь."
@@ -2684,6 +2721,10 @@ msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx:92
 msgid "You were logged out!"
+msgstr ""
+
+#: src/interface/navigation/servers/UserMenu.tsx:184
+msgid "You will not receive any notifications"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx:299
