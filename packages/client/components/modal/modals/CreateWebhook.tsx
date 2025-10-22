@@ -1,7 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Dialog, DialogProps, Form2 } from "@revolt/ui";
 
@@ -14,6 +13,7 @@ import { Modals } from "../types";
 export function CreateWebhookModal(
   props: DialogProps & Modals & { type: "create_webhook" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   const group = createFormGroup({

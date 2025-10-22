@@ -4,41 +4,52 @@ import {
   BiRegularPhoneCall,
   BiSolidCheckCircle,
 } from "solid-icons/bi";
-import { Accessor, JSX, Match, Show, Switch, createMemo } from "solid-js";
+import { Accessor, For, JSX, Match, Show, Switch, createMemo } from "solid-js";
 import { Setter } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import type { API, Channel, Server, ServerFlags } from "stoat.js";
+import type {
+  API,
+  Channel,
+  Server,
+  ServerFlags,
+  VoiceParticipant,
+} from "stoat.js";
+import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { CategoryContextMenu, UserContextMenu } from "@revolt/app";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
+import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import {
+  Avatar,
   Column,
   Draggable,
   Header,
   IconButton,
   MenuButton,
   OverflowingText,
+  Ripple,
   Row,
+  Text,
   Tooltip,
   iconSize,
   symbolSize,
   typography,
 } from "@revolt/ui";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
 import MdPersonAdd from "@material-design-icons/svg/filled/person_add.svg?component-solid";
 
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
-import { CategoryContextMenu } from "@revolt/app";
 import { SidebarBase } from "./common";
-import { Symbol } from "@revolt/ui/components/utils/Symbol"
 
 interface Props {
   /**
@@ -331,16 +342,16 @@ function Category(
     <CategorySection>
       <Show when={props.category.id !== "default"}>
         <div use:floating={props.menuGenerator(props.category as any)}>
-        <CategoryBase
-          open={isOpen()}
-          onClick={(e) => {
-            state.layout.toggleSectionState(props.category.id, true)
-          }}
-          {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
-        >
-          {props.category.title}
-          <MdChevronRight {...iconSize(12)} />
-        </CategoryBase>
+          <CategoryBase
+            open={isOpen()}
+            onClick={(e) => {
+              state.layout.toggleSectionState(props.category.id, true);
+            }}
+            {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
+          >
+            {props.category.title}
+            <MdChevronRight {...iconSize(12)} />
+          </CategoryBase>
         </div>
       </Show>
       <Draggable
@@ -462,66 +473,177 @@ function Entry(
 
   return (
     <a href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}>
-      <MenuButton
-        use:floating={props.menuGenerator(props.channel)}
-        size="normal"
-        alert={alertState()}
-        attention={attentionState()}
-        icon={
-          <>
-            <Switch fallback={<Symbol fontSize="1.5em !important">grid_3x3</Symbol>}>
-              <Match when={props.channel.isVoice}>
-                <Symbol fontSize="1.5em !important">headset_mic</Symbol>
-              </Match>
-            </Switch>
-            <Show when={props.channel.icon}>
-              <ChannelIcon src={props.channel.iconURL} css={{marginEnd: "0.2em"}} />
-            </Show>
-          </>
-        }
-        actions={
-          <>
-            <Show when={canInvite()}>
-              <a
-                use:floating={{
-                  tooltip: { placement: "top", content: "Create Invite" },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  openModal({ type: "create_invite", channel: props.channel });
-                }}
+      <Column gap="sm">
+        <MenuButton
+          use:floating={props.menuGenerator(props.channel)}
+          size="normal"
+          alert={alertState()}
+          attention={attentionState()}
+          icon={
+            <>
+              <Switch
+                fallback={<Symbol fontSize="1.5em !important">grid_3x3</Symbol>}
               >
-                <Symbol css={{fontSize: "1.2em !important", alignSelf: "center", marginTop: "7px"}} fill>person_add</Symbol>
-              </a>
-            </Show>
+                <Match when={props.channel.isVoice}>
+                  <Symbol fontSize="1.5em !important">headset_mic</Symbol>
+                </Match>
+              </Switch>
+              <Show when={props.channel.icon}>
+                <ChannelIcon
+                  src={props.channel.iconURL}
+                  css={{ marginEnd: "0.2em" }}
+                />
+              </Show>
+            </>
+          }
+          actions={
+            <>
+              <Show when={canInvite()}>
+                <a
+                  use:floating={{
+                    tooltip: { placement: "top", content: "Create Invite" },
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openModal({
+                      type: "create_invite",
+                      channel: props.channel,
+                    });
+                  }}
+                >
+                  <Symbol
+                    css={{
+                      fontSize: "1.2em !important",
+                      alignSelf: "center",
+                      marginTop: "7px",
+                    }}
+                    fill
+                  >
+                    person_add
+                  </Symbol>
+                </a>
+              </Show>
 
-            <Show when={canEditChannel()}>
-              <a
-                use:floating={{
-                  tooltip: { placement: "top", content: "Edit Channel" },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  openModal({
-                    type: "settings",
-                    config: "channel",
-                    context: props.channel,
-                  });
-                }}
-              >
-                <Symbol css={{fontSize: "1.1em !important", alignSelf: "center", marginTop: "7px"}} fill>settings</Symbol>
-              </a>
-            </Show>
-          </>
-        }
-      >
-        <OverflowingText>
-          <TextWithEmoji content={props.channel.name!} />
-        </OverflowingText>
-      </MenuButton>
+              <Show when={canEditChannel()}>
+                <a
+                  use:floating={{
+                    tooltip: { placement: "top", content: "Edit Channel" },
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openModal({
+                      type: "settings",
+                      config: "channel",
+                      context: props.channel,
+                    });
+                  }}
+                >
+                  <Symbol
+                    css={{
+                      fontSize: "1.1em !important",
+                      alignSelf: "center",
+                      marginTop: "7px",
+                    }}
+                    fill
+                  >
+                    settings
+                  </Symbol>
+                </a>
+              </Show>
+            </>
+          }
+        >
+          <OverflowingText>
+            <TextWithEmoji content={props.channel.name!} />
+          </OverflowingText>
+        </MenuButton>
+
+        <Show when={props.channel.voiceParticipants.size}>
+          <PreviewBox>
+            <For each={[...props.channel.voiceParticipants.values()]}>
+              {(participant) => <VoicePreviewUser participant={participant} />}
+            </For>
+          </PreviewBox>
+        </Show>
+      </Column>
     </a>
   );
 }
+
+function VoicePreviewUser(props: { participant: VoiceParticipant }) {
+  const user = useUser(props.participant.userId);
+
+  return (
+    <div
+      class={previewUser()}
+      use:floating={{
+        userCard: {
+          user: user().user!,
+          member: user().member,
+        },
+        contextMenu: () => (
+          <UserContextMenu user={user().user!} member={user().member} />
+        ),
+      }}
+    >
+      <Ripple />
+      <Avatar size={24} src={user().avatar} fallback={user().username} />{" "}
+      <PreviewUsername>{user().username}</PreviewUsername>
+      <Row gap="sm">
+        <Show when={!props.participant.isPublishing()}>
+          <Symbol size={16}>mic_off</Symbol>
+        </Show>
+        <Show when={!props.participant.isReceiving()}>
+          <Symbol size={16}>headset_off</Symbol>
+        </Show>
+        <Show when={props.participant.isCamera()}>
+          <Symbol size={16}>camera_video</Symbol>
+        </Show>
+        <Show when={props.participant.isCamera()}>
+          <Symbol size={16}>screen_share</Symbol>
+        </Show>
+      </Row>
+    </div>
+  );
+}
+
+const PreviewBox = styled("div", {
+  base: {
+    minWidth: 0,
+    display: "flex",
+    flexDirection: "column",
+
+    marginBlock: "var(--gap-sm)",
+    marginInlineStart: "var(--gap-xl)",
+    marginInlineEnd: "var(--gap-md)",
+
+    color: "var(--md-sys-color-outline)",
+
+    borderRadius: "var(--borderRadius-md)",
+  },
+});
+
+const previewUser = cva({
+  base: {
+    padding: "var(--gap-sm)",
+    position: "relative", // ... <Ripple />
+    display: "flex",
+    gap: "var(--gap-md)",
+    alignItems: "center",
+    borderRadius: "var(--borderRadius-md)",
+  },
+});
+
+const PreviewUsername = styled("span", {
+  base: {
+    ...typography.raw(),
+
+    flexGrow: 1,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+  },
+});
 
 /**
  * Channel icon styling

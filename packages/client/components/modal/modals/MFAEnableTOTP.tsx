@@ -1,8 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { QRCodeSVG } from "solid-qr-code";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
@@ -39,6 +38,7 @@ const Qr = styled("div", {
 export function MFAEnableTOTPModal(
   props: DialogProps & Modals & { type: "mfa_enable_totp" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   const group = createFormGroup({

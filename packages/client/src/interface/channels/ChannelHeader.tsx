@@ -64,23 +64,7 @@ export function ChannelHeader(props: Props) {
    * Join voice call
    */
   async function joinCall() {
-    const [h, v] = client()!.authenticationHeader;
-
-    const { token, url } = await fetch(
-      client()!.api.config.baseURL + `/channels/${props.channel.id}/join_call`,
-      {
-        method: "POST",
-        headers: {
-          [h]: v,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ node: "worldwide" }),
-      },
-    ).then((r) => r.json());
-
-    if (token && url) {
-      rtc.connect(url, token, props.channel.id);
-    }
+    rtc.connect(props.channel);
   }
 
   const searchValue = () => {

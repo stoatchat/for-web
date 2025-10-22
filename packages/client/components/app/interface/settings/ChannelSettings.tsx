@@ -5,8 +5,7 @@ import {
   BiSolidTrash,
 } from "solid-icons/bi";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
@@ -27,6 +26,7 @@ const Config: SettingsConfiguration<Channel> = {
    */
   title(ctx, key) {
     const client = useClient();
+    const { t } = useLingui();
 
     if (key.startsWith("webhooks/")) {
       const webhook = client().channelWebhooks.get(key.substring(9));

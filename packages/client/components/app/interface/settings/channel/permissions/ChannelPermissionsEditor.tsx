@@ -117,14 +117,14 @@ export function ChannelPermissionsEditor(props: Props) {
   const Permissions: {
     heading?: string;
     key: string;
-    value: number;
+    value: bigint;
     title: string;
     description: Partial<Record<Context | "Any", string>>;
   }[] = [
     {
       heading: t`Admin`,
       key: "ManageChannel",
-      value: 1 << 0,
+      value: 1n ** 0n,
       title: t`Manage Channel`,
       description: {
         Group: t`Edit group name and description`,
@@ -133,7 +133,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageServer",
-      value: 1 << 1,
+      value: 2n ** 1n,
       title: t`Manage Server`,
       description: {
         Server: t`Edit the server's information and settings`,
@@ -141,7 +141,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManagePermissions",
-      value: 1 << 2,
+      value: 2n ** 2n,
       title: t`Manage Permissions`,
       description: {
         Group: t`Whether other users can edit these settings`,
@@ -151,7 +151,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageRole",
-      value: 1 << 3,
+      value: 2n ** 3n,
       title: t`Manage Roles`,
       description: {
         Server: t`Create and edit server roles`,
@@ -159,7 +159,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageCustomisation",
-      value: 1 << 4,
+      value: 2n ** 4n,
       title: t`Manage Customisation`,
       description: {
         Server: t`Create server emoji`,
@@ -168,7 +168,7 @@ export function ChannelPermissionsEditor(props: Props) {
     {
       heading: t`Members`,
       key: "KickMembers",
-      value: 1 << 5,
+      value: 2n ** 6n,
       title: t`Kick Members`,
       description: {
         Server: t`Kick lower-ranking members from the server`,
@@ -176,7 +176,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "BanMembers",
-      value: 1 << 7,
+      value: 2n ** 7n,
       title: t`Ban Members`,
       description: {
         Server: t`Ban lower-ranking members from the server`,
@@ -184,7 +184,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "TimeoutMembers",
-      value: 1 << 8,
+      value: 2n ** 8n,
       title: t`Timeout Members`,
       description: {
         Server: t`Temporarily prevent lower-ranking members from interacting`,
@@ -192,7 +192,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "AssignRoles",
-      value: 1 << 9,
+      value: 2n ** 9n,
       title: t`Assign Roles`,
       description: {
         Server: t`Assign lower-ranked roles to lower-ranking members`,
@@ -200,7 +200,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ChangeNickname",
-      value: 1 << 10,
+      value: 2n ** 10n,
       title: t`Change Nickname`,
       description: {
         Server: t`Change own nickname`,
@@ -208,15 +208,15 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageNicknames",
-      value: 1 << 11,
+      value: 2n ** 11n,
       title: t`Manage Nicknames`,
       description: {
         Server: t`Change other members' nicknames`,
       },
     },
     {
-      key: "ChangeAvatar",
-      value: 1 << 12,
+      key: "ChangeAvavar",
+      value: 2n ** 12n,
       title: t`Change Avatar`,
       description: {
         Server: t`Change own avatar`,
@@ -224,7 +224,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "RemoveAvatars",
-      value: 1 << 13,
+      value: 2n ** 13n,
       title: t`Remove Avatars`,
       description: {
         Server: t`Remove other members' avatars`,
@@ -233,7 +233,7 @@ export function ChannelPermissionsEditor(props: Props) {
     {
       heading: t`Channels`,
       key: "ViewChannel",
-      value: 1 << 20,
+      value: 2n ** 20n,
       title: t`View Channel`,
       description: {
         TextChannel: t`Able to access this channel`,
@@ -242,7 +242,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ReadMessageHistory",
-      value: 1 << 21,
+      value: 2n ** 21n,
       title: t`Read Message History`,
       description: {
         TextChannel: t`Read past messages sent in channel`,
@@ -251,7 +251,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "SendMessage",
-      value: 1 << 22,
+      value: 2n ** 22n,
       title: t`Send Messages`,
       description: {
         Group: t`Send messages in channel`,
@@ -261,7 +261,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageMessages",
-      value: 1 << 23,
+      value: 2n ** 23n,
       title: t`Manage Messages`,
       description: {
         Group: t`Delete and pin messages sent by other members`,
@@ -271,7 +271,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "ManageWebhooks",
-      value: 1 << 23,
+      value: 2n ** 24n,
       title: t`Manage Webhooks`,
       description: {
         Group: t`Create and edit webhooks`,
@@ -281,7 +281,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "InviteOthers",
-      value: 1 << 25,
+      value: 2n ** 25n,
       title: t`Invite Others`,
       description: {
         Group: t`Add new members to the group`,
@@ -291,7 +291,7 @@ export function ChannelPermissionsEditor(props: Props) {
     {
       heading: t`Messaging`,
       key: "SendEmbeds",
-      value: 1 << 26,
+      value: 2n ** 26n,
       title: t`Send Embeds`,
       description: {
         Any: t`Send embedded content such as link embeds or custom embeds`,
@@ -299,7 +299,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "UploadFiles",
-      value: 1 << 27,
+      value: 2n ** 27n,
       title: t`Upload Files`,
       description: {
         Any: t`Send attachments to chat`,
@@ -307,7 +307,7 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "Masquerade",
-      value: 1 << 28,
+      value: 2n ** 28n,
       title: t`Masquerade`,
       description: {
         Any: t`Allow members to change name and avatar per-message`,
@@ -315,32 +315,16 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "React",
-      value: 1 << 29,
+      value: 2n ** 29n,
       title: t`React`,
       description: {
         Any: t`React to messages with emoji`,
       },
     },
     {
-      key: "MentionEveryone",
-      value: 1 << 37,
-      title: t`Mention Everyone`,
-      description: {
-        Any: t`Mention everyone and online members inside the server`,
-      },
-    },
-    {
-      key: "MentionRoles",
-      value: 1 << 38,
-      title: t`Mention Roles`,
-      description: {
-        Any: t`Mention specific roles`,
-      },
-    },
-    {
       heading: t`Voice`,
       key: "Connect",
-      value: 1 << 30,
+      value: 2n ** 30n,
       title: t`Connect`,
       description: {
         TextChannel: t`Connect to voice channel`,
@@ -349,47 +333,73 @@ export function ChannelPermissionsEditor(props: Props) {
     },
     {
       key: "Speak",
-      value: 1 << 31,
+      value: 2n ** 31n,
       title: t`Speak`,
       description: {
-        // VoiceChannel: t`Able to speak in voice call`,
-        // Server: t`Able to speak in voice call`,
+        TextChannel: t`Able to speak in voice call`,
+        Server: t`Able to speak in voice call`,
       },
     },
     {
       key: "Video",
-      value: 1 << 32,
+      value: 2n ** 32n,
       title: t`Video`,
       description: {
-        // VoiceChannel: t`Share camera or screen in voice call`,
-        // Server: t`Share camera or screen in voice call`,
+        TextChannel: t`Share camera or screen in voice call`,
+        Server: t`Share camera or screen in voice call`,
       },
     },
     {
       key: "MuteMembers",
-      value: 1 << 33,
+      value: 2n ** 33n,
       title: t`Mute Members`,
       description: {
-        // VoiceChannel: t`Mute lower-ranking members in voice call`,
-        // Server: t`Mute lower-ranking members in voice call`,
+        TextChannel: t`Mute lower-ranking members in voice call`,
+        Server: t`Mute lower-ranking members in voice call`,
       },
     },
     {
       key: "DeafenMembers",
-      value: 1 << 34,
+      value: 2n ** 34n,
       title: t`Deafen Members`,
       description: {
-        // VoiceChannel: t`Deafen lower-ranking members in voice call`,
-        // Server: t`Deafen lower-ranking members in voice call`,
+        TextChannel: t`Deafen lower-ranking members in voice call`,
+        Server: t`Deafen lower-ranking members in voice call`,
       },
     },
     {
       key: "MoveMembers",
-      value: 1 << 35,
+      value: 2n ** 35n,
       title: t`Move Members`,
       description: {
-        // VoiceChannel: t`Move members between voice channels`,
-        // Server: t`Move members between voice channels`,
+        TextChannel: t`Move members between voice channels`,
+        Server: t`Move members between voice channels`,
+      },
+    },
+    {
+      key: "Listen",
+      value: 2n ** 36n,
+      title: t`Listen`,
+      description: {
+        TextChannel: t`Hear other people and see their video`,
+        Server: t`Hear other people and see their video`,
+      },
+    },
+    {
+      heading: t`Mentions`,
+      key: "MentionEveryone",
+      value: 2n ** 37n,
+      title: t`Mention Everyone`,
+      description: {
+        Any: t`Mention everyone and online members inside the server`,
+      },
+    },
+    {
+      key: "MentionRoles",
+      value: 2n ** 38n,
+      title: t`Mention Roles`,
+      description: {
+        Any: t`Mention specific roles`,
       },
     },
   ];
@@ -422,9 +432,7 @@ export function ChannelPermissionsEditor(props: Props) {
                   key={entry.key}
                   title={entry.title}
                   description={description(entry) as string}
-                  value={
-                    (value()[0] & BigInt(entry.value)) == BigInt(entry.value)
-                  }
+                  value={(value()[0] & entry.value) == entry.value}
                   onChange={() =>
                     setValue((v) => [v[0] ^ BigInt(entry.value), v[1]])
                   }
@@ -440,19 +448,18 @@ export function ChannelPermissionsEditor(props: Props) {
                   title={entry.title}
                   description={description(entry) as string}
                   value={
-                    (value()[0] & BigInt(entry.value)) == BigInt(entry.value)
+                    (value()[0] & entry.value) == entry.value
                       ? "allow"
-                      : (value()[1] & BigInt(entry.value)) ==
-                          BigInt(entry.value)
+                      : (value()[1] & entry.value) == entry.value
                         ? "deny"
                         : "neutral"
                   }
                   onChange={(target) => {
-                    let allow = value()[0] & ~BigInt(entry.value);
-                    let deny = value()[1] & ~BigInt(entry.value);
+                    let allow = value()[0] & ~entry.value;
+                    let deny = value()[1] & ~entry.value;
 
-                    if (target === "allow") allow |= BigInt(entry.value);
-                    if (target === "deny") deny |= BigInt(entry.value);
+                    if (target === "allow") allow |= entry.value;
+                    if (target === "deny") deny |= entry.value;
 
                     setValue([allow, deny]);
                   }}

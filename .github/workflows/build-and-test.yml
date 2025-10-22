@@ -61,6 +61,27 @@ jobs:
           path: packages/client/playwright-report/
           retention-days: 30
 
+  stable:
+    name: Push changes to stable branch
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    if: github.ref == 'refs/heads/main'
+
+    needs:
+      - typecheck
+      - e2e
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: |
+          git fetch origin stable:stable
+          git push origin main:stable
+
   # deploy:
   #   name: Deploy
   # todo: future CD to beta

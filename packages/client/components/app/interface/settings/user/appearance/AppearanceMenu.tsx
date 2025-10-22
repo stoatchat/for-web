@@ -415,7 +415,7 @@ const Preview = styled("div", {
     height: "126px",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-lg)",
-    background: "var(--md-sys-color-primary-container)",
+    background: "var(--md-sys-color-surface-container-highest)",
   },
 });
 

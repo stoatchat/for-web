@@ -152,6 +152,10 @@ class Lifecycle {
         captcha: {} as never,
         email: true,
         invite_only: false,
+        livekit: {
+          enabled: false,
+          nodes: []
+        }
       },
       vapid: String(),
       ws: CONFIGURATION.DEFAULT_WS_URL,

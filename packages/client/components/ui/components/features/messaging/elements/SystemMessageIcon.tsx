@@ -157,6 +157,9 @@ const Base = styled("div", {
       message_unpinned: {
         color: "var(--md-sys-color-primary)",
       },
+      call_started: {
+        color: "var(--md-sys-color-primary)",
+      },
     },
   },
 });

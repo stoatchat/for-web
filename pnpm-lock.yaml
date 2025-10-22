@@ -115,7 +115,7 @@ importers:
         version: 5.1.4(@lingui-solid/babel-plugin-lingui-macro@packages+js-lingui-solid+packages+babel-plugin-lingui-macro)(@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0))(babel-plugin-macros@3.1.0)(solid-js@1.9.6)
       '@livekit/components-core':
         specifier: ^0.9.3
-        version: 0.9.3(@livekit/protocol@1.38.0)(livekit-client@2.13.0)(tslib@2.8.1)
+        version: 0.9.3(@livekit/protocol@1.42.2)(livekit-client@2.15.13(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
       '@material-design-icons/svg':
         specifier: ^0.14.15
         version: 0.14.15
@@ -151,7 +151,7 @@ importers:
         version: 2.2.1(solid-js@1.9.6)
       '@solid-primitives/keyed':
         specifier: ^1.5.1
-        version: 1.5.1(solid-js@1.9.6)
+        version: 1.5.2(solid-js@1.9.6)
       '@solid-primitives/map':
         specifier: ^0.7.1
         version: 0.7.1(solid-js@1.9.6)
@@ -202,7 +202,7 @@ importers:
         version: 5.0.0
       livekit-client:
         specifier: ^2.13.0
-        version: 2.13.0
+        version: 2.15.13(@types/dom-mediacapture-record@1.0.22)
       localforage:
         specifier: ^1.10.0
         version: 1.10.0
@@ -539,25 +539,22 @@ importers:
   packages/solid-livekit-components:
     dependencies:
       '@livekit/components-core':
-        specifier: ^0.9.2
-        version: 0.9.3(@livekit/protocol@1.38.0)(livekit-client@2.13.0)(tslib@2.8.1)
+        specifier: ^0.12.10
+        version: 0.12.10(livekit-client@2.15.13(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
       '@solid-primitives/intersection-observer':
-        specifier: ^2.1.6
-        version: 2.2.1(solid-js@1.9.6)
+        specifier: ^2.2.2
+        version: 2.2.2(solid-js@1.9.6)
       '@solid-primitives/keyed':
-        specifier: ^1.2.2
-        version: 1.5.1(solid-js@1.9.6)
+        specifier: ^1.5.2
+        version: 1.5.2(solid-js@1.9.6)
       '@solid-primitives/scheduled':
-        specifier: ^1.4.3
-        version: 1.5.1(solid-js@1.9.6)
-      add:
-        specifier: ^2.0.6
-        version: 2.0.6
+        specifier: ^1.5.2
+        version: 1.5.2(solid-js@1.9.6)
       livekit-client:
-        specifier: ^2.13.0
-        version: 2.13.0
+        specifier: ^2.15.13
+        version: 2.15.13(@types/dom-mediacapture-record@1.0.22)
       rxjs:
-        specifier: ^7.8.1
+        specifier: ^7.8.2
         version: 7.8.2
     devDependencies:
       '@types/node':
@@ -617,12 +614,15 @@ importers:
       '@vladfrangu/async_event_emitter':
         specifier: ^2.4.6
         version: 2.4.6
+      json-with-bigint:
+        specifier: ^3.4.4
+        version: 3.4.4
       solid-js:
         specifier: ^1.9.6
         version: 1.9.6
       stoat-api:
-        specifier: 0.8.9-3
-        version: 0.8.9-3
+        specifier: 0.8.9-4
+        version: 0.8.9-4
       ulid:
         specifier: ^2.4.0
         version: 2.4.0
@@ -2267,6 +2267,9 @@ packages:
   '@floating-ui/core@1.7.0':
     resolution: {integrity: sha512-FRdBLykrPPA6P76GGGqlex/e7fbe0F1ykgxHYNXQsH/iTEtjMj/f9bpY5oQqbjt5VgZvgz/uKXbGuROijh3VLA==}
 
+  '@floating-ui/dom@1.6.13':
+    resolution: {integrity: sha512-umqzocjDgNRGTuO7Q8CU32dkHkECqI8ZdMZ5Swb6QAM0t5rnlrN3lGo1hdpscRd3WS8T6DKYK4ephgIH9iRh3w==}
+
   '@floating-ui/dom@1.6.3':
     resolution: {integrity: sha512-RnDthu3mzPlQ31Ss/BTwQ1zjzIhr3lk1gZB1OC56h/1vEtaXkESrOqL5fQVMfXpwGtRwX+YsZBdyHtJMQnkArw==}
 
@@ -2590,6 +2593,13 @@ packages:
   '@lit/reactive-element@2.1.0':
     resolution: {integrity: sha512-L2qyoZSQClcBmq0qajBVbhYEcG6iK0XfLn66ifLe/RfC0/ihpc+pl0Wdn8bJ8o+hj38cG0fGXRgSS20MuXn7qA==}
 
+  '@livekit/components-core@0.12.10':
+    resolution: {integrity: sha512-lSGci8c8IB/qCi42g1tzNtDGpnBWH1XSSk/OA9Lzk7vqOG0LlkwD3zXfBeKfO2eWFmYRfrZ2GD59GaH2NtTgag==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      livekit-client: ^2.13.3
+      tslib: ^2.6.2
+
   '@livekit/components-core@0.9.3':
     resolution: {integrity: sha512-RUhKw/eg2frnOHq6Xurfg4HqawmdpC/o8Dkp+J6PgnieA6mSQOOez7mUdPNqsAybnLujjJvVJ735sZJRqTb1Sg==}
     engines: {node: '>=18'}
@@ -2601,8 +2611,8 @@ packages:
   '@livekit/mutex@1.1.1':
     resolution: {integrity: sha512-EsshAucklmpuUAfkABPxJNhzj9v2sG7JuzFDL4ML1oJQSV14sqrpTYnsaOudMAw9yOaW53NU3QQTlUQoRs4czw==}
 
-  '@livekit/protocol@1.38.0':
-    resolution: {integrity: sha512-XX6ulvsE1XCN18LVf3ydHN7Ri1Z1M1P5dQdjnm5nVDsSqUL12Vbo/4RKcRlCEXAg2qB62mKjcaVLXVwkfXggkg==}
+  '@livekit/protocol@1.42.2':
+    resolution: {integrity: sha512-0jeCwoMJKcwsZICg5S6RZM4xhJoF78qMvQELjACJQn6/VB+jmiySQKOSELTXvPBVafHfEbMlqxUw2UR1jTXs2g==}
 
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
@@ -3109,8 +3119,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solid-primitives/intersection-observer@2.2.1':
-    resolution: {integrity: sha512-q8lTWTzagqBKihp8zu/W6226xdTPGyUWo4jNvqdJeZZoXpG5E1lGKEzidYWK1POqfvElBIC0pyEHxaoMlxfW5g==}
+  '@solid-primitives/intersection-observer@2.2.2':
+    resolution: {integrity: sha512-5Vak/eRuCKAQis+YaPsP4KysPc+sQGL2ew8kvTOMxKVOTJcICkxznRrlFEBbBk0UsiUQlm9CcVQtJwocKWNXcw==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -3124,8 +3134,8 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
-  '@solid-primitives/keyed@1.5.1':
-    resolution: {integrity: sha512-lAgQ1Jou8nxywifWsWjDTla9MI7Pfr46JRTC40K81fqz8dw4E8t/4gYuIwqP1EHVG0mItfIb3XqDw0wEQh+QYA==}
+  '@solid-primitives/keyed@1.5.2':
+    resolution: {integrity: sha512-BgoEdqPw48URnI+L5sZIHdF4ua4Las1eWEBBPaoSFs42kkhnHue+rwCBPL2Z9ebOyQ75sUhUfOETdJfmv0D6Kg==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -3204,6 +3214,11 @@ packages:
     peerDependencies:
       solid-js: ^1.6.12
 
+  '@solid-primitives/scheduled@1.5.2':
+    resolution: {integrity: sha512-/j2igE0xyNaHhj6kMfcUQn5rAVSTLbAX+CDEBm25hSNBmNiHLu2lM7Usj2kJJ5j36D67bE8wR1hBNA8hjtvsQA==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
   '@solid-primitives/script-loader@2.3.1':
     resolution: {integrity: sha512-NRvrFwDcgsAQlsFPdKQzRN5LuIh3dYFTzcctaxaqEF2cjEz1zbYekAa6dVdSeX5G0vdBsj9PLwVZ2Ps5SlJIpQ==}
     peerDependencies:
@@ -3271,6 +3286,11 @@ packages:
 
   '@solid-primitives/utils@6.3.1':
     resolution: {integrity: sha512-4/Z59nnwu4MPR//zWZmZm2yftx24jMqQ8CSd/JobL26TPfbn4Ph8GKNVJfGJWShg1QB98qObJSskqizbTvcLLA==}
+    peerDependencies:
+      solid-js: ^1.6.12
+
+  '@solid-primitives/utils@6.3.2':
+    resolution: {integrity: sha512-hZ/M/qr25QOCcwDPOHtGjxTD8w2mNyVAYvcfgwzBHq2RwNqHNdDNsMZYap20+ruRwW4A3Cdkczyoz0TSxLCAPQ==}
     peerDependencies:
       solid-js: ^1.6.12
 
@@ -3447,6 +3467,9 @@ packages:
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
+  '@types/dom-mediacapture-record@1.0.22':
+    resolution: {integrity: sha512-mUMZLK3NvwRLcAAT9qmcK+9p7tpU2FHdDsntR3YI4+GY88XrgG4XiE7u1Q2LAN2/FZOz/tdMDC3GQCR4T8nFuw==}
 
   '@types/estree@0.0.39':
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
@@ -3704,9 +3727,6 @@ packages:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-
-  add@2.0.6:
-    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
 
   agent-base@7.1.3:
     resolution: {integrity: sha512-jRR5wdylq8CkOe6hei19GGZnxM6rBGwFl3Bg0YItGDimvjGtAvdZk4Pu6Cl4u4Igsws4a1fd1Vq3ezrhn4KmFw==}
@@ -5279,6 +5299,9 @@ packages:
     resolution: {integrity: sha512-twQoecYPiVA5K/h6SxtORw/Bs3ar+mLUtoPSc7iMXzQzK8d7eJ/R09wmTwAjiamETn1cXYPGfNnu7DMoHgu12w==}
     hasBin: true
 
+  jose@6.1.0:
+    resolution: {integrity: sha512-TTQJyoEoKcC1lscpVDCSsVgYzUDg/0Bt3WE//WiTPK6uOCQC2KZS4MpugbMWt/zyjkopgZoXhZuCi00gLudfUA==}
+
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -5333,6 +5356,9 @@ packages:
   json-stringify-deterministic@1.0.12:
     resolution: {integrity: sha512-q3PN0lbUdv0pmurkBNdJH3pfFvOTL/Zp0lquqpvcjfKzt6Y0j49EPHAmVHCAS4Ceq/Y+PejWTzyiVpoY71+D6g==}
     engines: {node: '>= 4'}
+
+  json-with-bigint@3.4.4:
+    resolution: {integrity: sha512-AhpYAAaZsPjU7smaBomDt1SOQshi9rEm6BlTbfVwsG1vNmeHKtEedJi62sHZzJTyKNtwzmNnrsd55kjwJ7054A==}
 
   json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
@@ -5460,8 +5486,10 @@ packages:
   lit@3.3.0:
     resolution: {integrity: sha512-DGVsqsOIHBww2DqnuZzW7QsuCdahp50ojuDaBPC7jUDRpYoH0z7kHBBYZewRzer75FwtrkmkKk7iOAwSaWdBmw==}
 
-  livekit-client@2.13.0:
-    resolution: {integrity: sha512-Q2FAQbJt0zFBdOHIom1YRfsIYIdTC2dxJfus084w4ni4ZHwNYZ9GZQcp9zpuxFg1O36fTobLCn3B1JCSY834nw==}
+  livekit-client@2.15.13:
+    resolution: {integrity: sha512-LovpU5vEaCnkmhL7iSXb/sYitzOibUShnmriONcRjjq2WNO+qV+EoPM82jE7kQ/BH58dW1+AtY4m/adndC5BWg==}
+    peerDependencies:
+      '@types/dom-mediacapture-record': ^1
 
   lnk@1.1.0:
     resolution: {integrity: sha512-m3q+8W+stYiJYCBwefzrU+inN9h2KxofWuxhNH1iS+MdG9MIKfDpBtbmmIKstVwussx48PXALwonyzuzZUXjQQ==}
@@ -6920,8 +6948,8 @@ packages:
   std-env@3.9.0:
     resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
 
-  stoat-api@0.8.9-3:
-    resolution: {integrity: sha512-cuw6+5HUQScBxjtA11bELCCBUaio2eESUfAZHYi9qj29VFlAalJ63GEZKF6U8h1UydqcQ7YNx/Q9TU5D/rWNhA==}
+  stoat-api@0.8.9-4:
+    resolution: {integrity: sha512-6N4kfE1x+j/XYVaBuvYqzbWxjgqbxSarvNjMv8GEcBaqbkiyPzUwsCj12NJsNNp4uyZmsqoUYUj2jIq018uqiA==}
 
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
@@ -9227,6 +9255,11 @@ snapshots:
     dependencies:
       '@floating-ui/utils': 0.2.9
 
+  '@floating-ui/dom@1.6.13':
+    dependencies:
+      '@floating-ui/core': 1.7.0
+      '@floating-ui/utils': 0.2.9
+
   '@floating-ui/dom@1.6.3':
     dependencies:
       '@floating-ui/core': 1.7.0
@@ -9651,19 +9684,27 @@ snapshots:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.3.0
 
-  '@livekit/components-core@0.9.3(@livekit/protocol@1.38.0)(livekit-client@2.13.0)(tslib@2.8.1)':
+  '@livekit/components-core@0.12.10(livekit-client@2.15.13(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)':
+    dependencies:
+      '@floating-ui/dom': 1.6.13
+      livekit-client: 2.15.13(@types/dom-mediacapture-record@1.0.22)
+      loglevel: 1.9.1
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@livekit/components-core@0.9.3(@livekit/protocol@1.42.2)(livekit-client@2.15.13(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)':
     dependencies:
       '@floating-ui/dom': 1.6.3
-      '@livekit/protocol': 1.38.0
+      '@livekit/protocol': 1.42.2
       email-regex: 5.0.0
-      livekit-client: 2.13.0
+      livekit-client: 2.15.13(@types/dom-mediacapture-record@1.0.22)
       loglevel: 1.9.1
       rxjs: 7.8.1
       tslib: 2.8.1
 
   '@livekit/mutex@1.1.1': {}
 
-  '@livekit/protocol@1.38.0':
+  '@livekit/protocol@1.42.2':
     dependencies:
       '@bufbuild/protobuf': 1.10.1
 
@@ -10266,7 +10307,7 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/jsx-tokenizer': 1.1.1(solid-js@1.9.6)
       '@solid-primitives/keyboard': 1.3.1(solid-js@1.9.6)
-      '@solid-primitives/keyed': 1.5.1(solid-js@1.9.6)
+      '@solid-primitives/keyed': 1.5.2(solid-js@1.9.6)
       '@solid-primitives/media': 2.3.1(solid-js@1.9.6)
       '@solid-primitives/mouse': 2.1.2(solid-js@1.9.6)
       '@solid-primitives/props': 3.2.1(solid-js@1.9.6)
@@ -10396,9 +10437,9 @@ snapshots:
       '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
       solid-js: 1.9.6
 
-  '@solid-primitives/intersection-observer@2.2.1(solid-js@1.9.6)':
+  '@solid-primitives/intersection-observer@2.2.2(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/jsx-tokenizer@1.1.1(solid-js@1.9.6)':
@@ -10413,7 +10454,7 @@ snapshots:
       '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
       solid-js: 1.9.6
 
-  '@solid-primitives/keyed@1.5.1(solid-js@1.9.6)':
+  '@solid-primitives/keyed@1.5.2(solid-js@1.9.6)':
     dependencies:
       solid-js: 1.9.6
 
@@ -10500,6 +10541,10 @@ snapshots:
     dependencies:
       solid-js: 1.9.6
 
+  '@solid-primitives/scheduled@1.5.2(solid-js@1.9.6)':
+    dependencies:
+      solid-js: 1.9.6
+
   '@solid-primitives/script-loader@2.3.1(solid-js@1.9.6)':
     dependencies:
       solid-js: 1.9.6
@@ -10560,6 +10605,10 @@ snapshots:
       solid-js: 1.9.6
 
   '@solid-primitives/utils@6.3.1(solid-js@1.9.6)':
+    dependencies:
+      solid-js: 1.9.6
+
+  '@solid-primitives/utils@6.3.2(solid-js@1.9.6)':
     dependencies:
       solid-js: 1.9.6
 
@@ -10733,6 +10782,8 @@ snapshots:
   '@types/debug@4.1.12':
     dependencies:
       '@types/ms': 2.1.0
+
+  '@types/dom-mediacapture-record@1.0.22': {}
 
   '@types/estree@0.0.39': {}
 
@@ -11074,8 +11125,6 @@ snapshots:
       acorn: 8.15.0
 
   acorn@8.15.0: {}
-
-  add@2.0.6: {}
 
   agent-base@7.1.3: {}
 
@@ -12994,6 +13043,8 @@ snapshots:
 
   jiti@2.5.1: {}
 
+  jose@6.1.0: {}
+
   joycon@3.1.1: {}
 
   js-sha256@0.10.1: {}
@@ -13049,6 +13100,8 @@ snapshots:
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json-stringify-deterministic@1.0.12: {}
+
+  json-with-bigint@3.4.4: {}
 
   json5@2.2.3: {}
 
@@ -13160,11 +13213,13 @@ snapshots:
       lit-element: 4.2.0
       lit-html: 3.3.0
 
-  livekit-client@2.13.0:
+  livekit-client@2.15.13(@types/dom-mediacapture-record@1.0.22):
     dependencies:
       '@livekit/mutex': 1.1.1
-      '@livekit/protocol': 1.38.0
+      '@livekit/protocol': 1.42.2
+      '@types/dom-mediacapture-record': 1.0.22
       events: 3.3.0
+      jose: 6.1.0
       loglevel: 1.9.2
       sdp-transform: 2.15.0
       ts-debounce: 4.0.0
@@ -14887,7 +14942,9 @@ snapshots:
 
   std-env@3.9.0: {}
 
-  stoat-api@0.8.9-3: {}
+  stoat-api@0.8.9-4:
+    dependencies:
+      json-with-bigint: 3.4.4
 
   stop-iteration-iterator@1.1.0:
     dependencies:

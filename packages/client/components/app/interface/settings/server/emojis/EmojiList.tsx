@@ -1,8 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
@@ -25,6 +24,7 @@ import {
  */
 export function EmojiList(props: { server: Server }) {
   const err = useError();
+  const { t } = useLingui();
   const client = useClient();
   const { openModal } = useModals();
 

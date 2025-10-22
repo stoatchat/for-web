@@ -13,10 +13,10 @@ import { useSettingsNavigation } from "../../Settings";
  * @param v Number
  * @returns Set bits
  */
-function countBits(v: number) {
+function countBits(v: bigint) {
   let bits = 0;
-  for (let i = 0; i < 52; i++) {
-    if (((1 << i) & v) === 1 << i) {
+  for (let i = 0n; i < 52n; i++) {
+    if (((1n << i) & v) === 1n << i) {
       bits++;
     }
   }
@@ -36,13 +36,13 @@ export function ChannelPermissionsOverview(props: { context: Channel }) {
     return {
       active: ordered?.filter(
         (role) =>
-          countBits(props.context.rolePermissions?.[role.id]?.a || 0) > 0 ||
-          countBits(props.context.rolePermissions?.[role.id]?.d || 0) > 0,
+          countBits(props.context.rolePermissions?.[role.id]?.a || 0n) > 0 ||
+          countBits(props.context.rolePermissions?.[role.id]?.d || 0n) > 0,
       ),
       unused: ordered?.filter(
         (role) =>
-          countBits(props.context.rolePermissions?.[role.id]?.a || 0) === 0 &&
-          countBits(props.context.rolePermissions?.[role.id]?.d || 0) === 0,
+          countBits(props.context.rolePermissions?.[role.id]?.a || 0n) === 0 &&
+          countBits(props.context.rolePermissions?.[role.id]?.d || 0n) === 0,
       ),
     };
   });

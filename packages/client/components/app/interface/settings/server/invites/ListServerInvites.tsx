@@ -1,7 +1,6 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { Server, ServerInvite } from "stoat.js";
 
@@ -22,6 +21,7 @@ import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-s
  * List and invalidate server invites
  */
 export function ListServerInvites(props: { server: Server }) {
+  const { t } = useLingui();
   const client = useQueryClient();
   const { showError } = useModals();
   const query = useQuery(() => ({

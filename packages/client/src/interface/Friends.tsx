@@ -1,4 +1,3 @@
-import { BiSolidUserDetail } from "solid-icons/bi";
 import {
   Accessor,
   JSX,
@@ -10,8 +9,7 @@ import {
   splitProps,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import type { User } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -59,6 +57,7 @@ const Base = styled("div", {
  * Friends menu
  */
 export function Friends() {
+  const { t } = useLingui();
   const client = useClient();
   const { openModal } = useModals();
 
