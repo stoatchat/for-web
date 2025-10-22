@@ -11,14 +11,20 @@ import {
   useTracks,
 } from "solid-livekit-components";
 
-import { Room, Track } from "livekit-client";
+import { Track } from "livekit-client";
+import { Channel } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { UserContextMenu } from "@revolt/app";
+import { useClient } from "@revolt/client";
+import { useUser } from "@revolt/markdown/users";
+import { useSmartParams } from "@revolt/routing";
 import {
   Avatar,
   Button,
   Column,
+  IconButton,
   OverflowingText,
   Row,
   iconSize,
@@ -129,6 +135,8 @@ export function LeParticipant() {
   });
   const isSpeaking = useIsSpeaking(participant);
 
+  const user = useUser(participant.identity);
+
   return (
     <Tile speaking={isSpeaking() ? "yes" : undefined}>
       {/*{participant.identity}<br/>muted? {isMuted() ? 'yes' : 'no'}*/}
@@ -140,9 +148,16 @@ export function LeParticipant() {
               display: "grid",
               placeItems: "center",
             })}
+            // yeah good enough lmao
+            use:floating={{
+              contextMenu: () => (
+                <UserContextMenu user={user().user!} member={user().member!} />
+              ),
+            }}
           >
             <Avatar
-              fallback={Math.random().toString()[2]}
+              src={user().avatar}
+              fallback={user().username}
               size={64}
               interactive={false}
             />
@@ -199,8 +214,37 @@ export function LeParticipant() {
   );
 }
 
-export function Demo() {
+export function DemoWrapper(props: { channel: Channel }) {
   const voice = useVoice()!;
+
+  const shouldShow = () => {
+    const room = voice.room();
+    return !room
+      ? !!props.channel.server
+      : voice.channel()?.id === props.channel.id;
+  };
+
+  return (
+    <Switch>
+      <Match when={shouldShow()}>
+        <Demo channel={props.channel} />
+      </Match>
+    </Switch>
+  );
+}
+
+export function Demo(props: { channel: Channel }) {
+  const client = useClient();
+  const voice = useVoice()!;
+
+  /**
+   * Join voice call
+   * copy pasted from channelheader
+   * todo: make this consistnet
+   */
+  async function joinCall() {
+    voice.connect(props.channel);
+  }
 
   return (
     /*<div>
@@ -238,10 +282,13 @@ export function Demo() {
     </div>*/
     <Column
       class={css({
-        height: "100vh",
+        height: "400px",
       })}
     >
       {/* <FakeParticipants /> */}
+      <Show when={voice.state() === "CONNECTING"}>
+        <span>Connecting...</span>
+      </Show>
       <InRoom>
         <RoomParticipants />
       </InRoom>
@@ -253,13 +300,43 @@ export function Demo() {
       <Row justify>
         <Actions>
           <Show when={voice.state() !== "READY"}>
-            <Button variant="secondary" onPress={() => voice.toggleMute()}>
-              <Switch fallback={<MdMicOff {...iconSize(20)} />}>
-                <Match when={voice.microphone()}>
-                  <MdMicOn {...iconSize(20)} />
-                </Match>
-              </Switch>
-            </Button>
+            <div
+              use:floating={{
+                tooltip: props.channel.havePermission("Speak")
+                  ? undefined
+                  : {
+                      placement: "top",
+                      content: "No permission to speak",
+                    },
+              }}
+            >
+              <IconButton
+                variant={voice.microphone() ? "filled" : "tonal"}
+                isDisabled={!props.channel.havePermission("Speak")}
+                onPress={() => voice.toggleMute()}
+              >
+                <Switch fallback={<MdMicOff {...iconSize(20)} />}>
+                  <Match when={voice.microphone()}>
+                    <MdMicOn {...iconSize(20)} />
+                  </Match>
+                </Switch>
+              </IconButton>
+            </div>
+          </Show>
+
+          <Show when={!props.channel.havePermission("Listen")}>
+            <div
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: "You are deafened (or missing Listen permission)",
+                },
+              }}
+            >
+              <IconButton variant="tonal" isDisabled>
+                <MdHeadsetOff {...iconSize(20)} />
+              </IconButton>
+            </div>
           </Show>
 
           <Switch
@@ -267,25 +344,45 @@ export function Demo() {
               <Button onPress={() => voice.disconnect()}>Leave Call</Button>
             }
           >
-            <Match when={voice.state() === "READY"}>disconected</Match>
+            <Match when={voice.state() === "READY"}>
+              <Button onPress={joinCall}>Join Call</Button>
+            </Match>
           </Switch>
 
           <Show when={voice.state() !== "READY"}>
-            <Button variant="secondary">
+            {/* <Button variant="secondary">
               <MdHeadset {...iconSize(20)} />
-            </Button>
+            </Button> */}
 
-            <Button onPress={() => voice.toggleCamera()}>
-              <Switch fallback="Camera">
-                <Match when={voice.video()}>Sharing camera</Match>
-              </Switch>
-            </Button>
+            <div
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: "Coming soon! 👀",
+                },
+              }}
+            >
+              <Button onPress={() => voice.toggleCamera()} isDisabled>
+                <Switch fallback="Camera">
+                  <Match when={voice.video()}>Sharing camera</Match>
+                </Switch>
+              </Button>
+            </div>
 
-            <Button onPress={() => voice.toggleScreenshare()}>
-              <Switch fallback="Share screen">
-                <Match when={voice.screenshare()}>Sharing screen</Match>
-              </Switch>
-            </Button>
+            <div
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: "Coming soon! 👀",
+                },
+              }}
+            >
+              <Button onPress={() => voice.toggleScreenshare()} isDisabled>
+                <Switch fallback="Share screen">
+                  <Match when={voice.screenshare()}>Sharing screen</Match>
+                </Switch>
+              </Button>
+            </div>
           </Show>
         </Actions>
       </Row>

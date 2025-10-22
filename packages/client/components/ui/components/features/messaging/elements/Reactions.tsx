@@ -1,7 +1,7 @@
 import { For, Show, createMemo } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { API } from "revolt.js";
+import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { Emoji } from "@revolt/markdown";

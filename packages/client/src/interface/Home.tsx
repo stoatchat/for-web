@@ -1,7 +1,8 @@
 import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { cva } from "styled-system/css";
+import { PublicChannelInvite } from "stoat.js";
+import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { IS_DEV, useClient } from "@revolt/client";
@@ -26,15 +27,9 @@ import MdPayments from "@material-design-icons/svg/filled/payments.svg?component
 import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
-import RevoltSvg from "../../public/assets/wordmark_wide_500px.svg?component-solid";
+import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
 import { HeaderIcon } from "./common/CommonHeader";
-
-const Logo = styled(RevoltSvg, {
-  base: {
-    fill: "var(--md-sys-color-on-surface)",
-  },
-});
 
 /**
  * Base layout of the home page (i.e. the header/background)
@@ -101,8 +96,8 @@ export function HomePage() {
   const navigate = useNavigate();
   const client = useClient();
 
-  // check if we're revolt.chat; if so, check if the user is in the Lounge
-  const showLoungeButton = CONFIGURATION.IS_REVOLT;
+  // check if we're stoat.chat; if so, check if the user is in the Lounge
+  const showLoungeButton = CONFIGURATION.IS_STOAT;
   const isInLounge =
     client()!.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") !== undefined;
 
@@ -119,14 +114,19 @@ export function HomePage() {
           <span class={typography({ class: "headline" })}>
             <Trans>Welcome to</Trans>
           </span>
-          <Logo />
+          <Wordmark
+            class={css({
+              width: "160px",
+              fill: "var(--md-sys-color-on-surface)",
+            })}
+          />
         </Column>
         <Buttons>
           <SeparatedColumn>
             <CategoryButton
               onClick={() =>
                 openModal({
-                  type: "create_group",
+                  type: "create_group_or_server",
                   client: client()!,
                 })
               }
@@ -138,7 +138,7 @@ export function HomePage() {
               }
               icon={<MdAddCircle />}
             >
-              <Trans>Create a group</Trans>
+              <Trans>Create a group or server</Trans>
             </CategoryButton>
             <Switch fallback={null}>
               <Match when={showLoungeButton && isInLounge}>
@@ -152,11 +152,19 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Go to the testers server</Trans>
+                  <Trans>Go to the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
               <Match when={showLoungeButton && !isInLounge}>
                 <CategoryButton
+                  onClick={() => {
+                    client()
+                      .api.get("/invites/Testers")
+                      .then((invite) =>
+                        PublicChannelInvite.from(client(), invite),
+                      )
+                      .then((invite) => openModal({ type: "invite", invite }));
+                  }}
                   description={
                     <Trans>
                       You can report issues and discuss improvements with us
@@ -165,7 +173,7 @@ export function HomePage() {
                   }
                   icon={<MdGroups3 />}
                 >
-                  <Trans>Go to the testers server</Trans>
+                  <Trans>Join the Stoat Lounge</Trans>
                 </CategoryButton>
               </Match>
             </Switch>
@@ -173,7 +181,7 @@ export function HomePage() {
               variant="tertiary"
               onClick={() =>
                 window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/",
+                  "https://wiki.revolt.chat/notes/project/financial-support/", // TODO-STOAT-WEB
                 )
               }
               description={
@@ -181,11 +189,11 @@ export function HomePage() {
               }
               icon={<MdPayments />}
             >
-              <Trans>Donate to Revolt</Trans>
+              <Trans>Donate to Stoat</Trans>
             </CategoryButton>
           </SeparatedColumn>
           <SeparatedColumn>
-            <Show when={CONFIGURATION.IS_REVOLT}>
+            <Show when={CONFIGURATION.IS_STOAT}>
               <CategoryButton
                 onClick={() => navigate("/discover")}
                 description={
@@ -195,10 +203,17 @@ export function HomePage() {
                 }
                 icon={<MdExplore />}
               >
-                <Trans>Discover Revolt</Trans>
+                <Trans>Discover Stoat</Trans>
               </CategoryButton>
             </Show>
             <CategoryButton
+              onClick={() =>
+                openModal({
+                  type: "settings",
+                  config: "user",
+                  context: { page: "feedback" },
+                })
+              }
               description={
                 <Trans>
                   Let us know how we can improve our app by giving us feedback.
@@ -206,14 +221,13 @@ export function HomePage() {
               }
               icon={<MdRateReview {...iconSize(22)} />}
             >
-              <Trans>Give feedback on Revolt</Trans>
+              <Trans>Give feedback on Stoat</Trans>
             </CategoryButton>
             <CategoryButton
               onClick={() => openModal({ type: "settings", config: "user" })}
               description={
                 <Trans>
-                  You can also right-click the user icon in the top left, or
-                  left click it if you're already home.
+                  You can also click the gear icon in the bottom left.
                 </Trans>
               }
               icon={<MdSettings />}

@@ -2,7 +2,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 import { For, Show, createMemo, createSignal } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { API, Server, ServerRole } from "revolt.js";
+import { API, Server, ServerRole } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";
@@ -41,7 +41,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
   const editGroup = createFormGroup({
     name: createFormControl(role()?.name || ""),
-    colour: createFormControl(role()?.colour),
+    colour: createFormControl(role()?.colour || null),
     hoist: createFormControl(role()?.hoist == true),
   });
 

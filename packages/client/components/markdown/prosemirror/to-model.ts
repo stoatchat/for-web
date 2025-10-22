@@ -1,7 +1,7 @@
 import { Dayjs } from "dayjs";
 import { Root, RootContent } from "mdast";
 import { Mark, Node } from "prosemirror-model";
-import { Client } from "revolt.js";
+import { Client } from "stoat.js";
 
 import { UNIFIED_PLUGINS, unifiedPipeline } from "..";
 import { UnicodeEmojiPacks, unicodeEmojiUrl } from "../emoji/UnicodeEmoji";

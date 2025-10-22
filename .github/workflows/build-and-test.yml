@@ -1,0 +1,87 @@
+name: Build & Test
+
+on:
+  push:
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/build-and-test.yml"
+      - ".vscode/**"
+      - "doc/**"
+      - "lifecycle/**"
+      - ".gitignore"
+      - "README.md"
+  pull_request:
+
+jobs:
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: pnpm install
+      - run: pnpm build:deps
+
+      - name: Run typecheck
+        run: pnpm test:typecheck
+
+  e2e:
+    name: e2e Integration Test
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: pnpm install
+      - run: pnpm build:deps
+
+      - name: Install Playwright Browsers
+        run: pnpm --filter client exec playwright install --with-deps
+      - name: Build web app
+        run: pnpm build:web
+      - name: Run Playwright tests
+        run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: packages/client/playwright-report/
+          retention-days: 30
+
+  stable:
+    name: Push changes to stable branch
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    if: github.ref == 'refs/heads/main'
+
+    needs:
+      - typecheck
+      - e2e
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - run: |
+          git fetch origin stable:stable
+          git push origin main:stable
+
+  # deploy:
+  #   name: Deploy
+  # todo: future CD to beta

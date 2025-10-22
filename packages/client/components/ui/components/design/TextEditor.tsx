@@ -34,7 +34,7 @@ import { keymap } from "prosemirror-keymap";
 import { Node } from "prosemirror-model";
 import { EditorState, EditorStateConfig, Selection } from "prosemirror-state";
 import { EditorView } from "prosemirror-view";
-import { Channel, ServerMember, ServerRole, User } from "revolt.js";
+import { Channel, ServerMember, ServerRole, User } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

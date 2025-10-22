@@ -1,7 +1,7 @@
 import { Match, Switch, createSignal, onMount } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { File } from "revolt.js";
+import { File } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { Button, CircularProgress } from "@revolt/ui/components/design";

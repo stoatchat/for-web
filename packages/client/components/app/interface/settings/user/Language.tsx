@@ -63,7 +63,7 @@ function PickLanguage() {
 
   // Generate languages array.
   const languages = createMemo(() => {
-    const languages = /*Object.keys(Languages)*/ ["en", "dev"].map(
+    const languages = Object.keys(Languages).map(
       (x) => [x, Languages[x as keyof typeof Languages]] as const,
     );
 

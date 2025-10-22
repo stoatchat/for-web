@@ -1,22 +1,14 @@
 import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { cva } from "styled-system/css";
+import { css } from "styled-system/css";
 
 import { useClientLifecycle } from "@revolt/client";
 import { TransitionType } from "@revolt/client/Controller";
 import { Navigate } from "@revolt/routing";
 import { Button, Column } from "@revolt/ui";
 
-import RevoltSvg from "../../../../public/assets/wordmark_wide_500px.svg?component-solid";
-
-const logo = cva({
-  base: {
-    width: "100%",
-    objectFit: "contain",
-    fill: "var(--md-sys-color-on-surface)",
-  },
-});
+import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 /**
  * Flow for logging into an account
@@ -33,7 +25,12 @@ export default function FlowHome() {
           </Show>
 
           <Column gap="xl">
-            <RevoltSvg class={logo()} />
+            <Wordmark
+              class={css({
+                width: "100%",
+                fill: "var(--md-sys-color-on-surface)",
+              })}
+            />
 
             <Column>
               <b
@@ -58,7 +55,7 @@ export default function FlowHome() {
               </b>
               <span style={{ "text-align": "center", opacity: "0.5" }}>
                 <Trans>
-                  Revolt is one of the best ways to stay connected with your
+                  Stoat is one of the best ways to stay connected with your
                   friends and community, anywhere, anytime.
                 </Trans>
               </span>

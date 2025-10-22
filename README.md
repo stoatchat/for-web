@@ -1,13 +1,13 @@
 <div align="center">
 <h1>
-  Revolt Frontend
+  Stoat Frontend
   
-  [![Stars](https://img.shields.io/github/stars/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/stargazers)
-  [![Forks](https://img.shields.io/github/forks/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/network/members)
-  [![Pull Requests](https://img.shields.io/github/issues-pr/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/pulls)
-  [![Issues](https://img.shields.io/github/issues/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/issues)
-  [![Contributors](https://img.shields.io/github/contributors/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/graphs/contributors)
-  [![License](https://img.shields.io/github/license/revoltchat/frontend?style=flat-square&logoColor=white)](https://github.com/revoltchat/frontend/blob/main/LICENSE)
+  [![Stars](https://img.shields.io/github/stars/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/stargazers)
+  [![Forks](https://img.shields.io/github/forks/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/network/members)
+  [![Pull Requests](https://img.shields.io/github/issues-pr/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/pulls)
+  [![Issues](https://img.shields.io/github/issues/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/issues)
+  [![Contributors](https://img.shields.io/github/contributors/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/graphs/contributors)
+  [![License](https://img.shields.io/github/license/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/blob/main/LICENSE)
 </h1>
 The official web client powering https://beta.revolt.chat/app, built with <a href="https://www.solidjs.com/">Solid.js</a> 💖. <br/>
 Track the project roadmap on <a href="https://op.revolt.wtf/projects/revolt-for-web/roadmap">OpenProject</a>.
@@ -28,7 +28,7 @@ Then proceed to setup:
 
 ```bash
 # clone the repository
-git clone --recursive https://github.com/revoltchat/frontend client
+git clone --recursive https://github.com/stoatchat/for-web client
 cd client
 
 # update submodules if you pull new changes
@@ -40,8 +40,11 @@ pnpm i --frozen-lockfile
 # build deps:
 pnpm build:deps
 
-# or build a specific dep (e.g. revolt.js updates):
-# pnpm --filter revolt.js run build
+# or build a specific dep (e.g. stoat.js updates):
+# pnpm --filter stoat.js run build
+
+# customise the .env
+cp packages/client/.env.example packages/client/.env
 
 # run dev server
 pnpm dev:web
@@ -49,9 +52,9 @@ pnpm dev:web
 
 Finally, navigate to http://local.revolt.chat:5173.
 
-### Pulling in Revolt's assets
+### Pulling in Stoat's brand assets
 
-If you want to pull in Revolt brand assets after pulling, run the following:
+If you want to pull in Stoat brand assets after pulling, run the following:
 
 ```bash
 # update the assets
@@ -64,18 +67,6 @@ You can switch back to the fallback assets by running deinit and continuing as n
 # deinit submodule which clears directory
 git submodule deinit packages/client/assets
 ```
-
-### Faster iteration with Revolt.js
-
-To make it easier to work with `revolt.js`, you may want to temporarily make this change:
-
-```diff
-# packages/revolt.js/package.json
--  "module": "lib/esm/index.js",
-+  "module": "src/index.ts",
-```
-
-Any edits to the revolt.js codebase will immediately be reflected while developing.
 
 ## Deployment Guide
 
@@ -91,7 +82,7 @@ pnpm build:deps
 # build for web
 pnpm build:web
 
-# ... when building for Revolt production, use this instead of :web
+# ... when building for Stoat production, use this instead of :web
 pnpm build:prod
 ```
 
@@ -104,7 +95,10 @@ The app currently needs the following routes:
 - `/login`
 - `/pwa`
 - `/dev`
+- `/discover`
 - `/settings`
+- `/invite`
+- `/bot`
 - `/friends`
 - `/server`
 - `/channel`

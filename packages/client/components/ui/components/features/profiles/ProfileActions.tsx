@@ -1,7 +1,7 @@
 import { Show } from "solid-js";
 
 import { useNavigate } from "@solidjs/router";
-import { ServerMember, User } from "revolt.js";
+import { ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { UserContextMenu } from "@revolt/app";

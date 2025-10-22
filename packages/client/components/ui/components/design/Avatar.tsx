@@ -57,7 +57,7 @@ export type Props = {
   /**
    * Click handler
    */
-  onClick?: () => void;
+  onClick?: (e: MouseEvent) => void;
 
   /**
    * HTML Web Component slot

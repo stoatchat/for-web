@@ -2,7 +2,7 @@ import { For, Match, Switch, createMemo, createSignal } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
-import { Server, ServerBan } from "revolt.js";
+import { Server, ServerBan } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 import {
@@ -99,7 +99,7 @@ export function ListServerBans(props: { server: Server }) {
                   <DataTable.Cell>
                     <Row align>
                       <Avatar
-                        src={item.user?.avatar?.url}
+                        src={item.user?.avatar?.previewUrl}
                         fallback={item.user?.username}
                         size={32}
                       />

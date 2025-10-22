@@ -10,7 +10,7 @@ import { AbstractStore } from ".";
 interface SettingsDefinition {
   /**
    * Whether to enable desktop notifications
-   * Revolt will try to get notification permission after login if it doesn't already.
+   * Stoat will try to get notification permission after login if it doesn't already.
    * TODO: implement
    */
   // "notifications:desktop": boolean;
@@ -49,7 +49,7 @@ interface SettingsDefinition {
   "appearance:compact_mode": boolean;
 
   /**
-   * Indicate new users to Revolt
+   * Indicate new users to Stoat
    * TODO: implement
    */
   // "appearance:show_account_age": boolean;

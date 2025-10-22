@@ -6,7 +6,7 @@ import {
   ServerMember,
   ServerRole,
   User,
-} from "revolt.js";
+} from "stoat.js";
 
 export interface AutoCompleteSearchSpace {
   users?: User[];

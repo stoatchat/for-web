@@ -64,9 +64,9 @@ function CreateBot() {
       <CategoryButton
         action="external"
         icon={<MdLibraryBooks {...iconSize(22)} />}
-        onClick={() => window.open("https://developers.revolt.chat", "_blank")}
+        onClick={() => window.open("https://developers.stoat.chat", "_blank")} // TODO-STOAT-WEB
         description={
-          <Trans>Learn more about how to create bots on Revolt.</Trans>
+          <Trans>Learn more about how to create bots on Stoat.</Trans>
         }
       >
         <Trans>Developer Documentation</Trans>

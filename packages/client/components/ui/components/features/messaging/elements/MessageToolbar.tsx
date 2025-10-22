@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Message } from "revolt.js";
+import { Message } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

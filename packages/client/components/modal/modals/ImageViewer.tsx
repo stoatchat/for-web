@@ -14,21 +14,14 @@ import Panzoom, { PanzoomObject } from "@panzoom/panzoom";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { RenderAnchor } from "@revolt/markdown/plugins/anchors";
 import {
-  Button,
   Column,
   Dialog,
   DialogProps,
   IconButton,
   Text,
 } from "@revolt/ui";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
-import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
-import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
-import MdZoomIn from "@material-design-icons/svg/outlined/zoom_in.svg?component-solid";
-import MdZoomOut from "@material-design-icons/svg/outlined/zoom_out.svg?component-solid";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { Modals } from "../types";
 
@@ -44,6 +37,15 @@ export function ImageViewerModal(
       () => ref(),
       (ref) => {
         if (ref) {
+          ref.addEventListener('mousedown', e => {
+            // prevent panzoom from panning when
+            // context menu is triggered (or other
+            // non-dragging buttons are used!)
+            if (e.button !== 0) {
+              e.preventDefault();
+            }
+          });
+
           const zoom = Panzoom(ref, {
             minScale: 0.1,
             maxScale: 5,
@@ -113,10 +115,10 @@ export function ImageViewerModal(
                   </Switch>
                   <Card onClick={(e) => e.stopPropagation()}>
                     <IconButton onPress={() => panzoom?.zoomOut()}>
-                      <MdZoomOut />
+                      <Symbol>zoom_out</Symbol>
                     </IconButton>
                     <IconButton onPress={() => panzoom?.zoomIn()}>
-                      <MdZoomIn />
+                      <Symbol>zoom_in</Symbol>
                     </IconButton>
                     <Show when={props.file}>
                       <a
@@ -125,19 +127,23 @@ export function ImageViewerModal(
                         download={props.file?.filename}
                       >
                         <IconButton>
-                          <MdDownload />
+                          <Symbol>download</Symbol>
                         </IconButton>
                       </a>
                     </Show>
                     <Show when={props.embed || props.gif}>
-                      <RenderAnchor href={props.embed?.url || props.gif?.url}>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={props.embed?.url || props.gif?.url}
+                      >
                         <IconButton>
-                          <MdOpenInNew />
+                          <Symbol>open_in_new</Symbol>
                         </IconButton>
-                      </RenderAnchor>
+                      </a>
                     </Show>
                     <IconButton onPress={props.onClose}>
-                      <MdClose />
+                      <Symbol>close</Symbol>
                     </IconButton>
                   </Card>
                 </Bar>
@@ -172,7 +178,7 @@ export function ImageViewerModal(
                     style={{
                       "aspect-ratio": `${props.gif!.width}/${props.gif!.height}`,
                     }}
-                    src={props.gif!.proxiedURL}
+                    src={props.gif!.url}
                     onClick={(e) => e.stopPropagation()}
                   />
                 </Match>
@@ -234,5 +240,6 @@ const Card = styled("div", {
     padding: "var(--gap-md)",
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-surface)",
+    color: "var(--md-sys-color-on-surface)",
   },
 });

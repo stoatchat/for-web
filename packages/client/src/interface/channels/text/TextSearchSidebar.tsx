@@ -2,7 +2,7 @@ import { For, Show, Suspense, createSignal } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
-import { API, Channel } from "revolt.js";
+import { API, Channel } from "stoat.js";
 
 import { Message } from "@revolt/app";
 import { Button, CircularProgress, Row } from "@revolt/ui";

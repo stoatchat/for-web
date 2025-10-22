@@ -25,18 +25,6 @@ export function createMaterialColourVariables<P extends string>(
   prefix: P,
 ): addPrefixToObject<MaterialColours, P> {
   switch (theme.preset) {
-    case "neutral":
-      return Object.entries(AndroidNeutralColours)
-        .filter(([key]) =>
-          theme.darkMode ? key.endsWith("-dark") : key.endsWith("-light"),
-        )
-        .reduce(
-          (d, [key, value]) => ({
-            ...d,
-            [`${prefix}${key.replace(/-dark|-light/, "")}`]: value,
-          }),
-          {},
-        ) as never;
     case "you":
       return Object.entries(
         generateMaterialYouScheme(
@@ -243,7 +231,7 @@ function generateMaterialYouScheme(
 }
 
 /**
- * Colours imported from Revolt for Android project
+ * Colours imported from Stoat for Android project
  * https://github.com/revoltchat/android/blob/dev/app/src/main/java/chat/revolt/ui/theme/Colour.kt
  */
 const AndroidNeutralColours:

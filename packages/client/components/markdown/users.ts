@@ -1,6 +1,6 @@
 import { Accessor, createMemo } from "solid-js";
 
-import { ServerMember, User } from "revolt.js";
+import { ServerMember, User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useParams, useSmartParams } from "@revolt/routing";

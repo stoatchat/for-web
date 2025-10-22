@@ -9,12 +9,14 @@ import {
 } from "solid-icons/bi";
 import { Match, Show, Switch } from "solid-js";
 
-import { File, MessageEmbed } from "revolt.js";
+import { File, MessageEmbed } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { Text } from "@revolt/ui/components/design";
+import { RenderAnchor } from "@revolt/markdown/plugins/anchors";
+import { IconButton, Text } from "@revolt/ui/components/design";
 import { Column, Row } from "@revolt/ui/components/layout";
 import { humanFileSize } from "@revolt/ui/components/utils";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 /**
  * Base container
@@ -83,15 +85,16 @@ export function FileInfo(props: Props) {
           </Text>
         </Show>
       </Column>
-      <Show when={props.file?.url}>
-        <Action href={props.file?.url} target="_blank" rel="noreferrer">
-          <BiRegularLinkExternal size={24} />
-        </Action>
-      </Show>
-      <Show when={props.file?.downloadURL}>
-        <Action href={props.file?.downloadURL}>
-          <BiRegularDownload size={24} />
-        </Action>
+      <Show when={props.file}>
+        <a
+          target="_blank"
+          href={props.file?.originalUrl}
+          download={props.file?.filename}
+        >
+          <IconButton>
+            <Symbol>download</Symbol>
+          </IconButton>
+        </a>
       </Show>
     </Base>
   );

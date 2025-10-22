@@ -267,7 +267,7 @@ const GifItem = (props: {
       muted
       preload="auto"
       role="listitem"
-      style={props.style}
+      style={props.style as string}
       tabIndex={props.tabIndex}
       src={props.item.media_formats.tinywebm.url}
       onClick={() => onMessage(props.item.url)}

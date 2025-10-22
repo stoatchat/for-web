@@ -3,7 +3,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 import { BiSolidPalette, BiSolidSpeaker } from "solid-icons/bi";
 import { For } from "solid-js";
 
-import { PublicBot, PublicChannelInvite } from "revolt.js";
+import { PublicBot, PublicChannelInvite } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

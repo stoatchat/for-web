@@ -1,8 +1,8 @@
 import { Accessor, Setter, createSignal } from "solid-js";
 
 import { detect } from "detect-browser";
-import { API, Client, ConnectionState } from "revolt.js";
-import { ProtocolV1 } from "revolt.js/lib/events/v1";
+import { API, Client, ConnectionState } from "stoat.js";
+import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import { CONFIGURATION } from "@revolt/common";
 import { ModalControllerExtended } from "@revolt/modal";
@@ -43,29 +43,29 @@ export enum TransitionType {
 
 export type Transition =
   | {
-      type: TransitionType.LoginUncached | TransitionType.LoginCached;
-      session: Session;
-    }
+    type: TransitionType.LoginUncached | TransitionType.LoginCached;
+    session: Session;
+  }
   | {
-      type: TransitionType.PermanentFailure;
-      error: string;
-    }
+    type: TransitionType.PermanentFailure;
+    error: string;
+  }
   | {
-      type:
-        | TransitionType.NoUser
-        | TransitionType.UserCreated
-        | TransitionType.TemporaryFailure
-        | TransitionType.SocketConnected
-        | TransitionType.DeviceOffline
-        | TransitionType.DeviceOnline
-        | TransitionType.Cancel
-        | TransitionType.Dismiss
-        | TransitionType.Ready
-        | TransitionType.Retry
-        | TransitionType.Dispose
-        | TransitionType.DisposeOnly
-        | TransitionType.Logout;
-    };
+    type:
+    | TransitionType.NoUser
+    | TransitionType.UserCreated
+    | TransitionType.TemporaryFailure
+    | TransitionType.SocketConnected
+    | TransitionType.DeviceOffline
+    | TransitionType.DeviceOnline
+    | TransitionType.Cancel
+    | TransitionType.Dismiss
+    | TransitionType.Ready
+    | TransitionType.Retry
+    | TransitionType.Dispose
+    | TransitionType.DisposeOnly
+    | TransitionType.Logout;
+  };
 
 type PolicyAttentionRequired = [
   ProtocolV1["types"]["policyChange"][],
@@ -152,7 +152,10 @@ class Lifecycle {
         captcha: {} as never,
         email: true,
         invite_only: false,
-        voso: {} as never,
+        livekit: {
+          enabled: false,
+          nodes: []
+        }
       },
       vapid: String(),
       ws: CONFIGURATION.DEFAULT_WS_URL,
@@ -355,6 +358,9 @@ class Lifecycle {
           case TransitionType.DeviceOnline:
             this.#enter(State.Reconnecting);
             break;
+          case TransitionType.Retry:
+            this.#enter(State.Reconnecting);
+            break;
           case TransitionType.Logout:
             this.#enter(State.Dispose);
             break;
@@ -504,9 +510,9 @@ export default class ClientController {
         os = "iPadOS";
       }
 
-      friendly_name = `Revolt Web (${name} on ${os})`;
+      friendly_name = `Stoat for Web (${name} on ${os})`;
     } else {
-      friendly_name = "Revolt Web (Unknown Device)";
+      friendly_name = "Stoat for Web (Unknown Device)";
     }
 
     // Try to login with given credentials

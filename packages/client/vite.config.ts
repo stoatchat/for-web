@@ -31,14 +31,14 @@ export default defineConfig({
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 3000000,
+        maximumFileSizeToCacheInBytes: 4000000,
       },
       manifest: {
-        name: "Revolt",
-        short_name: "Revolt",
+        name: "Stoat",
+        short_name: "Stoat",
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
-        start_url: "/pwa",
+        start_url: base + "/pwa",
         orientation: "portrait",
         display_override: ["window-controls-overlay"],
         display: "standalone",
@@ -46,23 +46,23 @@ export default defineConfig({
         theme_color: "#101823",
         icons: [
           {
-            src: `${base}assets/icons/android-chrome-192x192.png`,
+            src: `${base}assets/web/android-chrome-192x192.png`,
             type: "image/png",
             sizes: "192x192",
           },
           {
-            src: `${base}assets/icons/android-chrome-512x512.png`,
+            src: `${base}assets/web/android-chrome-512x512.png`,
             type: "image/png",
             sizes: "512x512",
           },
           {
-            src: `${base}assets/icons/monochrome.svg`,
+            src: `${base}assets/web/monochrome.svg`,
             type: "image/svg+xml",
             sizes: "48x48 72x72 96x96 128x128 256x256",
             purpose: "monochrome",
           },
           {
-            src: `${base}assets/icons/masking-512x512.png`,
+            src: `${base}assets/web/masking-512x512.png`,
             type: "image/png",
             sizes: "512x512",
             purpose: "maskable",
@@ -77,6 +77,7 @@ export default defineConfig({
     rollupOptions: {
       external: ["hast"],
     },
+    sourcemap: true
   },
   optimizeDeps: {
     exclude: ["hast"],

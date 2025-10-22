@@ -8,7 +8,7 @@ import type {
   ServerMember,
   ServerRole,
   User,
-} from "revolt.js";
+} from "stoat.js";
 
 declare global {
   interface Window {
@@ -22,46 +22,46 @@ declare module "solid-js" {
       dndzone: SolidOptions;
 
       scrollable:
-        | true
-        | {
-            /**
-             * Colour customisation
-             */
-            palette?: "default" | "settings";
+      | true
+      | {
+        /**
+         * Colour customisation
+         */
+        palette?: "default" | "settings";
 
-            /**
-             * Scroll direction
-             */
-            direction?: "x" | "y";
+        /**
+         * Scroll direction
+         */
+        direction?: "x" | "y";
 
-            /**
-             * Offset to apply to top of scroll container
-             */
-            offsetTop?: number;
+        /**
+         * Offset to apply to top of scroll container
+         */
+        offsetTop?: number;
 
-            /**
-             * Whether to only show scrollbar on hover
-             */
-            showOnHover?: boolean;
+        /**
+         * Whether to only show scrollbar on hover
+         */
+        showOnHover?: boolean;
 
-            /**
-             * Pass-through class names
-             */
-            class?: string;
-          };
+        /**
+         * Pass-through class names
+         */
+        class?: string;
+      };
       invisibleScrollable:
-        | true
-        | {
-            /**
-             * Scroll direction
-             */
-            direction?: "x" | "y";
+      | true
+      | {
+        /**
+         * Scroll direction
+         */
+        direction?: "x" | "y";
 
-            /**
-             * Pass-through class names
-             */
-            class?: string;
-          };
+        /**
+         * Pass-through class names
+         */
+        class?: string;
+      };
       floating: {
         tooltip?: {
           /**
@@ -70,27 +70,27 @@ declare module "solid-js" {
           placement: Placement;
         } & (
           | {
-              /**
-               * Tooltip content
-               */
-              content: Component;
+            /**
+             * Tooltip content
+             */
+            content: Component;
 
-              /**
-               * Aria label fallback
-               */
-              aria: string;
-            }
+            /**
+             * Aria label fallback
+             */
+            aria: string;
+          }
           | {
-              /**
-               * Tooltip content
-               */
-              content: string | undefined;
+            /**
+             * Tooltip content
+             */
+            content: string | undefined;
 
-              /**
-               * Content is used as aria fallback
-               */
-              aria?: undefined;
-            }
+            /**
+             * Content is used as aria fallback
+             */
+            aria?: undefined;
+          }
         );
         userCard?: {
           /**
@@ -113,19 +113,19 @@ declare module "solid-js" {
         };
       };
       autoComplete:
-        | true
-        | {
-            client?: Client;
-            onKeyDown?: (
-              event: KeyboardEvent & { currentTarget: HTMLTextAreaElement },
-            ) => void;
-            searchSpace?: {
-              users?: User[];
-              members?: ServerMember[];
-              channels?: Channel[];
-              roles?: ServerRole[];
-            };
-          };
+      | true
+      | {
+        client?: Client;
+        onKeyDown?: (
+          event: KeyboardEvent & { currentTarget: HTMLTextAreaElement },
+        ) => void;
+        searchSpace?: {
+          users?: User[];
+          members?: ServerMember[];
+          channels?: Channel[];
+          roles?: ServerRole[];
+        };
+      };
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Match, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { styled } from "styled-system/jsx";
+import { css } from "styled-system/css";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
@@ -11,18 +11,10 @@ import { Button, CircularProgress, Column, Row, iconSize } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
-import RevoltSvg from "../../../../public/assets/wordmark_wide_500px.svg?component-solid";
+import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 import { FlowTitle } from "./Flow";
 import { Fields, Form } from "./Form";
-
-const Logo = styled(RevoltSvg, {
-  base: {
-    height: "0.8em",
-    display: "inline",
-    fill: "var(--md-sys-color-on-surface)",
-  },
-});
 
 /**
  * Flow for logging into an account
@@ -62,7 +54,7 @@ export default function FlowLogin() {
       <Switch
         fallback={
           <>
-            <FlowTitle subtitle={<Trans>Sign into Revolt</Trans>} emoji="wave">
+            <FlowTitle subtitle={<Trans>Sign into Stoat</Trans>} emoji="wave">
               <Trans>Welcome!</Trans>
             </FlowTitle>
             <Form onSubmit={performLogin}>
@@ -109,7 +101,14 @@ export default function FlowLogin() {
             }
           >
             <Row gap="sm">
-              <Trans>Welcome to</Trans> <Logo />
+              <Trans>Welcome to</Trans>{" "}
+              <Wordmark
+                class={css({
+                  height: "0.8em",
+                  display: "inline",
+                  fill: "var(--md-sys-color-on-surface)",
+                })}
+              />
             </Row>
           </FlowTitle>
 

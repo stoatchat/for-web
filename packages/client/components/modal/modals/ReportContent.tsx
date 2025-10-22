@@ -1,9 +1,8 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { For, Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
-import { API, Message as MessageI, Server, User } from "revolt.js";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { API, Message as MessageI, Server, User } from "stoat.js";
 import { cva } from "styled-system/css";
 
 import { Message } from "@revolt/app";
@@ -53,6 +52,7 @@ const USER_REPORT_REASONS: API.UserReportReason[] = [
 export function ReportContentModal(
   props: DialogProps & Modals & { type: "report_content" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   const strings: Record<

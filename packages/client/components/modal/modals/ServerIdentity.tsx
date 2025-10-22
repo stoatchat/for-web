@@ -1,8 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
-import { API } from "revolt.js";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
@@ -17,6 +16,7 @@ import { Modals } from "../types";
 export function ServerIdentityModal(
   props: DialogProps & Modals & { type: "server_identity" },
 ) {
+  const { t } = useLingui();
   const client = useClient();
   const { showError } = useModals();
 

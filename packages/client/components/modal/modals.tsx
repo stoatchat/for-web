@@ -17,12 +17,14 @@ import { CreateChannelModal } from "./modals/CreateChannel";
 import { CreateGroupModal } from "./modals/CreateGroup";
 import { CreateInviteModal } from "./modals/CreateInvite";
 import { CreateOrJoinServerModal } from "./modals/CreateOrJoinServer";
+import { CreateGroupOrServer } from "./modals/CreateGroupOrServer";
 import { CreateRoleModal } from "./modals/CreateRole";
 import { CreateServerModal } from "./modals/CreateServer";
 import { CreateWebhookModal } from "./modals/CreateWebhook";
 import { CustomStatusModal } from "./modals/CustomStatus";
 import { DeleteBotModal } from "./modals/DeleteBot";
 import { DeleteChannelModal } from "./modals/DeleteChannel";
+import { DeleteCategoryModal } from "./modals/DeleteCategory";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
@@ -99,6 +101,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <CreateInviteModal {...modalProps} />;
     case "create_or_join_server":
       return <CreateOrJoinServerModal {...modalProps} />;
+    case "create_group_or_server":
+      return <CreateGroupOrServer {...modalProps} />;
     case "create_role":
       return <CreateRoleModal {...modalProps} />;
     case "create_server":
@@ -111,6 +115,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <DeleteBotModal {...modalProps} />;
     case "delete_channel":
       return <DeleteChannelModal {...modalProps} />;
+    case "delete_category":
+      return <DeleteCategoryModal {...modalProps} />;
     case "delete_message":
       return <DeleteMessageModal {...modalProps} />;
     case "delete_role":

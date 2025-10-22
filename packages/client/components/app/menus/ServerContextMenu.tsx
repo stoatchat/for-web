@@ -2,7 +2,7 @@ import { For, Show } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import dayjs from "dayjs";
-import { Server } from "revolt.js";
+import { Server } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
@@ -111,11 +111,11 @@ export function ServerContextMenu(props: { server: Server }) {
   }
 
   /**
-   * Open server in Revolt Admin Panel
+   * Open server in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://admin.revolt.chat/panel/inspect/server/${props.server.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/server/${props.server.id}`,
       "_blank",
     );
   }

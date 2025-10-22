@@ -1,6 +1,6 @@
 import { For, JSX, Match, Switch } from "solid-js";
 
-import { ServerMember } from "revolt.js";
+import { ServerMember } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";

@@ -11,7 +11,7 @@ import {
   User,
   UserModeratedSystemMessage,
   UserSystemMessage,
-} from "revolt.js";
+} from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

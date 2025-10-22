@@ -2,7 +2,7 @@ import { JSX, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { useNavigate } from "@solidjs/router";
-import { Channel, Message, ServerMember, User } from "revolt.js";
+import { Channel, Message, ServerMember, User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
@@ -166,11 +166,11 @@ export function UserContextMenu(props: {
   }
 
   /**
-   * Open user in Revolt Admin Panel
+   * Open user in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://admin.revolt.chat/panel/inspect/user/${props.user.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/user/${props.user.id}`,
       "_blank",
     );
   }

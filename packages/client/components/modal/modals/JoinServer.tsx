@@ -1,7 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { useNavigate } from "@revolt/routing";
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
@@ -9,7 +8,7 @@ import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 import { useModals } from "..";
 import { Modals } from "../types";
 
-const RE_INVITE_URL = /(?:invite|rvlt.gg)\/([a-z0-9]+)/gi;
+const RE_INVITE_URL = /(?:invite|stt.gg)\/([a-z0-9]+)/gi;
 
 /**
  * Modal to join a server
@@ -17,6 +16,7 @@ const RE_INVITE_URL = /(?:invite|rvlt.gg)\/([a-z0-9]+)/gi;
 export function JoinServerModal(
   props: DialogProps & Modals & { type: "join_server" },
 ) {
+  const { t } = useLingui();
   const navigate = useNavigate();
   const { showError } = useModals();
 
@@ -74,7 +74,7 @@ export function JoinServerModal(
             name="link"
             control={group.controls.link}
             label={t`Code`}
-            placeholder="rvlt.gg/wVEJDGVs"
+            placeholder="stt.gg/wVEJDGVs"
           />
         </Column>
       </form>

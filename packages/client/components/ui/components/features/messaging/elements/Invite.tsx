@@ -3,7 +3,7 @@ import { Match, Suspense, Switch } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { useNavigate } from "@solidjs/router";
 import { useMutation, useQuery } from "@tanstack/solid-query";
-import { PublicChannelInvite, ServerPublicInvite } from "revolt.js";
+import { PublicChannelInvite, ServerPublicInvite } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";

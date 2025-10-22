@@ -28,4 +28,4 @@ This algorithm expects that the rendering of the output list is reversed, if you
    7. If **date** is not null:
       1. Push **date** formatted as "MMMM D, YYYY" to list **E** <br> (type id: 1; cache key: _formatted date_)
 
-_Note: the Revolt client also caches the objects produced for list **E** by pushing each object into a Map by their given cache key above, then retrieving them the next time the code is run OR creating a new object if one is not present. This prevents Solid.js from completely rebuilding the DOM whenever the message list updates._
+_Note: the Stoat client also caches the objects produced for list **E** by pushing each object into a Map by their given cache key above, then retrieving them the next time the code is run OR creating a new object if one is not present. This prevents Solid.js from completely rebuilding the DOM whenever the message list updates._

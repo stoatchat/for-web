@@ -2,14 +2,16 @@ import extractor from "@lingui-solid/babel-plugin-extract-messages/extractor";
 import { defineConfig } from "@lingui/cli";
 import { LinguiConfig } from "@lingui/conf";
 
+import { Languages } from "./components/i18n/Languages";
+
 /* eslint-disable */
-const supressWarningIfWereNotInLinguiExtract = !// @ts-expect-error
+const supressWarningIfWereNotInLinguiExtract = !
 (process as any)?.argv[1]?.includes("lingui-extract.js");
 /* eslint-enable */
 
 export default defineConfig({
   sourceLocale: "en",
-  locales: ["en", "dev"],
+  locales: Object.values(Languages).map(({ i18n }) => i18n),
   catalogs: [
     {
       path: "<rootDir>/components/i18n/catalogs/{locale}/messages",

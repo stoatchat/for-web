@@ -72,7 +72,7 @@ export default function FlowCreate() {
             cursor: "pointer",
           }}
           onClick={() => {
-            setFlowCheckEmail("insert@revolt.chat");
+            setFlowCheckEmail("insert@stoat.chat");
             navigate("/login/check", { replace: true });
           }}
         >

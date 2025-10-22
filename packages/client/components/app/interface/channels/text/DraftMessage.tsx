@@ -1,7 +1,7 @@
 import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import type { Channel } from "revolt.js";
+import type { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient, useUser } from "@revolt/client";

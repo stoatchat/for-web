@@ -12,7 +12,7 @@ import {
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Node } from "prosemirror-model";
-import { Channel } from "revolt.js";
+import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
@@ -171,6 +171,14 @@ export function MessageComposition(props: Props) {
     props.onMessageSend?.();
 
     if (typeof useContent === "string") {
+      const currentDraft = draft();
+      if (currentDraft?.replies?.length && !currentDraft.content && !currentDraft.files?.length) {
+        state.draft.setDraft(props.channel.id, { 
+          ...currentDraft,
+          content: useContent 
+        });
+        return state.draft.sendDraft(client(), props.channel);
+      }
       return props.channel.sendMessage(useContent);
     }
 

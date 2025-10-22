@@ -1,7 +1,7 @@
 import { Match, Switch } from "solid-js";
 
 import { useMutation } from "@tanstack/solid-query";
-import { Message } from "revolt.js";
+import { Message } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

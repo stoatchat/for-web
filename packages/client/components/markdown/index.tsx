@@ -175,7 +175,20 @@ export const unifiedPipeline = unified()
     singleDollarTextMath: false,
   });
 
+  /**
+   * for schema only, todo: clean up
+   */
 export const UNIFIED_PLUGINS = [
+  remarkMentions,
+  remarkTimestamps,
+  remarkChannels,
+  remarkUnicodeEmoji,
+  remarkCustomEmoji,
+  remarkSpoiler,
+  remarkHtmlToText,
+];
+
+const HTML_UNIFIED_PLUGINS = [
   remarkMentions,
   remarkTimestamps,
   remarkChannels,
@@ -186,7 +199,7 @@ export const UNIFIED_PLUGINS = [
   remarkHtmlToText,
 ];
 
-const htmlPipeline = UNIFIED_PLUGINS.reduce(
+const htmlPipeline = HTML_UNIFIED_PLUGINS.reduce(
   (pipeline, plugin) => pipeline.use(plugin) as never,
   unifiedPipeline,
 )

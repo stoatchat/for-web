@@ -1,7 +1,7 @@
 import { Accessor, Setter, batch, createSignal } from "solid-js";
 
 import { Node } from "prosemirror-model";
-import { API, Channel, Client, Message } from "revolt.js";
+import { API, Channel, Client, Message } from "stoat.js";
 import { ulid } from "ulid";
 
 import { CONFIGURATION, insecureUniqueId } from "@revolt/common";
@@ -428,7 +428,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     return {
       content,
       replies,
-      files,
+      files: files?.slice(0, CONFIGURATION.MAX_ATTACHMENTS),
     };
   }
 

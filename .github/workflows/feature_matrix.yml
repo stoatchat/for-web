@@ -24,7 +24,7 @@ jobs:
       - name: Clean up the document
         run: |
           # add title
-          sed -i "1i# Feature Matrix\nComparison of implemented features across Revolt's clients.\n" doc/src/feature-matrix.md
+          sed -i "1i# Feature Matrix\nComparison of implemented features across Stoat's clients.\n" doc/src/feature-matrix.md
 
           # replace the indicators
           sed -i 's/| O /| ✅ /g' doc/src/feature-matrix.md
@@ -39,13 +39,13 @@ jobs:
 
           # set column properties again (while adding header line)
           sed -i '5i |---|---|---|---|:-:|:-:|:-:|:-:|:-:|' doc/src/feature-matrix.md
-          
+
           # add width fix
           echo '' >> doc/src/feature-matrix.md
           echo '<style>#content main {max-width: unset !important;}</style>' >> doc/src/feature-matrix.md
       - name: Commit changes
         run: |
-          git config --global user.name 'Revolt CI'
-          git config --global user.email 'revolt-ci@users.noreply.github.com'
+          git config --global user.name 'Stoat CI'
+          git config --global user.email 'stoat-ci@users.noreply.github.com' // TODO-STOAT-WEB
           git commit -am "chore(docs): update feature matrix"
           git push

@@ -9,9 +9,8 @@ import {
   onMount,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
-import type { API } from "revolt.js";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import type { API } from "stoat.js";
 
 import {
   CategoryButton,
@@ -32,6 +31,7 @@ import { Modals } from "../types";
 export function MFAFlowModal(
   props: DialogProps & Modals & { type: "mfa_flow" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   // Keep track of available methods

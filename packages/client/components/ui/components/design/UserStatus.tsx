@@ -1,4 +1,4 @@
-import type { API } from "revolt.js";
+import type { API } from "stoat.js";
 
 export type Props = {
   /**

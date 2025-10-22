@@ -3,7 +3,7 @@ import { Match, Show, Switch } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { useNavigate } from "@solidjs/router";
 import { useMutation } from "@tanstack/solid-query";
-import { ServerPublicInvite } from "revolt.js";
+import { ServerPublicInvite } from "stoat.js";
 
 import { Avatar, Dialog, DialogProps, Row } from "@revolt/ui";
 

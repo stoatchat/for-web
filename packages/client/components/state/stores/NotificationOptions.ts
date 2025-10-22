@@ -1,6 +1,6 @@
 import { Accessor, createSignal } from "solid-js";
 
-import { Channel, Server } from "revolt.js";
+import { Channel, Server } from "stoat.js";
 
 import { State } from "..";
 
@@ -26,7 +26,6 @@ export const DEFAULT_STATES: {
   DirectMessage: "all",
   Group: "all",
   TextChannel: undefined!,
-  VoiceChannel: undefined!,
 };
 
 /**

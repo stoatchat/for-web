@@ -3,7 +3,7 @@ import { Match, Switch } from "solid-js";
 import { Show } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { type Message } from "revolt.js";
+import { type Message } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

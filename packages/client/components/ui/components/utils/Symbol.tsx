@@ -1,11 +1,12 @@
-import { createMemo, JSX } from "solid-js";
+import { JSX, createMemo } from "solid-js";
+
 import { css } from "styled-system/css";
-import { HTMLStyledProps } from "styled-system/types";
 import { splitCssProps } from "styled-system/jsx";
+import { HTMLStyledProps } from "styled-system/types";
 
 interface Props {
   /**
-   * Whether to use the filled version of this symbol.  
+   * Whether to use the filled version of this symbol.
    * Filled symbols should only be used when there is an active state (ex: pages in a nav bar or toggled icon buttons).
    */
   fill?: boolean;
@@ -33,6 +34,10 @@ interface Props {
    * The symbol to display. This should be the exact text name of the symbol as defined by Google. See https://fonts.google.com/icons for a list of available symbols.
    */
   children: string | JSX.Element;
+  /**
+   * Symbol size
+   */
+  size?: number;
 }
 
 export function Symbol({
@@ -42,6 +47,7 @@ export function Symbol({
   opticalSize = "auto",
   weight = 400,
   type = "outlined",
+  size,
   ...props
 }: Props & HTMLStyledProps<"span">) {
   const [cssProps, restProps] = splitCssProps(props);
@@ -49,7 +55,7 @@ export function Symbol({
   const memoClassName = createMemo(() => {
     return css(
       {
-        fontSize,
+        fontSize: "inherit",
         fontWeight: `${weight} !important`,
         fontOpticalSizing: opticalSize === "auto" ? "auto" : undefined,
       },
@@ -57,16 +63,20 @@ export function Symbol({
       cssProp,
     );
   });
+
   const memoFontVarSettings = createMemo(() => {
     return `"FILL" ${fill ? 1 : 0}, "wght" 400, "GRAD" ${grade}${
-          opticalSize === "auto" ? "" : `, "opsz" ${opticalSize}`
-        }`;
+      opticalSize === "auto" ? "" : `, "opsz" ${opticalSize}`
+    }`;
   });
 
   return (
     <span
       class={`material-symbols-${type} ${memoClassName()}`}
-      style={{ "font-variation-settings": memoFontVarSettings() }}
+      style={{
+        "font-variation-settings": memoFontVarSettings(),
+        "font-size": size ? `${size}px` : undefined,
+      }}
       aria-hidden="true"
       {...restProps}
     />

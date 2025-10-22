@@ -1,5 +1,9 @@
 {
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
   "files.exclude": {
     "**/node_modules": true,
     "**/pnpm-lock.yaml": true,
@@ -13,16 +17,5 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   // Tell `rust-analyzer` where the Tauri project is.
-  "rust-analyzer.linkedProjects": ["./packages/desktop/src-tauri/Cargo.toml"],
-  "nixEnvSelector.nixFile": "${workspaceFolder}/default.nix",
-  // Formatter
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  }
+  "nixEnvSelector.nixFile": "${workspaceFolder}/default.nix"
 }

@@ -8,9 +8,8 @@ import {
   BiSolidUserX,
 } from "solid-icons/bi";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
-import { Server } from "revolt.js";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Server } from "stoat.js";
 
 import { useUser } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
@@ -32,6 +31,8 @@ const Config: SettingsConfiguration<Server> = {
    * @param key
    */
   title(ctx, key) {
+    const { t } = useLingui();
+
     if (key.startsWith("roles/")) {
       if (key === "roles/default") return t`Default Permissions`;
 

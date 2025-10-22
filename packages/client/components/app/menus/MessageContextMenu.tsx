@@ -1,7 +1,7 @@
 import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { Message } from "revolt.js";
+import { Message } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
@@ -49,7 +49,7 @@ export function MessageContextMenu(props: { message: Message }) {
    * Mark message as unread
    */
   function markAsUnread() {
-    props.message.ack();
+    props.message.ack(true, false, true);
   }
 
   /**
@@ -85,11 +85,11 @@ export function MessageContextMenu(props: { message: Message }) {
   }
 
   /**
-   * Open message in Revolt Admin Panel
+   * Open message in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://admin.revolt.chat/panel/inspect/message/${props.message.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/message/${props.message.id}`,
       "_blank",
     );
   }

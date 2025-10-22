@@ -77,27 +77,30 @@ const iconButton2 = cva({
     cursor: "pointer",
     border: "none",
     transition: "var(--transitions-fast) all",
+
+    color: "var(--colour)",
+    fill: "var(--colour)",
   },
   variants: {
     variant: {
       filled: {
         background: "var(--md-sys-color-primary)",
-        fill: "var(--md-sys-color-on-primary)",
+        "--colour": "var(--md-sys-color-on-primary)",
       },
       tonal: {
         background: "var(--md-sys-color-secondary-container)",
-        fill: "var(--md-sys-color-on-secondary-container)",
+        "--colour": "var(--md-sys-color-on-secondary-container)",
       },
       outlined: {
         border: "1px solid var(--md-sys-color-outline-variant)",
-        fill: "var(--md-sys-color-on-surface-variant)",
+        "--colour": "var(--md-sys-color-on-surface-variant)",
       },
       standard: {
-        fill: "var(--md-sys-color-on-surface-variant)",
+        "--colour": "var(--md-sys-color-on-surface-variant)",
       },
 
       _header: {
-        fill: "white",
+        "--colour": "white",
       },
     },
     size: {
@@ -130,6 +133,7 @@ const iconButton2 = cva({
     },
     _fullHeight: {
       true: {
+        aspectRatio: "unset",
         height: "100% !important",
       },
     },

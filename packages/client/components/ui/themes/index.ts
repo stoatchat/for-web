@@ -3,4 +3,4 @@ export {
   createMaterialColourVariables,
   createMduiColourTriplets,
 } from "./materialTheme";
-export { createRevoltWebVariables } from "./revoltWebTheme";
+export { createStoatWebVariables } from "./stoatWebTheme";

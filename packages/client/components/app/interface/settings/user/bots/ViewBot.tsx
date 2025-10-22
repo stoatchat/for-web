@@ -1,5 +1,5 @@
 import { Trans } from "@lingui-solid/solid/macro";
-import { Bot, PublicBot } from "revolt.js";
+import { Bot, PublicBot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";

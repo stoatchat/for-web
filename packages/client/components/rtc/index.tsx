@@ -3,6 +3,7 @@ import {
   JSX,
   Setter,
   Show,
+  batch,
   createContext,
   createEffect,
   createMemo,
@@ -20,6 +21,7 @@ import { getTrackReferenceId, isLocal } from "@livekit/components-core";
 import { Key } from "@solid-primitives/keyed";
 import type { RemoteTrackPublication } from "livekit-client";
 import { Room, Track } from "livekit-client";
+import { Channel } from "stoat.js";
 
 type State =
   | "READY"
@@ -29,6 +31,9 @@ type State =
   | "RECONNECTING";
 
 class Voice {
+  channel: Accessor<Channel | undefined>;
+  #setChannel: Setter<Channel | undefined>;
+
   room: Accessor<Room | undefined>;
   #setRoom: Setter<Room | undefined>;
 
@@ -45,6 +50,10 @@ class Voice {
   #setScreenshare: Setter<boolean>;
 
   constructor() {
+    const [channel, setChannel] = createSignal<Channel>();
+    this.channel = channel;
+    this.#setChannel = setChannel;
+
     const [room, setRoom] = createSignal<Room>();
     this.room = room;
     this.#setRoom = setRoom;
@@ -66,25 +75,40 @@ class Voice {
     this.#setScreenshare = setScreenshare;
   }
 
-  async connect(url: string, token: string) {
-    if (this.room()) throw "room already exists";
+  async connect(channel: Channel, auth?: { url: string; token: string }) {
+    this.disconnect();
 
     const room = new Room();
-    this.#setRoom(room);
-    this.#setState("CONNECTING");
+    batch(() => {
+      this.#setRoom(room);
+      this.#setChannel(channel);
+      this.#setState("CONNECTING");
+    });
+
     room.addListener("connected", () => this.#setState("CONNECTED"));
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
 
-    await room.connect(url, token);
+    if (!auth) {
+      auth = await channel.joinCall("worldwide");
+    }
+
+    await room.connect(auth.url, auth.token, {
+      autoSubscribe: false,
+    });
   }
 
   disconnect() {
     const room = this.room();
-    if (!room) throw "no room";
-    room.disconnect();
+    if (!room) return;
+
     room.removeAllListeners();
-    this.#setState("READY");
-    this.#setRoom(undefined);
+    room.disconnect();
+
+    batch(() => {
+      this.#setState("READY");
+      this.#setRoom(undefined);
+      this.#setChannel(undefined);
+    });
   }
 
   async toggleMute() {
@@ -142,8 +166,9 @@ export function RoomAudioManager() {
   );
 
   createEffect(() => {
-    console.info("filtered tracks", filteredTracks());
-    for (const track of filteredTracks()) {
+    const tracks = filteredTracks();
+    console.info("[rtc] filtered tracks", filteredTracks());
+    for (const track of tracks) {
       (track.publication as RemoteTrackPublication).setSubscribed(true);
     }
   });
@@ -174,8 +199,13 @@ export function VoiceContext(props: { children: JSX.Element }) {
 
 export function InRoom(props: { children: JSX.Element }) {
   const room = useMaybeRoomContext();
+  const voice = useVoice();
 
-  return <Show when={room?.()}>{props.children}</Show>;
+  return (
+    <Show when={room?.() && voice.state() === "CONNECTED"}>
+      {props.children}
+    </Show>
+  );
 }
 
 export const useVoice = () => useContext(voiceContext);

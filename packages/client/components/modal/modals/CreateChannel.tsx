@@ -1,7 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { useNavigate } from "@revolt/routing";
 import { Column, Dialog, DialogProps, Form2, Radio2 } from "@revolt/ui";
@@ -15,6 +14,7 @@ import { Modals } from "../types";
 export function CreateChannelModal(
   props: DialogProps & Modals & { type: "create_channel" },
 ) {
+  const { t } = useLingui();
   const navigate = useNavigate();
   const { showError } = useModals();
 

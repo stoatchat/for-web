@@ -12,9 +12,8 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
-import { API } from "revolt.js";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import {
@@ -42,6 +41,7 @@ interface Props {
  * User menu attached to the server list
  */
 export function UserMenu(props: Props) {
+  const { t } = useLingui();
   const { openModal } = useModals();
   const client = useClient();
   const user = useUser();

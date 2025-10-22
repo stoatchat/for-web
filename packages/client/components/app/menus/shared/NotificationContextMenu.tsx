@@ -2,7 +2,7 @@ import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import dayjs from "dayjs";
-import { Channel } from "revolt.js";
+import { Channel } from "stoat.js";
 
 import { useState } from "@revolt/state";
 import { Column, Text, Time } from "@revolt/ui";

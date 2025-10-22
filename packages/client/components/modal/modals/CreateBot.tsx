@@ -1,7 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 
@@ -14,6 +13,7 @@ import { Modals } from "../types";
 export function CreateBotModal(
   props: DialogProps & Modals & { type: "create_bot" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   const group = createFormGroup({
@@ -56,11 +56,7 @@ export function CreateBotModal(
           <Text>
             <Trans>
               By creating this bot, you agree to the{" "}
-              <a
-                href="https://revolt.chat/aup"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://stoat.chat/aup" target="_blank" rel="noreferrer">
                 <Trans>Acceptable Use Policy</Trans>
               </a>
               .

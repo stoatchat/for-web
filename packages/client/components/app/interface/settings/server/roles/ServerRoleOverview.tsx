@@ -3,7 +3,7 @@ import { Show } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
-import { Server } from "revolt.js";
+import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";

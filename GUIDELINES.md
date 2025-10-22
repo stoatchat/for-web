@@ -12,7 +12,7 @@ I am still working on putting stuff together, but here are some important things
 - Comment above all classes, constants, Solid components, constructors, methods which do not override the parent class and functions.
 - If you have relatively long and / or complex code, either explain what it does in the method / function comment or in-line reasonable comments throughout to make it easy to follow through.
 - Avoid importing external libraries in more than one component, re-export where appropriate.
-- Import only types where necessary, such as `revolt.js` in `@revolt/ui`.
+- Import only types where necessary, such as `stoat.js` in `@revolt/ui`.
 
 Also another major thing: **accessibility!**
 

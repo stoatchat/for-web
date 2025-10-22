@@ -18,12 +18,18 @@ export function LinkWarningModal(
   const [value, setValue] = createSignal(false);
 
   const scrutiny = createMemo(() => {
-    if (props.url.toString() !== props.display) {
+    let destUrlString = props.url.toString();
+    if (destUrlString !== props.display) {
       try {
-        new URL(props.display);
-        return 2;
+        let displayUrl = new URL(props.display);
+        if (destUrlString !== displayUrl.toString()) {
+          return 2;
+        } else {
+          return 1;
+        }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (_) {
+        // URL parsing failed; the link is likely not intentionally misleading.
         return 1;
       }
     }
@@ -53,17 +59,16 @@ export function LinkWarningModal(
     >
       <Column>
         <span>
-          <Trans>
-            Are you sure you want to go to <Link>{props.url.toString()}</Link>?
-          </Trans>
+          <Trans>Are you sure you want to go to </Trans>
+          <Link>{props.url.toString()}</Link>
+          ?
         </span>
         <Switch
           fallback={
             <Checkbox checked={value()} onChange={() => setValue((v) => !v)}>
               <span>
-                <Trans>
-                  Don't ask me again for <Link>{props.url.origin}</Link>
-                </Trans>
+                <Trans>Don't ask me again for </Trans>
+                <Link>{props.url.origin}</Link>
               </span>
             </Checkbox>
           }
@@ -95,6 +100,7 @@ export function LinkWarningModal(
 const Link = styled("span", {
   base: {
     textDecoration: "underline",
+    overflowWrap: "anywhere",
   },
 });
 

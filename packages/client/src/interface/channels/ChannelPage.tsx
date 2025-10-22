@@ -1,13 +1,14 @@
-import { Component, Match, Switch, createMemo } from "solid-js";
+import { Component, Match, Show, Switch, createMemo } from "solid-js";
 
-import { Channel } from "revolt.js";
+import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { Navigate, useParams } from "@revolt/routing";
 import { Demo } from "@revolt/rtc/Demo";
-import { Header } from "@revolt/ui";
+import { useState } from "@revolt/state";
+import { Header, Text } from "@revolt/ui";
 
 import { AgeGate } from "./AgeGate";
 import { ChannelHeader } from "./ChannelHeader";
@@ -60,12 +61,11 @@ export const ChannelPage: Component = () => {
           <Match when={TEXT_CHANNEL_TYPES.includes(channel()!.type)}>
             <TextChannel channel={channel()} />
           </Match>
-          <Match when={channel()!.type === "VoiceChannel"}>
+          {/* <Match when={channel()!.type === "VoiceChannel"}>
             <Header placement="primary">
               <ChannelHeader channel={channel()} />
             </Header>
-            <Demo />
-          </Match>
+          </Match> */}
         </Switch>
       </AgeGate>
     </Base>

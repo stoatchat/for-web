@@ -218,8 +218,8 @@ const FormRadio = (
       <Radio2
         {...remote}
         value={local.control.value}
-        onChange={(value) => {
-          local.control.setValue(value);
+        onChange={(event) => {
+          local.control.setValue(event.currentTarget.value);
           local.control.markDirty(true);
         }}
         required={local.control.isRequired}

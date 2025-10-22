@@ -1,7 +1,7 @@
 import { Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { Channel } from "revolt.js";
+import { Channel } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -79,11 +79,11 @@ export function ChannelContextMenu(props: { channel: Channel }) {
   }
 
   /**
-   * Open channel in Revolt Admin Panel
+   * Open channel in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://admin.revolt.chat/panel/inspect/channel/${props.channel.id}`,
+      `https://legacy-admin.stoatinternal.com/panel/inspect/channel/${props.channel.id}`,
       "_blank",
     );
   }

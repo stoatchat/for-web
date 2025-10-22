@@ -1,4 +1,4 @@
-import { Client } from "revolt.js";
+import { Client } from "stoat.js";
 
 import { State } from "..";
 
