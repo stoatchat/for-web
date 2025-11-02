@@ -1,7 +1,7 @@
-import { JSX, createMemo } from "solid-js";
+import { JSX, createMemo, splitProps } from "solid-js";
 
 import { css } from "styled-system/css";
-import { splitCssProps } from "styled-system/jsx";
+import { splitCssProps, styled } from "styled-system/jsx";
 import { HTMLStyledProps } from "styled-system/types";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   fill?: boolean;
   /**
    * Font size for the symbol. This can be a number (in pixels) or any valid CSS size string (ex: "24px", "1.5em", "2rem").
+   * @deprecated passing to css() does nothing
    */
   fontSize?: string | number;
   /**
@@ -40,45 +41,47 @@ interface Props {
   size?: number;
 }
 
-export function Symbol({
-  fill = false,
-  fontSize = "inherit",
-  grade = 0,
-  opticalSize = "auto",
-  weight = 400,
-  type = "outlined",
-  size,
-  ...props
-}: Props & HTMLStyledProps<"span">) {
+export function Symbol(rawProps: Props & HTMLStyledProps<"span">) {
+  const [local, props] = splitProps(rawProps, [
+    "fill",
+    "fontSize",
+    "grade",
+    "opticalSize",
+    "weight",
+    "type",
+    "size",
+  ]);
+
   const [cssProps, restProps] = splitCssProps(props);
-  const { css: cssProp, ...styleProps } = cssProps;
   const memoClassName = createMemo(() => {
     return css(
       {
-        fontSize: "inherit",
-        fontWeight: `${weight} !important`,
-        fontOpticalSizing: opticalSize === "auto" ? "auto" : undefined,
+        fontSize: local.fontSize ?? "inherit",
+        fontWeight: `${local.weight} !important`,
+        fontOpticalSizing: local.opticalSize === "auto" ? "auto" : undefined,
       },
-      styleProps,
-      cssProp,
+      cssProps,
     );
   });
 
   const memoFontVarSettings = createMemo(() => {
-    return `"FILL" ${fill ? 1 : 0}, "wght" 400, "GRAD" ${grade}${
-      opticalSize === "auto" ? "" : `, "opsz" ${opticalSize}`
+    return `"FILL" ${local.fill ? 1 : 0}, "wght" 400, "GRAD" ${local.grade ?? 0}${
+      (local.opticalSize ?? "auto") === "auto"
+        ? ""
+        : `, "opsz" ${local.opticalSize}`
     }`;
   });
 
   return (
-    <span
-      class={`material-symbols-${type} ${memoClassName()}`}
+    <styled.span
+      class={`material-symbols-${local.type ?? "outlined"} ${memoClassName()}`}
       style={{
         "font-variation-settings": memoFontVarSettings(),
-        "font-size": size ? `${size}px` : undefined,
+        "font-size": local.size ? `${local.size}px` : undefined,
       }}
       aria-hidden="true"
       {...restProps}
+      // @codegen directives props=props include=floating
     />
   );
 }

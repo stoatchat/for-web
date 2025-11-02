@@ -194,6 +194,10 @@ const button = cva({
       text: {
         "--color": "var(--md-sys-color-primary)",
       },
+      _error: {
+        background: "var(--md-sys-color-error)",
+        "--color": "var(--md-sys-color-on-error)",
+      },
 
       // Old entries:
 

@@ -116,7 +116,7 @@ export const typography = cva({
         lineHeight: "1.75rem",
         fontSize: "1.375rem",
         letterSpacing: "0",
-        fontWeight: 500,
+        fontWeight: 550,
       },
     },
     {
@@ -126,7 +126,7 @@ export const typography = cva({
         lineHeight: "1.5rem",
         fontSize: "1rem",
         letterSpacing: "0.009375rem",
-        fontWeight: 500,
+        fontWeight: 550,
       },
     },
     {
@@ -136,7 +136,7 @@ export const typography = cva({
         lineHeight: "1.25rem",
         fontSize: "0.875rem",
         letterSpacing: "0.00625rem",
-        fontWeight: 500,
+        fontWeight: 550,
       },
     },
     {

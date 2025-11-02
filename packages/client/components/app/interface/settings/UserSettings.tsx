@@ -8,6 +8,7 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
 import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import _MdDesktopWindows from "@material-design-icons/svg/outlined/desktop_windows.svg?component-solid";
@@ -18,6 +19,7 @@ import MdLanguage from "@material-design-icons/svg/outlined/language.svg?compone
 import MdLocalCafe from "@material-design-icons/svg/outlined/local_cafe.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
+import MdMic from "@material-design-icons/svg/outlined/mic.svg?component-solid";
 import _MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
 import MdRateReview from "@material-design-icons/svg/outlined/rate_review.svg?component-solid";
@@ -35,14 +37,14 @@ import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
 import { Feedback } from "./user/Feedback";
 import { LanguageSettings } from "./user/Language";
+import Native from "./user/Native";
 import { Sessions } from "./user/Sessions";
 import { AccountCard } from "./user/_AccountCard";
 import { AppearanceMenu } from "./user/appearance";
 import { MyBots, ViewBot } from "./user/bots";
 import { EditProfile } from "./user/profile";
 import { EditSubscription } from "./user/subscriptions";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-import Native from "./user/Native";
+import { VoiceSettings } from "./user/voice/VoiceSettings";
 
 const Config: SettingsConfiguration<{ server: Server }> = {
   /**
@@ -94,8 +96,10 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Feedback />;
       case "subscribe":
         return <EditSubscription />;
-      case 'native':
+      case "native":
         return <Native />;
+      case "voice":
+        return <VoiceSettings />;
       default:
         return null;
     }
@@ -212,6 +216,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             //   hidden:
             //     !getController("state").experiments.isEnabled("voice_chat"),
             // },
+            {
+              id: "voice",
+              icon: <MdMic {...iconSize(20)} />,
+              title: <Trans>Voice</Trans>,
+            },
             {
               id: "appearance",
               icon: <MdPalette {...iconSize(20)} />,

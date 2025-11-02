@@ -113,7 +113,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   private textSelection?: TextSelection;
 
-  _setNodeReplacement?: Setter<Node | readonly ["_focus"] | undefined>;
+  _setNodeReplacement?: Setter<readonly [string | "_focus"] | undefined>;
 
   /**
    * Construct store
@@ -402,9 +402,9 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
         this.getPendingMessages(channel.id).map((entry) =>
           entry.idempotencyKey === idempotencyKey
             ? {
-                ...entry,
-                status: "failed",
-              }
+              ...entry,
+              status: "failed",
+            }
             : entry,
         ),
       );
@@ -532,8 +532,16 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       this.getDraft(message.channelId).replies?.find(
         (reply) => reply.id === message.id,
       )
-    )
+    ) {
       return;
+    }
+
+    if (
+      (this.getDraft(message.channelId).replies?.length ?? 0) >=
+      CONFIGURATION.MAX_REPLIES
+    ) {
+      return;
+    }
 
     // We should not mention ourselves, otherwise use previous mention state
     const shouldMention =
@@ -618,7 +626,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
         image.src = this.fileCache[id].dataUri!;
       })
         // ignore errors
-        .catch(() => {});
+        .catch(() => { });
     }
 
     this.setDraft(channelId, (data) => ({

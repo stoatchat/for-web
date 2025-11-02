@@ -169,15 +169,15 @@ const replyComponents = () => ({
 export const unifiedPipeline = unified()
   .use(remarkParse)
   .use(remarkBreaks)
-  // .use(remarkGfm)
+  .use(remarkGfm)
   .use(remarkMath, {
     // TODO: fork for \[\] support
     singleDollarTextMath: false,
   });
 
-  /**
-   * for schema only, todo: clean up
-   */
+/**
+ * for schema only, todo: clean up
+ */
 export const UNIFIED_PLUGINS = [
   remarkMentions,
   remarkTimestamps,
@@ -227,7 +227,7 @@ const htmlPipeline = HTML_UNIFIED_PLUGINS.reduce(
 const replyPipeline = unified()
   .use(remarkParse)
   .use(remarkBreaks)
-  // .use(remarkGfm)
+  .use(remarkGfm)
   .use(remarkMentions)
   .use(remarkUnicodeEmoji)
   .use(remarkCustomEmoji)

@@ -1,13 +1,13 @@
 import { BiRegularBlock } from "solid-icons/bi";
-import { JSX, Match, Show, Switch, onMount } from "solid-js";
+import { Accessor, JSX, Match, Show, Switch, onMount } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { Node } from "prosemirror-model";
-import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Row, TextEditor } from "@revolt/ui";
+import { Row } from "@revolt/ui";
 import { AutoCompleteSearchSpace } from "@revolt/ui/components/utils/autoComplete";
+
+import { TextEditor2 } from "../../texteditor/TextEditor2";
 
 interface Props {
   /**
@@ -18,7 +18,7 @@ interface Props {
   /**
    * Node replacement
    */
-  nodeReplacement?: Node | readonly ["_focus"];
+  nodeReplacement?: readonly [string | "_focus"];
 
   /**
    * Text content
@@ -62,6 +62,11 @@ interface Props {
   actionsAppend: JSX.Element;
 
   /**
+   * Whether there are elements appended after the message box row
+   */
+  hasActionsAppend: boolean;
+
+  /**
    * Placeholder in message box
    */
   placeholder: string;
@@ -74,7 +79,7 @@ interface Props {
   /**
    * Auto complete config
    */
-  autoCompleteSearchSpace?: AutoCompleteSearchSpace;
+  autoCompleteSearchSpace?: Accessor<AutoCompleteSearchSpace>;
 
   /**
    * Update the current draft selection
@@ -90,15 +95,27 @@ interface Props {
 const Base = styled("div", {
   base: {
     flexGrow: 1,
-    flexShrink: 0,
 
     paddingInlineEnd: "var(--gap-md)",
     paddingBlock: "var(--gap-sm)",
-    borderRadius: "var(--borderRadius-xl)",
+    borderStartRadius: "var(--borderRadius-xl)",
 
     display: "flex",
     background: "var(--md-sys-color-surface-container-high)",
     color: "var(--md-sys-color-on-surface)",
+  },
+  variants: {
+    hasActionsAppend: {
+      true: {
+        borderEndRadius: "var(--borderRadius-md)",
+      },
+      false: {
+        borderEndRadius: "var(--borderRadius-xl)",
+      },
+    },
+  },
+  defaultVariants: {
+    hasActionsAppend: false,
   },
 });
 
@@ -130,9 +147,10 @@ const Blocked = styled(Row, {
  */
 export const InlineIcon = styled("div", {
   base: {
-    display: "grid",
     flexShrink: 0,
-    placeItems: "center",
+    display: "flex",
+    alignItems: "end",
+    justifyContent: "center",
   },
   variants: {
     size: {
@@ -167,7 +185,7 @@ export function MessageBox(props: Props) {
 
   return (
     <Parent>
-      <Base>
+      <Base hasActionsAppend={props.hasActionsAppend}>
         <Switch fallback={props.actionsStart}>
           <Match when={!props.sendingAllowed}>
             <InlineIcon size="wide">
@@ -180,18 +198,16 @@ export function MessageBox(props: Props) {
         <Switch
           fallback={
             <>
-              <div class={css({ flexGrow: 1 })}>
-                <TextEditor
-                  placeholder={props.placeholder}
-                  initialValue={props.initialValue}
-                  nodeReplacement={props.nodeReplacement}
-                  onChange={props.setContent}
-                  onComplete={props.onSendMessage}
-                  onTyping={props.onTyping}
-                  onPreviousContext={props.onEditLastMessage}
-                  autoCompleteSearchSpace={props.autoCompleteSearchSpace}
-                />
-              </div>
+              <TextEditor2
+                placeholder={props.placeholder}
+                initialValue={props.initialValue}
+                nodeReplacement={props.nodeReplacement}
+                onChange={props.setContent}
+                onComplete={props.onSendMessage}
+                onTyping={props.onTyping}
+                onPreviousContext={props.onEditLastMessage}
+                autoCompleteSearchSpace={props.autoCompleteSearchSpace}
+              />
               <Show when={props.sendingAllowed}>{props.actionsEnd}</Show>
             </>
           }

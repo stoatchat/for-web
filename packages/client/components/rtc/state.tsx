@@ -2,10 +2,8 @@ import {
   Accessor,
   JSX,
   Setter,
-  Show,
   batch,
   createContext,
-  createEffect,
   createMemo,
   createSignal,
   useContext,
@@ -17,11 +15,15 @@ import {
   useTracks,
 } from "solid-livekit-components";
 
-import { getTrackReferenceId, isLocal } from "@livekit/components-core";
-import { Key } from "@solid-primitives/keyed";
-import type { RemoteTrackPublication } from "livekit-client";
-import { Room, Track } from "livekit-client";
+import { Room } from "livekit-client";
 import { Channel } from "stoat.js";
+
+import { useState } from "@revolt/state";
+import { Voice as VoiceSettings } from "@revolt/state/stores/Voice";
+import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
+
+import { InRoom } from "./components/InRoom";
+import { RoomAudioManager } from "./components/RoomAudioManager";
 
 type State =
   | "READY"
@@ -31,6 +33,8 @@ type State =
   | "RECONNECTING";
 
 class Voice {
+  #settings: VoiceSettings;
+
   channel: Accessor<Channel | undefined>;
   #setChannel: Setter<Channel | undefined>;
 
@@ -39,6 +43,9 @@ class Voice {
 
   state: Accessor<State>;
   #setState: Setter<State>;
+
+  deafen: Accessor<boolean>;
+  #setDeafen: Setter<boolean>;
 
   microphone: Accessor<boolean>;
   #setMicrophone: Setter<boolean>;
@@ -49,7 +56,9 @@ class Voice {
   screenshare: Accessor<boolean>;
   #setScreenshare: Setter<boolean>;
 
-  constructor() {
+  constructor(voiceSettings: VoiceSettings) {
+    this.#settings = voiceSettings;
+
     const [channel, setChannel] = createSignal<Channel>();
     this.channel = channel;
     this.#setChannel = setChannel;
@@ -61,6 +70,10 @@ class Voice {
     const [state, setState] = createSignal<State>("READY");
     this.state = state;
     this.#setState = setState;
+
+    const [deafen, setDeafen] = createSignal<boolean>(false);
+    this.deafen = deafen;
+    this.#setDeafen = setDeafen;
 
     const [microphone, setMicrophone] = createSignal(false);
     this.microphone = microphone;
@@ -78,14 +91,35 @@ class Voice {
   async connect(channel: Channel, auth?: { url: string; token: string }) {
     this.disconnect();
 
-    const room = new Room();
+    const room = new Room({
+      audioCaptureDefaults: {
+        deviceId: this.#settings.preferredAudioInputDevice,
+        echoCancellation: this.#settings.echoCancellation,
+        noiseSuppression: this.#settings.noiseSupression,
+      },
+      audioOutput: {
+        deviceId: this.#settings.preferredAudioOutputDevice,
+      },
+    });
+
     batch(() => {
       this.#setRoom(room);
       this.#setChannel(channel);
       this.#setState("CONNECTING");
+
+      this.#setMicrophone(false);
+      this.#setDeafen(false);
+      this.#setVideo(false);
+      this.#setScreenshare(false);
+
+      if (this.speakingPermission)
+        room.localParticipant
+          .setMicrophoneEnabled(true)
+          .then((track) => this.#setMicrophone(typeof track !== "undefined"));
     });
 
     room.addListener("connected", () => this.#setState("CONNECTED"));
+
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
 
     if (!auth) {
@@ -109,6 +143,10 @@ class Voice {
       this.#setRoom(undefined);
       this.#setChannel(undefined);
     });
+  }
+
+  async toggleDeafen() {
+    this.#setDeafen((s) => !s);
   }
 
   async toggleMute() {
@@ -140,71 +178,38 @@ class Voice {
 
     this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
   }
+
+  getConnectedUser(userId: string) {
+    return this.room()?.getParticipantByIdentity(userId);
+  }
+
+  get listenPermission() {
+    return !!this.channel()?.havePermission("Listen");
+  }
+
+  get speakingPermission() {
+    return !!this.channel()?.havePermission("Speak");
+  }
 }
 
 const voiceContext = createContext<Voice>(null as unknown as Voice);
 
-export function RoomAudioManager() {
-  const tracks = useTracks(
-    [
-      Track.Source.Microphone,
-      Track.Source.ScreenShareAudio,
-      Track.Source.Unknown,
-    ],
-    {
-      updateOnlyOn: [],
-      onlySubscribed: false,
-    },
-  );
-
-  const filteredTracks = createMemo(() =>
-    tracks().filter(
-      (track) =>
-        !isLocal(track.participant) &&
-        track.publication.kind === Track.Kind.Audio,
-    ),
-  );
-
-  createEffect(() => {
-    const tracks = filteredTracks();
-    console.info("[rtc] filtered tracks", filteredTracks());
-    for (const track of tracks) {
-      (track.publication as RemoteTrackPublication).setSubscribed(true);
-    }
-  });
-
-  return (
-    <div style={{ display: "none" }}>
-      <Key each={filteredTracks()} by={(item) => getTrackReferenceId(item)}>
-        {(track) => <AudioTrack trackRef={track()} volume={1} muted={false} />}
-      </Key>
-    </div>
-  );
-}
-
+/**
+ * Mount global voice context and room audio manager
+ */
 export function VoiceContext(props: { children: JSX.Element }) {
-  const voice = new Voice();
+  const state = useState();
+  const voice = new Voice(state.voice);
 
   return (
     <voiceContext.Provider value={voice}>
       <RoomContext.Provider value={voice.room}>
-        {props.children}
+        <VoiceCallCardContext>{props.children}</VoiceCallCardContext>
         <InRoom>
           <RoomAudioManager />
         </InRoom>
       </RoomContext.Provider>
     </voiceContext.Provider>
-  );
-}
-
-export function InRoom(props: { children: JSX.Element }) {
-  const room = useMaybeRoomContext();
-  const voice = useVoice();
-
-  return (
-    <Show when={room?.() && voice.state() === "CONNECTED"}>
-      {props.children}
-    </Show>
   );
 }
 

@@ -14,8 +14,7 @@ import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
-import { unicodeEmojiUrl } from "@revolt/markdown/emoji/UnicodeEmoji";
-import { schema } from "@revolt/markdown/prosemirror";
+import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
@@ -131,7 +130,7 @@ export function EmojiPicker() {
       items.push({
         t: 4,
         name: emoji[0],
-        text: emoji[1],
+        text: emoji[1] as string,
       });
     }
 
@@ -247,24 +246,12 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
       role="listitem"
       onClick={() => {
         if (props.item.t === 2) {
-          onTextReplacement(
-            schema.nodes.rfm_custom_emoji.createAndFill({
-              id: props.item.emoji.id,
-              src: props.item.emoji.url,
-            })!,
-          );
+          onTextReplacement(`:${props.item.emoji.id}:`);
         }
 
         if (props.item.t === 4) {
           onTextReplacement(
-            schema.nodes.rfm_unicode_emoji.createAndFill({
-              id: props.item.text,
-              pack: state.settings.getValue("appearance:unicode_emoji"),
-              src: unicodeEmojiUrl(
-                state.settings.getValue("appearance:unicode_emoji"),
-                props.item.text,
-              ),
-            })!,
+            `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${props.item.text}`,
           );
         }
       }}

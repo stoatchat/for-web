@@ -9,6 +9,7 @@ import { paramsFromPathname } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Avatar, iconSize } from "@revolt/ui";
 import { Invite } from "@revolt/ui/components/features/messaging/elements/Invite";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdChat from "@material-design-icons/svg/outlined/chat.svg?component-solid";
 import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
@@ -101,7 +102,7 @@ export function RenderAnchor(
           <Switch
             fallback={
               <span class={internalLink()}>
-                <MdTag {...iconSize("1em")} />
+                <Symbol>tag</Symbol>
                 <Trans>Private Channel</Trans>
               </span>
             }
@@ -112,7 +113,7 @@ export function RenderAnchor(
                 disabled={localProps.disabled}
                 href={internalUrl()}
               >
-                <MdTag {...iconSize("1em")} />
+                <Symbol>tag</Symbol>
                 {channel()!.name}
                 {params.exactMessage && (
                   <>

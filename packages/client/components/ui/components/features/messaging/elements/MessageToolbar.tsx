@@ -62,9 +62,7 @@ export function MessageToolbar(props: { message?: Message }) {
           }
           onTextReplacement={(emoji) =>
             props.message!.react(
-              emoji.type === schema.nodes.rfm_custom_emoji
-                ? emoji.attrs.id
-                : emoji.textContent,
+              emoji.startsWith(":") ? emoji.slice(1, emoji.length - 1) : emoji,
             )
           }
         >

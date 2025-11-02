@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import { type JSX, createEffect, createSignal, on, splitProps } from "solid-js";
 
 import "mdui/components/slider.js";
 
@@ -8,6 +8,7 @@ type Props = Omit<
 > & {
   min?: number;
   max?: number;
+  step?: number;
   value: number;
   tickmarks?: boolean;
   labelFormatter?: (value: number) => string;
@@ -22,5 +23,19 @@ type Props = Omit<
  * @specification https://m3.material.io/components/sliders
  */
 export function Slider(props: Props) {
-  return <mdui-slider {...props} />;
+  const [ref, setRef] = createSignal<{
+    labelFormatter?: (value: number) => string;
+  }>();
+
+  const [local, rest] = splitProps(props, ["labelFormatter"]);
+
+  createEffect(
+    on(ref, (ref) => {
+      if (ref) {
+        ref.labelFormatter = local.labelFormatter;
+      }
+    }),
+  );
+
+  return <mdui-slider ref={setRef} {...rest} />;
 }

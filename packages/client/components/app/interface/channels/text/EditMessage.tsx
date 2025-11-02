@@ -9,8 +9,9 @@ import { useClient } from "@revolt/client";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Text, TextEditor } from "@revolt/ui";
-import { generateSearchSpaceFrom } from "@revolt/ui/components/utils/autoComplete";
+import { Text } from "@revolt/ui";
+import { TextEditor2 } from "@revolt/ui/components/features/texteditor/TextEditor2";
+import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 
 export function EditMessage(props: { message: Message }) {
   const state = useState();
@@ -48,18 +49,17 @@ export function EditMessage(props: { message: Message }) {
     state.draft._setNodeReplacement?.(["_focus"]); // focus message box
   });
 
+  const searchSpace = useSearchSpace(() => props.message, client);
+
   return (
     <>
       <EditorBox class={css({ flexGrow: 1 })}>
-        <TextEditor
+        <TextEditor2
           autoFocus
           onComplete={saveMessage}
           onChange={state.draft.setEditingMessageContent}
           initialValue={initialValue}
-          autoCompleteSearchSpace={generateSearchSpaceFrom(
-            props.message,
-            client(),
-          )}
+          autoCompleteSearchSpace={searchSpace}
         />
       </EditorBox>
 
@@ -84,8 +84,8 @@ export function EditMessage(props: { message: Message }) {
 
 const EditorBox = styled("div", {
   base: {
-    background: "var(--md-sys-color-primary-container)",
-    color: "var(--md-sys-color-on-primary-container)",
+    background: "var(--md-sys-color-surface-container-highest)",
+    color: "var(--md-sys-color-on-surface-container)",
     borderRadius: "var(--borderRadius-sm)",
     padding: "var(--gap-md)",
   },

@@ -1,3 +1,4 @@
+import { Accessor, createMemo } from "solid-js";
 import {
   Channel,
   Client,
@@ -15,7 +16,7 @@ export interface AutoCompleteSearchSpace {
   roles?: ServerRole[];
 }
 
-export function generateSearchSpaceFrom(
+function generateSearchSpaceFrom(
   object: Client | Server | Channel | Message,
   client: Client,
 ): AutoCompleteSearchSpace {
@@ -23,7 +24,6 @@ export function generateSearchSpaceFrom(
     if (object.channel) return generateSearchSpaceFrom(object.channel, client);
   } else if (object instanceof Channel) {
     if (object.server) return generateSearchSpaceFrom(object.server, client);
-
     if (object.type === "Group") {
       return {
         users: object.recipients,
@@ -40,4 +40,11 @@ export function generateSearchSpaceFrom(
   }
 
   return {};
+}
+
+export function useSearchSpace(
+  object: Accessor<Client | Server | Channel | Message>,
+  client: Accessor<Client>,
+): Accessor<AutoCompleteSearchSpace> {
+  return createMemo(() => generateSearchSpaceFrom(object(), client()));
 }

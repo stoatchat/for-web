@@ -164,56 +164,64 @@ msgstr ""
 msgid "{usernames} reacted"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:49
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:55
 msgid "<0/> has been added by <1/>"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:93
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:99
 msgid "<0/> has been banned from the server"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:85
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:91
 msgid "<0/> has been kicked from the server"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:72
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:78
 msgid "<0/> has been removed by <1/>"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:101
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:107
 msgid "<0/> joined the server"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:64
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:70
 msgid "<0/> left the group"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:111
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:117
 msgid "<0/> left the server"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:165
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:171
 msgid "<0/> pinned <1/>"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:148
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:202
+msgid "<0/> started a call"
+msgstr ""
+
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:209
+msgid "<0/> started a call that lasted "
+msgstr ""
+
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:154
 msgid "<0/> transferred group ownership to <1/>"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:180
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:186
 msgid "<0/> unpinned <1/>"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:132
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:138
 msgid "<0/> updated the group description"
 msgstr ""
 
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:140
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:146
 msgid "<0/> updated the group icon "
 msgstr ""
 
 #. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
-#: components/ui/components/features/messaging/elements/SystemMessage.tsx:119
+#: components/ui/components/features/messaging/elements/SystemMessage.tsx:125
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr ""
 
@@ -254,7 +262,7 @@ msgstr "বিষয়ে"
 msgid "Accept"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:318
+#: components/app/menus/UserContextMenu.tsx:364
 msgid "Accept friend request"
 msgstr ""
 
@@ -272,11 +280,11 @@ msgstr ""
 msgid "Add a new friend"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:308
+#: components/app/menus/UserContextMenu.tsx:354
 msgid "Add friend"
 msgstr "বন্ধুক যোগ কৰক"
 
-#: src/interface/channels/ChannelHeader.tsx:204
+#: src/interface/channels/ChannelHeader.tsx:177
 #: components/modal/modals/AddMembersToGroup.tsx:66
 msgid "Add friends to group"
 msgstr ""
@@ -293,14 +301,14 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:354
+#: components/app/menus/UserContextMenu.tsx:400
 #: components/app/menus/ServerContextMenu.tsx:321
 #: components/app/menus/MessageContextMenu.tsx:214
 #: components/app/menus/ChannelContextMenu.tsx:166
 msgid "Admin Panel"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:280
+#: components/app/interface/settings/UserSettings.tsx:289
 msgid "Advanced"
 msgstr ""
 
@@ -344,7 +352,7 @@ msgstr ""
 msgid "An internal error occurred. ({0})"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:218
+#: components/app/interface/settings/UserSettings.tsx:227
 #: components/app/interface/settings/user/Sync.tsx:34
 msgid "Appearance"
 msgstr ""
@@ -409,7 +417,7 @@ msgstr ""
 msgid "Ban lower-ranking members from the server"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:279
+#: components/app/menus/UserContextMenu.tsx:325
 msgid "Ban member"
 msgstr "সদস্যজনক নিষিদ্ধ কৰক"
 
@@ -421,7 +429,7 @@ msgstr ""
 msgid "Ban Members"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:297
+#: components/app/menus/UserContextMenu.tsx:343
 msgid "Ban user"
 msgstr ""
 
@@ -437,7 +445,7 @@ msgstr ""
 msgid "Bans"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:333
+#: components/app/menus/UserContextMenu.tsx:379
 msgid "Block user"
 msgstr "ব্যৱহাৰকাৰীক ব্লক কৰক"
 
@@ -452,6 +460,14 @@ msgstr "অৱৰুদ্ধ ব্যক্তি"
 #: components/app/interface/channels/text/Message.tsx:185
 msgid "Bot"
 msgstr "বট"
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx:34
+msgid "Browser Echo Cancellation"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx:25
+msgid "Browser Noise Supression"
+msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx:75
 msgid "Bug Tracker"
@@ -495,7 +511,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:328
+#: components/app/menus/UserContextMenu.tsx:374
 msgid "Cancel friend request"
 msgstr "অনুৰোধ বাতিল কৰক"
 
@@ -574,7 +590,7 @@ msgstr ""
 msgid "Channel Name"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx:182
+#: src/interface/channels/ChannelHeader.tsx:155
 msgid "Channel Settings"
 msgstr ""
 
@@ -602,7 +618,7 @@ msgstr "ষ্টেটাছ আঁতৰাওক"
 msgid "Click on the items below to learn more about different changes!"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx:117
+#: src/interface/channels/ChannelHeader.tsx:107
 msgid "Click to show full description"
 msgstr ""
 
@@ -610,7 +626,7 @@ msgstr ""
 msgid "Click to show spoiler"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:206
+#: components/app/interface/settings/UserSettings.tsx:210
 msgid "Client Settings"
 msgstr "ক্লায়েন্টৰ ছেটিংছ"
 
@@ -641,7 +657,7 @@ msgstr "ক্লায়েন্টৰ ছেটিংছ"
 msgid "Close"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:189
+#: components/app/menus/UserContextMenu.tsx:235
 msgid "Close chat"
 msgstr ""
 
@@ -678,6 +694,14 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:330
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:331
 msgid "Connect to voice channel"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:16
+msgid "Connected"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:19
+msgid "Connecting"
 msgstr ""
 
 #: components/modal/modals/ReportContent.tsx:62
@@ -743,7 +767,7 @@ msgid "Copy text"
 msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx:237
-#: components/app/menus/UserContextMenu.tsx:359
+#: components/app/menus/UserContextMenu.tsx:405
 msgid "Copy user ID"
 msgstr ""
 
@@ -975,7 +999,7 @@ msgstr ""
 msgid "Description provided by {0}"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:255
+#: components/app/interface/settings/UserSettings.tsx:264
 msgid "Desktop"
 msgstr ""
 
@@ -989,6 +1013,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx:245
 msgid "Disable one-time password authenticator"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:22
+msgid "Disconnected"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx:114
@@ -1064,7 +1092,7 @@ msgstr ""
 msgid "Edit group name and description"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:231
+#: components/app/menus/UserContextMenu.tsx:277
 msgid "Edit identity"
 msgstr "আপোনাৰ পৰিচয় সম্পাদনা কৰক"
 
@@ -1076,7 +1104,7 @@ msgstr ""
 msgid "Edit message"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:248
+#: components/app/menus/UserContextMenu.tsx:294
 msgid "Edit roles"
 msgstr ""
 
@@ -1084,7 +1112,7 @@ msgstr ""
 msgid "Edit the server's information and settings"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:233
+#: components/app/menus/UserContextMenu.tsx:279
 #: components/app/menus/ServerContextMenu.tsx:283
 msgid "Edit your identity"
 msgstr ""
@@ -1187,7 +1215,7 @@ msgstr ""
 msgid "Failed to verify!"
 msgstr "প্ৰমাণিত কৰিব পৰা নগল!"
 
-#: components/app/interface/settings/UserSettings.tsx:185
+#: components/app/interface/settings/UserSettings.tsx:189
 #: components/app/interface/settings/user/Feedback.tsx:62
 msgid "Feedback"
 msgstr ""
@@ -1428,12 +1456,16 @@ msgid "Join a server"
 msgstr ""
 
 #: src/interface/channels/ChannelHeader.tsx:157
-msgid "Join call"
-msgstr ""
+#~ msgid "Join call"
+#~ msgstr ""
 
 #: src/interface/Home.tsx:176
 #: components/app/interface/settings/user/Feedback.tsx:91
 msgid "Join the Stoat Lounge"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx:46
+msgid "Join the voice channel"
 msgstr ""
 
 #: components/ui/components/features/profiles/ProfileJoined.tsx:19
@@ -1461,7 +1493,7 @@ msgstr ""
 msgid "Kick lower-ranking members from the server"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:264
+#: components/app/menus/UserContextMenu.tsx:310
 msgid "Kick member"
 msgstr ""
 
@@ -1473,7 +1505,7 @@ msgstr ""
 msgid "Kick Members"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:244
+#: components/app/interface/settings/UserSettings.tsx:253
 #: components/app/interface/settings/user/Sync.tsx:52
 msgid "Language"
 msgstr ""
@@ -1539,7 +1571,7 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:289
+#: components/app/interface/settings/UserSettings.tsx:298
 #: components/app/interface/settings/user/Sessions.tsx:169
 msgid "Log Out"
 msgstr ""
@@ -1628,7 +1660,7 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:194
+#: components/app/menus/UserContextMenu.tsx:240
 msgid "Mention"
 msgstr ""
 
@@ -1658,7 +1690,7 @@ msgstr ""
 msgid "Mentions Only"
 msgstr "কেৱল উল্লেখ কৰক"
 
-#: components/app/menus/UserContextMenu.tsx:199
+#: components/app/menus/UserContextMenu.tsx:245
 msgid "Message"
 msgstr ""
 
@@ -1701,6 +1733,11 @@ msgstr ""
 msgid "Minimise to Tray"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx:24
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx:41
+msgid "Missing permission"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:183
 msgid "Monochrome"
 msgstr ""
@@ -1720,6 +1757,10 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:375
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:376
 msgid "Move members between voice channels"
+msgstr ""
+
+#: components/app/menus/UserContextMenu.tsx:227
+msgid "Mute"
 msgstr ""
 
 #: components/app/menus/shared/NotificationContextMenu.tsx:60
@@ -1761,7 +1802,7 @@ msgstr ""
 msgid "My Account"
 msgstr "মোৰ একাউণ্ট"
 
-#: components/app/interface/settings/UserSettings.tsx:180
+#: components/app/interface/settings/UserSettings.tsx:184
 msgid "My Bots"
 msgstr ""
 
@@ -1835,7 +1876,7 @@ msgstr "বন্ধ"
 msgid "Official Communication"
 msgstr "অফিচিয়েল কমিউনিকেচন"
 
-#: src/interface/navigation/channels/ServerSidebar.tsx:300
+#: src/interface/navigation/channels/ServerSidebar.tsx:288
 msgid "Official Server"
 msgstr ""
 
@@ -1907,6 +1948,10 @@ msgstr "ছেটিংছ খোলক"
 
 #: components/modal/modals/ReportContent.tsx:75
 msgid "Other"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx:128
+msgid "Output Volume"
 msgstr ""
 
 #: components/app/interface/settings/ServerSettings.tsx:105
@@ -1981,7 +2026,7 @@ msgstr "গোপনীয়তা নীতি"
 msgid "Private Channel"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:165
+#: components/app/interface/settings/UserSettings.tsx:169
 msgid "Profile"
 msgstr ""
 
@@ -2031,6 +2076,10 @@ msgstr ""
 msgid "Receive notifications while the app is open and in the background."
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:25
+msgid "Reconnecting"
+msgstr ""
+
 #: components/modal/modals/MFAFlow.tsx:223
 #: components/modal/modals/MFAFlow.tsx:262
 msgid "Recovery Code"
@@ -2052,7 +2101,7 @@ msgstr "পঞ্জীয়ন কৰক"
 msgid "Registered since <0/>"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:323
+#: components/app/menus/UserContextMenu.tsx:369
 msgid "Reject friend request"
 msgstr ""
 
@@ -2072,7 +2121,7 @@ msgstr ""
 msgid "Remove Avatars"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:313
+#: components/app/menus/UserContextMenu.tsx:359
 msgid "Remove friend"
 msgstr "বন্ধুক আঁতৰাওক"
 
@@ -2119,7 +2168,7 @@ msgstr ""
 msgid "Report server"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:303
+#: components/app/menus/UserContextMenu.tsx:349
 msgid "Report user"
 msgstr ""
 
@@ -2199,7 +2248,7 @@ msgstr "আপোনাৰ টোকাসমূহত সংৰক্ষণ ক
 
 #: src/interface/navigation/channels/HomeSidebar.tsx:120
 #: src/interface/navigation/channels/HomeSidebar.tsx:137
-#: src/interface/channels/ChannelHeader.tsx:142
+#: src/interface/channels/ChannelHeader.tsx:132
 msgid "Saved Notes"
 msgstr "সংৰক্ষিত টোকাসমূহ"
 
@@ -2218,6 +2267,14 @@ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx:32
 msgid "See what we're currently working on."
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx:52
+msgid "Select audio input"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx:97
+msgid "Select audio output"
 msgstr ""
 
 #: components/modal/modals/CreateGroup.tsx:91
@@ -2317,7 +2374,7 @@ msgstr ""
 msgid "Server Roles"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:170
+#: components/app/interface/settings/UserSettings.tsx:174
 msgid "Sessions"
 msgstr ""
 
@@ -2387,7 +2444,7 @@ msgstr ""
 msgid "Sounds"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:275
+#: components/app/interface/settings/UserSettings.tsx:284
 msgid "Source Code"
 msgstr ""
 
@@ -2401,6 +2458,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx:128
 msgid "Spellchecker"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx:28
+msgid "Start the call"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx:73
@@ -2443,7 +2504,7 @@ msgstr ""
 msgid "Submit to Discover"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:195
+#: components/app/interface/settings/UserSettings.tsx:199
 msgid "Subscriptions"
 msgstr ""
 
@@ -2454,6 +2515,10 @@ msgstr ""
 #: src/interface/Home.tsx:188
 msgid "Support the project by donating - thank you!"
 msgstr "দান কৰি প্ৰকল্পটো সমৰ্থন কৰক - ধন্যবাদ!"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx:44
+msgid "Switch to this voice channel"
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx:28
 msgid "Sync appearance options, such as chosen emoji pack and message density."
@@ -2601,7 +2666,7 @@ msgstr ""
 msgid "Trending GIFs"
 msgstr ""
 
-#: components/app/menus/UserContextMenu.tsx:338
+#: components/app/menus/UserContextMenu.tsx:384
 msgid "Unblock user"
 msgstr "ব্যৱহাৰকাৰীক আনব্লক কৰক"
 
@@ -2679,7 +2744,7 @@ msgstr ""
 msgid "User Management"
 msgstr ""
 
-#: components/app/interface/settings/UserSettings.tsx:154
+#: components/app/interface/settings/UserSettings.tsx:158
 msgid "User Settings"
 msgstr "আপোনাৰ ছেটিংছ"
 
@@ -2712,7 +2777,15 @@ msgstr ""
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
 
-#: src/interface/navigation/channels/ServerSidebar.tsx:300
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx:47
+msgid "Using default microphone"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx:92
+msgid "Using default speaker"
+msgstr ""
+
+#: src/interface/navigation/channels/ServerSidebar.tsx:288
 msgid "Verified"
 msgstr ""
 
@@ -2720,7 +2793,7 @@ msgstr ""
 msgid "Verifying your account…"
 msgstr "অপুনাৰ একাউণ্ট প্ৰমণিত কৰা হয় আছে…"
 
-#: components/app/interface/settings/UserSettings.tsx:126
+#: components/app/interface/settings/UserSettings.tsx:130
 #: components/app/interface/settings/user/Native.tsx:151
 msgid "Version:"
 msgstr ""
@@ -2737,7 +2810,7 @@ msgstr ""
 msgid "View currently active bug reports here."
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx:257
+#: src/interface/channels/ChannelHeader.tsx:230
 msgid "View members"
 msgstr ""
 
@@ -2745,7 +2818,7 @@ msgstr ""
 msgid "View older updates"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx:217
+#: src/interface/channels/ChannelHeader.tsx:190
 msgid "View pinned messages"
 msgstr ""
 
@@ -2757,6 +2830,7 @@ msgstr "পুনৰুদ্ধাৰ কোডসমূহ দৰ্শন ক
 msgid "Viewing older messages"
 msgstr "পুৰণি বাৰ্তাসমূহ দৰ্শন কৰা হৈছে"
 
+#: components/app/interface/settings/UserSettings.tsx:222
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:325
 msgid "Voice"
 msgstr ""
@@ -2764,6 +2838,14 @@ msgstr ""
 #: components/modal/modals/CreateChannel.tsx:76
 msgid "Voice Channel"
 msgstr "ভইচ চেনেল"
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx:15
+msgid "Voice Processing"
+msgstr ""
+
+#: components/app/menus/UserContextMenu.tsx:199
+msgid "Volume"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx:172
 msgid "Want to change username?"
@@ -2801,6 +2883,11 @@ msgstr "স্বাগতম!"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:147
 msgid "Whether other users can edit these settings"
+msgstr ""
+
+#. placeholder {0}: names.join(", ")
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx:28
+msgid "With {0}"
 msgstr ""
 
 #: components/modal/modals/CreateGroupOrServer.tsx:42
@@ -2888,6 +2975,10 @@ msgstr "এই চেনেলত বাৰ্তা প্ৰেৰণ কৰ�
 
 #: components/i18n/errors.ts:36
 msgid "You have this user blocked."
+msgstr ""
+
+#: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx:38
+msgid "You muted this user."
 msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx:88

@@ -1,29 +1,16 @@
-import {
-  BiRegularCheckCircle,
-  BiRegularHash,
-  BiRegularPhoneCall,
-  BiSolidCheckCircle,
-} from "solid-icons/bi";
-import { Accessor, For, JSX, Match, Show, Switch, createMemo } from "solid-js";
+import { BiRegularCheckCircle, BiSolidCheckCircle } from "solid-icons/bi";
+import { Accessor, JSX, Match, Show, Switch, createMemo } from "solid-js";
 import { Setter } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import type {
-  API,
-  Channel,
-  Server,
-  ServerFlags,
-  VoiceParticipant,
-} from "stoat.js";
-import { cva } from "styled-system/css";
+import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { CategoryContextMenu, UserContextMenu } from "@revolt/app";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
-import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import {
   Avatar,
@@ -41,6 +28,7 @@ import {
   symbolSize,
   typography,
 } from "@revolt/ui";
+import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
@@ -442,6 +430,7 @@ function Entry(
   props: { channel: Channel; active: boolean } & Pick<Props, "menuGenerator">,
 ) {
   const state = useState();
+  const voice = useVoice();
   const { openModal } = useModals();
 
   const canEditChannel = createMemo(() =>
@@ -461,14 +450,18 @@ function Entry(
       (props.channel.mentions?.size || true),
   );
 
+  const inCall = () => props.channel.id === voice.channel()?.id;
+
   const attentionState = createMemo(() =>
     props.active
       ? "selected"
-      : state.notifications.isChannelMuted(props.channel)
-        ? "muted"
-        : props.channel.unread
-          ? "active"
-          : "normal",
+      : inCall()
+        ? "active"
+        : state.notifications.isChannelMuted(props.channel)
+          ? "muted"
+          : props.channel.unread
+            ? "active"
+            : "normal",
   );
 
   return (
@@ -485,7 +478,12 @@ function Entry(
                 fallback={<Symbol fontSize="1.5em !important">grid_3x3</Symbol>}
               >
                 <Match when={props.channel.isVoice}>
-                  <Symbol fontSize="1.5em !important">headset_mic</Symbol>
+                  <Symbol
+                    fontSize="1.5em !important"
+                    color={inCall() ? "var(--md-sys-color-primary)" : undefined}
+                  >
+                    headset_mic
+                  </Symbol>
                 </Match>
               </Switch>
               <Show when={props.channel.icon}>
@@ -558,92 +556,11 @@ function Entry(
           </OverflowingText>
         </MenuButton>
 
-        <Show when={props.channel.voiceParticipants.size}>
-          <PreviewBox>
-            <For each={[...props.channel.voiceParticipants.values()]}>
-              {(participant) => <VoicePreviewUser participant={participant} />}
-            </For>
-          </PreviewBox>
-        </Show>
+        <VoiceChannelPreview channel={props.channel} />
       </Column>
     </a>
   );
 }
-
-function VoicePreviewUser(props: { participant: VoiceParticipant }) {
-  const user = useUser(props.participant.userId);
-
-  return (
-    <div
-      class={previewUser()}
-      use:floating={{
-        userCard: {
-          user: user().user!,
-          member: user().member,
-        },
-        contextMenu: () => (
-          <UserContextMenu user={user().user!} member={user().member} />
-        ),
-      }}
-    >
-      <Ripple />
-      <Avatar size={24} src={user().avatar} fallback={user().username} />{" "}
-      <PreviewUsername>{user().username}</PreviewUsername>
-      <Row gap="sm">
-        <Show when={!props.participant.isPublishing()}>
-          <Symbol size={16}>mic_off</Symbol>
-        </Show>
-        <Show when={!props.participant.isReceiving()}>
-          <Symbol size={16}>headset_off</Symbol>
-        </Show>
-        <Show when={props.participant.isCamera()}>
-          <Symbol size={16}>camera_video</Symbol>
-        </Show>
-        <Show when={props.participant.isCamera()}>
-          <Symbol size={16}>screen_share</Symbol>
-        </Show>
-      </Row>
-    </div>
-  );
-}
-
-const PreviewBox = styled("div", {
-  base: {
-    minWidth: 0,
-    display: "flex",
-    flexDirection: "column",
-
-    marginBlock: "var(--gap-sm)",
-    marginInlineStart: "var(--gap-xl)",
-    marginInlineEnd: "var(--gap-md)",
-
-    color: "var(--md-sys-color-outline)",
-
-    borderRadius: "var(--borderRadius-md)",
-  },
-});
-
-const previewUser = cva({
-  base: {
-    padding: "var(--gap-sm)",
-    position: "relative", // ... <Ripple />
-    display: "flex",
-    gap: "var(--gap-md)",
-    alignItems: "center",
-    borderRadius: "var(--borderRadius-md)",
-  },
-});
-
-const PreviewUsername = styled("span", {
-  base: {
-    ...typography.raw(),
-
-    flexGrow: 1,
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-  },
-});
 
 /**
  * Channel icon styling

@@ -251,7 +251,7 @@ export function TextEditor(props: Props) {
   const client = useClient();
   const [autoComplete, setAutoComplete] = createSignal<AutoCompleteView>();
 
-  // (AC1.) define what items will be searched through
+  // todo: (AC1.) define what items will be searched through
   const searchSpace = createMemo(() => {
     return {
       emoji: [MAPPED_EMOJI_KEYS, client().emojis.toList()].flat(),
@@ -265,7 +265,7 @@ export function TextEditor(props: Props) {
     };
   });
 
-  // (AC2.) define search mechanism for the new trigger
+  // todo: (AC2.) define search mechanism for the new trigger
   function updateAutoComplete(trigger: string, query?: string) {
     query = query?.toLowerCase();
 
@@ -729,6 +729,7 @@ export function TextEditor(props: Props) {
 
           return false;
         },
+        // todo
         "Ctrl-b": toggleMark(schema.marks.strong),
         "Ctrl-i": toggleMark(schema.marks.em),
         "Ctrl-s": toggleMark(schema.marks.strikethrough),

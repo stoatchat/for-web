@@ -16,6 +16,7 @@ interface Props {
     | "time24"
     | "time12";
   referenceTime?: number | Date | string;
+  hideSuffix?: boolean;
 }
 
 /**
@@ -46,7 +47,7 @@ export function formatTime(
       case "iso8601":
         return dayjs(options.value).format("YYYY-MM-DD");
       case "relative":
-        return dayjs(options.value).fromNow();
+        return dayjs(options.value).from(options.referenceTime ?? Date.now(), options.hideSuffix);
       case "time12":
         return dayjs(options.value).format("h:mm A");
       case "time24":

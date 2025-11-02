@@ -43,7 +43,7 @@ export default {
   DEFAULT_PROXY_URL:
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_PROXY_URL : undefined) ??
     (import.meta.env.VITE_PROXY_URL as string) ??
-    "https://proxy.stoat.chat",
+    "https://proxy.stoatusercontent.com",
   /**
    * hCaptcha site key to use if enabled
    */

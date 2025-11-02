@@ -14,6 +14,7 @@ import { TypeOrdering } from "./Ordering";
 import { TypeSettings } from "./Settings";
 import { TypeSynchronisation } from "./Sync";
 import { TypeTheme } from "./Theme";
+import { TypeVoice } from "./Voice";
 
 export type Store = {
   auth: TypeAuth;
@@ -28,6 +29,7 @@ export type Store = {
   settings: TypeSettings;
   sync: TypeSynchronisation;
   theme: TypeTheme;
+  voice: TypeVoice;
 };
 
 /**

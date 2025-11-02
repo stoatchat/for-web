@@ -1,4 +1,3 @@
-import { BiRegularAt } from "solid-icons/bi";
 import { Accessor, Match, Setter, Show, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
@@ -9,7 +8,6 @@ import { styled } from "styled-system/jsx";
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
-import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -58,14 +56,6 @@ export function ChannelHeader(props: Props) {
   const client = useClient();
   const { t } = useLingui();
   const state = useState();
-  const rtc = useVoice();
-
-  /**
-   * Join voice call
-   */
-  async function joinCall() {
-    rtc.connect(props.channel);
-  }
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
@@ -144,23 +134,6 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
-
-      <Show
-        when={props.channel.type !== "SavedMessages" && props.channel.isVoice}
-      >
-        <IconButton
-          variant="standard"
-          onPress={joinCall}
-          use:floating={{
-            tooltip: {
-              placement: "bottom",
-              content: t`Join call`,
-            },
-          }}
-        >
-          <MdCall />
-        </IconButton>
-      </Show>
 
       <Show
         when={

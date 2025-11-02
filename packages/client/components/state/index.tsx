@@ -24,6 +24,7 @@ import { Ordering } from "./stores/Ordering";
 import { Settings } from "./stores/Settings";
 import { Sync } from "./stores/Sync";
 import { Theme } from "./stores/Theme";
+import { Voice } from "./stores/Voice";
 
 export { SyncWorker } from "./SyncWorker";
 
@@ -59,6 +60,7 @@ export class State {
   settings = new Settings(this);
   sync = new Sync(this);
   theme = new Theme(this);
+  voice = new Voice(this);
 
   /**
    * Iterate over all available stores

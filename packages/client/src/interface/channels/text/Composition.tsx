@@ -4,8 +4,8 @@ import {
   Show,
   Switch,
   createEffect,
-  createSignal,
   createMemo,
+  createSignal,
   on,
   onCleanup,
 } from "solid-js";
@@ -16,11 +16,10 @@ import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { CONFIGURATION } from "@revolt/common";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-
-import { CONFIGURATION } from "@revolt/common";
 import {
   CompositionMediaPicker,
   FileCarousel,
@@ -30,12 +29,10 @@ import {
   MessageBox,
   MessageReplyPreview,
   Row,
-  humanFileSize
+  humanFileSize,
 } from "@revolt/ui";
-import { generateSearchSpaceFrom } from "@revolt/ui/components/utils/autoComplete";
-import { Symbol } from "@revolt/ui/components/utils/Symbol"
-
-
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 
 interface Props {
   /**
@@ -91,9 +88,8 @@ export function MessageComposition(props: Props) {
     currentValue(),
   ] as const);
 
-  const [nodeReplacement, setNodeReplacement] = createSignal<
-    Node | readonly ["_focus"]
-  >();
+  const [nodeReplacement, setNodeReplacement] =
+    createSignal<readonly [string | "_focus"]>();
 
   // bind this composition instance to the global node replacement signal
   state.draft._setNodeReplacement = setNodeReplacement;
@@ -172,10 +168,14 @@ export function MessageComposition(props: Props) {
 
     if (typeof useContent === "string") {
       const currentDraft = draft();
-      if (currentDraft?.replies?.length && !currentDraft.content && !currentDraft.files?.length) {
-        state.draft.setDraft(props.channel.id, { 
+      if (
+        currentDraft?.replies?.length &&
+        !currentDraft.content &&
+        !currentDraft.files?.length
+      ) {
+        state.draft.setDraft(props.channel.id, {
           ...currentDraft,
-          content: useContent 
+          content: useContent,
         });
         return state.draft.sendDraft(client(), props.channel);
       }
@@ -216,14 +216,18 @@ export function MessageComposition(props: Props) {
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];
         const fileSize = humanFileSize(file.size);
-        const error = new Error(t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`);
+        const error = new Error(
+          t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`,
+        );
         error.name = "File too large";
         openModal({
           type: "error2",
           error,
         });
       } else {
-        const error = new Error(t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`);
+        const error = new Error(
+          t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`,
+        );
         error.name = "Files too large";
         openModal({
           type: "error2",
@@ -273,6 +277,8 @@ export function MessageComposition(props: Props) {
     state.draft.removeFile(props.channel.id, fileId);
   }
 
+  const searchSpace = useSearchSpace(() => props.channel, client);
+
   return (
     <>
       <Show when={state.draft.hasAdditionalElements(props.channel.id)}>
@@ -319,7 +325,7 @@ export function MessageComposition(props: Props) {
       <MessageBox
         initialValue={initialValue()}
         nodeReplacement={nodeReplacement()}
-        onSendMessage={sendMessage}
+        onSendMessage={() => sendMessage()}
         onTyping={delayedStopTyping}
         onEditLastMessage={() => state.draft.setEditingMessage(true)}
         content={draft()?.content ?? ""}
@@ -338,7 +344,7 @@ export function MessageComposition(props: Props) {
         actionsEnd={
           <CompositionMediaPicker
             onMessage={sendMessage}
-            onTextReplacement={setNodeReplacement}
+            onTextReplacement={(text) => setNodeReplacement([text])}
           >
             {(triggerProps) => (
               <>
@@ -366,17 +372,17 @@ export function MessageComposition(props: Props) {
               : t`Message ${props.channel.name}`
         }
         sendingAllowed={props.channel.havePermission("SendMessage")}
-        autoCompleteSearchSpace={generateSearchSpaceFrom(
-          props.channel,
-          client(),
-        )}
+        autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)
+        }
+        hasActionsAppend={
+          state.settings.getValue("appearance:show_send_button") || false
         }
         actionsAppend={
           <Show when={state.settings.getValue("appearance:show_send_button")}>
             <IconButton
-              _fullHeight
+              _compositionSendMessage
               size="sm"
               variant={canSend() ? "filled" : "tonal"}
               shape="square"

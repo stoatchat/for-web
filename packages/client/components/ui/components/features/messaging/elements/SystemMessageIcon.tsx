@@ -12,6 +12,7 @@ import {
   BiSolidPurchaseTag,
   BiSolidShieldX,
   BiSolidXCircle,
+  BiRegularPhone,
 } from "solid-icons/bi";
 import { Match, Switch } from "solid-js";
 
@@ -93,6 +94,11 @@ export function SystemMessageIcon(props: {
             }
           >
             <BiRegularPin size={16} />
+          </Match>
+          <Match
+            when={props.systemMessage.type === "call_started"}
+          >
+            <BiRegularPhone size={16} />
           </Match>
         </Switch>
       </Tooltip>

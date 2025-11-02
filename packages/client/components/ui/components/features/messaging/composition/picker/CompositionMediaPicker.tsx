@@ -44,7 +44,7 @@ interface Props {
   /**
    * Text replacement
    */
-  onTextReplacement: (node: Node) => void;
+  onTextReplacement: (node: string) => void;
 }
 
 export const CompositionMediaPickerContext = createContext(

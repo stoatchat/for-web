@@ -16,17 +16,18 @@ import { DraftMessages, Messages } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useNavigate, useSmartParams } from "@revolt/routing";
-import { Demo, DemoWrapper } from "@revolt/rtc/Demo";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
   BelowFloatingHeader,
+  Deferred,
   Header,
   NewMessages,
   Text,
   TypingIndicator,
   main,
 } from "@revolt/ui";
+import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
 
 import { ChannelHeader } from "../ChannelHeader";
 import { ChannelPageProps } from "../ChannelPage";
@@ -162,44 +163,50 @@ export function TextChannel(props: ChannelPageProps) {
           setSidebarState={setSidebarState}
         />
       </Header>
-
-      <Show when={props.channel.isVoice}>
-        <DemoWrapper channel={props.channel} />
-      </Show>
-
       <Content>
         <main class={main()}>
-          <BelowFloatingHeader>
-            <div>
-              <NewMessages
-                lastId={lastId}
-                jumpBack={() => navigate(lastId()!)}
-                dismiss={() => setLastId()}
-              />
-            </div>
-          </BelowFloatingHeader>
-          <Messages
-            channel={props.channel}
-            limit={150}
-            lastReadId={lastId}
-            pendingMessages={(pendingProps) => (
-              <DraftMessages
-                channel={props.channel}
-                tail={pendingProps.tail}
-                sentIds={pendingProps.ids}
-              />
-            )}
-            typingIndicator={
-              <TypingIndicator
-                users={props.channel.typing}
-                ownId={client().user!.id}
-              />
+          <Show
+            when={props.channel.isVoice}
+            fallback={
+              <BelowFloatingHeader>
+                <div>
+                  <NewMessages
+                    lastId={lastId}
+                    jumpBack={() => navigate(lastId()!)}
+                    dismiss={() => setLastId()}
+                  />
+                </div>
+              </BelowFloatingHeader>
             }
-            highlightedMessageId={highlightMessageId}
-            clearHighlightedMessage={() => navigate(".")}
-            atEndRef={(ref) => (atEndRef = ref)}
-            jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
-          />
+          >
+            <VoiceChannelCallCardMount channel={props.channel} />
+          </Show>
+
+          <Deferred>
+            <Messages
+              channel={props.channel}
+              limit={150}
+              lastReadId={lastId}
+              pendingMessages={(pendingProps) => (
+                <DraftMessages
+                  channel={props.channel}
+                  tail={pendingProps.tail}
+                  sentIds={pendingProps.ids}
+                />
+              )}
+              typingIndicator={
+                <TypingIndicator
+                  users={props.channel.typing}
+                  ownId={client().user!.id}
+                />
+              }
+              highlightedMessageId={highlightMessageId}
+              clearHighlightedMessage={() => navigate(".")}
+              atEndRef={(ref) => (atEndRef = ref)}
+              jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+            />
+          </Deferred>
+
           <MessageComposition
             channel={props.channel}
             onMessageSend={() => jumpToBottomRef?.()}
