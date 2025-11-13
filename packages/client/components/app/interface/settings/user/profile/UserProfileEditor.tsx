@@ -81,7 +81,6 @@ export function UserProfileEditor(props: Props) {
       editGroup.controls.banner.setValue(
         profile.data.animatedBannerURL || null,
       );
-
       editGroup.controls.bio.setValue(profile.data.content || "");
       setInitialBio([profile.data.content || ""]);
     }
@@ -91,10 +90,6 @@ export function UserProfileEditor(props: Props) {
     const changes: API.DataEditUser = {
       remove: [],
     };
-
-    // if (editGroup.controls.username.isDirty) {
-    //   changes.
-    // }
 
     if (editGroup.controls.displayName.isDirty) {
       changes.display_name = editGroup.controls.displayName.value.trim();
@@ -135,12 +130,14 @@ export function UserProfileEditor(props: Props) {
     }
 
     await props.user.edit(changes);
+    await profile.refetch();
+    onReset();
   }
 
-  const submit = Form2.useSubmitHandler(editGroup, onSubmit, onReset);
+  const submit = Form2.useSubmitHandler(editGroup, onSubmit);
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={submit} onReset={onReset}>
       <Column>
         <Form2.FileInput
           control={editGroup.controls.avatar}
