@@ -181,6 +181,7 @@ export function RenderAnchor(
     ) {
       if (event.button === 0 || event.button === 1) {
         event.preventDefault();
+        event.stopPropagation();
 
         openModal({
           type: "link_warning",
