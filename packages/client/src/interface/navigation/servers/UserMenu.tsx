@@ -40,7 +40,7 @@ interface Props {
 const TruncatedStatusText = styled("div", {
   base:
   {
-    maxWidth: '300px',
+    maxWidth: 'var(--layout-width-user-context-menu-truncate)',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
