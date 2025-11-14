@@ -94,6 +94,6 @@ const themeConstants = {
   },
   layout: {
     "width-channel-sidebar": "248px",
-    "width-user-context-menu-truncate": "300px"
+    "width-user-context-menu-truncate": "300px",
   },
 };

@@ -38,14 +38,13 @@ interface Props {
 }
 
 const TruncatedStatusText = styled("div", {
-  base:
-  {
-    maxWidth: 'var(--layout-width-user-context-menu-truncate)',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
+  base: {
+    maxWidth: "var(--layout-width-user-context-menu-truncate)",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
-})
+});
 
 /**
  * User menu attached to the server list
