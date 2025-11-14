@@ -31,7 +31,7 @@ export function Slider(props: Props) {
 
   createEffect(
     on(ref, (ref) => {
-      if (ref) {
+      if (ref && local.labelFormatter) {
         ref.labelFormatter = local.labelFormatter;
       }
     }),
