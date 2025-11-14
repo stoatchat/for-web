@@ -24,9 +24,8 @@ jobs:
           echo `pwd`/mdbook >> $GITHUB_PATH
       - name: Install latest mdbook-katex
         run: |
-          tag=$(curl 'https://api.github.com/repos/lzanini/mdbook-katex/releases/tags/0.9.3-binaries' | jq -r '.tag_name')
-          tag_short=v${tag/-binaries/}
-          url="https://github.com/lzanini/mdbook-katex/releases/download/${tag}/mdbook-katex-${tag_short}-x86_64-unknown-linux-gnu.tar.gz"
+          tag=$(curl -s 'https://api.github.com/repos/lzanini/mdbook-katex/releases/latest' | jq -r '.tag_name')
+          url="https://github.com/lzanini/mdbook-katex/releases/download/${tag}/mdbook-katex-${tag}-x86_64-unknown-linux-gnu.tar.gz"
           mkdir mdbook-katex
           curl -sSL $url | tar -xz --directory=./mdbook-katex
           echo `pwd`/mdbook-katex >> $GITHUB_PATH
