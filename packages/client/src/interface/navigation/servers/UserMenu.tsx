@@ -37,6 +37,16 @@ interface Props {
   anchor: Accessor<HTMLDivElement | undefined>;
 }
 
+const TruncatedStatusText = styled("div", {
+  base:
+  {
+    maxWidth: '300px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  },
+})
+
 /**
  * User menu attached to the server list
  */
@@ -222,7 +232,9 @@ export function UserMenu(props: Props) {
                   }
                   _titleCase={false}
                 >
-                  {user()!.status!.text}
+                  <TruncatedStatusText>
+                    {user()!.status!.text}
+                  </TruncatedStatusText>
                 </ContextMenuButton>
                 <ContextMenuButton
                   icon={MdDelete}
