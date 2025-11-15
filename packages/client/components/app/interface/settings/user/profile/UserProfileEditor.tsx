@@ -2,7 +2,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 import { Show, createEffect, createSignal, on } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { useQuery } from "@tanstack/solid-query";
+import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { API, User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
@@ -27,6 +27,7 @@ interface Props {
 export function UserProfileEditor(props: Props) {
   const { t } = useLingui();
   const client = useClient();
+  const queryClient = useQueryClient();
 
   const profile = useQuery(() => ({
     queryKey: ["profile", props.user.id],
@@ -116,6 +117,8 @@ export function UserProfileEditor(props: Props) {
       }
     }
 
+    let newBannerUrl: string | null = null;
+
     if (editGroup.controls.banner.isDirty) {
       if (!editGroup.controls.banner.value) {
         changes.remove!.push("ProfileBackground");
@@ -126,18 +129,30 @@ export function UserProfileEditor(props: Props) {
           editGroup.controls.banner.value[0],
           CONFIGURATION.DEFAULT_MEDIA_URL,
         );
+
+        newBannerUrl = `${CONFIGURATION.DEFAULT_MEDIA_URL}/backgrounds/${changes.profile.background}`;
+      } else {
+        newBannerUrl = editGroup.controls.banner.value;
       }
     }
 
     await props.user.edit(changes);
-    await profile.refetch();
-    onReset();
+
+    if (editGroup.controls.banner.isDirty && profile.data) {
+      queryClient.setQueryData(["profile", props.user.id], {
+        ...profile.data,
+        animatedBannerURL: newBannerUrl,
+        bannerURL: newBannerUrl,
+      });
+
+      editGroup.controls.banner.setValue(newBannerUrl);
+    }
   }
 
   const submit = Form2.useSubmitHandler(editGroup, onSubmit);
 
   return (
-    <form onSubmit={submit} onReset={onReset}>
+    <form onSubmit={submit}>
       <Column>
         <Form2.FileInput
           control={editGroup.controls.avatar}
