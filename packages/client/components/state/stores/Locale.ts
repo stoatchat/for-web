@@ -41,7 +41,6 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
   hydrate(): void {
     const { lang, options } = this.get();
     loadAndSwitchLocale(lang, options);
-    updateTimeLocaleOptions(options);
   }
 
   /**

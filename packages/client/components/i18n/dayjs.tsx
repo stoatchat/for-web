@@ -2,7 +2,7 @@ import { createSignal } from "solid-js";
 
 import { i18n } from "@lingui/core";
 import dayjs from "dayjs";
-import dayjs_en from "dayjs/esm/locale/en-gb.js";
+import locale_en_GB from "dayjs/esm/locale/en-gb.js";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import calendar from "dayjs/plugin/calendar";
 import localizedFormat from "dayjs/plugin/localizedFormat";
@@ -35,11 +35,10 @@ export async function loadTimeLocale(
   const target = language.dayjs ?? language.i18n;
   const locale =
     useLocale ??
-    (target === "en-gb"
-      ? dayjs_en
-      : ((await import(`../../node_modules/dayjs/esm/locale/${target}.js`).then(
-          (module) => module.default,
-        )) as ILocale));
+    LOCALE_OVERRIDES[target] ??
+    ((await import(`../../node_modules/dayjs/esm/locale/${target}.js`).then(
+      (module) => module.default,
+    )) as ILocale);
 
   // merge options for calendar
   (locale as unknown as { calendar: Record<string, string> }).calendar = {
@@ -91,7 +90,7 @@ export function updateTimeLocaleOptions(
  * Initialisation function
  */
 export function initTime() {
-  loadTimeLocale(Languages.en, {}, dayjs_en);
+  loadTimeLocale(Languages.en, {}, locale_en_GB);
 }
 
 /**
@@ -102,3 +101,32 @@ export function useTime() {
   // eslint-disable-next-line solid/reactivity
   return (date?: dayjs.ConfigType) => dayjs(date).locale(...timeLocale());
 }
+
+/**
+ * Define a custom en_US locale because dayjs doesn't include an exhaustive definition
+ */
+const locale_en_US: ILocale & { yearStart: number } = {
+  name: "en",
+  weekdays: locale_en_GB["weekdays"],
+  weekdaysShort: locale_en_GB["weekdaysShort"],
+  weekdaysMin: locale_en_GB["weekdaysMin"],
+  months: locale_en_GB["months"],
+  monthsShort: locale_en_GB["monthsShort"],
+  weekStart: locale_en_GB["weekStart"],
+  yearStart: (locale_en_GB as never as { yearStart: number })["yearStart"],
+  relativeTime: locale_en_GB["relativeTime"],
+  formats: {
+    LT: "h:mm A",
+    LTS: "h:mm:ss A",
+    L: "MM/DD/YYYY",
+    LL: "MMMM D, YYYY",
+    LLL: "MMMM D, YYYY h:mm A",
+    LLLL: "dddd, MMMM D, YYYY h:mm A",
+  },
+  ordinal: locale_en_GB["ordinal"],
+};
+
+const LOCALE_OVERRIDES: Record<string, ILocale> = {
+  "en-gb": locale_en_GB,
+  en: locale_en_US,
+};

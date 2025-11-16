@@ -126,6 +126,7 @@ function PickLanguage() {
  */
 function PickDateFormat() {
   const state = useState();
+  const { t } = useLingui();
   const date = () => timeLocale()[1].formats.L;
 
   const LastWeek = new Date();
@@ -135,7 +136,15 @@ function PickDateFormat() {
     <CategoryCollapse
       icon={<MdCalendarMonth {...iconSize(22)} />}
       title="Select date format"
-      description={`Traditional ` + date()}
+      description={
+        date() === "DD/MM/YYYY"
+          ? t`Traditional (DD/MM/YYYY)`
+          : date() === "MM/DD/YYYY"
+            ? t`American (MM/DD/YYYY)`
+            : date() === "YYYY-MM-DD"
+              ? t`ISO Standard (YYYY-MM-DD)`
+              : date()
+      }
     >
       <CategoryButton
         icon={"blank"}
@@ -170,13 +179,14 @@ function PickDateFormat() {
  */
 function PickTimeFormat() {
   const state = useState();
+  const { t } = useLingui();
   const time = () => timeLocale()[1].formats.LT;
 
   return (
     <CategoryCollapse
       icon={<MdSchedule {...iconSize(22)} />}
       title="Select time format"
-      description={`24 hours`}
+      description={time() === "HH:mm" ? t`24 hours` : t`12 hours`}
     >
       <CategoryButton
         icon={"blank"}
