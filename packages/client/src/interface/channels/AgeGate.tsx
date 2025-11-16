@@ -35,7 +35,7 @@ export function AgeGate(props: {
   const geoQuery = useQuery(() => ({
     queryKey: ["geoblock"],
     queryFn: async (): Promise<GeoBlock> => {
-      const response = await fetch("https://geo.revolt.chat"); // TODO-STOAT-WEB
+      const response = await fetch("https://geo.revolt.chat");
       if (!response.ok) {
         throw new Error("Failed to fetch geo data");
       }

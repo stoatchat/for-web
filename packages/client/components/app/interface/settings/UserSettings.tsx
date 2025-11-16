@@ -180,7 +180,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
               icon: <MdRateReview {...iconSize(20)} />,
               title: <Trans>Feedback</Trans>,
             },
-            // {  // TODO-STOAT-WEB
+            // {
             //   href: "https://wiki.revolt.chat/notes/project/financial-support/",
             //   icon: <MdLocalCafe {...iconSize(20)} />,
             //   title: <Trans>Donate</Trans>,

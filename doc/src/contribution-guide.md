@@ -1,8 +1,8 @@
 # Contribution Guide
 
-If you have not yet read it, read the main [contribution guide](https://developers.stoat.chat/contrib.html). // TODO-STOAT-WEB
+If you have not yet read it, read the main [contribution guide](https://developers.stoat.chat/developing/contrib/).
 
-You can get started with Stoat for Web by following [the development guide on the repository](https://github.com/stoatchat/for-web?tab=readme-ov-file#development-guide). // TODO-STOAT-WEB
+You can get started with Stoat for Web by following [the development guide on the repository](https://github.com/stoatchat/for-web?tab=readme-ov-file#development-guide).
 
 ## Contribution Policy
 

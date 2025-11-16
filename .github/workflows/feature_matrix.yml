@@ -46,6 +46,6 @@ jobs:
       - name: Commit changes
         run: |
           git config --global user.name 'Stoat CI'
-          git config --global user.email 'stoat-ci@users.noreply.github.com' // TODO-STOAT-WEB
+          git config --global user.email 'stoat-ci@users.noreply.github.com'
           git commit -am "chore(docs): update feature matrix"
           git push

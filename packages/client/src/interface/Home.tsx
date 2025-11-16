@@ -181,7 +181,7 @@ export function HomePage() {
               variant="tertiary"
               onClick={() =>
                 window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/", // TODO-STOAT-WEB
+                  "https://wiki.revolt.chat/notes/project/financial-support/",
                 )
               }
               description={
