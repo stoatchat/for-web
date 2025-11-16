@@ -121,8 +121,10 @@ export class ModalController {
    * Whether a modal is currently open
    * @returns Boolean
    */
-  isOpen() {
-    return !!this.modals.find((x) => x.show);
+  isOpen(type?: string) {
+    return type
+      ? !!this.modals.find((x) => x.show && x.props.type === type)
+      : !!this.modals.find((x) => x.show);
   }
 }
 

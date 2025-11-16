@@ -16,7 +16,7 @@ import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 export function EditMessage(props: { message: Message }) {
   const state = useState();
   const client = useClient();
-  const { openModal } = useModals();
+  const { openModal, isOpen, pop } = useModals();
 
   const initialValue = [state.draft.editingMessageContent || ""] as const;
 
@@ -36,6 +36,9 @@ export function EditMessage(props: { message: Message }) {
     if (content?.length) {
       state.draft._setNodeReplacement?.(["_focus"]); // focus message box
       change.mutate(content);
+    } else if (isOpen("delete_message")) {
+      void props.message.delete();
+      pop();
     } else {
       openModal({
         type: "delete_message",
