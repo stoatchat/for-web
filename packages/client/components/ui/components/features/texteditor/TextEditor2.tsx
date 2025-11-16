@@ -116,6 +116,9 @@ export function TextEditor2(props: Props) {
     state: EditorState.create({
       doc: props.initialValue?.[0],
       extensions: [
+        /* Enable browser spellchecking */
+        EditorView.contentAttributes.of({ spellcheck: "true" }),
+
         /* Mount keymaps */
         enterKeymap,
         keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
