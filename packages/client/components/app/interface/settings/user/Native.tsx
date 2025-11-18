@@ -128,10 +128,10 @@ export default function Native() {
           <Trans>Spellchecker</Trans>
         </CategoryButton>
         <CategoryButton
-          action={<Checkbox checked={config().spellchecker} />}
+          action={<Checkbox checked={config().hardwareAcceleration} />}
           onClick={() =>
             set({
-              spellchecker: !config().spellchecker,
+              hardwareAcceleration: !config().hardwareAcceleration,
             })
           }
           icon={<Symbol>speed</Symbol>}
