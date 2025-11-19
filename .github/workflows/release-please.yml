@@ -1,4 +1,4 @@
-name: release-please
+name: Release Please
 
 on:
   push:
@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   release-please:
+    name: Release Please
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
@@ -23,11 +24,11 @@ jobs:
       - id: rp
         uses: googleapis/release-please-action@v4
         with:
-          config-file: release-please.json
+          config-file: release-please-config.json
 
-  # publish:
-  #   needs: release-please
-  #   if: needs.release-please.outputs.release_created == 'true'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
+# publish:
+#   needs: release-please
+#   if: needs.release-please.outputs.release_created == 'true'
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/checkout@v4
