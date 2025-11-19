@@ -43,26 +43,26 @@ export const ChannelPage: Component = () => {
 
   return (
     <Base>
-      <AgeGate
-        enabled={channel().mature}
-        contentId={channel().id}
-        contentName={"#" + channel().name}
-        contentType="channel"
-      >
-        <Switch fallback="Unknown channel type!">
-          <Match when={!channel()}>
-            <Navigate href={"../.."} />
-          </Match>
-          <Match when={TEXT_CHANNEL_TYPES.includes(channel()!.type)}>
+      <Switch fallback="Unknown channel type!">
+        <Match when={!channel()}>
+          <Navigate href={"../.."} />
+        </Match>
+        <Match when={TEXT_CHANNEL_TYPES.includes(channel()!.type)}>
+          <AgeGate
+            enabled={channel().mature}
+            contentId={channel().id}
+            contentName={"#" + channel().name}
+            contentType="channel"
+          >
             <TextChannel channel={channel()} />
-          </Match>
-          {/* <Match when={channel()!.type === "VoiceChannel"}>
+          </AgeGate>
+        </Match>
+        {/* <Match when={channel()!.type === "VoiceChannel"}>
             <Header placement="primary">
               <ChannelHeader channel={channel()} />
             </Header>
           </Match> */}
-        </Switch>
-      </AgeGate>
+      </Switch>
     </Base>
   );
 };
