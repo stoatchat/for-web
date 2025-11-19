@@ -75,7 +75,6 @@ export function UserProfileEditor(props: Props) {
 
   function onReset() {
     editGroup.controls.displayName.setValue(props.user.displayName);
-    // editGroup.controls.username.setValue(props.user.username);
     editGroup.controls.avatar.setValue(props.user.animatedAvatarURL);
 
     if (profile.data) {
@@ -144,12 +143,10 @@ export function UserProfileEditor(props: Props) {
         animatedBannerURL: newBannerUrl,
         bannerURL: newBannerUrl,
       });
-
-      editGroup.controls.banner.setValue(newBannerUrl);
     }
   }
 
-  const submit = Form2.useSubmitHandler(editGroup, onSubmit);
+  const submit = Form2.useSubmitHandler(editGroup, onSubmit, onReset);
 
   return (
     <form onSubmit={submit}>
