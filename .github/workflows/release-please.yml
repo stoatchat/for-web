@@ -21,10 +21,15 @@ jobs:
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
     steps:
+      - id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_STOAT_RELEASE_APP_ID }}
+          private-key: ${{ secrets.GH_STOAT_RELEASE_APP_PRIVATE_KEY }}
       - id: rp
         uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           config-file: release-please-config.json
 
 # publish:
