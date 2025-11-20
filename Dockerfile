@@ -21,14 +21,9 @@ FROM builder AS prod-deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
 FROM builder AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm build:deps # TODO: Combine with previous
-RUN pnpm build:web
-
-FROM builder AS build-prod
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm build:deps # TODO: Combine with previous
-RUN pnpm build:prod
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile && \
+    pnpm build:deps && \
+    pnpm build:web
 
 # Dev Stage
 FROM base AS dev
@@ -60,5 +55,5 @@ CMD [ "pnpm", "dev:web" ]
 # NGINX
 
 FROM docker.io/nginxinc/nginx-unprivileged:${NGINX_VERSION}-alpine${ALPINE_VERSION}-slim AS prod
-COPY --from=build-prod /usr/src/app/packages/client/dist /usr/share/nginx/html
+COPY --from=build /usr/src/app/packages/client/dist /usr/share/nginx/html
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
