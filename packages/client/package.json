@@ -5,9 +5,9 @@
   "scripts": {
     "prepare": "panda codegen",
     "setup:assets": "node scripts/copyAssets.mjs",
-    "dev": "npm run setup:assets && vite --host",
-    "build": "npm run setup:assets && vite build",
-    "build:hosted": "npm run setup:assets && BASE_PATH=/app/ vite build",
+    "dev": "pnpm run setup:assets && vite --host",
+    "build": "pnpm run setup:assets && vite build",
+    "build:hosted": "pnpm run setup:assets && BASE_PATH=/app/ vite build",
     "serve": "vite preview",
     "test:typecheck": "tsc --noEmit",
     "test:suite": "vitest",

@@ -1,0 +1,48 @@
+services:
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "${VITE_PORT:-5173}:5173" # Vite dev server
+      - "${DEBUG_PORT:-9229}:9229" # Node.js debugger
+    environment:
+      NODE_ENV: development
+      DOCKER_ENV: "true"
+    volumes:
+      - ./packages/client/src:/usr/src/app/packages/client/src:ro
+      - ./package.json:/usr/src/app/package.json
+      - ./packages/client/vite.config.ts:/usr/src/app/packages/client/vite.config.ts:ro
+      - ./packages/client/lingui.config.ts:/usr/src/app/packages/client/lingui.config.ts:ro
+      - ./packages/client/panda.config.ts:/usr/src/app/packages/client/panda.config.ts:ro
+      - ./packages/client/playwright.config.ts:/usr/src/app/packages/client/playwright.config.ts:ro
+      - ./packages/client/postcss.config.cjs:/usr/src/app/packages/client/postcss.config.cjs:ro
+      - ./packages/client/vitest.config.ts:/usr/src/app/packages/client/vitest.config.ts:ro
+    develop:
+      watch:
+        - action: rebuild
+          path: ./package.json
+        - action: rebuild
+          path: ./packages/client/package.json
+        - action: sync+restart
+          path: ./packages/client/.env
+          target: /usr/src/app/packages/client/.env
+    restart: unless-stopped
+  web-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+    ports:
+      - "${PROD_PORT:-8080}:8080"
+    environment:
+      NODE_ENV: production
+      DOCKER_ENV: "true"
+    develop:
+      watch:
+        - action: sync+exec
+          path: ./conf/nginx.conf
+          target: /etc/nginx/conf.d/default.conf
+          exec:
+            command: nginx -s reload
