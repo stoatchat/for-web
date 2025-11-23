@@ -151,20 +151,28 @@ export function UserProfileEditor(props: Props) {
   return (
     <form onSubmit={submit}>
       <Column>
-        <Form2.FileInput
-          control={editGroup.controls.avatar}
-          accept="image/*"
-          label={t`Avatar`}
-          imageJustify={false}
-        />
-        <Form2.FileInput
-          control={editGroup.controls.banner}
-          accept="image/*"
-          label={t`Banner`}
-          imageAspect="232/100"
-          imageRounded={false}
-          imageJustify={false}
-        />
+        <Row>
+          <div>
+            <Form2.FileInput
+              control={editGroup.controls.avatar}
+              accept="image/*"
+              label={t`Avatar`}
+              imageJustify={false}
+            />
+          </div>
+
+          <div>
+            <Form2.FileInput
+              control={editGroup.controls.banner}
+              accept="image/*"
+              label={t`Banner`}
+              imageAspect="232/100"
+              imageRounded={false}
+              imageJustify={false}
+            />
+          </div>
+        </Row>
+
         <Form2.TextField
           name="displayName"
           control={editGroup.controls.displayName}
