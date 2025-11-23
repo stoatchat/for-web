@@ -31,9 +31,6 @@ FROM build AS dev
 ENV NODE_ENV=development \
     NPM_CONFIG_LOGLEVEL=warn
 
-# not strictly necessary(?)
-COPY . .
-
 EXPOSE 5173 9229
 CMD [ "pnpm", "dev:web" ]
 
