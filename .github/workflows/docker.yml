@@ -82,7 +82,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          entrypoint: prod
+          target: prod
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta-delta.outputs.tags }}
