@@ -90,6 +90,20 @@ mise build:prod
 
 You can now deploy the directory `packages/client/dist`.
 
+### Build Docker image
+
+```bash
+# Copy .env.example -> .env
+cp .env.example .env
+
+# Build and run image (integrated dev server, access via http://localhost:5173/)
+# Enable watch mode by pressing "w" after the container has started
+docker compose up web-dev --build
+
+# ... when building for production, just use this (has integrated Nginx, access via http://localhost:8080)
+docker compose up web-prod --build
+```
+
 ### Routing Information
 
 The app currently needs the following routes:
