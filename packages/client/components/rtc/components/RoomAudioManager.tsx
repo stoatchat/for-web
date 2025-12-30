@@ -1,5 +1,5 @@
 import { createEffect, createMemo } from "solid-js";
-import { AudioTrack, useTracks } from "solid-livekit-components";
+import { AudioTrack, useTracks, useMaybeRoomContext } from "solid-livekit-components";
 
 import { getTrackReferenceId, isLocal } from "@livekit/components-core";
 import { Key } from "@solid-primitives/keyed";
@@ -13,6 +13,8 @@ export function RoomAudioManager() {
   const voice = useVoice();
   const state = useState();
 
+  const roomFromContext = useMaybeRoomContext();
+
   const tracks = useTracks(
     [
       Track.Source.Microphone,
@@ -22,6 +24,7 @@ export function RoomAudioManager() {
     {
       updateOnlyOn: [],
       onlySubscribed: false,
+	  room: roomFromContext?.(),
     },
   );
 
