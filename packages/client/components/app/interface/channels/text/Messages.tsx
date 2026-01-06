@@ -112,10 +112,6 @@ export function Messages(props: Props) {
    */
   const [messages, setMessages] = createSignal<MessageInterface[]>([]);
 
-  createEffect(() =>
-    console.info(messages().map((x) => x.content.slice(0, 20))),
-  );
-
   /**
    * Whether we've reached the start of the conversation
    */
