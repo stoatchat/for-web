@@ -93,6 +93,11 @@ type Props = CommonProps & {
   sendStatus?: "sending" | "failed";
 
   /**
+   * Whether we are hovering this message
+   */
+  onHover?: (hovering: boolean) => void;
+
+  /**
    * Component to render message context menu
    */
   contextMenu?: () => JSX.Element;
@@ -264,7 +269,7 @@ const infoText = cva({
   variants: {
     prefix: {
       true: {
-        width: "calc(36px + 2 * var(--gap-sm))",
+        width: "calc(7ch * var(--gap-sm))",
         fontSize: "0.7em",
 
         display: "block",
@@ -306,6 +311,8 @@ export function MessageContainer(props: Props) {
   return (
     <div
       id={props.message?.id}
+      onMouseEnter={() => props.onHover && props.onHover(true)}
+      onMouseLeave={() => props.onHover && props.onHover(false)}
       class={
         "group " +
         base({

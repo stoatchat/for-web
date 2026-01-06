@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch } from "solid-js";
+import { For, Match, Show, Switch, createSignal } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { css } from "styled-system/css";
@@ -16,6 +16,7 @@ import {
   Button,
   Checkbox,
   Column,
+  IconButton,
   MenuItem,
   MessageContainer,
   Row,
@@ -30,12 +31,15 @@ import {
   MonospaceFonts,
 } from "@revolt/ui/themes/fonts";
 
+import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+
 /**
  * All appearance options for the client
  */
 export function AppearanceMenu() {
   const user = useUser();
   const state = useState();
+  const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
 
   return (
     <Column gap="lg">
@@ -94,7 +98,33 @@ export function AppearanceMenu() {
         </Row> */}
 
         <Show when={state.theme.preset === "you"}>
-          <Row justify>
+          <Row align justify>
+            <IconButton
+              ref={setPickerRef}
+              variant="filled"
+              shape="square"
+              size="md"
+              onPress={() => pickerRef()?.click()}
+            >
+              <MDPalette />
+            </IconButton>
+            <input
+              ref={setPickerRef}
+              type="color"
+              value={state.theme.m3Accent ?? "#ffffff"}
+              onInput={(e) => {
+                const colour = (e.currentTarget as HTMLInputElement).value;
+                state.theme.setM3Accent(colour);
+              }}
+              style={{
+                position: "absolute",
+                opacity: 0,
+                width: "0px",
+                height: "0px",
+                padding: 0,
+                border: "none",
+              }}
+            />
             <For
               each={[
                 "#FF5733",

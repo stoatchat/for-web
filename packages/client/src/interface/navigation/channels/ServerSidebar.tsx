@@ -92,6 +92,15 @@ type OrderingEvent =
 export const ServerSidebar = (props: Props) => {
   const navigate = useNavigate();
 
+  // Users can manage certain parts of the server individually, regardless of their ManageServer Permission
+  const canManageServer = () =>
+    props.server.orPermission(
+      "ManageServer",
+      "ManageCustomisation",
+      "ManageRole",
+      "ManagePermissions",
+    );
+
   // TODO: this does not filter visible channels at the moment because the state for categories is not stored anywhere
   /** Gets a list of channels that are currently not hidden inside a closed category */
   const visibleChannels = () =>
@@ -189,6 +198,7 @@ export const ServerSidebar = (props: Props) => {
           <Header placement="secondary">
             <ServerInfo
               server={props.server}
+              canManageServer={canManageServer()}
               openServerInfo={props.openServerInfo}
               openServerSettings={props.openServerSettings}
             />
@@ -205,6 +215,7 @@ export const ServerSidebar = (props: Props) => {
           >
             <ServerInfo
               server={props.server}
+              canManageServer={canManageServer()}
               openServerInfo={props.openServerInfo}
               openServerSettings={props.openServerSettings}
             />
@@ -245,7 +256,9 @@ export const ServerSidebar = (props: Props) => {
  * Server Information
  */
 function ServerInfo(
-  props: Pick<Props, "server" | "openServerInfo" | "openServerSettings">,
+  props: Pick<Props, "server" | "openServerInfo" | "openServerSettings"> & {
+    canManageServer: boolean;
+  },
 ) {
   return (
     <Row align grow minWidth={0}>
@@ -253,14 +266,16 @@ function ServerInfo(
       <ServerName onClick={props.openServerInfo}>
         <TextWithEmoji content={props.server.name} />
       </ServerName>
-      <IconButton
-        size="xs"
-        width="narrow"
-        variant={props.server.banner ? "_header" : "standard"}
-        onPress={props.openServerSettings}
-      >
-        <MdSettings {...symbolSize(24)} />
-      </IconButton>
+      <Show when={props.canManageServer}>
+        <IconButton
+          size="xs"
+          width="narrow"
+          variant={props.server.banner ? "_header" : "standard"}
+          onPress={props.openServerSettings}
+        >
+          <MdSettings {...symbolSize(24)} />
+        </IconButton>
+      </Show>
     </Row>
   );
 }
