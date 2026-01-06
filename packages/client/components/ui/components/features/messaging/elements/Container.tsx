@@ -305,6 +305,7 @@ export function MessageContainer(props: Props) {
 
   return (
     <div
+      id={props.message?.id}
       class={
         "group " +
         base({

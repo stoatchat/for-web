@@ -58,6 +58,14 @@ export default defineConfig({
             background: "transparent",
           },
         },
+        skeletonShimmer: {
+          "0%": {
+            backgroundPosition: "200% 0",
+          },
+          "100%": {
+            backgroundPosition: "-200% 0",
+          },
+        },
       },
     },
   },
