@@ -176,7 +176,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
             <Trans>Edit message</Trans>
           </ContextMenuButton>
         </Show>
-        <Show 
+        <Show
           when={
             props.message!.channel?.type === "DirectMessage" ||
             props.message!.channel?.havePermission("ManageMessages")
