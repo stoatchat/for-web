@@ -8,7 +8,10 @@ import type {
 import { User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { unicodeEmojiUrl } from "@revolt/markdown/emoji/UnicodeEmoji";
+import {
+  UNICODE_EMOJI_PACK_PUA,
+  unicodeEmojiUrl,
+} from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 
 import emojiMapping from "../../../emojiMapping.json";
@@ -42,6 +45,7 @@ export function codeMirrorAutoCompleteSource(
     return ([] as Completion[]).concat(
       MAPPED_EMOJI_KEYS.map((emoji) => ({
         ...emoji,
+        apply: `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${emoji.apply as string}`,
         url: unicodeEmojiUrl(
           state.settings.getValue("appearance:unicode_emoji"),
           emoji.apply as string,
