@@ -176,7 +176,12 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
             <Trans>Edit message</Trans>
           </ContextMenuButton>
         </Show>
-        <Show when={props.message!.channel?.havePermission("ManageMessages")}>
+        <Show
+          when={
+            props.message!.channel?.type === "DirectMessage" ||
+            props.message!.channel?.havePermission("ManageMessages")
+          }
+        >
           <ContextMenuButton
             icon={MdPin}
             onClick={() => {

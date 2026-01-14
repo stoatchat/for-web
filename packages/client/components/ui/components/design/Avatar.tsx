@@ -1,5 +1,6 @@
 import { JSXElement, Show } from "solid-js";
 
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Initials } from "../utils";
@@ -127,34 +128,42 @@ export function Avatar(props: Props) {
       interactive={props.interactive}
       onClick={props.onClick}
     >
-      <ForeignObject
-        x="0"
-        y="0"
-        width="32px"
-        height="32px"
-        holepunch={props.holepunch}
+      <g
+        mask={
+          props.holepunch && props.holepunch !== "none"
+            ? `url(#holepunch-${props.holepunch})`
+            : undefined
+        }
       >
-        <Shape shape={props.shape}>
-          <Show when={props.interactive}>
-            <Ripple />
-          </Show>
-          <Show
-            when={props.src}
-            keyed
-            fallback={
-              <FallbackBase contrast={props.primaryContrast}>
-                {typeof props.fallback === "string" ? (
-                  <Initials input={props.fallback} maxLength={2} />
-                ) : (
-                  props.fallback
-                )}
-              </FallbackBase>
-            }
-          >
-            <Image src={props.src} draggable={false} />
-          </Show>
-        </Shape>
-      </ForeignObject>
+        <foreignObject
+          x="0"
+          y="0"
+          width="32"
+          height="32"
+          class={css({ transition: "var(--transitions-fast) filter" })}
+        >
+          <Shape shape={props.shape}>
+            <Show when={props.interactive}>
+              <Ripple />
+            </Show>
+            <Show
+              when={props.src}
+              keyed
+              fallback={
+                <FallbackBase contrast={props.primaryContrast}>
+                  {typeof props.fallback === "string" ? (
+                    <Initials input={props.fallback} maxLength={2} />
+                  ) : (
+                    props.fallback
+                  )}
+                </FallbackBase>
+              }
+            >
+              <Image src={props.src} draggable={false} />
+            </Show>
+          </Shape>
+        </foreignObject>
+      </g>
       {props.overlay}
     </ParentBase>
   );
@@ -203,36 +212,5 @@ const Shape = styled("div", {
   },
   defaultVariants: {
     shape: "circle",
-  },
-});
-
-/**
- * Inner SVG container
- */
-const ForeignObject = styled("foreignObject", {
-  base: {
-    overflow: "hidden",
-    transition: "var(--transitions-fast) filter",
-  },
-  variants: {
-    holepunch: {
-      "bottom-right": {
-        mask: "url(#holepunch-bottom-right)",
-      },
-      "top-right": {
-        mask: "url(#holepunch-top-right)",
-      },
-      right: {
-        mask: "url(#holepunch-right)",
-      },
-      overlap: {
-        mask: "url(#holepunch-overlap)",
-      },
-      "overlap-subtle": {
-        mask: "url(#holepunch-overlap-subtle)",
-      },
-      none: {},
-      false: {},
-    },
   },
 });

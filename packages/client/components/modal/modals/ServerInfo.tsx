@@ -13,22 +13,34 @@ export function ServerInfoModal(
   const client = useClient();
   const { openModal } = useModals();
 
+  const canOpenSettings = () =>
+    props.server.orPermission(
+      "ManageServer",
+      "ManageCustomisation",
+      "ManageRole",
+      "ManagePermissions",
+    );
+
   return (
     <Dialog
       show={props.show}
       onClose={props.onClose}
       title={props.server.name}
       actions={[
-        {
-          text: <Trans>Settings</Trans>,
-          onClick() {
-            openModal({
-              type: "settings",
-              config: "server",
-              context: props.server,
-            });
-          },
-        },
+        ...(canOpenSettings()
+          ? [
+              {
+                text: <Trans>Settings</Trans>,
+                onClick() {
+                  openModal({
+                    type: "settings",
+                    config: "server",
+                    context: props.server,
+                  });
+                },
+              },
+            ]
+          : []),
         {
           text: <Trans>Edit Identity</Trans>,
           onClick() {

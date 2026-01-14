@@ -89,6 +89,16 @@ export function useError() {
           return t`You've reached your personal bot limit.`;
         case "UsernameTaken":
           return t`This username is already taken.`;
+        case "TooManyEmoji":
+          return t`You can't have more than {err.max} emojis on this server.`;
+        case "TooManyChannels":
+          return t`You can't have more than ${err.max} channels on this server.`;
+        case "TooManyServers":
+          return t`You can't be in more than ${err.max} servers, please leave one and try again.`;
+        case "TooManyPendingFriendRequests":
+          return t`You've sent too many friend requests, the maximum is ${err.max}`;
+        case "PayloadTooLarge":
+          return t`Your message is too long, please remove some characters and try again.`;
 
         // unreachable errors (in theory)
         case "FileTooLarge":
@@ -107,23 +117,18 @@ export function useError() {
         case "NotOwner":
         case "NotPinned":
         case "NotPrivileged":
-        case "PayloadTooLarge":
         case "ProxyError":
         case "TooManyAttachments": // todo: maybe handle these:
-        case "TooManyChannels":
         case "TooManyEmbeds":
-        case "TooManyEmoji":
-        case "TooManyPendingFriendRequests":
         case "TooManyReplies":
-        case "TooManyRoles":
-        case "TooManyServers": // ... to here
+        case "TooManyRoles": // ... to here
         case "UnknownAttachment":
         case "UnknownChannel":
         case "UnknownMessage":
         case "UnknownServer":
         case "UnknownUser":
         case "VosoUnavailable":
-          return err.type + " " + err.location; //
+          return err.type + " " + err.location;
       }
     }
 

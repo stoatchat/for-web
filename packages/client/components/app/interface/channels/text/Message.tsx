@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch, onMount } from "solid-js";
+import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Message as MessageInterface, WebsiteEmbed } from "stoat.js";
@@ -74,6 +74,8 @@ export function Message(props: Props) {
   const { t } = useLingui();
   const client = useClient();
 
+  const [isHovering, setIsHovering] = createSignal(false);
+
   /**
    * Determine whether this message only contains a GIF
    */
@@ -103,6 +105,7 @@ export function Message(props: Props) {
   return (
     <MessageContainer
       message={props.message}
+      onHover={setIsHovering}
       username={
         <div use:floating={floatingUserMenusFromMessage(props.message)}>
           <Username
@@ -116,7 +119,14 @@ export function Message(props: Props) {
           class={avatarContainer()}
           use:floating={floatingUserMenusFromMessage(props.message)}
         >
-          <Avatar size={36} src={props.message.avatarURL} />
+          <Avatar
+            size={36}
+            src={
+              isHovering()
+                ? props.message.animatedAvatarURL
+                : props.message.avatarURL
+            }
+          />
         </div>
       }
       contextMenu={() => <MessageContextMenu message={props.message} />}
