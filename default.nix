@@ -18,7 +18,7 @@ pkgs.mkShell {
 
     # mdbook
     mdbook
-    mdbook-mermaid
+    mdbook-katex
   ];
 
   shellHook = ''
