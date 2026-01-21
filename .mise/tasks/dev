@@ -3,4 +3,4 @@
 #MISE depends=["install:assets"]
 set -e
 
-pnpm --filter client dev
+pnpm --filter client exec vite --host
