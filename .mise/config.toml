@@ -19,7 +19,7 @@ run = [
         "*:check",
     ] },
     { task = "format" },
-    { task = "test:install-deps" },
+    { task = "test:e2e:install-deps" },
     { tasks = [
         "test:e2e",
     ] },
