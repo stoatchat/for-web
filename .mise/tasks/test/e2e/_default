@@ -3,4 +3,4 @@
 #MISE depends=["build"]
 set -e
 
-pnpm --filter client playwright test
+pnpm --filter client exec playwright test

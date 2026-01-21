@@ -2,4 +2,4 @@
 #MISE description="Show report for Playwright results"
 set -e
 
-pnpm --filter client playwright show-report
+pnpm --filter client exec playwright show-report
