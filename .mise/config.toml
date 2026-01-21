@@ -1,0 +1,26 @@
+[tools]
+deno = "2.6.5"
+node = "25.4.0"
+pnpm = "10.28.1"
+
+gh = "2.25.0"
+
+mdbook = "0.5.2"
+"github:lzanini/mdbook-katex" = "0.9.3-binaries"
+
+[tasks.check]
+description = "Task group for CI checks"
+run = [
+    { task = "install:frozen" },
+    { task = "build:deps" },
+    { task = "build" },
+    { tasks = [
+        "lint",
+        "*:check",
+    ] },
+    { task = "format" },
+    { task = "test:e2e:install-deps" },
+    { tasks = [
+        "test:e2e",
+    ] },
+]

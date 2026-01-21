@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Start web app"
+#MISE depends=["build"]
+set -e
+
+pnpm --filter client exec vite preview --host

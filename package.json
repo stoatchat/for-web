@@ -3,23 +3,6 @@
   "version": "0.0.14",
   "version-date": "2025-10-10",
   "description": "Stoat for Web: frontend software for Stoat",
-  "scripts": {
-    "dev:web": "pnpm --filter client dev",
-    "build:deps": "pnpm --filter stoat.js build && pnpm --filter solid-livekit-components build && pnpm --filter @lingui-solid/babel-plugin-lingui-macro build && pnpm --filter @lingui-solid/babel-plugin-extract-messages build && pnpm --filter client lingui:compile",
-    "build:web": "pnpm --filter client build",
-    "build:prod": "pnpm --filter client build:prod",
-    "start:web": "cd packages/client && pnpm run serve",
-    "lint": "eslint --fix --ext .ts,.tsx packages/client",
-    "fmt": "prettier --write 'packages/client/**/*.{ts,tsx,json}'",
-    "lingui": "pnpm --filter client lingui:compile && pnpm --filter client lingui:extract",
-    "test:lint": "eslint --ext .ts,.tsx packages/client",
-    "test:fmt": "prettier --check 'packages/client/**/*.{ts,tsx,json}'",
-    "test:typecheck": "pnpm --filter client test:typecheck",
-    "test:suite": "pnpm --filter client test:suite",
-    "test:coverage": "pnpm --filter client test:coverage",
-    "test:e2e": "pnpm --filter client test:e2e",
-    "test:e2e:report": "pnpm --filter client test:e2e:report"
-  },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@pandabox/prettier-plugin": "^0.1.3",

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Build web (Stoat production)"
+set -e
+
+export BASE_PATH=/app/
+mise build

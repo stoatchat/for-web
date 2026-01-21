@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Build stoat.js"
+set -e
+
+pnpm --filter stoat.js build

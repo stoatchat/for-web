@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Serve mdbook"
+#MISE dir="{{config_root}}/doc"
+set -e
+
+mdbook serve

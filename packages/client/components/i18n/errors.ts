@@ -90,7 +90,7 @@ export function useError() {
         case "UsernameTaken":
           return t`This username is already taken.`;
         case "TooManyEmoji":
-          return t`You can't have more than {err.max} emojis on this server.`;
+          return t`You can't have more than ${err.max} emojis on this server.`;
         case "TooManyChannels":
           return t`You can't have more than ${err.max} channels on this server.`;
         case "TooManyServers":
