@@ -23,9 +23,6 @@ let
 in pkgs.mkShell {
   packages = with pkgs; [
     mise
-    lsof
-    pkg-config
-    openssl.dev
     cargo-binstall
     (writeShellScriptBin "fish" ''
       exec ${pkgs.fish}/bin/fish -C 'mise activate fish | source' "$@"
