@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #MISE description="Run end-to-end tests for web"
-#MISE depends=["build"]
 set -e
 
 pnpm --filter client exec playwright test
