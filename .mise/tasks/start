@@ -3,4 +3,4 @@
 #MISE depends=["build"]
 set -e
 
-pnpm --filter client vite preview --host
+pnpm --filter client exec vite preview --host
