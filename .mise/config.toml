@@ -8,14 +8,6 @@ gh = "2.25.0"
 mdbook = "0.5.2"
 "github:lzanini/mdbook-katex" = "0.9.3-binaries"
 
-[settings]
-experimental = true
-idiomatic_version_file_enable_tools = ["rust"]
-
-[tasks."install:deps"]
-description = "Install dependencies"
-run = "pnpm i"
-
 [tasks.check]
 description = "Task group for CI checks"
 run = [
@@ -32,8 +24,3 @@ run = [
         "test:e2e",
     ] },
 ]
-
-[tasks.start]
-description = "Run all services"
-depends = ["docker:start", "build"]
-run = [{ task = "service:*" }]
