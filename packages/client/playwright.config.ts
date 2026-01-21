@@ -74,6 +74,7 @@ export default defineConfig({
   webServer: {
     command: "mise start",
     url: "http://localhost:4173",
+    timeout: 300_000,
     reuseExistingServer: !process.env.CI,
   },
 });
