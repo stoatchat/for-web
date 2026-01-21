@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#MISE description="Build dependencies"
+set -e
+
+git submodule init
+git submodule update
+
+pnpm --filter stoat.js build
+pnpm --filter solid-livekit-components build
+pnpm --filter @lingui-solid/babel-plugin-lingui-macro build
+pnpm --filter @lingui-solid/babel-plugin-extract-messages build
+pnpm --filter client lingui:compile

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Check code formatting"
+set -e
+
+pnpm exec prettier --check 'packages/client/**/*.{ts,tsx,json}'

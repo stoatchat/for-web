@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Start web app in development mode"
+#MISE depends=["install:assets"]
+set -e
+
+pnpm --filter client dev

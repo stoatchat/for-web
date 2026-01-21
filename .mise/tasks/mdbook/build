@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Build mdbook"
+#MISE dir="{{config_root}}/doc"
+set -e
+
+mdbook build

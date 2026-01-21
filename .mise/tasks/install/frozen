@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Install all dependencies (don't update lockfile)"
+set -e
+
+pnpm install --frozen-lockfile
