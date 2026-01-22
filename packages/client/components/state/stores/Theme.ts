@@ -167,6 +167,22 @@ export class Theme extends AbstractStore<"theme", TypeTheme> {
       data.m3Accent = input.m3Accent;
     }
 
+    if (
+      [
+        "monochrome",
+        "neutral",
+        "tonal_spot",
+        "vibrant",
+        "expressive",
+        "fidelity",
+        "content",
+        "rainbow",
+        "fruit_salad",
+      ].includes(input.m3Variant!)
+    ) {
+      data.m3Variant = input.m3Variant!;
+    }
+
     if (typeof input.blur === "boolean") {
       data.blur = input.blur;
     }

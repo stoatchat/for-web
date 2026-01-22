@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Build web"
+#MISE depends=["install:assets", "lingui:compile"]
+#MISE wait_for=["build:deps"]
+set -e
+
+pnpm --filter client exec vite build

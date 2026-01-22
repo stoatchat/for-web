@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Fix code formatting"
+set -e
+
+pnpm exec prettier --write 'packages/client/**/*.{ts,tsx,json}'

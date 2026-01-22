@@ -21,8 +21,7 @@ Before contributing, make yourself familiar with [our contribution guidelines](h
 Before getting started, you'll want to install:
 
 - Git
-- Node.js
-- pnpm (run `corepack enable`)
+- mise-en-place
 
 Then proceed to setup:
 
@@ -35,10 +34,10 @@ cd client
 # git submodule init && git submodule update
 
 # install all packages
-pnpm i --frozen-lockfile
+mise install:frozen
 
 # build deps:
-pnpm build:deps
+mise build:deps
 
 # or build a specific dep (e.g. stoat.js updates):
 # pnpm --filter stoat.js run build
@@ -47,7 +46,10 @@ pnpm build:deps
 cp packages/client/.env.example packages/client/.env
 
 # run dev server
-pnpm dev:web
+mise dev
+
+# run all CI checks locally
+mise check
 ```
 
 Finally, navigate to http://local.revolt.chat:5173.
@@ -74,16 +76,16 @@ git submodule deinit packages/client/assets
 
 ```bash
 # install packages
-pnpm i --frozen-lockfile
+mise install:frozen
 
 # build dependencies
-pnpm build:deps
+mise build:deps
 
 # build for web
-pnpm build:web
+mise build
 
-# ... when building for Stoat production, use this instead of :web
-pnpm build:prod
+# ... when building for Stoat production
+mise build:prod
 ```
 
 You can now deploy the directory `packages/client/dist`.

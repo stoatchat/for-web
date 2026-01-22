@@ -1,12 +1,19 @@
 import { createFormControl, createFormGroup } from "solid-forms";
-import { Show, createEffect, on } from "solid-js";
+import { For, Show, createEffect, on } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
-import { CircularProgress, Column, Form2, Row } from "@revolt/ui";
+import {
+  CircularProgress,
+  Column,
+  Form2,
+  MenuItem,
+  Row,
+  Text,
+} from "@revolt/ui";
 
 import { ServerSettingsProps } from "../ServerSettings";
 
@@ -25,7 +32,25 @@ export default function ServerOverview(props: ServerSettingsProps) {
       props.server.animatedIconURL,
     ),
     banner: createFormControl<string | File[] | null>(props.server.bannerURL),
+    sys_user_joined: createFormControl(
+      props.server.systemMessages?.user_joined ?? "none",
+    ),
+    sys_user_left: createFormControl(
+      props.server.systemMessages?.user_left ?? "none",
+    ),
+    sys_user_kicked: createFormControl(
+      props.server.systemMessages?.user_kicked ?? "none",
+    ),
+    sys_user_banned: createFormControl(
+      props.server.systemMessages?.user_banned ?? "none",
+    ),
   });
+
+  const channels = () =>
+    props.server.channels.map((channel) => ({
+      item: channel,
+      value: channel.id,
+    }));
   /* eslint-enable solid/reactivity */
 
   // update fields (if they are not dirty) ourselves:
@@ -75,11 +100,27 @@ export default function ServerOverview(props: ServerSettingsProps) {
     editGroup.controls.description.setValue(props.server.description || "");
     editGroup.controls.icon.setValue(props.server.animatedIconURL ?? null);
     editGroup.controls.banner.setValue(props.server.bannerURL ?? null);
+    editGroup.controls.sys_user_joined.setValue(
+      props.server.systemMessages?.user_joined ?? "none",
+    );
+    editGroup.controls.sys_user_left.setValue(
+      props.server.systemMessages?.user_left ?? "none",
+    );
+    editGroup.controls.sys_user_kicked.setValue(
+      props.server.systemMessages?.user_kicked ?? "none",
+    );
+    editGroup.controls.sys_user_banned.setValue(
+      props.server.systemMessages?.user_banned ?? "none",
+    );
   }
 
   async function onSubmit() {
     const changes: API.DataEditServer = {
       remove: [],
+      system_messages: {
+        // empty object => remove every system_message channel
+        ...(props.server.systemMessages ?? {}),
+      },
     };
 
     if (editGroup.controls.name.isDirty) {
@@ -120,6 +161,54 @@ export default function ServerOverview(props: ServerSettingsProps) {
       }
     }
 
+    if (editGroup.controls.sys_user_joined.isDirty) {
+      if (
+        editGroup.controls.sys_user_joined.value == "none" &&
+        changes.system_messages?.user_joined
+      ) {
+        delete changes.system_messages.user_joined;
+      } else {
+        changes.system_messages!.user_joined =
+          editGroup.controls.sys_user_joined.value;
+      }
+    }
+
+    if (editGroup.controls.sys_user_left.isDirty) {
+      if (
+        editGroup.controls.sys_user_left.value == "none" &&
+        changes.system_messages?.user_left
+      ) {
+        delete changes.system_messages.user_left;
+      } else {
+        changes.system_messages!.user_left =
+          editGroup.controls.sys_user_left.value;
+      }
+    }
+
+    if (editGroup.controls.sys_user_kicked.isDirty) {
+      if (
+        editGroup.controls.sys_user_kicked.value == "none" &&
+        changes.system_messages?.user_kicked
+      ) {
+        delete changes.system_messages.user_kicked;
+      } else {
+        changes.system_messages!.user_kicked =
+          editGroup.controls.sys_user_kicked.value;
+      }
+    }
+
+    if (editGroup.controls.sys_user_banned.isDirty) {
+      if (
+        editGroup.controls.sys_user_banned.value == "none" &&
+        changes.system_messages?.user_banned
+      ) {
+        delete changes.system_messages.user_banned;
+      } else {
+        changes.system_messages!.user_banned =
+          editGroup.controls.sys_user_banned.value;
+      }
+    }
+
     await props.server.edit(changes);
   }
 
@@ -156,6 +245,75 @@ export default function ServerOverview(props: ServerSettingsProps) {
             label={t`Server Description`}
             placeholder={t`This server is about...`}
           />
+          <Text class="title" size="small">
+            <Trans>System message channels</Trans>
+          </Text>
+          <Column>
+            <Text class="label">
+              <Trans>User Joined</Trans>
+            </Text>
+            <Form2.TextField.Select
+              control={editGroup.controls.sys_user_joined}
+            >
+              <MenuItem value="none">
+                <Trans>Disabled</Trans>
+              </MenuItem>
+              <For each={channels()}>
+                {(element) => (
+                  <MenuItem value={element.value}>{element.item.name}</MenuItem>
+                )}
+              </For>
+            </Form2.TextField.Select>
+          </Column>
+          <Column>
+            <Text class="label">
+              <Trans>User Left</Trans>
+            </Text>
+            <Form2.TextField.Select control={editGroup.controls.sys_user_left}>
+              <MenuItem value="none">
+                <Trans>Disabled</Trans>
+              </MenuItem>
+              <For each={channels()}>
+                {(element) => (
+                  <MenuItem value={element.value}>{element.item.name}</MenuItem>
+                )}
+              </For>
+            </Form2.TextField.Select>
+          </Column>
+          <Column>
+            <Text class="label">
+              <Trans>User Kicked</Trans>
+            </Text>
+            <Form2.TextField.Select
+              control={editGroup.controls.sys_user_kicked}
+            >
+              <MenuItem value="none">
+                <Trans>Disabled</Trans>
+              </MenuItem>
+              <For each={channels()}>
+                {(element) => (
+                  <MenuItem value={element.value}>{element.item.name}</MenuItem>
+                )}
+              </For>
+            </Form2.TextField.Select>
+          </Column>
+          <Column>
+            <Text class="label">
+              <Trans>User Banned</Trans>
+            </Text>
+            <Form2.TextField.Select
+              control={editGroup.controls.sys_user_banned}
+            >
+              <MenuItem value="none">
+                <Trans>Disabled</Trans>
+              </MenuItem>
+              <For each={channels()}>
+                {(element) => (
+                  <MenuItem value={element.value}>{element.item.name}</MenuItem>
+                )}
+              </For>
+            </Form2.TextField.Select>
+          </Column>
           <Row>
             <Form2.Reset group={editGroup} onReset={onReset} />
             <Form2.Submit group={editGroup} requireDirty>

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Lint code and find issues"
+set -e
+
+pnpm exec eslint --ext .ts,.tsx packages/client

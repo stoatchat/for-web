@@ -255,9 +255,8 @@ export type Modals =
       version: string;
     }
   | {
-      type: "show_token";
-      name: string;
-      token: string;
+      type: "reset_bot_token";
+      bot: Bot;
     }
   | {
       type: "link_warning";
