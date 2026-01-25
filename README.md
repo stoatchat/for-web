@@ -20,8 +20,8 @@ Before contributing, make yourself familiar with [our contribution guidelines](h
 
 Before getting started, you'll want to install:
 
-- Git
-- mise-en-place
+- [Git](https://git-scm.com/install/)
+- [mise-en-place](https://mise.jdx.dev/getting-started.html)
 
 Then proceed to setup:
 
