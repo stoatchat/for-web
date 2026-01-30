@@ -15,7 +15,7 @@ export type Props = {
   size?: number;
 
   /**
-   * Avatar shape
+   * Avatar shape override
    */
   shape?: "circle" | "square" | "rounded-square";
 
@@ -145,7 +145,11 @@ export function Avatar(props: Props) {
           class={css({ transition: "var(--transitions-fast) filter" })}
         >
           <Shape
-            style={{ "border-radius": `${state.theme.avatarRadius}%` }}
+            style={
+              !props.shape
+                ? { "border-radius": `${state.theme.avatarRadius}%` }
+                : {}
+            }
             shape={props.shape}
           >
             <Show when={props.interactive}>
