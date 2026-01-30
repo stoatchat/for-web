@@ -283,6 +283,7 @@ export const ServerList = (props: Props) => {
           }}
         >
           <Avatar
+            shape="circle"
             size={42}
             fallback={<Symbol fill>home</Symbol>}
             holepunch={homeNotifications() ? "top-right" : undefined}
@@ -411,6 +412,7 @@ export const ServerList = (props: Props) => {
                         size={42}
                         src={(item() as { server: Server }).server.iconURL}
                         fallback={(item() as { server: Server }).server.name}
+                        shape="circle"
                       />
                     )}
                   </Match>
@@ -418,6 +420,7 @@ export const ServerList = (props: Props) => {
                     {(item) => (
                       <Avatar
                         size={42}
+                        shape="circle"
                         fallback={
                           <FolderPreview
                             servers={(item() as { servers: Server[] }).servers}
@@ -440,7 +443,7 @@ export const ServerList = (props: Props) => {
             class={entryContainer()}
             onClick={() => props.onCreateOrJoinServer()}
           >
-            <Avatar size={42} fallback={<Symbol>add</Symbol>} />
+            <Avatar size={42} fallback={<Symbol>add</Symbol>} shape="circle" />
           </a>
         </Tooltip>
         <Show when={instance.isStoat}>
@@ -449,7 +452,7 @@ export const ServerList = (props: Props) => {
               href={state.layout.getLastActiveDiscoverPath()}
               class={entryContainer()}
             >
-              <Avatar size={42} fallback={<Symbol fill>explore</Symbol>} />
+              <Avatar size={42} fallback={<Symbol fill>explore</Symbol>} shape="circle" />
             </a>
           </Tooltip>
         </Show>
@@ -465,6 +468,7 @@ export const ServerList = (props: Props) => {
           <Avatar
             size={42}
             fallback={<Symbol fill>settings</Symbol>}
+            shape="circle"
             interactive
           />
         </a>
@@ -546,6 +550,7 @@ function ServerEntry(props: {
           <Avatar
             size={42}
             src={props.server.iconURL}
+            shape="circle"
             holepunch={
               props.server.mentions.length
                 ? props.server.voiceStatus !== "none"
@@ -665,6 +670,7 @@ function FolderEntry(props: {
             <Avatar
               size={42}
               holepunch={collapsed() && mentions() ? "top-right" : "none"}
+              shape="circle"
               overlay={
                 <Show when={collapsed() && mentions()}>
                   <Unreads.Graphic count={mentions()} unread />
