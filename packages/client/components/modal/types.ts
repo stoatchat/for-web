@@ -350,4 +350,7 @@ export type Modals =
   | {
       type: "edit_bot_username";
       bot: Bot;
+    }
+  | {
+      type: "avatar_radius";
     };
