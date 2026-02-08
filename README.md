@@ -9,20 +9,19 @@
   [![Contributors](https://img.shields.io/github/contributors/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/graphs/contributors)
   [![License](https://img.shields.io/github/license/stoatchat/for-web?style=flat-square&logoColor=white)](https://github.com/stoatchat/for-web/blob/main/LICENSE)
 </h1>
-The official web client powering https://beta.revolt.chat/app, built with <a href="https://www.solidjs.com/">Solid.js</a> 💖. <br/>
-Track the project roadmap on <a href="https://op.revolt.wtf/projects/revolt-for-web/roadmap">OpenProject</a>.
+The official web client powering https://stoat.chat/app, built with <a href="https://www.solidjs.com/">Solid.js</a> 💖. <br/>
+Track the project roadmap on <a href="https://op.stoatinternal.com/projects/revolt-for-web/roadmap">OpenProject</a>.
 </div>
 <br/>
 
 ## Development Guide
 
-Before contributing, make yourself familiar with [our contribution guidelines](https://developers.revolt.chat/contrib.html), the [code style guidelines](./GUIDELINES.md), and the [technical documentation for this project](https://revoltchat.github.io/frontend/).
+Before contributing, make yourself familiar with [our contribution guidelines](https://developers.stoat.chat/developing/contrib/), the [code style guidelines](./GUIDELINES.md), and the [technical documentation for this project](https://stoatchat.github.io/for-web/).
 
 Before getting started, you'll want to install:
 
 - Git
-- Node.js
-- pnpm (run `corepack enable`)
+- mise-en-place
 
 Then proceed to setup:
 
@@ -35,10 +34,10 @@ cd client
 # git submodule init && git submodule update
 
 # install all packages
-pnpm i --frozen-lockfile
+mise install:frozen
 
 # build deps:
-pnpm build:deps
+mise build:deps
 
 # or build a specific dep (e.g. stoat.js updates):
 # pnpm --filter stoat.js run build
@@ -47,7 +46,10 @@ pnpm build:deps
 cp packages/client/.env.example packages/client/.env
 
 # run dev server
-pnpm dev:web
+mise dev
+
+# run all CI checks locally
+mise check
 ```
 
 Finally, navigate to http://local.revolt.chat:5173.
@@ -74,16 +76,16 @@ git submodule deinit packages/client/assets
 
 ```bash
 # install packages
-pnpm i --frozen-lockfile
+mise install:frozen
 
 # build dependencies
-pnpm build:deps
+mise build:deps
 
 # build for web
-pnpm build:web
+mise build
 
-# ... when building for Stoat production, use this instead of :web
-pnpm build:prod
+# ... when building for Stoat production
+mise build:prod
 ```
 
 You can now deploy the directory `packages/client/dist`.

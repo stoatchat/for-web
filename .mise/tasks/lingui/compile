@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Compile i18n catalogs"
+#MISE wait_for=["build:deps:lingui"]
+set -e
+
+pnpm --filter client exec lingui compile --typescript

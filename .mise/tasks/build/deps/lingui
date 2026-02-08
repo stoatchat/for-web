@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Build Lingui dependencies"
+set -e
+
+pnpm --filter @lingui-solid/babel-plugin-lingui-macro build
+pnpm --filter @lingui-solid/babel-plugin-extract-messages build

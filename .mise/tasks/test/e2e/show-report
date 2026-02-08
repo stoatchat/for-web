@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Show report for Playwright results"
+set -e
+
+pnpm --filter client exec playwright show-report

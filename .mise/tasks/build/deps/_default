@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Build dependencies"
+#MISE depends=["build:deps:stoat-js", "build:deps:livekit", "build:deps:lingui", "lingui:compile"]
+set -e

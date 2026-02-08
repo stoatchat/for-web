@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Setup client assets"
+set -e
+
+pnpm --filter client exec node scripts/copyAssets.mjs

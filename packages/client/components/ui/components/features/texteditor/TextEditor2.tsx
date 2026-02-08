@@ -243,6 +243,9 @@ export function TextEditor2(props: Props) {
 }
 
 const editor = css({
+  display: "inline-flex",
+  height: "100%",
+  width: "100%",
   flexGrow: 1,
   alignSelf: "center",
 
@@ -251,6 +254,11 @@ const editor = css({
   fontWeight: 400,
   fontSize: "var(--message-size)",
   fontFamily: "var(--fonts-primary)",
+
+  "& .cm-editor": {
+    width: "100%",
+    alignSelf: "center",
+  },
 
   "& .cm-editor.cm-focused": {
     outline: "none !important",
