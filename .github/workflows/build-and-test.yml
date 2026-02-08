@@ -2,14 +2,7 @@ name: Build & Test
 
 on:
   push:
-    paths-ignore:
-      - ".github/**"
-      - "!.github/workflows/build-and-test.yml"
-      - ".vscode/**"
-      - "doc/**"
-      - "lifecycle/**"
-      - ".gitignore"
-      - "README.md"
+    branches: main
   pull_request:
 
 jobs:
@@ -61,7 +54,7 @@ jobs:
 
       - run: mise install:frozen
       - run: mise build:deps
-      - run: mise lingui:check
+      - run: mise lingui
 
   typecheck:
     name: Typecheck
