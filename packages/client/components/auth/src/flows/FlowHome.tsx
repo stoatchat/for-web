@@ -9,11 +9,13 @@ import { Navigate } from "@revolt/routing";
 import { Button, Column } from "@revolt/ui";
 
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
+import { useState } from "@revolt/state";
 
 /**
  * Flow for logging into an account
  */
 export default function FlowHome() {
+  const state = useState();
   const { lifecycle, isLoggedIn, isError } = useClientLifecycle();
 
   return (
@@ -21,7 +23,7 @@ export default function FlowHome() {
       fallback={
         <>
           <Show when={isLoggedIn()}>
-            <Navigate href="/app" />
+            <Navigate href={state.layout.popNextPath() ?? "/app"} />
           </Show>
 
           <Column gap="xl">

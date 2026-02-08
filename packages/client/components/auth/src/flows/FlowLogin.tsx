@@ -15,11 +15,13 @@ import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid
 
 import { FlowTitle } from "./Flow";
 import { Fields, Form } from "./Form";
+import { useState } from "@revolt/state";
 
 /**
  * Flow for logging into an account
  */
 export default function FlowLogin() {
+  const state = useState();
   const modals = useModals();
   const { lifecycle, isLoggedIn, login, selectUsername } = useClientLifecycle();
 
@@ -86,7 +88,7 @@ export default function FlowLogin() {
         }
       >
         <Match when={isLoggedIn()}>
-          <Navigate href="/app" />
+          <Navigate href={state.layout.popNextPath() ?? "/app"} />
         </Match>
         <Match when={lifecycle.state() === State.LoggingIn}>
           <CircularProgress />
