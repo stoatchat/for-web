@@ -114,7 +114,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    */
   popNextPath() {
     const nextUrl = this.get().nextPath;
-    this.set('nextPath', undefined);
+    this.set("nextPath", undefined);
     return nextUrl;
   }
 
@@ -144,7 +144,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    * Set the next redirect path
    */
   setNextPath(pathname: string) {
-    this.set('nextPath', pathname);
+    this.set("nextPath", pathname);
   }
 
   /**
