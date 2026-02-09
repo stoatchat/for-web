@@ -8,8 +8,8 @@ import { TransitionType } from "@revolt/client/Controller";
 import { Navigate } from "@revolt/routing";
 import { Button, Column } from "@revolt/ui";
 
-import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 import { useState } from "@revolt/state";
+import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 /**
  * Flow for logging into an account
