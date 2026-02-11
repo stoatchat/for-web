@@ -92,7 +92,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
    */
   function openAdminPanel() {
     window.open(
-      `https://legacy-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
+      `https://old-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
       "_blank",
     );
   }
