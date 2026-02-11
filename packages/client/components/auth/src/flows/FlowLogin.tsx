@@ -13,6 +13,7 @@ import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?compon
 
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
+import { useState } from "@revolt/state";
 import { FlowTitle } from "./Flow";
 import { Fields, Form } from "./Form";
 
@@ -20,6 +21,7 @@ import { Fields, Form } from "./Form";
  * Flow for logging into an account
  */
 export default function FlowLogin() {
+  const state = useState();
   const modals = useModals();
   const { lifecycle, isLoggedIn, login, selectUsername } = useClientLifecycle();
 
@@ -86,7 +88,7 @@ export default function FlowLogin() {
         }
       >
         <Match when={isLoggedIn()}>
-          <Navigate href="/app" />
+          <Navigate href={state.layout.popNextPath() ?? "/app"} />
         </Match>
         <Match when={lifecycle.state() === State.LoggingIn}>
           <CircularProgress />

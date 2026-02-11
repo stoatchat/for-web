@@ -20,34 +20,8 @@ jobs:
     permissions:
       contents: write
 
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup Mise
-        uses: immich-app/devtools/actions/use-mise@cd24790a7f5f6439ac32cc94f5523cb2de8bfa8c # use-mise-action-v1.1.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}S
-
-      - run: mise install:frozen
-      - run: mise build:deps
-      - run: mise lingui
-
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v4
-        with:
-          author_name: Stoat CI
-          author_email: stoat-ci@users.noreply.github.com
-          message: "chore: generate i18n catalog"
-
-  i18n-check:
-    name: Check i18n catalog
-    runs-on: ubuntu-latest
-
-    if: github.ref != 'refs/heads/main'
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
 
     steps:
       - uses: actions/checkout@v4
@@ -61,16 +35,23 @@ jobs:
 
       - run: mise install:frozen
       - run: mise build:deps
-      - run: mise lingui:check
+      - run: mise lingui
+
+      - name: Commit changes
+        id: commit
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Stoat CI
+          author_email: stoat-ci@users.noreply.github.com
+          message: "chore: generate i18n catalog"
 
   typecheck:
     name: Typecheck
     runs-on: ubuntu-latest
 
-    if: always()
+    if: needs.i18n.outputs.committed != 'true'
     needs:
       - i18n
-      - i18n-check
 
     steps:
       - uses: actions/checkout@v4
@@ -90,10 +71,9 @@ jobs:
     name: Lint & Format
     runs-on: ubuntu-latest
 
-    if: always()
+    if: needs.i18n.outputs.committed != 'true'
     needs:
       - i18n
-      - i18n-check
 
     steps:
       - uses: actions/checkout@v4
@@ -114,10 +94,9 @@ jobs:
     name: e2e Integration Test
     runs-on: ubuntu-latest
 
-    if: always()
+    if: needs.i18n.outputs.committed != 'true'
     needs:
       - i18n
-      - i18n-check
 
     timeout-minutes: 60
 

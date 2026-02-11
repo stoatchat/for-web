@@ -45,7 +45,7 @@ export function Dialog(props: Props) {
         onClick={props.onClose}
         style={{
           "--background": props.scrimBackground
-            ? `url('${props.scrimBackground}')`
+            ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
             : "rgba(0, 0, 0, 0.6)",
         }}
       >
