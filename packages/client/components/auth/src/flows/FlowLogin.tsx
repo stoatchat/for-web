@@ -97,7 +97,7 @@ export default function FlowLogin() {
         <Match when={lifecycle.state() === State.LoggingIn}>
           <CircularProgress />
         </Match>
-        <Match when={true || lifecycle.state() === State.Onboarding}>
+        <Match when={lifecycle.state() === State.Onboarding}>
           <FlowTitle>
             <Trans>Choose a username</Trans>
           </FlowTitle>
