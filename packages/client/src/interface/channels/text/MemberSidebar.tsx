@@ -58,7 +58,16 @@ export function MemberSidebar(props: Props) {
 /**
  * Servers to not fetch all members for
  */
-const IGNORE_ALL = ["01F7ZSBSFHQ8TA81725KQCSDDP", "01F80118K1F2EYD9XAMCPQ0BCT"];
+const LARGE_SERVERS = [
+  "01F7ZSBSFHQ8TA81725KQCSDDP",
+  // top servers on discover
+  "01K313D0VP0HPNG30DNZ4Q672H",
+  "01J31CCMTYKFPGCM13VRP3B289",
+  "01H2Y4Y97PW6584PHN1TAVN5WR",
+  "01HVKQBBQ3DQVVNK3M8DHXV30D",
+  "01GDS83RMZW89AV0BZG24NEXYC",
+  "01J5W0XERBBGK77BMDVPZJ20JW",
+];
 
 /**
  * Server Member Sidebar
@@ -72,7 +81,8 @@ export function ServerMemberSidebar(props: Props) {
       () => props.channel.serverId,
       (serverId) =>
         props.channel.server?.syncMembers(
-          IGNORE_ALL.includes(serverId) ? true : false,
+          LARGE_SERVERS.includes(serverId) ? true : false,
+          200,
         ),
     ),
   );
@@ -219,22 +229,26 @@ export function ServerMemberSidebar(props: Props) {
     return elements;
   });
 
+  const onlineMembers = createMemo(
+    () =>
+      client().serverMembers.filter(
+        (member) =>
+          (member.id.server === props.channel.serverId &&
+            member.user?.online) ||
+          false,
+      ).length,
+  );
+
   return (
     <Container>
-      <MemberTitle bottomMargin="yes">
-        <Row align>
-          <UserStatus size="0.7em" status="Online" />
-          {
-            client().serverMembers.filter(
-              (member) =>
-                (member.id.server === props.channel.serverId &&
-                  member.user?.online) ||
-                false,
-            ).length
-          }{" "}
-          members online
-        </Row>
-      </MemberTitle>
+      <Show when={!LARGE_SERVERS.includes(props.channel.serverId)}>
+        <MemberTitle bottomMargin="yes">
+          <Row align>
+            <UserStatus size="0.7em" status="Online" />
+            {onlineMembers()} members online
+          </Row>
+        </MemberTitle>
+      </Show>
 
       <Deferred>
         <VirtualContainer
