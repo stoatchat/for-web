@@ -310,6 +310,7 @@ export function MessageContainer(props: Props) {
 
   return (
     <div
+      id={props.message?.id}
       onMouseEnter={() => props.onHover && props.onHover(true)}
       onMouseLeave={() => props.onHover && props.onHover(false)}
       class={
