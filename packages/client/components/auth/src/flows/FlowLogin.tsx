@@ -1,17 +1,21 @@
 import { Match, Switch } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
-import { css } from "styled-system/css";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { useModals } from "@revolt/modal";
 import { Navigate } from "@revolt/routing";
-import { Button, CircularProgress, Column, Row, iconSize } from "@revolt/ui";
+import {
+  Button,
+  CircularProgress,
+  Column,
+  Row,
+  Text,
+  iconSize,
+} from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
-
-import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 import { useState } from "@revolt/state";
 import { FlowTitle } from "./Flow";
@@ -93,26 +97,17 @@ export default function FlowLogin() {
         <Match when={lifecycle.state() === State.LoggingIn}>
           <CircularProgress />
         </Match>
-        <Match when={lifecycle.state() === State.Onboarding}>
-          <FlowTitle
-            subtitle={
-              <Trans>
-                Pick a username that you want people to be able to find you by.
-                This can be changed later in your user settings.
-              </Trans>
-            }
-          >
-            <Row gap="sm">
-              <Trans>Welcome to</Trans>{" "}
-              <Wordmark
-                class={css({
-                  height: "0.8em",
-                  display: "inline",
-                  fill: "var(--md-sys-color-on-surface)",
-                })}
-              />
-            </Row>
+        <Match when={true || lifecycle.state() === State.Onboarding}>
+          <FlowTitle>
+            <Trans>Choose a username</Trans>
           </FlowTitle>
+
+          <Text>
+            <Trans>
+              Pick a username that you want people to be able to find you by.
+              This can be changed later in your user settings.
+            </Trans>
+          </Text>
 
           <Form onSubmit={select}>
             <Fields fields={["username"]} />

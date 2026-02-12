@@ -70,14 +70,7 @@ export type TypeTheme = {
   messageGroupSpacing: number;
 };
 
-export type SelectedTheme = Pick<
-  TypeTheme,
-  | "blur"
-  | "interfaceFont"
-  | "monospaceFont"
-  | "messageSize"
-  | "messageGroupSpacing"
-> & {
+export type SelectedTheme = Pick & {
   preset: "you";
   darkMode: boolean;
 
@@ -89,8 +82,8 @@ export type SelectedTheme = Pick<
 /**
  * Manages theme information
  */
-export class Theme extends AbstractStore<"theme", TypeTheme> {
-  prefersDark: Accessor<boolean>;
+export class Theme extends AbstractStore {
+  prefersDark: Accessor;
 
   /**
    * Construct store
@@ -129,7 +122,7 @@ export class Theme extends AbstractStore<"theme", TypeTheme> {
       preset: "you",
       mode: "system",
 
-      m3Accent: "#FF5733",
+      m3Accent: "#5470ec",
       m3Contrast: 0.0,
       m3Variant: "tonal_spot",
 
@@ -145,7 +138,7 @@ export class Theme extends AbstractStore<"theme", TypeTheme> {
   /**
    * Validate the given data to see if it is compliant and return a compliant object
    */
-  clean(input: Partial<TypeTheme>): TypeTheme {
+  clean(input: Partial): TypeTheme {
     const data: TypeTheme = this.default();
 
     if (["light", "dark", "system"].includes(input.mode!)) {

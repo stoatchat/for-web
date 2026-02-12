@@ -29,7 +29,8 @@ export default function FlowHome() {
           <Column gap="xl">
             <Wordmark
               class={css({
-                width: "100%",
+                width: "60%",
+                margin: "auto",
                 fill: "var(--md-sys-color-on-surface)",
               })}
             />
