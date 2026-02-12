@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.2.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.1.0...stoat-for-web-v0.2.0) (2026-02-12)
+
+
+### Features
+
+* create invite button in invite management tab ([#596](https://github.com/stoatchat/for-web/issues/596)) ([0e93bf8](https://github.com/stoatchat/for-web/commit/0e93bf85b2159e63d1b28bc5c15997ee2bcca9fd))
+* new stable message list view ([#580](https://github.com/stoatchat/for-web/issues/580)) ([f9cda02](https://github.com/stoatchat/for-web/commit/f9cda02c280a6094a8fd889566c10d1536c6d714))
+* save 'next path' if login is required to app ([#611](https://github.com/stoatchat/for-web/issues/611)) ([37e6dd9](https://github.com/stoatchat/for-web/commit/37e6dd965ff78b38abd4c721424d7121303e8cbe))
+* stoat branding! ([#688](https://github.com/stoatchat/for-web/issues/688)) ([b3852b9](https://github.com/stoatchat/for-web/commit/b3852b9db72a278f7a9512d87d9295c3e1efe6f8))
+
+
+### Bug Fixes
+
+* aggressively cull members list (workaround) ([#685](https://github.com/stoatchat/for-web/issues/685)) ([cfbeb7c](https://github.com/stoatchat/for-web/commit/cfbeb7ce4c94f7799168f17aea48bf667f254903))
+* always darken background behind invite modal ([#612](https://github.com/stoatchat/for-web/issues/612)) ([8229f1e](https://github.com/stoatchat/for-web/commit/8229f1e80ed2f602fafa4b7cc4acd2e5de4b08a7))
+* call removeFriend() on "Cancel friend request" button click ([#623](https://github.com/stoatchat/for-web/issues/623)) ([a9fd6f6](https://github.com/stoatchat/for-web/commit/a9fd6f627efeecb829bd76d235f1529827a7f73b))
+* checkboxes doubble toggle, autostart and made toggle logic reusable ([#666](https://github.com/stoatchat/for-web/issues/666)) ([5feb3b0](https://github.com/stoatchat/for-web/commit/5feb3b07a6af47fbc6bcb29539d9d74ef31704ec))
+* do not run lingui on release please branches ([#692](https://github.com/stoatchat/for-web/issues/692)) ([9a5ecba](https://github.com/stoatchat/for-web/commit/9a5ecba9236310f2b25bd5dbad0a37c151fdc812))
+* don't show legacy redirect on desktop ([#613](https://github.com/stoatchat/for-web/issues/613)) ([46b3e9a](https://github.com/stoatchat/for-web/commit/46b3e9a4ca72bf52debcc925927bd0092b8ca919))
+* email field autocomplete not working for some browsers ([#671](https://github.com/stoatchat/for-web/issues/671)) ([f9684e2](https://github.com/stoatchat/for-web/commit/f9684e2d083d1988bf7cb23a0df5552f0c9fffe4))
+* prioritize displayname over username on messages ([#595](https://github.com/stoatchat/for-web/issues/595)) ([9ffc252](https://github.com/stoatchat/for-web/commit/9ffc25250f4ec530459bcf21e93a8fbe33b38093))
+* reacting to messages when pack is set ([#645](https://github.com/stoatchat/for-web/issues/645)) ([d368a5f](https://github.com/stoatchat/for-web/commit/d368a5f5b85f568eba014cd6397bcda54e4b8f7a))
+* use old-admin subdomain instead of legacy-admin ([#637](https://github.com/stoatchat/for-web/issues/637)) ([bfe96e9](https://github.com/stoatchat/for-web/commit/bfe96e9c8be4461db6441899fda6b3bff310be3d))
+
 ## [0.1.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.0.14...stoat-for-web-v0.1.0) (2026-01-21)
 
 
