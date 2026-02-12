@@ -1,6 +1,6 @@
 import { createSignal, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { CategoryButton, Checkbox, Column } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -44,6 +44,7 @@ declare global {
  * Desktop Configuration Page
  */
 export default function Native() {
+  const { t }  = useLingui();
   const [autostart, setAutostart] = createSignal(false);
   const [config, setConfig] = createSignal(window.desktopConfig.get());
 
@@ -92,9 +93,9 @@ export default function Native() {
         }
         onClick={toggles[key]}
         icon={<Symbol>{icon}</Symbol>}
-        description={<Trans>{description}</Trans>}
+        description={description}
       >
-        <Trans>{label}</Trans>
+        {label}
       </CategoryButton>
     );
   }
@@ -121,14 +122,14 @@ export default function Native() {
         {CheckboxButton(
           "minimiseToTray",
           "cancel_presentation",
-          "Minimise to Tray",
-          "Instead of closing, Stoat will hide in your tray.",
+          t`Minimise to Tray`,
+          t`Instead of closing, Stoat will hide in your tray.`,
         )}
         {CheckboxButton(
           "customFrame",
           "web_asset",
-          "Custom window frame",
-          "Let Stoat use its own custom titlebar.",
+          t`Custom window frame`,
+          t`Let Stoat use its own custom titlebar.`,
         )}
       </CategoryButton.Group>
 
@@ -136,20 +137,20 @@ export default function Native() {
         {CheckboxButton(
           "discordRpc",
           "groups_2",
-          "Discord RPC",
-          "Rep Stoat using Discord rich presence.",
+          t`Discord RPC`,
+          t`Rep Stoat using Discord rich presence.`,
         )}
         {CheckboxButton(
           "spellchecker",
           "spellcheck",
-          "Spellchecker",
-          "Show corrections and suggestions as you type.",
+          t`Spellchecker`,
+          t`Show corrections and suggestions as you type.`,
         )}
         {CheckboxButton(
           "hardwareAcceleration",
           "speed",
-          "Hardware Acceleration",
-          "Use the graphics card to improve performance.",
+          t`Hardware Acceleration`,
+          t`Use the graphics card to improve performance.`,
         )}
       </CategoryButton.Group>
 
