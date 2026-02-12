@@ -61,7 +61,7 @@ export function ProfileActions(props: {
         </IconButton>
       </Show>
       <Show when={props.user.relationship === "Outgoing"}>
-        <Button onPress={() => props.user.addFriend()}>
+        <Button onPress={() => props.user.removeFriend()}>
           Cancel friend request
         </Button>
       </Show>
