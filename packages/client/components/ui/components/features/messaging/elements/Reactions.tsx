@@ -12,6 +12,7 @@ import { Row } from "@revolt/ui/components/layout";
 
 import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
 
+import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { CompositionMediaPicker } from "../composition";
 
 interface Props {
@@ -124,7 +125,11 @@ export function Reactions(props: Props) {
           onMessage={props.sendGIF}
           onTextReplacement={(emoji) =>
             props.addReaction(
-              emoji.startsWith(":") ? emoji.slice(1, emoji.length - 1) : emoji,
+              emoji.startsWith(":")
+                ? emoji.slice(1, emoji.length - 1)
+                : startsWithPackPUA(emoji)
+                  ? emoji.slice(1)
+                  : emoji,
             )
           }
         >
