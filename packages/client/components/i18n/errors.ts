@@ -15,7 +15,14 @@ export function useError() {
       (error as { type?: never } | undefined)?.type &&
       typeof (error as { type: never }).type === "string"
     ) {
-      const err = error as API.Error;
+      const err = error as
+        | API.Error
+        | Exclude<
+            API.Authifier_Error,
+            | { type: "UnknownUser" }
+            | { type: "DatabaseError" }
+            | { type: "InternalError" }
+          >;
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -99,6 +106,16 @@ export function useError() {
           return t`You've sent too many friend requests, the maximum is ${err.max}`;
         case "PayloadTooLarge":
           return t`Your message is too long, please remove some characters and try again.`;
+        case "ShortPassword":
+          return t`The password is too short.`;
+        case "LockedOut":
+          return t`You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again.`;
+        case "CompromisedPassword":
+          return t`This password has previously appeared in security leaks, please use another password.`;
+        case "UnverifiedAccount":
+          return t`This account is not activated! Please check your account's inbox and try again.`;
+        case "TotpAlreadyEnabled":
+          return t`Multi-factor authentication is already enabled for this account.`;
 
         // unreachable errors (in theory)
         case "FileTooLarge":
