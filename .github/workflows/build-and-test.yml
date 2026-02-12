@@ -16,6 +16,7 @@ jobs:
   i18n:
     name: Generate i18n catalog
     runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.head_ref || github.ref_name, 'release-please-') }}
 
     permissions:
       contents: write
@@ -49,7 +50,7 @@ jobs:
     name: Typecheck
     runs-on: ubuntu-latest
 
-    if: needs.i18n.outputs.committed != 'true'
+    if: ${{ needs.i18n.result == 'skipped' || (needs.i18n.result == 'success' && needs.i18n.outputs.committed != 'true') }}
     needs:
       - i18n
 
@@ -71,7 +72,7 @@ jobs:
     name: Lint & Format
     runs-on: ubuntu-latest
 
-    if: needs.i18n.outputs.committed != 'true'
+    if: ${{ needs.i18n.result == 'skipped' || (needs.i18n.result == 'success' && needs.i18n.outputs.committed != 'true') }}
     needs:
       - i18n
 
@@ -94,7 +95,7 @@ jobs:
     name: e2e Integration Test
     runs-on: ubuntu-latest
 
-    if: needs.i18n.outputs.committed != 'true'
+    if: ${{ needs.i18n.result == 'skipped' || (needs.i18n.result == 'success' && needs.i18n.outputs.committed != 'true') }}
     needs:
       - i18n
 
