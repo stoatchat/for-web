@@ -245,8 +245,7 @@ export function ServerMemberSidebar(props: Props) {
         <MemberTitle bottomMargin="yes">
           <Row align>
             <UserStatus size="0.7em" status="Online" />
-            {onlineMembers()}{" "}
-            members online
+            {onlineMembers()} members online
           </Row>
         </MemberTitle>
       </Show>
