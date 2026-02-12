@@ -93,9 +93,9 @@ export default function Native() {
         }
         onClick={toggles[key]}
         icon={<Symbol>{icon}</Symbol>}
-        description={<Trans>{description}</Trans>}
+        description={description}
       >
-        <Trans>{label}</Trans>
+        {label}
       </CategoryButton>
     );
   }
