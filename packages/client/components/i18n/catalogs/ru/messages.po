@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 07:54+0000\n"
+"PO-Revision-Date: 2026-02-13 10:42+0000\n"
 "Last-Translator: someoneodd <someoneodd@proton.me>\n"
 "Language-Team: Russian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/ru/>\n"
@@ -18,17 +18,17 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr ""
+msgstr "[Вчера в] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr ""
+msgstr "[Сегодня в] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr ""
+msgstr "[Завтра в] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -38,7 +38,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr ""
+msgstr "dddd [в] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -46,16 +46,20 @@ msgstr "(изменения сохраняются...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
+#, fuzzy
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
+"{0, множество, одно {# заблокированное сообщение} other {# заблокированные "
+"сообщения}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
+#, fuzzy
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, множество, одно {Поместите файл} другое {Поместите # файлов}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -76,22 +80,24 @@ msgstr "{0} изменил иконку канала"
 #. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr ""
+msgstr "{0} слотов эмодзи осталось"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
 msgstr ""
+"{0} файлов пиевышают лимит размера файла в {maxSizeFormatted} и не были "
+"загружены."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} is typing…"
-msgstr ""
+msgstr "{0} печатает…"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} joined"
-msgstr ""
+msgstr "{0} присоединился"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
@@ -139,7 +145,7 @@ msgstr "{0} был выгнан"
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr ""
+msgstr "{1} убрал {0}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -321,9 +327,8 @@ msgid "Affects all roles and users"
 msgstr "Подействует на все роли и пользователей"
 
 #: src/interface/Friends.tsx
-#, fuzzy
 msgid "All"
-msgstr "Всё"
+msgstr "Все"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -333,11 +338,11 @@ msgstr "Все сообщения"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr ""
+msgstr "Позволить пользователям менять имя и сообщение для каждого сообщения"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr ""
+msgstr "Позволить другим добавлять вашего бота на их сервера из Discover"
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
@@ -355,7 +360,7 @@ msgstr "Призошла ошибка."
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "An internal error occurred. ({0})"
-msgstr ""
+msgstr "Произошла внутренняя ошибка. ({0})"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
@@ -364,11 +369,11 @@ msgstr "Внешний вид"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr ""
+msgstr "Вы уверены что хотите завершить вашу сессию?"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Вы уверены что хотите удалить это?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
