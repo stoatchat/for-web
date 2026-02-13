@@ -146,6 +146,9 @@ export function useError() {
         case "UnknownUser":
         case "VosoUnavailable":
           return err.type + " " + err.location;
+
+        default:
+          return t`Uncaught Stoat error: ${err.type}`;
       }
     }
 
@@ -158,6 +161,8 @@ export function useError() {
       if (message) return message;
     }
 
-    return t`Something went wrong! Try again later.`;
+    return t`Something went wrong! ${error}`;
+    // revert to `Try again later.` later
+    // need to capture envelopes properly
   };
 }

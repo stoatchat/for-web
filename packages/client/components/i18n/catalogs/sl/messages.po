@@ -2490,8 +2490,12 @@ msgid "Something is wrong with your request, {0}."
 msgstr ""
 
 #: components/i18n/errors.ts
-msgid "Something went wrong! Try again later."
+msgid "Something went wrong! {error}"
 msgstr ""
+
+#: components/i18n/errors.ts
+#~ msgid "Something went wrong! Try again later."
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Sounds"
@@ -2743,6 +2747,11 @@ msgstr ""
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
 msgstr "Odblokiraj uporabnika"
+
+#. placeholder {0}: err.type
+#: components/i18n/errors.ts
+msgid "Uncaught Stoat error: {0}"
+msgstr ""
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"

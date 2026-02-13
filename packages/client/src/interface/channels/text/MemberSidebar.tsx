@@ -60,6 +60,7 @@ export function MemberSidebar(props: Props) {
  */
 const LARGE_SERVERS = [
   "01F7ZSBSFHQ8TA81725KQCSDDP",
+  "01G3PKD1YJ2H484MDX6KP9WRBN",
   // top servers on discover
   "01K313D0VP0HPNG30DNZ4Q672H",
   "01J31CCMTYKFPGCM13VRP3B289",
