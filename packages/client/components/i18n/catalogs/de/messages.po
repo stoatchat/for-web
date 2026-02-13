@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 10:15+0000\n"
-"Last-Translator: quzy <random.iciness200@passmail.net>\n"
+"PO-Revision-Date: 2026-02-13 10:25+0000\n"
+"Last-Translator: purpldatabase <business@purpldatabase.rocks>\n"
 "Language-Team: German <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/de/>\n"
 "Language: de\n"
@@ -17,27 +17,27 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr ""
+msgstr "[Gestern um] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr ""
+msgstr "[Heute um] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr ""
+msgstr "[Morgen um] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr ""
+msgstr "[Letzte] dddd [um] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr ""
+msgstr "dddd [um] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -45,16 +45,19 @@ msgstr "(Änderungen werden gespeichert...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
+#, fuzzy
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
+"{0, Plural, one {# blockierte Nachricht} weitere {# blockierte Nachrichten}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
+#, fuzzy
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, plural, one {Eine Datei ablegen} other { # Dateien ablegen}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
