@@ -44,7 +44,7 @@ declare global {
  * Desktop Configuration Page
  */
 export default function Native() {
-  const { t }  = useLingui();
+  const { t } = useLingui();
   const [autostart, setAutostart] = createSignal(false);
   const [config, setConfig] = createSignal(window.desktopConfig.get());
 
