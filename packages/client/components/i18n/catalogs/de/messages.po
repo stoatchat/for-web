@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
+"PO-Revision-Date: 2026-02-13 10:15+0000\n"
+"Last-Translator: quzy <random.iciness200@passmail.net>\n"
+"Language-Team: German <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: de\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -40,14 +41,13 @@ msgstr ""
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr ""
+msgstr "(Änderungen werden gespeichert...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
@@ -60,42 +60,44 @@ msgstr ""
 #. placeholder {1}: users().slice(-1)[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} and {1} are typing…"
-msgstr ""
+msgstr "{0} und {1} schreiben…"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel description"
-msgstr ""
+msgstr "{0} hat die Kanalbeschreibung geändert"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr ""
+msgstr "{0} hat das Kanal-Icon geändert"
 
 #. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr ""
+msgstr "{0} Emoji-Slots übrig"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
 msgstr ""
+"{0} Dateien überschreiben die maximale Größe von {maxSizeFormatted} und "
+"wurden nicht hochgeladen."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} is typing…"
-msgstr ""
+msgstr "{0} schreibt…"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} joined"
-msgstr ""
+msgstr "{0} ist beigetreten"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr ""
+msgstr "{0} ist gegangen"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username
@@ -106,12 +108,12 @@ msgstr ""
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} pinned a message"
-msgstr ""
+msgstr "{0} hat eine Nachricht angepinnt"
 
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr ""
+msgstr "{0} hat den Kanal umbenannt"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -122,83 +124,83 @@ msgstr ""
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was added by {1}"
-msgstr ""
+msgstr "{0} wurde von {1} hinzugefügt"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr ""
+msgstr "{0} wurde gebannt"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr ""
+msgstr "{0} wurde gekickt"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr ""
+msgstr "{0} wurde von {1} entfernt"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
 #. placeholder {2}: props.itemCount
 #: components/ui/components/design/DataTable.tsx
 msgid "{0}-{1} of {2}"
-msgstr ""
+msgstr "{0}-{1} von {2}"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr ""
+msgstr "{}s Rollen"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
-msgstr ""
+msgstr "{unknown} hat reagiert"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr ""
+msgstr "{usernames} und {unknown} andere haben reagiert"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
-msgstr ""
+msgstr "{usernames} haben reagiert"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
-msgstr ""
+msgstr "<0/> wurde von <1/> hinzugefügt"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been banned from the server"
-msgstr ""
+msgstr "<0/> wurde vom Server gebannt"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been kicked from the server"
-msgstr ""
+msgstr "<0/> wurde vom Server gekickt"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr ""
+msgstr "<0/> wurde von <1/> entfernt"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
-msgstr ""
+msgstr "<0/> ist dem Server beigetreten"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the group"
-msgstr ""
+msgstr "<0/> hat die Gruppe verlassen"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the server"
-msgstr ""
+msgstr "<0/> hat den Server verlassen"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> pinned <1/>"
-msgstr ""
+msgstr "<0/> hat <1/> angepinnt"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
-msgstr ""
+msgstr "<0/> hat einen Anruf gestartet"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call that lasted "
@@ -214,20 +216,21 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
-msgstr ""
+msgstr "<0/> hat die Gruppenbeschreibung aktualisiert"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group icon "
-msgstr ""
+msgstr "<0/> hat das Gruppen-Icon aktualisiert "
 
 #. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
-msgstr ""
+msgstr "<0/> hat den Gruppennamen zu <1>{0}</1> geändert"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
+"<0>Vorsicht!</0><1/>Das ist nicht der gleiche Link, der angezeigt wurde:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
@@ -236,25 +239,25 @@ msgstr "Eine Person hat reagiert"
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
-msgstr ""
+msgstr "12 Stunden"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
-msgstr ""
+msgstr "24 Stunden"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr ""
+msgstr "Kann auf Kanäle auf dem Server zugreifen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
-msgstr ""
+msgstr "Kann auf diesen Kanal zugreifen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr ""
+msgstr "Kann in Sprachanruf sprechen"
 
 #: components/auth/src/AuthPage.tsx
 msgid "About"
@@ -262,7 +265,7 @@ msgstr "Über"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Accept"
-msgstr ""
+msgstr "Akzeptieren"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Accept friend request"
@@ -270,17 +273,17 @@ msgstr "Freundschaftsanfrage akzeptieren"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr ""
+msgstr "Bestätigen"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: src/interface/Friends.tsx
 #: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
-msgstr ""
+msgstr "Neuen Freund hinzufügen"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
@@ -289,19 +292,19 @@ msgstr "Freund hinzufügen"
 #: src/interface/channels/ChannelHeader.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add friends to group"
-msgstr ""
+msgstr "Freunde zu Gruppe hinzufügen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Add new members to the group"
-msgstr ""
+msgstr "Neue Mitglieder zu Gruppe hinzufügen"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr ""
+msgstr "Statustext hinzufügen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
@@ -317,11 +320,11 @@ msgstr "Fortgeschritten"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Affects all roles and users"
-msgstr ""
+msgstr "Betrifft alle Rollen und User"
 
 #: src/interface/Friends.tsx
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -372,7 +375,6 @@ msgstr ""
 msgid "Are you sure you want to go to "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
@@ -808,7 +810,6 @@ msgstr "Erstellen"
 msgid "Create a channel before inviting others!"
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "Create a group"
 #~ msgstr "Gruppe erstellen"
 
@@ -1073,7 +1074,6 @@ msgstr "Bitte nicht Stören"
 msgid "Don't ask me again for "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
@@ -1348,8 +1348,6 @@ msgstr ""
 msgid "Go to the Stoat Lounge"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: src/interface/Home.tsx
 #~ msgid "Go to the testers server"
 #~ msgstr "Gehe zum Test-Server"
 
@@ -1491,7 +1489,6 @@ msgstr ""
 msgid "Join a server"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx
 #~ msgid "Join call"
 #~ msgstr ""
 
@@ -2278,7 +2275,6 @@ msgstr ""
 msgid "Review policy changes"
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "Roadmap"
 #~ msgstr ""
 
@@ -2329,7 +2325,6 @@ msgstr ""
 msgid "Search for users..."
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
 
@@ -2540,7 +2535,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx
 #~ msgid "Stoat Desktop"
 #~ msgstr ""
 
@@ -2924,7 +2918,6 @@ msgstr "Zeige aktuell aktive Bugmeldungen hier an."
 msgid "View members"
 msgstr ""
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "View older updates"
 #~ msgstr "Ältere Aktualisierungen anzeigen"
 
@@ -2982,8 +2975,6 @@ msgstr ""
 msgid "Webhooks"
 msgstr "Webhooks"
 
-#: src/interface/Home.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome to"
 #~ msgstr "Willkommen bei"
 
@@ -3032,7 +3023,6 @@ msgstr ""
 msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Du kannst auch mit der rechten Maustaste auf das Benutzersymbol oben links klicken oder mit der linken Maustaste darauf klicken, wenn du bereits auf der Hauptseite bist."
 
