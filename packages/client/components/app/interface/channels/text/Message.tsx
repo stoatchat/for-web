@@ -110,6 +110,7 @@ export function Message(props: Props) {
         <div use:floating={floatingUserMenusFromMessage(props.message)}>
           <Username
             username={
+              props.message.masquerade?.name ??
               props.message.member?.nickname ??
               props.message.author?.displayName ??
               props.message.author?.username ??
