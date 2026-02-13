@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 14:32+0000\n"
+"PO-Revision-Date: 2026-02-13 15:00+0000\n"
 "Last-Translator: Rev <thatssostupid123@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/tr/>\n"
@@ -2865,31 +2865,35 @@ msgstr "Kullanıcı Adı"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "username#1234"
-msgstr ""
+msgstr "kullanıcıadı#1234"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
 msgstr ""
+"Kullanıcılar bu kanala katılmadan önce yaşlarını doğrulamaları istenecek."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Users will be asked to confirm their age before opening this channel."
-msgstr ""
+msgstr "Kullanıcılar bu kanalı açmadan önce yaşlarını doğrulamaları istenecek."
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
+"Kullanıcılar artık bu kanala katıldıklarında yaşlarını doğrulamaları "
+"istenmeyecek.<0/> Lütfen içeriğin tüm yaş gruplarına uygun olduğundan emin "
+"olun."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default microphone"
-msgstr ""
+msgstr "Varsayılan mikrofon kullanılıyor"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default speaker"
-msgstr ""
+msgstr "Varsayılan hoparlör kullanılıyor"
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
-msgstr ""
+msgstr "Doğrulandı"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Verifying your account…"
@@ -2898,7 +2902,7 @@ msgstr "Hesabınız doğrulanıyor…"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Native.tsx
 msgid "Version:"
-msgstr ""
+msgstr "Sürüm:"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Video"
@@ -2914,14 +2918,14 @@ msgstr "Şu anda aktif olan hata raporlarını buradan görüntüleyin."
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
-msgstr ""
+msgstr "Üyeleri görüntüle"
 
 #~ msgid "View older updates"
 #~ msgstr "Eski güncellemelere bakın"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
-msgstr ""
+msgstr "Sabitlenmiş mesajları görüntüle"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "View Recovery Codes"
@@ -2934,7 +2938,7 @@ msgstr "Eski mesajları görüntülüyorsun"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
-msgstr ""
+msgstr "Ses"
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
@@ -2942,32 +2946,34 @@ msgstr "Ses Kanalı"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
-msgstr ""
+msgstr "Ses İşleme Biçimi"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Volume"
-msgstr ""
+msgstr "Ses düzeyi"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Want to change username?"
-msgstr ""
+msgstr "Kullanıcı adını değiştirmek mi istiyorsun?"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
-msgstr "Size bir doğrulama epostası gönderdik. Lütfen gelmesi için 10 dakikaya kadar bekleyin."
+msgstr ""
+"Size bir doğrulama e-postası gönderdik. Lütfen gelmesi için 10 dakikaya "
+"kadar bekleyin."
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Icon"
-msgstr ""
+msgstr "Webhook Simgesi"
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Name"
-msgstr ""
+msgstr "Webhook Adı"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
@@ -2991,11 +2997,13 @@ msgstr ""
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
-msgstr ""
+msgstr "Yeni bir grup ya da sunucu oluşturmak ister misin?"
 
 #: components/modal/modals/CreateOrJoinServer.tsx
 msgid "Would you like to create a new server or join an existing one?"
 msgstr ""
+"Yeni bir sunucu oluşturmak mı yoksa var olan bir sunucuya katılmak mı "
+"istersin?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
@@ -3006,27 +3014,27 @@ msgstr ""
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 msgid "You are about to ban {0}"
-msgstr ""
+msgstr "{0}'yı yasaklamak üzeresin"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr ""
+msgstr "{0}'yı atmak üzeresin"
 
 #: components/i18n/errors.ts
 msgid "You are banned from this server."
-msgstr ""
+msgstr "Bu sunucudan yasaklandın."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
-msgstr ""
+msgstr "Sol alttaki çark simgesine de tıklayabilirsin."
 
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Ayrıca sol üstteki kullanıcı simgesine sağ tıklayabilirsin veya eğer ana sayfadaysan sol tıklayabilirsin."
 
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
-msgstr "Daha sonra tekrar açabilirsin, ancak her iki tarafta da kaybolacaktır."
+msgstr "Daha sonra tekrar açabilirsin, ancak her iki taraftan da kaybolacaktır."
 
 #: src/interface/Home.tsx
 #: src/interface/Home.tsx
@@ -3039,24 +3047,26 @@ msgstr "Sorunları bildirebilir ve gelişmeleri bizimle doğrudan buradan payla�
 #: components/i18n/errors.ts
 msgid "You can't be in more than {0} servers, please leave one and try again."
 msgstr ""
+"{0}'dan fazla sunucuda bulunamazsınız, lütfen bir sunucuyu terk edip tekrar "
+"deneyin."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} channels on this server."
-msgstr ""
+msgstr "Bu sunucuya {0}'dan fazla kanal ekleyemezsiniz."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} emojis on this server."
-msgstr ""
+msgstr "Bu sunucuya {0}'dan fazla emoji ekleyemezsiniz."
 
 #: components/i18n/errors.ts
 msgid "You cannot give yourself missing permissions."
-msgstr ""
+msgstr "Kendinizde olmayan yetkileri kendinize veremezsiniz."
 
 #: components/i18n/errors.ts
 msgid "You cannot join this call."
-msgstr ""
+msgstr "Bu aramaya katılamazsınız."
 
 #: components/i18n/errors.ts
 msgid "You cannot remove yourself."
@@ -3064,7 +3074,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "You cannot report yourself."
-msgstr ""
+msgstr "Kendinizi bildiremezsiniz."
 
 #: components/i18n/errors.ts
 msgid "You cannot timeout yourself."
@@ -3085,7 +3095,7 @@ msgstr "Bunu yapmak için yetkiniz yok."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
-msgstr "Bu kanalda mesaj gönderme izniniz yok."
+msgstr "Bu kanalda mesaj gönderme yetkiniz yok."
 
 #: components/i18n/errors.ts
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
