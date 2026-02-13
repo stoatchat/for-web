@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 14:16+0000\n"
+"PO-Revision-Date: 2026-02-13 14:32+0000\n"
 "Last-Translator: fontoms <tomtombert7@gmail.com>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
@@ -230,8 +230,7 @@ msgstr "<0/> a mis à jour le nom du groupe en <1>{0}</1>"
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
-"<0>Fais attention!</0><1/>Ce n'est pas le même lien que celui qui a été "
-"affiché:"
+"<0>Attention !</0><1/>Ce n'est pas le même lien que celui qui était affiché :"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
@@ -249,7 +248,7 @@ msgstr "24 heures"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr "Capable d'accéder aux canaux sur ce serveur"
+msgstr "Capable d'accéder aux salons sur ce serveur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
@@ -304,7 +303,6 @@ msgid "Add status text"
 msgstr "Ajouter un texte d'état"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#, fuzzy
 msgid "Admin"
 msgstr "Admin"
 
@@ -337,10 +335,13 @@ msgstr "Tous les messages"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
 msgstr ""
+"Permettre aux membres de changer leur nom et leur avatar pour chaque message"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr ""
+"Autorisez les autres utilisateurs à ajouter votre bot à leurs serveurs "
+"depuis Découverte"
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
@@ -349,16 +350,16 @@ msgstr "Vous êtes déjà ami avec cet utilisateur."
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
-msgstr ""
+msgstr "Américain (MM/JJ/AAAA)"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
-msgstr ""
+msgstr "Une erreur s'est produite."
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "An internal error occurred. ({0})"
-msgstr ""
+msgstr "Une erreur interne s'est produite. ({0})"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
@@ -367,26 +368,26 @@ msgstr "Apparence"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir effacer vos sessions ?"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer ceci ?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir aller à "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
-msgstr ""
+msgstr "Attribuer des rôles de rang inférieur aux membres de rang inférieur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign Roles"
-msgstr "Assigner des rôles"
+msgstr "Attribuer des rôles"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -405,7 +406,7 @@ msgstr "Avatar"
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Back"
-msgstr ""
+msgstr "Retour"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Badges"
@@ -418,19 +419,19 @@ msgstr "Bannir"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Ban evasion"
-msgstr ""
+msgstr "Contournement de bannissement"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr ""
+msgstr "Bannir les membres de rang inférieur du serveur"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
-msgstr "Bannir le membre"
+msgstr "Bannir un membre"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Ban Member"
-msgstr ""
+msgstr "Bannir le membre"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
@@ -438,15 +439,15 @@ msgstr "Bannir les membres"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban user"
-msgstr ""
+msgstr "Bannir l'utilisateur"
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
-msgstr ""
+msgstr "Bannir un utilisateur"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
-msgstr ""
+msgstr "Bannière"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Bans"
@@ -470,11 +471,11 @@ msgstr "Bot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr ""
+msgstr "Annulation de l'écho du navigateur"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Noise Supression"
-msgstr ""
+msgstr "Suppression du bruit du navigateur"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -484,15 +485,15 @@ msgstr "Traqueur de bugs"
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Busy"
-msgstr ""
+msgstr "Occupé"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
+msgstr "En créant ce bot, vous acceptez la <0>Politique d'utilisation</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
+msgstr "En créant ce serveur, vous acceptez la <0>Politique d'utilisation</0>."
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
@@ -526,15 +527,17 @@ msgstr "Annuler la demande d'ami"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Cancel message"
-msgstr ""
+msgstr "Annuler le message"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr "Impossible de clôturer le compte si les serveurs ne sont pas fermés ou transférés"
+msgstr ""
+"Impossible de supprimer le compte tant que les serveurs n'ont pas été "
+"supprimés ou transférés"
 
 #: components/i18n/errors.ts
 msgid "Cannot edit this message."
-msgstr ""
+msgstr "Impossible de modifier ce message."
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -548,15 +551,15 @@ msgstr "Modifier l'avatar"
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change identity on {0}"
-msgstr ""
+msgstr "Modifier l'identité sur {0}"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr ""
+msgstr "Modifier l'adresse e-mail de connexion"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
-msgstr ""
+msgstr "Modifier le mot de passe de connexion"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Nickname"
@@ -2501,7 +2504,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
