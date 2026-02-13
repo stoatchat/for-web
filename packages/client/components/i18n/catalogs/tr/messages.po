@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 14:03+0000\n"
+"PO-Revision-Date: 2026-02-13 14:32+0000\n"
 "Last-Translator: Rev <thatssostupid123@protonmail.com>\n"
 "Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/tr/>\n"
@@ -2498,7 +2498,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
@@ -3082,7 +3081,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "You do not have permission to do this."
-msgstr ""
+msgstr "Bunu yapmak için yetkiniz yok."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
@@ -3098,7 +3097,7 @@ msgstr ""
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
-msgstr ""
+msgstr "Bu kullanıcıyı susturdunuz."
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "You were logged out!"
@@ -3106,11 +3105,13 @@ msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "You will not receive any notifications"
-msgstr ""
+msgstr "Herhangi bir bildirim almayacaksınız"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
-msgstr "Destek ekibiyle iletişime geçmediğin sürece hesabına erişemezsin - fakat verilerin silinmez."
+msgstr ""
+"Destek ekibiyle iletişime geçmediğin sürece hesabına erişemezsin - fakat "
+"verilerin silinmeyecek."
 
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
@@ -3119,28 +3120,28 @@ msgstr "Yeniden davet edilmediğin sürece tekrar katılamazsın."
 
 #: components/i18n/errors.ts
 msgid "You're already part of this group."
-msgstr ""
+msgstr "Çoktan bu gruptasınız."
 
 #: components/modal/modals/Invite.tsx
 #: components/i18n/errors.ts
 msgid "You're already part of this server."
-msgstr ""
+msgstr "Çoktan bu sunucudasınız."
 
 #: components/i18n/errors.ts
 msgid "You've already sent a request to this user."
-msgstr ""
+msgstr "Bu kullanıcıya çoktan bir istek gönderdiniz."
 
 #: components/modal/modals/Invite.tsx
 msgid "You've been invited to join this server.<0/>Would you like to join?"
-msgstr ""
+msgstr "Bu sunucuya katılmak için bir davet aldınız.<0/>Katılmak ister misiniz?"
 
 #: components/modal/modals/SignedOut.tsx
 msgid "You've been signed out of Stoat!"
-msgstr ""
+msgstr "Stoat'tan çıkış yaptınız!"
 
 #: components/i18n/errors.ts
 msgid "You've reached your personal bot limit."
-msgstr ""
+msgstr "Kişisel bot oluşturma sayınıza ulaştınız."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
@@ -3150,6 +3151,9 @@ msgstr ""
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
 msgstr ""
+"Bütün verileriniz (mesaj ve arkadaş listesi dahil) ve hesabınız silinmeye "
+"ayarlandı. Onay için email gönderilecek - bunu 7 gün içerisinde destek "
+"ekibimizle iletişime geçerek iptal edebilirsiniz."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -3161,7 +3165,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "Your message is too long, please remove some characters and try again."
-msgstr ""
+msgstr "Mesajın çok uzun, lütfen bazı karakterleri silip tekrar dene."
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"
@@ -3169,7 +3173,7 @@ msgstr "Kurtarma kodların"
 
 #: components/i18n/errors.ts
 msgid "Your role ranking is too low to take this action."
-msgstr ""
+msgstr "Bu eylemi gerçekleştirmek için rol yetkiniz çok düşük."
 
 #: components/i18n/errors.ts
 msgid "Your user has already been created? Try logging in again or refreshing the app."
