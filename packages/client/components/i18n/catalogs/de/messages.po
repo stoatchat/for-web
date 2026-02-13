@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 17:20+0000\n"
+"PO-Revision-Date: 2026-02-13 17:35+0000\n"
 "Last-Translator: Lian <stuff@itslian.de>\n"
 "Language-Team: German <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/de/>\n"
@@ -2158,10 +2158,12 @@ msgstr "Grund"
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
 msgstr ""
+"Erhalte Benachrichtigungen während die app offen und im Hintergrund ist."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
+#, fuzzy
 msgid "Reconnecting"
-msgstr ""
+msgstr "Verbindet erneut"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -2181,8 +2183,9 @@ msgid "Register"
 msgstr "Registrieren"
 
 #: components/modal/modals/AddBot.tsx
+#, fuzzy
 msgid "Registered since <0/>"
-msgstr ""
+msgstr "Registriert seit <0/>"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Reject friend request"
@@ -2194,7 +2197,7 @@ msgstr "Relevanz"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
-msgstr ""
+msgstr "Alle Reaktionen entfernen"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Remove Authenticator"
@@ -2214,14 +2217,14 @@ msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove reaction"
-msgstr ""
+msgstr "Reaktion entfernen"
 
 #: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/EditCategory.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
-msgstr ""
+msgstr "Umbenennen"
 
 #: components/modal/modals/EditCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
@@ -2338,7 +2341,7 @@ msgstr "Speichern"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Save file"
-msgstr ""
+msgstr "Datei speichern"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
@@ -2351,44 +2354,50 @@ msgid "Saved Notes"
 msgstr "Notizen"
 
 #: components/modal/modals/ReportContent.tsx
+#, fuzzy
 msgid "Scams or fraud"
-msgstr ""
+msgstr "Scams oder Betrug"
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
-msgstr ""
+msgstr "Suche nach Gruppen..."
 
 #: components/modal/modals/CreateGroup.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Search for users..."
-msgstr ""
+msgstr "Suche nach Nutzern..."
 
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
+#, fuzzy
 msgid "Select audio input"
-msgstr ""
+msgstr "Wähle einen Ton eingang aus"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
+#, fuzzy
 msgid "Select audio output"
-msgstr ""
+msgstr "Wähle einen Ton ausgang aus"
 
 #: components/modal/modals/CreateGroup.tsx
+#, fuzzy
 msgid "Select members to add"
-msgstr ""
+msgstr "Wähle Mitglieder zum hinzufügen aus"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Select your language"
 msgstr "Sprache auswählen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Send attachments to chat"
-msgstr ""
+msgstr "Sende anhänge in den Chat"
 
 #: components/modal/modals/EditEmail.tsx
+#, fuzzy
 msgid "Send email"
-msgstr ""
+msgstr "Email senden"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
@@ -2405,25 +2414,26 @@ msgstr "Nachrichten senden"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
-msgstr ""
+msgstr "Sende Nachrichten in Kanäle"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Send messages in channels"
-msgstr ""
+msgstr "Sende Nachrichten in Kanäle"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "Send Request"
-msgstr ""
+msgstr "Anfrage senden"
 
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Sending..."
-msgstr ""
+msgstr "Sendet..."
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Sent"
-msgstr ""
+msgstr "Versendet"
 
 #. placeholder {0}: message.attachments!.length
 #: components/client/NotificationsWorker.tsx
@@ -2443,12 +2453,14 @@ msgid "Server Avatar"
 msgstr ""
 
 #: components/app/interface/settings/server/Overview.tsx
+#, fuzzy
 msgid "Server Banner"
-msgstr ""
+msgstr "Server Banner"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#, fuzzy
 msgid "Server Default"
-msgstr ""
+msgstr "Server Standard"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Description"
@@ -2469,7 +2481,7 @@ msgstr "Servername"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Server Roles"
-msgstr ""
+msgstr "Server Rollen"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Sessions"
@@ -2477,7 +2489,7 @@ msgstr "Sitzungen"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Set your status"
-msgstr ""
+msgstr "Setze deinen Status"
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Settings"
@@ -2497,32 +2509,36 @@ msgstr "Mehrere Personen schreiben…"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Share camera or screen in voice call"
-msgstr ""
+msgstr "Teile deine Kamera oder deinen Bildschirm in Voice Kanälen"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
 msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+#, fuzzy
 msgid "Show send message button"
-msgstr ""
+msgstr "Zeige Nachrichten senden button"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Sign into Stoat"
-msgstr ""
+msgstr "Melde dich bei Stoat an"
 
 #: components/auth/src/flows/FlowHome.tsx
+#, fuzzy
 msgid "Sign Up"
-msgstr ""
+msgstr "Registrieren"
 
 #: components/app/interface/channels/text/Message.tsx
+#, fuzzy
 msgid "Silent"
-msgstr ""
+msgstr "Stumm"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "someone@example.com"
-msgstr ""
+msgstr "jemand@beispiel.de"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Something cool about me..."
