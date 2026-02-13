@@ -210,7 +210,7 @@ const Info = styled("div", {
     compact: {
       true: {},
       false: {
-        width: "52px",
+        width: "54px",
       },
     },
   },
