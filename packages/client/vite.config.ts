@@ -38,7 +38,7 @@ export default defineConfig({
         short_name: "Stoat",
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
-        start_url: base + "/pwa",
+        start_url: base,
         orientation: "portrait",
         display_override: ["window-controls-overlay"],
         display: "standalone",
