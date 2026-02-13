@@ -31,12 +31,12 @@ msgstr "[Mañana a las] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx components/i18n/dayjs.tsx:48
 msgid "[Last] dddd [at] LT"
-msgstr ""
+msgstr "[Último] dddd [a las] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx components/i18n/dayjs.tsx:49
 msgid "dddd [at] LT"
-msgstr ""
+msgstr "dddd [a las] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx:66
@@ -47,13 +47,13 @@ msgstr "(los cambios se están guardando...)"
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx:46
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
+msgstr "{0, plural, one {# mensaje bloqueado} other {# mensajes bloqueados}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx:189
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, plural, one {Soltar archivo} other {Soltar # archivos}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -87,6 +87,8 @@ msgid ""
 "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not "
 "uploaded."
 msgstr ""
+"{0} archivos superan el tamaño máximo de {maxSizeFormatted} y no se han "
+"subido."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -136,26 +138,26 @@ msgstr "{0} ha eliminado un mensaje fijado"
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:100
 msgid "{0} was added by {1}"
-msgstr ""
+msgstr "{1} añadió a {0}"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:122
 msgid "{0} was banned"
-msgstr ""
+msgstr "{0} ha sido baneado"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:118
 msgid "{0} was kicked"
-msgstr ""
+msgstr "{0} ha sido expulsado"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:105
 msgid "{0} was removed by {1}"
-msgstr ""
+msgstr "{1} eliminó a {0}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -163,28 +165,28 @@ msgstr ""
 #: components/ui/components/design/DataTable.tsx
 #: components/ui/components/design/DataTable.tsx:89
 msgid "{0}-{1} of {2}"
-msgstr ""
+msgstr "{0}‐{1} de {2}"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 #: components/modal/modals/UserProfileRoles.tsx:24
 msgid "{0}'s roles"
-msgstr ""
+msgstr "Roles de {0}"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 #: components/ui/components/features/messaging/elements/Reactions.tsx:189
 msgid "{unknown} reacted"
-msgstr ""
+msgstr "{unknown} reaccionó"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 #: components/ui/components/features/messaging/elements/Reactions.tsx:185
 msgid "{usernames} and {unknown} others reacted"
-msgstr ""
+msgstr "{usernames} y {unknown} más reaccionaron"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 #: components/ui/components/features/messaging/elements/Reactions.tsx:192
 msgid "{usernames} reacted"
-msgstr ""
+msgstr "{usernames} reaccionaron"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx:53
