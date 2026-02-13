@@ -161,6 +161,8 @@ export function useError() {
       if (message) return message;
     }
 
-    return t`Something went wrong! Actual cause: ${error}`;
+    return t`Something went wrong! ${error}`;
+    // revert to `Try again later.` later
+    // need to capture envelopes properly
   };
 }
