@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 12:52+0000\n"
-"Last-Translator: purpldatabase <business@purpldatabase.rocks>\n"
+"PO-Revision-Date: 2026-02-13 15:00+0000\n"
+"Last-Translator: xToast <liato.game@gmail.com>\n"
 "Language-Team: German <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/de/>\n"
 "Language: de\n"
@@ -45,19 +45,17 @@ msgstr "(Änderungen werden gespeichert...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
-#, fuzzy
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
-"{0, Plural, one {# blockierte Nachricht} weitere {# blockierte Nachrichten}}"
+"{0 , plural, one {# blockierte Nachricht} weitere {# blockierte Nachrichten}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
-#, fuzzy
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Eine Datei ablegen} andere { # Dateien ablegen}"
+msgstr "{0, plural, one {Datei ablegen} andere { # Dateien ablegen}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -211,9 +209,8 @@ msgid "<0/> started a call that lasted "
 msgstr "<0/> begann einen Anruf, der dauerte "
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
-#, fuzzy
 msgid "<0/> transferred group ownership to <1/>"
-msgstr "<0/> Gruppen besitzt übertragen zu <1/>"
+msgstr "<0/> Gruppenbesitzt übertragen zu <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 #, fuzzy
@@ -317,7 +314,7 @@ msgstr "Admin"
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Admin Panel"
-msgstr ""
+msgstr "Adminpanel"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
@@ -380,7 +377,7 @@ msgstr "Möchten Sie das wirklich löschen?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr ""
+msgstr "Bist du sicher dass du zu "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
@@ -476,11 +473,11 @@ msgstr "Bot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr ""
+msgstr "Echounterdrückung"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Noise Supression"
-msgstr ""
+msgstr "Geräuschunterdrückung"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -650,7 +647,7 @@ msgstr "Klicke hier, um die vollständige Beschreibung anzuzeigen"
 
 #: components/ui/components/utils/Spoiler.tsx
 msgid "Click to show spoiler"
-msgstr ""
+msgstr "Anklicken um Spoiler anzuzeigen"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Client Settings"
@@ -699,10 +696,12 @@ msgstr "Code"
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
 msgstr ""
+"Füge ein Weg hinzu um zu dein Konto zurückzuerlangen falls du dein 2FA "
+"verlierst"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr ""
+msgstr "Konfiguriere ein Einmal-Passwort Auth"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -720,7 +719,7 @@ msgstr "Verbinden"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr ""
+msgstr "Mit dem Sprachkanal verbinden"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
@@ -728,7 +727,7 @@ msgstr "Verbunden"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connecting"
-msgstr ""
+msgstr "Verbinden"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
@@ -745,7 +744,7 @@ msgstr "Weiter zur App"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Contribute a language"
-msgstr ""
+msgstr "Zur Übersetzung beitragen"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
@@ -765,7 +764,7 @@ msgstr "ID kopieren"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
-msgstr ""
+msgstr "Kopiere Einladungslink"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
@@ -898,28 +897,28 @@ msgstr "Einladung Erstellen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr ""
+msgstr "Erstelle eine Einladung dass andere Nutzer beitreten können"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create Role"
-msgstr ""
+msgstr "Rolle erstellen"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "Create server"
-msgstr ""
+msgstr "Server erstellen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create server emoji"
-msgstr ""
+msgstr "Emoji erstellen"
 
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
-msgstr ""
+msgstr "Webhook erstellen"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
-msgstr ""
+msgstr "Erstellt <0/>"
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -929,7 +928,7 @@ msgstr "Aktuelles Passwort"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Current Session"
-msgstr ""
+msgstr "Aktuelle Sitzung"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
@@ -945,17 +944,17 @@ msgstr "Personalisierung"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Dunkel"
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "Database error, please contact support. ({0})"
-msgstr ""
+msgstr "Datenbankfehler, bitte kontaktiere den Support. {0})"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
-msgstr ""
+msgstr "Niederrangige Mitglieder im Sprachchat stummschalten"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen Members"
@@ -970,7 +969,7 @@ msgstr "Jeder"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Default Permissions"
-msgstr ""
+msgstr "Standartberechtigungen"
 
 #: components/modal/modals/EmojiPreview.tsx
 #: components/modal/modals/DeleteServer.tsx
@@ -2518,7 +2517,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
