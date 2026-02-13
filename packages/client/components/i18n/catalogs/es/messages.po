@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 14:32+0000\n"
+"PO-Revision-Date: 2026-02-13 15:00+0000\n"
 "Last-Translator: Regianus I Erebor-Scientae <regi@regianus.eu>\n"
 "Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/es/>\n"
@@ -79,7 +79,7 @@ msgstr "{0} ha cambiado el icono del canal"
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/app/interface/settings/server/emojis/EmojiList.tsx:101
 msgid "{0} emoji slots remaining"
-msgstr "{0} huecos de emoji disponibles"
+msgstr "{0} espacios de emoji disponibles"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
@@ -88,7 +88,7 @@ msgid ""
 "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not "
 "uploaded."
 msgstr ""
-"{0} archivos superan el tamaño máximo de {maxSizeFormatted} y no se han "
+"Los archivos {0} superan el tamaño máximo de {maxSizeFormatted} y no se han "
 "subido."
 
 #. placeholder {0}: users()[0]!.username
@@ -114,7 +114,7 @@ msgstr "{0} se ha ido"
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:141
 msgid "{0} made {1} the new group owner"
-msgstr "{0} ha hecho a {1} propietario del grupo"
+msgstr "{0} ha hecho a {1} el nuevo dueño del grupo"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -126,13 +126,13 @@ msgstr "{0} ha fijado un mensaje"
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:126
 msgid "{0} renamed the channel"
-msgstr "{0} ha renombrado el canal"
+msgstr "{0} ha cambiado el nombre del canal"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 #: components/client/NotificationsWorker.tsx:151
 msgid "{0} unpinned a message"
-msgstr "{0} ha eliminado un mensaje fijado"
+msgstr "{0} ha desfijado un mensaje"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -718,12 +718,12 @@ msgstr "Cambiar tu nombre de usuario"
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 #: components/app/interface/settings/user/profile/EditProfile.tsx:35
 msgid "Change your profile per-server"
-msgstr ""
+msgstr "Cambiar tu perfil de servidor"
 
 #: components/modal/modals/Changelog.tsx
 #: components/modal/modals/Changelog.tsx:129
 msgid "Changelog"
-msgstr ""
+msgstr "Registro de cambios"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/Overview.tsx:104
@@ -733,7 +733,7 @@ msgstr "Descripción del canal"
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/Overview.tsx:91
 msgid "Channel Info"
-msgstr ""
+msgstr "Información del canal"
 
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/interface/settings/channel/Overview.tsx
@@ -745,7 +745,7 @@ msgstr "Nombre del canal"
 #: src/interface/channels/ChannelHeader.tsx
 #: src/interface/channels/ChannelHeader.tsx:154
 msgid "Channel Settings"
-msgstr ""
+msgstr "Ajustes del canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:239
@@ -755,7 +755,7 @@ msgstr "Canales"
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx:380
 msgid "Chat Input"
-msgstr ""
+msgstr "Entrada de chat"
 
 #: components/auth/src/flows/FlowCheck.tsx
 #: components/auth/src/flows/FlowCheck.tsx:42
@@ -764,12 +764,12 @@ msgstr "¡Revisa tu correo electrónico!"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
-msgstr ""
+msgstr "Elige un nombre de usuario"
 
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/Onboarding.tsx:40
 msgid "Choose username"
-msgstr ""
+msgstr "Elegir nombre de usuario"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/servers/UserMenu.tsx:242
@@ -780,16 +780,17 @@ msgstr "Borrar estado personalizado"
 #: components/modal/modals/PolicyChange.tsx:52
 msgid "Click on the items below to learn more about different changes!"
 msgstr ""
+"¡Haz click en los objetos abajo para aprender más sobre diferentes cambios!"
 
 #: src/interface/channels/ChannelHeader.tsx
 #: src/interface/channels/ChannelHeader.tsx:106
 msgid "Click to show full description"
-msgstr ""
+msgstr "Haz click para mostrar la descripción completa"
 
 #: components/ui/components/utils/Spoiler.tsx
 #: components/ui/components/utils/Spoiler.tsx:48
 msgid "Click to show spoiler"
-msgstr ""
+msgstr "Haz click para mostrar el spoiler"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/UserSettings.tsx:198
@@ -850,28 +851,30 @@ msgstr "Cerrar"
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx:236
 msgid "Close chat"
-msgstr ""
+msgstr "Cerrar chat"
 
 #. placeholder {0}: props.channel.recipient?.displayName
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/DeleteChannel.tsx:34
 msgid "Close conversation with {0}?"
-msgstr ""
+msgstr "¿Cerrar la conversación con {0}?"
 
 #: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/JoinServer.tsx:78
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/app/interface/settings/user/Account.tsx:188
 msgid "Configure a way to get back into your account in case your 2FA is lost"
 msgstr ""
+"Configura una forma de volver a entrar en tu cuenta en caso de perder tu "
+"programa de autenticación"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/app/interface/settings/user/Account.tsx:227
 msgid "Configure one-time password authentication"
-msgstr ""
+msgstr "Configura la autenticación con contraseña de un solo uso"
 
 #: components/modal/modals/MFAFlow.tsx components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx:148
@@ -893,17 +896,17 @@ msgstr "Conectar"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:335
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:336
 msgid "Connect to voice channel"
-msgstr ""
+msgstr "Conectarse al canal de voz"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:16
 msgid "Connected"
-msgstr ""
+msgstr "Conectado"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx:19
 msgid "Connecting"
-msgstr ""
+msgstr "Conectando"
 
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/ReportContent.tsx:62
@@ -920,12 +923,12 @@ msgstr "Continuar"
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx:111
 msgid "Continue to app"
-msgstr ""
+msgstr "Continuar a la aplicación"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx:261
 msgid "Contribute a language"
-msgstr ""
+msgstr "Contribuir un idioma"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx:73
@@ -935,7 +938,7 @@ msgstr "Conversaciones"
 #: components/app/menus/CategoryContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx:105
 msgid "Copy category ID"
-msgstr ""
+msgstr "Copiar la ID de la categoría"
 
 #: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx:174
@@ -950,7 +953,7 @@ msgstr "Copiar ID"
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 #: components/app/interface/settings/user/bots/ViewBot.tsx:86
 msgid "Copy Invite URL"
-msgstr ""
+msgstr "Copiar el enlace de invitación"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
@@ -963,7 +966,7 @@ msgstr "Copiar enlace"
 #: components/modal/modals/CreateInvite.tsx
 #: components/modal/modals/CreateInvite.tsx:64
 msgid "Copy Link"
-msgstr ""
+msgstr "Copiar enlace"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx:268
@@ -973,7 +976,7 @@ msgstr "Copiar ID del mensaje"
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx:210
 msgid "Copy role ID"
-msgstr ""
+msgstr "Copiar ID del rol"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx:326
@@ -988,7 +991,7 @@ msgstr "Copiar texto"
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 #: components/app/interface/settings/user/bots/ViewBot.tsx:100
 msgid "Copy Token"
-msgstr ""
+msgstr "Copiar token"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -1000,11 +1003,11 @@ msgstr "Copiar ID de usuario"
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx:127
 msgid "Copy webhook URL"
-msgstr ""
+msgstr "Copiar enlace del webhook"
 
 #: components/i18n/errors.ts components/i18n/errors.ts:87
 msgid "Could not find what you requested."
-msgstr ""
+msgstr "No se pudo encontrar lo que pediste."
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/modal/modals/CreateServer.tsx
@@ -1028,11 +1031,11 @@ msgstr "Crear"
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx:67
 msgid "Create a channel before inviting others!"
-msgstr ""
+msgstr "¡Crea un canal antes de invitar a otros!"
 
 #: src/interface/Home.tsx src/interface/Home.tsx:141
 msgid "Create a group or server"
-msgstr ""
+msgstr "Crear un grupo o servidor"
 
 #: components/modal/modals/CreateBot.tsx
 #: components/modal/modals/CreateBot.tsx:42
@@ -1042,14 +1045,14 @@ msgstr "Crear un nuevo bot"
 #: components/modal/modals/CreateCategory.tsx
 #: components/modal/modals/CreateCategory.tsx:49
 msgid "Create a new category"
-msgstr ""
+msgstr "Crear una nueva categoría"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: components/modal/modals/CreateGroup.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx:158
 #: components/modal/modals/CreateGroup.tsx:70
 msgid "Create a new group"
-msgstr ""
+msgstr "Crear un nuevo grupo"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx:54
@@ -1059,7 +1062,7 @@ msgstr "Crear un nuevo rol"
 #: components/modal/modals/CreateWebhook.tsx
 #: components/modal/modals/CreateWebhook.tsx:43
 msgid "Create a webhook"
-msgstr ""
+msgstr "Crear un webhook"
 
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCreate.tsx:48
@@ -1069,14 +1072,14 @@ msgstr "Crear una cuenta"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:162
 msgid "Create and edit server roles"
-msgstr ""
+msgstr "Crear y editar roles del servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:282
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:283
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx:284
 msgid "Create and edit webhooks"
-msgstr ""
+msgstr "Crear y editar webhooks"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 #: components/app/interface/settings/user/bots/MyBots.tsx:62
