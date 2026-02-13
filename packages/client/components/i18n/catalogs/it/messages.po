@@ -2839,33 +2839,40 @@ msgstr "Nome utente"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "username#1234"
-msgstr ""
+msgstr "username#1234"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
 msgstr ""
+"Agli utenti verrà chiesto di confermare la loro età prima di unirsi a questo "
+"canale."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Users will be asked to confirm their age before opening this channel."
 msgstr ""
+"Agli utenti verrà chiesto di confermare la loro età prima di aprire questo "
+"canale."
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid ""
 "Users will no longer be asked to confirm their age before joining this "
 "channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
+"Agli utenti non verrà più chiesto di confermare l'età prima di unirsi a "
+"questo canale. <0/> Assicurati che i contenuti siano appropriati per tutte "
+"le età."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default microphone"
-msgstr ""
+msgstr "Microfono predefinito in uso"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default speaker"
-msgstr ""
+msgstr "Altoparlante predefinito in uso"
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
-msgstr ""
+msgstr "Verificato"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Verifying your account…"
@@ -2874,7 +2881,7 @@ msgstr "Verificando il tuo account…"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Native.tsx
 msgid "Version:"
-msgstr ""
+msgstr "Versione:"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Video"
@@ -2890,11 +2897,11 @@ msgstr "Visualizza qui le segnalazioni di bug attualmente attive."
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
-msgstr ""
+msgstr "Vedi membri"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
-msgstr ""
+msgstr "Vedi messaggi fissati"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "View Recovery Codes"
@@ -2907,7 +2914,7 @@ msgstr "Visualizzazione dei messaggi più vecchi"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
-msgstr ""
+msgstr "Voce"
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
@@ -2915,15 +2922,15 @@ msgstr "Canale vocale"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
-msgstr ""
+msgstr "Elaborazione vocale"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Want to change username?"
-msgstr ""
+msgstr "Vuoi cambiare nome utente?"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid ""
@@ -2935,16 +2942,16 @@ msgstr ""
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Icon"
-msgstr ""
+msgstr "Immagine del Webhook"
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Name"
-msgstr ""
+msgstr "Nome del Webhook"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
@@ -2955,45 +2962,46 @@ msgid "Welcome!"
 msgstr "Bentornatə!"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Whether other users can edit these settings"
-msgstr ""
+msgstr "Se gli altri utenti possono modificare queste impostazioni"
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "With {0}"
-msgstr ""
+msgstr "Con {0}"
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
-msgstr ""
+msgstr "Vorresti creare un nuovo gruppo o server?"
 
 #: components/modal/modals/CreateOrJoinServer.tsx
 msgid "Would you like to create a new server or join an existing one?"
-msgstr ""
+msgstr "Vorresti creare un nuovo server o entrare in uno già esistente?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr ""
+msgstr "Accetti che il tuo bot sia soggetto alla Policy d'uso accettabile."
 
 #. placeholder {0}: props.user?.username
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 msgid "You are about to ban {0}"
-msgstr ""
+msgstr "Stai per bannare {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr ""
+msgstr "Stai per espellere {0}"
 
 #: components/i18n/errors.ts
 msgid "You are banned from this server."
-msgstr ""
+msgstr "Sei stato bannato da questo server."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
-msgstr ""
+msgstr "Puoi anche cliccare sull'icona dell'ingranaggio in basso a sinistra."
 
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
@@ -3008,21 +3016,21 @@ msgstr ""
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't be in more than {0} servers, please leave one and try again."
-msgstr ""
+msgstr "Non puoi essere in più di {0} servers, abbandonane uno e riprova."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} channels on this server."
-msgstr ""
+msgstr "Non puoi avere più di {0} canali in questo server."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} emojis on this server."
-msgstr ""
+msgstr "Non puoi avere più di {0} emoji in questo server."
 
 #: components/i18n/errors.ts
 msgid "You cannot give yourself missing permissions."
-msgstr ""
+msgstr "Non puoi assegnarti i permessi mancanti."
 
 #: components/i18n/errors.ts
 msgid "You cannot join this call."
