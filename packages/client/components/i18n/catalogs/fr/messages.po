@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 14:03+0000\n"
+"PO-Revision-Date: 2026-02-13 14:07+0000\n"
 "Last-Translator: fontoms <tomtombert7@gmail.com>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
@@ -80,11 +80,10 @@ msgstr "{0} emplacements emoji restants"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
-#, fuzzy
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
 msgstr ""
-"{0} fichiers excèdent la limite de {maxSizeFormatted} et n'ont pas été "
-"envoyés."
+"Les fichiers {0} dépassent la taille maximale autorisée de {maxSizeFormatted}"
+" et n'ont pas été téléchargés."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -251,16 +250,16 @@ msgstr "24 heures"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr ""
+msgstr "Capable d'accéder aux canaux sur ce serveur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
-msgstr ""
+msgstr "Capable d'accéder à ce salon"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr ""
+msgstr "Capable de parler lors d'un appel vocal"
 
 #: components/auth/src/AuthPage.tsx
 msgid "About"
@@ -268,7 +267,7 @@ msgstr "À propos"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Accept"
-msgstr ""
+msgstr "Accepter"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Accept friend request"
@@ -276,17 +275,17 @@ msgstr "Accepter demande d'ami"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr ""
+msgstr "Reconnaître"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: src/interface/Friends.tsx
 #: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
-msgstr ""
+msgstr "Ajouter un nouvel ami"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
@@ -295,26 +294,27 @@ msgstr "Ajouter en ami"
 #: src/interface/channels/ChannelHeader.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add friends to group"
-msgstr ""
+msgstr "Ajouter des amis au groupe"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Add new members to the group"
-msgstr ""
+msgstr "Ajouter de nouveaux membres au groupe"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr ""
+msgstr "Ajouter un texte d'état"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Admin Panel"
-msgstr ""
+msgstr "Panneau d'administration"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
@@ -323,11 +323,11 @@ msgstr "Avancé"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Affects all roles and users"
-msgstr ""
+msgstr "Affecte tous les rôles et utilisateurs"
 
 #: src/interface/Friends.tsx
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
