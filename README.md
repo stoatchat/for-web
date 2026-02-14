@@ -84,7 +84,7 @@ If you want the client to connect to the official hosted backend instead, open t
 
 ```
 
-When these variables are not set, the client automatically falls back to the official backend. (See https://github.com/stoatchat/for-web/blob/a113e2171224aa1938cd2b37793c43aa10397842/packages/client/components/common/lib/env.ts)
+When these variables are not set, the client automatically falls back to the official backend. (See https://github.com/stoatchat/for-web/blob/main/packages/client/components/common/lib/env.ts)
 
 ## Deployment Guide
 
