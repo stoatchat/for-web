@@ -95,6 +95,7 @@ interface Props {
 const Base = styled("div", {
   base: {
     flexGrow: 1,
+    minWidth: 0,
 
     paddingInlineEnd: "var(--gap-md)",
     paddingBlock: "var(--gap-sm)",
@@ -103,6 +104,16 @@ const Base = styled("div", {
     display: "flex",
     background: "var(--md-sys-color-surface-container-high)",
     color: "var(--md-sys-color-on-surface)",
+
+    "& .cm-content": {
+      minWidth: 0
+    },
+    "& .cm-placeholder": {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      width: "100%"
+    }
   },
   variants: {
     hasActionsAppend: {

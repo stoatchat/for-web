@@ -76,6 +76,9 @@ export function TextEditor2(props: Props) {
   const codeMirror = document.createElement("div");
   codeMirror.className = editor;
 
+  //Custom CSS
+  codeMirror.style.minWidth = '0';
+
   /**
    * Handle 'Enter' key presses
    * Submit only if not currently in a code block

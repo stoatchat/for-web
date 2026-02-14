@@ -20,18 +20,18 @@ import {
  */
 export function SettingsSidebar(props: {
   list: Accessor<SettingsList<unknown>>;
-
   setPage: Setter<string | undefined>;
   page: Accessor<string | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
+  const list = props.list();
 
   /**
    * Select first page on load
    */
   onMount(() => {
     if (!props.page()) {
-      props.setPage(props.list().entries[0].entries[0].id);
+      props.setPage(list.entries[0].entries[0].id);
     }
   });
 
@@ -40,8 +40,8 @@ export function SettingsSidebar(props: {
       <div use:invisibleScrollable>
         <Content>
           <Column gap="lg">
-            {props.list().prepend}
-            <For each={props.list().entries}>
+            {list.prepend}
+            <For each={list.entries}>
               {(category) => (
                 <Show when={!category.hidden}>
                   <Column>
@@ -87,7 +87,7 @@ export function SettingsSidebar(props: {
                 </Show>
               )}
             </For>
-            {props.list().append}
+            {list.append}
           </Column>
         </Content>
       </div>
@@ -123,6 +123,10 @@ const Content = styled("div", {
     "& a > div": {
       margin: 0,
     },
+
+    "@media (max-width: 800px)": {
+      padding: "12px 0"
+    }
   },
 });
 

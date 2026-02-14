@@ -89,7 +89,11 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
         navigate,
       }}
     >
-      <MemoisedList context={props.context} list={props.list}>
+      <MemoisedList
+        context={props.context}
+        list={props.list}
+        onClose={props.onClose}
+      >
         {(list) => (
           <>
             <SettingsSidebar list={list} page={page} setPage={setPage} />
@@ -156,14 +160,14 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
  */
 function MemoisedList(props: {
   context: never;
-  list: (context: never) => SettingsList<unknown>;
+  onClose?: () => void;
+  list: (context: never, onClose?: () => void) => SettingsList<unknown>;
   children: (list: Accessor<SettingsList<unknown>>) => JSX.Element;
 }) {
   /**
    * Generate list of categories / links
    */
-  const list = createMemo(() => props.list(props.context));
-
+  const list = createMemo(() => props.list(props.context, props.onClose));
   return <>{props.children(list)}</>;
 }
 

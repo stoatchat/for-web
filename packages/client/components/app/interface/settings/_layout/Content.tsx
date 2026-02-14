@@ -88,6 +88,10 @@ const InnerContent = styled("div", {
     padding: "80px 32px",
     justifyContent: "stretch",
     zIndex: 1,
+
+    "@media (max-width: 800px)": {
+      padding: "12px"
+    }
   },
 });
 
@@ -126,5 +130,9 @@ const CloseAction = styled("div", {
       color: "var(--md-sys-color-on-surface)",
       fontSize: "0.75rem",
     },
+
+    "@media (max-width: 800px)": {
+      display: "none"
+    }
   },
 });

@@ -9,9 +9,13 @@ export { Settings } from "./Settings";
 export type SettingsConfiguration<T> = {
   /**
    * Generate list of categories and entries
+   * @param props State information
    * @returns List
    */
-  list: (context: T) => SettingsList<T>;
+  list: (
+    context: T,
+    onClose?: () => void
+  ) => SettingsList<T>;
 
   /**
    * Render the title of the current breadcrumb key

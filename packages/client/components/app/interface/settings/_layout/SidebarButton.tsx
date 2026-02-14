@@ -33,6 +33,11 @@ export const SidebarButton = styled("a", {
         background: "var(--md-sys-color-primary-container)",
       },
     },
+    mobileOnly: {
+      true: {
+        "@media (min-width: 800px)": {display: "none"}
+      }
+    }
   },
 });
 
