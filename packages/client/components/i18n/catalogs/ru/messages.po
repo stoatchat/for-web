@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-13 11:40+0000\n"
+"PO-Revision-Date: 2026-02-14 14:28+0000\n"
 "Last-Translator: someoneodd <someoneodd@proton.me>\n"
-"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/revolt-"
-"for-web/ru/>\n"
+"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -33,7 +33,7 @@ msgstr "[Завтра в] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr ""
+msgstr "[Последний] dddd [в] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -46,7 +46,6 @@ msgstr "(изменения сохраняются...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
-#, fuzzy
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 "{0, множество, одно {# заблокированное сообщение} other {# заблокированные "
@@ -54,7 +53,6 @@ msgstr ""
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
-#, fuzzy
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
 msgstr "{0, множество, одно {Поместите файл} другое {Поместите # файлов}}"
 
@@ -1131,7 +1129,6 @@ msgid "Edited"
 msgstr "Изменено"
 
 #: components/modal/modals/PolicyChange.tsx
-#, fuzzy
 msgid "Effective <0/> (<1/>)"
 msgstr "В силу с <0/> (<1/>)"
 
@@ -1689,7 +1686,6 @@ msgstr "Сообщение"
 #. placeholder {0}: props.channel.recipient?.username
 #. placeholder {0}: props.channel.name
 #: src/interface/channels/text/Composition.tsx
-#, fuzzy
 msgid "Message {0}"
 msgstr "Сообщение {0}"
 
@@ -2353,7 +2349,7 @@ msgstr "Баннер Сервера"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Server Default"
-msgstr ""
+msgstr "По Умолчанию На Сервере"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Description"
@@ -2422,7 +2418,7 @@ msgstr "Зарегистрироваться"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Silent"
-msgstr ""
+msgstr "Тихий"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "someone@example.com"
@@ -2439,7 +2435,7 @@ msgstr "Чтото пошло не так с вашим запросом, {0}."
 
 #: components/i18n/errors.ts
 msgid "Something went wrong! {error}"
-msgstr ""
+msgstr "Что-то пошло не так! {error}"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Sounds"
@@ -2713,7 +2709,7 @@ msgstr "Разблокировать пользователя"
 #. placeholder {0}: err.type
 #: components/i18n/errors.ts
 msgid "Uncaught Stoat error: {0}"
-msgstr ""
+msgstr "Неожиданная ошибка Stoat: {0}"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
@@ -3132,7 +3128,6 @@ msgid "Your account has been verified!"
 msgstr "Ваш аккаунт проверен!"
 
 #: components/i18n/errors.ts
-#, fuzzy
 msgid "Your discriminator change has been ratelimited, please try again later."
 msgstr "Изменение вашего дискриминатора было ограничено. Попробуйте позже."
 
