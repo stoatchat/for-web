@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-14 10:34+0000\n"
-"Last-Translator: Felix YILMAZ <grimthedev1923@gmail.com>\n"
+"PO-Revision-Date: 2026-02-14 20:03+0000\n"
+"Last-Translator: Parzuwu <atakaradag@ik.me>\n"
 "Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/tr/>\n"
 "Language: tr\n"
@@ -46,7 +46,7 @@ msgstr "(değişiklikler kaydediliyor…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
+msgstr "{0} engellenen mesaj"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -494,6 +494,8 @@ msgstr ""
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 msgstr ""
+"Bu sunucuyu oluşturarak, <0>Uygun Kullanım Politikası</0>'nı kabul etmiş "
+"olursunuz."
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
@@ -743,7 +745,7 @@ msgstr "Konuşmalar"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
-msgstr ""
+msgstr "Kategori ID'sini kopyala"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy channel ID"
@@ -773,7 +775,7 @@ msgstr "Mesaj ID'sini kopyala"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
-msgstr ""
+msgstr "Rol ID'sini kopyala"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Copy server ID"
@@ -884,7 +886,7 @@ msgstr "Davet Oluştur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr ""
+msgstr "Başkalarının kullanması için davet oluştur"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
@@ -1034,7 +1036,7 @@ msgstr "Masaüstü"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Developer Documentation"
-msgstr ""
+msgstr "Geliştirici Dokümantasyonu"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable Account"
@@ -1049,15 +1051,15 @@ msgstr "Tek seferlik şifre ile kimlik onayını devre dışı bırak"
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
-msgstr ""
+msgstr "Devre dışı"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Disconnected"
-msgstr ""
+msgstr "Bağlantı kesildi"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
-msgstr ""
+msgstr "Discord RPC"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1069,7 +1071,7 @@ msgstr "Metin & Görüntüleme"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Display Name"
-msgstr ""
+msgstr "Görünen Ad"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Do Not Disturb"
@@ -1198,6 +1200,8 @@ msgstr "Masaüstü Bildirimlerini Etkinleştirin"
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr ""
+"Saydamlık/bulanıklaştırma efektlerini etkinleştir (eski cihazlarda yavaş "
+"çalışabilir)"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
@@ -1330,11 +1334,11 @@ msgstr "Aktif kurtarma kodu al"
 
 #: src/interface/Home.tsx
 msgid "Give feedback on Stoat"
-msgstr ""
+msgstr "Stoat hakkında geri bildirim verin"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Give us some detail"
-msgstr ""
+msgstr "Bize biraz detay verin"
 
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
@@ -1358,13 +1362,13 @@ msgstr ""
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Good"
-msgstr ""
+msgstr "İyi"
 
 #. placeholder {0}: countBits(props.context.rolePermissions![role.id].a)
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Grants {0} permissions and denies {1} permissions"
-msgstr ""
+msgstr "{0} yetki verildi ve {1} yetki engellendi"
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Group Name"
@@ -1438,7 +1442,7 @@ msgstr "Kimlik sahtekarlığı"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Instead of closing, Stoat will hide in your tray."
-msgstr ""
+msgstr "Stoat, kapanmak yerine sistem tepsisinde gizlenecektir."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Interface Font"
