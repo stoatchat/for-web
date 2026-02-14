@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-14 10:34+0000\n"
+"PO-Revision-Date: 2026-02-14 14:28+0000\n"
 "Last-Translator: siyukatu <siyukatu@gmail.com>\n"
 "Language-Team: Japanese <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/ja/>\n"
@@ -337,7 +337,7 @@ msgstr "メンバーがメッセージごとに名前とアバターを変更で
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr ""
+msgstr "第三者が発見からあなたのボットを追加できるようになります"
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
@@ -346,16 +346,16 @@ msgstr "既にフレンドになっています。"
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
-msgstr ""
+msgstr "米国式 (月/日/西暦)"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
-msgstr ""
+msgstr "エラーが発生しました"
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "An internal error occurred. ({0})"
-msgstr ""
+msgstr "サーバー内部でエラーが発生しました ({0})"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
@@ -364,11 +364,11 @@ msgstr "外観"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr ""
+msgstr "全ての端末からログアウトしますか？"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "このメッセージを削除してもよろしいですか？"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
@@ -379,11 +379,12 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
-msgstr ""
+msgstr "この権限を持つメンバーは、自分よりも低い位置にあるロールを付与できるようにな"
+"ります"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign Roles"
-msgstr "ロールを付与する"
+msgstr "ロールを付与"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -402,7 +403,7 @@ msgstr "アバター"
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Back"
-msgstr ""
+msgstr "戻る"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Badges"
@@ -415,11 +416,11 @@ msgstr "BAN"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Ban evasion"
-msgstr ""
+msgstr "BANの回避"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr ""
+msgstr "自分より低い権限のメンバーをBANできます"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
@@ -427,7 +428,7 @@ msgstr "メンバーをBAN"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Ban Member"
-msgstr ""
+msgstr "メンバーをBAN"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
@@ -435,15 +436,15 @@ msgstr "メンバーをBAN"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban user"
-msgstr ""
+msgstr "ユーザーをBAN"
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
-msgstr ""
+msgstr "ユーザーをBAN"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
-msgstr ""
+msgstr "バナー"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Bans"
@@ -451,7 +452,7 @@ msgstr "BANされたユーザー"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Block user"
-msgstr "ユーザーのブロック"
+msgstr "ユーザーをブロック"
 
 #: src/interface/Friends.tsx
 msgid "Blocked"
@@ -467,11 +468,11 @@ msgstr "ボット"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr ""
+msgstr "エコー除去"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Noise Supression"
-msgstr ""
+msgstr "ノイズ抑制"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -481,15 +482,17 @@ msgstr "バグトラッカー"
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Busy"
-msgstr ""
+msgstr "忙しい"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
+msgstr "ボットを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこと"
+"になります。"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
+msgstr "サーバーを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこ"
+"とになります。"
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
@@ -523,15 +526,16 @@ msgstr "フレンド申請を取り消す"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Cancel message"
-msgstr ""
+msgstr "メッセージを取り消す"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr "サーバーが削除または譲渡されるまで、アカウントを削除することはできません"
+msgstr "所有するサーバーが削除または譲渡されるまで、アカウントを削除することはできま"
+"せん"
 
 #: components/i18n/errors.ts
 msgid "Cannot edit this message."
-msgstr ""
+msgstr "このメッセージは編集できません。"
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -540,48 +544,48 @@ msgstr "変更"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
-msgstr "アバターの変更"
+msgstr "アバターを変更"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change identity on {0}"
-msgstr ""
+msgstr "プロフィールを編集"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr ""
+msgstr "メールアドレスを変更"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
-msgstr ""
+msgstr "パスワードを変更"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Nickname"
-msgstr "ニックネームの変更"
+msgstr "ニックネームを変更"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr ""
+msgstr "他のメンバーのニックネームを変更できます"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
-msgstr ""
+msgstr "自分のアバターを変更できます"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own nickname"
-msgstr ""
+msgstr "自分のニックネームを変更できます"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
-msgstr ""
+msgstr "ユーザー名を変更"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
-msgstr ""
+msgstr "サーバーごとにプロフィールを変更"
 
 #: components/modal/modals/Changelog.tsx
 msgid "Changelog"
-msgstr ""
+msgstr "変更履歴"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
@@ -589,7 +593,7 @@ msgstr "チャンネルの説明"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Info"
-msgstr ""
+msgstr "チャンネルの情報"
 
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/interface/settings/channel/Overview.tsx
@@ -598,7 +602,7 @@ msgstr "チャンネル名"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Channel Settings"
-msgstr ""
+msgstr "チャンネル設定"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Channels"
@@ -606,39 +610,39 @@ msgstr "チャンネル"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Chat Input"
-msgstr ""
+msgstr "チャット入力"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
-msgstr "メールをチェック！"
+msgstr "メールをご確認ください"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
-msgstr ""
+msgstr "ユーザー名を入力"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
-msgstr ""
+msgstr "ユーザー名を入力"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Clear status"
-msgstr "ステータスのクリア"
+msgstr "ステータスをクリア"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
-msgstr ""
+msgstr "各項目をクリックして、変更点の詳細を確認しましょう"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
-msgstr ""
+msgstr "クリックして説明の全文を表示"
 
 #: components/ui/components/utils/Spoiler.tsx
 msgid "Click to show spoiler"
-msgstr ""
+msgstr "クリックしてスポイラーを解除"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Client Settings"
-msgstr "クライアント設定"
+msgstr "クライアントの設定"
 
 #: components/modal/modals/UserProfileRoles.tsx
 #: components/modal/modals/UserProfileMutualGroups.tsx
@@ -669,24 +673,24 @@ msgstr "閉じる"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Close chat"
-msgstr ""
+msgstr "閉じる"
 
 #. placeholder {0}: props.channel.recipient?.displayName
 #: components/modal/modals/DeleteChannel.tsx
 msgid "Close conversation with {0}?"
-msgstr ""
+msgstr "{0} とのDMを閉じますか？"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Code"
-msgstr ""
+msgstr "招待コード"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr ""
+msgstr "設定しておけば、二要素認証の手段を失ってもアカウントを復旧できます"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr ""
+msgstr "ワンタイムパスワード認証を設定"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -695,7 +699,7 @@ msgstr "確認"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Confirm action"
-msgstr "確認する"
+msgstr "本人確認"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect"
@@ -704,32 +708,32 @@ msgstr "接続"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr ""
+msgstr "ボイスチャンネルに接続できます"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
-msgstr ""
+msgstr "接続済み"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connecting"
-msgstr ""
+msgstr "接続中"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
-msgstr "コンテンツが1つまたは複数の規約に違反しています"
+msgstr "コンテンツが規約に違反しています"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 #: components/modal/modals/LinkWarning.tsx
 msgid "Continue"
-msgstr "続ける"
+msgstr "続行"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
-msgstr ""
+msgstr "アプリに進む"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Contribute a language"
-msgstr ""
+msgstr "言語の追加に協力"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
@@ -737,7 +741,7 @@ msgstr "会話"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
-msgstr ""
+msgstr "カテゴリーIDをコピー"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy channel ID"
@@ -749,7 +753,7 @@ msgstr "IDをコピー"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
-msgstr ""
+msgstr "招待リンクをコピー"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
@@ -759,7 +763,7 @@ msgstr "リンクをコピー"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
-msgstr ""
+msgstr "招待リンクをコピー"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -767,7 +771,7 @@ msgstr "メッセージIDをコピー"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
-msgstr ""
+msgstr "ロールIDをコピー"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Copy server ID"
@@ -779,7 +783,7 @@ msgstr "テキストをコピー"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Token"
-msgstr ""
+msgstr "Tokenをコピー"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -788,7 +792,7 @@ msgstr "ユーザーIDをコピー"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Copy webhook URL"
-msgstr ""
+msgstr "ウェブフックURLをコピー"
 
 #: components/i18n/errors.ts
 msgid "Could not find what you requested."
