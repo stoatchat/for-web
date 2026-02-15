@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
+"PO-Revision-Date: 2026-02-15 11:41+0000\n"
+"Last-Translator: Sofia Johansson <soffymursq@gmail.com>\n"
+"Language-Team: Finnish <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/fi/>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: fi\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -40,14 +41,13 @@ msgstr ""
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr ""
+msgstr "(muutoksia tallennetaan...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
@@ -60,22 +60,22 @@ msgstr ""
 #. placeholder {1}: users().slice(-1)[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} and {1} are typing…"
-msgstr ""
+msgstr "{0} ja {1} kirjoittavat…"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel description"
-msgstr ""
+msgstr "{0} muutti kanavan kuvauksen"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr ""
+msgstr "{0} muutti kanavan kuvakkeen"
 
 #. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr ""
+msgstr "{0} emojipaikkaa jäljellä"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
@@ -85,33 +85,33 @@ msgstr ""
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} is typing…"
-msgstr ""
+msgstr "{0} kirjoittaa…"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} joined"
-msgstr ""
+msgstr "{0} liittyi"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr ""
+msgstr "{0} jäljellä"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr ""
+msgstr "{0} siirsi kanavan omistajuuden {1}lle"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} pinned a message"
-msgstr ""
+msgstr "{0} kiinnitti viestin"
 
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr ""
+msgstr "{0} nimesi kanavan uudelleen"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -372,7 +372,6 @@ msgstr ""
 msgid "Are you sure you want to go to "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
@@ -808,7 +807,6 @@ msgstr "Luo"
 msgid "Create a channel before inviting others!"
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "Create a group"
 #~ msgstr "Luo ryhmä"
 
@@ -1073,7 +1071,6 @@ msgstr "Älä häiritse"
 msgid "Don't ask me again for "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
@@ -1348,8 +1345,6 @@ msgstr ""
 msgid "Go to the Stoat Lounge"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: src/interface/Home.tsx
 #~ msgid "Go to the testers server"
 #~ msgstr "Mene testaajien palvelimeen"
 
@@ -1491,7 +1486,6 @@ msgstr ""
 msgid "Join a server"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx
 #~ msgid "Join call"
 #~ msgstr ""
 
@@ -2278,7 +2272,6 @@ msgstr ""
 msgid "Review policy changes"
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "Roadmap"
 #~ msgstr ""
 
@@ -2329,7 +2322,6 @@ msgstr ""
 msgid "Search for users..."
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
 
@@ -2504,7 +2496,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
@@ -2540,7 +2531,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx
 #~ msgid "Stoat Desktop"
 #~ msgstr ""
 
@@ -2924,7 +2914,6 @@ msgstr "Katso tällä hetkellä aktiivisia bugireportteja täällä."
 msgid "View members"
 msgstr ""
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "View older updates"
 #~ msgstr "Näytä vanhemmat päivitykset"
 
@@ -2982,8 +2971,6 @@ msgstr ""
 msgid "Webhooks"
 msgstr "Webhookit"
 
-#: src/interface/Home.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome to"
 #~ msgstr "Tervetuloa"
 
@@ -3032,7 +3019,6 @@ msgstr ""
 msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Voit myös napsauttaa oikealla klikkauksella vasemmassa yläkulmassa olevaa käyttäjäkuvaketta, tai napsauttaa sitä vasemmalla klikkauksella, jos olet jo kotona."
 
