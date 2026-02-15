@@ -13,6 +13,7 @@ import {
   Time,
 } from "@revolt/ui/components/utils";
 
+import { useState } from "@revolt/state";
 import { MessageToolbar } from "./MessageToolbar";
 
 interface CommonProps {
@@ -305,6 +306,7 @@ const CompactInfo = styled(Row, {
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
   const { message } = useMessage();
+  const { isMobile } = useState();
 
   return (
     <div
@@ -323,7 +325,14 @@ export function MessageContainer(props: Props) {
       }
       use:floating={{ contextMenu: props.contextMenu }}
     >
-      <Show when={message && props.isLink !== true && props.isLink !== "hide"}>
+      <Show
+        when={
+          !isMobile &&
+          message &&
+          props.isLink !== true &&
+          props.isLink !== "hide"
+        }
+      >
         <MessageToolbar />
       </Show>
 

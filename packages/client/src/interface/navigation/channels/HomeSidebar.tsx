@@ -25,6 +25,7 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 
+import { useState } from "@revolt/state";
 import { SidebarBase } from "./common";
 
 interface Props {
@@ -55,6 +56,7 @@ export const HomeSidebar = (props: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { openModal } = useModals();
+  const { isMobile } = useState();
 
   const savedNotesChannelId = createMemo(() => props.openSavedNotes());
 
@@ -186,6 +188,7 @@ export const HomeSidebar = (props: Props) => {
                     style={item.style}
                     channel={item.item}
                     active={item.item.id === props.channelId}
+                    isMobile={isMobile}
                   />
                 </div>
               )}
@@ -261,12 +264,12 @@ const NameStatusStack = styled("div", {
  * Single conversation entry
  */
 function Entry(
-  props: { channel: Channel; active: boolean } /*& Omit<
+  props: { channel: Channel; active: boolean; isMobile: boolean } /*& Omit<
     ComponentProps<typeof Link>,
     "href"
   >*/,
 ) {
-  const [local, remote] = splitProps(props, ["channel", "active"]);
+  const [local, remote] = splitProps(props, ["channel", "active", "isMobile"]);
 
   const { t } = useLingui();
   const { openModal } = useModals();
@@ -331,17 +334,19 @@ function Entry(
           </Switch>
         }
         actions={
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              openModal({
-                type: "delete_channel",
-                channel: local.channel,
-              });
-            }}
-          >
-            <MdClose {...iconSize("18px")} />
-          </a>
+          <Show when={!local.isMobile}>
+            <a
+              onClick={(e) => {
+                e.preventDefault();
+                openModal({
+                  type: "delete_channel",
+                  channel: local.channel,
+                });
+              }}
+            >
+              <MdClose {...iconSize("18px")} />
+            </a>
+          </Show>
         }
         use:floating={{
           contextMenu: () =>

@@ -112,9 +112,7 @@ export const ServerSidebar = (props: Props) => {
   // TODO: we want it to feel smooth when navigating through channels, so we'll want to select channels immediately but not actually navigate until we're done moving through them
   /** Navigates to the channel offset from the current one, wrapping around if needed */
   const _navigateChannel = (byOffset: number) => {
-    if (props.channelId == null) {
-      return;
-    }
+    if (props.channelId == null) return;
 
     const channels = visibleChannels();
 
@@ -510,7 +508,7 @@ function Entry(
             </>
           }
           actions={
-            <>
+            <Show when={!state.isMobile}>
               <Show when={canInvite()}>
                 <a
                   use:floating={{
@@ -529,7 +527,6 @@ function Entry(
                   </Symbol>
                 </a>
               </Show>
-
               <Show when={canEditChannel()}>
                 <a
                   use:floating={{
@@ -549,7 +546,7 @@ function Entry(
                   </Symbol>
                 </a>
               </Show>
-            </>
+            </Show>
           }
         >
           <OverflowingText>

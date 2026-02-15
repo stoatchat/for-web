@@ -11,6 +11,7 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { isMobileBrowser } from "@livekit/components-core";
 import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
@@ -50,6 +51,7 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
+  isMobile: boolean;
 
   // define all stores
   auth = new Auth(this);
@@ -105,6 +107,7 @@ export class State {
     this.store = store as never;
     this.setStore = setStore;
     this.writeQueue = {};
+    this.isMobile = isMobileBrowser();
   }
 
   /**
