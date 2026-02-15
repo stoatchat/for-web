@@ -38,7 +38,7 @@ export function SettingsSidebar(props: {
   return (
     <Base>
       <div use:invisibleScrollable>
-        <Content>
+        <Content class="setSidebar">
           <Column gap="lg">
             {list.prepend}
             <For each={list.entries}>
@@ -123,10 +123,6 @@ const Content = styled("div", {
     "& a > div": {
       margin: 0,
     },
-
-    "@media (max-width: 800px)": {
-      padding: "12px 0"
-    }
   },
 });
 

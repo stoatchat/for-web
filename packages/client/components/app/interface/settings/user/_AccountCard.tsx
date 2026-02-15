@@ -43,11 +43,9 @@ export function AccountCard() {
   );
 }
 
-export function BackCard(props: {
-  onClose?: () => void;
-}) {
+export function BackCard(props: { onClose?: () => void }) {
   return (
-    <SidebarButton mobileOnly onClick={props.onClose}>
+    <SidebarButton class="setMobileBack" onClick={props.onClose}>
       <Ripple />
       <SidebarButtonTitle>
         <MdArrowBack />

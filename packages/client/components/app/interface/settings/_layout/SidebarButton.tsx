@@ -7,9 +7,7 @@ export const SidebarButton = styled("a", {
   base: {
     // for <Ripple />:
     position: "relative",
-
     minWidth: 0,
-
     display: "flex",
     alignItems: "center",
     padding: "6px 8px",
@@ -33,11 +31,6 @@ export const SidebarButton = styled("a", {
         background: "var(--md-sys-color-primary-container)",
       },
     },
-    mobileOnly: {
-      true: {
-        "@media (min-width: 800px)": {display: "none"}
-      }
-    }
   },
 });
 
