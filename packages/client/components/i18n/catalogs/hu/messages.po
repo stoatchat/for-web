@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-15 11:41+0000\n"
-"Last-Translator: Daniyt_th <viragdanielaszlo@gmail.com>\n"
+"PO-Revision-Date: 2026-02-15 18:37+0000\n"
+"Last-Translator: Theta <jg56jtwi@duck.com>\n"
 "Language-Team: Hungarian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/hu/>\n"
 "Language: hu\n"
@@ -37,7 +37,7 @@ msgstr "[Múlt] dddd[n] LT[-kor]"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [kor] LT"
+msgstr "dddd LT[-kor]"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -188,7 +188,7 @@ msgstr "<0/> csatlakozott a szerverhez"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the group"
-msgstr ""
+msgstr "<0/> elhagyta a csoportot"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the server"
@@ -200,7 +200,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
-msgstr ""
+msgstr "<0/> hívást indított"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call that lasted "
@@ -233,7 +233,7 @@ msgstr "<0>Vigyázz!</0><1/>Ez nem egyezik meg a megjelent linkkel:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
-msgstr "1 személy reagált"
+msgstr "1 ember reagált"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
@@ -272,7 +272,7 @@ msgstr "Barátkérelem elfogadása"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr ""
+msgstr "Tudomásul vettem"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
@@ -282,7 +282,7 @@ msgstr "Hozzáad"
 #: src/interface/Friends.tsx
 #: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
-msgstr ""
+msgstr "Új barát hozzáadása"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
@@ -291,11 +291,11 @@ msgstr "Ismerősnek jelölés"
 #: src/interface/channels/ChannelHeader.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add friends to group"
-msgstr ""
+msgstr "Barátok hozzáadása a csoporthoz"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Add new members to the group"
-msgstr ""
+msgstr "Új tagok hozzáadása a csoporthoz"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
@@ -323,7 +323,7 @@ msgstr ""
 
 #: src/interface/Friends.tsx
 msgid "All"
-msgstr ""
+msgstr "Összes"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -346,7 +346,7 @@ msgstr "Már ismerősöd ez a felhasználó."
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
-msgstr ""
+msgstr "Amerikai (HH/NN/ÉÉÉÉ)"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
@@ -355,7 +355,7 @@ msgstr "Hiba történt."
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "An internal error occurred. ({0})"
-msgstr ""
+msgstr "Belső hiba történt. ({0})"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
@@ -368,7 +368,7 @@ msgstr ""
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Biztosan törölni akarod ezt?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
@@ -439,7 +439,7 @@ msgstr "Felhasználó kitiltása"
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
-msgstr ""
+msgstr "Felhasználó kitiltása"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
@@ -565,7 +565,7 @@ msgstr "Becenevet válthatnak"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr ""
+msgstr "Más tagok becenevének szerkesztése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
@@ -585,7 +585,7 @@ msgstr ""
 
 #: components/modal/modals/Changelog.tsx
 msgid "Changelog"
-msgstr ""
+msgstr "Jegyzőkönyv"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
@@ -593,7 +593,7 @@ msgstr "Csatorna leírása"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Info"
-msgstr ""
+msgstr "Csatorna tudnivalók"
 
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/interface/settings/channel/Overview.tsx
@@ -614,7 +614,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
-msgstr "Nézd meg, hogy jött-e leveled."
+msgstr "Nézd meg, hogy jött-e leveled!"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
@@ -622,7 +622,7 @@ msgstr "Válassz egy felhasználónevet"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
-msgstr ""
+msgstr "Felhasználónév kiválasztása"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Clear status"
@@ -634,7 +634,7 @@ msgstr ""
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
-msgstr ""
+msgstr "Kattints a teljes leírás megtekintéséhez"
 
 #: components/ui/components/utils/Spoiler.tsx
 msgid "Click to show spoiler"
@@ -690,7 +690,7 @@ msgstr "Állíts be egy visszaszerzési módot a fiókodhoz ha a 2FA-t elveszít
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr ""
+msgstr "Egyszeri jelszavas hitelesítés beállítása"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -708,7 +708,7 @@ msgstr "Hangcsatornához csatlakozhatnak"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr ""
+msgstr "Csatlakozás a hangcsatornához"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
@@ -733,7 +733,7 @@ msgstr "Folytatás az alkalmazáshoz"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Contribute a language"
-msgstr ""
+msgstr "Nyelv hozzájárulása"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
@@ -763,7 +763,7 @@ msgstr "Link másolása"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
-msgstr ""
+msgstr "Link másolása"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -771,7 +771,7 @@ msgstr "Üzenet ID másolása"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
-msgstr ""
+msgstr "Rang ID másolása"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Copy server ID"
@@ -792,11 +792,11 @@ msgstr "Felhasználói ID másolása"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Copy webhook URL"
-msgstr ""
+msgstr "Webhook URL másolása"
 
 #: components/i18n/errors.ts
 msgid "Could not find what you requested."
-msgstr ""
+msgstr "Nem találtuk amit kerestél."
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/modal/modals/CreateServer.tsx
@@ -811,7 +811,7 @@ msgstr "Létrehozás"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create a channel before inviting others!"
-msgstr ""
+msgstr "Készíts egy csatornát mielőtt másokat meghívsz!"
 
 #~ msgid "Create a group"
 #~ msgstr "Csoport létrehozása"
@@ -831,7 +831,7 @@ msgstr "Új kategória készítése"
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: components/modal/modals/CreateGroup.tsx
 msgid "Create a new group"
-msgstr ""
+msgstr "Új csoport létrehozása"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create a new role"
@@ -839,7 +839,7 @@ msgstr "Új titulus létrehozása"
 
 #: components/modal/modals/CreateWebhook.tsx
 msgid "Create a webhook"
-msgstr ""
+msgstr "Webhook készítése"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Create an account"
@@ -857,7 +857,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Create Bot"
-msgstr ""
+msgstr "Bot készítése"
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
@@ -878,16 +878,16 @@ msgstr "Meghívó létrehozása"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Create Invite"
-msgstr ""
+msgstr "Meghívó létrehozása"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr ""
+msgstr "Meghívók készítése mások számára"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create Role"
-msgstr ""
+msgstr "Rang készítése"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "Create server"
@@ -895,15 +895,15 @@ msgstr "Szerver létrehozása"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create server emoji"
-msgstr ""
+msgstr "Szerver emoji létrehozása"
 
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
-msgstr ""
+msgstr "Új Webhook létrehozása"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
-msgstr ""
+msgstr "<0/> létre lett hozva"
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -934,12 +934,12 @@ msgstr "Sötét"
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "Database error, please contact support. ({0})"
-msgstr ""
+msgstr "Adatbázis hiba történt, kérjük keresd az ügyfélszolgálatot. ({0})"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
-msgstr ""
+msgstr "Alacsonyabb rangú felhasználók süketítése a hangcsatornában"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen Members"
@@ -1001,7 +1001,7 @@ msgstr "Csatorna törlése"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Delete Channel"
-msgstr ""
+msgstr "Csatorna törlése"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Delete Invite"
@@ -1024,7 +1024,7 @@ msgstr "Szerver törlése"
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
 msgid "Description provided by {0}"
-msgstr ""
+msgstr "Leírás {0} által"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Desktop"
@@ -1040,7 +1040,7 @@ msgstr "Fiók letiltása"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable one-time password authenticator"
-msgstr ""
+msgstr "Egyszeri jelszavas hitelesítés kikapcsolása"
 
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -1051,11 +1051,11 @@ msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Disconnected"
-msgstr ""
+msgstr "Nincs kapcsolat"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
-msgstr ""
+msgstr "Discord RPC"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1063,7 +1063,7 @@ msgstr "Stoat felfedezése"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Display & Text"
-msgstr ""
+msgstr "Megjelenés & Szöveg"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Display Name"
@@ -1071,7 +1071,7 @@ msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Do Not Disturb"
-msgstr "Ne zavard"
+msgstr "Ne zavarjanak"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
@@ -1119,7 +1119,7 @@ msgstr "Bármilyen engedély szerkesztése a szerveren"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit channel-specific role and default permissions"
-msgstr ""
+msgstr "Csatornához kötött rang és alapértelmezett engedélyek szerkesztése"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
@@ -1127,7 +1127,7 @@ msgstr "Globális profil szerkesztése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
-msgstr ""
+msgstr "Csoport nevének és leírásának szerkesztése"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit identity"
@@ -1135,7 +1135,7 @@ msgstr "Identitás szerkesztése"
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Edit Identity"
-msgstr ""
+msgstr "Identitás szerkesztése"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Edit message"
@@ -1143,7 +1143,7 @@ msgstr "Üzenet szerkesztése"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit roles"
-msgstr ""
+msgstr "Rangok szerkesztése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit the server's information and settings"
@@ -1199,7 +1199,7 @@ msgstr "Üveg átlátszóság/homályosság effekt beállítása (lassabb régi 
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
-msgstr ""
+msgstr "Új név megadása ennek a bejelentkezésnek"
 
 #: components/modal/modals/EditPassword.tsx
 #: components/auth/src/flows/Form.tsx
@@ -1328,7 +1328,7 @@ msgstr ""
 
 #: src/interface/Home.tsx
 msgid "Give feedback on Stoat"
-msgstr ""
+msgstr "Adj visszajelzést a Stoat-on"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Give us some detail"
@@ -1452,7 +1452,7 @@ msgstr "Hívd meg minden ismerősödet (plusz menő robikat) és kezdődhet a bu
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite Bot"
-msgstr ""
+msgstr "Bot meghívása"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
@@ -1481,7 +1481,7 @@ msgstr "irreleváns vicc kitűző 2"
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
-msgstr ""
+msgstr "ISO Alap (ÉÉÉÉ-HH-NN)"
 
 #: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/Invite.tsx
@@ -1535,7 +1535,7 @@ msgstr "Tag kirúgása"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick Member"
-msgstr ""
+msgstr "Tag kirúgása"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
@@ -1592,7 +1592,7 @@ msgstr "Írd meg miként fejleszthetnénk tovább a Revoltot."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Light"
-msgstr ""
+msgstr "Világos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Listen"
@@ -1601,7 +1601,7 @@ msgstr ""
 #. placeholder {0}: humanFileSize(props.file.size ?? 0)
 #: components/ui/components/features/messaging/elements/TextFile.tsx
 msgid "Load file ({0})"
-msgstr ""
+msgstr "Fájl betöltése ({0})"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Log In"
@@ -1614,11 +1614,11 @@ msgstr "Kijelentkezés"
 
 #: components/auth/src/flows/Form.tsx
 msgid "Log out of all other sessions"
-msgstr "Kijelentkezés az összes többi munkamenetből"
+msgstr "Kijelentkezés az összes többi eszközről"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Log Out Other Sessions"
-msgstr ""
+msgstr "Más eszközök kijelentkeztetése"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Login"
@@ -1626,7 +1626,7 @@ msgstr "Bejelentkezés"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Logs you out of all sessions except this device."
-msgstr ""
+msgstr "Összes eszközről kijelentkeztet kivéve erről."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Malware or phishing"
@@ -1634,7 +1634,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Channel"
-msgstr ""
+msgstr "Csatorna szerkesztése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Customisation"
@@ -1710,15 +1710,15 @@ msgstr "Minenki és a szerveren belüli online tagok megjelölése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention Roles"
-msgstr ""
+msgstr "Rangok megjelölése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention specific roles"
-msgstr ""
+msgstr "Bizonyos rangok megjelölése"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mentions"
-msgstr ""
+msgstr "Megjelölések"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1751,7 +1751,7 @@ msgstr "Üzenetek érkezésekor"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Message Sent"
-msgstr "Elküldött üzenetkor"
+msgstr "Üzenet elküldve"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Message Size"
@@ -1767,7 +1767,7 @@ msgstr "Üzenetváltás"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
-msgstr ""
+msgstr "Csökkentés a tálcára"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
@@ -1793,7 +1793,7 @@ msgstr "Tagok áthelyezése"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
-msgstr ""
+msgstr "Tagok áttétele hangcsatornák között"
 
 #: components/i18n/errors.ts
 msgid "Multi-factor authentication is already enabled for this account."
@@ -1818,7 +1818,7 @@ msgstr "Tagok némítása"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
-msgstr ""
+msgstr "Szerver némítása"
 
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted"
