@@ -1,0 +1,137 @@
+name: Bug Report
+description: Report a bug to help us improve Stoat
+title: "[Bug] "
+labels:
+  - bug
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug!
+
+        Before submitting, please search existing issues to avoid duplicates.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched [existing issues](https://github.com/stoatchat/for-web/issues) and this bug has not been reported
+          required: true
+        - label: I am using the latest version of Stoat
+          required: false
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of the app is affected?
+      options:
+        - Authentication / Login
+        - Messaging / Chat
+        - Channels / Servers
+        - Voice / Video (LiveKit)
+        - Notifications
+        - Settings
+        - User Interface / Styling
+        - Performance
+        - PWA / Service Worker
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A clear and concise description of the bug
+      placeholder: Describe what went wrong...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+      placeholder: I expected...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide step-by-step instructions to reproduce the issue
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: Which browser(s) are you experiencing the issue on?
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Arc
+        - Brave
+        - Other (specify in additional context)
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      description: Which OS are you using?
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - iOS
+        - Android
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does this happen?
+      options:
+        - Always (100%)
+        - Often (> 50%)
+        - Sometimes (< 50%)
+        - Rarely
+        - Only once
+    validations:
+      required: false
+  - type: dropdown
+    id: regression
+    attributes:
+      label: Is this a regression?
+      description: Did this work correctly before?
+      options:
+        - "Yes, it used to work"
+        - "No, it never worked for me"
+        - "Not sure / New user"
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs / Error messages
+      description: Open DevTools (F12), go to Console tab, and paste any errors here
+      render: shell
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Screen recordings
+      description: If applicable, add screenshots or recordings to help explain the problem
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Any other information that might be helpful (network conditions, account type, workarounds tried, etc.)
