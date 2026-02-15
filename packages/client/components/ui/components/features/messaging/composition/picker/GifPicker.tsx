@@ -101,11 +101,24 @@ function Categories() {
     queryFn: () => {
       const [authHeader, authHeaderValue] = client()!.authenticationHeader;
 
-      return fetch("https://api.gifbox.me/categories?locale=en_US", {
+      const getTrendingCategories = async () => {
+        return fetch("https://api.gifbox.me/categories?locale=en_US", {
         headers: {
           [authHeader]: authHeaderValue,
         },
-      }).then((r) => r.json());
+        })
+          .then(async (r) => {
+            const data = await r.json();
+            if (r.ok) return data;
+            else if (r.status == 429) {
+              setTimeout(getTrendingCategories, data.retry_after);
+            }
+            else return {};
+          })
+          .catch((_) => {return {}});
+      }
+
+      return getTrendingCategories();
     },
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
