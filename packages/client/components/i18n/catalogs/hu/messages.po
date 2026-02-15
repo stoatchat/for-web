@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-15 03:08+0000\n"
+"PO-Revision-Date: 2026-02-15 11:41+0000\n"
 "Last-Translator: Theta <jg56jtwi@duck.com>\n"
 "Language-Team: Hungarian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/hu/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr ""
+msgstr "[Múlt] dddd[n] LT[-kor]"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -2898,11 +2898,11 @@ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default microphone"
-msgstr ""
+msgstr "Alapértelmezett mikrofon használva"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Using default speaker"
-msgstr ""
+msgstr "Alapértelmezett hangkimenetel használva"
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
@@ -2931,14 +2931,14 @@ msgstr "Az aktív hibajelentéseket itt láthatod."
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
-msgstr ""
+msgstr "Tagok megtekintése"
 
 #~ msgid "View older updates"
 #~ msgstr "A Revolt közelmúltbeli újdonságai"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
-msgstr ""
+msgstr "Kitűzött üzenetek megtekintése"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "View Recovery Codes"
@@ -2955,7 +2955,7 @@ msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
-msgstr "Beszédcsatorna"
+msgstr "Hangcsatorna"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
@@ -2963,7 +2963,7 @@ msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Volume"
-msgstr ""
+msgstr "Hangerő"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Want to change username?"
@@ -2975,16 +2975,16 @@ msgstr "Elküldtük a visszaigazoló e-mailt. A leveled 10 percen belül meg fog
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Icon"
-msgstr ""
+msgstr "Webhook ikonja"
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Name"
-msgstr ""
+msgstr "Webhook neve"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
@@ -2999,7 +2999,7 @@ msgstr "Üdv!"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
-msgstr ""
+msgstr "Tudják-e mások szerkeszteni ezeket a beállításokat"
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -3008,35 +3008,35 @@ msgstr ""
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
-msgstr ""
+msgstr "Szeretnél egy új csoportot vagy szervert készíteni?"
 
 #: components/modal/modals/CreateOrJoinServer.tsx
 msgid "Would you like to create a new server or join an existing one?"
-msgstr ""
+msgstr "Új szervert szeretnél csinálni vagy csatlakozni egy létezőhöz?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr ""
+msgstr "Elismered hogy a botod engedelmeskedik a használati szabályzatnak."
 
 #. placeholder {0}: props.user?.username
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 msgid "You are about to ban {0}"
-msgstr ""
+msgstr "Kifogod tiltani ezt a felhasználót {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr ""
+msgstr "Kifogod dobni ezt a felhasználót {0}"
 
 #: components/i18n/errors.ts
 msgid "You are banned from this server."
-msgstr ""
+msgstr "Ki lettél tiltva erről a szerverről."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
-msgstr ""
+msgstr "A fogaskerékre is rányomhatsz a bal alsó sarokban."
 
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "A bal felső sarokban kattints jobb egérgombbal a profilképedre, vagy ballal ide."
@@ -3056,24 +3056,26 @@ msgstr "Közvetlenül itt jelezhetsz az issue-król és vitathatod meg velünk a
 #: components/i18n/errors.ts
 msgid "You can't be in more than {0} servers, please leave one and try again."
 msgstr ""
+"Nem lehetsz több mint {0} szerverben benne, kérjük lépj ki az egyikből és "
+"próbáld újra."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} channels on this server."
-msgstr ""
+msgstr "Nem lehet több mint {0} csatorna ezen a szerveren."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} emojis on this server."
-msgstr ""
+msgstr "Nem lehet több mint {0} emoji ezen a szerveren."
 
 #: components/i18n/errors.ts
 msgid "You cannot give yourself missing permissions."
-msgstr ""
+msgstr "Nem adhatsz magadnak hiányzó engedélyeket."
 
 #: components/i18n/errors.ts
 msgid "You cannot join this call."
-msgstr ""
+msgstr "Nem csatlakozhatsz ehhez a híváshoz."
 
 #: components/i18n/errors.ts
 msgid "You cannot remove yourself."
@@ -3081,7 +3083,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "You cannot report yourself."
-msgstr ""
+msgstr "Nem jelentheted magad."
 
 #: components/i18n/errors.ts
 msgid "You cannot timeout yourself."
@@ -3098,31 +3100,33 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "You do not have permission to do this."
-msgstr ""
+msgstr "Nincs engedélyed ehhez."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
-msgstr "ide nincs engedélyed üzenetet írni"
+msgstr "Nincs engedélyed ebbe a csatornába üzeneteket küldeni"
 
 #: components/i18n/errors.ts
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
 msgstr ""
+"Ki lettél zárva többszörös rossz jelszó megadása miatt. Kérjük várj egy pár "
+"percet és próbáld újra."
 
 #: components/i18n/errors.ts
 msgid "You have this user blocked."
-msgstr ""
+msgstr "Le van tiltva ez a felhasználó neked."
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
-msgstr ""
+msgstr "Lenémítottad ezt a felhasználót."
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "You were logged out!"
-msgstr ""
+msgstr "Ki lettél jelentkezve!"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "You will not receive any notifications"
-msgstr ""
+msgstr "Nem fogsz semmilyen értesítést kapni"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
@@ -3135,24 +3139,24 @@ msgstr "Nem fogsz tudni visszalépni, amíg újra meg nem hívnak."
 
 #: components/i18n/errors.ts
 msgid "You're already part of this group."
-msgstr ""
+msgstr "Már tagja vagy ennek a csoportnak."
 
 #: components/modal/modals/Invite.tsx
 #: components/i18n/errors.ts
 msgid "You're already part of this server."
-msgstr ""
+msgstr "Már tagja vagy ennek a szervernek."
 
 #: components/i18n/errors.ts
 msgid "You've already sent a request to this user."
-msgstr ""
+msgstr "Már küldtél egy kérelmet ennek a felhasználónak."
 
 #: components/modal/modals/Invite.tsx
 msgid "You've been invited to join this server.<0/>Would you like to join?"
-msgstr ""
+msgstr "Meg lettél hívva erre a szerverre.<0/>Szeretnél csatlakozni?"
 
 #: components/modal/modals/SignedOut.tsx
 msgid "You've been signed out of Stoat!"
-msgstr ""
+msgstr "Kijelentkeztél a Stoat-ból!"
 
 #: components/i18n/errors.ts
 msgid "You've reached your personal bot limit."
@@ -3161,7 +3165,7 @@ msgstr ""
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You've sent too many friend requests, the maximum is {0}"
-msgstr ""
+msgstr "Túl sok baráti kérelmet küldtél, a maximum {0}"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
@@ -3169,7 +3173,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
-msgstr "A fiókod igazolva lett"
+msgstr "A fiókod igazolva lett!"
 
 #: components/i18n/errors.ts
 msgid "Your discriminator change has been ratelimited, please try again later."
@@ -3177,7 +3181,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "Your message is too long, please remove some characters and try again."
-msgstr ""
+msgstr "Túl hosszú az üzeneted, kérjük törölj belőle és próbáld újra."
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"
@@ -3185,8 +3189,9 @@ msgstr "Helyreállító kódok"
 
 #: components/i18n/errors.ts
 msgid "Your role ranking is too low to take this action."
-msgstr ""
+msgstr "Túl alacsony a rangod ehhez."
 
 #: components/i18n/errors.ts
 msgid "Your user has already been created? Try logging in again or refreshing the app."
 msgstr ""
+"Már van fiókod? Próbálj meg újra bejelentkezni vagy indítsd újra az appot."
