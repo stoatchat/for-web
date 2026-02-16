@@ -4,6 +4,8 @@ import { Trans } from "@lingui-solid/solid/macro";
 import dayjs from "dayjs";
 import { Server } from "stoat.js";
 
+import env from "../../common/lib/env";
+
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -115,7 +117,7 @@ export function ServerContextMenu(props: { server: Server }) {
    */
   function openAdminPanel() {
     window.open(
-      `https://old-admin.stoatinternal.com/panel/inspect/server/${props.server.id}`,
+      `${env.DEFAULT_ADMIN_PANEL_URL}/panel/revolt/inspect/server/${props.server.id}`,
       "_blank",
     );
   }

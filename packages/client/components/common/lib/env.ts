@@ -2,7 +2,6 @@ const DEFAULT_API_URL =
   (import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : undefined) ??
   (import.meta.env.VITE_API_URL as string) ??
   "https://stoat.chat/api";
-
 export default {
   /**
    * Whether to emit additional debug information
@@ -44,6 +43,16 @@ export default {
     (import.meta.env.DEV ? import.meta.env.VITE_DEV_PROXY_URL : undefined) ??
     (import.meta.env.VITE_PROXY_URL as string) ??
     "https://proxy.stoatusercontent.com",
+  /**
+   * What admin panel to link to from context menus.
+   * Base URL without trailing slash.
+   */
+  DEFAULT_ADMIN_PANEL_URL:
+    (import.meta.env.DEV
+      ? import.meta.env.VITE_DEV_ADMIN_PANEL_URL
+      : undefined) ??
+    (import.meta.env.VITE_ADMIN_PANEL_URL as string) ??
+    "https://old-admin.stoatinternal.com",
   /**
    * hCaptcha site key to use if enabled
    */

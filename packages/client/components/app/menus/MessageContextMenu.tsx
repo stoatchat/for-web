@@ -3,6 +3,8 @@ import { For, Match, Show, Switch } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { File, Message } from "stoat.js";
 
+import env from "../../common/lib/env";
+
 import { useClient, useUser } from "@revolt/client";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
@@ -92,7 +94,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
    */
   function openAdminPanel() {
     window.open(
-      `https://old-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
+      `${env.DEFAULT_ADMIN_PANEL_URL}/panel/revolt/inspect/message/${props.message!.id}`,
       "_blank",
     );
   }

@@ -3,6 +3,8 @@ import { Match, Show, Switch } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { Channel } from "stoat.js";
 
+import env from "../../common/lib/env";
+
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 
@@ -83,7 +85,7 @@ export function ChannelContextMenu(props: { channel: Channel }) {
    */
   function openAdminPanel() {
     window.open(
-      `https://old-admin.stoatinternal.com/panel/inspect/channel/${props.channel.id}`,
+      `${env.DEFAULT_ADMIN_PANEL_URL}/panel/revolt/inspect/channel/${props.channel.id}`,
       "_blank",
     );
   }
