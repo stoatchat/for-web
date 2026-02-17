@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-17 10:15+0000\n"
+"PO-Revision-Date: 2026-02-17 10:28+0000\n"
 "Last-Translator: Karol Paluchowski <marzenapaluchowska112@gmail.com>\n"
 "Language-Team: Polish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/pl/>\n"
@@ -48,6 +48,7 @@ msgstr "(zmiany są zapisywane…)"
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
+"{0, plural, one {# zablokowana wiadomość} other {# zablokowane wiadomości}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -55,7 +56,7 @@ msgstr ""
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, plural, one {Upuść plik} other {Upuść # plików}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -607,7 +608,7 @@ msgstr "Kanały"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Chat Input"
-msgstr ""
+msgstr "Pole czatu"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
@@ -921,7 +922,7 @@ msgstr "Niestandardowy status"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr ""
+msgstr "Niestandardowa ramka okna"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
@@ -1082,7 +1083,7 @@ msgstr "Nie pytaj mnie ponownie o "
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
-msgstr ""
+msgstr "Nie powiadamiaj innych o opuszczeniu"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
@@ -1328,7 +1329,6 @@ msgid "Get active recovery codes"
 msgstr "Zdobądź aktywne kody odzyskiwania"
 
 #: src/interface/Home.tsx
-#, fuzzy
 msgid "Give feedback on Stoat"
 msgstr "Przekaż swoją opinię o Stoat"
 
@@ -1358,7 +1358,7 @@ msgstr "Przejdź do Stoat Lounge"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Good"
-msgstr ""
+msgstr "Dobrze"
 
 #. placeholder {0}: countBits(props.context.rolePermissions![role.id].a)
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
@@ -2375,7 +2375,7 @@ msgstr "Wysyłanie wiadomości"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
-msgstr ""
+msgstr "Wysyłanie wiadomości na kanale"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channels"
@@ -2383,7 +2383,7 @@ msgstr "Pozwala na wysyłanie wiadomości"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "Send Request"
-msgstr ""
+msgstr "Wyślij żądanie"
 
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Sending..."
@@ -2455,7 +2455,7 @@ msgstr "Ustawienia"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Setup one-time password authenticator"
-msgstr ""
+msgstr "Skonfiguruj uwierzytelnianie jednorazowym hasłem"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Setup recovery codes"
@@ -2488,7 +2488,7 @@ msgstr "Zarejestruj się"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Silent"
-msgstr ""
+msgstr "Cichy"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "someone@example.com"
@@ -2540,7 +2540,7 @@ msgstr "Uruchamiaj przy starcie systemu"
 
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #~ msgid "Stoat Desktop"
 #~ msgstr ""
@@ -2612,7 +2612,7 @@ msgstr "System"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "System message channels"
-msgstr ""
+msgstr "Kanały wiadomości systemowych"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this message"
@@ -2760,7 +2760,7 @@ msgstr "Przełącz główny pasek boczny"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
-msgstr ""
+msgstr "Punkt tonalny"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
@@ -2839,7 +2839,7 @@ msgstr "Użytkownik"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Banned"
-msgstr ""
+msgstr "Zbanowano użytkownika"
 
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
