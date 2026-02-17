@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-16 15:12+0000\n"
-"Last-Translator: Lasse Lauwerys <lauweryslasse@gmail.com>\n"
+"PO-Revision-Date: 2026-02-17 21:32+0000\n"
+"Last-Translator: Justin <justinhoffman250@gmail.com>\n"
 "Language-Team: Dutch <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/nl/>\n"
 "Language: nl\n"
@@ -47,6 +47,7 @@ msgstr "(wijzigingen worden opgeslagen…)"
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
+"{0, meervoud, één {# geblokkeerd bericht} andere {# geblokkeerde berichten}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -54,7 +55,7 @@ msgstr ""
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, meervoud, één {Sleep een bestand} andere {Sleep # bestanden}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -81,6 +82,8 @@ msgstr "{0} emoji sloten resterend"
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
 msgstr ""
+"{0} bestanden overschrijden de maximale groottelimiet van {maxSizeFormatted} "
+"en zijn niet geüpload."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -95,13 +98,13 @@ msgstr "{0} sloot zich aan"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr ""
+msgstr "{0} is weggegaan"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr ""
+msgstr "{0} heeft {1} de nieuwe eigenaar van de groep gemaakt"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -115,8 +118,9 @@ msgstr "{0} heeft het kanaal hernoemd"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
+#, fuzzy
 msgid "{0} unpinned a message"
-msgstr ""
+msgstr "{0} heeft een bericht losgelaten"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -132,7 +136,7 @@ msgstr "{0} werd verbannen"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr ""
+msgstr "{0} werd gekicked"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -173,9 +177,8 @@ msgid "<0/> has been banned from the server"
 msgstr "<0/> werd verbannen van de server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
-#, fuzzy
 msgid "<0/> has been kicked from the server"
-msgstr "<0/> has been kicked from the server"
+msgstr "<0/> is gekicked van de server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
@@ -207,7 +210,7 @@ msgstr "<0/> startte een oproep, deze duurde "
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> transferred group ownership to <1/>"
-msgstr ""
+msgstr "<0/> groepseigendom overgedragen aan <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> unpinned <1/>"
@@ -228,7 +231,7 @@ msgstr "<0/> veranderde de groepsnaam in <1>{0}</1>"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
-msgstr ""
+msgstr "<0>Let op!</0><1/>Dit is niet dezelfde link als die werd weergegeven:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
@@ -246,16 +249,16 @@ msgstr "24 uur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr ""
+msgstr "Toegang tot kanalen op deze server is mogelijk."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
-msgstr ""
+msgstr "Toegang tot dit kanaal mogelijk"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr ""
+msgstr "Kan spreken tijdens een spraak kanaal"
 
 #: components/auth/src/AuthPage.tsx
 msgid "About"
@@ -298,7 +301,7 @@ msgstr "Voeg nieuwe leden toe aan groep"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr ""
+msgstr "Voeg status tekst toe"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
@@ -309,7 +312,7 @@ msgstr "Beheerder"
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Admin Panel"
-msgstr ""
+msgstr "Beheerderspaneel"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
@@ -318,7 +321,7 @@ msgstr "Geavanceerd"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Affects all roles and users"
-msgstr ""
+msgstr "Heeft gevolgen voor alle rollen en gebruikers"
 
 #: src/interface/Friends.tsx
 msgid "All"
@@ -332,11 +335,11 @@ msgstr "Alle Berichten"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr ""
+msgstr "Sta leden toe om hun naam en avatar per bericht te wijzigen"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr ""
+msgstr "Sta anderen toe om je bot toe te voegen aan hun servers via Discover"
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
