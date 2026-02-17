@@ -14,6 +14,7 @@ body {
   margin: 0;
   background: #191919;
   font-family: var(--fonts-primary);
+  --phone-max-width: 600px;
 }
 
 #root {
@@ -36,6 +37,17 @@ body {
   flex-shrink: 0;
 }
 
+/* Main: Phone view */
+@media (max-width: 600px) {
+  .appSbBase { flex-grow: 1 }
+  .appSidebar {
+    --layout-width-channel-sidebar: auto;
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+  }
+}
+
 /* Settings: Desktop view */
 .setMain {
   display: flex;
@@ -52,6 +64,20 @@ body {
   .setSidebar { padding: 8px 0 }
   .setClose { display: none }
   .setMobileBack { display: flex }
+}
+
+/* Settings: Phone view */
+@media (max-width: 600px) {
+  .setSbBase {
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+    padding-left: 12px;
+  }
+  .setSbBase > * { width: 100% }
+  .setSidebar { max-width: unset }
+  .setBase { border-radius: 0 }
+  .setCont { height: 100vh }
 }
 
 /* HighlightJs */

@@ -1,4 +1,4 @@
-import { Accessor, JSX, Show } from "solid-js";
+import { Accessor, JSX, Setter, Show } from "solid-js";
 
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -19,11 +19,12 @@ export function SettingsContent(props: {
   list: Accessor<SettingsList<unknown>>;
   title: (ctx: SettingsList<never>, key: string) => string;
   page: Accessor<string | undefined>;
+  ref: Setter<HTMLDivElement | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <div class="setBase" use:scrollable={{ class: base() }}>
+    <div ref={props.ref} class="setBase" use:scrollable={{ class: base() }}>
       <Show when={props.page()}>
         <InnerContent class="setCont">
           <InnerColumn>

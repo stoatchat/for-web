@@ -4,6 +4,7 @@ import {
   createContext,
   createMemo,
   createSignal,
+  Setter,
   untrack,
   useContext,
 } from "solid-js";
@@ -25,6 +26,8 @@ export interface SettingsProps {
    * Settings context
    */
   context: never;
+
+  contentRef: Setter<HTMLDivElement | undefined>;
 }
 
 /**
@@ -98,6 +101,7 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
           <>
             <SettingsSidebar list={list} page={page} setPage={setPage} />
             <SettingsContent
+              ref={props.contentRef}
               page={page}
               list={list}
               title={props.title}

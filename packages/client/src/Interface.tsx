@@ -1,4 +1,12 @@
-import { createEffect, JSX, Match, Switch } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  JSX,
+  Match,
+  on,
+  onCleanup,
+  Switch,
+} from "solid-js";
 
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -15,6 +23,7 @@ import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import { CircularProgress } from "@revolt/ui";
 
+import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
 import { Sidebar } from "./interface/Sidebar";
 
 /**
@@ -57,9 +66,22 @@ const Interface = (props: { children: JSX.Element }) => {
     ].includes(lifecycle.state());
   }
 
+  //Drawer slider for mobile
+  let rootRef, sDrawer: SlideDrawer | null;
+  const [contRef, setContRef] = createSignal<HTMLDivElement>();
+  createEffect(
+    on(contRef, (cont) => {
+      if (cont) sDrawer = new SlideDrawer(cont, rootRef!);
+    }),
+  );
+  onCleanup(() => {
+    sDrawer?.delete();
+    sDrawer = null;
+  });
+
   return (
     <MessageCache client={client()}>
-      <div class="appRoot">
+      <div ref={rootRef} class="appRoot">
         <Titlebar />
         <Switch fallback={<CircularProgress />}>
           <Match when={!isLoggedIn()}>
@@ -90,6 +112,7 @@ const Interface = (props: { children: JSX.Element }) => {
                 })}
               />
               <Content
+                ref={setContRef}
                 class="appCont"
                 sidebar={state.layout.getSectionState(
                   LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
