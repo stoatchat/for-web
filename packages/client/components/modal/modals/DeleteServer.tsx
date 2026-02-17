@@ -2,6 +2,7 @@ import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 
 import { useClient } from "@revolt/client";
+import { useNavigate } from "@revolt/routing";
 import { Dialog, DialogProps } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -15,6 +16,8 @@ export function DeleteServerModal(
 ) {
   const client = useClient();
   const { showError, mfaFlow } = useModals();
+  const navigate = useNavigate();
+  const modals = useModals();
 
   const deleteServer = useMutation(() => ({
     mutationFn: async () => {
@@ -23,6 +26,11 @@ export function DeleteServerModal(
       await props.server.delete(); // TODO: should use ticket in API
     },
     onError: showError,
+    onSuccess: () => {
+      modals.closeAll();
+      navigate("/app", {replace: false});
+      setTimeout(() => window.location.reload(), 0);
+    },
   }));
 
   return (
