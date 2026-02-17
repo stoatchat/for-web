@@ -59,15 +59,28 @@ interface Props {
 }
 
 /**
+ * Threshold (in pixels) which we consider the user to be
+ * "at the bottom" of the scroll container, in column-reverse layout.
+ */
+const BOTTOM_THRESHOLD = 1;
+
+/**
  * Dynamic list view with ability to move through history
  *
  * This component only provides the scrolling behaviour
  */
 export function ListView2(props: Props) {
   let ref: HTMLDivElement | undefined;
+  let contentRef: HTMLDivElement | undefined;
+
+  let wasAtBottom = true;
+  let suppressSnap = false;
 
   function consumeDOMUpdate(update?: ListView2Update) {
     if (!update) return;
+
+    suppressSnap = true;
+    wasAtBottom = false;
 
     const currentRect = update.scrollAnchorId
       ? document.getElementById(update.scrollAnchorId)?.getBoundingClientRect()
@@ -90,7 +103,10 @@ export function ListView2(props: Props) {
             top: ref.scrollTop + (updatedRect.top - currentRect.top),
           });
         }
+        suppressSnap = false;
       });
+    } else {
+      suppressSnap = false;
     }
   }
 
@@ -101,6 +117,34 @@ export function ListView2(props: Props) {
   async function loadEnd() {
     consumeDOMUpdate(await props.fetchBottom());
   }
+
+  createEffect(() => {
+    const el = ref;
+    if (!el) return;
+
+    const onScroll = () => {
+      if (!suppressSnap) {
+        wasAtBottom = el.scrollTop >= -BOTTOM_THRESHOLD;
+      }
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    onCleanup(() => el.removeEventListener("scroll", onScroll));
+  });
+
+  createEffect(() => {
+    const el = contentRef;
+    if (!el) return;
+
+    const observer = new ResizeObserver(() => {
+      if (!suppressSnap && wasAtBottom && ref && ref.scrollTop < 0) {
+        ref.scrollTop = 0;
+      }
+    });
+
+    observer.observe(el);
+    onCleanup(() => observer.disconnect());
+  });
 
   return (
     <div
@@ -113,7 +157,7 @@ export function ListView2(props: Props) {
       }}
     >
       <div class={container()}>
-        <div>
+        <div ref={contentRef}>
           <Show when={!props.atStart()}>
             <Skeleton
               align="end"
