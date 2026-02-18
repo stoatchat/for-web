@@ -28,6 +28,7 @@ import { DeleteChannelModal } from "./modals/DeleteChannel";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
+import { EditCategoryModal } from "./modals/EditCategory";
 import { EditEmailModal } from "./modals/EditEmail";
 import { EditPasswordModal } from "./modals/EditPassword";
 import { EditUsernameModal } from "./modals/EditUsername";
@@ -180,6 +181,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <UserProfileMutualGroupsModal {...modalProps} />;
     case "reset_bot_token":
       return <ResetBotTokenModal {...modalProps} />;
+    case "edit_category":
+      return <EditCategoryModal {...modalProps} />;
 
     default:
       console.error(
