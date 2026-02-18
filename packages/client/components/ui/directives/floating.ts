@@ -125,11 +125,13 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     trigger("contextMenu");
   }
 
+  let isTouch = false;
+
   /**
    * Handle mouse entering
    */
   function onMouseEnter() {
-    trigger("tooltip", true);
+    if (!isTouch) trigger("tooltip", true);
   }
 
   /**
@@ -137,6 +139,11 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
    */
   function onMouseLeave() {
     trigger("tooltip", false);
+  }
+
+  function onTouch() {
+    isTouch = true;
+    setTimeout(() => (isTouch = false), 100);
   }
 
   createEffect(
@@ -166,10 +173,14 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
 
           element.addEventListener("mouseenter", onMouseEnter);
           element.addEventListener("mouseleave", onMouseLeave);
+          element.addEventListener("touchstart", onTouch);
+          element.addEventListener("touchend", onTouch);
 
           onCleanup(() => {
             element.removeEventListener("mouseenter", onMouseEnter);
             element.removeEventListener("mouseleave", onMouseLeave);
+            element.addEventListener("touchstart", onTouch);
+            element.addEventListener("touchend", onTouch);
           });
         }
       },

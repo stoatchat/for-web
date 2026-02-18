@@ -22,7 +22,7 @@ export function SettingsModal(
   const [contRef, setContRef] = createSignal<HTMLDivElement>();
   createEffect(
     on(contRef, (cont) => {
-      if (cont) sDrawer = new SlideDrawer(cont, rootRef!);
+      if (cont && !sDrawer) sDrawer = new SlideDrawer(cont, rootRef!);
     }),
   );
   onCleanup(() => {

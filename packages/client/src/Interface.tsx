@@ -40,10 +40,7 @@ const Interface = (props: { children: JSX.Element }) => {
     if (!e.defaultPrevented) {
       if (e.to === "/settings") {
         e.preventDefault();
-        openModal({
-          type: "settings",
-          config: "user",
-        });
+        openModal({ type: "settings", config: "user" });
       } else if (typeof e.to === "string") {
         state.layout.setLastActivePath(e.to);
       }
@@ -69,14 +66,24 @@ const Interface = (props: { children: JSX.Element }) => {
   //Drawer slider for mobile
   let rootRef, sDrawer: SlideDrawer | null;
   const [contRef, setContRef] = createSignal<HTMLDivElement>();
+  function rstLayout() {
+    state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
+    state.layout.setSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, false, true);
+  }
   createEffect(
     on(contRef, (cont) => {
-      if (cont) sDrawer = new SlideDrawer(cont, rootRef!);
+      if (!cont || sDrawer) return;
+      sDrawer = new SlideDrawer(cont, rootRef!, (en) => {
+        setTimeout(() => {
+          state.setAppDrawer(en ? sDrawer : null);
+          if (en) rstLayout();
+        }, 1);
+      });
     }),
   );
   onCleanup(() => {
     sDrawer?.delete();
-    sDrawer = null;
+    state.setAppDrawer((sDrawer = null));
   });
 
   return (
