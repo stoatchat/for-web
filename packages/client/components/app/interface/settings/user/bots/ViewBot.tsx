@@ -6,6 +6,7 @@ import { useModals } from "@revolt/modal";
 import { CategoryButton, Column, iconSize } from "@revolt/ui";
 
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
+import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MdKey from "@material-design-icons/svg/outlined/key.svg?component-solid";
 import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
@@ -98,6 +99,13 @@ export function ViewBot(props: { bot: Bot }) {
           onClick={() => navigator.clipboard.writeText(props.bot.token)}
         >
           <Trans>Copy Token</Trans>
+        </CategoryButton>
+        <CategoryButton
+          icon={<MdDelete {...iconSize(22)} />}
+          action="chevron"
+          onClick={() => openModal({ type: "delete_bot", bot: props.bot })}
+        >
+          <Trans>Delete Bot</Trans>
         </CategoryButton>
       </CategoryButton.Group>
     </Column>
