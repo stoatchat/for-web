@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-17 15:50+0000\n"
-"Last-Translator: Ulysse Cura <ulysse.cura@gmail.com>\n"
+"PO-Revision-Date: 2026-02-18 02:53+0000\n"
+"Last-Translator: Pierre <otivel423@gmail.com>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
 "Language: fr\n"
@@ -17,27 +17,27 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr "[Hier à] LT"
+msgstr "[Hier à]"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr "[Aujourd'hui à] LT"
+msgstr "[Aujourd'hui à]"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr "[Demain à] LT"
+msgstr "[Demain à]"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "dddd [dernier à] LT"
+msgstr "dddd [dernier à]"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [à] LT"
+msgstr "dddd [à]"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -46,7 +46,7 @@ msgstr "(les modifications sont en cours d'enregistrement…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
+msgstr "{0, pluriel, un {# message bloqué} autre {# messages bloqués}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -54,7 +54,7 @@ msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Déposer un fichier} other {Déposer # fichiers}}"
+msgstr "{0, pluriel, un {Déposer un fichier} autre {Déposer # fichiers}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -155,16 +155,18 @@ msgid "{0}'s roles"
 msgstr "Les rôles de {0}"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
+#, fuzzy
 msgid "{unknown} reacted"
-msgstr "{unknown} a réagi"
+msgstr "{inconnu} a réagi"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
+#, fuzzy
 msgid "{usernames} and {unknown} others reacted"
-msgstr "{usernames} et {unknown} autres ont réagi"
+msgstr "{noms d'utilisateurs} et {inconnu} autres ont réagi"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
-msgstr "{usernames} ont réagi"
+msgstr "{noms d'utilisateur} ont réagi"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
@@ -234,7 +236,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
-msgstr "1 personne a réagi"
+msgstr "Une personne a réagi"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
@@ -273,7 +275,7 @@ msgstr "Accepter la demande d'ami"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr "Approuver"
+msgstr "Reconnaître"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
@@ -304,7 +306,7 @@ msgstr "Ajouter un status"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
-msgstr "Admin"
+msgstr "Administrateur"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
@@ -345,7 +347,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
-msgstr "Vous êtes déjà ami avec cet utilisateur."
+msgstr "Vous êtes déjà ami avec cet utilisateur"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
@@ -354,7 +356,7 @@ msgstr "Américain (MM/JJ/AAAA)"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
-msgstr "Une erreur s'est produite."
+msgstr "Une erreur s'est produite"
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
