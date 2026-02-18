@@ -88,7 +88,7 @@ export function TextEditor2(props: Props) {
   const enterKeymap = keymap.of([
     {
       key: isMobile ? "Ctrl-Enter" : "Enter",
-      //TODO: This is not working right, mobile seems to not trigger the function
+      //TODO Ctrl-Enter is only detected on Firefox mobile, not Chrome mobile
       run: (view) => {
         if (!props.onComplete) return false;
 
@@ -126,7 +126,11 @@ export function TextEditor2(props: Props) {
       doc: props.initialValue?.[0],
       extensions: [
         /* Enable browser spellchecking */
-        EditorView.contentAttributes.of({ spellcheck: "true" }),
+        EditorView.contentAttributes.of({
+          spellcheck: "true",
+          autocorrect: "true",
+          autocapitalize: "true",
+        }),
 
         /* Mount keymaps */
         enterKeymap,
