@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Reset i18n catalogs and extract"
+git checkout main -- packages/client/components/i18n/catalogs
+mise lingui:extract

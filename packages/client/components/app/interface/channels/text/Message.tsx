@@ -109,7 +109,13 @@ export function Message(props: Props) {
       username={
         <div use:floating={floatingUserMenusFromMessage(props.message)}>
           <Username
-            username={props.message.username}
+            username={
+              props.message.masquerade?.name ??
+              props.message.member?.nickname ??
+              props.message.author?.displayName ??
+              props.message.author?.username ??
+              props.message.username
+            }
             colour={props.message.roleColour!}
           />
         </div>

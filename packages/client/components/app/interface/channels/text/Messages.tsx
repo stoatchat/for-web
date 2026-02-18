@@ -28,33 +28,36 @@ import {
   ConversationStart,
   Deferred,
   JumpToBottom,
-  ListView,
   MessageDivider,
 } from "@revolt/ui";
 
+import {
+  ListView2,
+  ListView2Update,
+} from "@revolt/ui/components/utils/ListView2";
 import { Message } from "./Message";
 import { useMessageCache } from "./MessageCache";
 
 /**
- * Default fetch limit
+ * Initial fetch limit
  */
-const DEFAULT_FETCH_LIMIT = 50;
+const INITIAL_FETCH_LIMIT = 30;
+
+/**
+ * Fetch limit
+ */
+const FETCH_LIMIT = 50;
+
+/**
+ * Display limit
+ */
+const DISPLAY_LIMIT = 150;
 
 interface Props {
   /**
    * Channel to fetch messages from
    */
   channel: Channel;
-
-  /**
-   * Limit to number of messages to fetch at a time
-   */
-  fetchLimit?: number;
-
-  /**
-   * Limit to number of messages to display at one time
-   */
-  limit?: number;
 
   /**
    * Pending messages to render at the end of the list
@@ -226,7 +229,7 @@ export function Messages(props: Props) {
       } else {
         messages = await props.channel
           .fetchMessagesWithUsers({
-            limit: props.fetchLimit,
+            limit: INITIAL_FETCH_LIMIT,
             nearby,
           })
           .then(({ messages }) => messages);
@@ -247,10 +250,7 @@ export function Messages(props: Props) {
         );
       }
       // Check if we're at the start of the conversation otherwise
-      else if (
-        !useExistingState &&
-        messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)
-      ) {
+      else if (!useExistingState && messages.length < INITIAL_FETCH_LIMIT) {
         setStart(true);
       }
       // Apply existing state if present
@@ -299,14 +299,14 @@ export function Messages(props: Props) {
     } catch {
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
+      setFetching();
     }
   }
 
   /**
    * Fetch upwards from current position
-   * @param reposition Callback for ListView
    */
-  async function caseFetchUpwards(reposition: (cb: () => void) => void) {
+  async function caseFetchUpwards(): Promise<ListView2Update | undefined> {
     // Pre-conditions:
     // - Must not already be at the start
     // - Must not already be fetching (or otherwise the fetch must have failed)
@@ -321,7 +321,7 @@ export function Messages(props: Props) {
     try {
       // Fetch messages for channel
       const result = await props.channel.fetchMessagesWithUsers({
-        limit: props.fetchLimit,
+        limit: FETCH_LIMIT,
         // Take the id of the oldest message currently fetched
         before: messages().slice(-1)[0].id,
       });
@@ -330,7 +330,7 @@ export function Messages(props: Props) {
       if (preempted()) return;
 
       // If it's less than we expected, we are at the start
-      if (result.messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)) {
+      if (result.messages.length < FETCH_LIMIT) {
         setStart(true);
       }
 
@@ -339,7 +339,7 @@ export function Messages(props: Props) {
         // Calculate how much we need to cut off the other end
         const tooManyBy = Math.max(
           0,
-          result.messages.length + messages().length - (props.limit ?? 0),
+          result.messages.length + messages().length - DISPLAY_LIMIT,
         );
 
         // If it's at least one element, we are no longer at the end
@@ -347,38 +347,35 @@ export function Messages(props: Props) {
           setEnd(false);
         }
 
-        // Append messages to the top
-        setMessagesSafely(messages(), result.messages);
+        const msgs = messages();
+        return {
+          scrollAnchorId: msgs[msgs.length - 1].id,
+          commitToDOM() {
+            setMessagesSafely(messages(), result.messages);
 
-        // If we removed any messages, guard the scroll position as we remove them
-        if (tooManyBy) {
-          reposition(() => {
-            setMessages((prev) => {
-              return prev.slice(tooManyBy);
-            });
+            if (tooManyBy) {
+              setMessages((prev) => {
+                return prev.slice(tooManyBy);
+              });
+            }
 
-            // Mark as fetching has ended
             setFetching();
-          });
-        } else {
-          // Mark as fetching has ended
-          setFetching();
-        }
+          },
+        };
       } else {
-        // Mark as fetching has ended
         setFetching();
       }
     } catch {
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
+      setFetching();
     }
   }
 
   /**
    * Fetch downwards from current position
-   * @param reposition Callback for ListView
    */
-  async function caseFetchDownwards(reposition: (cb: () => void) => void) {
+  async function caseFetchDownwards(): Promise<ListView2Update | undefined> {
     // Pre-conditions:
     // - Must not already be at the end
     // - Must not already be fetching (or otherwise the fetch must have failed)
@@ -393,7 +390,7 @@ export function Messages(props: Props) {
     try {
       // Fetch messages after the newest message we have
       const result = await props.channel.fetchMessagesWithUsers({
-        limit: props.fetchLimit,
+        limit: FETCH_LIMIT,
         after: messages()[0].id,
         sort: "Oldest",
       });
@@ -402,7 +399,7 @@ export function Messages(props: Props) {
       if (preempted()) return;
 
       // If it's less than we expected, we are at the end
-      if (result.messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)) {
+      if (result.messages.length < FETCH_LIMIT) {
         setEnd(true);
       }
 
@@ -411,7 +408,7 @@ export function Messages(props: Props) {
         // Calculate how much we need to cut off the other end
         const tooManyBy = Math.max(
           0,
-          result.messages.length + messages().length - (props.limit ?? 0),
+          result.messages.length + messages().length - DISPLAY_LIMIT,
         );
 
         // If it's at least one element, we are no longer at the start
@@ -419,23 +416,20 @@ export function Messages(props: Props) {
           setStart(false);
         }
 
-        // Append messages to the bottom
-        setMessages(() => {
-          return [...result.messages.reverse(), ...messages()];
-        });
+        return {
+          scrollAnchorId: messages()[0].id,
+          commitToDOM() {
+            setMessages(() => {
+              return [...result.messages.reverse(), ...messages()];
+            });
 
-        // If we removed any messages, guard the scroll position as we remove them
-        if (tooManyBy) {
-          reposition(() => {
-            setMessages((prev) => prev.slice(0, -tooManyBy));
+            if (tooManyBy) {
+              setMessages((prev) => prev.slice(0, -tooManyBy));
+            }
 
-            // Mark as fetching has ended
             setFetching();
-          });
-        } else {
-          // Mark as fetching has ended
-          setFetching();
-        }
+          },
+        };
       } else {
         // Mark as fetching has ended
         setFetching();
@@ -443,6 +437,7 @@ export function Messages(props: Props) {
     } catch {
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
+      setFetching();
     }
   }
 
@@ -488,7 +483,7 @@ export function Messages(props: Props) {
       try {
         // Fetch messages for channel
         const { messages } = await props.channel.fetchMessagesWithUsers({
-          limit: props.fetchLimit,
+          limit: FETCH_LIMIT,
         });
 
         // Cancel if we've been pre-empted
@@ -497,7 +492,7 @@ export function Messages(props: Props) {
         // Check if we're at the start of the conversation
         // NB. this may be counter-intuitive because we are in history but,
         //     this could be a very rare edge case for large moderation actions
-        if (messages.length < (props.fetchLimit ?? DEFAULT_FETCH_LIMIT)) {
+        if (messages.length < FETCH_LIMIT) {
           setStart(true);
         } else {
           setStart(false);
@@ -538,6 +533,7 @@ export function Messages(props: Props) {
       } catch {
         // Keep track of any failures (and allow retry / other actions)
         setFailure(true);
+        setFetching();
       }
     }
   }
@@ -576,7 +572,7 @@ export function Messages(props: Props) {
     try {
       // Fetch messages for channel
       const { messages } = await props.channel.fetchMessagesWithUsers({
-        limit: props.fetchLimit,
+        limit: FETCH_LIMIT,
         nearby: messageId,
       });
 
@@ -596,11 +592,14 @@ export function Messages(props: Props) {
         scrollToNearestMessage();
 
         // Mark as fetching has ended
-        setFetching();
+        setTimeout(() => {
+          setFetching();
+        }, 300 /* probably long enough for scroll to finish */);
       });
     } catch {
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
+      setFetching();
     }
   }
 
@@ -892,10 +891,12 @@ export function Messages(props: Props) {
 
   return (
     <>
-      <ListView
-        offsetTop={48}
+      <ListView2
         fetchTop={caseFetchUpwards}
         fetchBottom={caseFetchDownwards}
+        atStart={atStart}
+        atEnd={atEnd}
+        permitFetching={() => typeof fetching() !== "string"}
       >
         <Deferred>
           <div>
@@ -928,7 +929,7 @@ export function Messages(props: Props) {
             </div>
           </div>
         </Deferred>
-      </ListView>
+      </ListView2>
       <Show when={!atEnd()}>
         <AnchorToEnd>
           <JumpToBottom onClick={jumpToBottom} />

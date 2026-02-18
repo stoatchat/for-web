@@ -22,6 +22,7 @@ const useFieldConfiguration = () => {
       type: "email" as const,
       name: () => t`Email`,
       placeholder: () => t`Please enter your email.`,
+      autocomplete: "email",
     },
     password: {
       minLength: 8,

@@ -16,7 +16,6 @@ import {
   Header,
   iconSize,
   main,
-  typography,
 } from "@revolt/ui";
 
 import MdAddCircle from "@material-design-icons/svg/filled/add_circle.svg?component-solid";
@@ -111,9 +110,6 @@ export function HomePage() {
       </Header>
       <div use:scrollable={{ class: content() }}>
         <Column>
-          <span class={typography({ class: "headline" })}>
-            <Trans>Welcome to</Trans>
-          </span>
           <Wordmark
             class={css({
               width: "160px",
