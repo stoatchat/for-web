@@ -39,6 +39,10 @@ body {
 
 /* Main: Phone view */
 @media (max-width: 600px) {
+  main {
+    margin: 0;
+    border-radius: 0;
+  }
   .appSbBase { flex-grow: 1 }
   .appSidebar {
     --layout-width-channel-sidebar: auto;
