@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-16 16:01+0000\n"
-"Last-Translator: Joacim Sarén <stoat.agreement951@passmail.net>\n"
+"PO-Revision-Date: 2026-02-20 15:29+0000\n"
+"Last-Translator: \"M. Jrova\" <themeijerivoi@gmail.com>\n"
 "Language-Team: Finnish <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fi/>\n"
 "Language: fi\n"
@@ -37,7 +37,7 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr ""
+msgstr "dddd [klo] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -46,7 +46,7 @@ msgstr "(muutoksia tallennetaan...)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
+msgstr "{0, plural, one {# estetty viesti} other {# estettyä viestiä}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -54,7 +54,7 @@ msgstr ""
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, plural, one {Pudota tiedosto} other {Pudota # tiedostoa}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -295,7 +295,7 @@ msgstr "Lisää kavereita ryhmään"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Add new members to the group"
-msgstr "Lisää uusia jäseniä ryhmään"
+msgstr "Lisätä uusia jäseniä ryhmään"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
@@ -379,11 +379,11 @@ msgstr "Haluatko varmasti mennä "
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
-msgstr "Aseta alemman tason rooleja alemman tason jäsenille"
+msgstr "Voi asettaa alemman tason rooleja alemman tason jäsenille"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign Roles"
-msgstr "Aseta rooleja"
+msgstr "Roolien asettaminen"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -419,7 +419,7 @@ msgstr "Bannien kierto"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr "Bannaa alemman tason jäsenet palvelimelta"
+msgstr "Voi bannata alemman tason jäseniä palvelimelta"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
@@ -431,7 +431,7 @@ msgstr "Bannaa Jäsen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
-msgstr "Bannaa Jäsenet"
+msgstr "Jäsenien bannaaminen"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban user"
@@ -543,12 +543,12 @@ msgstr "Muuta"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
-msgstr "Vaihda Profiilikuva"
+msgstr "Profiilikuvan vaihtaminen"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change identity on {0}"
-msgstr ""
+msgstr "Muuta identiteettiä serverillä {0}"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
@@ -560,19 +560,19 @@ msgstr "Vaihda sisäänkirjautumisen salasana"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Nickname"
-msgstr "Vaihda nimimerkkiä"
+msgstr "Nimimerkin vaihtaminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr "Vaihda toisten käyttäjien nimimerkkejä"
+msgstr "Voi vaihtaa toisten käyttäjien nimimerkkejä"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
-msgstr "Vaihda profiilikuva"
+msgstr "Voi vaihtaa oman profiilikuvansa"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own nickname"
-msgstr "Vaihda nimimerkki"
+msgstr "Voi vaihtaa oman nimimerkkinsä"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
@@ -629,7 +629,7 @@ msgstr "Tyhjennä tila"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
-msgstr ""
+msgstr "Klikkaa alla olevista linkeistä saadaksesi lisätietoa eri muutoksista!"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -637,7 +637,7 @@ msgstr "Klikkaa nähdäksesi koko kuvaus"
 
 #: components/ui/components/utils/Spoiler.tsx
 msgid "Click to show spoiler"
-msgstr ""
+msgstr "Klikkaa näyttääksesi spoilerin"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Client Settings"
@@ -691,7 +691,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr ""
+msgstr "Kertakäyttöisellä salasanalla tunnistautumisen asetukset"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -704,12 +704,12 @@ msgstr "Vahvista toimenpide"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect"
-msgstr "Yhdistä"
+msgstr "Yhdistäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr "Yhdistä puhekanavalle"
+msgstr "Voi yhdistää puhekanavalle"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
@@ -734,7 +734,7 @@ msgstr "Jatka sovellukseen"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Contribute a language"
-msgstr ""
+msgstr "Lisää kieli"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
@@ -793,11 +793,11 @@ msgstr "Kopioi käyttäjän tunniste"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Copy webhook URL"
-msgstr ""
+msgstr "Kopioi webhookin URL"
 
 #: components/i18n/errors.ts
 msgid "Could not find what you requested."
-msgstr ""
+msgstr "Etsittyä tietoa ei löytynyt."
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/modal/modals/CreateServer.tsx
@@ -812,7 +812,7 @@ msgstr "Luo"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create a channel before inviting others!"
-msgstr ""
+msgstr "Luo kanava ennen muiden kutsumista!"
 
 #~ msgid "Create a group"
 #~ msgstr "Luo ryhmä"
@@ -827,12 +827,12 @@ msgstr "Luo uusi botti"
 
 #: components/modal/modals/CreateCategory.tsx
 msgid "Create a new category"
-msgstr ""
+msgstr "Luo uusi kategoria"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: components/modal/modals/CreateGroup.tsx
 msgid "Create a new group"
-msgstr ""
+msgstr "Luo uusi ryhmä"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create a new role"
@@ -840,7 +840,7 @@ msgstr "Luo uusi rooli"
 
 #: components/modal/modals/CreateWebhook.tsx
 msgid "Create a webhook"
-msgstr ""
+msgstr "Luo webhook"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Create an account"
@@ -848,17 +848,17 @@ msgstr "Luo tili"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit server roles"
-msgstr ""
+msgstr "Voi luoda ja muokata palvelimen rooleja"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
-msgstr ""
+msgstr "Voi luoda ja muokata webhookeja"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Create Bot"
-msgstr ""
+msgstr "Luo botti"
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
@@ -879,32 +879,32 @@ msgstr "Luo kutsu"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Create Invite"
-msgstr ""
+msgstr "Luo kutsu"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr ""
+msgstr "Voi luoda kutsuja muiden käytettäviksi"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create Role"
-msgstr ""
+msgstr "Luo rooli"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "Create server"
-msgstr ""
+msgstr "Luo palvelin"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create server emoji"
-msgstr ""
+msgstr "Voi luoda palvelimen emojeita"
 
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
-msgstr ""
+msgstr "Luo webhook"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
-msgstr ""
+msgstr "Luotiin <0/>"
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -914,7 +914,7 @@ msgstr "Nykyinen salasana"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Current Session"
-msgstr ""
+msgstr "Nykyinen istunto"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
@@ -922,7 +922,7 @@ msgstr "Mukautettu tila"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr ""
+msgstr "Mukautettu kehys"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
@@ -930,21 +930,21 @@ msgstr "Kustomointi"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Dark"
-msgstr ""
+msgstr "Tumma"
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "Database error, please contact support. ({0})"
-msgstr ""
+msgstr "Tietokantavirhe, ota yhteyttä tukeen. ({0})"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
-msgstr ""
+msgstr "Voi kuurouttaa alemman tason käyttäjiä äänipuheluissa"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen Members"
-msgstr "Kuurouta jäseniä"
+msgstr "Jäsenien kuurouttaminen"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Default"
@@ -955,7 +955,7 @@ msgstr "Oletus"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Default Permissions"
-msgstr ""
+msgstr "Oletusarvoiset valtuudet"
 
 #: components/modal/modals/EmojiPreview.tsx
 #: components/modal/modals/DeleteServer.tsx
@@ -975,26 +975,26 @@ msgstr "Poista"
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/DeleteBot.tsx
 msgid "Delete {0}?"
-msgstr ""
+msgstr "Poista {0}?"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Delete Account"
-msgstr ""
+msgstr "Poista tili"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
-msgstr ""
+msgstr "Voi poistaa ja kiinnittää muiden käyttäjien lähettämiä viestejä"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
-msgstr ""
+msgstr "Poista botti"
 
 #: components/modal/modals/DeleteCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Delete category"
-msgstr ""
+msgstr "Poista kategoria"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Delete channel"
@@ -1002,11 +1002,11 @@ msgstr "Poista kanava"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Delete Channel"
-msgstr ""
+msgstr "Poista kanava"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Delete Invite"
-msgstr ""
+msgstr "Poista kutsu"
 
 #: components/modal/modals/DeleteMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
@@ -1020,20 +1020,20 @@ msgstr "Poista rooli"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Delete Server"
-msgstr ""
+msgstr "Poista palvelin"
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
 msgid "Description provided by {0}"
-msgstr ""
+msgstr "Kuvauksen kirjoitti {0}"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Desktop"
-msgstr ""
+msgstr "Työpöytä"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Developer Documentation"
-msgstr ""
+msgstr "Kehittäjätiedot"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable Account"
@@ -1041,34 +1041,34 @@ msgstr "Poista tili käytöstä"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable one-time password authenticator"
-msgstr ""
+msgstr "Poista kertakäyttöisen salasanan tunnisteväline käytöstä"
 
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
-msgstr ""
+msgstr "Poistettu käytöstä"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Disconnected"
-msgstr ""
+msgstr "Yhteys katkaistu"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
-msgstr ""
+msgstr "Discord-RPC"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
-msgstr ""
+msgstr "Tutki Stoatia"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Display & Text"
-msgstr ""
+msgstr "Näyttö ja teksti"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Display Name"
-msgstr ""
+msgstr "Näyttönimi"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Do Not Disturb"
@@ -1076,26 +1076,26 @@ msgstr "Älä häiritse"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
-msgstr ""
+msgstr "Älä pyydä enää "
 
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
-msgstr ""
+msgstr "Älä ilmoita muille, että olet lähtenyt"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
-msgstr ""
+msgstr "Lahjoita"
 
 #: src/interface/Home.tsx
 msgid "Donate to Stoat"
-msgstr ""
+msgstr "Lahjoita Stoatille"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Donated to Stoat"
-msgstr ""
+msgstr "Lahjoitti Stoatille"
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Done"
@@ -1103,32 +1103,32 @@ msgstr "Valmis"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Drugs or illegal goods"
-msgstr ""
+msgstr "Huumeet tai laittomat tavarat"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "Edit {0}'s roles"
-msgstr ""
+msgstr "Muokkaa {0}:n rooleja"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit and delete channel"
-msgstr ""
+msgstr "Voi muokata ja poistaa kanavan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit any permissions on the server"
-msgstr ""
+msgstr "Voi muokata mitä vain palvelimen valtuuksia"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit channel-specific role and default permissions"
-msgstr ""
+msgstr "Voi muokata kanavakohtaista roolia ja oletusvaltuuksia"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
-msgstr ""
+msgstr "Muokkaa yleistä profiilia"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
-msgstr ""
+msgstr "Voi muokata ryhmän nimeä ja kuvausta"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit identity"
@@ -1136,7 +1136,7 @@ msgstr "Muokkaa identiteettiä"
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Edit Identity"
-msgstr ""
+msgstr "Muokkaa identiteettiä"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Edit message"
@@ -1144,11 +1144,11 @@ msgstr "Muokkaa viestiä"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit roles"
-msgstr ""
+msgstr "Muokkaa rooleja"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit the server's information and settings"
-msgstr ""
+msgstr "Voi muokata palvelimen tietoja ja asetuksia"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
@@ -1363,7 +1363,7 @@ msgstr ""
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Grants {0} permissions and denies {1} permissions"
-msgstr ""
+msgstr "Antaa {0} valtuutta ja evää {1} valtuutta"
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Group Name"
@@ -1380,7 +1380,7 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Hear other people and see their video"
-msgstr ""
+msgstr "Voi kuulla muita käyttäjiä ja nähdä heidän videokuvansa"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Hello!"
@@ -1461,7 +1461,7 @@ msgstr "Kutsukoodi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
-msgstr "Kutsu muita"
+msgstr "Muiden kutsuminen"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -1528,7 +1528,7 @@ msgstr "Erota"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick lower-ranking members from the server"
-msgstr ""
+msgstr "Voi poistaa alemman tason käyttäjiä palvelimelta"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Kick member"
@@ -1540,7 +1540,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
-msgstr "Erota jäseniä"
+msgstr "Jäsenien erottaminen"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
@@ -1597,7 +1597,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Listen"
-msgstr ""
+msgstr "Kuuntelu"
 
 #. placeholder {0}: humanFileSize(props.file.size ?? 0)
 #: components/ui/components/features/messaging/elements/TextFile.tsx
@@ -1635,35 +1635,35 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Channel"
-msgstr ""
+msgstr "Kanavan hallinta"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Customisation"
-msgstr "Hallinnoi mukautusta"
+msgstr "Mukautuksen hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Messages"
-msgstr "Hallitse viestejä"
+msgstr "Viestien hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Nicknames"
-msgstr "Hallinnoi käyttäjänimiä"
+msgstr "Käyttäjänimien hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Permissions"
-msgstr "Hallinnoi oikeuksia"
+msgstr "Valtuuksien hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Roles"
-msgstr "Hallitse rooleja"
+msgstr "Roolien hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Server"
-msgstr "Hallitse Palvelinta"
+msgstr "Palvelimen hallinnointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Webhooks"
-msgstr "Hallinnoi webhookeja"
+msgstr "Webhookien hallinnointi"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Mark as mature"
@@ -1703,23 +1703,23 @@ msgstr "Mainitse"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention Everyone"
-msgstr ""
+msgstr "Kaikkien mainitseminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention everyone and online members inside the server"
-msgstr ""
+msgstr "Voi mainita kaikki ja läsnäolevat käyttäjät palvelimella"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention Roles"
-msgstr ""
+msgstr "Roolien maininta"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention specific roles"
-msgstr ""
+msgstr "Voi mainita tiettyjä rooleja"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mentions"
-msgstr ""
+msgstr "Maininnat"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1789,12 +1789,12 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move Members"
-msgstr "Siirrä jäseniä"
+msgstr "Jäsenien siirtäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
-msgstr ""
+msgstr "Voi siirtää jäseniä äänikanavien välillä"
 
 #: components/i18n/errors.ts
 msgid "Multi-factor authentication is already enabled for this account."
@@ -1811,11 +1811,11 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
-msgstr ""
+msgstr "Voi mykistää alemman tason käyttäjiä äänipuhelussa"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute Members"
-msgstr "Hiljennä jäseniä"
+msgstr "Jäsenien hiljentäminen"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
@@ -1884,7 +1884,7 @@ msgstr "Nimimerkki"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
-msgstr ""
+msgstr "Valtuuksia ei vielä asetettu"
 
 #: src/interface/Friends.tsx
 msgid "Nobody here right now!"
@@ -2093,15 +2093,15 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React"
-msgstr ""
+msgstr "Reagointi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React to messages with emoji"
-msgstr ""
+msgstr "Voi reagoida emojeilla viesteihin"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read Message History"
-msgstr "Lue viestihistoriaa"
+msgstr "Viestihistorian lukeminen"
 
 #: components/modal/modals/Changelog.tsx
 msgid "Read More"
@@ -2109,11 +2109,11 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channel"
-msgstr ""
+msgstr "Voi lukea kanavalla aiemmin lähetettyjä viestejä"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channels"
-msgstr ""
+msgstr "Voi lukea kaikilla kanavilla aiemmin lähetettyjä viestejä"
 
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
@@ -2168,7 +2168,7 @@ msgstr "Poista Authenticator"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove Avatars"
-msgstr "Poista Profiilikuva"
+msgstr "Profiilikuvien poistaminen"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
@@ -2176,7 +2176,7 @@ msgstr "Poista kaveri"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
-msgstr ""
+msgstr "Voi poistaa muiden käyttäjien profiilikuvia"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove reaction"
@@ -2350,7 +2350,7 @@ msgstr "Valitse kieli"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send attachments to chat"
-msgstr ""
+msgstr "Voi lähettää liitteitä viestien mukana"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Send email"
@@ -2359,23 +2359,25 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
 msgstr ""
+"Voi lähettää upotettua sisältöä kuten linkkiupotteita tai mukautettuja "
+"upotteita"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
-msgstr "Lähetä upotteita"
+msgstr "Upotteiden lähettäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Messages"
-msgstr "Lähetä viestejä"
+msgstr "Viestien lähettäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
-msgstr ""
+msgstr "Voi lähettää viestejä kanavalla"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channels"
-msgstr ""
+msgstr "Voi lähettää viestejä kaikilla kanavilla"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "Send Request"
@@ -2464,7 +2466,7 @@ msgstr "Useat ihmiset kirjoittavat…"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
-msgstr "Jaa kamerasi tai näyttösi puhelussa"
+msgstr "Voi jakaa kameran tai näytön puhelussa"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
@@ -2520,7 +2522,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Speak"
-msgstr "Puhu"
+msgstr "Puhe"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Spellchecker"
@@ -2621,7 +2623,7 @@ msgstr "Kerro meille mikä käyttäjässä on vikana"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Temporarily prevent lower-ranking members from interacting"
-msgstr "Estä alempiasemaisten jäsenten vuorovaikutus väliaikaisesti"
+msgstr "Voi estää alempiasemaisten jäsenten vuorovaikutuksen väliaikaisesti"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Terms of Service"
@@ -2743,7 +2745,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
-msgstr "Mykistä jäseniä"
+msgstr "Jäsenien mykistäminen"
 
 #: src/interface/common/CommonHeader.tsx
 msgid "Toggle main sidebar"
@@ -2814,7 +2816,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
-msgstr "Lähetä tiedostoja"
+msgstr "Tiedostojen lähettäminen"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
@@ -2923,7 +2925,7 @@ msgstr "Video"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "View Channel"
-msgstr "Näytä kanava"
+msgstr "Kanavan tarkastelu"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "View currently active bug reports here."
