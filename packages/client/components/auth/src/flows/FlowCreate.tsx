@@ -34,13 +34,27 @@ export default function FlowCreate() {
       captcha,
     });
 
-    // FIXME: should tell client if email was sent
-    //        or if email even needs to be confirmed
+    let requiresEmailVerification = true;
 
-    // TODO: log straight in if no email confirmation?
+    try {
+      const config = (await api.get("/")) as {
+        features?: {
+          email?: boolean;
+        };
+      };
 
-    setFlowCheckEmail(email);
-    navigate("/login/check", { replace: true });
+      requiresEmailVerification = config.features?.email !== false;
+    } catch {
+      // Keep existing behavior if config is unavailable.
+      requiresEmailVerification = true;
+    }
+
+    if (requiresEmailVerification) {
+      setFlowCheckEmail(email);
+      navigate("/login/check", { replace: true });
+    } else {
+      navigate("/login/auth", { replace: true });
+    }
   }
 
   return (
