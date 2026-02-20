@@ -37,6 +37,13 @@ interface Props {
    * @param fileId ID
    */
   removeFile(fileId: string): void;
+
+  /**
+   * Preview file (for images)
+   * @param fileId ID
+   * @param dataUri Data URI of the file
+   */
+  onPreview?: (fileId: string, dataUri: string, fileName: string) => void;
 }
 
 /**
@@ -70,9 +77,38 @@ export function FileCarousel(props: Props) {
               const file = () => props.getFile(id);
 
               /**
-               * Handler for removing the file
+               * Get whether this is an image
                */
-              const onClick = () => props.removeFile(id);
+              const isImage = () =>
+                ALLOWED_IMAGE_TYPES.includes(file().file.type);
+
+              /**
+               * Handler for previewing the file
+               */
+              const onPreview = (e: MouseEvent) => {
+                e.stopPropagation();
+                const currentFile = file();
+                const dataUri = currentFile.dataUri;
+
+                if (
+                  ALLOWED_IMAGE_TYPES.includes(currentFile.file.type) &&
+                  props.onPreview &&
+                  dataUri
+                ) {
+                  props.onPreview(id, dataUri, currentFile.file.name);
+                } else {
+                  props.removeFile(id);
+                }
+              };
+
+              /**
+               * Handler for explicitly removing the file.
+               * Prevents parent click from opening image preview.
+               */
+              const onRemove = (e: MouseEvent) => {
+                e.stopPropagation();
+                props.removeFile(id);
+              };
 
               return (
                 <>
@@ -82,8 +118,8 @@ export function FileCarousel(props: Props) {
 
                   <Entry ignored={index() >= CONFIGURATION.MAX_ATTACHMENTS}>
                     <PreviewBox
-                      onClick={onClick}
-                      image={ALLOWED_IMAGE_TYPES.includes(file().file.type)}
+                      onClick={onPreview}
+                      image={isImage()}
                     >
                       <Switch
                         fallback={
@@ -102,7 +138,7 @@ export function FileCarousel(props: Props) {
                           />
                         </Match>
                       </Switch>
-                      <Overlay>
+                      <Overlay onClick={onRemove}>
                         <MdCancel {...iconSize(36)} />
                       </Overlay>
                     </PreviewBox>

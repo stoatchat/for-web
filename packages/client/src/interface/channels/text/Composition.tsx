@@ -20,6 +20,7 @@ import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
   CompositionMediaPicker,
+  Dialog,
   FileCarousel,
   FileDropAnywhereCollector,
   FilePasteCollector,
@@ -30,6 +31,7 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
+import { styled } from "styled-system/jsx";
 
 interface Props {
   /**
@@ -87,6 +89,12 @@ export function MessageComposition(props: Props) {
 
   const [nodeReplacement, setNodeReplacement] =
     createSignal<readonly [string | "_focus"]>();
+
+  // Image preview state
+  const [previewImage, setPreviewImage] = createSignal<{
+    dataUri: string;
+    fileName: string;
+  } | null>(null);
 
   // bind this composition instance to the global node replacement signal
   state.draft._setNodeReplacement = setNodeReplacement;
@@ -289,7 +297,21 @@ export function MessageComposition(props: Props) {
         getFile={state.draft.getFile}
         addFile={addFile}
         removeFile={removeFile}
+        onPreview={(fileId, dataUri, fileName) => {
+          setPreviewImage({ dataUri, fileName });
+        }}
       />
+
+      {/* Image Preview Modal */}
+      <Dialog
+        show={!!previewImage()}
+        onClose={() => setPreviewImage(null)}
+        title={previewImage()?.fileName}
+      >
+        <Show when={previewImage()}>
+          <PreviewImage src={previewImage()!.dataUri} alt={previewImage()!.fileName} />
+        </Show>
+      </Dialog>
       <For each={draft().replies ?? []}>
         {(reply) => {
           const message = client()!.messages.get(reply.id);
@@ -396,3 +418,16 @@ export function MessageComposition(props: Props) {
     </>
   );
 }
+
+/**
+ * Preview image in modal
+ */
+const PreviewImage = styled("img", {
+  base: {
+    maxWidth: "100%",
+    maxHeight: "70vh",
+    objectFit: "contain",
+    borderRadius: "var(--borderRadius-md)",
+  },
+});
+ 

@@ -4,6 +4,7 @@ import { I18nProvider as LinguiProvider } from "@lingui-solid/solid";
 import { i18n } from "@lingui/core";
 
 import { type LocaleOptions, Language, Languages } from "./Languages";
+// @ts-expect-error generated Lingui catalog modules are JS-only and do not emit d.ts files
 import { messages as en } from "./catalogs/en/messages";
 import { initTime, loadTimeLocale } from "./dayjs";
 
@@ -23,7 +24,7 @@ export async function loadAndSwitchLocale(
     const data =
       Languages[key].i18n === "en"
         ? en
-        : (await import(`./catalogs/${Languages[key].i18n}/messages.ts`))
+        : (await import(`./catalogs/${Languages[key].i18n}/messages`))
             .messages;
 
     i18n.load({

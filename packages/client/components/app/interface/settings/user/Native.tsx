@@ -64,7 +64,14 @@ export default function Native() {
     setAutostart(savedValue);
   }
 
-  const toggles: Partial<Record<keyof DesktopConfig, () => void>> = {
+  type ToggleKey =
+    | "minimiseToTray"
+    | "customFrame"
+    | "discordRpc"
+    | "spellchecker"
+    | "hardwareAcceleration";
+
+  const toggles: Record<ToggleKey, () => void> = {
     minimiseToTray: () => set({ minimiseToTray: !config().minimiseToTray }),
     customFrame: () => set({ customFrame: !config().customFrame }),
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
@@ -73,8 +80,8 @@ export default function Native() {
       set({ hardwareAcceleration: !config().hardwareAcceleration }),
   };
 
-  function CheckboxButton<K extends keyof DesktopConfig>(
-    key: K,
+  function CheckboxButton(
+    key: ToggleKey,
     icon: string,
     label: string,
     description: string,
@@ -82,14 +89,14 @@ export default function Native() {
     return (
       <CategoryButton
         action={
-          <Checkbox
-            checked={config()[key]}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              e.stopPropagation();
-              toggles[key]!();
-            }}
-          />
+          <span onClick={(e) => e.stopPropagation()}>
+            <Checkbox
+              checked={config()[key]}
+              onChange={() => {
+                toggles[key]();
+              }}
+            />
+          </span>
         }
         onClick={toggles[key]}
         icon={<Symbol>{icon}</Symbol>}
@@ -105,11 +112,9 @@ export default function Native() {
       <CategoryButton.Group>
         <CategoryButton
           action={
-            <Checkbox
-              checked={autostart()}
-              onClick={(e) => e.stopPropagation()}
-              onChange={toggleAutostart}
-            />
+            <span onClick={(e) => e.stopPropagation()}>
+              <Checkbox checked={autostart()} onChange={toggleAutostart} />
+            </span>
           }
           onClick={toggleAutostart}
           icon={<Symbol>exit_to_app</Symbol>}
