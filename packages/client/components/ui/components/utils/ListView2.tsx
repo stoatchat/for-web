@@ -59,12 +59,6 @@ interface Props {
 }
 
 /**
- * Threshold (in pixels) which we consider the user to be
- * "at the bottom" of the scroll container, in column-reverse layout.
- */
-const BOTTOM_THRESHOLD = 1;
-
-/**
  * Dynamic list view with ability to move through history
  *
  * This component only provides the scrolling behaviour
@@ -73,14 +67,29 @@ export function ListView2(props: Props) {
   let ref: HTMLDivElement | undefined;
   let contentRef: HTMLDivElement | undefined;
 
-  let wasAtBottom = true;
   let suppressSnap = false;
+  let wasSnapped = true;
+  let contentMutating = false;
+
+  function isNewestMessageVisible() {
+    if (!ref || !contentRef) return false;
+
+    const messages = contentRef.querySelectorAll<HTMLElement>("[id]");
+    const newest = messages[messages.length - 1];
+    if (!newest) return false;
+
+    const containerRect = ref.getBoundingClientRect();
+    const msgRect = newest.getBoundingClientRect();
+
+    return (
+      msgRect.top < containerRect.bottom && msgRect.bottom > containerRect.top
+    );
+  }
 
   function consumeDOMUpdate(update?: ListView2Update) {
     if (!update) return;
 
     suppressSnap = true;
-    wasAtBottom = false;
 
     const currentRect = update.scrollAnchorId
       ? document.getElementById(update.scrollAnchorId)?.getBoundingClientRect()
@@ -123,8 +132,8 @@ export function ListView2(props: Props) {
     if (!el) return;
 
     const onScroll = () => {
-      if (!suppressSnap) {
-        wasAtBottom = el.scrollTop >= -BOTTOM_THRESHOLD;
+      if (!suppressSnap && !contentMutating) {
+        wasSnapped = isNewestMessageVisible();
       }
     };
 
@@ -136,14 +145,24 @@ export function ListView2(props: Props) {
     const el = contentRef;
     if (!el) return;
 
-    const observer = new ResizeObserver(() => {
-      if (!suppressSnap && wasAtBottom && ref && ref.scrollTop < 0) {
-        ref.scrollTop = 0;
+    const mutationObserver = new MutationObserver(() => {
+      contentMutating = true;
+    });
+
+    mutationObserver.observe(el, { childList: true, subtree: true });
+
+    const resizeObserver = new ResizeObserver(() => {
+      contentMutating = false;
+      if (!suppressSnap && ref && wasSnapped && ref.scrollTop < 0) {
+        ref.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
 
-    observer.observe(el);
-    onCleanup(() => observer.disconnect());
+    resizeObserver.observe(el);
+    onCleanup(() => {
+      mutationObserver.disconnect();
+      resizeObserver.disconnect();
+    });
   });
 
   return (
