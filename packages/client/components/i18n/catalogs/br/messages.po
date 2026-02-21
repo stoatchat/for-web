@@ -1,17 +1,22 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
+"PO-Revision-Date: 2026-02-21 18:33+0000\n"
+"Last-Translator: Tornoz <tornoz@gozmail.bzh>\n"
+"Language-Team: Breton <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/br/>\n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: br\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=5; plural=(n % 10 == 1 && n % 100 != 11 && n % 100 != "
+"71 && n % 100 != 91) ? 0 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 "
+"&& n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && ("
+"n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 "
+"< 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)));\n"
+"X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -47,7 +52,6 @@ msgstr ""
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
@@ -327,7 +331,7 @@ msgstr ""
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
-msgstr "Kemennadennoù holl"
+msgstr "Holl ar c'hemennadennoù"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
@@ -339,7 +343,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
-msgstr "Dija oc'h mignon gant an implijer-se."
+msgstr "Mignon oc'h dija gant an implijer-mañ."
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
@@ -372,7 +376,6 @@ msgstr ""
 msgid "Are you sure you want to go to "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
@@ -808,7 +811,6 @@ msgstr "Krouiñ"
 msgid "Create a channel before inviting others!"
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "Create a group"
 #~ msgstr "Krouiñ ur strollad"
 
@@ -1073,7 +1075,6 @@ msgstr "Arabat Direnkañ"
 msgid "Don't ask me again for "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
@@ -1267,7 +1268,7 @@ msgstr ""
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Focus"
-msgstr "Dizourennet"
+msgstr "Emgreizet"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1348,8 +1349,6 @@ msgstr ""
 msgid "Go to the Stoat Lounge"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: src/interface/Home.tsx
 #~ msgid "Go to the testers server"
 #~ msgstr "Mont er servijer ar prouaderien"
 
@@ -1491,7 +1490,6 @@ msgstr ""
 msgid "Join a server"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx
 #~ msgid "Join call"
 #~ msgstr ""
 
@@ -2278,7 +2276,6 @@ msgstr ""
 msgid "Review policy changes"
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "Roadmap"
 #~ msgstr ""
 
@@ -2300,7 +2297,7 @@ msgstr "Perzhioù"
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Save"
-msgstr "Gwareziñ"
+msgstr "Enrollañ"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Save file"
@@ -2308,7 +2305,7 @@ msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
-msgstr "Gwareziñ er c'harned-notenniñ"
+msgstr "Enrollañ en notennoù"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -2329,7 +2326,6 @@ msgstr ""
 msgid "Search for users..."
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
 
@@ -2504,7 +2500,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
@@ -2540,7 +2535,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx
 #~ msgid "Stoat Desktop"
 #~ msgstr ""
 
@@ -2582,7 +2576,7 @@ msgstr ""
 
 #: src/interface/Home.tsx
 msgid "Support the project by donating - thank you!"
-msgstr "Skorañ ar raktres gant reiñ - trugarez !"
+msgstr "Harpañ ar raktres en ur reiñ arc'hant - trugarez deoc'h !"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
@@ -2924,7 +2918,6 @@ msgstr "Gwelout amañ an danevell oberiant beugoù a-vremañ."
 msgid "View members"
 msgstr ""
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "View older updates"
 #~ msgstr ""
 
@@ -2982,8 +2975,6 @@ msgstr ""
 msgid "Webhooks"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome to"
 #~ msgstr "Degemer mat war"
 
@@ -3032,7 +3023,6 @@ msgstr ""
 msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Klikañ a c'hallit war an arlun an implijer war laez a-gleiz gant ar c'hlik dehou, pe gant ar c'hlik kleiz ma er pajenn-zegemer oc'h dija."
 
@@ -3045,7 +3035,9 @@ msgstr "Diwezhatoc'h a c'hallit digeriñ ar c'hemennadoù-se en-dro, met an daou
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr "Amañ a c'hallit aroueziañ ar gudennoù ha kaozeal diwar-benn gwellaenn ganeomp."
+msgstr ""
+"Amañ a c'hallit aroueziañ ar c'hudennoù ha kaozeal diwar-benn ar gwellaennoù "
+"ganeomp."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
