@@ -314,4 +314,9 @@ export type Modals =
       type: "edit_category";
       server: Server;
       category: CategoryData;
+    }
+  | {
+      type: "ringing";
+      channel: Channel;
+      user: User;
     };

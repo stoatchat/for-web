@@ -25,6 +25,7 @@ import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-sol
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/outlined/settings.svg?component-solid";
 
+import { useVoice } from "@revolt/rtc/state";
 import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
 
@@ -55,6 +56,7 @@ export function ChannelHeader(props: Props) {
   const client = useClient();
   const { t } = useLingui();
   const state = useState();
+  const voice = useVoice();
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
@@ -133,6 +135,25 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
+
+      <Show
+        when={
+          props.channel.type === "DirectMessage" ||
+          props.channel.type === "Group"
+        }
+      >
+        <IconButton
+          onPress={() => voice.connect(props.channel)}
+          use:floating={{
+            tooltip: {
+              placement: "bottom",
+              content: t`Start Call`,
+            },
+          }}
+        >
+          <Symbol>call</Symbol>
+        </IconButton>
+      </Show>
 
       <Show
         when={

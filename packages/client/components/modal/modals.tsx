@@ -57,6 +57,7 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
+import { RingingModal } from "./modals/Ringing";
 
 /**
  * Render the modal
@@ -183,6 +184,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ResetBotTokenModal {...modalProps} />;
     case "edit_category":
       return <EditCategoryModal {...modalProps} />;
+    case "ringing":
+      return <RingingModal {...modalProps} />;
 
     default:
       console.error(
