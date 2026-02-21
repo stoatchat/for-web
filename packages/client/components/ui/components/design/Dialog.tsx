@@ -43,6 +43,7 @@ export function Dialog(props: Props) {
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
+        class="dialogScrim"
         style={{
           "--background": props.scrimBackground
             ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
