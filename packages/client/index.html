@@ -11,6 +11,17 @@
   <meta http-equiv="cache-control" content="no-cache">
   <link rel="shortcut icon" type="image/png" href="./public/assets/web/icon.ico">
   <title>Stoat</title>
+  <script>
+    //This must run before module scripts can init
+    onbeforeinstallprompt = (e) => {
+      if (typeof window._PwaP === "function") window._PwaP(e);
+      window._PwaP = e;
+    }
+    onappinstalled = () => {
+      if (typeof window._PwaI === "function") window._PwaI(true);
+      window._PwaI = true;
+    }
+  </script>
 </head>
 
 <body>
