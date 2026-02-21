@@ -5,6 +5,7 @@ import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
@@ -14,6 +15,7 @@ import { ColouredText, Column, Symbol, Text } from "@revolt/ui";
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import InstallInstructions from "./InstallInstructions";
 import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
@@ -84,6 +86,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <VoiceSettings />;
       case "notifications":
         return <Notifications isDesktop={!!window.native} />;
+      case "install":
+        return <InstallInstructions />;
       default:
         return null;
     }
@@ -99,6 +103,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
     const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
     const { limits, config } = useInstance();
+    const device = useDevice();
 
     return {
       context: null!,
@@ -209,6 +214,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         {
           title: "Stoat",
           entries: [
+            {
+              id: "install",
+              icon: <Symbol size={20}>install_mobile</Symbol>,
+              title: <Trans>Install</Trans>,
+              hidden: !device.isMobile || device.isPWA || device.pwaInstalled(),
+            },
             {
               id: "bots",
               icon: <Symbol size={20}>smart_toy</Symbol>,
