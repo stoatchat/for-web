@@ -22,6 +22,7 @@ let
 
 in pkgs.mkShell {
   packages = with pkgs; [
+    nodejs_24
     mise
     cargo-binstall
     (writeShellScriptBin "fish" ''

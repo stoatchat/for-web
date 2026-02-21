@@ -9,10 +9,13 @@ import {
   splitProps,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
+
+import { useModals } from "../../../modal";
+import { ALLOWED_IMAGE_TYPES } from "../../../state/stores/Draft";
 
 import { Button, Checkbox, Radio2, Text, TextField } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
@@ -138,6 +141,11 @@ const FormFileInput = (
   >,
 ) => {
   const [local, remote] = splitProps(props, ["label", "control"]);
+  const { t } = useLingui();
+  const { openModal } = useModals();
+
+  // track last accepted value so we can restore it if an invalid file is rejected
+  let lastAcceptedValue = local.control.value;
 
   return (
     <>
@@ -148,8 +156,22 @@ const FormFileInput = (
         {...remote}
         file={local.control.value}
         onFiles={(files) => {
-          // TODO: do validation of files here
+          if (files && remote.accept === "image/*") {
+            const file = files[0];
+            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+              const error = new Error(
+                t`The file "${file.name}" has an unsupported format.`,
+              );
+              error.name = t`Unsupported file format`;
+              openModal({ type: "error2", error });
+              // FileInput resets to null before passing the new file for
+              // reactivity reasons, so restore the last accepted value
+              local.control.setValue(lastAcceptedValue);
+              return;
+            }
+          }
 
+          if (files) lastAcceptedValue = files;
           local.control.setValue(files);
           local.control.markDirty(true);
         }}
