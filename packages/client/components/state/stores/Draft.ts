@@ -90,6 +90,11 @@ export const ALLOWED_IMAGE_TYPES = [
 ];
 
 /**
+ * Human-readable labels for each entry in ALLOWED_IMAGE_TYPES (same order)
+ */
+export const ALLOWED_IMAGE_TYPE_LABELS = ["JPEG", "PNG", "GIF", "WebP"];
+
+/**
  * Message drafts store
  */
 export class Draft extends AbstractStore<"draft", TypeDraft> {

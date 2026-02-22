@@ -5,8 +5,8 @@ import {
   For,
   Match,
   Show,
-  Switch,
   splitProps,
+  Switch,
 } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
@@ -15,7 +15,10 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "../../../modal";
-import { ALLOWED_IMAGE_TYPES } from "../../../state/stores/Draft";
+import {
+  ALLOWED_IMAGE_TYPE_LABELS,
+  ALLOWED_IMAGE_TYPES,
+} from "../../../state/stores/Draft";
 
 import { Button, Checkbox, Radio2, Text, TextField } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
@@ -159,8 +162,9 @@ const FormFileInput = (
           if (files && remote.accept === "image/*") {
             const file = files[0];
             if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+              const formatList = ALLOWED_IMAGE_TYPE_LABELS.join(", ");
               const error = new Error(
-                t`The file "${file.name}" has an unsupported format. Supported formats are: JPEG, PNG, GIF, and WebP.`,
+                t`The file "${file.name}" has an unsupported format. Supported formats are: ${formatList}.`,
               );
               error.name = t`Unsupported file format`;
               openModal({ type: "error2", error });
