@@ -160,7 +160,7 @@ const FormFileInput = (
             const file = files[0];
             if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
               const error = new Error(
-                t`The file "${file.name}" has an unsupported format.`,
+                t`The file "${file.name}" has an unsupported format. Supported formats are: JPEG, PNG, GIF, and WebP.`,
               );
               error.name = t`Unsupported file format`;
               openModal({ type: "error2", error });
