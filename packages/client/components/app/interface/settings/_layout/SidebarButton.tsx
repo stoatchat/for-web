@@ -1,9 +1,27 @@
+import { useState } from "@revolt/state";
+import { JSX, splitProps } from "solid-js";
 import { styled } from "styled-system/jsx";
 
 /**
  * Sidebar button
  */
-export const SidebarButton = styled("a", {
+export function SidebarButton(
+  props: JSX.HTMLAttributes<HTMLAnchorElement> & { noDrawer?: boolean },
+) {
+  const { diagDrawer } = useState();
+  const [local, other] = splitProps(props, ["onClick"]);
+
+  function onClick(e: Event) {
+    if (!props.noDrawer) diagDrawer()?.setShown(true);
+    // @ts-expect-error callable listener
+    if (local.onClick) local.onClick(e);
+  }
+
+  // @ts-expect-error todo dunno about this error
+  return <SidebarButtonBase {...other} onClick={onClick} />;
+}
+
+const SidebarButtonBase = styled("a", {
   base: {
     // for <Ripple />:
     position: "relative",

@@ -12,10 +12,7 @@ export type SettingsConfiguration<T> = {
    * @param props State information
    * @returns List
    */
-  list: (
-    context: T,
-    onClose?: () => void
-  ) => SettingsList<T>;
+  list: (context: T, onClose?: () => void) => SettingsList<T>;
 
   /**
    * Render the title of the current breadcrumb key
