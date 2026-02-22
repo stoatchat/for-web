@@ -19,6 +19,7 @@ import MdLanguage from "@material-design-icons/svg/outlined/language.svg?compone
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
 import MdMic from "@material-design-icons/svg/outlined/mic.svg?component-solid";
+import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
 import MdRateReview from "@material-design-icons/svg/outlined/rate_review.svg?component-solid";
 import MdScience from "@material-design-icons/svg/outlined/science.svg?component-solid";
@@ -34,6 +35,7 @@ import AdvancedSettings from "./user/Advanced";
 import { Feedback } from "./user/Feedback";
 import { LanguageSettings } from "./user/Language";
 import Native from "./user/Native";
+import Notifications from "./user/Notifications";
 import { Sessions } from "./user/Sessions";
 import { AccountCard } from "./user/_AccountCard";
 import { AppearanceMenu } from "./user/appearance";
@@ -96,6 +98,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Native />;
       case "voice":
         return <VoiceSettings />;
+      case "notifications":
+        return <Notifications isDesktop={!!window.native} />;
       default:
         return null;
     }
@@ -230,11 +234,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             //   title: t("app.settings.pages.plugins.title"),
             //   hidden: !getController("state").experiments.isEnabled("plugins"),
             // },
-            // {
-            //   id: "notifications",
-            //   icon: <MdNotifications {...iconSize(20)} />,
-            //   title: t("app.settings.pages.notifications.title"),
-            // },
+            {
+              id: "notifications",
+              icon: <MdNotifications {...iconSize(20)} />,
+              title: <Trans>Notifications</Trans>,
+            },
             // {
             //   id: "keybinds",
             //   icon: <MdKeybinds {...iconSize(20)} />,
