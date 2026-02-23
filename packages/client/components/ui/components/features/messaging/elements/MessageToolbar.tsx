@@ -5,7 +5,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { MessageContextMenu } from "@revolt/app";
-import { useUser } from "@revolt/client";
+import { useClient, useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Ripple } from "@revolt/ui/components/design";
@@ -16,14 +16,20 @@ import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid
 import MdEmojiEmotions from "@material-design-icons/svg/outlined/emoji_emotions.svg?component-solid";
 import MdMoreVert from "@material-design-icons/svg/outlined/more_vert.svg?component-solid";
 import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
+import MdRefresh from "@material-design-icons/svg/outlined/refresh.svg?component-solid";
+import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 
 import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { CompositionMediaPicker } from "../composition";
 
-export function MessageToolbar(props: { message?: Message }) {
+import type { UnsentMessage } from "@revolt/state/stores/Draft";
+import type { Channel } from "stoat.js";
+ 
+export function MessageToolbar(props: { message?: Message, draft?: UnsentMessage, channel?: Channel }) {
   const user = useUser();
   const state = useState();
   const { openModal } = useModals();
+  const client = useClient();
 
   // todo: a11y for buttons; tabindex
 
@@ -31,6 +37,13 @@ export function MessageToolbar(props: { message?: Message }) {
    * Delete the message
    */
   function deleteMessage(ev: MouseEvent) {
+
+    //Delete if its a draft
+    if (props.draft) {
+      state.draft.cancelSend(props.channel!, props.draft.idempotencyKey);
+      return;
+    }
+
     if (ev.shiftKey) {
       props.message?.delete();
     } else if (props.message) {
@@ -39,6 +52,12 @@ export function MessageToolbar(props: { message?: Message }) {
         message: props.message,
       });
     }
+
+  }
+
+
+  function retrySend() {
+    state.draft.retrySend(client(), props.channel!, props.draft!.idempotencyKey);
   }
 
   return (
@@ -91,17 +110,38 @@ export function MessageToolbar(props: { message?: Message }) {
           <MdEdit {...iconSize(20)} />
         </div>
       </Show>
+
+      {/* Retry button for drafts */}
+      <Show when={props.draft && (props.draft.status === "failed" || props.draft.status === "unsent")}>
+        <div class={tool()} onClick={retrySend}>
+          <Ripple />
+          <MdRefresh {...iconSize(20)} />
+        </div>
+      </Show>
+
+      {/* Cancel send button for drafts */}
+      <Show when={props.draft && props.draft.status === "sending"}>
+        <div class={tool()} onClick={deleteMessage}>
+          <Ripple />
+          <MdClose {...iconSize(20)} />
+        </div>
+      </Show>
+
       <Show
         when={
           props.message?.author?.self ||
-          props.message?.channel?.havePermission("ManageMessages")
+          props.message?.channel?.havePermission("ManageMessages") ||
+          props.draft
         }
       >
         <div class={tool()} onClick={deleteMessage}>
-          <Ripple />
-          <MdDelete {...iconSize(20)} />
+          <Ripple /> {/* I just set it to red cus it looks cool. Idk if i should. also maybe set it to some theme variable thing*/}
+          <MdDelete {...iconSize(20)} fill="red" />
         </div>
       </Show>
+
+      
+
       <div
         class={tool()}
         use:floating={{
