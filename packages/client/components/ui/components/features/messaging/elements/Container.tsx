@@ -230,7 +230,6 @@ const Body = styled("div", {
 
     minWidth: 0,
     overflow: "hidden",
-    maxHeight: "200vh",
     paddingInlineEnd: "var(--gap-lg)",
   },
   variants: {
