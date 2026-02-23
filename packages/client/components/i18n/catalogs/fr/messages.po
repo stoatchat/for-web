@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-21 09:10+0000\n"
-"Last-Translator: Pierre <otivel423@gmail.com>\n"
+"PO-Revision-Date: 2026-02-23 10:46+0000\n"
+"Last-Translator: fontoms <fontoms@users.noreply.translate.stoat.chat>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
 "Language: fr\n"
@@ -17,17 +17,17 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr "[Hier à]"
+msgstr "[Hier à] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr "[Aujourd'hui à]"
+msgstr "[Aujourd'hui à] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr "[Demain à]"
+msgstr "[Demain à] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -37,7 +37,7 @@ msgstr "dddd [dernier à] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [à]"
+msgstr "dddd [à] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
@@ -46,7 +46,7 @@ msgstr "(les modifications sont en cours d'enregistrement…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, pluriel, un {# message bloqué} autre {# messages bloqués}}"
+msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -54,7 +54,7 @@ msgstr "{0, pluriel, un {# message bloqué} autre {# messages bloqués}}"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, pluriel, un {Déposer un fichier} autre {Déposer # fichiers}}"
+msgstr "{0, plural, one {Déposer un fichier} other {Déposer # fichiers}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -156,15 +156,15 @@ msgstr "Les rôles de {0}"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
-msgstr "{inconnu} a réagi"
+msgstr "{unknown} a réagi"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr "{noms d'utilisateurs} et {inconnu} autres ont réagis"
+msgstr "{usernames} et {unknown} autres ont réagis"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
-msgstr "{noms d'utilisateur} ont réagi"
+msgstr "{usernames} ont réagi"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
