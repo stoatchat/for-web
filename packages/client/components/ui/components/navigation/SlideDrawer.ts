@@ -31,8 +31,6 @@ export class SlideDrawer {
     private root: HTMLElement,
     public onStateChanged: ((en: boolean) => void) | null = null,
   ) {
-    console.log("INIT", drawer, root);
-
     this.start = this.start.bind(this);
     this.move = this.move.bind(this);
     root.addEventListener("touchstart", this.start);
@@ -60,8 +58,6 @@ export class SlideDrawer {
       x: t.screenX,
       y: t.screenY,
     };
-
-    console.log("TSTART", this.touch.x, this.touch.y);
   }
 
   private move(e: TouchEvent) {
@@ -83,7 +79,6 @@ export class SlideDrawer {
       trig = t.trig;
 
     if (!trig && Math.abs(dy) > CANCEL_Y) {
-      console.log("CANCEL at Y", dy);
       this.endTouch();
     } else if (trig || Math.abs(dx) > TRIG_X) {
       //Store new/prev X for vel calc
@@ -92,7 +87,6 @@ export class SlideDrawer {
       t[`${type}T`] = performance.now();
 
       if (!trig) {
-        console.log("TRIG at X", dx);
         t.trig = trig = true;
         this.tfTimer();
         this.velTimer();
@@ -119,7 +113,6 @@ export class SlideDrawer {
         if (vel > VEL_TRIG) show = false;
         else if (vel < -VEL_TRIG) show = true;
         this.tfTimer(true, show);
-        console.log("END at X", dx, vel);
       }
       this.endTouch();
     }
@@ -189,7 +182,6 @@ export class SlideDrawer {
   }
 
   delete() {
-    console.log("DEL");
     this.setEnabled(false);
     this.root.removeEventListener("touchstart", this.start);
     this.root.removeEventListener("touchmove", this.move);
