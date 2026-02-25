@@ -244,7 +244,6 @@ export function TextEditor2(props: Props) {
 
 const editor = css({
   display: "inline-flex",
-  height: "100%",
   width: "100%",
   flexGrow: 1,
   alignSelf: "center",
@@ -257,7 +256,10 @@ const editor = css({
 
   "& .cm-editor": {
     width: "100%",
-    alignSelf: "center",
+  },
+
+  "& .cm-scroller": {
+    overflow: "visible",
   },
 
   "& .cm-editor.cm-focused": {

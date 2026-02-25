@@ -96,13 +96,16 @@ const Base = styled("div", {
   base: {
     flexGrow: 1,
 
-    paddingInlineEnd: "var(--gap-md)",
-    paddingBlock: "var(--gap-sm)",
+    paddingInlineEnd: "0",
+    paddingBlock: "0",
     borderStartRadius: "var(--borderRadius-xl)",
 
     display: "flex",
     background: "var(--md-sys-color-surface-container-high)",
     color: "var(--md-sys-color-on-surface)",
+
+    maxHeight: "calc(15 * 1.5 * var(--message-size) + 16px)",
+    position: "relative",
   },
   variants: {
     hasActionsAppend: {
@@ -131,6 +134,33 @@ const Parent = styled("div", {
 });
 
 /**
+ * Scrollable content area
+ */
+const Content = styled("div", {
+  base: {
+    display: "flex",
+    flexGrow: 1,
+    overflowY: "auto",
+    paddingInlineEnd: "var(--gap-md)",
+    paddingBlock: "var(--gap-sm)",
+
+    "&::-webkit-scrollbar": {
+      width: "8px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "transparent",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "var(--md-sys-color-surface-container-highest)",
+      borderRadius: "10px",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      background: "var(--md-sys-color-on-surface-variant)",
+    },
+  },
+});
+
+/**
  * Blocked message
  */
 const Blocked = styled(Row, {
@@ -151,6 +181,7 @@ export const InlineIcon = styled("div", {
     display: "flex",
     alignItems: "end",
     justifyContent: "center",
+    paddingBlock: "var(--gap-sm)",
   },
   variants: {
     size: {
@@ -195,31 +226,33 @@ export function MessageBox(props: Props) {
             </InlineIcon>
           </Match>
         </Switch>
-        <Switch
-          fallback={
-            <>
-              <TextEditor2
-                placeholder={props.placeholder}
-                initialValue={props.initialValue}
-                nodeReplacement={props.nodeReplacement}
-                onChange={props.setContent}
-                onComplete={props.onSendMessage}
-                onTyping={props.onTyping}
-                onPreviousContext={props.onEditLastMessage}
-                autoCompleteSearchSpace={props.autoCompleteSearchSpace}
-              />
-              <Show when={props.sendingAllowed}>{props.actionsEnd}</Show>
-            </>
-          }
-        >
-          <Match when={!props.sendingAllowed}>
-            <Blocked align>
-              <Trans>
-                You don't have permission to send messages in this channel.
-              </Trans>
-            </Blocked>
-          </Match>
-        </Switch>
+        <Content>
+          <Switch
+            fallback={
+              <>
+                <TextEditor2
+                  placeholder={props.placeholder}
+                  initialValue={props.initialValue}
+                  nodeReplacement={props.nodeReplacement}
+                  onChange={props.setContent}
+                  onComplete={props.onSendMessage}
+                  onTyping={props.onTyping}
+                  onPreviousContext={props.onEditLastMessage}
+                  autoCompleteSearchSpace={props.autoCompleteSearchSpace}
+                />
+              </>
+            }
+          >
+            <Match when={!props.sendingAllowed}>
+              <Blocked align>
+                <Trans>
+                  You don't have permission to send messages in this channel.
+                </Trans>
+              </Blocked>
+            </Match>
+          </Switch>
+        </Content>
+        <Show when={props.sendingAllowed}>{props.actionsEnd}</Show>
       </Base>
       <Show when={props.sendingAllowed}>{props.actionsAppend}</Show>
     </Parent>
