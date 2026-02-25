@@ -71,10 +71,19 @@ export function useUsers(
   // eslint-disable-next-line solid/reactivity
   return createMemo(() => {
     const client = clientAccessor()!;
-    const list = (typeof ids === "function" ? ids() : ids).map((id) => {
-      const user = client.users.get(id)!;
+    const idList = typeof ids === "function" ? ids() : ids;
+    
+    // Fetch users that aren't in cache or are partial
+    for (const id of idList) {
+      if (!client.users.has(id) || client.users.isPartial(id)) {
+        client.users.fetch(id).catch(() => {});
+      }
+    }
+    
+    const list = idList.map((id) => {
+      const user = client.users.get(id);
 
-      if (user) {
+      if (user && !client.users.isPartial(id)) {
         return userInformation(
           user,
           params().serverId
