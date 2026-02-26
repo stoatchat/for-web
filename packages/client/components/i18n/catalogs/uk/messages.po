@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-25 15:29+0000\n"
+"PO-Revision-Date: 2026-02-26 18:29+0000\n"
 "Last-Translator: Omi <heyitsominouscry@gmail.com>\n"
 "Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/uk/>\n"
@@ -48,6 +48,8 @@ msgstr "(зміни зберігаються…)"
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
+"{0, plural, one {# заблоковане повідомлення} few {# заблованих повідомлення} "
+"other {# заблокованих повідомлень}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -56,6 +58,8 @@ msgstr ""
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
 msgstr ""
+"{0, plural, one {Скинути файл} few {Скинути # файли} other {Скинути # "
+"файлів}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -231,6 +235,7 @@ msgstr "<0/> оновив(ла) назву групи на <1>{0}</1>"
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
+"<0>Будьте обережні!</0><1/>Це не теж саме посилання, яке було відображено:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
@@ -566,7 +571,7 @@ msgstr "Зміна нікнейму"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr ""
+msgstr "Змінювати нікнейми інших учасників"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
@@ -1126,7 +1131,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
-msgstr ""
+msgstr "Редагувати глобальний профіль"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
@@ -2480,7 +2485,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Sign into Stoat"
-msgstr ""
+msgstr "Увійти в Stoat"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Sign Up"
@@ -2520,7 +2525,7 @@ msgstr "Вихідний код"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Spam or similar platform abuse"
-msgstr ""
+msgstr "Спам або подібне зловживання платформою"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Speak"
@@ -2601,7 +2606,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your currently chosen language."
-msgstr ""
+msgstr "Синхронізувати вашу обрану мову."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "System"
@@ -2609,7 +2614,7 @@ msgstr "Система"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "System message channels"
-msgstr ""
+msgstr "Канали системних повідомлень"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this message"
@@ -2734,7 +2739,7 @@ msgstr ""
 
 #: components/i18n/errors.ts
 msgid "This username is not allowed."
-msgstr ""
+msgstr "Це ім'я користувача заборонено."
 
 #: components/modal/modals/ResetBotToken.tsx
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
@@ -2759,7 +2764,7 @@ msgstr "Традиційний (DD/MM/YYYY)"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
-msgstr ""
+msgstr "Популярні GIF"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
@@ -2768,7 +2773,7 @@ msgstr "Розблокувати користувача"
 #. placeholder {0}: err.type
 #: components/i18n/errors.ts
 msgid "Uncaught Stoat error: {0}"
-msgstr ""
+msgstr "Невиявлена помилка Stoat: {0}"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
@@ -2788,11 +2793,11 @@ msgstr ""
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Unmute Channel"
-msgstr ""
+msgstr "Увімкнути звук каналу"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Unmute Server"
-msgstr ""
+msgstr "Увімнути звук сервера"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Unpin message"
@@ -2800,11 +2805,11 @@ msgstr "Відкріпити повідомлення"
 
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Unsent message"
-msgstr ""
+msgstr "Невідправлене повідомлення"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Unsolicited advertising or spam"
-msgstr ""
+msgstr "Незабажана реклама або спам"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -2817,7 +2822,7 @@ msgstr "Завантажувати файли"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
-msgstr ""
+msgstr "Використайте код або посилання на запрошення"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
@@ -2976,12 +2981,12 @@ msgstr ""
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Icon"
-msgstr ""
+msgstr "Значок вебхука"
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Name"
-msgstr ""
+msgstr "Назва вебхука"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
@@ -3001,7 +3006,7 @@ msgstr ""
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "With {0}"
-msgstr ""
+msgstr "Разом з {0}"
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
@@ -3020,12 +3025,12 @@ msgstr ""
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 msgid "You are about to ban {0}"
-msgstr ""
+msgstr "Ви збираєтеся заблокувати {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr ""
+msgstr "Ви збираєтеся вигнати {0}"
 
 #: components/i18n/errors.ts
 msgid "You are banned from this server."
@@ -3033,7 +3038,7 @@ msgstr ""
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
-msgstr ""
+msgstr "Ви також можете натиснути на значок шестерні в нижньому лівому куті."
 
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Також ви можете натиснути правою кнопкою миші по іконці користувача в верхньому лівому куті, або настинути лівою кнопкою миші, якщо ви на домашній сторінці."
@@ -3053,28 +3058,30 @@ msgstr "Ви можете повідомляти про помилки та об
 #: components/i18n/errors.ts
 msgid "You can't be in more than {0} servers, please leave one and try again."
 msgstr ""
+"Ви не можете бути в більш ніж {0} серверах, будь ласка, залиште один та "
+"спробуйте знову."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} channels on this server."
-msgstr ""
+msgstr "Ви не можете мати більш ніж {0} каналів на цьому сервері."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "You can't have more than {0} emojis on this server."
-msgstr ""
+msgstr "Ви не можете мати більш ніж {0} емодзі на цьому сервері."
 
 #: components/i18n/errors.ts
 msgid "You cannot give yourself missing permissions."
-msgstr ""
+msgstr "Ви не можете надати собі відсутні дозволи."
 
 #: components/i18n/errors.ts
 msgid "You cannot join this call."
-msgstr ""
+msgstr "Ви не можете приєднатися до цього дзвінка."
 
 #: components/i18n/errors.ts
 msgid "You cannot remove yourself."
-msgstr ""
+msgstr "Ви не можете прибрати себе."
 
 #: components/i18n/errors.ts
 msgid "You cannot report yourself."
@@ -3171,6 +3178,8 @@ msgstr "Ваш акаунт перевірено!"
 #: components/i18n/errors.ts
 msgid "Your discriminator change has been ratelimited, please try again later."
 msgstr ""
+"Ваша зміна дискримінатора була обмежена за швидкістю, будь ласка, спробуйте "
+"пізніше."
 
 #: components/i18n/errors.ts
 msgid "Your message is too long, please remove some characters and try again."
