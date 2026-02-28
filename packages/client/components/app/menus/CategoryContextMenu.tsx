@@ -12,6 +12,7 @@ import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-s
 import MdLibraryAdd from "@material-design-icons/svg/outlined/library_add.svg?component-solid";
 import MdMarkChatRead from "@material-design-icons/svg/outlined/mark_chat_read.svg?component-solid";
 
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -62,6 +63,14 @@ export function CategoryContextMenu(props: {
     });
   }
 
+  function editCategoryName() {
+    openModal({
+      type: "edit_category",
+      server: props.server,
+      category: props.category,
+    });
+  }
+
   /**
    * Copy category id to clipboard
    */
@@ -88,6 +97,14 @@ export function CategoryContextMenu(props: {
       <Show when={props.server.havePermission("ManageChannel")}>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
           <Trans>Create category</Trans>
+        </ContextMenuButton>
+      </Show>
+      <Show when={props.server.havePermission("ManageChannel")}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>edit</Symbol>}
+          onClick={editCategoryName}
+        >
+          <Trans>Rename category</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={props.server.havePermission("ManageChannel")}>
