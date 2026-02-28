@@ -1,4 +1,10 @@
-const { cpSync, rmSync, readFileSync, writeFileSync, readdirSync } = require("node:fs");
+const {
+  cpSync,
+  rmSync,
+  readFileSync,
+  writeFileSync,
+  readdirSync,
+} = require("node:fs");
 const { join } = require("node:path");
 
 const BUILD_DIR = "dist";
@@ -13,6 +19,7 @@ const REPLACEMENTS = {
   __VITE_MEDIA_URL__: process.env.VITE_MEDIA_URL || "",
   __VITE_PROXY_URL__: process.env.VITE_PROXY_URL || "",
   __VITE_HCAPTCHA_SITEKEY__: process.env.VITE_HCAPTCHA_SITEKEY || "",
+  __VITE_CFG_ENABLE_VIDEO__: process.env.VITE_CFG_ENABLE_VIDEO || "",
 };
 
 console.log("Preparing injected build...");
