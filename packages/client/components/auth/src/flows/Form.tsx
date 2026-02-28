@@ -66,11 +66,12 @@ export function Fields(props: FieldProps) {
   return (
     <For each={props.fields}>
       {(field) => (
-        <label>
-          {field === "log-out" ? (
-            <Checkbox2 name="log-out">
-              {fieldConfiguration["log-out"].name()}
-            </Checkbox2>
+          field === "log-out" ? (
+            <label>
+              <Checkbox2 name="log-out">
+                {fieldConfiguration["log-out"].name()}
+              </Checkbox2>
+            </label>
           ) : (
             <TextField
               required
@@ -79,8 +80,7 @@ export function Fields(props: FieldProps) {
               label={fieldConfiguration[field].name()}
               placeholder={fieldConfiguration[field].placeholder()}
             />
-          )}
-        </label>
+          )
       )}
     </For>
   );
