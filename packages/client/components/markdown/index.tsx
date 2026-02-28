@@ -1,6 +1,7 @@
 import { ComponentProps, JSX, createEffect, createSignal, on } from "solid-js";
 
 import "katex/dist/katex.min.css";
+import { all } from "lowlight";
 import { html } from "property-information";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
@@ -225,7 +226,9 @@ const htmlPipeline = HTML_UNIFIED_PLUGINS.reduce(
     output: "html",
     errorColor: "var(--md-sys-color-error)",
   })
-  .use(rehypeHighlight);
+  .use(rehypeHighlight, {
+    languages: all,
+  });
 
 const replyPipeline = unified()
   .use(remarkParse)
