@@ -1,7 +1,7 @@
 export enum Language {
   // English
   ENGLISH = "en",
-  ENGLISH_STUPEFIED = "en_US",
+  ENGLISH_STUPEFIED = "en-US",
 
   // Foreign Languages
   ARABIC = "ar",
@@ -19,7 +19,7 @@ export enum Language {
   GERMAN = "de",
   GREEK = "el",
   SPANISH = "es",
-  SPANISH_LATIN_AMERICA = "es_419",
+  SPANISH_LATIN_AMERICA = "es-419",
   ESTONIAN = "et",
   FINNISH = "fi",
   FILIPINO = "fil",
@@ -38,12 +38,12 @@ export enum Language {
   LITHUANIAN = "lt",
   MACEDONIAN = "mk",
   MALAY = "ms",
-  NORWEGIAN_BOKMAL = "nb_NO",
+  NORWEGIAN_BOKMAL = "nb-NO",
   DUTCH = "nl",
   PERSIAN = "fa",
   POLISH = "pl",
-  PORTUGUESE_BRAZIL = "pt_BR",
-  PORTUGUESE_PORTUGAL = "pt_PT",
+  PORTUGUESE_BRAZIL = "pt-BR",
+  PORTUGUESE_PORTUGAL = "pt-PT",
   ROMANIAN = "ro",
   RUSSIAN = "ru",
   SLOVAK = "sk",
@@ -59,8 +59,8 @@ export enum Language {
   URDU = "ur",
   VENETIAN = "vec",
   VIETNAMESE = "vi",
-  CHINESE_SIMPLIFIED = "zh_Hans",
-  CHINESE_TRADITIONAL = "zh_Hant",
+  CHINESE_SIMPLIFIED = "zh-Hans",
+  CHINESE_TRADITIONAL = "zh-Hant",
   LATVIAN = "lv",
 
   // Constructed Languages
@@ -152,10 +152,10 @@ export const Languages: { [key in Language]: LanguageEntry } = {
     i18n: "en",
     dayjs: "en-gb",
   },
-  en_US: {
+  "en-US": {
     display: "English (Simplified)",
     emoji: "🇺🇸",
-    i18n: "en_US",
+    i18n: "en-US",
     dayjs: "en",
   },
 
@@ -190,10 +190,10 @@ export const Languages: { [key in Language]: LanguageEntry } = {
   de: { display: "Deutsch", emoji: "🇩🇪", i18n: "de", verified: true },
   el: { display: "Ελληνικά", emoji: "🇬🇷", i18n: "el" },
   es: { display: "Español", emoji: "🇪🇸", i18n: "es" },
-  es_419: {
+  "es-419": {
     display: "Español (América Latina)",
     emoji: "🇪🇸",
-    i18n: "es_419",
+    i18n: "es-419",
     dayjs: "es",
   },
   et: { display: "eesti", emoji: "🇪🇪", i18n: "et", verified: true },
@@ -220,20 +220,20 @@ export const Languages: { [key in Language]: LanguageEntry } = {
   lv: { display: "Latviešu", emoji: "🇱🇻", i18n: "lv", verified: true },
   mk: { display: "Македонски", emoji: "🇲🇰", i18n: "mk" },
   ms: { display: "Bahasa Melayu", emoji: "🇲🇾", i18n: "ms" },
-  nb_NO: { display: "Norsk bokmål", emoji: "🇳🇴", i18n: "nb_NO", dayjs: "nb" },
+  "nb-NO": { display: "Norsk bokmål", emoji: "🇳🇴", i18n: "nb-NO", dayjs: "nb" },
   nl: { display: "Nederlands", emoji: "🇳🇱", i18n: "nl" },
   fa: { display: "فارسی", emoji: "🇮🇷", i18n: "fa", verified: true },
   pl: { display: "Polski", emoji: "🇵🇱", i18n: "pl" },
-  pt_BR: {
+  "pt-BR": {
     display: "Português (do Brasil)",
     emoji: "🇧🇷",
-    i18n: "pt_BR",
+    i18n: "pt-BR",
     dayjs: "pt-br",
   },
-  pt_PT: {
+  "pt-PT": {
     display: "Português (Portugal)",
     emoji: "🇵🇹",
-    i18n: "pt_PT",
+    i18n: "pt-PT",
     dayjs: "pt",
   },
   ro: { display: "Română", emoji: "🇷🇴", i18n: "ro" },
@@ -251,16 +251,16 @@ export const Languages: { [key in Language]: LanguageEntry } = {
   uk: { display: "Українська", emoji: "🇺🇦", i18n: "uk", verified: true },
   vec: { display: "Vèneto", emoji: "vec", i18n: "vec", dayjs: "en-gb" },
   vi: { display: "Tiếng Việt", emoji: "🇻🇳", i18n: "vi" },
-  zh_Hans: {
+  "zh-Hans": {
     display: "简体中文",
     emoji: "🇨🇳",
-    i18n: "zh_Hans",
+    i18n: "zh-Hans",
     dayjs: "zh",
   },
-  zh_Hant: {
+  "zh-Hant": {
     display: "繁體中文",
     emoji: "🇹🇼",
-    i18n: "zh_Hant",
+    i18n: "zh-Hant",
     dayjs: "zh",
   },
 
