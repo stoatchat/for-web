@@ -1,8 +1,8 @@
 import { ComponentProps, JSX, createEffect, createSignal, on } from "solid-js";
 
 import "katex/dist/katex.min.css";
-import { html } from "property-information";
 import { all } from "lowlight";
+import { html } from "property-information";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import remarkBreaks from "remark-breaks";
