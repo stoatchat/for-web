@@ -258,6 +258,7 @@ const editor = css({
   "& .cm-editor": {
     width: "100%",
     alignSelf: "center",
+    maxHeight: "100%",
   },
 
   "& .cm-editor.cm-focused": {
