@@ -26,6 +26,10 @@ import {
   compositionContent,
 } from "./CompositionMediaPicker";
 
+const EMOJI_REVERSE_MAPPING = Object.fromEntries(
+  Object.entries(emojiMapping).map(([k, v]) => [v, k])
+);
+
 type Item =
   | {
       /**
@@ -93,6 +97,36 @@ export function EmojiPicker() {
     }
 
     const items: Item[] = [];
+    const recentEmojis = state.settings.getValue("recent_emojis") || [];
+
+    if (recentEmojis.length > 0) {
+      items.push({
+        t: 3,
+        title: "Recently Used",
+      });
+
+      while (items.length % COLUMNS) {
+        items.push({ t: 1 });
+      }
+
+      for (const recent of recentEmojis) {
+        if (recent.length === 26) {
+           const emoji = client().emojis.get(recent);
+           if (emoji) {
+             items.push({ t: 2, emoji });
+           }
+        } else {
+           const name = EMOJI_REVERSE_MAPPING[recent];
+           if (name) {
+             items.push({ t: 4, name, text: recent });
+           }
+        }
+      }
+      
+      while (items.length % COLUMNS) {
+        items.push({ t: 1 });
+      }
+    }
 
     for (const server of state.ordering.orderedServers(client())) {
       const emojis = server.emojis;
@@ -246,10 +280,12 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
       role="listitem"
       onClick={() => {
         if (props.item.t === 2) {
+          state.settings.pushRecentEmoji(props.item.emoji.id);
           onTextReplacement(`:${props.item.emoji.id}:`);
         }
 
         if (props.item.t === 4) {
+          state.settings.pushRecentEmoji(props.item.text);
           onTextReplacement(
             `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${props.item.text}`,
           );

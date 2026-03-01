@@ -68,6 +68,11 @@ interface SettingsDefinition {
    * Last read changelog index
    */
   "changelog:last_index": number;
+
+  /**
+   * Recently used emojis (LRU)
+   */
+  "recent_emojis": string[];
 }
 
 /**
@@ -95,6 +100,8 @@ const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "advanced:copy_id": "boolean",
   "advanced:admin_panel": "boolean",
   "changelog:last_index": "number",
+  "recent_emojis": (v) =>
+    Array.isArray(v) ? v.filter((x) => typeof x === "string") : undefined,
 };
 
 /**
@@ -136,6 +143,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
       "appearance:compact_mode": false,
       "advanced:copy_id": false,
       "advanced:admin_panel": false,
+      "recent_emojis": [],
     };
   }
 
@@ -183,5 +191,15 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
    */
   getValue<T extends keyof TypeSettings>(key: T) {
     return this.get()[key] ?? DEFAULT_VALUES[key];
+  }
+
+  /**
+   * Push a recently used emoji to the top of the list
+   * @param emoji Emoji ID or Unicode character
+   */
+  pushRecentEmoji(emoji: string) {
+    const current = this.getValue("recent_emojis") ?? [];
+    const updated = [emoji, ...current.filter((e) => e !== emoji)].slice(0, 50);
+    this.set("recent_emojis", updated);
   }
 }
