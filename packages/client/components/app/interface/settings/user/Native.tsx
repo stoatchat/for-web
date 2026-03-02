@@ -9,6 +9,7 @@ declare type DesktopConfig = {
   firstLaunch: boolean;
   customFrame: boolean;
   minimiseToTray: boolean;
+  startMinimisedToTray: boolean;
   spellchecker: boolean;
   hardwareAcceleration: boolean;
   discordRpc: boolean;
@@ -66,6 +67,8 @@ export default function Native() {
 
   const toggles: Partial<Record<keyof DesktopConfig, () => void>> = {
     minimiseToTray: () => set({ minimiseToTray: !config().minimiseToTray }),
+    startMinimisedToTray: () =>
+      set({ startMinimisedToTray: !config().startMinimisedToTray }),
     customFrame: () => set({ customFrame: !config().customFrame }),
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
     spellchecker: () => set({ spellchecker: !config().spellchecker }),
@@ -119,6 +122,13 @@ export default function Native() {
         >
           <Trans>Start with Computer</Trans>
         </CategoryButton>
+        {autostart() &&
+          CheckboxButton(
+            "startMinimisedToTray",
+            "minimize",
+            t`Start Minimised to Tray`,
+            t`Stoat will start in the system tray.`,
+          )}
         {CheckboxButton(
           "minimiseToTray",
           "cancel_presentation",
