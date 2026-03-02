@@ -79,6 +79,7 @@ export function updateTimeLocaleOptions(
     formats: {
       ...useLocale.formats,
       L: options.dateFormat ?? useLocale.formats.L,
+      LL: options.dateFormat?.replace("MM", "MMMM") ?? useLocale.formats.LL,
       LT: options.timeFormat ?? useLocale.formats.LT,
     },
   };
