@@ -502,6 +502,7 @@ msgstr "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/KickMember.tsx
 #: components/modal/modals/Invite.tsx
+#: components/modal/modals/EditCategory.tsx
 #: components/modal/modals/DeleteServer.tsx
 #: components/modal/modals/DeleteRole.tsx
 #: components/modal/modals/DeleteMessage.tsx
@@ -980,6 +981,10 @@ msgstr "Delete Account"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
 msgstr "Delete and pin messages sent by other members"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Delete Bot"
+msgstr "Delete Bot"
 
 #: components/modal/modals/DeleteCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
@@ -2115,6 +2120,10 @@ msgstr "Read past messages sent in channels"
 msgid "Reason"
 msgstr "Reason"
 
+#: components/modal/modals/ReportContent.tsx
+msgid "Reason for report"
+msgstr "Reason for report"
+
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
 msgstr "Receive notifications while the app is open and in the background."
@@ -2177,10 +2186,16 @@ msgid "Remove reaction"
 msgstr "Remove reaction"
 
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/EditCategory.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
 msgstr "Rename"
+
+#: components/modal/modals/EditCategory.tsx
+#: components/app/menus/CategoryContextMenu.tsx
+msgid "Rename category"
+msgstr "Rename category"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
@@ -2490,8 +2505,12 @@ msgid "Something is wrong with your request, {0}."
 msgstr "Something is wrong with your request, {0}."
 
 #: components/i18n/errors.ts
-msgid "Something went wrong! Try again later."
-msgstr "Something went wrong! Try again later."
+msgid "Something went wrong! {error}"
+msgstr "Something went wrong! {error}"
+
+#: components/i18n/errors.ts
+#~ msgid "Something went wrong! Try again later."
+#~ msgstr "Something went wrong! Try again later."
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Sounds"
@@ -2512,6 +2531,10 @@ msgstr "Speak"
 #: components/app/interface/settings/user/Native.tsx
 msgid "Spellchecker"
 msgstr "Spellchecker"
+
+#: components/app/interface/settings/user/Native.tsx
+msgid "Start Minimised to Tray"
+msgstr "Start Minimised to Tray"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Start the call"
@@ -2544,6 +2567,10 @@ msgstr "Stoat Founder"
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 msgstr "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
+
+#: components/app/interface/settings/user/Native.tsx
+msgid "Stoat will start in the system tray."
+msgstr "Stoat will start in the system tray."
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Submit feature suggestion"
@@ -2743,6 +2770,11 @@ msgstr "Trending GIFs"
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
 msgstr "Unblock user"
+
+#. placeholder {0}: err.type
+#: components/i18n/errors.ts
+msgid "Uncaught Stoat error: {0}"
+msgstr "Uncaught Stoat error: {0}"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"

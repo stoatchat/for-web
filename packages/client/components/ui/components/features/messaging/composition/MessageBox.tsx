@@ -127,6 +127,7 @@ const Parent = styled("div", {
     display: "flex",
     gap: "var(--gap-md)",
     margin: "0 0 var(--gap-md) 0",
+    maxHeight: "var(--layout-height-message-box)",
   },
 });
 

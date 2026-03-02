@@ -70,6 +70,9 @@ export function TextChannel(props: ChannelPageProps) {
    */
   const highlightMessageId = () => params().messageId;
 
+  const canConnect = () =>
+    props.channel.isVoice && props.channel.havePermission("Connect");
+
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
@@ -165,7 +168,7 @@ export function TextChannel(props: ChannelPageProps) {
       <Content>
         <main class={main()}>
           <Show
-            when={props.channel.isVoice}
+            when={canConnect()}
             fallback={
               <BelowFloatingHeader>
                 <div>
