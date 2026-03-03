@@ -58,6 +58,7 @@ import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
+import { SwapUserModal } from "./modals/SwapUser";
 import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
@@ -198,6 +199,9 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ScreenShareSettingsModal {...modalProps} />;
     case "screen_share_picker":
       return <ScreenSharePickerModal {...modalProps} />;
+    case "swap_user":
+      return <SwapUserModal {...modalProps} />;
+
     default:
       console.error(
         "Failed to create modal for",

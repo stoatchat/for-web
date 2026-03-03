@@ -48,6 +48,8 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
+const GLOBAL_DB_NAME = "localforage";
+
 /**
  * Global application state
  */
@@ -56,6 +58,8 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
+  private readonly dbGlobal: LocalForage;
+  private db!: LocalForage;
 
   appDrawer;
   setAppDrawer;
@@ -123,6 +127,7 @@ export class State {
    * Construct the global application state
    */
   constructor() {
+    this.dbGlobal = localforage.createInstance({ name: GLOBAL_DB_NAME });
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
@@ -140,12 +145,9 @@ export class State {
   /**
    * Write some data to the store and disk
    */
-  private write: SetStoreFunction<Store> = (...args: unknown[]) => {
+  private write = (key: string, global: boolean, ...args: unknown[]) => {
     // pass the data to the store
-    (this.setStore as (...args: unknown[]) => void)(...args);
-
-    // resolve key
-    const key = args[0] as string;
+    (this.setStore as (...args: unknown[]) => void)(key, ...args);
 
     // touch the key if syncable
     this.sync.touchIfSyncable(key);
@@ -162,7 +164,7 @@ export class State {
         delete this.writeQueue[key];
 
         // write the entire key to storage
-        localforage.setItem(
+        (global ? this.dbGlobal : this.db).setItem(
           key,
           JSON.parse(
             JSON.stringify((this.store as Record<string, unknown>)[key]),
@@ -180,14 +182,12 @@ export class State {
   /**
    * Write data to store / disk and then synchronise it
    */
-  set: SetStoreFunction<Store> = (...args: unknown[]) => {
+  set = (key: string, global: boolean, ...args: unknown[]) => {
     // write to store and storage
-    (this.write as (...args: unknown[]) => void)(...args);
+    this.write(key, global, ...args);
 
     // run side-effects
-    if (import.meta.env.DEV) {
-      console.debug("[store] updated data", args[0]);
-    }
+    if (import.meta.env.DEV) console.debug("[store] updated data", args[0]);
   };
 
   /**
@@ -202,28 +202,43 @@ export class State {
   /**
    * Hydrate the state from disk and run side-effects
    */
-  async hydrate() {
+  async hydrate(global = false) {
+    if (!global) {
+      const ses = this.store.auth.session;
+
+      //If session exists, use session store
+      this.db = ses
+        ? localforage.createInstance({
+            name: `@${ses.userId}`,
+          })
+        : this.dbGlobal;
+
+      //TODO Clear unused localforage instances w/ no session here
+    }
+
     // load all data first
-    for (const store of this.iterStores()) {
-      const data = await localforage.getItem(store.getKey());
+    for (const store of this.iterStores())
+      if (store.global === global) {
+        const data = await (store.global ? this.dbGlobal : this.db).getItem(
+          store.getKey(),
+        );
 
-      if (data) {
-        // validate the incoming data
-        const cleanData = store.clean(data);
+        if (data) {
+          // validate the incoming data
+          const cleanData = store.clean(data);
 
-        if (!equal(data, cleanData)) {
-          // write back to disk if it has changed
-          this.write(store.getKey(), cleanData);
-        } else {
-          this.setStore(store.getKey(), data);
+          if (!equal(data, cleanData)) {
+            // write back to disk if it has changed
+            this.write(store.getKey(), store.global, cleanData);
+          } else {
+            this.setStore(store.getKey(), data);
+          }
         }
       }
-    }
 
     // then run side-effects
-    for (const store of this.iterStores()) {
-      store.hydrate();
-    }
+    for (const store of this.iterStores())
+      if (store.global === global) store.hydrate();
   }
 }
 
@@ -239,7 +254,7 @@ export function StateContext(props: { children: JSX.Element }) {
   const stateLocal = new State();
   const [ready, setReady] = createSignal(false);
 
-  onMount(() => stateLocal.hydrate().then(() => setReady(true)));
+  onMount(() => stateLocal.hydrate(true).then(() => setReady(true)));
 
   return (
     <stateContext.Provider value={stateLocal}>
