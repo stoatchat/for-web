@@ -26,7 +26,10 @@ export type SettingsConfiguration<T> = {
    * @param props State information
    */
   render: (
-    props: { page: Accessor<undefined | string> },
+    props: {
+      page: Accessor<undefined | string>;
+      onClose?: () => void;
+    },
     context: T,
   ) => JSX.Element;
 };

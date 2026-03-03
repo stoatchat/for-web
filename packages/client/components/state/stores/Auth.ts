@@ -1,13 +1,17 @@
-import { CONFIGURATION } from "@revolt/common";
+import { t } from "@lingui/core/macro";
 
-import { State } from "..";
+import { CONFIGURATION } from "@revolt/common";
+import { User } from "stoat.js";
 
 import { AbstractStore } from ".";
+import { State } from "..";
 
 export type Session = {
   _id: string;
   token: string;
   userId: string;
+  cachedName?: string;
+  cachedAvatar?: string;
   valid: boolean;
 };
 
@@ -16,7 +20,32 @@ export type TypeAuth = {
    * Session information
    */
   session?: Session;
+  saved: Array<Session>;
 };
+
+function strOrNone(str?: string) {
+  if (typeof str === "string" && str) return str;
+  return undefined;
+}
+
+function cleanSes(inSes?: Session): Session | undefined {
+  if (
+    typeof inSes === "object" &&
+    typeof inSes._id === "string" &&
+    typeof inSes.token === "string" &&
+    typeof inSes.userId === "string" &&
+    inSes.valid
+  ) {
+    return {
+      _id: inSes._id,
+      token: inSes.token,
+      userId: inSes.userId,
+      cachedName: strOrNone(inSes.cachedName),
+      cachedAvatar: strOrNone(inSes.cachedAvatar),
+      valid: true,
+    };
+  }
+}
 
 /**
  * Authentication details store
@@ -27,7 +56,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * @param state State
    */
   constructor(state: State) {
-    super(state, "auth");
+    super(state, "auth", true);
   }
 
   /**
@@ -35,7 +64,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    */
   hydrate(): void {
     if (CONFIGURATION.DEVELOPMENT_TOKEN && CONFIGURATION.DEVELOPMENT_USER_ID) {
-      this.setSession({
+      this.addSession({
         _id: CONFIGURATION.DEVELOPMENT_SESSION_ID ?? "0",
         token: CONFIGURATION.DEVELOPMENT_TOKEN,
         userId: CONFIGURATION.DEVELOPMENT_USER_ID,
@@ -50,6 +79,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   default(): TypeAuth {
     return {
       session: undefined,
+      saved: [],
     };
   }
 
@@ -57,49 +87,120 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * Validate the given data to see if it is compliant and return a compliant object
    */
   clean(input: Partial<TypeAuth>): TypeAuth {
-    let session;
-    if (typeof input.session === "object") {
-      if (
-        typeof input.session._id === "string" &&
-        typeof input.session.token === "string" &&
-        typeof input.session.userId === "string" &&
-        input.session.valid
-      ) {
-        session = {
-          _id: input.session._id,
-          token: input.session.token,
-          userId: input.session.userId,
-          valid: true,
-        };
+    const saved = [];
+    let ses;
+    if (Array.isArray(input.saved))
+      for (ses of input.saved) {
+        ses = cleanSes(ses);
+        if (ses) saved.push(ses);
       }
-    }
 
     return {
-      session,
+      session: cleanSes(input.session),
+      saved,
+    };
+  }
+
+  #read(): TypeAuth {
+    const data = this.get();
+    return {
+      session: data.session,
+      saved: [...data.saved],
     };
   }
 
   /**
-   * Get current session.
+   * Get current session
+   * @param unhold Try to resume held session if true
    * @returns Session
    */
-  getSession() {
-    return this.get().session;
+  getSession(unhold: boolean = false) {
+    const data = unhold ? this.#read() : this.get();
+    if (unhold && !data.session) {
+      data.session = data.saved.pop();
+      this.set(data);
+    }
+    return data.session;
   }
 
   /**
-   * Add a new session to the auth manager.
+   * Get saved sessions
+   */
+  getSaved() {
+    return this.get().saved;
+  }
+
+  /**
+   * True if there are multiple saved sessions
+   */
+  hasMultiSession() {
+    return this.get().saved.length > 0;
+  }
+
+  /**
+   * Add a new session to the auth manager
    * @param session Session
    */
-  setSession(session: Session) {
-    this.set("session", session);
+  addSession(newSes: Session) {
+    const data = this.#read();
+    if (data.session)
+      throw t`Encountered a problem while saving previous session.`;
+    data.session = newSes;
+    for (const ses of data.saved)
+      if (ses.userId === newSes.userId)
+        throw t`Whoops, you're already logged in as this user!`;
+    this.set(data);
   }
 
   /**
-   * Remove existing session.
+   * Remove existing session
    */
   removeSession() {
-    this.set("session", undefined!);
+    const data = this.#read();
+    data.session = data.saved.pop();
+    this.set(data);
+  }
+
+  /**
+   * Place current session on hold
+   */
+  holdSession() {
+    const data = this.#read();
+    if (!data.session) return;
+    data.saved.push(data.session);
+    data.session = undefined;
+    this.set(data);
+  }
+
+  /**
+   * Switch to a saved session
+   */
+  swapSession(userId: string) {
+    const data = this.#read(),
+      saved = data.saved;
+    for (let i = 0, l = saved.length; i < l; ++i)
+      if (saved[i].userId === userId) {
+        if (data.session) saved.push(data.session);
+        data.session = saved[i];
+        saved.splice(i, 1);
+        this.set(data);
+        return;
+      }
+    throw t`User session not found, try logging in again.`;
+  }
+
+  /**
+   * Cache username and avatar for account switcher
+   */
+  cacheUserInfo(user: User) {
+    const ses = this.get().session;
+    if (!ses) return;
+    this.set(
+      "session",
+      "cachedName",
+      `${user.displayName} (@${user.username}#${user.discriminator})`,
+    );
+    this.set("session", "cachedAvatar", user.avatarURL);
   }
 
   /**
