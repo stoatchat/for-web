@@ -168,14 +168,14 @@ const lineWrapStyles = EditorView.theme({
     textIndent: 0,
   },
   ".cm-content": {
-      minWidth: 0
+    minWidth: 0,
   },
   ".cm-placeholder": {
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 export const smartLineWrapping = [
