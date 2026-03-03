@@ -24,6 +24,9 @@ const Container = styled("pre", {
     overflow: "auto",
     scrollbarWidth: "thin",
     flexDirection: "column",
+    maxHeight: "120px",
+    width: "480px",
+    whiteSpace: "pre-wrap",
   },
 });
 

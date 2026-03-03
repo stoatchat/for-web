@@ -106,9 +106,7 @@ export function Attachment(props: { file: File; message?: Message }) {
       <Match when={props.file.metadata.type === "Text"}>
         <AttachmentContainer>
           <FileInfo file={props.file} />
-          <SizedContent width={480} height={120}>
-            <TextFile file={props.file} />
-          </SizedContent>
+          <TextFile file={props.file} />
         </AttachmentContainer>
       </Match>
     </Switch>
