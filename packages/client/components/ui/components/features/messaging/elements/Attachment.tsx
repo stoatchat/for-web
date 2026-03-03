@@ -21,6 +21,7 @@ export const AttachmentContainer = styled(Column, {
     borderRadius: "var(--borderRadius-md)",
     color: "var(--md-sys-color-inverse-on-surface)",
     background: "var(--md-sys-color-inverse-surface)",
+    alignSelf: "start",
   },
 });
 
