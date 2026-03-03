@@ -52,7 +52,7 @@ export function UserContextMenu(props: {
   const state = useState();
   const client = useClient();
   const navigate = useNavigate();
-  const { openModal } = useModals();
+  const { openModal, modals } = useModals();
 
   // server context
   const params = useSmartParams();
@@ -248,11 +248,22 @@ export function UserContextMenu(props: {
         </ContextMenuButton>
       </Show>
 
-      <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
-        <Trans>Profile</Trans>
-      </ContextMenuButton>
+      <Show
+        when={
+          !modals.find(
+            (m) =>
+              m.props.type === "user_profile" &&
+              m.props.user.id === props.user.id &&
+              m.show,
+          )
+        }
+      >
+        <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
+          <Trans>Profile</Trans>
+        </ContextMenuButton>
+      </Show>
 
-      <Show when={!props.user.self}>
+      <Show when={props.user.relationship === "Friend"}>
         <ContextMenuButton icon={MdChat} onClick={openDm}>
           <Trans>Message</Trans>
         </ContextMenuButton>
@@ -264,7 +275,21 @@ export function UserContextMenu(props: {
         </ContextMenuButton>
       </Show>
 
-      <ContextMenuDivider />
+      <Show
+        when={
+          props.channel?.type === "DirectMessage" ||
+          !modals.find(
+            (m) =>
+              m.props.type === "user_profile" &&
+              m.props.user.id === props.user.id &&
+              m.show,
+          ) ||
+          props.user.relationship === "Friend" ||
+          props.channel?.type === "TextChannel"
+        }
+      >
+        <ContextMenuDivider />
+      </Show>
 
       <Show when={props.channel?.type === "DirectMessage"}>
         <NotificationContextMenu channel={props.channel!} />
