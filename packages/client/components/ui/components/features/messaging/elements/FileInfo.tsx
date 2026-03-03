@@ -22,6 +22,14 @@ const Base = styled(Row, {
   base: {},
 });
 
+const FilenameContainer = styled("span", {
+  base: {
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  },
+});
+
 interface Props {
   /**
    * File information
@@ -65,7 +73,7 @@ export function FileInfo(props: Props) {
         </Match>
       </Switch>
       <Column grow>
-        <span>{props.file?.filename}</span>
+        <FilenameContainer>{props.file?.filename}</FilenameContainer>
         <Show when={props.file?.size}>
           <Text class="label" size="small">
             {humanFileSize(props.file!.size!)}
