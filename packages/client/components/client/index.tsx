@@ -3,7 +3,9 @@ import {
   Accessor,
   createContext,
   createEffect,
+  createSignal,
   onCleanup,
+  Show,
   useContext,
 } from "solid-js";
 
@@ -30,8 +32,9 @@ export function ClientContext(props: { children: JSXElement }) {
   const { openModal } = useModals();
   const state = useState();
   const instance = useInstance();
+  const [ready, setReady] = createSignal(false);
 
-  const controller = new ClientController(state, instance);
+  const controller = new ClientController(state, instance, setReady);
   onCleanup(() => controller.dispose());
 
   let fetchedChangelog = false;
@@ -67,7 +70,7 @@ export function ClientContext(props: { children: JSXElement }) {
 
   return (
     <clientContext.Provider value={controller}>
-      {props.children}
+      <Show when={ready()}>{props.children}</Show>
     </clientContext.Provider>
   );
 }
