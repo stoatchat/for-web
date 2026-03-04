@@ -8,6 +8,7 @@ import { styled } from "styled-system/jsx";
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -21,6 +22,7 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import MdCall from "@material-design-icons/svg/outlined/call.svg?component-solid";
 import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/outlined/settings.svg?component-solid";
@@ -55,6 +57,9 @@ export function ChannelHeader(props: Props) {
   const client = useClient();
   const { t } = useLingui();
   const state = useState();
+  const voice = useVoice();
+
+  const inCall = () => voice.channel()?.id === props.channel.id;
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
@@ -133,6 +138,24 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
+
+      <Show when={props.channel.isVoice && !inCall()}>
+        <IconButton
+          onPress={() => voice.connect(props.channel)}
+          variant="filled"
+          use:floating={{
+            tooltip: {
+              placement: "bottom",
+              content:
+                voice.state() === "READY"
+                  ? t`Join the voice channel`
+                  : t`Switch to this voice channel`,
+            },
+          }}
+        >
+          <MdCall />
+        </IconButton>
+      </Show>
 
       <Show
         when={
