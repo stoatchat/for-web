@@ -474,7 +474,7 @@ export function TextEditor(props: Props) {
                       action.range.from,
                       schema.nodes.rfm_custom_emoji.createAndFill({
                         id: match.id,
-                        src: `https://cdn.revoltusercontent.com/emojis/${match.id}`,
+                        src: `${client()?.configuration?.features.autumn.url}/emojis/${match.id}`,
                       })!,
                     );
                   }
