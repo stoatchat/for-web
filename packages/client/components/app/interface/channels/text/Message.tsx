@@ -85,7 +85,7 @@ export function Message(props: Props) {
     props.message.embeds[0].type === "Website" &&
     ((props.message.embeds[0] as WebsiteEmbed).specialContent?.type === "GIF" ||
       (props.message.embeds[0] as WebsiteEmbed).originalUrl?.startsWith(
-        "https://tenor.com",
+        "https://giphy.com",
       )) &&
     props.message.content &&
     !props.message.content.replace(RE_URL, "").length;

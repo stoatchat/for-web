@@ -27,7 +27,7 @@ export function Embed(props: { embed: MessageEmbed }) {
     props.embed.type === "Website" &&
     ((props.embed as WebsiteEmbed).specialContent?.type === "GIF" ||
       (props.embed as WebsiteEmbed).originalUrl?.startsWith(
-        "https://tenor.com",
+        "https://giphy.com",
       ));
 
   /**
