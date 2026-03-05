@@ -136,7 +136,7 @@ export function MessageToolbar(props: { message?: Message, draft?: UnsentMessage
       >
         <div class={tool()} onClick={deleteMessage}>
           <Ripple /> {/* I just set it to red cus it looks cool. Idk if i should. also maybe set it to some theme variable thing*/}
-          <MdDelete {...iconSize(20)} fill="red" />
+          <MdDelete {...iconSize(20)} fill="var(--md-sys-color-error)" />
         </div>
       </Show>
 
