@@ -6,8 +6,8 @@ import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
 import { useError } from "@revolt/i18n";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   Avatar,
@@ -27,9 +27,10 @@ export function EmojiList(props: { server: Server }) {
   const { t } = useLingui();
   const client = useClient();
   const { openModal } = useModals();
+  const instance = useInstance();
 
   function isDisabled() {
-    return props.server.emojis.length >= CONFIGURATION.MAX_EMOJI;
+    return props.server.emojis.length >= instance.maxEmoji;
   }
 
   const editGroup = createFormGroup(
@@ -50,7 +51,7 @@ export function EmojiList(props: { server: Server }) {
 
     const [key, value] = client().authenticationHeader;
     const data: { id: string } = await fetch(
-      `${CONFIGURATION.DEFAULT_MEDIA_URL}/emojis`,
+      `${instance.mediaUrl}/emojis`,
       {
         method: "POST",
         body,
@@ -109,7 +110,7 @@ export function EmojiList(props: { server: Server }) {
                 <Switch
                   fallback={
                     <Trans>
-                      {CONFIGURATION.MAX_EMOJI - props.server.emojis.length}{" "}
+                      {instance.maxEmoji - props.server.emojis.length}{" "}
                       emoji slots remaining
                     </Trans>
                   }

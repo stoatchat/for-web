@@ -5,7 +5,6 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
 import {
   CircularProgress,
   Column,
@@ -15,6 +14,7 @@ import {
   Text,
 } from "@revolt/ui";
 
+import { useInstance } from "@revolt/instance";
 import { ServerSettingsProps } from "../ServerSettings";
 
 /**
@@ -23,6 +23,7 @@ import { ServerSettingsProps } from "../ServerSettings";
 export default function ServerOverview(props: ServerSettingsProps) {
   const { t } = useLingui();
   const client = useClient();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -144,7 +145,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
         changes.icon = await client().uploadFile(
           "icons",
           editGroup.controls.icon.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
       }
     }
@@ -156,7 +157,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
         changes.banner = await client().uploadFile(
           "banners",
           editGroup.controls.banner.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
       }
     }

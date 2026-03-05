@@ -39,6 +39,7 @@ import {
 /* @refresh reload */
 import "@revolt/ui/styles";
 
+import { InstanceContext } from "@revolt/instance";
 import { AndroidNag } from "./AndroidNag";
 import AuthPage from "./Auth";
 import Interface from "./Interface";
@@ -129,67 +130,83 @@ function MountContext(props: { children?: JSX.Element }) {
   const snackbarController = new SnackbarController();
 
   return (
-    <KeybindContext>
-      <ModalContext>
-        <ClientContext state={state}>
-          <I18nProvider>
-            <SoundContext>
-              <VoiceContext>
-                <QueryClientProvider client={client}>
-                  <SnackbarProvider controller={snackbarController}>
-                    {props.children}
-                    <ModalRenderer />
-                    <FloatingManager />
-                    <AndroidNag />
-                  </SnackbarProvider>
-                </QueryClientProvider>
-              </VoiceContext>
-            </SoundContext>
-          </I18nProvider>
-          <SyncWorker />
-        </ClientContext>
-      </ModalContext>
-    </KeybindContext>
+    <>
+      <KeybindContext>
+        <ModalContext>
+          <ClientContext state={state}>
+            <I18nProvider>
+              <SoundContext>
+                <VoiceContext>
+                  <QueryClientProvider client={client}>
+                    <SnackbarProvider controller={snackbarController}>
+                      {props.children}
+                      <ModalRenderer />
+                      <FloatingManager />
+                      <AndroidNag />
+                    </SnackbarProvider>
+                  </QueryClientProvider>
+                </VoiceContext>
+              </SoundContext>
+            </I18nProvider>
+            <SyncWorker />
+          </ClientContext>
+        </ModalContext>
+      </KeybindContext>
+      <LoadTheme />
+    </>
   );
 }
 
+const routes = (
+  <>
+    <Route component={StateContext}>
+      <Route component={MountContext}>
+        <Route path="/login" component={AuthPage as never}>
+          <Route path="/delete/:token" component={FlowDeleteAccount} />
+          <Route path="/check" component={FlowCheck} />
+          <Route path="/create" component={FlowCreate} />
+          <Route path="/create/:code" component={FlowCreate} />
+          <Route path="/auth" component={FlowLogin} />
+          <Route path="/resend" component={FlowResend} />
+          <Route path="/reset" component={FlowReset} />
+          <Route path="/verify/:token" component={FlowVerify} />
+          <Route path="/reset/:token" component={FlowConfirmReset} />
+          <Route path="/*" component={FlowHome} />
+        </Route>
+        <Route path="/" component={Interface as never}>
+          <Route path="/pwa" component={PWARedirect} />
+          <Route path="/dev" component={DevelopmentPage} />
+          <Route path="/discover/*" component={Discover} />
+          <Route path="/settings" component={SettingsRedirect} />
+          <Route path="/invite/:code" component={InviteRedirect} />
+          <Route path="/bot/:code" component={BotRedirect} />
+          <Route path="/friends" component={Friends} />
+          <Route path="/server/:server/*">
+            <Route path="/channel/:channel/*" component={ChannelPage} />
+            <Route path="/*" component={ServerHome} />
+          </Route>
+          <Route path="/channel/:channel/*" component={ChannelPage} />
+          <Route path="/*" component={HomePage} />
+        </Route>
+      </Route>
+    </Route>
+  </>
+);
+
+// TODO: update urls to instance-specific ones as needed
 render(
   () => (
     <DeviceContext>
-      <StateContext>
-        <Router root={MountContext}>
-          <Route path="/login" component={AuthPage as never}>
-            <Route path="/delete/:token" component={FlowDeleteAccount} />
-            <Route path="/check" component={FlowCheck} />
-            <Route path="/create" component={FlowCreate} />
-            <Route path="/create/:code" component={FlowCreate} />
-            <Route path="/auth" component={FlowLogin} />
-            <Route path="/resend" component={FlowResend} />
-            <Route path="/reset" component={FlowReset} />
-            <Route path="/verify/:token" component={FlowVerify} />
-            <Route path="/reset/:token" component={FlowConfirmReset} />
-            <Route path="/*" component={FlowHome} />
-          </Route>
-          <Route path="/" component={Interface as never}>
-            <Route path="/pwa" component={PWARedirect} />
-            <Route path="/dev" component={DevelopmentPage} />
-            <Route path="/discover/*" component={Discover} />
-            <Route path="/settings" component={SettingsRedirect} />
-            <Route path="/invite/:code" component={InviteRedirect} />
-            <Route path="/bot/:code" component={BotRedirect} />
-            <Route path="/friends" component={Friends} />
-            <Route path="/server/:server/*">
-              <Route path="/channel/:channel/*" component={ChannelPage} />
-              <Route path="/*" component={ServerHome} />
-            </Route>
-            <Route path="/channel/:channel/*" component={ChannelPage} />
-            <Route path="/*" component={HomePage} />
-          </Route>
-        </Router>
+      <Router>
+        <Route path="/" component={InstanceContext}>
+          {routes}
+        </Route>
+        <Route path="/instance/:hostname" component={InstanceContext}>
+          {routes}
+        </Route>
+      </Router>
 
-        <LoadTheme />
-        {/* <ReportBug /> */}
-      </StateContext>
+      {/* <ReportBug /> */}
     </DeviceContext>
   ),
   document.getElementById("root") as HTMLElement,

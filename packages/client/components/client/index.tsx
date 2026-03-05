@@ -10,6 +10,7 @@ import {
 
 import type { Client, User } from "stoat.js";
 
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
 import { State } from "@revolt/state";
@@ -28,9 +29,10 @@ const clientContext = createContext(null! as ClientController);
  */
 export function ClientContext(props: { state: State; children: JSXElement }) {
   const { openModal } = useModals();
+  const instance = useInstance();
 
   // eslint-disable-next-line solid/reactivity
-  const controller = new ClientController(props.state);
+  const controller = new ClientController(props.state, instance);
   onCleanup(() => controller.dispose());
 
   let fetchedChangelog = false;

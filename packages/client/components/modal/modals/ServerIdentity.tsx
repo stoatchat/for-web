@@ -1,13 +1,13 @@
 import { createFormControl, createFormGroup } from "solid-forms";
+import { Show } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
-import { Show } from "solid-js";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -20,6 +20,7 @@ export function ServerIdentityModal(
   const { t } = useLingui();
   const client = useClient();
   const { showError } = useModals();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   const group = createFormGroup({
@@ -53,7 +54,7 @@ export function ServerIdentityModal(
           changes.avatar = await client().uploadFile(
             "avatars",
             group.controls.avatar.value[0],
-            CONFIGURATION.DEFAULT_MEDIA_URL,
+            instance.mediaUrl,
           );
         }
       }

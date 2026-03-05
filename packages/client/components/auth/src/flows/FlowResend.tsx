@@ -1,7 +1,7 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
 import { useApi } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useNavigate } from "@revolt/routing";
 import { Button } from "@revolt/ui";
 
@@ -15,6 +15,7 @@ import { Fields, Form } from "./Form";
 export default function FlowResend() {
   const api = useApi();
   const navigate = useNavigate();
+  const instance = useInstance();
 
   /**
    * Resend email verification
@@ -38,7 +39,7 @@ export default function FlowResend() {
       <FlowTitle>
         <Trans>Resend verification</Trans>
       </FlowTitle>
-      <Form onSubmit={resend} captcha={CONFIGURATION.HCAPTCHA_SITEKEY}>
+      <Form onSubmit={resend} captcha={instance.hcaptcha_sitekey}>
         <Fields fields={["email"]} />
         <Button type="submit">
           <Trans>Resend</Trans>

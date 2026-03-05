@@ -4,7 +4,7 @@ import { Show } from "solid-js";
 import { useLingui } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { Button, IconButton } from "@revolt/ui/components/design";
@@ -15,8 +15,7 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const state = useState();
   const navigate = useNavigate();
   const { t } = useLingui();
-
-  const enableVideo = CONFIGURATION.ENABLE_VIDEO;
+  const { enableVideo } = useInstance();
 
   return (
     <Actions>

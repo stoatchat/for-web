@@ -6,7 +6,6 @@ import { useMutation } from "@tanstack/solid-query";
 import { API, ChannelWebhook } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
@@ -19,6 +18,7 @@ import {
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
+import { useInstance } from "@revolt/instance";
 import { useSettingsNavigation } from "../../Settings";
 
 /**
@@ -29,6 +29,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
   const client = useClient();
   const { showError } = useModals();
   const { navigate } = useSettingsNavigation();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -63,7 +64,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
 
         const [key, value] = client().authenticationHeader;
         const data: { id: string } = await fetch(
-          `${CONFIGURATION.DEFAULT_MEDIA_URL}/avatars`,
+          `${instance.mediaUrl}/avatars`,
           {
             method: "POST",
             body,
@@ -120,7 +121,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
           icon={<MdContentCopy />}
           onClick={() =>
             navigator.clipboard.writeText(
-              `${CONFIGURATION.DEFAULT_API_URL}/webhooks/${props.webhook.id}/${props.webhook.token}`,
+              `${instance.apiUrl}/webhooks/${props.webhook.id}/${props.webhook.token}`,
             )
           }
         >

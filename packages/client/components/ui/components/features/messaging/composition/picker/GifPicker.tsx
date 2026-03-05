@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/solid-query";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import env from "@revolt/common/lib/env";
+import { useInstance } from "@revolt/instance";
 import { useState } from "@revolt/state";
 import {
   Button,
@@ -323,6 +323,7 @@ type CategoryItem =
 
 function Categories() {
   const client = useClient();
+  const instance = useInstance();
 
   const setFilter = useContext(FilterContext);
 
@@ -331,7 +332,7 @@ function Categories() {
     queryFn: () => {
       const [authHeader, authHeaderValue] = client()!.authenticationHeader;
 
-      return fetch(`${env.DEFAULT_GIFBOX_URL}/categories?locale=en_US`, {
+      return fetch(`${instance.gifboxUrl}/categories?locale=en_US`, {
         headers: {
           [authHeader]: authHeaderValue,
         },
@@ -441,6 +442,7 @@ const Label = styled("span", {
 
 function GifSearch(props: { query: string }) {
   const client = useClient();
+  const instance = useInstance();
 
   const { onMessage } = useContext(CompositionMediaPickerContext);
 
@@ -450,7 +452,7 @@ function GifSearch(props: { query: string }) {
       const [authHeader, authHeaderValue] = client()!.authenticationHeader;
 
       return fetch(
-        `${env.DEFAULT_GIFBOX_URL}/` +
+        `${instance.gifboxUrl}/` +
           (props.query === "trending"
             ? `trending?locale=en_US`
             : `search?locale=en_US&query=${encodeURIComponent(props.query)}`),

@@ -5,7 +5,6 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import {
   Button,
@@ -17,6 +16,7 @@ import {
   Text,
 } from "@revolt/ui";
 
+import { useInstance } from "@revolt/instance";
 import { ChannelSettingsProps } from "../ChannelSettings";
 
 /**
@@ -26,6 +26,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
   const { t } = useLingui();
   const client = useClient();
   const { openModal } = useModals();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   // we want to take the initial value only
@@ -78,7 +79,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
 
         const [key, value] = client().authenticationHeader;
         const data: { id: string } = await fetch(
-          `${CONFIGURATION.DEFAULT_MEDIA_URL}/icons`,
+          `${instance.mediaUrl}/icons`,
           {
             method: "POST",
             body,
