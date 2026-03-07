@@ -25,7 +25,6 @@ const Container = styled("pre", {
     scrollbarWidth: "thin",
     flexDirection: "column",
     maxHeight: "120px",
-    width: "480px",
     whiteSpace: "pre-wrap",
   },
 });

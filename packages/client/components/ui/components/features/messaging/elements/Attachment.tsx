@@ -22,6 +22,8 @@ export const AttachmentContainer = styled(Column, {
     color: "var(--md-sys-color-on-secondary-container)",
     background: "var(--md-sys-color-secondary-container)",
     alignSelf: "start",
+    minWidth: "420px",
+    maxWidth: "100%",
   },
 });
 
@@ -82,20 +84,15 @@ export function Attachment(props: { file: File; message?: Message }) {
       <Match when={props.file.metadata.type === "Audio"}>
         <AttachmentContainer>
           <FileInfo file={props.file} />
-          <SizedContent width={360} height={48}>
-            <audio
-              controls
-              src={props.file.originalUrl}
-              use:floating={{
-                contextMenu: () => (
-                  <MessageContextMenu
-                    message={props.message}
-                    file={props.file}
-                  />
-                ),
-              }}
-            />
-          </SizedContent>
+          <audio
+            controls
+            src={props.file.originalUrl}
+            use:floating={{
+              contextMenu: () => (
+                <MessageContextMenu message={props.message} file={props.file} />
+              ),
+            }}
+          />
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "File"}>
