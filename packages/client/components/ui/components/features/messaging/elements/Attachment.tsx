@@ -22,6 +22,18 @@ export const AttachmentContainer = styled(Column, {
     color: "var(--md-sys-color-on-secondary-container)",
     background: "var(--md-sys-color-secondary-container)",
     alignSelf: "start",
+    width: "420px",
+    maxWidth: "100%"
+  },
+});
+
+export const DynamicAttachmentContainer = styled(Column, {
+  base: {
+    padding: "var(--gap-md)",
+    borderRadius: "var(--borderRadius-md)",
+    color: "var(--md-sys-color-on-secondary-container)",
+    background: "var(--md-sys-color-secondary-container)",
+    alignSelf: "start",
     minWidth: "420px",
     maxWidth: "100%",
   },
@@ -101,10 +113,10 @@ export function Attachment(props: { file: File; message?: Message }) {
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "Text"}>
-        <AttachmentContainer>
+        <DynamicAttachmentContainer>
           <FileInfo file={props.file} />
           <TextFile file={props.file} />
-        </AttachmentContainer>
+        </DynamicAttachmentContainer>
       </Match>
     </Switch>
   );
