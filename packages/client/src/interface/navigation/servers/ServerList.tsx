@@ -258,7 +258,8 @@ export const ServerList = (props: Props) => {
                   indicator:
                     props.selectedServer() === entry.item.id
                       ? "selected"
-                      : entry.item.unread
+                      : entry.item.unread &&
+                          !state.notifications.isMuted(entry.item)
                         ? "alert"
                         : undefined,
                 })}
