@@ -69,7 +69,11 @@ export function UserProfileRolesModal(
                         ...(props.member.roles.includes(role.id)
                           ? []
                           : [role.id]),
-                      ],
+                      ].filter((roleId) =>
+                        props.member.server
+                          ? props.member.server.roles.has(roleId)
+                          : true,
+                      ),
                     })
                   }
                 >

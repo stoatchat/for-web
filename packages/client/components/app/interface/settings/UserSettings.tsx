@@ -122,9 +122,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             <span class={css({ userSelect: "none", fontWeight: "bold" })}>
               <Trans>Version:</Trans>
             </span>{" "}
-            <span class={css({ userSelect: "all" })}>
-              {pkg.version} ({pkg["version-date"]})
-            </span>
+            <span class={css({ userSelect: "all" })}>{pkg.version}</span>
           </Text>
           <Show when={window.native}>
             <Text class="label">

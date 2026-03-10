@@ -2,6 +2,7 @@ import { ComponentProps, splitProps } from "solid-js";
 
 import emojiRegex from "emoji-regex";
 
+import { useState } from "@revolt/state";
 import { EmojiBase, toCodepoint } from ".";
 
 export type UnicodeEmojiPacks =
@@ -77,6 +78,7 @@ export function UnicodeEmoji(
   >,
 ) {
   const [local, remote] = splitProps(props, ["emoji"]);
+  const state = useState();
 
   return (
     <EmojiBase
@@ -85,7 +87,10 @@ export function UnicodeEmoji(
       class="emoji"
       alt={local.emoji}
       draggable={false}
-      src={unicodeEmojiUrl(props.pack, props.emoji)}
+      src={unicodeEmojiUrl(
+        props.pack ?? state.settings.getValue("appearance:unicode_emoji"),
+        props.emoji,
+      )}
     />
   );
 }
