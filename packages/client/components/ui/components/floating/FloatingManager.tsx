@@ -197,6 +197,7 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
             <UserCard
               user={props.show()!.userCard!.user}
               member={props.show()!.userCard!.member}
+              bot={props.show()!.userCard!.bot}
               onClose={props.hide}
             />
           </Match>

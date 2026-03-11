@@ -418,6 +418,7 @@ function Member(props: {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        (props.user ?? props.member?.user)?.bot,
         undefined,
         props.group,
       )}
