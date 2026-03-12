@@ -9,7 +9,13 @@ import { Checkbox2, Column, Text, TextField } from "@revolt/ui";
 /**
  * Available field types
  */
-type Field = "email" | "password" | "new-password" | "log-out" | "username";
+type Field =
+  | "email"
+  | "password"
+  | "new-password"
+  | "log-out"
+  | "username"
+  | "invite";
 
 /**
  * Properties to apply to fields
@@ -47,6 +53,13 @@ const useFieldConfiguration = () => {
       name: () => t`Username`,
       placeholder: () => t`Enter your preferred username.`,
     },
+    invite: {
+      minLength: 1,
+      type: "text" as const,
+      autocomplete: "none",
+      name: () => t`Invite Code`,
+      placeholder: () => t`Enter your invite code.`,
+    },
   };
 };
 
@@ -54,7 +67,14 @@ interface FieldProps {
   /**
    * Fields to gather
    */
-  fields: Field[];
+  fields: (Field | FieldPreset)[];
+}
+
+interface FieldPreset {
+  field: Field;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value?: any;
+  disabled?: boolean;
 }
 
 /**
@@ -65,23 +85,31 @@ export function Fields(props: FieldProps) {
 
   return (
     <For each={props.fields}>
-      {(field) => (
-        <label>
-          {field === "log-out" ? (
-            <Checkbox2 name="log-out">
-              {fieldConfiguration["log-out"].name()}
-            </Checkbox2>
-          ) : (
-            <TextField
-              required
-              {...fieldConfiguration[field]}
-              name={field}
-              label={fieldConfiguration[field].name()}
-              placeholder={fieldConfiguration[field].placeholder()}
-            />
-          )}
-        </label>
-      )}
+      {(field) => {
+        // If field is just a Field value, convert it to a FieldPreset
+        if (typeof field === "string") {
+          field = { field: field };
+        }
+        return (
+          <label>
+            {field.field === "log-out" ? (
+              <Checkbox2 name={field.field}>
+                {fieldConfiguration[field.field].name()}
+              </Checkbox2>
+            ) : (
+              <TextField
+                required
+                {...fieldConfiguration[field.field]}
+                name={field.field}
+                label={fieldConfiguration[field.field].name()}
+                placeholder={fieldConfiguration[field.field].placeholder()}
+                disabled={field.disabled}
+                value={field.value}
+              />
+            )}
+          </label>
+        );
+      }}
     </For>
   );
 }
