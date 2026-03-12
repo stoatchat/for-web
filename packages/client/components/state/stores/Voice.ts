@@ -2,12 +2,23 @@ import { State } from "..";
 
 import { AbstractStore } from ".";
 
+/**
+ * Possible noise suppresion states. Browser is browser noise suppresion and enhanced is machine learning suppression via RNNoise.
+ */
+export type NoiseSuppresionState = "disabled" | "browser" | "enhanced";
+
+const NoiseSuppresionStates: NoiseSuppresionState[] = [
+  "disabled",
+  "browser",
+  "enhanced",
+];
+
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
 
   echoCancellation: boolean;
-  noiseSupression: boolean;
+  noiseSupression: NoiseSuppresionState;
 
   inputVolume: number;
   outputVolume: number;
@@ -41,7 +52,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   default(): TypeVoice {
     return {
       echoCancellation: true,
-      noiseSupression: true,
+      noiseSupression: "browser",
       inputVolume: 1.0,
       outputVolume: 1.0,
       userVolumes: {},
@@ -67,7 +78,15 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       data.echoCancellation = input.echoCancellation;
     }
 
-    if (typeof input.noiseSupression === "boolean") {
+    // migrate legacy noise suppression to new suppression state
+    if ((input.noiseSupression as unknown) === "true") {
+      data.noiseSupression = "browser";
+    } else if ((input.noiseSupression as unknown) === "false") {
+      data.noiseSupression = "disabled";
+    } else if (
+      input.noiseSupression &&
+      NoiseSuppresionStates.includes(input.noiseSupression)
+    ) {
       data.noiseSupression = input.noiseSupression;
     }
 
@@ -159,7 +178,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   /**
    * Set noise cancellation
    */
-  set noiseSupression(value: boolean) {
+  set noiseSupression(value: NoiseSuppresionState) {
     this.set("noiseSupression", value);
   }
 
@@ -201,7 +220,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   /**
    * Get noise supression
    */
-  get noiseSupression(): boolean | undefined {
+  get noiseSupression(): NoiseSuppresionState | undefined {
     return this.get().noiseSupression;
   }
 
