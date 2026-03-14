@@ -34,6 +34,7 @@ const SiteInformation = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     gap: "var(--gap-md)",
   },
 });
