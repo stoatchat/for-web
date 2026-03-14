@@ -33,6 +33,9 @@ export default defineConfig({
       injectManifest: {
         maximumFileSizeToCacheInBytes: 4000000,
       },
+      devOptions: {
+        enabled: true,
+      },
       manifest: {
         name: "Stoat",
         short_name: "Stoat",
