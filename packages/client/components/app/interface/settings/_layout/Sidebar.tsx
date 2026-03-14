@@ -36,9 +36,9 @@ export function SettingsSidebar(props: {
   });
 
   return (
-    <Base class="setSbBase">
+    <Base class="settings_sidebar">
       <div use:invisibleScrollable>
-        <Content class="setSidebar">
+        <Content class="content">
           <Column gap="lg">
             {list.prepend}
             <For each={list.entries}>

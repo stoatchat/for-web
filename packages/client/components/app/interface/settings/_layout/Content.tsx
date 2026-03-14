@@ -24,9 +24,9 @@ export function SettingsContent(props: {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <div ref={props.ref} class="setBase" use:scrollable={{ class: base() }}>
+    <div ref={props.ref} class="settings" use:scrollable={{ class: base() }}>
       <Show when={props.page()}>
-        <InnerContent class="setCont">
+        <InnerContent class="settings_cont">
           <InnerColumn>
             <Show when={props.page() !== "account"}>
               <Text class="title" size="large">
@@ -45,7 +45,7 @@ export function SettingsContent(props: {
         </InnerContent>
       </Show>
       <Show when={props.onClose}>
-        <CloseAction class="setClose">
+        <CloseAction class="close">
           <IconButton variant="tonal" onPress={props.onClose}>
             <MdClose />
           </IconButton>

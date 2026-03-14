@@ -6,19 +6,27 @@ import { styled } from "styled-system/jsx";
  * Sidebar button
  */
 export function SidebarButton(
-  props: JSX.HTMLAttributes<HTMLAnchorElement> & { noDrawer?: boolean },
+  props: JSX.HTMLAttributes<HTMLAnchorElement> & {
+    "aria-selected"?: boolean;
+    noDrawer?: boolean;
+  },
 ) {
   const { diagDrawer } = useState();
-  const [local, other] = splitProps(props, ["onClick"]);
+  const [local, other] = splitProps(props, ["onClick", "noDrawer", "class"]);
 
   function onClick(e: Event) {
-    if (!props.noDrawer) diagDrawer()?.setShown(true);
+    if (!local.noDrawer) diagDrawer()?.setShown(true);
     // @ts-expect-error callable listener
     if (local.onClick) local.onClick(e);
   }
 
-  // @ts-expect-error todo dunno about this error
-  return <SidebarButtonBase {...other} onClick={onClick} />;
+  return (
+    <SidebarButtonBase
+      {...other}
+      class={"button" + (local.class ? " " + local.class : "")}
+      onClick={onClick}
+    />
+  );
 }
 
 const SidebarButtonBase = styled("a", {

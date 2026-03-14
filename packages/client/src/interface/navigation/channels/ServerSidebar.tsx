@@ -191,7 +191,7 @@ export const ServerSidebar = (props: Props) => {
 
   return (
     <SidebarBase
-      class="appSbBase"
+      class="channel_bar server"
       use:floating={props.menuGenerator(props.server)}
     >
       <Switch

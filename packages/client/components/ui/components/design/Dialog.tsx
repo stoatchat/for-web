@@ -43,7 +43,7 @@ export function Dialog(props: Props) {
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
-        class="dialogScrim"
+        class="dialog_scrim"
         style={{
           "--background": props.scrimBackground
             ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
@@ -60,6 +60,7 @@ export function Dialog(props: Props) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, easing: [0.05, 0.7, 0.1, 1.0] }}
+              class="dialog"
             >
               <Container
                 style={{

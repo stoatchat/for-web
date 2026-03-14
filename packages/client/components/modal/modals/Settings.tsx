@@ -51,7 +51,7 @@ export function SettingsModal(
           <Show when={props?.show}>
             <Motion.div
               ref={rootRef}
-              class="setMain"
+              class="settings_overlay"
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1 }}

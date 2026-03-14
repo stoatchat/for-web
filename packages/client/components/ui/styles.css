@@ -27,12 +27,12 @@ body {
 }
 
 /* App: Desktop view */
-.appRoot {
+.app_root {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
-.appSidebar {
+.main_bar {
   display: flex;
   flex-shrink: 0;
 }
@@ -43,9 +43,9 @@ body {
     margin: 0;
     border-radius: 0;
   }
-  .dialogScrim { padding: 30px }
-  .appSbBase { flex-grow: 1 }
-  .appSidebar {
+  .dialog_scrim { padding: 30px }
+  .channel_bar { flex-grow: 1 }
+  .main_bar {
     --layout-width-channel-sidebar: auto;
     position: absolute;
     width: 100vw;
@@ -54,7 +54,8 @@ body {
 }
 
 /* Settings: Desktop view */
-.setMain {
+.button.back { display: none }
+.settings_overlay {
   display: flex;
   height: 100%;
   pointer-events: all;
@@ -63,26 +64,25 @@ body {
 }
 
 /* Settings: Tablet view */
-.setMobileBack { display: none }
 @media (max-width: 900px) {
-  .setCont { padding: 12px }
-  .setSidebar { padding: 8px 0 }
-  .setClose { display: none }
-  .setMobileBack { display: flex }
+  .settings_cont { padding: 12px }
+  .settings_sidebar .content { padding: 8px 0 }
+  .settings .close { display: none }
+  .button.back { display: flex }
 }
 
 /* Settings: Phone view */
 @media (max-width: 600px) {
-  .setSbBase {
+  .settings_sidebar {
     position: absolute;
     width: 100vw;
     height: 100%;
     padding-left: 12px;
   }
-  .setSbBase > * { width: 100% }
-  .setSidebar { max-width: unset }
-  .setBase { border-radius: 0 }
-  .setCont { height: 100vh }
+  .settings_sidebar > * { width: 100% }
+  .settings_sidebar .content { max-width: unset }
+  .settings { border-radius: 0 }
+  .settings_cont { height: 100vh }
 }
 
 /* HighlightJs */

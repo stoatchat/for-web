@@ -88,7 +88,7 @@ const Interface = (props: { children: JSX.Element }) => {
 
   return (
     <MessageCache client={client()}>
-      <div ref={rootRef} class="appRoot">
+      <div ref={rootRef} class="app_root">
         <Titlebar />
         <Switch fallback={<CircularProgress />}>
           <Match when={!isLoggedIn()}>
@@ -120,7 +120,7 @@ const Interface = (props: { children: JSX.Element }) => {
               />
               <Content
                 ref={setContRef}
-                class="appCont"
+                class="app_body"
                 sidebar={state.layout.getSectionState(
                   LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
                   true,

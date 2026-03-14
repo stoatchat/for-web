@@ -33,7 +33,7 @@ export const Sidebar = (props: {
   const location = useLocation();
 
   return (
-    <div class="appSidebar">
+    <div class="main_bar">
       <ServerList
         orderedServers={state.ordering.orderedServers(client())}
         setServerOrder={state.ordering.setServerOrder}
