@@ -1,8 +1,8 @@
 const ANIM_MS = 200,
   VEL_MS = 33, //30Hz velocity update
   VEL_AVG = 5, //Moving avg smoothing
-  VEL_TRIG = 0.5, //Override drawer pos if over
-  TRIG_X = 20,
+  VEL_TRIG = 0.3, //Override drawer pos if over
+  TRIG_X = 10,
   CANCEL_Y = 20;
 
 type TrackTouch = {
@@ -105,8 +105,8 @@ export class SlideDrawer {
     }
 
     if (isEnd) {
-      console.log("END at X", dx);
       if (trig) {
+        this.addVel();
         //Calc avg vel
         let vel = 0;
         if (t.vAvg) {
@@ -119,6 +119,7 @@ export class SlideDrawer {
         if (vel > VEL_TRIG) show = false;
         else if (vel < -VEL_TRIG) show = true;
         this.tfTimer(true, show);
+        console.log("END at X", dx, vel);
       }
       this.endTouch();
     }
@@ -126,27 +127,31 @@ export class SlideDrawer {
 
   private velTimer() {
     if (this.vTmr) return;
-    this.vTmr = setInterval(() => {
-      const t = this.touch;
-      if (!t || !t.newT) return;
+    this.vTmr = setInterval(this.addVel.bind(this), VEL_MS);
+  }
 
-      //Velocity since last update
-      const stale = t.prevT === t.newT,
-        vel = stale ? 0 : (t.newX! - t.prevX!) / (t.newT! - t.prevT!);
+  private addVel(skipStale = false) {
+    const t = this.touch;
+    if (!t || !t.newT) return;
 
-      t.prevX = t.newX;
-      t.prevT = t.newT;
+    //Velocity since last update
+    const stale = t.prevT === t.newT,
+      vel = stale ? 0 : (t.newX! - t.prevX!) / (t.newT! - t.prevT!);
 
-      if (t.vAvg) {
-        //Insert at vOfs
-        t.vAvg[t.vOfs!] = vel;
-        if (++t.vOfs! === VEL_AVG) t.vOfs = 0;
-      } else {
-        //Fill with first data
-        t.vAvg = [vel];
-        t.vOfs = 1;
-      }
-    }, VEL_MS);
+    if (stale && skipStale) return;
+
+    t.prevX = t.newX;
+    t.prevT = t.newT;
+
+    if (t.vAvg) {
+      //Insert at vOfs
+      t.vAvg[t.vOfs!] = vel;
+      if (++t.vOfs! === VEL_AVG) t.vOfs = 0;
+    } else {
+      //Fill with first data
+      t.vAvg = [vel];
+      t.vOfs = 1;
+    }
   }
 
   private endTouch() {
