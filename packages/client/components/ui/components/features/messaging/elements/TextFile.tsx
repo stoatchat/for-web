@@ -26,6 +26,10 @@ const Container = styled("pre", {
     flexDirection: "column",
     maxHeight: "120px",
     whiteSpace: "pre-wrap",
+
+    "& code": {
+      overflowWrap: "anywhere",
+    },
   },
 });
 
