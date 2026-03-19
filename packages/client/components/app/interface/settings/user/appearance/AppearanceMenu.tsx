@@ -99,7 +99,7 @@ export function AppearanceMenu() {
         </Row> */}
 
         <Show when={state.theme.preset === "you"}>
-          <Row align justify>
+          <Row align justify wrap>
             <IconButton
               ref={setPickerRef}
               variant="filled"
