@@ -118,6 +118,10 @@ export function ServerIdentityModal(
               accept="image/*"
               label={t`Server Avatar`}
               imageJustify={false}
+              maxSize={
+                client().configuration?.features.limits.default
+                  .file_upload_size_limits["avatars"] ?? 4e6
+              }
             />
           </Show>
           <Form2.TextField

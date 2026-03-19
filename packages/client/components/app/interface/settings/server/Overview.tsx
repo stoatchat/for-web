@@ -224,6 +224,10 @@ export default function ServerOverview(props: ServerSettingsProps) {
             accept="image/*"
             label={t`Server Icon`}
             imageJustify={false}
+            maxSize={
+              client().configuration?.features.limits.default
+                .file_upload_size_limits["icons"] ?? 2.5e5
+            }
           />
           <Form2.FileInput
             control={editGroup.controls.banner}
@@ -232,6 +236,10 @@ export default function ServerOverview(props: ServerSettingsProps) {
             imageAspect="232/100"
             imageRounded={false}
             imageJustify={false}
+            maxSize={
+              client().configuration?.features.limits.default
+                .file_upload_size_limits["banners"] ?? 6e6
+            }
           />
           <Form2.TextField
             minlength={1}
