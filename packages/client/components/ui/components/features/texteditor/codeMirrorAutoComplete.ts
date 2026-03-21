@@ -1,6 +1,6 @@
 import {
+  acceptCompletion,
   autocompletion,
-  closeCompletion,
   currentCompletions,
 } from "@codemirror/autocomplete";
 import { EditorView, keymap } from "@codemirror/view";
@@ -137,14 +137,20 @@ export function codeMirrorAutoComplete(
     ],
   });
 
+  function accept(view: EditorView, key: string) {
+    const completions = currentCompletions(view.state);
+    if (
+      key === ":" ? completions[0]?.type === "emoji" : completions.length > 0
+    ) {
+      acceptCompletion(view as never);
+      return true;
+    }
+    return false;
+  }
+
   const emojiKeymap = keymap.of([
-    {
-      key: ":",
-      run: (view) => {
-        closeCompletion(view as never);
-        return false;
-      },
-    },
+    { key: ":", run: (v) => accept(v, ":") },
+    { key: "Tab", run: (v) => accept(v, "Tab") },
   ]);
 
   return [extension, emojiKeymap, completionTheme];

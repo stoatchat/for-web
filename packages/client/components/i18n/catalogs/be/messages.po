@@ -465,12 +465,17 @@ msgid "Bot"
 msgstr "Бот"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Browser"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
-msgid "Browser Noise Supression"
-msgstr ""
+#~ msgid "Browser Noise Supression"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -502,6 +507,7 @@ msgstr ""
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/KickMember.tsx
 #: components/modal/modals/Invite.tsx
+#: components/modal/modals/EditCategory.tsx
 #: components/modal/modals/DeleteServer.tsx
 #: components/modal/modals/DeleteRole.tsx
 #: components/modal/modals/DeleteMessage.tsx
@@ -626,6 +632,10 @@ msgstr "Ачысціць статус"
 msgid "Click on the items below to learn more about different changes!"
 msgstr ""
 
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Click to copy username"
+msgstr ""
+
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
 msgstr ""
@@ -732,6 +742,10 @@ msgstr ""
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
 msgstr "Гутаркі"
+
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Copied!"
+msgstr ""
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
@@ -981,6 +995,10 @@ msgstr ""
 msgid "Delete and pin messages sent by other members"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Delete Bot"
+msgstr ""
+
 #: components/modal/modals/DeleteCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Delete category"
@@ -1033,6 +1051,8 @@ msgstr "Адключыць уліковы запіс"
 msgid "Disable one-time password authenticator"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -1189,6 +1209,14 @@ msgstr "Уключыць кампутарныя апавяшчэнні"
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced (RNNoise)"
+msgstr ""
+
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
 msgstr ""
@@ -1214,6 +1242,10 @@ msgstr "Увядзіце ваш бягучы пароль."
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
 msgid "Enter your current password..."
+msgstr ""
+
+#: components/auth/src/flows/Form.tsx
+msgid "Enter your invite code."
 msgstr ""
 
 #: components/auth/src/flows/Form.tsx
@@ -1448,6 +1480,7 @@ msgstr "Запрасіце ўсіх сваіх сяброў, крыху крут
 msgid "Invite Bot"
 msgstr ""
 
+#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
 msgstr "Код запрашэння"
@@ -2057,6 +2090,10 @@ msgstr "Калі ласка, абярыце спосаб для праверкі
 msgid "Please select a reason"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Powered by RNNoise"
+msgstr ""
+
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
 msgstr "Палітыка прыватнасці"
@@ -2114,6 +2151,10 @@ msgstr ""
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Reason"
 msgstr "Прычына"
+
+#: components/modal/modals/ReportContent.tsx
+msgid "Reason for report"
+msgstr ""
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2177,9 +2218,15 @@ msgid "Remove reaction"
 msgstr ""
 
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/EditCategory.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
+msgstr ""
+
+#: components/modal/modals/EditCategory.tsx
+#: components/app/menus/CategoryContextMenu.tsx
+msgid "Rename category"
 msgstr ""
 
 #: components/modal/modals/RenameSession.tsx
@@ -2332,6 +2379,10 @@ msgstr ""
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Select members to add"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Select noise suppression"
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
@@ -2517,6 +2568,10 @@ msgstr "Гаварыць"
 msgid "Spellchecker"
 msgstr ""
 
+#: components/app/interface/settings/user/Native.tsx
+msgid "Start Minimised to Tray"
+msgstr ""
+
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Start the call"
 msgstr ""
@@ -2547,6 +2602,10 @@ msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx
+msgid "Stoat will start in the system tray."
 msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx

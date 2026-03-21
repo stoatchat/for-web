@@ -11,6 +11,7 @@ import {
   Column,
   Dialog,
   DialogProps,
+  FloatingSelect,
   Form2,
   Initials,
   MenuItem,
@@ -180,14 +181,25 @@ export function ReportContentModal(
             )}
           </div>
 
-          <Form2.TextField.Select control={group.controls.category}>
+          <FloatingSelect
+            label={t`Reason for report`}
+            required
+            value={group.controls.category.value}
+            onChange={(
+              e: Event & { currentTarget: HTMLElement; target: Element },
+            ) =>
+              group.controls.category.setValue(
+                e.currentTarget.getAttribute("value") || "",
+              )
+            }
+          >
             <MenuItem value="">
               <Trans>Please select a reason</Trans>
             </MenuItem>
             <For each={reasons}>
               {(value) => <MenuItem value={value}>{strings[value]}</MenuItem>}
             </For>
-          </Form2.TextField.Select>
+          </FloatingSelect>
 
           {/* TODO: use TextEditor? */}
           <Form2.TextField

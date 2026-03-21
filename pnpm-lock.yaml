@@ -221,6 +221,9 @@ importers:
       livekit-client:
         specifier: ^2.13.0
         version: 2.15.13(@types/dom-mediacapture-record@1.0.22)
+      livekit-rnnoise-processor:
+        specifier: ^2.0.0
+        version: 2.0.0
       localforage:
         specifier: ^1.10.0
         version: 1.10.0
@@ -230,6 +233,9 @@ importers:
       lodash.isequal:
         specifier: ^4.5.0
         version: 4.5.0
+      lowlight:
+        specifier: ^3.3.0
+        version: 3.3.0
       material-symbols:
         specifier: ^0.36.0
         version: 0.36.0
@@ -345,8 +351,8 @@ importers:
         specifier: ^1.0.8
         version: 1.0.8
       ulid:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^3.0.2
+        version: 3.0.2
       unified:
         specifier: ^11.0.5
         version: 11.0.5
@@ -630,9 +636,12 @@ importers:
         specifier: 0.8.9-4
         version: 0.8.9-4
       ulid:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^3.0.2
+        version: 3.0.2
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.1
+        version: 9.39.1
       '@mxssfd/typedoc-theme':
         specifier: ^1.1.7
         version: 1.1.7(typedoc@0.27.9(typescript@5.8.3))
@@ -5441,6 +5450,9 @@ packages:
     peerDependencies:
       '@types/dom-mediacapture-record': ^1
 
+  livekit-rnnoise-processor@2.0.0:
+    resolution: {integrity: sha512-b7r1DzB7ek+3fmc4ccPYeVjV14QVl86aTyj7A9qXIzsGiR6DTNhctQEk5DnlqMxVp7hdG5WBm4A9FHUp4k9jTg==}
+
   lnk@1.1.0:
     resolution: {integrity: sha512-m3q+8W+stYiJYCBwefzrU+inN9h2KxofWuxhNH1iS+MdG9MIKfDpBtbmmIKstVwussx48PXALwonyzuzZUXjQQ==}
     engines: {node: '>=4'}
@@ -7233,8 +7245,8 @@ packages:
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
-  ulid@2.4.0:
-    resolution: {integrity: sha512-fIRiVTJNcSRmXKPZtGzFQv9WRrZ3M9eoptl/teFJvjOzmpU+/K/JH6HZ8deBfb5vMEpicJcLn7JmvdknlMq7Zg==}
+  ulid@3.0.2:
+    resolution: {integrity: sha512-yu26mwteFYzBAot7KVMqFGCVpsF6g8wXfJzQUHvu1no3+rRRSFcSV2nKeYvNPLD2J4b08jYBDhHUjeH0ygIl9w==}
     hasBin: true
 
   unbox-primitive@1.1.0:
@@ -13038,6 +13050,8 @@ snapshots:
       typed-emitter: 2.1.0
       webrtc-adapter: 9.0.3
 
+  livekit-rnnoise-processor@2.0.0: {}
+
   lnk@1.1.0:
     dependencies:
       arrify: 1.0.1
@@ -15137,7 +15151,7 @@ snapshots:
 
   ufo@1.6.1: {}
 
-  ulid@2.4.0: {}
+  ulid@3.0.2: {}
 
   unbox-primitive@1.1.0:
     dependencies:

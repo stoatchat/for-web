@@ -45,6 +45,13 @@ export default {
     (import.meta.env.VITE_PROXY_URL as string) ??
     "https://proxy.stoatusercontent.com",
   /**
+   * What gifbox server to connect to by default.
+   */
+  DEFAULT_GIFBOX_URL:
+    (import.meta.env.DEV ? import.meta.env.VITE_DEV_GIFBOX_URL : undefined) ??
+    (import.meta.env.VITE_GIFBOX_URL as string) ??
+    "https://api.gifbox.me",
+  /**
    * hCaptcha site key to use if enabled
    */
   HCAPTCHA_SITEKEY: import.meta.env.VITE_HCAPTCHA_SITEKEY as string,
@@ -67,6 +74,17 @@ export default {
    */
   MAX_FILE_SIZE:
     (import.meta.env.VITE_CFG_MAX_FILE_SIZE as number) ?? 20_000_000,
+  /**
+   * RNNoise worklet CDN host location. Defaults to blank, which uses the url provided by the livekit-rnnoise-processor package.
+   */
+  RNNOISE_WORKLET_CDN_URL:
+    (import.meta.env.VITE_RNNOISE_WORKLET_CDN_URL as string) ?? "",
+  /**
+   * Enable video allows the web client to enable video and screensharing
+   */
+  ENABLE_VIDEO:
+    ((import.meta.env.VITE_CFG_ENABLE_VIDEO as string) ?? "").toLowerCase() ==
+    "true",
   /**
    * Session ID to set during development.
    */
