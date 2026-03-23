@@ -1,6 +1,7 @@
 import { BiRegularBlock } from "solid-icons/bi";
 import { Accessor, JSX, Match, Show, Switch, onMount } from "solid-js";
 
+import { useTime } from "@revolt/i18n";
 import { Trans } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
@@ -75,6 +76,11 @@ interface Props {
    * Whether sending messages is allowed
    */
   sendingAllowed: boolean;
+
+  /**
+   * Timeout for sending messages
+   */
+  timeout?: Date;
 
   /**
    * Auto complete config
@@ -177,6 +183,8 @@ export function MessageBox(props: Props) {
   //   event.currentTarget.selectionEnd,
   // );
 
+  const dayjs = useTime();
+
   /**
    * Set initial draft selection
    */
@@ -213,6 +221,13 @@ export function MessageBox(props: Props) {
             </>
           }
         >
+          <Match when={props.timeout}>
+            <Blocked align>
+              <Trans>
+                You've been timed out for {dayjs(props.timeout).fromNow(true)}.
+              </Trans>
+            </Blocked>
+          </Match>
           <Match when={!props.sendingAllowed}>
             <Blocked align>
               <Trans>

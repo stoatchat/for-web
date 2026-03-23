@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { BiSolidPalette, BiSolidSpeaker } from "solid-icons/bi";
-import { For } from "solid-js";
+import { For, createSignal, createEffect } from "solid-js";
 
 import { PublicBot, PublicChannelInvite } from "stoat.js";
 import { cva } from "styled-system/css";
@@ -21,6 +21,7 @@ import {
   Text,
   TextField,
   iconSize,
+  InputTimePicker,
 } from "@revolt/ui";
 
 import Face from "@material-design-icons/svg/filled/face.svg?component-solid";
@@ -75,6 +76,13 @@ function FormTest() {
 export function DevelopmentPage() {
   const client = useClient();
   const { openModal } = useModals();
+
+  const [offset, setOffset] = createSignal(0);
+  const [date, setDate] = createSignal("");
+
+  createEffect(() => {
+    setDate((new Date(offset())).toISOString())
+  });
 
   function open() {
     openModal({
@@ -273,6 +281,11 @@ export function DevelopmentPage() {
           </CategoryCollapse>
         </Column>
       </div>
+
+      <Text>Time picker with days input</Text>
+      <InputTimePicker onChange={setOffset} includeDays></InputTimePicker>
+      <Text>Value: {offset()} -&gt; {date()}</Text>
     </Column>
+    
   );
 }

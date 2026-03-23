@@ -45,6 +45,7 @@ import { MFAFlowModal } from "./modals/MFAFlow";
 import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PolicyChangeModal } from "./modals/PolicyChange";
+import { RemoveTimeoutModal } from "./modals/RemoveTimeout";
 import { RenameSessionModal } from "./modals/RenameSession";
 import { ReportContentModal } from "./modals/ReportContent";
 import { ResetBotTokenModal } from "./modals/ResetBotToken";
@@ -53,6 +54,7 @@ import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
+import { TimeoutMemberModal } from "./modals/TimeoutMember";
 import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
@@ -171,6 +173,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <SignedOutModal {...modalProps} />;
     case "sign_out_sessions":
       return <SignOutSessionsModal {...modalProps} />;
+    case "timeout_member":
+      return <TimeoutMemberModal {...modalProps} />;
     case "user_profile":
       return <UserProfileModal {...modalProps} />;
     case "user_profile_roles":
@@ -179,6 +183,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <UserProfileMutualFriendsModal {...modalProps} />;
     case "user_profile_mutual_groups":
       return <UserProfileMutualGroupsModal {...modalProps} />;
+    case "remove_timeout":
+      return <RemoveTimeoutModal {...modalProps} />;
     case "reset_bot_token":
       return <ResetBotTokenModal {...modalProps} />;
     case "edit_category":

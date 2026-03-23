@@ -11,7 +11,7 @@ import {
 } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { Channel } from "stoat.js";
+import { Channel, ServerMember } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION, debounce } from "@revolt/common";
@@ -36,6 +36,11 @@ interface Props {
    * Channel to compose for
    */
   channel: Channel;
+
+  /**
+   * Member object for the user
+   */
+  member?: ServerMember;
 
   /**
    * Notify parent component when a message is sent
@@ -368,7 +373,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !props.member?.timeout
+        }
+        timeout={props.member?.timeout}
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)

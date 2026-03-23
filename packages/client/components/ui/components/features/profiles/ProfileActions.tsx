@@ -9,7 +9,9 @@ import { useModals } from "@revolt/modal";
 
 import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
 import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
+import MdHistoryToggleOff from "@material-design-icons/svg/outlined/history_toggle_off.svg?component-solid";
 import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
+import MdSchedule from "@material-design-icons/svg/outlined/schedule.svg?component-solid";
 
 import { Button, IconButton } from "../../design";
 import { dismissFloatingElements } from "../../floating";
@@ -19,7 +21,7 @@ import { iconSize } from "../../utils";
  * Actions shown on profile cards
  */
 export function ProfileActions(props: {
-  width: 2 | 3;
+  width: 2 | 3 | 4;
 
   user: User;
   member?: ServerMember;
@@ -47,6 +49,30 @@ export function ProfileActions(props: {
     dismissFloatingElements();
   }
 
+  /**
+   * Timeout the user
+   */
+  function timeoutMember() {
+    openModal({
+      type: "timeout_member",
+      member: props.member!,
+    });
+
+    dismissFloatingElements();
+  }
+
+  /**
+   * Remove timeout for member
+   */
+  function removeTimeoutForMember() {
+    openModal({
+      type: "remove_timeout",
+      member: props.member!,
+    });
+
+    dismissFloatingElements();
+  }
+
   return (
     <Actions width={props.width}>
       <Show when={props.user.relationship === "None" && !props.user.bot}>
@@ -69,6 +95,30 @@ export function ProfileActions(props: {
         <Button onPress={openDm}>Message</Button>
       </Show>
 
+      <Show
+        when={
+          !props.user.self &&
+          props.member?.server?.havePermission("TimeoutMembers") &&
+          props.member.inferiorTo(props.member.server.member!) &&
+          !props.member.timeout
+        }
+      >
+        <IconButton onPress={timeoutMember}>
+          <MdSchedule {...iconSize(16)} />
+        </IconButton>
+      </Show>
+      <Show
+        when={
+          !props.user.self &&
+          props.member?.server?.havePermission("TimeoutMembers") &&
+          props.member.inferiorTo(props.member.server.member!) &&
+          props.member.timeout
+        }
+      >
+        <IconButton onPress={removeTimeoutForMember}>
+          <MdHistoryToggleOff {...iconSize(16)} />
+        </IconButton>
+      </Show>
       <Show
         when={
           props.member
@@ -108,6 +158,9 @@ const Actions = styled("div", {
   },
   variants: {
     width: {
+      4: {
+        gridColumn: "1 / 5",
+      },
       3: {
         gridColumn: "1 / 4",
       },
