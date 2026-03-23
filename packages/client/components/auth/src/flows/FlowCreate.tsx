@@ -61,7 +61,7 @@ export default function FlowCreate() {
         <Trans>Hello!</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={CONFIGURATION.HCAPTCHA_SITEKEY}>
-        <Fields fields={["email", "password"]} />
+        <Fields fields={["email", "new-password"]} />
         <Show when={isInviteOnly()}>
           <Fields
             fields={[
