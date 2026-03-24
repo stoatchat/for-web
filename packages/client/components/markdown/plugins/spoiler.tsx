@@ -47,20 +47,22 @@ export function RenderSpoiler(props: {
   );
 }
 
-type Node = {
+type ParentNode = {
+  type: "string";
   children: (
     | { type: "text"; value: string }
-    | { type: "paragraph"; children: unknown[] }
-    | { type: "spoiler"; children: unknown[] }
+    | { type: "paragraph" | "spoiler"; children: Node[] }
   )[];
 };
 
 export const remarkSpoiler: Plugin = () => (tree) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tNodes = (tree as any).children;
   let spillover: Node[] | null;
   let spoilerStart = -1;
   let spoilerText: string;
 
-  visit(tree, "paragraph", (node: Node, _idx, _parent) => {
+  visit(tree, "paragraph", (node: ParentNode, tIdx) => {
     // Visit all children of paragraphs
     for (let i = 0, s, sl; i < node.children.length; ++i) {
       const child = node.children[i];
@@ -120,8 +122,18 @@ export const remarkSpoiler: Plugin = () => (tree) => {
     //Spillover to next parent node
     if (spoilerStart !== -1) {
       if (!spillover) spillover = [];
-      spillover.push(...(node.children.splice(spoilerStart) as Node[]));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      spillover.push(...(node.children.splice(spoilerStart) as any));
       spoilerStart = 0;
+    }
+
+    //Append excess spillover
+    if (spillover && tIdx === tNodes.length - 1) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (node.children as any[]).push(
+        ...(spoilerText! ? [{ type: "text", value: spoilerText! }] : []),
+        ...spillover,
+      );
     }
   });
 };
