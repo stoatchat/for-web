@@ -191,6 +191,7 @@ function UserTile() {
               "object-fit": "contain",
               width: "100%",
               height: "100%",
+              overflow: 'hidden',
             }}
             trackRef={track as TrackReference}
             manageSubscription={true}
