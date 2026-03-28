@@ -1,9 +1,10 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
-import { useApi, useClient } from "@revolt/client";
+import { useApi, useClient, useClientLifecycle } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useNavigate, useParams } from "@revolt/routing";
 import { Button, Row, iconSize } from "@revolt/ui";
+import { useModals } from "@revolt/modal";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
@@ -20,6 +21,8 @@ export default function FlowCreate() {
   const getClient = useClient();
   const navigate = useNavigate();
   const { code } = useParams();
+  const { login } = useClientLifecycle();
+  const modals = useModals();
 
   /**
    * Create an account
@@ -38,13 +41,29 @@ export default function FlowCreate() {
       ...(invite ? { invite } : {}),
     });
 
-    // FIXME: should tell client if email was sent
-    //        or if email even needs to be confirmed
+    if (needsEmailVerification()) {
+      redirectToEmailVerification(email);
+    } else {
+      await loginDirectly(email, password);
+    }
+  }
 
-    // TODO: log straight in if no email confirmation?
+  function needsEmailVerification() {
+    const client = getClient();
+    if (client.configured()) {
+      return client.configuration?.features.email; 
+    }
+    return true;
+  }
 
+  function redirectToEmailVerification(email: string) {
     setFlowCheckEmail(email);
     navigate("/login/check", { replace: true });
+  }
+
+  async function loginDirectly(email: string, password: string) {
+    await login({ email, password }, modals);
+    navigate("/login/auth", { replace: true });
   }
 
   const isInviteOnly = () => {
