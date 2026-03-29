@@ -3,7 +3,7 @@
  */
 import "./sentry";
 
-import { JSX, onMount } from "solid-js";
+import { createSignal, JSX, onMount, Setter } from "solid-js";
 import { render } from "solid-js/web";
 
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
@@ -108,12 +108,33 @@ function BotRedirect() {
   return <PWARedirect />;
 }
 
-let pwaPrompt: Event;
-addEventListener("beforeinstallprompt", (e) => (pwaPrompt = e));
+function isRunningAsPWA() {
+  // Apparently used on iOS/iPadOS
+  if ((window.navigator as any)['standalone']) {
+    return true;
+  }
+
+  // Most reliable way of detecting if we're running in a PWA
+  const standalone = window.matchMedia('(display-mode: standalone)').matches;
+
+  return standalone;
+}
+
+let setPWAPrompt: Setter<BeforeInstallPromptEvent | undefined>;
+let pwaPrompt: BeforeInstallPromptEvent | undefined;
+addEventListener("beforeinstallprompt", (e: BeforeInstallPromptEvent) => (pwaPrompt = e, setPWAPrompt?.(e)));
+
+let setPWAInstalled: Setter<boolean>;
+let pwaInstalled = false;
+addEventListener("appinstalled", () => (pwaInstalled = true, setPWAInstalled?.(true)));
 
 function MountContext(props: { children?: JSX.Element }) {
   const state = useState();
-  state.pwaPrompt = pwaPrompt;
+  state.isPWA = isRunningAsPWA();
+  [, setPWAPrompt] = state.pwaPrompt;
+  setPWAPrompt(pwaPrompt);
+  [, setPWAInstalled] = state.pwaInstalled;
+  setPWAInstalled(pwaInstalled);
 
   /**
    * Tanstack Query client

@@ -15,11 +15,25 @@ if (import.meta.env.PROD) {
       console.info("Ready to work offline =)");
       // toast to users
     },
-    onRegistered(r) {
-      // registration = r;
+    onRegisteredSW(swUrl, r) {
+      r && setInterval(async () => {
+        if (r.installing || !navigator)
+          return
 
-      // Check for updates every hour
-      setInterval(() => r!.update(), 36e5);
+        if (('connection' in navigator) && !navigator.onLine)
+          return
+
+        const resp = await fetch(swUrl, {
+          cache: 'no-store',
+          headers: {
+            'cache': 'no-store',
+            'cache-control': 'no-cache',
+          },
+        })
+
+        if (resp?.status === 200)
+          await r.update()
+      }, 36e5)
     },
   });
 }

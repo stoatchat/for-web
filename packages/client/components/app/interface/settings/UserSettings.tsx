@@ -22,6 +22,7 @@ import MdScience from "@material-design-icons/svg/outlined/science.svg?component
 import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
 import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
 import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_premium.svg?component-solid";
+import MdInstallMobile from "@material-design-icons/svg/outlined/install_mobile.svg?component-solid";
 
 import pkg from "../../../../../../package.json";
 
@@ -38,6 +39,8 @@ import { MyBots, ViewBot } from "./user/bots";
 import { EditProfile } from "./user/profile";
 import { EditSubscription } from "./user/subscriptions";
 import { VoiceSettings } from "./user/voice/VoiceSettings";
+import InstallInstructions from "./InstallInstructions";
+import { useState } from "@revolt/state";
 
 const Config: SettingsConfiguration<{ server: Server }> = {
   /**
@@ -93,6 +96,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Native />;
       case "voice":
         return <VoiceSettings />;
+      case "install":
+        return <InstallInstructions />;
       default:
         return null;
     }
@@ -107,6 +112,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
   list() {
     const { pop } = useModals();
     const { logout } = useClientLifecycle();
+    const state = useState();
+    const [pwaInstalled, _] = state.pwaInstalled;
 
     return {
       context: null!,
@@ -169,6 +176,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         {
           title: "Stoat",
           entries: [
+            {
+              id: "install",
+              icon: <MdInstallMobile {...iconSize(20)} />,
+              title: <Trans>Install</Trans>,
+              hidden: (!state.isMobile && import.meta.env.PROD) || state.isPWA || pwaInstalled(),
+            },
             {
               id: "bots",
               icon: <MdSmartToy {...iconSize(20)} />,

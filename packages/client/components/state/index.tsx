@@ -1,6 +1,8 @@
 import {
+  Accessor,
   JSX,
   Show,
+  Signal,
   createContext,
   createSignal,
   onMount,
@@ -49,7 +51,9 @@ export class State {
   private writeQueue: Record<string, number>;
 
   isMobile: boolean;
-  pwaPrompt: Event | undefined;
+  isPWA: boolean = false;
+  pwaPrompt = createSignal<(BeforeInstallPromptEvent)>();
+  pwaInstalled = createSignal<boolean>(false);
 
   // define all stores
   auth = new Auth(this);

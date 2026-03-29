@@ -68,11 +68,6 @@ interface SettingsDefinition {
    * Last read changelog index
    */
   "changelog:last_index": number;
-
-  /**
-   * Whether the user has seen the TryPWA dialog
-   */
-  "pwa:shown": boolean;
 }
 
 /**
@@ -100,7 +95,6 @@ const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "advanced:copy_id": "boolean",
   "advanced:admin_panel": "boolean",
   "changelog:last_index": "number",
-  "pwa:shown": "boolean",
 };
 
 /**
