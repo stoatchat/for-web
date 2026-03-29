@@ -113,7 +113,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
     const { pop } = useModals();
     const { logout } = useClientLifecycle();
     const state = useState();
-    const [pwaInstalled, _] = state.pwaInstalled;
+    const [pwaInstalled,] = state.pwaInstalled;
 
     return {
       context: null!,
