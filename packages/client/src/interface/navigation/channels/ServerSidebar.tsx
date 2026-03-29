@@ -225,7 +225,7 @@ export const ServerSidebar = (props: Props) => {
       </Switch>
       <div
         use:invisibleScrollable
-        style={{ "flex-grow": 1 }}
+        style={{ "flex-grow": 1, "margin-bottom": "var(--gap-md)" }}
         use:floating={props.menuGenerator(props.server)}
       >
         <Draggable
