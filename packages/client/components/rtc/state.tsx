@@ -155,16 +155,18 @@ class Voice {
     room.addListener("connected", () => {
       this.#setState("CONNECTED");
       if (this.speakingPermission)
-        room.localParticipant.setMicrophoneEnabled(true).then((track) => {
-          this.#setMicrophone(typeof track !== "undefined");
-          if (this.#settings.noiseSupression === "enhanced") {
-            track?.audioTrack?.setProcessor(
-              new DenoiseTrackProcessor({
-                workletCDNURL: CONFIGURATION.RNNOISE_WORKLET_CDN_URL,
-              }),
-            );
-          }
-        });
+        room.localParticipant
+          .setMicrophoneEnabled(this.#settings.micOn)
+          .then((track) => {
+            this.#setMicrophone(typeof track !== "undefined");
+            if (this.#settings.noiseSupression === "enhanced") {
+              track?.audioTrack?.setProcessor(
+                new DenoiseTrackProcessor({
+                  workletCDNURL: CONFIGURATION.RNNOISE_WORKLET_CDN_URL,
+                }),
+              );
+            }
+          });
     });
 
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
@@ -210,7 +212,9 @@ class Voice {
         !room.localParticipant.isMicrophoneEnabled,
       );
 
-      this.#setMicrophone(room.localParticipant.isMicrophoneEnabled);
+      const on = room.localParticipant.isMicrophoneEnabled;
+      this.#settings.micOn = on;
+      this.#setMicrophone(on);
     } catch (e) {
       this.onErr(e);
     }
