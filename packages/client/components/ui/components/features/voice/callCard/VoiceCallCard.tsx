@@ -1,13 +1,9 @@
 import {
   JSX,
-  Match,
   Show,
-  Switch,
-  batch,
   createContext,
   createEffect,
   createSignal,
-  on,
   onCleanup,
   onMount,
   useContext,
@@ -16,7 +12,6 @@ import { Portal } from "solid-js/web";
 
 import { AutoSizer } from "@dschz/solid-auto-sizer";
 import { Channel } from "stoat.js";
-import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { InRoom, useVoice } from "@revolt/rtc";
@@ -25,239 +20,213 @@ import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
 
+type FloatMode = "tl" | "tr" | "bl" | "br";
+
 type State =
   | {
-      type: "floating";
-      corner: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+      mode: "floating";
+      float: FloatMode;
     }
   | {
-      type: "fixed";
-      x: number;
-      y: number;
-      width: number;
-      channel: Channel;
+      mode?: "fixed" | "moving";
     };
 
-type NewState = { channel: Channel; x: number; y: number; width: number };
+type Info = {
+  pos: DOMRect;
+  channel: Channel;
+};
 
-const callCardContext = createContext<(state?: NewState) => void>(null!);
+const PAD = 16,
+  PAD_X = `${PAD}px`,
+  PAD_Y = `${PAD + 56}px`;
 
-/**
- * Voice call card context
- */
+const callCardContext = createContext<(info?: Info) => void>();
+
+function getTouch(id: number, tl: TouchList) {
+  for (const t of tl) if (t.identifier === id) return t;
+}
+
+/** Voice call card context */
 export function VoiceCallCardContext(props: { children: JSX.Element }) {
-  const [state, setState] = createSignal<State>({
-    type: "floating",
-    corner: "bottom-right",
-  });
+  const voice = useVoice();
 
-  const [moving, setMoving] = createSignal<boolean>();
-  const [offset, setOffset] = createSignal({ x: 0, y: 0 });
+  const [state, setState] = createSignal<State>({});
+  let ref: HTMLDivElement, channel: Channel | null;
 
-  function position() {
-    const position = state();
+  let events: AbortController | null,
+    tid = 0,
+    ofsX = 0,
+    ofsY = 0;
 
-    switch (position.type) {
-      case "fixed":
-        return {
-          transform: `translate(${position.x}px, ${position.y}px)`,
-          // top: position.y + "px",
-          // left: position.x + "px",
-          width: position.width + "px",
-          height: "40vh",
-        };
-      case "floating":
-        return {
-          "--width": "280px",
-          "--height": "158px",
-          "--padding-x": "32px",
-          "--padding-y": "96px",
-          transform: `translate(${
-            position.corner === "top-left" || position.corner === "bottom-left"
-              ? "calc(var(--padding-x) + var(--offset-x))"
-              : "calc(100vw - var(--padding-x) - var(--width) + var(--offset-x))"
-          }, ${
-            position.corner === "top-left" || position.corner === "top-right"
-              ? "calc(var(--padding-y) + var(--offset-y))"
-              : "calc(100vh - var(--padding-y) - var(--height) + var(--offset-y))"
-          })`,
-          width: "var(--width)",
-          height: "var(--height)",
-        };
+  function touchToMouse(e: MouseEvent | TouchEvent, down = false) {
+    if (e instanceof TouchEvent) {
+      const t = down ? e.touches[0] : getTouch(tid, e.changedTouches);
+      if (down) tid = t!.identifier;
+      else if (!t) return false;
+      //@ts-expect-error prop
+      e.clientX = t.clientX;
+      //@ts-expect-error prop
+      e.clientY = t.clientY;
+    }
+    return true;
+  }
+
+  function mouseDown(e: MouseEvent | TouchEvent) {
+    touchToMouse(e, true);
+    if (state().mode === "floating") {
+      const pos = ref!.getBoundingClientRect();
+      ofsX = (e as MouseEvent).clientX - pos.x;
+      ofsY = (e as MouseEvent).clientY - pos.y;
+      setState({ mode: "moving" });
+      addEvents();
     }
   }
 
-  createEffect(
-    on(moving, (moving) => {
-      if (moving) {
-        const controller = new AbortController();
+  function mouseMove(e: MouseEvent | TouchEvent) {
+    if (!touchToMouse(e)) return;
+    e.preventDefault();
+    ref!.style.left = `${(e as MouseEvent).clientX - ofsX}px`;
+    ref!.style.top = `${(e as MouseEvent).clientY - ofsY}px`;
+  }
 
-        document.addEventListener(
-          "mousemove",
-          (event) => {
-            const position = state();
-            if (position.type !== "floating") return controller.abort();
+  function mouseUp(e: MouseEvent | TouchEvent) {
+    if (!touchToMouse(e)) return;
+    const sty = ref!.style,
+      left = (e as MouseEvent).clientX < outerWidth / 2,
+      top = (e as MouseEvent).clientY < outerHeight / 2;
 
-            setOffset((pos) => ({
-              x: pos.x + event.movementX,
-              y: pos.y + event.movementY,
-            }));
-          },
-          { signal: controller.signal },
-        );
+    sty.transition = "all .2s cubic-bezier(0, 1.67, 0.85, 0.8)";
+    setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
+    setTimeout(() => (sty.transition = ""), 1);
+    resetEvents();
+  }
 
-        document.addEventListener(
-          "mouseup",
-          (event) => {
-            batch(() => {
-              setMoving(false);
+  function addEvents() {
+    if (events) return;
+    events = new AbortController();
+    const sig = { passive: false, signal: events.signal };
+    document.addEventListener("mousemove", mouseMove, sig);
+    document.addEventListener("mouseup", mouseUp, sig);
+    document.addEventListener("touchmove", mouseMove, sig);
+    document.addEventListener("touchend", mouseUp, sig);
+  }
 
-              const left = event.clientX < window.outerWidth / 2;
-              const top = event.clientY < window.outerHeight / 2;
+  function resetEvents() {
+    events?.abort();
+    events = null;
+  }
 
-              setState({
-                type: "floating",
-                corner: left
-                  ? top
-                    ? "top-left"
-                    : "bottom-left"
-                  : top
-                    ? "top-right"
-                    : "bottom-right",
-              });
-            });
-          },
-          { signal: controller.signal },
-        );
-
-        onCleanup(() => controller.abort());
+  function setInfo(info?: Info) {
+    if (ref!) {
+      if (info) {
+        channel = info.channel;
+        const sty = ref.style;
+        sty.left = `${info.pos.x}px`;
+        sty.top = `${info.pos.y}px`;
+        sty.width = `${info.pos.width}px`;
+        setState({ mode: "fixed" });
+      } else {
+        channel = null;
+        setFloat("tr");
       }
-    }),
-  );
-
-  function updateState(state?: NewState) {
-    if (state) {
-      setState({
-        type: "fixed",
-        width: state.width,
-        x: state.x,
-        y: state.y,
-        channel: state.channel,
-      });
-    } else {
-      setState({
-        type: "floating",
-        corner: "bottom-right",
-      });
     }
+    resetEvents();
   }
 
-  function updateStateWithTransition(state?: NewState) {
-    // no clue if this works
-
-    if (!document.startViewTransition) {
-      updateState(state);
-      return;
-    }
-
-    document.startViewTransition(() => updateState(state));
+  function setFloat(float: FloatMode) {
+    const sty = ref!.style;
+    sty.left =
+      float[1] === "l" ? PAD_X : `calc(100vw - var(--width) - ${PAD_X})`;
+    sty.top =
+      float[0] === "t" ? PAD_Y : `calc(100vh - var(--height) - ${PAD_Y})`;
+    sty.width = "";
+    setState({ mode: "floating", float });
   }
+
+  onCleanup(resetEvents);
 
   return (
-    <callCardContext.Provider value={updateStateWithTransition}>
+    <callCardContext.Provider value={setInfo}>
       {props.children}
-
       <Portal ref={document.getElementById("floating")! as HTMLDivElement}>
-        <div
-          style={{
-            position: "fixed",
-            "z-index": 10,
-            transition: moving()
-              ? "all .2s cubic-bezier(0, 1.67, 0.85, 0.8), width 0s"
-              : "all .3s cubic-bezier(1, 0, 0, 1), width 0s",
-            ...position(),
-            "pointer-events": "none",
-            cursor:
-              state().type === "floating"
-                ? moving()
-                  ? "grabbing"
-                  : "grab"
-                : "auto",
-            "--offset-x": `${moving() ? offset().x : 0}px`,
-            "--offset-y": `${moving() ? offset().y : 0}px`,
-          }}
-          // dragging logic for mice
-          onMouseDown={() => {
-            if (state().type === "floating") {
-              batch(() => {
-                setMoving(true);
-                setOffset({ x: 0, y: 0 });
-              });
-            }
-          }}
-          // dragging logic for touch input
-          // todo
-        >
-          <Switch>
-            <Match when={state().type === "fixed"}>
-              <VoiceCallCard
-                channel={(state() as { channel: Channel }).channel}
-              />
-            </Match>
-            <Match when={state().type === "floating"}>
-              <InRoom>
-                <VoiceCallCardPiP />
-              </InRoom>
-            </Match>
-          </Switch>
-        </div>
+        <Show when={voice.channel()}>
+          <Float
+            ref={ref!}
+            mode={state().mode}
+            onMouseDown={mouseDown}
+            onTouchStart={mouseDown}
+          >
+            <Show
+              when={state().mode === "fixed"}
+              fallback={
+                <InRoom>
+                  <VoiceCallCardPiP />
+                </InRoom>
+              }
+            >
+              <VoiceCallCard channel={channel!} />
+            </Show>
+          </Float>
+        </Show>
       </Portal>
     </callCardContext.Provider>
   );
 }
 
-/**
- * 'Marker' to send position information for mounting the floating call card
- */
+const Float = styled("div", {
+  base: {
+    position: "fixed",
+    zIndex: 10,
+    pointerEvents: "none",
+    transition: "all .3s cubic-bezier(1, 0, 0, 1)",
+    height: "40vh",
+  },
+
+  variants: {
+    mode: {
+      floating: { cursor: "grab" },
+      moving: {
+        cursor: "grabbing",
+        transition: "none",
+      },
+      fixed: {},
+    },
+  },
+  compoundVariants: [
+    {
+      mode: ["floating", "moving"],
+      css: {
+        "--width": "300px",
+        "--height": "170px",
+        width: "var(--width)",
+        height: "var(--height)",
+      },
+    },
+  ],
+});
+
+/** 'Marker' to send position information for mounting the floating call card */
 export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   const voice = useVoice();
   const [width, setWidth] = createSignal(0);
-
   const [ref, setRef] = createSignal<HTMLDivElement>();
-  const updateSize = useContext(callCardContext)!;
-
-  const ongoingCallElsewhere = () =>
-    voice.channel() && voice.channel()?.id !== props.channel.id;
+  const setInfo = useContext(callCardContext)!;
 
   createEffect(() => {
-    const rect = ref()?.getBoundingClientRect();
-    const w = width();
-
-    const activeChannel = voice.channel();
-    const canUpdate = !activeChannel || activeChannel.id === props.channel.id;
-
-    if (rect?.left && w) {
-      if (canUpdate) {
-        updateSize({
-          x: rect.left,
-          y: rect.top,
-          width: w,
-          channel: props.channel,
-        });
-      } else {
-        updateSize();
-      }
-    }
+    width();
+    const active = voice.channel();
+    const isActive = !active || active.id === props.channel.id;
+    const pos = ref()?.getBoundingClientRect();
+    if (pos) setInfo(isActive ? { pos, channel: props.channel } : undefined);
   });
 
-  onCleanup(() => updateSize());
+  onCleanup(setInfo);
+
+  //TODO React to pos change and not only width change
 
   return (
-    <div
-      ref={setRef}
-      class={css({ position: "relative", pointerEvents: "none" })}
-    >
-      <div class={css({ position: "absolute", width: "100%" })}>
+    <Show when={voice.channel()}>
+      <div ref={setRef}>
         <AutoSizer>
           {({ width }) => {
             setWidth(width);
@@ -265,11 +234,7 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
           }}
         </AutoSizer>
       </div>
-
-      <Show when={ongoingCallElsewhere()}>
-        <VoiceCallCard channel={props.channel} />
-      </Show>
-    </div>
+    </Show>
   );
 }
 

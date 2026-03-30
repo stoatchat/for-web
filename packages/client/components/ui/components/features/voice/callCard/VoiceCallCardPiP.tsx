@@ -90,7 +90,7 @@ const MiniCard = styled("div", {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "end",
 
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
