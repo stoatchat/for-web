@@ -1,3 +1,5 @@
+import { createSignal } from "solid-js";
+
 const ANIM_MS = 150,
   VEL_MS = 33, //30Hz velocity update
   VEL_AVG = 5, //Moving avg smoothing
@@ -18,18 +20,29 @@ type TrackTouch = {
   vOfs?: number;
 };
 
+export enum SlideState {
+  HIDDEN,
+  SHOWN,
+  HIDING,
+  SHOWING,
+  MOVING,
+}
+
 export class SlideDrawer {
-  enabled = false;
   private media;
   private touch: TrackTouch | null = null;
   private tTmr: NodeJS.Timeout | null = null;
   private vTmr: NodeJS.Timeout | null = null;
   private ofs = 0;
 
+  private eGet;
+  private eSet;
+  private sGet;
+  private sSet;
+
   constructor(
     private drawer: HTMLElement,
     private root: HTMLElement,
-    public onStateChanged: ((en: boolean) => void) | null = null,
   ) {
     this.start = this.start.bind(this);
     this.move = this.move.bind(this);
@@ -37,19 +50,27 @@ export class SlideDrawer {
     root.addEventListener("touchmove", this.move);
     root.addEventListener("touchend", this.move);
 
+    //Signals
+    const [eg, es] = createSignal(false);
+    this.eGet = eg;
+    this.eSet = es;
+    const [sg, ss] = createSignal(SlideState.HIDDEN);
+    this.sGet = sg;
+    this.sSet = ss;
+
     //Auto-enable based on device width
     const pwMax = getComputedStyle(document.body).getPropertyValue(
       "--phone-max-width",
     );
-    this.media = matchMedia(`(max-width: ${pwMax}`);
-    this.media.onchange = (e) => this.setEnabled(e.matches);
-    this.setEnabled(this.media.matches);
+    this.media = matchMedia(`(max-width: ${pwMax})`);
+    this.media.onchange = (e) => (this.enabled = e.matches);
+    this.enabled = this.media.matches;
   }
 
   private start(e: TouchEvent) {
     //Cancel if more than one finger
     if (e.touches.length > 1) return this.endTouch();
-    if (this.touch || !this.enabled) return;
+    if (this.touch || !this.eGet()) return;
 
     //Track this touch
     const t = e.touches[0];
@@ -90,10 +111,11 @@ export class SlideDrawer {
         t.trig = trig = true;
         this.tfTimer();
         this.velTimer();
+        if (!isEnd) this.sSet(SlideState.MOVING);
       }
 
       dx = Math.max(Math.min(this.ofs + dx, 0), max);
-      ds.transform = `translateX(${dx}px)`;
+      if (!isEnd) ds.transform = `translateX(${dx}px)`;
       e.preventDefault();
       e.stopPropagation();
     }
@@ -160,6 +182,7 @@ export class SlideDrawer {
       this.ofs = show ? -innerWidth : 0;
       ds.transition = `transform ${ANIM_MS}ms`;
       ds.transform = `translateX(${this.ofs}px)`;
+      this.sSet(show ? SlideState.SHOWING : SlideState.HIDING);
     } else {
       ds.transition = ds.transform = "";
     }
@@ -171,6 +194,7 @@ export class SlideDrawer {
           ds.transition = ds.transform = "";
           this.setElState(show);
           this.tTmr = null;
+          this.sSet(show ? SlideState.SHOWN : SlideState.HIDDEN);
         }, ANIM_MS + 50)
       : null;
   }
@@ -182,35 +206,38 @@ export class SlideDrawer {
   }
 
   delete() {
-    this.setEnabled(false);
+    this.enabled = false;
     this.root.removeEventListener("touchstart", this.start);
     this.root.removeEventListener("touchmove", this.move);
     this.root.removeEventListener("touchend", this.move);
     this.media.onchange = null;
   }
 
-  setEnabled(en: boolean) {
-    if (this.enabled !== en) {
+  get enabled() {
+    return this.eGet();
+  }
+  set enabled(en: boolean) {
+    if (this.eGet() !== en) {
       this.drawer.style.zIndex = en ? "1" : "";
       this.tfTimer();
       this.endTouch();
       if (!en) this.setElState(true);
       this.ofs = 0;
+      this.eSet(en);
+      this.sSet(SlideState.HIDDEN);
     }
-    this.enabled = en;
-    if (this.onStateChanged) this.onStateChanged(en);
   }
 
-  isShown() {
-    return this.ofs !== 0;
+  get state() {
+    return this.sGet();
   }
 
   setShown(show: boolean) {
-    if (!this.enabled || this.touch?.trig || this.tTmr) return false;
-    if (this.isShown() !== show) {
+    if (!this.eGet() || this.touch?.trig || this.tTmr) return false;
+    if ((this.ofs !== 0) !== show) {
       this.setElState(false);
       this.drawer.style.transform = `translateX(${this.ofs}px)`;
-      setTimeout(() => this.tfTimer(true, show), 0);
+      setTimeout(() => this.tfTimer(true, show), 1);
     }
     return true;
   }

@@ -3,7 +3,6 @@ import {
   createSignal,
   JSX,
   Match,
-  on,
   onCleanup,
   Switch,
 } from "solid-js";
@@ -70,17 +69,19 @@ const Interface = (props: { children: JSX.Element }) => {
     state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
     state.layout.setSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, false, true);
   }
-  createEffect(
-    on(contRef, (cont) => {
-      if (!cont || sDrawer) return;
-      sDrawer = new SlideDrawer(cont, rootRef!, (en) => {
-        setTimeout(() => {
-          state.setAppDrawer(en ? sDrawer : null);
-          if (en) rstLayout();
-        }, 1);
-      });
-    }),
-  );
+  createEffect(() => {
+    //Create drawer
+    const cont = contRef();
+    if (cont && !sDrawer) sDrawer = new SlideDrawer(cont, rootRef!);
+    //Update on layout change
+    if (sDrawer) {
+      const en = sDrawer.enabled;
+      setTimeout(() => {
+        state.setAppDrawer(en ? sDrawer : null);
+        if (en) rstLayout();
+      }, 1);
+    }
+  });
   onCleanup(() => {
     sDrawer?.delete();
     state.setAppDrawer((sDrawer = null));
