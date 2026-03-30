@@ -2,6 +2,7 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Button, Column, iconSize } from "@revolt/ui";
 import MdIosShare from "@material-design-icons/svg/outlined/ios_share.svg?component-solid";
+import MdRefresh from "@material-design-icons/svg/outlined/refresh.svg?component-solid";
 import { styled } from "styled-system/jsx";
 import { css } from "styled-system/css";
 import { useState } from "@revolt/state";
@@ -81,7 +82,17 @@ export default function InstallInstructions() {
             <Trans>Installing...</Trans>
           </Show>
           <Show when={promptResult() === "dismissed"}>
-            <Trans>Looks like you declined the installation... You can refresh the page if you'd like to try again, or try the manual instructions below.</Trans>
+            <p>
+              <Trans>Looks like you declined the installation... You can refresh the page if you'd like to try again, or try the manual instructions below.</Trans>
+            </p>
+            <p>
+              <Button
+                type="button"
+                onPress={() => location.reload()}
+              >
+                <MdRefresh></MdRefresh>
+              </Button>
+            </p>
           </Show>
 
           <SuperSectionHeading>
