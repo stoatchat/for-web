@@ -9,8 +9,6 @@ import { UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useState } from "@revolt/state";
 import {
   CategoryButton,
-  CategoryButtonGroup,
-  CategoryCollapse,
   Checkbox,
   Column,
   Row,
@@ -31,17 +29,17 @@ import MdTranslate from "@material-design-icons/svg/outlined/translate.svg?compo
 export function LanguageSettings() {
   return (
     <Column gap="lg">
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         <PickLanguage />
         {/* <ConfigureRTL /> */}
-      </CategoryButtonGroup>
-      <CategoryButtonGroup>
+      </CategoryButton.Group>
+      <CategoryButton.Group>
         <PickDateFormat />
         <PickTimeFormat />
-      </CategoryButtonGroup>
-      <CategoryButtonGroup>
+      </CategoryButton.Group>
+      <CategoryButton.Group>
         <ContributeLanguageLink />
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }
@@ -86,7 +84,7 @@ function PickLanguage() {
   });
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Collapse
       icon={<MdLanguage {...iconSize(22)} />}
       title={<Trans>Select your language</Trans>}
       description={currentLanguage().display}
@@ -117,7 +115,7 @@ function PickLanguage() {
           </CategoryButton>
         )}
       </For>
-    </CategoryCollapse>
+    </CategoryButton.Collapse>
   );
 }
 
@@ -133,7 +131,7 @@ function PickDateFormat() {
   LastWeek.setDate(LastWeek.getDate() - 7);
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Collapse
       icon={<MdCalendarMonth {...iconSize(22)} />}
       title="Select date format"
       description={
@@ -170,7 +168,7 @@ function PickDateFormat() {
       >
         <Trans>ISO Standard (YYYY-MM-DD)</Trans>
       </CategoryButton>
-    </CategoryCollapse>
+    </CategoryButton.Collapse>
   );
 }
 
@@ -183,7 +181,7 @@ function PickTimeFormat() {
   const time = () => timeLocale()[1].formats.LT;
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Collapse
       icon={<MdSchedule {...iconSize(22)} />}
       title="Select time format"
       description={time() === "HH:mm" ? t`24 hours` : t`12 hours`}
@@ -204,7 +202,7 @@ function PickTimeFormat() {
       >
         <Trans>12 hours</Trans>
       </CategoryButton>
-    </CategoryCollapse>
+    </CategoryButton.Collapse>
   );
 }
 

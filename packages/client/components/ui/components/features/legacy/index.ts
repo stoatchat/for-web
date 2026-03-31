@@ -1,4 +1,4 @@
-import { CategoryButton, Checkbox, List, Switch } from "../../design";
+import { Checkbox, List, Switch } from "../../design";
 import { type DialogProps, Dialog } from "../../design/Dialog";
 import { TextField } from "../../design/TextField";
 import { NavigationRail } from "../../navigation";
@@ -37,16 +37,6 @@ export const NavigationRailItem = NavigationRail.Item;
  * @deprecated Use the `TextField.Select` export instead!
  */
 export const Select = TextField.Select;
-
-/**
- * @deprecated Use the `CategoryButton.Group` export instead!
- */
-export const CategoryButtonGroup = CategoryButton.Group;
-
-/**
- * @deprecated Use the `CategoryButton.Collapse` export instead!
- */
-export const CategoryCollapse = CategoryButton.Collapse;
 
 /**
  * @deprecated Use the `Switch.Override` export instead!
