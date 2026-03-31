@@ -116,8 +116,6 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   const channel = createMemo(() => {
     const inf = info();
 
-    console.log("SET INFO", inf);
-
     if (!ref!) return;
     const sty = ref.style;
     //TODO for PR #835 to adapt VoiceCallCard to mobile UI
@@ -240,8 +238,8 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
  */
 function VoiceCallCard(props: { channel: Channel }) {
   const voice = useVoice();
-
   const inCall = () => !!voice.channel();
+
   let viewRef: HTMLDivElement | undefined;
 
   onMount(() => {
