@@ -1,8 +1,11 @@
 import {
   JSX,
+  Match,
   Show,
+  Switch,
   createContext,
   createEffect,
+  createMemo,
   createSignal,
   onCleanup,
   onMount,
@@ -14,26 +17,18 @@ import { AutoSizer } from "@dschz/solid-auto-sizer";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { InRoom, useVoice } from "@revolt/rtc";
+import { useVoice } from "@revolt/rtc";
 
 import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
 
-type FloatMode = "tl" | "tr" | "bl" | "br";
-
-type State =
-  | {
-      mode: "floating";
-      float: FloatMode;
-    }
-  | {
-      mode?: "fixed" | "moving";
-    };
+type Mode = "floating" | "moving";
+type FloatType = "tl" | "tr" | "bl" | "br";
 
 type Info = {
-  pos: DOMRect;
   channel: Channel;
+  pos?: DOMRect;
 };
 
 const PAD = 16,
@@ -50,8 +45,9 @@ function getTouch(id: number, tl: TouchList) {
 export function VoiceCallCardContext(props: { children: JSX.Element }) {
   const voice = useVoice();
 
-  const [state, setState] = createSignal<State>({});
-  let ref: HTMLDivElement, channel: Channel | null;
+  const [mode, setMode] = createSignal<Mode>();
+  const [info, setInfo] = createSignal<Info>();
+  let ref: HTMLDivElement;
 
   let events: AbortController | null,
     tid = 0,
@@ -73,11 +69,11 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
   function mouseDown(e: MouseEvent | TouchEvent) {
     touchToMouse(e, true);
-    if (state().mode === "floating") {
+    if (mode() === "floating") {
       const pos = ref!.getBoundingClientRect();
       ofsX = (e as MouseEvent).clientX - pos.x;
       ofsY = (e as MouseEvent).clientY - pos.y;
-      setState({ mode: "moving" });
+      setMode("moving");
       addEvents();
     }
   }
@@ -92,8 +88,9 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   function mouseUp(e: MouseEvent | TouchEvent) {
     if (!touchToMouse(e)) return;
     const sty = ref!.style,
-      left = (e as MouseEvent).clientX < outerWidth / 2,
-      top = (e as MouseEvent).clientY < outerHeight / 2;
+      pos = ref!.getBoundingClientRect(),
+      left = (e as MouseEvent).clientX - ofsX + pos.width / 2 < outerWidth / 2,
+      top = (e as MouseEvent).clientY - ofsY + pos.height / 2 < outerHeight / 2;
 
     sty.transition = "all .2s cubic-bezier(0, 1.67, 0.85, 0.8)";
     setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
@@ -104,11 +101,11 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   function addEvents() {
     if (events) return;
     events = new AbortController();
-    const sig = { passive: false, signal: events.signal };
-    document.addEventListener("mousemove", mouseMove, sig);
-    document.addEventListener("mouseup", mouseUp, sig);
-    document.addEventListener("touchmove", mouseMove, sig);
-    document.addEventListener("touchend", mouseUp, sig);
+    const opt = { passive: false, signal: events.signal };
+    document.addEventListener("mousemove", mouseMove, opt);
+    document.addEventListener("mouseup", mouseUp, opt);
+    document.addEventListener("touchmove", mouseMove, opt);
+    document.addEventListener("touchend", mouseUp, opt);
   }
 
   function resetEvents() {
@@ -116,31 +113,37 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     events = null;
   }
 
-  function setInfo(info?: Info) {
-    if (ref!) {
-      if (info) {
-        channel = info.channel;
-        const sty = ref.style;
-        sty.left = `${info.pos.x}px`;
-        sty.top = `${info.pos.y}px`;
-        sty.width = `${info.pos.width}px`;
-        setState({ mode: "fixed" });
-      } else {
-        channel = null;
-        setFloat("tr");
-      }
-    }
-    resetEvents();
-  }
+  const channel = createMemo(() => {
+    const inf = info();
 
-  function setFloat(float: FloatMode) {
+    console.log("SET INFO", inf);
+
+    if (!ref!) return;
+    const sty = ref.style;
+    //TODO for PR #835 to adapt VoiceCallCard to mobile UI
+    //const drawer = state.appDrawer();
+
+    //Set mode based on state
+    if (inf?.pos /*&& (!drawer || drawer.state === SlideState.SHOWN)*/) {
+      sty.left = `${inf.pos.x}px`;
+      sty.top = `${inf.pos.y}px`;
+      sty.width = `${inf.pos.width}px`;
+      setMode();
+    } else if (!voice.channel()) setMode();
+    else if (!mode()) setFloat("tr");
+
+    resetEvents();
+    return inf?.channel;
+  });
+
+  function setFloat(float: FloatType) {
     const sty = ref!.style;
     sty.left =
       float[1] === "l" ? PAD_X : `calc(100vw - var(--width) - ${PAD_X})`;
     sty.top =
       float[0] === "t" ? PAD_Y : `calc(100vh - var(--height) - ${PAD_Y})`;
     sty.width = "";
-    setState({ mode: "floating", float });
+    setMode("floating");
   }
 
   onCleanup(resetEvents);
@@ -149,25 +152,21 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     <callCardContext.Provider value={setInfo}>
       {props.children}
       <Portal ref={document.getElementById("floating")! as HTMLDivElement}>
-        <Show when={voice.channel()}>
-          <Float
-            ref={ref!}
-            mode={state().mode}
-            onMouseDown={mouseDown}
-            onTouchStart={mouseDown}
-          >
-            <Show
-              when={state().mode === "fixed"}
-              fallback={
-                <InRoom>
-                  <VoiceCallCardPiP />
-                </InRoom>
-              }
-            >
-              <VoiceCallCard channel={channel!} />
-            </Show>
-          </Float>
-        </Show>
+        <Float
+          ref={ref!}
+          mode={mode()}
+          onMouseDown={mouseDown}
+          onTouchStart={mouseDown}
+        >
+          <Switch>
+            <Match when={mode()}>
+              <VoiceCallCardPiP />
+            </Match>
+            <Match when={info() && channel()}>
+              <VoiceCallCard channel={channel()!} />
+            </Match>
+          </Switch>
+        </Float>
       </Portal>
     </callCardContext.Provider>
   );
@@ -189,7 +188,6 @@ const Float = styled("div", {
         cursor: "grabbing",
         transition: "none",
       },
-      fixed: {},
     },
   },
   compoundVariants: [
@@ -214,27 +212,26 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
 
   createEffect(() => {
     width();
-    const active = voice.channel();
-    const isActive = !active || active.id === props.channel.id;
-    const pos = ref()?.getBoundingClientRect();
-    if (pos) setInfo(isActive ? { pos, channel: props.channel } : undefined);
+    const active = voice.channel(),
+      canUpdate = !active || active.id === props.channel.id;
+    if (canUpdate)
+      setInfo({
+        channel: props.channel,
+        pos: ref()?.getBoundingClientRect(),
+      });
   });
 
   onCleanup(setInfo);
 
-  //TODO React to pos change and not only width change
-
   return (
-    <Show when={voice.channel()}>
-      <div ref={setRef}>
-        <AutoSizer>
-          {({ width }) => {
-            setWidth(width);
-            return null;
-          }}
-        </AutoSizer>
-      </div>
-    </Show>
+    <div ref={setRef}>
+      <AutoSizer>
+        {({ width }) => {
+          setWidth(width);
+          return null;
+        }}
+      </AutoSizer>
+    </div>
   );
 }
 
@@ -243,8 +240,8 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
  */
 function VoiceCallCard(props: { channel: Channel }) {
   const voice = useVoice();
-  const inCall = () => voice.channel()?.id === props.channel.id;
 
+  const inCall = () => !!voice.channel();
   let viewRef: HTMLDivElement | undefined;
 
   onMount(() => {
