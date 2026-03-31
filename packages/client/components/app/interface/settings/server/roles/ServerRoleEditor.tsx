@@ -81,6 +81,9 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         <Column gap="lg">
           <Column>
             <Form2.TextField
+              minlength={1}
+              maxlength={32}
+              counter
               name="name"
               control={editGroup.controls.name}
               label={t`Role Name`}

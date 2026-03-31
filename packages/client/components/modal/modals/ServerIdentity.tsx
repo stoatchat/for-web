@@ -93,6 +93,9 @@ export function ServerIdentityModal(
             imageJustify={false}
           />
           <Form2.TextField
+            minlength={1}
+            maxlength={32}
+            counter
             name="nickname"
             label={t`Nickname`}
             control={group.controls.nickname}

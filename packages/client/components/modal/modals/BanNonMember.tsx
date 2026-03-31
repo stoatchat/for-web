@@ -64,6 +64,8 @@ export function BanNonMemberModal(
             </Trans>
           </Text>
           <Form2.TextField
+            maxlength={1024}
+            counter
             name="reason"
             control={group.controls.reason}
             label={t`Reason`}
