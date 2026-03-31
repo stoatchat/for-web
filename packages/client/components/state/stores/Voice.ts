@@ -30,6 +30,7 @@ export const ScreenShareQualityNames: ScreenShareQualityName[] = [
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
+  preferredVideoDevice?: string;
 
   echoCancellation: boolean;
   noiseSupression: NoiseSuppresionState;
@@ -97,6 +98,10 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
 
     if (typeof input.preferredAudioOutputDevice === "string") {
       data.preferredAudioOutputDevice = input.preferredAudioOutputDevice;
+    }
+
+    if (typeof input.preferredVideoDevice === "string") {
+      data.preferredVideoDevice = input.preferredVideoDevice;
     }
 
     if (typeof input.echoCancellation === "boolean") {
@@ -217,6 +222,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   }
 
   /**
+   * Set the preferred video input device
+   */
+  set preferredVideoDevice(value: string) {
+    this.set("preferredVideoDevice", value);
+  }
+
+  /**
    * Set echo cancellation
    */
   set echoCancellation(value: boolean) {
@@ -291,6 +303,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get preferredAudioOutputDevice(): string | undefined {
     return this.get().preferredAudioInputDevice;
+  }
+
+  /**
+   * Get the preferred video input device
+   */
+  get preferredVideoDevice(): string | undefined {
+    return this.get().preferredVideoDevice;
   }
 
   /**

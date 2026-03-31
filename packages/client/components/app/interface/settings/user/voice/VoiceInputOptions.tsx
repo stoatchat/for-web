@@ -22,7 +22,7 @@ export function VoiceInputOptions() {
       <CategoryButton.Group>
         <SelectInput kind="audioinput" />
         <SelectInput kind="audiooutput" />
-        {/* <SelectInput kind="videoinput" /> TODO O.o */}
+        <SelectInput kind="videoinput" />
       </CategoryButton.Group>
       <VolumeSliders />
     </Column>
@@ -37,19 +37,25 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
   const media = createMemo(() => useMediaDeviceSelect({ kind: props.kind }));
 
   const setKey = () =>
-    props.kind === "audioinput"
-      ? "preferredAudioInputDevice"
-      : "preferredAudioOutputDevice";
+    props.kind === "videoinput"
+      ? "preferredVideoDevice"
+      : props.kind === "audioinput"
+        ? "preferredAudioInputDevice"
+        : "preferredAudioOutputDevice";
 
   const icon = () =>
-    props.kind === "audioinput" ? (
+    props.kind === "videoinput" ? (
+      <Symbol>camera_video</Symbol>
+    ) : props.kind === "audioinput" ? (
       <Symbol>mic</Symbol>
     ) : (
       <Symbol>speaker</Symbol>
     );
 
   const title = () =>
-    props.kind === "audioinput" ? (
+    props.kind === "videoinput" ? (
+      <Trans>Select video input</Trans>
+    ) : props.kind === "audioinput" ? (
       <Trans>Select audio input</Trans>
     ) : (
       <Trans>Select audio output</Trans>
