@@ -83,10 +83,17 @@ export function scrollable(
     const showClass = hoverStyles({ direction: props.direction }).split(" ");
 
     /**
-     * Handle mouse entry
+     * Handle mouse entry — only show scrollbar if content actually overflows.
+     * This prevents scrollbar carets from appearing when there's nothing to scroll.
      */
     const onMouseEnter = () => {
-      el.classList.add(...showClass);
+      const isOverflowing =
+        props.direction === "x"
+          ? el.scrollWidth > el.clientWidth
+          : el.scrollHeight > el.clientHeight;
+      if (isOverflowing) {
+        el.classList.add(...showClass);
+      }
     };
 
     /**
