@@ -21,7 +21,10 @@ export const scrollableStyles = cva({
     showOnHover: {
       true: {
         overflow: "hidden !important",
-        scrollbarGutter: "stable",
+        // Do NOT set scrollbarGutter: "stable" here — it reserves space for
+        // the scrollbar track even when content doesn't overflow, causing
+        // scrollbar carets to appear on hover with no content to scroll.
+        // The hover handlers below apply overflow: scroll only when needed.
       },
     },
   },
