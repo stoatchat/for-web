@@ -314,4 +314,8 @@ export type Modals =
       type: "edit_category";
       server: Server;
       category: CategoryData;
+    }
+  | {
+      type: "enable_devtools";
+      enableDevtools: (untilTimestamp: number) => void;
     };

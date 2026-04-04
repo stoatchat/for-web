@@ -2,6 +2,7 @@ import { createSignal, onMount } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
+import { useModals } from "@revolt/modal";
 import { CategoryButton, Checkbox, Column } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
@@ -13,6 +14,7 @@ declare type DesktopConfig = {
   spellchecker: boolean;
   hardwareAcceleration: boolean;
   discordRpc: boolean;
+  enableDevtoolsUntilTimestamp: number;
   windowState: {
     isMaximised: boolean;
   };
@@ -39,6 +41,16 @@ declare global {
       setAutostart(value: boolean): Promise<boolean>;
     };
   }
+}
+
+function askIfUserIsBeingTrolled(
+  iKnowWhatImDoing: (enableDevtoolsUntilTimestamp: number) => void,
+) {
+  const { openModal } = useModals();
+  openModal({
+    type: "enable_devtools",
+    enableDevtools: iKnowWhatImDoing,
+  });
 }
 
 /**
@@ -72,6 +84,16 @@ export default function Native() {
     customFrame: () => set({ customFrame: !config().customFrame }),
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
     spellchecker: () => set({ spellchecker: !config().spellchecker }),
+    enableDevtoolsUntilTimestamp: () => {
+      if (config().enableDevtoolsUntilTimestamp > 0) {
+        set({ enableDevtoolsUntilTimestamp: 0 });
+        return;
+      }
+
+      askIfUserIsBeingTrolled((enableDevtoolsUntilTimestamp) =>
+        set({ enableDevtoolsUntilTimestamp }),
+      );
+    },
     hardwareAcceleration: () =>
       set({ hardwareAcceleration: !config().hardwareAcceleration }),
   };
@@ -81,18 +103,17 @@ export default function Native() {
     icon: string,
     label: string,
     description: string,
+    checkedFunc?: (value: DesktopConfig[K]) => boolean,
   ) {
+    let checked: DesktopConfig[K] | boolean = config()[key];
+    if (checkedFunc) {
+      checked = checkedFunc(checked);
+    }
+
     return (
       <CategoryButton
         action={
-          <Checkbox
-            checked={config()[key]}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              e.stopPropagation();
-              toggles[key]!();
-            }}
-          />
+          <Checkbox checked={!!checked} onChange={() => toggles[key]!()} />
         }
         onClick={toggles[key]}
         icon={<Symbol>{icon}</Symbol>}
@@ -161,6 +182,16 @@ export default function Native() {
           "speed",
           t`Hardware Acceleration`,
           t`Use the graphics card to improve performance.`,
+        )}
+      </CategoryButton.Group>
+
+      <CategoryButton.Group>
+        {CheckboxButton(
+          "enableDevtoolsUntilTimestamp",
+          "warning_amber",
+          t`Temporarily Enable Devtools`,
+          t`Allows you to temporarily use the Chromium Developer Tools.`,
+          (timestamp) => timestamp > Date.now(),
         )}
       </CategoryButton.Group>
 
