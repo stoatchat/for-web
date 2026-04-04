@@ -82,8 +82,9 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   function mouseMove(e: MouseEvent | TouchEvent) {
     if (!touchToMouse(e)) return;
     e.preventDefault();
-    ref!.style.left = `${(e as MouseEvent).clientX - ofsX}px`;
-    ref!.style.top = `${(e as MouseEvent).clientY - ofsY}px`;
+    const x = (e as MouseEvent).clientX - ofsX,
+      y = (e as MouseEvent).clientY - ofsY;
+    ref!.style.transform = `translate(${x}px, ${y}px)`;
   }
 
   function mouseUp(e: MouseEvent | TouchEvent) {
@@ -123,12 +124,12 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     //Set mode based on state
     //TODO for PR #835 to adapt VoiceCallCard to mobile UI
     if (inf?.pos /*&& (!inf.drawer || inf.drawer === SlideState.SHOWN)*/) {
-      sty.left = `${inf.pos.x}px`;
-      sty.top = `${inf.pos.y}px`;
+      sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
       setMode();
     } else if (!voice.channel()) {
-      sty.left = `${innerWidth + 50}px`;
+      const y = inf?.pos?.y ?? ref.getBoundingClientRect().y;
+      sty.transform = `translate(${innerWidth + 50}px, ${y}px)`;
       setMode();
     } else if (!mode()) setFloat("tr");
 
@@ -137,11 +138,10 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   });
 
   function setFloat(float: FloatType) {
-    const sty = ref!.style;
-    sty.left =
-      float[1] === "l" ? PAD_X : `calc(100vw - var(--flt-w) - ${PAD_X})`;
-    sty.top =
-      float[0] === "t" ? PAD_Y : `calc(100vh - var(--flt-h) - ${PAD_Y})`;
+    const sty = ref!.style,
+      x = float[1] === "l" ? PAD_X : `calc(100vw - var(--flt-w) - ${PAD_X})`,
+      y = float[0] === "t" ? PAD_Y : `calc(100vh - var(--flt-h) - ${PAD_Y})`;
+    sty.transform = `translate(${x}, ${y})`;
     sty.width = "";
     setMode("floating");
   }
@@ -282,8 +282,8 @@ function VoiceCallCard(props: { channel: Channel }) {
 
 const Base = styled("div", {
   base: {
-    // todo: temp for Mount
-    top: "var(--gap-md)",
+    top: 0,
+    left: 0,
     padding: "var(--gap-md)",
 
     width: "100%",

@@ -149,6 +149,5 @@ const MiniCard = styled("div", {
 
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",
-    transform: "translateZ(0)", //Tells WebKit browsers to render on GPU
   },
 });
