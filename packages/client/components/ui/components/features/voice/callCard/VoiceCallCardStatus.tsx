@@ -68,6 +68,7 @@ const Status = styled("div", {
 
     display: "flex",
     justifyContent: "center",
+    zIndex: 1,
 
     _hover: {
       "& div": {

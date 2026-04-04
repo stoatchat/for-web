@@ -1,16 +1,20 @@
 import { Show } from "solid-js";
 import {
   TrackLoop,
+  TrackReference,
   useEnsureParticipant,
   useIsMuted,
   useIsSpeaking,
+  useTrackRefContext,
   useTracks,
+  VideoTrack,
 } from "solid-livekit-components";
 
 import { Track } from "livekit-client";
 import { styled } from "styled-system/jsx";
 
 import { useUser } from "@revolt/markdown/users";
+import { useVoice } from "@revolt/rtc";
 import { Avatar } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -19,17 +23,33 @@ import { VoiceCallCardActions } from "./VoiceCallCardActions";
 import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 
 export function VoiceCallCardPiP() {
+  const voice = useVoice();
   const audTracks = useTracks(
     [{ source: Track.Source.Microphone, withPlaceholder: true }],
     { onlySubscribed: false },
   );
 
+  const hasFocusVideo = () => {
+    const track = voice.focusTrack();
+    if (!track) return false;
+
+    return (
+      track.source === Track.Source.ScreenShare ||
+      !useIsMuted({
+        participant: track.participant,
+        source: Track.Source.Camera,
+      })()
+    );
+  };
+
   return (
     <MiniCard>
       <VoiceCallCardStatus pip />
-      <Row align justify grow wrap>
-        <TrackLoop tracks={audTracks}>{() => <ConnectedUser />}</TrackLoop>
-      </Row>
+      <Show when={!hasFocusVideo()} fallback={<MiniVideoTile />}>
+        <Row align justify grow wrap>
+          <TrackLoop tracks={audTracks}>{() => <ConnectedUser />}</TrackLoop>
+        </Row>
+      </Show>
       <VoiceCallCardActions size="xs" />
     </MiniCard>
   );
@@ -53,6 +73,37 @@ function ConnectedUser() {
         <Symbol>mic_off</Symbol>
       </Show>
     </UserIcon>
+  );
+}
+
+function MiniVideoTile() {
+  const voice = useVoice();
+
+  return (
+    <TrackLoop tracks={() => [voice.focusTrack()!]}>
+      {() => <MiniVideo />}
+    </TrackLoop>
+  );
+}
+
+function MiniVideo() {
+  const track = useTrackRefContext();
+
+  return (
+    <VideoTrack
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        "border-radius": "inherit",
+        "object-fit": "cover",
+        overflow: "hidden",
+      }}
+      trackRef={track as TrackReference}
+      manageSubscription={true}
+    />
   );
 }
 
@@ -98,5 +149,6 @@ const MiniCard = styled("div", {
 
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",
+    transform: "translateZ(0)", //Tells WebKit browsers to render on GPU
   },
 });

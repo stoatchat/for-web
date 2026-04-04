@@ -148,6 +148,7 @@ const Actions = styled("div", {
     flexShrink: 0,
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
+    zIndex: 2,
 
     display: "flex",
     width: "fit-content",
