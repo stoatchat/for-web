@@ -47,8 +47,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
             placement: "top",
             content: voice.speakingPermission
               ? voice.microphone()
-                ? t`Unmute`
-                : t`Mute`
+                ? t`Mute`
+                : t`Unmute`
               : t`Missing permission`,
           },
         }}

@@ -29,6 +29,7 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 type Info = {
   channel: Channel;
   pos?: DOMRect;
+  //drawer?: SlideState; TODO PR #835
 };
 
 const PAD = 16,
@@ -47,7 +48,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
   const [mode, setMode] = createSignal<Mode>();
   const [info, setInfo] = createSignal<Info>();
-  let ref: HTMLDivElement;
+  let ref: HTMLDivElement | undefined;
 
   let events: AbortController | null,
     tid = 0,
@@ -116,19 +117,20 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   const channel = createMemo(() => {
     const inf = info();
 
-    if (!ref!) return;
+    if (!ref) return;
     const sty = ref.style;
-    //TODO for PR #835 to adapt VoiceCallCard to mobile UI
-    //const drawer = state.appDrawer();
 
     //Set mode based on state
-    if (inf?.pos /*&& (!drawer || drawer.state === SlideState.SHOWN)*/) {
+    //TODO for PR #835 to adapt VoiceCallCard to mobile UI
+    if (inf?.pos /*&& (!inf.drawer || inf.drawer === SlideState.SHOWN)*/) {
       sty.left = `${inf.pos.x}px`;
       sty.top = `${inf.pos.y}px`;
       sty.width = `${inf.pos.width}px`;
       setMode();
-    } else if (!voice.channel()) setMode();
-    else if (!mode()) setFloat("tr");
+    } else if (!voice.channel()) {
+      sty.left = `${innerWidth + 50}px`;
+      setMode();
+    } else if (!mode()) setFloat("tr");
 
     resetEvents();
     return inf?.channel;
@@ -137,9 +139,9 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
   function setFloat(float: FloatType) {
     const sty = ref!.style;
     sty.left =
-      float[1] === "l" ? PAD_X : `calc(100vw - var(--width) - ${PAD_X})`;
+      float[1] === "l" ? PAD_X : `calc(100vw - var(--flt-w) - ${PAD_X})`;
     sty.top =
-      float[0] === "t" ? PAD_Y : `calc(100vh - var(--height) - ${PAD_Y})`;
+      float[0] === "t" ? PAD_Y : `calc(100vh - var(--flt-h) - ${PAD_Y})`;
     sty.width = "";
     setMode("floating");
   }
@@ -151,7 +153,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       {props.children}
       <Portal ref={document.getElementById("floating")! as HTMLDivElement}>
         <Float
-          ref={ref!}
+          ref={ref}
           mode={mode()}
           onMouseDown={mouseDown}
           onTouchStart={mouseDown}
@@ -178,7 +180,6 @@ const Float = styled("div", {
     transition: "all .3s cubic-bezier(1, 0, 0, 1)",
     height: "40vh",
   },
-
   variants: {
     mode: {
       floating: { cursor: "grab" },
@@ -192,10 +193,10 @@ const Float = styled("div", {
     {
       mode: ["floating", "moving"],
       css: {
-        "--width": "300px",
-        "--height": "170px",
-        width: "var(--width)",
-        height: "var(--height)",
+        "--flt-w": "300px",
+        "--flt-h": "170px",
+        width: "var(--flt-w)",
+        height: "var(--flt-h)",
       },
     },
   ],
@@ -203,6 +204,7 @@ const Float = styled("div", {
 
 /** 'Marker' to send position information for mounting the floating call card */
 export function VoiceChannelCallCardMount(props: { channel: Channel }) {
+  //const state = useState();
   const voice = useVoice();
   const [width, setWidth] = createSignal(0);
   const [ref, setRef] = createSignal<HTMLDivElement>();
@@ -216,6 +218,7 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
       setInfo({
         channel: props.channel,
         pos: ref()?.getBoundingClientRect(),
+        //drawer: state.appDrawer()?.state, TODO PR #835
       });
   });
 
