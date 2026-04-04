@@ -21,7 +21,7 @@ type TrackTouch = {
 };
 
 export enum SlideState {
-  HIDDEN,
+  HIDDEN = 1,
   SHOWN,
   HIDING,
   SHOWING,

@@ -115,11 +115,11 @@ export class State {
     this.writeQueue = {};
     this.isMobile = isMobileBrowser();
 
-    const [ad, setAd] = createSignal<SlideDrawer | null>();
+    const [ad, setAd] = createSignal<SlideDrawer>();
     this.appDrawer = ad;
     this.setAppDrawer = setAd;
 
-    const [dd, setDd] = createSignal<SlideDrawer | null>();
+    const [dd, setDd] = createSignal<SlideDrawer>();
     this.diagDrawer = dd;
     this.setDiagDrawer = setDd;
   }

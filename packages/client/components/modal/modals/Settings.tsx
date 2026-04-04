@@ -20,7 +20,7 @@ export function SettingsModal(
   const config = SettingsConfigurations[props.config];
 
   //Drawer slider for mobile
-  let rootRef, sDrawer: SlideDrawer | null;
+  let rootRef, sDrawer: SlideDrawer | undefined;
   const [contRef, setContRef] = createSignal<HTMLDivElement>();
   createEffect(
     on(contRef, (cont) => {
@@ -31,7 +31,7 @@ export function SettingsModal(
   );
   onCleanup(() => {
     sDrawer?.delete();
-    setDiagDrawer((sDrawer = null));
+    setDiagDrawer((sDrawer = undefined));
   });
 
   return (

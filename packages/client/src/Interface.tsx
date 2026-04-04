@@ -63,7 +63,7 @@ const Interface = (props: { children: JSX.Element }) => {
   }
 
   //Drawer slider for mobile
-  let rootRef, sDrawer: SlideDrawer | null;
+  let rootRef, sDrawer: SlideDrawer | undefined;
   const [contRef, setContRef] = createSignal<HTMLDivElement>();
   function rstLayout() {
     state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
@@ -77,14 +77,14 @@ const Interface = (props: { children: JSX.Element }) => {
     if (sDrawer) {
       const en = sDrawer.enabled;
       setTimeout(() => {
-        state.setAppDrawer(en ? sDrawer : null);
+        state.setAppDrawer(en ? sDrawer : undefined);
         if (en) rstLayout();
       }, 1);
     }
   });
   onCleanup(() => {
     sDrawer?.delete();
-    state.setAppDrawer((sDrawer = null));
+    state.setAppDrawer((sDrawer = undefined));
   });
 
   return (
