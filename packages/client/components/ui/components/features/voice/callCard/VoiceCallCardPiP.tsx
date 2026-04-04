@@ -19,17 +19,17 @@ import { VoiceCallCardActions } from "./VoiceCallCardActions";
 import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 
 export function VoiceCallCardPiP() {
-  const tracks = useTracks(
+  const audTracks = useTracks(
     [{ source: Track.Source.Microphone, withPlaceholder: true }],
     { onlySubscribed: false },
   );
 
   return (
     <MiniCard>
-      <Row>
-        <TrackLoop tracks={tracks}>{() => <ConnectedUser />}</TrackLoop>
+      <VoiceCallCardStatus pip />
+      <Row align justify grow wrap>
+        <TrackLoop tracks={audTracks}>{() => <ConnectedUser />}</TrackLoop>
       </Row>
-      <VoiceCallCardStatus />
       <VoiceCallCardActions size="xs" />
     </MiniCard>
   );
@@ -61,6 +61,7 @@ const UserIcon = styled("div", {
     display: "grid",
     width: "24px",
     height: "24px",
+    color: "#fffb",
 
     "& *": {
       gridArea: "1/1",
