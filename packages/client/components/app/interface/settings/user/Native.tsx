@@ -43,16 +43,6 @@ declare global {
   }
 }
 
-function askIfUserIsBeingTrolled(
-  iKnowWhatImDoing: (enableDevtoolsUntilTimestamp: number) => void,
-) {
-  const { openModal } = useModals();
-  openModal({
-    type: "enable_devtools",
-    enableDevtools: iKnowWhatImDoing,
-  });
-}
-
 /**
  * Desktop Configuration Page
  */
@@ -60,6 +50,7 @@ export default function Native() {
   const { t } = useLingui();
   const [autostart, setAutostart] = createSignal(false);
   const [config, setConfig] = createSignal(window.desktopConfig.get());
+  const { openModal } = useModals();
 
   function set(config: Partial<DesktopConfig>) {
     window.desktopConfig.set(config);
@@ -85,14 +76,15 @@ export default function Native() {
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
     spellchecker: () => set({ spellchecker: !config().spellchecker }),
     enableDevtoolsUntilTimestamp: () => {
-      if (config().enableDevtoolsUntilTimestamp > 0) {
+      if (config().enableDevtoolsUntilTimestamp > Date.now()) {
         set({ enableDevtoolsUntilTimestamp: 0 });
         return;
       }
 
-      askIfUserIsBeingTrolled((enableDevtoolsUntilTimestamp) =>
-        set({ enableDevtoolsUntilTimestamp }),
-      );
+      openModal({
+        type: "enable_devtools",
+        enableDevtools: (until) => set({ enableDevtoolsUntilTimestamp: until }),
+      });
     },
     hardwareAcceleration: () =>
       set({ hardwareAcceleration: !config().hardwareAcceleration }),
@@ -112,10 +104,8 @@ export default function Native() {
 
     return (
       <CategoryButton
-        action={
-          <Checkbox checked={!!checked} onChange={() => toggles[key]!()} />
-        }
-        onClick={toggles[key]}
+        action={<Checkbox checked={!!checked} />}
+        onClick={() => toggles[key]!()}
         icon={<Symbol>{icon}</Symbol>}
         description={description}
       >
@@ -128,13 +118,7 @@ export default function Native() {
     <Column gap="lg">
       <CategoryButton.Group>
         <CategoryButton
-          action={
-            <Checkbox
-              checked={autostart()}
-              onClick={(e) => e.stopPropagation()}
-              onChange={toggleAutostart}
-            />
-          }
+          action={<Checkbox checked={autostart()} onChange={toggleAutostart} />}
           onClick={toggleAutostart}
           icon={<Symbol>exit_to_app</Symbol>}
           description={

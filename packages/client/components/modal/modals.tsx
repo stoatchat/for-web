@@ -33,6 +33,7 @@ import { EditEmailModal } from "./modals/EditEmail";
 import { EditPasswordModal } from "./modals/EditPassword";
 import { EditUsernameModal } from "./modals/EditUsername";
 import { EmojiPreviewModal } from "./modals/EmojiPreview";
+import { EnableDevtoolsModal } from "./modals/EnableDevtools";
 import { Error2Modal } from "./modals/Error2";
 import { ImageViewerModal } from "./modals/ImageViewer";
 import { InviteModal } from "./modals/Invite";
@@ -183,6 +184,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ResetBotTokenModal {...modalProps} />;
     case "edit_category":
       return <EditCategoryModal {...modalProps} />;
+    case "enable_devtools":
+      return <EnableDevtoolsModal {...modalProps} />;
 
     default:
       console.error(
