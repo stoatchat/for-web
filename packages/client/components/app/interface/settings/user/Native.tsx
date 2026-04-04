@@ -68,6 +68,8 @@ export default function Native() {
     setAutostart(savedValue);
   }
 
+  let solidJsSucks = false;
+
   const toggles: Partial<Record<keyof DesktopConfig, () => void>> = {
     minimiseToTray: () => set({ minimiseToTray: !config().minimiseToTray }),
     startMinimisedToTray: () =>
@@ -80,6 +82,12 @@ export default function Native() {
         set({ enableDevtoolsUntilTimestamp: 0 });
         return;
       }
+
+      // When you press the checkbox itself, it makes two modals for some reason?
+      // If you have an actual fix (instead of this), please do tell me!
+      if (solidJsSucks) return;
+      solidJsSucks = true;
+      setTimeout(() => (solidJsSucks = false));
 
       openModal({
         type: "enable_devtools",
