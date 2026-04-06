@@ -1,21 +1,18 @@
-<!--- Describe what this PR changes in detail -->
-<!--- Why is this change required? What problem does it solve? -->
-
-<!--- If it fixes an open issue, please link to the issue here. -->
+<!-- Describe your changes -->
 
 Fixes # (issue)
 
-## How has this been tested?
+## How was this PR tested?
 
-<!-- Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration -->
+<!-- What did you do to test your changes? -->
 
 - [ ] Test A
 - [ ] Test B
 
 <details><summary><h2>Screenshots & Screencasts (if appropriate)</h2></summary>
-
 <!-- Learn more about providing effective screenshots & screencasts: https://zulip.readthedocs.io/en/latest/contributing/presenting-visual-changes.html -->
-<!-- Images go below this line. -->
+
+<!-- Add images here -->
 
 </details>
 
