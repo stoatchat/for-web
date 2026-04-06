@@ -38,5 +38,7 @@ jobs:
           tags: |
             registry.stoatinternal.com/stoat/frontend:${{ github.sha }}
             registry.stoatinternal.com/stoat/frontend:latest
+          build-args: |
+            BASE_PATH=/app/
           cache-from: type=gha
           cache-to: type=gha,mode=max
