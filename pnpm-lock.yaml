@@ -173,6 +173,9 @@ importers:
       '@solid-primitives/map':
         specifier: ^0.7.1
         version: 0.7.1(solid-js@1.9.6)
+      '@solid-primitives/resize-observer':
+        specifier: 2.1.1
+        version: 2.1.1(solid-js@1.9.6)
       '@solid-primitives/set':
         specifier: ^0.7.1
         version: 0.7.1(solid-js@1.9.6)
@@ -10203,7 +10206,7 @@ snapshots:
       '@solid-primitives/static-store': 0.0.5(solid-js@1.9.6)
       '@solid-primitives/styles': 0.0.111(solid-js@1.9.6)
       '@solid-primitives/timer': 1.4.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       clsx: 2.1.1
       solid-headless: 0.13.1(solid-js@1.9.6)
       solid-js: 1.9.6
@@ -10243,7 +10246,7 @@ snapshots:
       '@solid-primitives/scheduled': 1.5.1(solid-js@1.9.6)
       '@solid-primitives/static-store': 0.0.5(solid-js@1.9.6)
       '@solid-primitives/styles': 0.0.111(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-devtools/theme@0.0.1':
@@ -10274,7 +10277,7 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/resize-observer': 2.1.1(solid-js@1.9.6)
       '@solid-primitives/static-store': 0.0.5(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/context@0.2.3(solid-js@1.9.6)':
@@ -10288,14 +10291,14 @@ snapshots:
 
   '@solid-primitives/cursor@0.0.112(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/date@2.1.2(solid-js@1.9.6)':
     dependencies:
       '@solid-primitives/memo': 1.4.2(solid-js@1.9.6)
       '@solid-primitives/timer': 1.4.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/event-bus@0.1.6(solid-js@1.9.6)':
@@ -10306,12 +10309,12 @@ snapshots:
 
   '@solid-primitives/event-bus@1.1.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/event-listener@2.4.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/i18n@2.2.1(solid-js@1.9.6)':
@@ -10320,7 +10323,7 @@ snapshots:
 
   '@solid-primitives/immutable@0.1.10(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/intersection-observer@2.2.2(solid-js@1.9.6)':
@@ -10330,14 +10333,14 @@ snapshots:
 
   '@solid-primitives/jsx-tokenizer@1.1.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/keyboard@1.3.1(solid-js@1.9.6)':
     dependencies:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/keyed@1.5.2(solid-js@1.9.6)':
@@ -10354,13 +10357,13 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.6)
       '@solid-primitives/static-store': 0.1.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/memo@1.4.2(solid-js@1.9.6)':
     dependencies:
       '@solid-primitives/scheduled': 1.5.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/mouse@2.1.2(solid-js@1.9.6)':
@@ -10368,7 +10371,7 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.6)
       '@solid-primitives/static-store': 0.1.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/platform@0.0.100(solid-js@1.9.6)':
@@ -10390,12 +10393,12 @@ snapshots:
 
   '@solid-primitives/props@3.2.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/range@0.1.18(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/refs@0.3.7(solid-js@1.9.6)':
@@ -10407,7 +10410,7 @@ snapshots:
 
   '@solid-primitives/refs@1.1.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/resize-observer@2.1.1(solid-js@1.9.6)':
@@ -10415,12 +10418,12 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.6)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.6)
       '@solid-primitives/static-store': 0.1.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/rootless@1.5.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/scheduled@1.5.1(solid-js@1.9.6)':
@@ -10442,12 +10445,12 @@ snapshots:
 
   '@solid-primitives/static-store@0.0.5(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/static-store@0.1.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/styles@0.0.101(solid-js@1.9.6)':
@@ -10458,7 +10461,7 @@ snapshots:
   '@solid-primitives/styles@0.0.111(solid-js@1.9.6)':
     dependencies:
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.6)
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/timer@1.4.1(solid-js@1.9.6)':
@@ -10471,7 +10474,7 @@ snapshots:
 
   '@solid-primitives/trigger@1.2.1(solid-js@1.9.6)':
     dependencies:
-      '@solid-primitives/utils': 6.3.1(solid-js@1.9.6)
+      '@solid-primitives/utils': 6.3.2(solid-js@1.9.6)
       solid-js: 1.9.6
 
   '@solid-primitives/utils@2.2.1(solid-js@1.9.6)':
