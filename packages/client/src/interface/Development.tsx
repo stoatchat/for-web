@@ -58,7 +58,13 @@ function FormTest() {
   return (
     <form onSubmit={submit}>
       <label for="name">Your name</label>
-      <Form2.TextField name="name" control={group.controls.name} />
+      <Form2.TextField
+        minlength={1}
+        maxlength={32}
+        counter
+        name="name"
+        control={group.controls.name}
+      />
 
       <label for="email">Your email address</label>
       <Form2.TextField

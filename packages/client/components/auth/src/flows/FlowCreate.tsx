@@ -1,7 +1,8 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
-import { useApi, useClient } from "@revolt/client";
+import { useApi, useClient, useClientLifecycle } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
+import { useModals } from "@revolt/modal";
 import { useNavigate, useParams } from "@revolt/routing";
 import { Button, Row, iconSize } from "@revolt/ui";
 
@@ -20,6 +21,8 @@ export default function FlowCreate() {
   const getClient = useClient();
   const navigate = useNavigate();
   const { code } = useParams();
+  const modals = useModals();
+  const { login } = useClientLifecycle();
 
   /**
    * Create an account
@@ -38,13 +41,20 @@ export default function FlowCreate() {
       ...(invite ? { invite } : {}),
     });
 
-    // FIXME: should tell client if email was sent
-    //        or if email even needs to be confirmed
-
-    // TODO: log straight in if no email confirmation?
-
-    setFlowCheckEmail(email);
-    navigate("/login/check", { replace: true });
+    const client = getClient();
+    if (client.configuration && !client.configuration.features.email) {
+      await login(
+        {
+          email,
+          password,
+        },
+        modals,
+      );
+      navigate("/login/auth", { replace: true });
+    } else {
+      setFlowCheckEmail(email);
+      navigate("/login/check", { replace: true });
+    }
   }
 
   const isInviteOnly = () => {

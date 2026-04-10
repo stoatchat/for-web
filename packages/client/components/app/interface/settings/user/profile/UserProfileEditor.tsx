@@ -166,6 +166,9 @@ export function UserProfileEditor(props: Props) {
           imageJustify={false}
         />
         <Form2.TextField
+          minlength={2}
+          maxlength={32}
+          counter
           name="displayName"
           control={editGroup.controls.displayName}
           label={t`Display Name`}

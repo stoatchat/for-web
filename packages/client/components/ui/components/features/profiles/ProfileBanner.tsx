@@ -74,12 +74,12 @@ export function ProfileBanner(props: {
             content={isCopied() ? t`Copied!` : t`Click to copy username`}
             placement="top"
           >
-            <span onClick={onUsernameClick}>
+            <Username onClick={onUsernameClick}>
               {props.user.username}
               <span class={css({ fontWeight: 200 })}>
                 #{props.user.discriminator}
               </span>
-            </span>
+            </Username>
           </Tooltip>
         </UserShort>
       </Row>
@@ -133,6 +133,11 @@ const UserShort = styled("div", {
     lineHeight: "1em",
     gap: "var(--gap-xs)",
     flexDirection: "column",
+  },
+});
+
+const Username = styled("span", {
+  base: {
     _hover: {
       textDecoration: "underline",
     },
