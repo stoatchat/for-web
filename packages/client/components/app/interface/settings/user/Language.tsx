@@ -6,8 +6,8 @@ import { timeLocale } from "@revolt/i18n/dayjs";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useState } from "@revolt/state";
 import {
-  CatSelOption,
   CategoryButton,
+  CategorySelectOption,
   Column,
   Row,
   Time,
@@ -52,7 +52,7 @@ function PickLanguage() {
   const { i18n } = useLingui();
 
   //@ts-expect-error unfilled object
-  const langOpts: { [k in Language]: CatSelOption } = {};
+  const langOpts: { [k in Language]: CategorySelectOption } = {};
   const langIds = Object.keys(Languages) as Language[];
 
   //Move user's system language to top

@@ -4,7 +4,13 @@ import { useMediaDeviceSelect } from "solid-livekit-components";
 import { Trans } from "@lingui-solid/solid/macro";
 
 import { useState } from "@revolt/state";
-import { CategoryButton, CatSelOption, Column, Slider, Text } from "@revolt/ui";
+import {
+  CategoryButton,
+  CategorySelectOption,
+  Column,
+  Slider,
+  Text,
+} from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 /**
@@ -56,7 +62,7 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
 
   const devOpts = createMemo(() => {
     const devs = media().devices(),
-      opts: { [k in string]: CatSelOption } = {};
+      opts: { [k in string]: CategorySelectOption } = {};
 
     //Ensure default is at top
     let d = devs.find((d) => d.deviceId === "default");

@@ -346,7 +346,7 @@ CategoryButton.Collapse = (props: CollapseProps) => {
   );
 };
 
-export type CatSelOption = Omit<
+export type CategorySelectOption = Omit<
   ComponentProps<typeof CategoryButton>,
   "onClick" | "children"
 > &
@@ -366,7 +366,7 @@ type SelectProps<T extends string> = Omit<
   "onClick" | "children" | "description"
 > & {
   title?: JSX.Element;
-  options: { [k in T]: CatSelOption };
+  options: { [k in T]: CategorySelectOption };
   value?: T;
   onUpdate: (v: T) => void;
 };
