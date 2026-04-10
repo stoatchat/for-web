@@ -56,7 +56,7 @@ function PickLanguage() {
   const langIds = Object.keys(Languages) as Language[];
 
   //Move user's system language to top
-  //Sadly this is not reactive, so there's no point to putting langOpts in a memo
+  //TODO: Make browserPreferredLanguage() reactive, then make langOpts a memo
   const prefLang = browserPreferredLanguage();
   if (prefLang) {
     const prefIdx = langIds.findIndex(
