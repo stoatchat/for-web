@@ -51,13 +51,12 @@ function PickLanguage() {
   const { locale } = useState();
   const { i18n } = useLingui();
 
-  const initLang = i18n().locale as Language;
-
   //@ts-expect-error unfilled object
   const langOpts: { [k in Language]: CatSelOption } = {};
   const langIds = Object.keys(Languages) as Language[];
 
   //Move user's system language to top
+  //Sadly this is not reactive, so there's no point to putting langOpts in a memo
   const prefLang = browserPreferredLanguage();
   if (prefLang) {
     const prefIdx = langIds.findIndex(
@@ -97,7 +96,7 @@ function PickLanguage() {
     <CategoryButton.Select
       icon={<MdLanguage {...iconSize(22)} />}
       title={<Trans>Select your language</Trans>}
-      value={initLang}
+      value={i18n().locale as Language}
       options={langOpts}
       onUpdate={(id) => locale.switch(id)}
     />
@@ -109,8 +108,6 @@ function PickLanguage() {
  */
 function PickDateFormat() {
   const { locale } = useState();
-  const date = timeLocale()[1].formats.L;
-
   const LastWeek = new Date();
   LastWeek.setDate(LastWeek.getDate() - 7);
 
@@ -118,7 +115,7 @@ function PickDateFormat() {
     <CategoryButton.Select
       icon={<MdCalendarMonth {...iconSize(22)} />}
       title={<Trans>Date format</Trans>}
-      value={date}
+      value={timeLocale()[1].formats.L}
       options={{
         "DD/MM/YYYY": {
           shortDesc: <Trans>Traditional (DD/MM/YYYY)</Trans>,
@@ -143,13 +140,12 @@ function PickDateFormat() {
  */
 function PickTimeFormat() {
   const { locale } = useState();
-  const time = timeLocale()[1].formats.LT;
 
   return (
     <CategoryButton.Select
       icon={<MdSchedule {...iconSize(22)} />}
       title={<Trans>Time format</Trans>}
-      value={time}
+      value={timeLocale()[1].formats.LT}
       options={{
         "HH:mm": {
           shortDesc: <Trans>24 hours</Trans>,

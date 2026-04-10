@@ -27,35 +27,35 @@ export function VoiceInputOptions() {
  * Select input device w/ type
  */
 function SelectInput(props: { kind: MediaDeviceKind }) {
-  // eslint-disable-next-line solid/reactivity
-  const kind = props.kind;
-
   const state = useState();
-  const { activeDeviceId, devices, setActiveMediaDevice } =
-    useMediaDeviceSelect({ kind });
+  const media = createMemo(() => useMediaDeviceSelect({ kind: props.kind }));
 
-  const setKey =
-    kind === "audioinput"
+  const setKey = () =>
+    props.kind === "audioinput"
       ? "preferredAudioInputDevice"
       : "preferredAudioOutputDevice";
 
-  const icon =
-    kind === "audioinput" ? <Symbol>mic</Symbol> : <Symbol>speaker</Symbol>;
+  const icon = () =>
+    props.kind === "audioinput" ? (
+      <Symbol>mic</Symbol>
+    ) : (
+      <Symbol>speaker</Symbol>
+    );
 
-  const title =
-    kind === "audioinput" ? (
+  const title = () =>
+    props.kind === "audioinput" ? (
       <Trans>Select audio input</Trans>
     ) : (
       <Trans>Select audio output</Trans>
     );
 
   const activeId = createMemo(() => {
-    const active = activeDeviceId();
-    return (active === "default" ? state.voice[setKey] : undefined) ?? active;
+    const active = media().activeDeviceId();
+    return (active === "default" ? state.voice[setKey()] : undefined) ?? active;
   });
 
   const devOpts = createMemo(() => {
-    const devs = devices(),
+    const devs = media().devices(),
       opts: { [k in string]: CatSelOption } = {};
 
     //Ensure default is at top
@@ -69,15 +69,16 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
 
   return (
     <CategoryButton.Select
-      icon={icon}
-      title={title}
+      icon={icon()}
+      title={title()}
       value={activeId()}
       options={devOpts()}
       onUpdate={(id) => {
-        const dev = devices().find((d) => d.deviceId === id);
+        const mMedia = media(),
+          dev = mMedia.devices().find((d) => d.deviceId === id);
         if (dev) {
-          state.voice[setKey] = dev.deviceId;
-          setActiveMediaDevice(dev.deviceId);
+          state.voice[setKey()] = dev.deviceId;
+          mMedia.setActiveMediaDevice(dev.deviceId);
         }
       }}
     />
