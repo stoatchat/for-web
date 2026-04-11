@@ -48,10 +48,7 @@ class Voice {
   #setState: Setter<State>;
 
   deafen: Accessor<boolean>;
-  #setDeafen: Setter<boolean>;
-
   microphone: Accessor<boolean>;
-  #setMicrophone: Setter<boolean>;
 
   video: Accessor<boolean>;
   #setVideo: Setter<boolean>;
@@ -87,13 +84,8 @@ class Voice {
     this.state = state;
     this.#setState = setState;
 
-    const [deafen, setDeafen] = createSignal<boolean>(false);
-    this.deafen = deafen;
-    this.#setDeafen = setDeafen;
-
-    const [microphone, setMicrophone] = createSignal(false);
-    this.microphone = microphone;
-    this.#setMicrophone = setMicrophone;
+    this.deafen = () => voiceSettings.deafen;
+    this.microphone = () => voiceSettings.micOn;
 
     const [video, setVideo] = createSignal(false);
     this.video = video;
@@ -145,9 +137,6 @@ class Voice {
       this.#setRoom(room);
       this.#setChannel(channel);
       this.#setState("CONNECTING");
-
-      this.#setMicrophone(false);
-      this.#setDeafen(false);
       this.#setVideo(false);
       this.#setScreenshare(false);
     });
@@ -155,16 +144,18 @@ class Voice {
     room.addListener("connected", () => {
       this.#setState("CONNECTED");
       if (this.speakingPermission)
-        room.localParticipant.setMicrophoneEnabled(true).then((track) => {
-          this.#setMicrophone(typeof track !== "undefined");
-          if (this.#settings.noiseSupression === "enhanced") {
-            track?.audioTrack?.setProcessor(
-              new DenoiseTrackProcessor({
-                workletCDNURL: CONFIGURATION.RNNOISE_WORKLET_CDN_URL,
-              }),
-            );
-          }
-        });
+        room.localParticipant
+          .setMicrophoneEnabled(this.#settings.micOn)
+          .then((track) => {
+            this.#settings.micOn = track != null;
+            if (this.#settings.noiseSupression === "enhanced") {
+              track?.audioTrack?.setProcessor(
+                new DenoiseTrackProcessor({
+                  workletCDNURL: CONFIGURATION.RNNOISE_WORKLET_CDN_URL,
+                }),
+              );
+            }
+          });
     });
 
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
@@ -199,7 +190,7 @@ class Voice {
   }
 
   async toggleDeafen() {
-    this.#setDeafen((s) => !s);
+    this.#settings.deafen = !this.#settings.deafen;
   }
 
   async toggleMute() {
@@ -210,7 +201,7 @@ class Voice {
         !room.localParticipant.isMicrophoneEnabled,
       );
 
-      this.#setMicrophone(room.localParticipant.isMicrophoneEnabled);
+      this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
     } catch (e) {
       this.onErr(e);
     }
