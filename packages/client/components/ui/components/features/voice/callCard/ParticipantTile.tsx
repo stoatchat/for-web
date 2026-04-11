@@ -47,9 +47,14 @@ export function ParticipantTile(props: TileProps) {
     source: Track.Source.Microphone,
   });
 
-  const isScreenShareMuted = useIsMuted({
+  const isScreenShareAudioMuted = useIsMuted({
     participant,
     source: Track.Source.ScreenShareAudio,
+  });
+
+  const isRemoteScreenShareMuted = useIsMuted({
+    participant,
+    source: Track.Source.ScreenShare,
   });
 
   const isVideoMuted = useIsMuted({
@@ -72,87 +77,89 @@ export function ParticipantTile(props: TileProps) {
   };
 
   return (
-    <div
-      class={
-        tile({
-          speaking: !isScreenShare() && isSpeaking(),
-          video: isVideo() || isScreenShare(),
-          fullscreen: voice.fullscreen(),
-          ...props,
-        }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
-      }
-      onClick={() => voice.toggleFocus(track)}
-      use:floating={
-        isScreenShare()
-          ? undefined
-          : {
-              // TODO: Conflicts with focusing, maybe only show if clicking name itself
-              //   userCard: {
-              //     user: user().user!,
-              //     member: user().member,
-              //   },
-              contextMenu: () => (
-                <UserContextMenu
-                  user={user().user!}
-                  member={user().member}
-                  inVoice
-                />
-              ),
-            }
-      }
-      style={{ ...getHeight() }}
-    >
-      <Show
-        when={isVideo() || isScreenShare()}
-        fallback={
-          <AvatarOnly>
-            <Avatar
-              src={user().avatar}
-              fallback={user().username}
-              size={48}
-              interactive={false}
-            />
-          </AvatarOnly>
+    <Show when={!isScreenShare() || !isRemoteScreenShareMuted()}>
+      <div
+        class={
+          tile({
+            speaking: !isScreenShare() && isSpeaking(),
+            video: isVideo() || isScreenShare(),
+            fullscreen: voice.fullscreen(),
+            ...props,
+          }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
         }
+        onClick={() => voice.toggleFocus(track)}
+        use:floating={
+          isScreenShare()
+            ? undefined
+            : {
+                // TODO: Conflicts with focusing, maybe only show if clicking name itself
+                //   userCard: {
+                //     user: user().user!,
+                //     member: user().member,
+                //   },
+                contextMenu: () => (
+                  <UserContextMenu
+                    user={user().user!}
+                    member={user().member}
+                    inVoice
+                  />
+                ),
+              }
+        }
+        style={{ ...getHeight() }}
       >
-        <VideoTrack
-          style={{
-            "grid-area": "1/1",
-            "object-fit": "contain",
-            width: "100%",
-            height: "100%",
-            overflow: "hidden",
-          }}
-          trackRef={track as TrackReference}
-          manageSubscription={true}
-          ref={videoRef}
-          on:resize={() => {
-            setVideoDims({
-              height: videoRef?.videoHeight || 0,
-              width: videoRef?.videoWidth || 0,
-            });
-          }}
-        />
-      </Show>
-      <Overlay showOnHover={isScreenShare()}>
-        <OverlayInner>
-          <OverflowingText>{user().username}</OverflowingText>
-          <Row gap="md">
-            {isScreenShare() ? (
-              <Show when={isScreenShareMuted()}>
-                <Symbol size={18}>no_sound</Symbol>
-              </Show>
-            ) : (
-              <VoiceStatefulUserIcons
-                userId={participant.identity}
-                muted={isMuted()}
-                camera={isVideo()}
+        <Show
+          when={isVideo() || isScreenShare()}
+          fallback={
+            <AvatarOnly>
+              <Avatar
+                src={user().avatar}
+                fallback={user().username}
+                size={48}
+                interactive={false}
               />
-            )}
-          </Row>
-        </OverlayInner>
-      </Overlay>
-    </div>
+            </AvatarOnly>
+          }
+        >
+          <VideoTrack
+            style={{
+              "grid-area": "1/1",
+              "object-fit": "contain",
+              width: "100%",
+              height: "100%",
+              overflow: "hidden",
+            }}
+            trackRef={track as TrackReference}
+            manageSubscription={true}
+            ref={videoRef}
+            on:resize={() => {
+              setVideoDims({
+                height: videoRef?.videoHeight || 0,
+                width: videoRef?.videoWidth || 0,
+              });
+            }}
+          />
+        </Show>
+        <Overlay showOnHover={isScreenShare()}>
+          <OverlayInner>
+            <OverflowingText>{user().username}</OverflowingText>
+            <Row gap="md">
+              {isScreenShare() ? (
+                <Show when={isScreenShareAudioMuted()}>
+                  <Symbol size={18}>no_sound</Symbol>
+                </Show>
+              ) : (
+                <VoiceStatefulUserIcons
+                  userId={participant.identity}
+                  muted={isMuted()}
+                  camera={isVideo()}
+                />
+              )}
+            </Row>
+          </OverlayInner>
+        </Overlay>
+      </div>
+    </Show>
   );
 }
 
