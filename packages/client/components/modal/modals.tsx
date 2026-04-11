@@ -48,6 +48,7 @@ import { PolicyChangeModal } from "./modals/PolicyChange";
 import { RenameSessionModal } from "./modals/RenameSession";
 import { ReportContentModal } from "./modals/ReportContent";
 import { ResetBotTokenModal } from "./modals/ResetBotToken";
+import { ScreenShareSettingsModal } from "./modals/ScreenShareSettings";
 import { ServerIdentityModal } from "./modals/ServerIdentity";
 import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
@@ -183,7 +184,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ResetBotTokenModal {...modalProps} />;
     case "edit_category":
       return <EditCategoryModal {...modalProps} />;
-
+    case "screen_share_settings":
+      return <ScreenShareSettingsModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",

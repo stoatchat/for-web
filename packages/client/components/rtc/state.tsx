@@ -13,7 +13,12 @@ import {
   useTracks,
 } from "solid-livekit-components";
 
-import { Room, Track } from "livekit-client";
+import {
+  Room,
+  ScreenSharePresets,
+  Track,
+  VideoResolution,
+} from "livekit-client";
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
@@ -222,16 +227,71 @@ class Voice {
   }
 
   async toggleScreenshare() {
-    try {
-      const room = this.room();
-      if (!room) throw "invalid state";
-      await room.localParticipant.setScreenShareEnabled(
-        !room.localParticipant.isScreenShareEnabled,
-      );
+    const room = this.room();
+    if (!room) throw "invalid state";
+    if (this.screenshare()) {
+      await room.localParticipant.setScreenShareEnabled(false);
 
       this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
-    } catch (e) {
-      this.onErr(e);
+    } else {
+      try {
+        const localTrack = await room.localParticipant.setScreenShareEnabled(
+          true,
+          {
+            resolution: ScreenSharePresets.h720fps30.resolution,
+            audio: true,
+          },
+        );
+
+        this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
+
+        if (localTrack) {
+          localTrack.pauseUpstream();
+          this.openModal({
+            onCancel: async () => {
+              await room.localParticipant.setScreenShareEnabled(false);
+              this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
+            },
+            type: "screen_share_settings",
+            trackReference: {
+              participant: room.localParticipant,
+              publication: localTrack,
+              source: Track.Source.ScreenShare,
+            },
+            callback: async (resolution) => {
+              let resolutionSize: VideoResolution =
+                ScreenSharePresets.h720fps30.resolution;
+
+              if (resolution === "high") {
+                resolutionSize = ScreenSharePresets.h1080fps30.resolution;
+              } else if (resolution === "text") {
+                resolutionSize = ScreenSharePresets.original.resolution;
+                resolutionSize.frameRate = 5;
+                resolutionSize.aspectRatio = 0;
+              }
+
+              await localTrack.videoTrack?.mediaStreamTrack.applyConstraints({
+                frameRate: { max: resolutionSize.frameRate },
+                width:
+                  resolutionSize.width === 0
+                    ? undefined
+                    : { max: resolutionSize.width },
+                height:
+                  resolutionSize.width === 0
+                    ? undefined
+                    : { max: resolutionSize.height },
+              });
+              if (localTrack.videoTrack) {
+                localTrack.videoTrack.mediaStreamTrack.contentHint =
+                  resolution === "text" ? "text" : "motion";
+              }
+              localTrack.resumeUpstream();
+            },
+          });
+        }
+      } catch (e) {
+        this.onErr(e);
+      }
     }
   }
 

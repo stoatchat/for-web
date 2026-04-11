@@ -22,6 +22,7 @@ import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
+import { TrackReference } from "solid-livekit-components";
 
 export type Modals =
   | {
@@ -314,4 +315,10 @@ export type Modals =
       type: "edit_category";
       server: Server;
       category: CategoryData;
+    }
+  | {
+      type: "screen_share_settings";
+      trackReference: TrackReference;
+      callback: (resolution: string) => void;
+      onCancel: () => void;
     };
