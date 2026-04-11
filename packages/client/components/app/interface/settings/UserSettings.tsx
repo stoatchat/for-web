@@ -205,7 +205,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             {
               id: "voice",
               icon: <MdMic {...iconSize(20)} />,
-              title: <Trans>Voice and Video</Trans>,
+              title: <Trans>Voice & Video</Trans>,
             },
             {
               id: "appearance",
