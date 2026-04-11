@@ -3,6 +3,12 @@ import { t } from "@lingui/core/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import {
+  getScreenShareQuality,
+  ScreenShareQualityName,
+} from "@revolt/common/lib/ScreenShareQualities";
+import { useState } from "@revolt/state";
+import {
+  Checkbox,
   Column,
   Dialog,
   DialogProps,
@@ -10,19 +16,29 @@ import {
   Form2,
   MenuItem,
 } from "@revolt/ui";
-
 import { VideoTrack } from "solid-livekit-components";
+
 import { Modals } from "../types";
 
 export function ScreenShareSettingsModal(
   props: DialogProps & Modals & { type: "screen_share_settings" },
 ) {
+  const { voice } = useState();
+
   const group = createFormGroup({
-    resolution: createFormControl("low"),
+    qualityName: createFormControl<ScreenShareQualityName>(
+      voice.screenShareQuality || "low",
+    ),
+    dontAsk: createFormControl(false),
   });
 
   async function onSubmit() {
-    props.callback(group.controls.resolution.value);
+    if (group.controls.dontAsk.value) {
+      voice.screenShareQuality = group.controls.qualityName.value;
+      voice.screenShareQualityAsk = false;
+    }
+
+    props.callback(group.controls.qualityName.value);
     props.onClose();
   }
 
@@ -61,27 +77,36 @@ export function ScreenShareSettingsModal(
           <FloatingSelect
             label={t`Stream Resolution`}
             required
-            value={group.controls.resolution.value}
+            value={group.controls.qualityName.value}
             onChange={(
               e: Event & { currentTarget: HTMLElement; target: Element },
             ) =>
-              group.controls.resolution.setValue(
-                e.currentTarget.getAttribute("value") || "medium",
+              group.controls.qualityName.setValue(
+                (e.currentTarget.getAttribute(
+                  "value",
+                ) as ScreenShareQualityName) || "low",
               )
             }
           >
             <MenuItem value="low">
-              <Trans>720p 30FPS</Trans>
+              {getScreenShareQuality("low").fullName}
             </MenuItem>
-            {/* TODO: Disable this option if above limits */}
             <MenuItem value="high">
-              <Trans>1080p 30FPS</Trans>
+              {getScreenShareQuality("high").fullName}
             </MenuItem>
-            {/* TODO: Cap this option at limit */}
             <MenuItem value="text">
-              <Trans>Source 5FPS</Trans>
+              {getScreenShareQuality("text").fullName}
             </MenuItem>
           </FloatingSelect>
+
+          <Checkbox
+            checked={group.controls.dontAsk.value}
+            onChange={() =>
+              group.controls.dontAsk.setValue(!group.controls.dontAsk.value)
+            }
+          >
+            <Trans>Don't ask me again</Trans>
+          </Checkbox>
         </Column>
       </form>
     </Dialog>

@@ -1,5 +1,6 @@
 import { Column } from "@revolt/ui";
 
+import { ScreenShareOptions } from "./ScreenShareOptions";
 import { VoiceInputOptions } from "./VoiceInputOptions";
 import { VoiceProcessingOptions } from "./VoiceProcessingOptions";
 
@@ -11,6 +12,7 @@ export function VoiceSettings() {
     <Column gap="lg">
       <VoiceInputOptions />
       <VoiceProcessingOptions />
+      <ScreenShareOptions />
     </Column>
   );
 }

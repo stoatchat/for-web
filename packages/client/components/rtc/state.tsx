@@ -1,10 +1,10 @@
 import {
   Accessor,
-  JSX,
-  Setter,
   batch,
   createContext,
   createSignal,
+  JSX,
+  Setter,
   useContext,
 } from "solid-js";
 import {
@@ -13,12 +13,7 @@ import {
   useTracks,
 } from "solid-livekit-components";
 
-import {
-  Room,
-  ScreenSharePresets,
-  Track,
-  VideoResolution,
-} from "livekit-client";
+import { Room, Track } from "livekit-client";
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
@@ -28,6 +23,10 @@ import { useState } from "@revolt/state";
 import { Voice as VoiceSettings } from "@revolt/state/stores/Voice";
 import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
 
+import {
+  getScreenShareQuality,
+  ScreenShareQualityName,
+} from "@revolt/common/lib/ScreenShareQualities";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
 
@@ -238,56 +237,60 @@ class Voice {
         const localTrack = await room.localParticipant.setScreenShareEnabled(
           true,
           {
-            resolution: ScreenSharePresets.h720fps30.resolution,
-            audio: true,
+            resolution: getScreenShareQuality(
+              this.#settings.screenShareQuality || "low",
+            ).resolution,
+            // TODO: Change this to true when enabling screen share audio.
+            audio: false,
           },
         );
 
         this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
 
         if (localTrack) {
-          localTrack.pauseUpstream();
-          this.openModal({
-            onCancel: async () => {
-              await room.localParticipant.setScreenShareEnabled(false);
-              this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
-            },
-            type: "screen_share_settings",
-            trackReference: {
-              participant: room.localParticipant,
-              publication: localTrack,
-              source: Track.Source.ScreenShare,
-            },
-            callback: async (resolution) => {
-              let resolutionSize: VideoResolution =
-                ScreenSharePresets.h720fps30.resolution;
+          const callback = async (qualityName: ScreenShareQualityName) => {
+            const quality = getScreenShareQuality(qualityName);
 
-              if (resolution === "high") {
-                resolutionSize = ScreenSharePresets.h1080fps30.resolution;
-              } else if (resolution === "text") {
-                resolutionSize = ScreenSharePresets.original.resolution;
-                resolutionSize.frameRate = 5;
-                resolutionSize.aspectRatio = 0;
-              }
+            await localTrack.videoTrack?.mediaStreamTrack.applyConstraints({
+              frameRate: { max: quality.resolution.frameRate },
+              width:
+                quality.resolution.width === 0
+                  ? undefined
+                  : { max: quality.resolution.width },
+              height:
+                quality.resolution.width === 0
+                  ? undefined
+                  : { max: quality.resolution.height },
+            });
+            if (localTrack.videoTrack) {
+              localTrack.videoTrack.mediaStreamTrack.contentHint =
+                quality.contentHint;
+            }
+          };
 
-              await localTrack.videoTrack?.mediaStreamTrack.applyConstraints({
-                frameRate: { max: resolutionSize.frameRate },
-                width:
-                  resolutionSize.width === 0
-                    ? undefined
-                    : { max: resolutionSize.width },
-                height:
-                  resolutionSize.width === 0
-                    ? undefined
-                    : { max: resolutionSize.height },
-              });
-              if (localTrack.videoTrack) {
-                localTrack.videoTrack.mediaStreamTrack.contentHint =
-                  resolution === "text" ? "text" : "motion";
-              }
-              localTrack.resumeUpstream();
-            },
-          });
+          if (this.#settings.screenShareQualityAsk) {
+            localTrack.pauseUpstream();
+            this.openModal({
+              onCancel: async () => {
+                await room.localParticipant.setScreenShareEnabled(false);
+                this.#setScreenshare(
+                  room.localParticipant.isScreenShareEnabled,
+                );
+              },
+              type: "screen_share_settings",
+              trackReference: {
+                participant: room.localParticipant,
+                publication: localTrack,
+                source: Track.Source.ScreenShare,
+              },
+              callback: async (qualityName) => {
+                callback(qualityName);
+                localTrack.resumeUpstream();
+              },
+            });
+          } else {
+            callback(this.#settings.screenShareQuality || "low");
+          }
         }
       } catch (e) {
         this.onErr(e);
