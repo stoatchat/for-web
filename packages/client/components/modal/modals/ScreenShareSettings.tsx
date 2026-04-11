@@ -52,6 +52,8 @@ export function ScreenShareSettingsModal(
         style={{
           padding: "var(--gap-md)",
           "border-radius": "var(--borderRadius-lg)",
+          "max-height": "400px",
+          "justify-self": "center",
         }}
       />
       <form onSubmit={submit}>
