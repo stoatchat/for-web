@@ -41,6 +41,12 @@ export function getScreenShareQuality(
   name: ScreenShareQualityName,
   client: Client,
 ): ScreenShareQuality {
+  // Squash desired quality if the quality passed is not enabled
+  const enabled = getEnabledScreenShareQualities(client);
+  if (!enabled.includes(name)) {
+    name = "low";
+  }
+
   switch (name) {
     case "low":
       return {
