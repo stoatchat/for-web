@@ -1,6 +1,8 @@
-import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
+import { t } from "@lingui/core/macro";
 import { ScreenSharePresets, VideoResolution } from "livekit-client";
 import { Client } from "stoat.js";
+
+import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 
 type ScreenShareQuality = {
   name: ScreenShareQualityName;
@@ -52,14 +54,14 @@ export function getScreenShareQuality(
       return {
         name: "low",
         resolution: ScreenSharePresets.h720fps30.resolution,
-        fullName: "720p@30FPS",
+        fullName: t`720p@30FPS`,
         contentHint: "motion",
       };
     case "high":
       return {
         name: "high",
         resolution: ScreenSharePresets.h1080fps30.resolution,
-        fullName: "1080p@30FPS",
+        fullName: t`1080p@30FPS`,
         contentHint: "motion",
       };
     case "text": {
@@ -87,7 +89,7 @@ export function getScreenShareQuality(
       return {
         name: "text",
         resolution: originalResolution,
-        fullName: "Source@5FPS",
+        fullName: t`Source@5FPS`,
         contentHint: "text",
       };
     }
