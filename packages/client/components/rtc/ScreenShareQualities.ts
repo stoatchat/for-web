@@ -11,6 +11,13 @@ type ScreenShareQuality = {
   contentHint: string;
 };
 
+/**
+ * Get the enabled screen share qualities. "low" will always be enabled.
+ * Each screen share quality is checked against the limit if the limit is available on the client.
+ *
+ * @param client A Stoat js client
+ * @returns An array of available screen share quality names
+ */
 export function getEnabledScreenShareQualities(
   client: Client,
 ): ScreenShareQualityName[] {
@@ -38,6 +45,11 @@ export function getEnabledScreenShareQualities(
 
 /**
  * Get the full quality settings for the screen share quality defined by name.
+ * If the quality requested is disabled, this function will return the "low" quality.
+ *
+ * @param name The name of the screen share quality to get
+ * @param client A Stoat js client
+ * @returns The ScreenShareQuality defined by name
  */
 export function getScreenShareQuality(
   name: ScreenShareQualityName,
