@@ -277,8 +277,8 @@ function VoiceCallCard(props: { channel: Channel }) {
 
 const Base = styled("div", {
   base: {
-    top: 0,
     left: 0,
+    top: "var(--gap-md)",
     padding: "var(--gap-md)",
 
     width: "100%",
