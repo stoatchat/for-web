@@ -252,18 +252,18 @@ class Voice {
           const callback = async (qualityName: ScreenShareQualityName) => {
             const quality = getScreenShareQuality(qualityName, client);
 
-            await localTrack.videoTrack?.mediaStreamTrack.applyConstraints({
-              frameRate: { max: quality.resolution.frameRate },
-              width:
-                quality.resolution.width === 0
-                  ? undefined
-                  : { max: quality.resolution.width },
-              height:
-                quality.resolution.width === 0
-                  ? undefined
-                  : { max: quality.resolution.height },
-            });
             if (localTrack.videoTrack) {
+              await localTrack.videoTrack.mediaStreamTrack.applyConstraints({
+                frameRate: { max: quality.resolution.frameRate },
+                width:
+                  quality.resolution.width === 0
+                    ? undefined
+                    : { max: quality.resolution.width },
+                height:
+                  quality.resolution.width === 0
+                    ? undefined
+                    : { max: quality.resolution.height },
+              });
               localTrack.videoTrack.mediaStreamTrack.contentHint =
                 quality.contentHint;
             }
