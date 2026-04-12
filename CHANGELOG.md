@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.4.0...stoat-for-web-v0.5.0) (2026-04-12)
+
+
+### Features
+
+* Remember mic mute setting ([#1087](https://github.com/stoatchat/for-web/issues/1087)) ([899a6c1](https://github.com/stoatchat/for-web/commit/899a6c11bf8714fff31771926b7ad807301741d7))
+
+
+### Bug Fixes
+
+* drag indicator using wrong colour on dark mode ([#1094](https://github.com/stoatchat/for-web/issues/1094)) ([cfe0800](https://github.com/stoatchat/for-web/commit/cfe0800c866c303061e16f9502a9898d18002465))
+* Make the invite code box not disabled to fix missing invite ([#1078](https://github.com/stoatchat/for-web/issues/1078)) ([336dce1](https://github.com/stoatchat/for-web/commit/336dce15d808a1590e982047c0f76768c44233b8))
+* perfectly center notification badge number inside the DM list circle ([#1051](https://github.com/stoatchat/for-web/issues/1051)) ([df7ed0b](https://github.com/stoatchat/for-web/commit/df7ed0ba5a124fdfaa379bdc5b090caac5738b83))
+* **scrollable:** only show scrollbar on hover when content overflows ([#1095](https://github.com/stoatchat/for-web/issues/1095)) ([d1344eb](https://github.com/stoatchat/for-web/commit/d1344eb3767f4353e459449cb7744355e88270e6))
+
 ## [0.4.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.3.0...stoat-for-web-v0.4.0) (2026-04-10)
 
 
