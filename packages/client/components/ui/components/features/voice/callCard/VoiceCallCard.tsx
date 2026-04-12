@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
-import { AutoSizer } from "@dschz/solid-auto-sizer";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -207,8 +207,12 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   //const state = useState();
   const voice = useVoice();
   const [width, setWidth] = createSignal(0);
-  const [ref, setRef] = createSignal<HTMLDivElement>();
   const setInfo = useContext(callCardContext)!;
+  let ref: HTMLDivElement | undefined;
+
+  onMount(() => {
+    createResizeObserver(ref, ({ width }) => setWidth(width));
+  });
 
   createEffect(() => {
     width();
@@ -217,23 +221,14 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
     if (canUpdate)
       setInfo({
         channel: props.channel,
-        pos: ref()?.getBoundingClientRect(),
+        pos: ref!.getBoundingClientRect(),
         //drawer: state.appDrawer()?.state, TODO PR #835
       });
   });
 
   onCleanup(setInfo);
 
-  return (
-    <div ref={setRef}>
-      <AutoSizer>
-        {({ width }) => {
-          setWidth(width);
-          return null;
-        }}
-      </AutoSizer>
-    </div>
-  );
+  return <div ref={ref!} />;
 }
 
 /**
