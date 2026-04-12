@@ -15,7 +15,7 @@ import {
 
 import { Room, Track } from "livekit-client";
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
-import { Channel } from "stoat.js";
+import { Channel, Client } from "stoat.js";
 
 import { CONFIGURATION } from "@revolt/common";
 import { ModalController, useModals } from "@revolt/modal";
@@ -23,12 +23,10 @@ import { useState } from "@revolt/state";
 import { Voice as VoiceSettings } from "@revolt/state/stores/Voice";
 import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
 
-import {
-  getScreenShareQuality,
-  ScreenShareQualityName,
-} from "@revolt/common/lib/ScreenShareQualities";
+import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
+import { getScreenShareQuality } from "./ScreenShareQualities";
 
 type State =
   | "READY"
@@ -225,7 +223,7 @@ class Voice {
     }
   }
 
-  async toggleScreenshare() {
+  async toggleScreenshare(client: Client) {
     const room = this.room();
     if (!room) throw "invalid state";
     if (this.screenshare()) {
@@ -239,6 +237,7 @@ class Voice {
           {
             resolution: getScreenShareQuality(
               this.#settings.screenShareQuality || "low",
+              client,
             ).resolution,
             // TODO: Change this to true when enabling screen share audio.
             audio: false,
@@ -249,7 +248,7 @@ class Voice {
 
         if (localTrack) {
           const callback = async (qualityName: ScreenShareQualityName) => {
-            const quality = getScreenShareQuality(qualityName);
+            const quality = getScreenShareQuality(qualityName, client);
 
             await localTrack.videoTrack?.mediaStreamTrack.applyConstraints({
               frameRate: { max: quality.resolution.frameRate },

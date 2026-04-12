@@ -3,6 +3,7 @@ import { Show } from "solid-js";
 import { useLingui } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
+import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useVoice } from "@revolt/rtc";
 import { Button, IconButton } from "@revolt/ui/components/design";
@@ -11,6 +12,7 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const voice = useVoice();
   const { t } = useLingui();
+  const getClient = useClient();
 
   function isVideoEnabled() {
     return CONFIGURATION.ENABLE_VIDEO;
@@ -88,7 +90,7 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
         size={props.size}
         variant={isVideoEnabled() && voice.screenshare() ? "filled" : "tonal"}
         onPress={() => {
-          if (isVideoEnabled()) voice.toggleScreenshare();
+          if (isVideoEnabled()) voice.toggleScreenshare(getClient());
         }}
         use:floating={{
           tooltip: {

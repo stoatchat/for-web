@@ -1,8 +1,3 @@
-import {
-  ScreenShareQualityName,
-  ScreenShareQualityNames,
-} from "@revolt/common/lib/ScreenShareQualities";
-
 import { State } from "..";
 
 import { AbstractStore } from ".";
@@ -16,6 +11,20 @@ const NoiseSuppresionStates: NoiseSuppresionState[] = [
   "disabled",
   "browser",
   "enhanced",
+];
+
+/**
+ * Possible screen share qualities. Low is 720p@30fps, high 1080p@30fps and text is source@5fps.
+ */
+export type ScreenShareQualityName = "low" | "high" | "text";
+
+/**
+ * Array of available screen share quality names.
+ */
+export const ScreenShareQualityNames: ScreenShareQualityName[] = [
+  "low",
+  "high",
+  "text",
 ];
 
 export interface TypeVoice {

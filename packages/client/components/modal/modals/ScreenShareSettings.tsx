@@ -2,11 +2,13 @@ import { Trans } from "@lingui-solid/solid/macro";
 import { t } from "@lingui/core/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
+import { useClient } from "@revolt/client";
 import {
+  getEnabledScreenShareQualities,
   getScreenShareQuality,
-  ScreenShareQualityName,
-} from "@revolt/common/lib/ScreenShareQualities";
+} from "@revolt/rtc/ScreenShareQualities";
 import { useState } from "@revolt/state";
+import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import {
   Checkbox,
   Column,
@@ -18,12 +20,14 @@ import {
 } from "@revolt/ui";
 import { VideoTrack } from "solid-livekit-components";
 
+import { For } from "solid-js";
 import { Modals } from "../types";
 
 export function ScreenShareSettingsModal(
   props: DialogProps & Modals & { type: "screen_share_settings" },
 ) {
   const { voice } = useState();
+  const getClient = useClient();
 
   const group = createFormGroup({
     qualityName: createFormControl<ScreenShareQualityName>(
@@ -88,15 +92,13 @@ export function ScreenShareSettingsModal(
               )
             }
           >
-            <MenuItem value="low">
-              {getScreenShareQuality("low").fullName}
-            </MenuItem>
-            <MenuItem value="high">
-              {getScreenShareQuality("high").fullName}
-            </MenuItem>
-            <MenuItem value="text">
-              {getScreenShareQuality("text").fullName}
-            </MenuItem>
+            <For each={getEnabledScreenShareQualities(getClient())}>
+              {(item) => (
+                <MenuItem value={item}>
+                  {getScreenShareQuality(item, getClient()).fullName}
+                </MenuItem>
+              )}
+            </For>
           </FloatingSelect>
 
           <Checkbox
