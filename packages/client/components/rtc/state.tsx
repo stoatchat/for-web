@@ -20,10 +20,12 @@ import { Channel, Client } from "stoat.js";
 import { CONFIGURATION } from "@revolt/common";
 import { ModalController, useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Voice as VoiceSettings } from "@revolt/state/stores/Voice";
+import {
+  ScreenShareQualityName,
+  Voice as VoiceSettings,
+} from "@revolt/state/stores/Voice";
 import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
 
-import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
 import { getScreenShareQuality } from "./ScreenShareQualities";
