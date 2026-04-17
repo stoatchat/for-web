@@ -1,5 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
-import { t } from "@lingui/core/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import { useClient } from "@revolt/client";
@@ -28,6 +27,7 @@ export function ScreenShareSettingsModal(
 ) {
   const { voice } = useState();
   const getClient = useClient();
+  const { t } = useLingui();
 
   const group = createFormGroup({
     qualityName: createFormControl<ScreenShareQualityName>(
@@ -55,7 +55,7 @@ export function ScreenShareSettingsModal(
         props.onCancel();
         props.onClose();
       }}
-      title="Screen Share Settings"
+      title={t`Screen Share Settings`}
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
