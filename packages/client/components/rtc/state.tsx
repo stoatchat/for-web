@@ -22,6 +22,7 @@ import {
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
+import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { ModalController, useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -31,7 +32,6 @@ import {
 } from "@revolt/state/stores/Voice";
 import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
 
-import { useClient } from "@revolt/client";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
 

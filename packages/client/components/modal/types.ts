@@ -1,3 +1,4 @@
+import { TrackReference } from "solid-livekit-components";
 import {
   API,
   Bot,
@@ -23,7 +24,6 @@ import { ProtocolV1 } from "stoat.js/lib/events/v1";
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
-import { TrackReference } from "solid-livekit-components";
 
 export type Modals =
   | {
