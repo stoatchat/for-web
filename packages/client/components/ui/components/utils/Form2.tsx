@@ -264,6 +264,11 @@ const FormButtonGroup = (props: {
           )}
         </For>
       </Row>
+      <Show when={props.control.isTouched && !props.control.isValid}>
+        <For each={Object.keys(props.control.errors!)}>
+          {(errorMsg: string) => <small>{errorMsg}</small>}
+        </For>
+      </Show>
     </>
   );
 };
