@@ -17,8 +17,8 @@ import { styled } from "styled-system/jsx";
 
 import { Button, Checkbox, Radio2, Text, TextField } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
-
 import { Row } from "../layout";
+
 import { FileInput } from "./files";
 
 /**
