@@ -1,11 +1,9 @@
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { useClient } from "@revolt/client";
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import {
-  Checkbox,
   Column,
   Dialog,
   DialogProps,
@@ -22,7 +20,6 @@ export function ScreenShareSettingsModal(
   props: DialogProps & Modals & { type: "screen_share_settings" },
 ) {
   const { voice } = useState();
-  const getClient = useClient();
   const { t } = useLingui();
 
   const group = createFormGroup({
@@ -93,14 +90,9 @@ export function ScreenShareSettingsModal(
             </For>
           </FloatingSelect>
 
-          <Checkbox
-            checked={group.controls.dontAsk.value}
-            onChange={() =>
-              group.controls.dontAsk.setValue(!group.controls.dontAsk.value)
-            }
-          >
+          <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
-          </Checkbox>
+          </Form2.Checkbox>
         </Column>
       </form>
     </Dialog>
