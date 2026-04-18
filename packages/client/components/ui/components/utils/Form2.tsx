@@ -4,6 +4,7 @@ import {
   ComponentProps,
   For,
   Match,
+  ParentProps,
   Show,
   Switch,
   splitProps,
@@ -14,7 +15,14 @@ import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox, Radio2, Text, TextField } from "../design";
+import {
+  Button,
+  Checkbox,
+  FloatingSelect,
+  Radio2,
+  Text,
+  TextField,
+} from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 
 import { FileInput } from "./files";
@@ -302,6 +310,43 @@ function FormVirtualSelect<K, T>(props: {
 }
 
 /**
+ * Form wrapper for FloatingSelect
+ */
+const FormFloatingSelect = (
+  props: { control: IFormControl<string> } & ParentProps<
+    ComponentProps<typeof FloatingSelect>
+  >,
+) => {
+  const [local, remote] = splitProps(props, ["control"]);
+
+  return (
+    <>
+      <FloatingSelect
+        {...remote}
+        required={local.control.isRequired}
+        disabled={local.control.isDisabled}
+        value={local.control.value}
+        onChange={(
+          event: Event & { currentTarget: HTMLElement; target: Element },
+        ) => {
+          local.control.setValue(
+            event.currentTarget.getAttribute("value") || "",
+          );
+          local.control.markDirty(true);
+        }}
+      >
+        {remote.children}
+      </FloatingSelect>
+      <Show when={local.control.isTouched && !local.control.isValid}>
+        <For each={Object.keys(local.control.errors!)}>
+          {(errorMsg: string) => <small>{errorMsg}</small>}
+        </For>
+      </Show>
+    </>
+  );
+};
+
+/**
  * Form reset button
  */
 const FormResetButton = (props: {
@@ -430,6 +475,7 @@ export const Form2 = {
   Checkbox: FormCheckbox,
   Radio: FormRadio,
   VirtualSelect: FormVirtualSelect,
+  FloatingSelect: FormFloatingSelect,
   Reset: FormResetButton,
   Submit: FormSubmitButton,
   canSubmit,

@@ -3,14 +3,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
-import {
-  Column,
-  Dialog,
-  DialogProps,
-  FloatingSelect,
-  Form2,
-  MenuItem,
-} from "@revolt/ui";
+import { Column, Dialog, DialogProps, Form2, MenuItem } from "@revolt/ui";
 import { VideoTrack } from "solid-livekit-components";
 
 import { For } from "solid-js";
@@ -25,6 +18,7 @@ export function ScreenShareSettingsModal(
   const group = createFormGroup({
     qualityName: createFormControl<ScreenShareQualityName>(
       voice.screenShareQuality || "low",
+      { required: true },
     ),
     dontAsk: createFormControl(false),
   });
@@ -71,24 +65,14 @@ export function ScreenShareSettingsModal(
       />
       <form onSubmit={submit}>
         <Column>
-          <FloatingSelect
+          <Form2.FloatingSelect
             label={t`Stream Resolution`}
-            required
-            value={group.controls.qualityName.value}
-            onChange={(
-              e: Event & { currentTarget: HTMLElement; target: Element },
-            ) =>
-              group.controls.qualityName.setValue(
-                (e.currentTarget.getAttribute(
-                  "value",
-                ) as ScreenShareQualityName) || "low",
-              )
-            }
+            control={group.controls.qualityName}
           >
             <For each={props.qualities}>
               {(item) => <MenuItem value={item.name}>{item.fullName}</MenuItem>}
             </For>
-          </FloatingSelect>
+          </Form2.FloatingSelect>
 
           <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
