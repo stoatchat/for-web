@@ -320,6 +320,7 @@ export type Modals =
   | {
       type: "screen_share_settings";
       trackReference: TrackReference;
+      qualities: { name: string; fullName: string }[];
       callback: (qualityName: ScreenShareQualityName) => void;
       onCancel: () => void;
     };

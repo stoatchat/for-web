@@ -2,10 +2,6 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import { useClient } from "@revolt/client";
-import {
-  getEnabledScreenShareQualities,
-  getScreenShareQuality,
-} from "@revolt/rtc/ScreenShareQualities";
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import {
@@ -92,12 +88,8 @@ export function ScreenShareSettingsModal(
               )
             }
           >
-            <For each={getEnabledScreenShareQualities(getClient())}>
-              {(item) => (
-                <MenuItem value={item}>
-                  {getScreenShareQuality(item, getClient()).fullName}
-                </MenuItem>
-              )}
+            <For each={props.qualities}>
+              {(item) => <MenuItem value={item.name}>{item.fullName}</MenuItem>}
             </For>
           </FloatingSelect>
 

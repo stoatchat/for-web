@@ -1,10 +1,6 @@
 import { Trans } from "@lingui-solid/solid/macro";
-import { useClient } from "@revolt/client";
 
-import {
-  getEnabledScreenShareQualities,
-  getScreenShareQuality,
-} from "@revolt/rtc/ScreenShareQualities";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import {
@@ -18,7 +14,9 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 export function ScreenShareOptions() {
   const { voice } = useState();
-  const getClient = useClient();
+  const voiceContext = useVoice();
+
+  const qualities = voiceContext.getEnabledScreenShareQualities();
 
   return (
     <Column>
@@ -31,10 +29,10 @@ export function ScreenShareOptions() {
           title={<Trans>Select screen share quality</Trans>}
           options={
             Object.fromEntries(
-              getEnabledScreenShareQualities(getClient()).map((name) => [
+              Object.keys(qualities).map((name) => [
                 name,
                 {
-                  title: getScreenShareQuality(name, getClient()).fullName,
+                  title: qualities[name as ScreenShareQualityName]!.fullName,
                 },
               ]),
             ) as { [key in ScreenShareQualityName]: CategorySelectOption }
