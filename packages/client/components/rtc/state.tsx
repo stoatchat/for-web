@@ -259,7 +259,7 @@ class Voice {
       low: {
         name: "low",
         resolution: ScreenSharePresets.h720fps30.resolution,
-        fullName: `720p@30FPS`,
+        fullName: `720p 30FPS`,
         contentHint: "motion",
       },
     };
@@ -279,7 +279,7 @@ class Voice {
           qualities.high = {
             name: "high",
             resolution: ScreenSharePresets.h1080fps30.resolution,
-            fullName: `1080p@30FPS`,
+            fullName: `1080p 30FPS`,
             contentHint: "motion",
           };
           const originalResolution = ScreenSharePresets.original.resolution;
@@ -306,7 +306,7 @@ class Voice {
           qualities.text = {
             name: "text",
             resolution: originalResolution,
-            fullName: `Source@5FPS`,
+            fullName: `Source 5FPS`,
             contentHint: "text",
           };
         }
