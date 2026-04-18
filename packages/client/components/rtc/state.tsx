@@ -323,6 +323,7 @@ class Voice {
 
       this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
     } else {
+      const qualities = this.getEnabledScreenShareQualities();
       try {
         const localTrack = await room.localParticipant.setScreenShareEnabled(
           true,
@@ -340,7 +341,6 @@ class Voice {
 
         if (localTrack) {
           const callback = async (qualityName: ScreenShareQualityName) => {
-            const qualities = this.getEnabledScreenShareQualities();
             const quality = qualities[qualityName] || qualities.low!;
 
             if (localTrack.videoTrack) {
@@ -361,32 +361,33 @@ class Voice {
           };
 
           if (this.#settings.screenShareQualityAsk) {
-            localTrack.pauseUpstream();
-            const qualities = this.getEnabledScreenShareQualities();
-            this.openModal({
-              onCancel: async () => {
-                await room.localParticipant.setScreenShareEnabled(false);
-                this.#setScreenshare(
-                  room.localParticipant.isScreenShareEnabled,
-                );
-              },
-              type: "screen_share_settings",
-              trackReference: {
-                participant: room.localParticipant,
-                publication: localTrack,
-                source: Track.Source.ScreenShare,
-              },
-              qualities: Object.keys(qualities).map((k) => {
-                const v = qualities[k as ScreenShareQualityName]!;
-                return { name: k, fullName: v.fullName };
-              }),
-              callback: async (qualityName) => {
-                callback(qualityName);
-                localTrack.resumeUpstream();
-              },
-            });
-          } else {
-            callback(this.#settings.screenShareQuality || "low");
+            if (Object.keys(qualities).length > 1) {
+              localTrack.pauseUpstream();
+              this.openModal({
+                onCancel: async () => {
+                  await room.localParticipant.setScreenShareEnabled(false);
+                  this.#setScreenshare(
+                    room.localParticipant.isScreenShareEnabled,
+                  );
+                },
+                type: "screen_share_settings",
+                trackReference: {
+                  participant: room.localParticipant,
+                  publication: localTrack,
+                  source: Track.Source.ScreenShare,
+                },
+                qualities: Object.keys(qualities).map((k) => {
+                  const v = qualities[k as ScreenShareQualityName]!;
+                  return { name: k, fullName: v.fullName };
+                }),
+                callback: async (qualityName) => {
+                  callback(qualityName);
+                  localTrack.resumeUpstream();
+                },
+              });
+            } else {
+              callback(this.#settings.screenShareQuality || "low");
+            }
           }
         }
       } catch (e) {

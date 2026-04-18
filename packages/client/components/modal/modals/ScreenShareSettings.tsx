@@ -3,10 +3,9 @@ import { createFormControl, createFormGroup } from "solid-forms";
 
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
-import { Column, Dialog, DialogProps, Form2, MenuItem } from "@revolt/ui";
+import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 import { VideoTrack } from "solid-livekit-components";
 
-import { For } from "solid-js";
 import { Modals } from "../types";
 
 export function ScreenShareSettingsModal(
@@ -37,6 +36,7 @@ export function ScreenShareSettingsModal(
 
   return (
     <Dialog
+      minWidth={420}
       show={props.show}
       onClose={() => {
         props.onCancel();
@@ -65,15 +65,15 @@ export function ScreenShareSettingsModal(
       />
       <form onSubmit={submit}>
         <Column>
-          <Form2.FloatingSelect
-            label={t`Stream Resolution`}
+          <Form2.ButtonGroup
             control={group.controls.qualityName}
-          >
-            <For each={props.qualities}>
-              {(item) => <MenuItem value={item.name}>{item.fullName}</MenuItem>}
-            </For>
-          </Form2.FloatingSelect>
-
+            buttonDefinitions={props.qualities.map((quality) => {
+              return {
+                children: quality.fullName,
+                value: quality.name,
+              };
+            })}
+          />
           <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
           </Form2.Checkbox>

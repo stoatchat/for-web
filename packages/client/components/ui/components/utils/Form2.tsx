@@ -15,16 +15,10 @@ import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import {
-  Button,
-  Checkbox,
-  FloatingSelect,
-  Radio2,
-  Text,
-  TextField,
-} from "../design";
+import { Button, Checkbox, Radio2, Text, TextField } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 
+import { Row } from "../layout";
 import { FileInput } from "./files";
 
 /**
@@ -238,6 +232,43 @@ const FormRadio = (
 };
 
 /**
+ * Form element wrapper for button groups
+ */
+const FormButtonGroup = (props: {
+  control: IFormControl<string>;
+  buttonDefinitions: (Omit<
+    ParentProps<ComponentProps<typeof Button>>,
+    "group" | "groupActive" | "onPress"
+  > & { value: string })[];
+}) => {
+  return (
+    <>
+      <Row justify="stretch">
+        <For each={props.buttonDefinitions}>
+          {(buttonDef, index) => (
+            <Button
+              group={
+                index() === 0
+                  ? "connected-start"
+                  : index() === props.buttonDefinitions.length - 1
+                    ? "connected-end"
+                    : "connected"
+              }
+              groupActive={props.control.value === buttonDef.value}
+              onPress={() => {
+                props.control.setValue(buttonDef.value);
+                props.control.markDirty(true);
+              }}
+              {...buttonDef}
+            />
+          )}
+        </For>
+      </Row>
+    </>
+  );
+};
+
+/**
  * Form element for virtual selection
  */
 function FormVirtualSelect<K, T>(props: {
@@ -308,43 +339,6 @@ function FormVirtualSelect<K, T>(props: {
     </div>
   );
 }
-
-/**
- * Form wrapper for FloatingSelect
- */
-const FormFloatingSelect = (
-  props: { control: IFormControl<string> } & ParentProps<
-    ComponentProps<typeof FloatingSelect>
-  >,
-) => {
-  const [local, remote] = splitProps(props, ["control"]);
-
-  return (
-    <>
-      <FloatingSelect
-        {...remote}
-        required={local.control.isRequired}
-        disabled={local.control.isDisabled}
-        value={local.control.value}
-        onChange={(
-          event: Event & { currentTarget: HTMLElement; target: Element },
-        ) => {
-          local.control.setValue(
-            event.currentTarget.getAttribute("value") || "",
-          );
-          local.control.markDirty(true);
-        }}
-      >
-        {remote.children}
-      </FloatingSelect>
-      <Show when={local.control.isTouched && !local.control.isValid}>
-        <For each={Object.keys(local.control.errors!)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
-      </Show>
-    </>
-  );
-};
 
 /**
  * Form reset button
@@ -474,8 +468,8 @@ export const Form2 = {
   FileInput: FormFileInput,
   Checkbox: FormCheckbox,
   Radio: FormRadio,
+  ButtonGroup: FormButtonGroup,
   VirtualSelect: FormVirtualSelect,
-  FloatingSelect: FormFloatingSelect,
   Reset: FormResetButton,
   Submit: FormSubmitButton,
   canSubmit,
