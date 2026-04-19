@@ -19,6 +19,7 @@ export function ScreenSharePickerModal(
     qualityName: createFormControl<ScreenShareQualityName>(
       voice.screenShareQuality || "low",
     ),
+    audio: createFormControl(voice.screenShareAudio),
     idx: createFormControl([0], { required: true }),
   });
 
@@ -26,6 +27,7 @@ export function ScreenSharePickerModal(
     props.callback(
       group.controls.idx.value[0],
       group.controls.qualityName.value,
+      group.controls.audio.value,
     );
     props.onClose();
   }
@@ -89,6 +91,9 @@ export function ScreenSharePickerModal(
               };
             })}
           />
+          <Form2.Checkbox control={group.controls.audio}>
+            <Trans>Share audio</Trans>
+          </Form2.Checkbox>
         </Column>
       </form>
     </Dialog>

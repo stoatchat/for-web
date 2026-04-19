@@ -326,6 +326,7 @@ class Voice {
     } else {
       const qualities = this.getEnabledScreenShareQualities();
       let screenPickerQualityName: ScreenShareQualityName | undefined;
+      let screenPickerAudio: boolean | undefined;
 
       // Register the modal on screen picker handler if it exists
       if (window.native && window.native.onceScreenPicker) {
@@ -335,10 +336,14 @@ class Voice {
             onCancel: () => {
               window.native.screenPickerCallback(-1, false);
             },
-            callback: (idx: number, qualityName: ScreenShareQualityName) => {
-              // TODO: Change this to true when enabling screen share audio.
-              window.native.screenPickerCallback(idx, false);
+            callback: (
+              idx: number,
+              qualityName: ScreenShareQualityName,
+              audio: boolean,
+            ) => {
+              window.native.screenPickerCallback(idx, audio);
               screenPickerQualityName = qualityName;
+              screenPickerAudio = audio;
             },
             sources: sources,
             qualities: Object.keys(qualities).map((k) => {
@@ -357,15 +362,21 @@ class Voice {
               this.getEnabledScreenShareQualities()[
                 this.#settings.screenShareQuality || "low"
               ]?.resolution,
-            // TODO: Change this to true when enabling screen share audio.
-            audio: false,
+            audio: true,
           },
+        );
+
+        const screenAudioTrack = room.localParticipant.getTrackPublication(
+          Track.Source.ScreenShareAudio,
         );
 
         this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
 
         if (localTrack) {
-          const callback = async (qualityName: ScreenShareQualityName) => {
+          const callback = async (
+            qualityName: ScreenShareQualityName,
+            audio: boolean,
+          ) => {
             const quality = qualities[qualityName] || qualities.low!;
 
             if (localTrack.videoTrack) {
@@ -382,14 +393,21 @@ class Voice {
               });
               localTrack.videoTrack.mediaStreamTrack.contentHint =
                 quality.contentHint;
+              if (!audio && screenAudioTrack?.track) {
+                room.localParticipant.unpublishTrack(screenAudioTrack.track);
+              }
             }
           };
 
           if (screenPickerQualityName) {
-            callback(screenPickerQualityName || "low");
+            callback(
+              screenPickerQualityName || "low",
+              screenPickerAudio || false,
+            );
           } else if (this.#settings.screenShareQualityAsk) {
             if (Object.keys(qualities).length > 1) {
               localTrack.pauseUpstream();
+              screenAudioTrack?.pauseUpstream();
               this.openModal({
                 onCancel: async () => {
                   await room.localParticipant.setScreenShareEnabled(false);
@@ -407,13 +425,19 @@ class Voice {
                   const v = qualities[k as ScreenShareQualityName]!;
                   return { name: k, fullName: v.fullName };
                 }),
-                callback: async (qualityName) => {
-                  callback(qualityName);
+                callback: async (qualityName, audio) => {
+                  callback(qualityName, audio);
                   localTrack.resumeUpstream();
+                  if (audio) {
+                    screenAudioTrack?.resumeUpstream();
+                  }
                 },
               });
             } else {
-              callback(this.#settings.screenShareQuality || "low");
+              callback(
+                this.#settings.screenShareQuality || "low",
+                this.#settings.screenShareAudio,
+              );
             }
           }
         }

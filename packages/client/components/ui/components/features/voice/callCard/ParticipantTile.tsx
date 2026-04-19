@@ -15,6 +15,7 @@ import { styled } from "styled-system/jsx";
 import { UserContextMenu } from "@revolt/app";
 import { useUser } from "@revolt/markdown/users";
 import { useVoice } from "@revolt/rtc";
+import { useState } from "@revolt/state";
 import { Avatar } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
 import { OverflowingText } from "@revolt/ui/components/utils";
@@ -31,6 +32,7 @@ type TileProps = {
  */
 export function ParticipantTile(props: TileProps) {
   const voice = useVoice();
+  const state = useState();
   const participant = useEnsureParticipant();
   const track = useTrackRefContext();
   const user = useUser(participant.identity);
@@ -56,6 +58,11 @@ export function ParticipantTile(props: TileProps) {
     participant,
     source: Track.Source.ScreenShare,
   });
+
+  const isScreenShareAudioUserMuted = () =>
+    state.voice.getScreenShareMuted(user().user!.id)
+      ? "by-user"
+      : isScreenShareAudioMuted() || false;
 
   const isVideoMuted = useIsMuted({
     participant,
@@ -88,24 +95,21 @@ export function ParticipantTile(props: TileProps) {
           }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
         }
         onClick={() => voice.toggleFocus(track)}
-        use:floating={
-          isScreenShare()
-            ? undefined
-            : {
-                // TODO: Conflicts with focusing, maybe only show if clicking name itself
-                //   userCard: {
-                //     user: user().user!,
-                //     member: user().member,
-                //   },
-                contextMenu: () => (
-                  <UserContextMenu
-                    user={user().user!}
-                    member={user().member}
-                    inVoice
-                  />
-                ),
-              }
-        }
+        use:floating={{
+          // TODO: Conflicts with focusing, maybe only show if clicking name itself
+          //   userCard: {
+          //     user: user().user!,
+          //     member: user().member,
+          //   },
+          contextMenu: () => (
+            <UserContextMenu
+              user={user().user!}
+              member={user().member}
+              inVoice={!isScreenShare()}
+              isScreenshare={isScreenShare()}
+            />
+          ),
+        }}
         style={{ ...getHeight() }}
       >
         <Show
@@ -145,8 +149,17 @@ export function ParticipantTile(props: TileProps) {
             <OverflowingText>{user().username}</OverflowingText>
             <Row gap="md">
               {isScreenShare() ? (
-                <Show when={isScreenShareAudioMuted()}>
-                  <Symbol size={18}>no_sound</Symbol>
+                <Show when={isScreenShareAudioUserMuted()}>
+                  <Symbol
+                    size={18}
+                    color={
+                      isScreenShareAudioUserMuted() === "by-user"
+                        ? "var(--md-sys-color-error)"
+                        : undefined
+                    }
+                  >
+                    no_sound
+                  </Symbol>
                 </Show>
               ) : (
                 <VoiceStatefulUserIcons

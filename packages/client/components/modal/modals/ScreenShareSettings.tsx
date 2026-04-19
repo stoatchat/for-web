@@ -19,6 +19,7 @@ export function ScreenShareSettingsModal(
       voice.screenShareQuality || "low",
       { required: true },
     ),
+    audio: createFormControl(voice.screenShareAudio),
     dontAsk: createFormControl(false),
   });
 
@@ -26,9 +27,13 @@ export function ScreenShareSettingsModal(
     if (group.controls.dontAsk.value) {
       voice.screenShareQuality = group.controls.qualityName.value;
       voice.screenShareQualityAsk = false;
+      voice.screenShareAudio = group.controls.audio.value;
     }
 
-    props.callback(group.controls.qualityName.value);
+    props.callback(
+      group.controls.qualityName.value,
+      group.controls.audio.value,
+    );
     props.onClose();
   }
 
@@ -74,6 +79,9 @@ export function ScreenShareSettingsModal(
               };
             })}
           />
+          <Form2.Checkbox control={group.controls.audio}>
+            <Trans>Share audio</Trans>
+          </Form2.Checkbox>
           <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
           </Form2.Checkbox>
