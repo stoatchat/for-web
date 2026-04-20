@@ -2,7 +2,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
-import { Avatar, Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
+import { Avatar, Button, Column, Dialog, DialogProps, FloatingSelect, Form2, MenuItem, Row, Text } from "@revolt/ui";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -18,12 +18,13 @@ export function BanMemberModal(
 
   const group = createFormGroup({
     reason: createFormControl(""),
+    delete_message_seconds: createFormControl("0")
   });
-
   async function onSubmit() {
     try {
       await props.member.ban({
         reason: group.controls.reason.value,
+        delete_message_seconds: Number(group.controls.delete_message_seconds.value),
       });
 
       props.onClose();
@@ -66,6 +67,30 @@ export function BanMemberModal(
             label={t`Reason`}
             placeholder={t`User broke a certain rule…`}
           />
+          <FloatingSelect
+            label={t`Delete Message History`}
+            value={group.controls.delete_message_seconds.value}
+            onChange={(
+              e: Event & { currentTarget: HTMLElement; target: Element },
+            ) =>
+              group.controls.delete_message_seconds.setValue(
+                e.currentTarget.getAttribute("value") || "0",
+              )
+            }
+          >
+            <MenuItem value="0">
+              <Trans>Don't delete messages</Trans>
+            </MenuItem>
+            <MenuItem value="86400">
+              <Trans>1 day</Trans>
+            </MenuItem>
+            <MenuItem value="259200">
+              <Trans>3 days</Trans>
+            </MenuItem>
+            <MenuItem value="604800">
+              <Trans>7 days</Trans>
+            </MenuItem>
+          </FloatingSelect>
         </Column>
       </form>
     </Dialog>
