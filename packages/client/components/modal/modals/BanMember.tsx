@@ -27,14 +27,14 @@ export function BanMemberModal(
 
   const group = createFormGroup({
     reason: createFormControl(""),
-    delete_message_seconds: createFormControl("0"),
+    deleteMessageSeconds: createFormControl("0"),
   });
   async function onSubmit() {
     try {
       await props.member.ban({
         reason: group.controls.reason.value,
         delete_message_seconds: Number(
-          group.controls.delete_message_seconds.value,
+          group.controls.deleteMessageSeconds.value,
         ),
       });
 
@@ -80,11 +80,11 @@ export function BanMemberModal(
           />
           <FloatingSelect
             label={t`Delete Message History`}
-            value={group.controls.delete_message_seconds.value}
+            value={group.controls.deleteMessageSeconds.value}
             onChange={(
               e: Event & { currentTarget: HTMLElement; target: Element },
             ) =>
-              group.controls.delete_message_seconds.setValue(
+              group.controls.deleteMessageSeconds.setValue(
                 e.currentTarget.getAttribute("value") || "0",
               )
             }
