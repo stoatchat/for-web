@@ -13,7 +13,9 @@ export function UserProfileRolesModal(
   const editMode = () =>
     props.member.server?.owner?.self ||
     (props.member.server?.havePermission("AssignRoles") &&
-      props.member.inferiorTo(props.member.server.member!));
+      props.member.inferiorTo(props.member.server.member!)) ||
+    (props.member.server?.havePermission("AssignRoles") &&
+      props.member.id === props.member.server.member?.id);
 
   return (
     <Dialog
@@ -53,13 +55,24 @@ export function UserProfileRolesModal(
               {(role) => (
                 <Checkbox
                   checked={props.member.roles.includes(role.id)}
-                  disabled={
-                    // this needs a better API
-                    // not sure if this actually works
-                    (role.rank ?? 0) <
-                    (props.member.server?.member?.orderedRoles.toReversed()[0]
-                      ?.rank ?? 0)
-                  }
+                  disabled={(() => {
+                    const isSelf =
+                      props.member.id === props.member.server?.member?.id;
+                    const isOwner = props.member.server?.owner?.self;
+                    const hasAssignRoles =
+                      props.member.server?.havePermission("AssignRoles");
+                    const myHighestRank =
+                      props.member.server?.member?.orderedRoles.toReversed()[0]
+                        ?.rank ?? 0;
+                    const roleRank = role.rank ?? 0;
+
+                    if (isOwner) return false;
+
+                    if (isSelf && hasAssignRoles) {
+                      return roleRank <= myHighestRank;
+                    }
+                    return roleRank < myHighestRank;
+                  })()}
                   onChange={() =>
                     props.member.edit({
                       roles: [
