@@ -11,7 +11,6 @@ import { useModals } from "@revolt/modal";
 import {
   Button,
   CategoryButton,
-  CategoryCollapse,
   Column,
   ComboBox,
   DataTable,
@@ -58,7 +57,13 @@ function FormTest() {
   return (
     <form onSubmit={submit}>
       <label for="name">Your name</label>
-      <Form2.TextField name="name" control={group.controls.name} />
+      <Form2.TextField
+        minlength={1}
+        maxlength={32}
+        counter
+        name="name"
+        control={group.controls.name}
+      />
 
       <label for="email">Your email address</label>
       <Form2.TextField
@@ -236,7 +241,7 @@ export function DevelopmentPage() {
           >
             I am a button
           </CategoryButton>
-          <CategoryCollapse
+          <CategoryButton.Collapse
             icon={<BiSolidSpeaker size={24} />}
             description="description!"
             title="Choose output device tbh"
@@ -270,7 +275,7 @@ export function DevelopmentPage() {
             >
               combo box
             </CategoryButton>
-          </CategoryCollapse>
+          </CategoryButton.Collapse>
         </Column>
       </div>
     </Column>

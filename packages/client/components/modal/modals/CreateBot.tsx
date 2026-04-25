@@ -65,6 +65,9 @@ export function CreateBotModal(
             </Trans>
           </Text>
           <Form2.TextField
+            minlength={2}
+            maxlength={32}
+            counter
             name="username"
             control={group.controls.username}
             label={t`Username`}

@@ -1,5 +1,3 @@
-import { For, createMemo } from "solid-js";
-
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Language, Languages, browserPreferredLanguage } from "@revolt/i18n";
@@ -9,9 +7,7 @@ import { UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useState } from "@revolt/state";
 import {
   CategoryButton,
-  CategoryButtonGroup,
-  CategoryCollapse,
-  Checkbox,
+  CategorySelectOption,
   Column,
   Row,
   Time,
@@ -31,93 +27,79 @@ import MdTranslate from "@material-design-icons/svg/outlined/translate.svg?compo
 export function LanguageSettings() {
   return (
     <Column gap="lg">
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         <PickLanguage />
         {/* <ConfigureRTL /> */}
-      </CategoryButtonGroup>
-      <CategoryButtonGroup>
+      </CategoryButton.Group>
+      <CategoryButton.Group>
         <PickDateFormat />
         <PickTimeFormat />
-      </CategoryButtonGroup>
-      <CategoryButtonGroup>
+      </CategoryButton.Group>
+      <CategoryButton.Group>
         <ContributeLanguageLink />
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }
+
+const RE_LANG = /_/g;
 
 /**
  * Pick user's preferred language
  */
 function PickLanguage() {
-  const state = useState();
+  const { locale } = useState();
   const { i18n } = useLingui();
 
-  /**
-   * Determine the current language
-   */
-  const currentLanguage = () =>
-    Languages[i18n().locale as never] as LanguageEntry;
+  //@ts-expect-error unfilled object
+  const langOpts: { [k in Language]: CategorySelectOption } = {};
+  const langIds = Object.keys(Languages) as Language[];
 
-  // Generate languages array.
-  const languages = createMemo(() => {
-    const languages = Object.keys(Languages).map(
-      (x) => [x, Languages[x as keyof typeof Languages]] as const,
+  //Move user's system language to top
+  //TODO: Make browserPreferredLanguage() reactive, then make langOpts a memo
+  const prefLang = browserPreferredLanguage();
+  if (prefLang) {
+    const prefIdx = langIds.findIndex(
+      (id) => id.replace(RE_LANG, "-") === prefLang,
     );
+    if (prefIdx !== -1) langIds.unshift(langIds.splice(prefIdx, 1)[0]);
+  }
 
-    const preferredLanguage = browserPreferredLanguage();
-
-    if (preferredLanguage) {
-      // This moves the user's system language to the top of the language list
-      const prefLangKey = languages.find(
-        (lang) => lang[0].replace(/_/g, "-") == preferredLanguage,
-      );
-
-      if (prefLangKey) {
-        languages.splice(
-          0,
-          0,
-          languages.splice(languages.indexOf(prefLangKey), 1)[0],
-        );
-      }
-    }
-
-    return languages;
-  });
+  //Generate language dict
+  let id: Language, lang: LanguageEntry;
+  for (id of langIds) {
+    lang = Languages[id];
+    langOpts[id] = {
+      title: (
+        <Row>
+          {lang.display}{" "}
+          {lang.verified && (
+            <MdVerifiedFill
+              {...iconSize(18)}
+              fill="var(--md-sys-color-on-surface)"
+            />
+          )}{" "}
+          {lang.incomplete && (
+            <MdErrorFill
+              {...iconSize(18)}
+              fill="var(--md-sys-color-on-surface)"
+            />
+          )}
+        </Row>
+      ),
+      shortDesc: lang.display,
+      icon: <UnicodeEmoji emoji={lang.emoji} />,
+    };
+  }
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Select
       icon={<MdLanguage {...iconSize(22)} />}
       title={<Trans>Select your language</Trans>}
-      description={currentLanguage().display}
-      scrollable
-    >
-      <For each={languages()}>
-        {([id, lang]) => (
-          <CategoryButton
-            icon={<UnicodeEmoji emoji={lang.emoji} />}
-            action={<Checkbox checked={id === i18n().locale} />}
-            onClick={() => state.locale.switch(id as Language)}
-          >
-            <Row>
-              {lang.display}{" "}
-              {lang.verified && (
-                <MdVerifiedFill
-                  {...iconSize(18)}
-                  fill="var(--md-sys-color-on-surface)"
-                />
-              )}{" "}
-              {lang.incomplete && (
-                <MdErrorFill
-                  {...iconSize(18)}
-                  fill="var(--md-sys-color-on-surface)"
-                />
-              )}
-            </Row>
-          </CategoryButton>
-        )}
-      </For>
-    </CategoryCollapse>
+      value={i18n().locale as Language}
+      options={langOpts}
+      onUpdate={(id) => locale.switch(id)}
+    />
   );
 }
 
@@ -125,52 +107,31 @@ function PickLanguage() {
  * Pick user's preferred date format
  */
 function PickDateFormat() {
-  const state = useState();
-  const { t } = useLingui();
-  const date = () => timeLocale()[1].formats.L;
-
+  const { locale } = useState();
   const LastWeek = new Date();
   LastWeek.setDate(LastWeek.getDate() - 7);
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Select
       icon={<MdCalendarMonth {...iconSize(22)} />}
-      title="Select date format"
-      description={
-        date() === "DD/MM/YYYY"
-          ? t`Traditional (DD/MM/YYYY)`
-          : date() === "MM/DD/YYYY"
-            ? t`American (MM/DD/YYYY)`
-            : date() === "YYYY-MM-DD"
-              ? t`ISO Standard (YYYY-MM-DD)`
-              : date()
-      }
-    >
-      <CategoryButton
-        icon={"blank"}
-        onClick={() => state.locale.setDateFormat("DD/MM/YYYY")}
-        action={<Checkbox checked={date() === "DD/MM/YYYY"} />}
-        description={<Time format="date" value={LastWeek} />}
-      >
-        <Trans>Traditional (DD/MM/YYYY)</Trans>
-      </CategoryButton>
-      <CategoryButton
-        icon={"blank"}
-        onClick={() => state.locale.setDateFormat("MM/DD/YYYY")}
-        action={<Checkbox checked={date() === "MM/DD/YYYY"} />}
-        description={<Time format="dateAmerican" value={LastWeek} />}
-      >
-        <Trans>American (MM/DD/YYYY)</Trans>
-      </CategoryButton>
-      <CategoryButton
-        icon={"blank"}
-        onClick={() => state.locale.setDateFormat("YYYY-MM-DD")}
-        action={<Checkbox checked={date() === "YYYY-MM-DD"} />}
-        description={<Time format="iso8601" value={LastWeek} />}
-      >
-        <Trans>ISO Standard (YYYY-MM-DD)</Trans>
-      </CategoryButton>
-    </CategoryCollapse>
+      title={<Trans>Date format</Trans>}
+      value={timeLocale()[1].formats.L}
+      options={{
+        "DD/MM/YYYY": {
+          shortDesc: <Trans>Traditional (DD/MM/YYYY)</Trans>,
+          description: <Time format="date" value={LastWeek} />,
+        },
+        "MM/DD/YYYY": {
+          shortDesc: <Trans>American (MM/DD/YYYY)</Trans>,
+          description: <Time format="dateAmerican" value={LastWeek} />,
+        },
+        "YYYY-MM-DD": {
+          shortDesc: <Trans>ISO Standard (YYYY-MM-DD)</Trans>,
+          description: <Time format="iso8601" value={LastWeek} />,
+        },
+      }}
+      onUpdate={(f) => locale.setDateFormat(f)}
+    />
   );
 }
 
@@ -178,33 +139,25 @@ function PickDateFormat() {
  * Pick user's preferred time format
  */
 function PickTimeFormat() {
-  const state = useState();
-  const { t } = useLingui();
-  const time = () => timeLocale()[1].formats.LT;
+  const { locale } = useState();
 
   return (
-    <CategoryCollapse
+    <CategoryButton.Select
       icon={<MdSchedule {...iconSize(22)} />}
-      title="Select time format"
-      description={time() === "HH:mm" ? t`24 hours` : t`12 hours`}
-    >
-      <CategoryButton
-        icon={"blank"}
-        onClick={() => state.locale.setTimeFormat("HH:mm")}
-        action={<Checkbox checked={time() === "HH:mm"} />}
-        description={<Time format="time24" value={new Date()} />}
-      >
-        <Trans>24 hours</Trans>
-      </CategoryButton>
-      <CategoryButton
-        icon={"blank"}
-        onClick={() => state.locale.setTimeFormat("h:mm A")}
-        action={<Checkbox checked={time() === "h:mm A"} />}
-        description={<Time format="time12" value={new Date()} />}
-      >
-        <Trans>12 hours</Trans>
-      </CategoryButton>
-    </CategoryCollapse>
+      title={<Trans>Time format</Trans>}
+      value={timeLocale()[1].formats.LT}
+      options={{
+        "HH:mm": {
+          shortDesc: <Trans>24 hours</Trans>,
+          description: <Time format="time24" value={new Date()} />,
+        },
+        "h:mm A": {
+          shortDesc: <Trans>12 hours</Trans>,
+          description: <Time format="time12" value={new Date()} />,
+        },
+      }}
+      onUpdate={(f) => locale.setTimeFormat(f)}
+    />
   );
 }
 

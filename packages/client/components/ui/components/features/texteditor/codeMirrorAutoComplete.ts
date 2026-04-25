@@ -5,6 +5,8 @@ import {
 } from "@codemirror/autocomplete";
 import { EditorView, keymap } from "@codemirror/view";
 import { Accessor } from "solid-js";
+
+import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 import { codeMirrorAutoCompleteSource } from "./codeMirrorAutoCompleteSource";
 
@@ -78,6 +80,8 @@ const completionTheme = EditorView.theme({
 export function codeMirrorAutoComplete(
   searchSpace?: Accessor<AutoCompleteSearchSpace>,
 ) {
+  const autocompleteScrollbarClasses = scrollableStyles();
+
   const extension = autocompletion({
     activateOnTyping: true,
     aboveCursor: true,
@@ -87,16 +91,28 @@ export function codeMirrorAutoComplete(
     tooltipClass: (state) => {
       const completions = currentCompletions(state);
       if (completions[0]?.type == "emoji") {
-        return "autocomplete-tooltip autocomplete-tooltip-emoji";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-emoji " +
+          autocompleteScrollbarClasses
+        );
       } else if (
         completions[0]?.type == "user" ||
         completions[0]?.type == "role"
       ) {
-        return "autocomplete-tooltip autocomplete-tooltip-mention";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-mention " +
+          autocompleteScrollbarClasses
+        );
       } else if (completions[0]?.type == "channel") {
-        return "autocomplete-tooltip autocomplete-tooltip-channel";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-channel " +
+          autocompleteScrollbarClasses
+        );
       } else {
-        return "autocomplete-tooltip autocomplete-tooltip-unknown";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-unknown " +
+          autocompleteScrollbarClasses
+        );
       }
     },
     // optionClass: (completion) => "example-option-class",

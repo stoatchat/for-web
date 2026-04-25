@@ -234,11 +234,9 @@ msgid "1 person reacted"
 msgstr "1 person reacted"
 
 #: components/app/interface/settings/user/Language.tsx
-#: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr "12 hours"
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
 msgstr "24 hours"
@@ -342,7 +340,6 @@ msgid "Already friends with this user."
 msgstr "Already friends with this user."
 
 #: components/app/interface/settings/user/Language.tsx
-#: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
 msgstr "American (MM/DD/YYYY)"
 
@@ -389,6 +386,10 @@ msgstr "Assign Roles"
 #: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
 msgstr "Authenticator App"
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Automatic Gain Control"
+msgstr "Automatic Gain Control"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -464,7 +465,6 @@ msgstr "Blocked User"
 msgid "Bot"
 msgstr "Bot"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser"
 msgstr "Browser"
@@ -945,6 +945,10 @@ msgstr "Dark"
 msgid "Database error, please contact support. ({0})"
 msgstr "Database error, please contact support. ({0})"
 
+#: components/app/interface/settings/user/Language.tsx
+msgid "Date format"
+msgstr "Date format"
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
@@ -1051,7 +1055,6 @@ msgstr "Disable Account"
 msgid "Disable one-time password authenticator"
 msgstr "Disable one-time password authenticator"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -1505,7 +1508,6 @@ msgstr "irrelevant joke badge 1"
 msgid "irrelevant joke badge 2"
 msgstr "irrelevant joke badge 2"
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr "ISO Standard (YYYY-MM-DD)"
@@ -2782,6 +2784,10 @@ msgstr "This username is not allowed."
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
 msgstr "This will invalidate the current token and stop any existing instances of the bot from running."
 
+#: components/app/interface/settings/user/Language.tsx
+msgid "Time format"
+msgstr "Time format"
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
 msgstr "Timeout Members"
@@ -2794,7 +2800,6 @@ msgstr "Toggle main sidebar"
 msgid "Tonal Spot"
 msgstr "Tonal Spot"
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "Traditional (DD/MM/YYYY)"
 msgstr "Traditional (DD/MM/YYYY)"
@@ -2936,12 +2941,12 @@ msgid "Users will no longer be asked to confirm their age before joining this ch
 msgstr "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default microphone"
-msgstr "Using default microphone"
+#~ msgid "Using default microphone"
+#~ msgstr "Using default microphone"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default speaker"
-msgstr "Using default speaker"
+#~ msgid "Using default speaker"
+#~ msgstr "Using default speaker"
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"

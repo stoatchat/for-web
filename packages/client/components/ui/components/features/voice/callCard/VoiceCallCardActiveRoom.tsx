@@ -1,30 +1,16 @@
-import { createEffect, Match, Show, Switch } from "solid-js";
-import {
-  isTrackReference,
-  TrackLoop,
-  TrackReference,
-  useEnsureParticipant,
-  useIsMuted,
-  useIsSpeaking,
-  useMaybeTrackRefContext,
-  useTrackRefContext,
-  useTracks,
-  VideoTrack,
-} from "solid-livekit-components";
+import { createEffect, For, onMount, Show } from "solid-js";
+import { TrackLoop } from "solid-livekit-components";
 
-import { Track } from "livekit-client";
-import { cva } from "styled-system/css";
+import { t } from "@lingui/core/macro";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { styled } from "styled-system/jsx";
 
-import { UserContextMenu } from "@revolt/app";
-import { useUser } from "@revolt/markdown/users";
-import { InRoom } from "@revolt/rtc";
-import { Avatar } from "@revolt/ui/components/design";
-import { OverflowingText } from "@revolt/ui/components/utils";
+import { InRoom, useVoice } from "@revolt/rtc";
+import { IconButton } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { scrollableStyles } from "@revolt/ui/directives";
 
-import { VoiceStatefulUserIcons } from "../VoiceStatefulUserIcons";
-
+import { ParticipantTile, tile } from "./ParticipantTile";
 import { VoiceCallCardActions } from "./VoiceCallCardActions";
 import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 
@@ -34,15 +20,135 @@ import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 export function VoiceCallCardActiveRoom() {
   return (
     <View>
-      <Call>
-        <InRoom>
-          <Participants />
-        </InRoom>
-      </Call>
-
-      <VoiceCallCardStatus />
-      <VoiceCallCardActions size="sm" />
+      <Participants />
+      <VoiceCallControls>
+        <VoiceCallControlHolder right>
+          <VoiceCallFullscreen />
+        </VoiceCallControlHolder>
+        <VoiceCallCardActions size="sm" />
+        <VoiceCallControlHolder left overflow>
+          <VoiceCallCardStatus />
+        </VoiceCallControlHolder>
+      </VoiceCallControls>
     </View>
+  );
+}
+
+function VoiceCallFullscreen() {
+  const voice = useVoice();
+  return (
+    <IconButton
+      size="sm"
+      variant={"standard"}
+      onPress={() => voice.toggleFullscreen()}
+    >
+      <Show when={voice.fullscreen()} fallback={<Symbol>fullscreen</Symbol>}>
+        <Symbol>fullscreen_exit</Symbol>
+      </Show>
+    </IconButton>
+  );
+}
+
+const TILE_MIN_WIDTH = "250px",
+  TILE_MIN_FOCUS_HEIGHT = "100px";
+
+/**
+ * Show a grid of participants
+ */
+function Participants() {
+  const voice = useVoice();
+
+  // Modify this value to get test tracks
+  const testTrackCount = 0;
+
+  let callRef: HTMLDivElement | undefined;
+
+  const tileWidth = () => {
+    const vidWidth = Math.round(
+      100 / (voice.vidTracks().length + testTrackCount),
+    );
+    return `max(${TILE_MIN_WIDTH}, ${vidWidth}% - var(--gap-md))`;
+  };
+
+  // Clear out any focus when the track that was focused is no longer available.
+  createEffect(() => {
+    if (!voice.focusTrack()) voice.toggleFocus();
+  });
+
+  onMount(() => {
+    createResizeObserver(callRef, ({ width, height }, el) => {
+      if (el === callRef) {
+        el.style.setProperty("--vc-w", `${width}px`);
+        el.style.setProperty("--vc-h", `${height}px`);
+      }
+    });
+  });
+
+  return (
+    <Call ref={callRef} class={voice.focusId() ? "" : scrollableStyles()}>
+      <InRoom>
+        <FocusedParticipant />
+        <Show when={voice.focusId()}>
+          <ShowBarButtonHolder>
+            <div style={{ "margin-bottom": "10px" }}>
+              <IconButton
+                size="xs"
+                variant={"tonal"}
+                onPress={() => voice.toggleShowBar()}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: voice.showBar() ? t`Hide Others` : t`Show Others`,
+                  },
+                }}
+              >
+                <Show
+                  when={voice.showBar()}
+                  fallback={<Symbol>keyboard_arrow_up</Symbol>}
+                >
+                  <Symbol>keyboard_arrow_down</Symbol>
+                </Show>
+              </IconButton>
+            </div>
+          </ShowBarButtonHolder>
+        </Show>
+        <Grid
+          focus={!!voice.focusId()}
+          show={voice.showBar()}
+          class={voice.focusId() ? scrollableStyles({ direction: "x" }) : ""}
+          style={{ "--vc-tile-width": tileWidth() }}
+        >
+          <TrackLoop
+            tracks={() => voice.vidTracks().filter((t) => !voice.isFocus(t))}
+          >
+            {() => <ParticipantTile />}
+          </TrackLoop>
+          <For each={Array(testTrackCount)}>
+            {() => (
+              <div
+                class={tile({ fullscreen: voice.fullscreen() }) + " vc_tile"}
+              />
+            )}
+          </For>
+        </Grid>
+      </InRoom>
+    </Call>
+  );
+}
+
+function FocusedParticipant() {
+  const voice = useVoice();
+
+  return (
+    <Show when={voice.focusTrack()}>
+      <TrackLoop tracks={() => [voice.focusTrack()!]}>
+        {() => (
+          <FocusBox>
+            <ParticipantTile focus />
+          </FocusBox>
+        )}
+      </TrackLoop>
+    </Show>
   );
 }
 
@@ -52,302 +158,115 @@ const View = styled("div", {
     height: "100%",
     width: "100%",
 
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
-
     display: "flex",
     flexDirection: "column",
+    gap: "var(--gap-md)",
+    padding: "var(--gap-md)",
+  },
+});
+
+const VoiceCallControls = styled("div", {
+  base: {
+    display: "flex",
+    flexShrink: "0",
+    overflow: "hidden",
+    flexDirection: "row-reverse",
+  },
+});
+
+const VoiceCallControlHolder = styled("div", {
+  base: {
+    display: "flex",
+    flex: "1",
+    alignSelf: "center",
+    gap: "var(--gap-md)",
+    padding: "var(--gap-md)",
+  },
+  variants: {
+    right: {
+      true: {
+        justifyContent: "flex-end",
+      },
+    },
+    empty: {
+      true: {
+        gap: "0px",
+        padding: "0px",
+      },
+    },
+    left: {
+      true: {
+        justifyContent: "flex-start",
+      },
+    },
+    overflow: {
+      true: {
+        overflow: "hidden",
+      },
+    },
+  },
+});
+
+const ShowBarButtonHolder = styled("div", {
+  base: {
+    height: "0px",
+    alignSelf: "center",
+    overflow: "visible",
+    display: "flex",
+    flexDirection: "column-reverse",
   },
 });
 
 const Call = styled("div", {
   base: {
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
+    gap: "var(--gap-sm)",
     flexGrow: 1,
     minHeight: 0,
-    overflowY: "scroll",
   },
 });
-
-/**
- * Show a grid of participants
- */
-function Participants() {
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ],
-    { onlySubscribed: false },
-  );
-
-  return (
-    <Grid>
-      <TrackLoop tracks={tracks}>{() => <ParticipantTile />}</TrackLoop>
-      {/* <div class={tile()} />
-      <div class={tile()} />
-      <div class={tile()} />
-      <div class={tile()} />
-      <div class={tile()} /> */}
-    </Grid>
-  );
-}
 
 const Grid = styled("div", {
   base: {
-    display: "grid",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "safe center",
+    alignContent: "safe center",
+    minHeight: "100%",
     gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
-    gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
   },
-});
 
-/**
- * Individual participant tile
- */
-function ParticipantTile() {
-  const track = useTrackRefContext();
+  variants: {
+    focus: {
+      true: {
+        flexDirection: "column",
+        height: `max(20%, ${TILE_MIN_FOCUS_HEIGHT})`,
+        minHeight: 0,
+        transition: "height .3s ease",
 
-  return (
-    <Switch fallback={<UserTile />}>
-      <Match when={track.source === Track.Source.ScreenShare}>
-        <ScreenshareTile />
-      </Match>
-    </Switch>
-  );
-}
-
-/**
- * Shown when the track source is a camera or placeholder
- */
-function UserTile() {
-  const participant = useEnsureParticipant();
-  const track = useMaybeTrackRefContext();
-
-  const isMuted = useIsMuted({
-    participant,
-    source: Track.Source.Microphone,
-  });
-
-  const isVideoMuted = useIsMuted({
-    participant,
-    source: Track.Source.Camera,
-  });
-
-  const isSpeaking = useIsSpeaking(participant);
-
-  const user = useUser(participant.identity);
-
-  let videoRef: HTMLDivElement | undefined;
-
-  function toggleFullscreen() {
-    if (!videoRef || !isTrackReference(track) || isVideoMuted()) return;
-    if (!document.fullscreenElement) {
-      videoRef.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  }
-
-  createEffect(() => {
-    if (isVideoMuted() && document.fullscreenElement) {
-      document.exitFullscreen();
-    }
-  });
-
-  return (
-    <div
-      ref={videoRef}
-      class={tile({
-        speaking: isSpeaking(),
-      })}
-      onClick={toggleFullscreen}
-      style={{ cursor: "pointer" }}
-      use:floating={{
-        userCard: {
-          user: user().user!,
-          member: user().member,
-        },
-        contextMenu: () => (
-          <UserContextMenu user={user().user!} member={user().member} inVoice />
-        ),
-      }}
-    >
-      <Switch
-        fallback={
-          <AvatarOnly>
-            <Avatar
-              src={user().avatar}
-              fallback={user().username}
-              size={48}
-              interactive={false}
-            />
-          </AvatarOnly>
-        }
-      >
-        <Match when={isTrackReference(track) && !isVideoMuted()}>
-          <VideoTrack
-            style={{
-              "grid-area": "1/1",
-              "object-fit": "contain",
-              width: "100%",
-              height: "100%",
-            }}
-            trackRef={track as TrackReference}
-            manageSubscription={true}
-          />
-        </Match>
-      </Switch>
-
-      <Overlay>
-        <OverlayInner>
-          <OverflowingText>{user().username}</OverflowingText>
-          <VoiceStatefulUserIcons
-            userId={participant.identity}
-            muted={isMuted()}
-          />
-          <Show when={isTrackReference(track) && !isVideoMuted()}>
-            <Symbol size={18}>fullscreen</Symbol>
-          </Show>
-        </OverlayInner>
-      </Overlay>
-    </div>
-  );
-}
-
-const AvatarOnly = styled("div", {
-  base: {
-    gridArea: "1/1",
-    display: "grid",
-    placeItems: "center",
-  },
-});
-
-/**
- * Shown when the track source is a screenshare
- */
-function ScreenshareTile() {
-  const participant = useEnsureParticipant();
-  const track = useMaybeTrackRefContext();
-  const user = useUser(participant.identity);
-
-  const isMuted = useIsMuted({
-    participant,
-    source: Track.Source.ScreenShareAudio,
-  });
-
-  let videoRef: HTMLDivElement | undefined;
-
-  const toggleFullscreen = () => {
-    if (!videoRef) return;
-    if (!isTrackReference(track)) return;
-    if (!document.fullscreenElement) {
-      videoRef.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  };
-
-  return (
-    <div
-      ref={videoRef}
-      class={tile() + " group"}
-      onClick={toggleFullscreen}
-      style={{ cursor: "pointer" }}
-    >
-      <VideoTrack
-        style={{
-          "grid-area": "1/1",
-          "object-fit": "contain",
-          width: "100%",
+        "& .vc_tile": {
+          width: "auto",
           height: "100%",
-        }}
-        trackRef={track as TrackReference}
-        manageSubscription={true}
-      />
-
-      <Overlay showOnHover>
-        <OverlayInner>
-          <OverflowingText>{user().username}</OverflowingText>
-          <Show when={isMuted()}>
-            <Symbol size={18}>no_sound</Symbol>
-          </Show>
-          <Symbol size={18}>fullscreen</Symbol>
-        </OverlayInner>
-      </Overlay>
-    </div>
-  );
-}
-
-const tile = cva({
-  base: {
-    display: "grid",
-    aspectRatio: "16/9",
-    transition: ".3s ease all",
-    borderRadius: "var(--borderRadius-lg)",
-
-    color: "var(--md-sys-color-on-surface)",
-    background: "#0002",
-
-    overflow: "hidden",
-    outlineWidth: "3px",
-    outlineStyle: "solid",
-    outlineOffset: "-3px",
-    outlineColor: "transparent",
-  },
-  variants: {
-    speaking: {
-      true: {
-        outlineColor: "var(--md-sys-color-primary)",
-      },
-    },
-  },
-});
-
-const Overlay = styled("div", {
-  base: {
-    minWidth: 0,
-    gridArea: "1/1",
-
-    padding: "var(--gap-md) var(--gap-lg)",
-
-    opacity: 1,
-    display: "flex",
-    alignItems: "end",
-    flexDirection: "row",
-
-    transition: "var(--transitions-fast) all",
-    transitionTimingFunction: "ease",
-  },
-  variants: {
-    showOnHover: {
-      true: {
-        opacity: 0,
-
-        _groupHover: {
-          opacity: 1,
         },
       },
+    },
+    show: {
       false: {
-        opacity: 1,
+        height: 0,
       },
     },
   },
-  defaultVariants: {
-    showOnHover: false,
-  },
 });
 
-const OverlayInner = styled("div", {
+const FocusBox = styled("div", {
   base: {
-    minWidth: 0,
-
+    height: 0,
+    flexGrow: 1,
     display: "flex",
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-
-    _first: {
-      flexGrow: 1,
-    },
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: "0 auto",
   },
 });

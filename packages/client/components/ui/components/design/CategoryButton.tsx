@@ -5,6 +5,9 @@ import {
   Match,
   Show,
   Switch,
+  createEffect,
+  createMemo,
+  createRenderEffect,
   createSignal,
   splitProps,
 } from "solid-js";
@@ -19,6 +22,7 @@ import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?com
 
 import { OverflowingText, iconSize } from "../utils";
 
+import { Radio2 } from "./Radio";
 import { Ripple } from "./Ripple";
 import { typography } from "./Text";
 
@@ -44,13 +48,11 @@ export interface Props {
 
   readonly roundedIcon?: boolean;
 
-  readonly variant?: "filled" | "tonal" | "tertiary";
+  readonly variant?: "filled" | "tonal" | "tertiary" | "tertiaryAlt";
 }
 
 /**
  * Category Button
- *
- * @specification none
  */
 export function CategoryButton(props: Props) {
   return (
@@ -145,6 +147,12 @@ const Base = styled("a", {
       tertiary: {
         background: "var(--md-sys-color-tertiary-container)",
         "--color": "var(--md-sys-color-on-tertiary-container)",
+        "--mdui-color-primary": "var(--color)",
+      },
+      tertiaryAlt: {
+        background: "var(--md-sys-color-tertiary)",
+        "--color": "var(--md-sys-color-on-tertiary)",
+        "--mdui-color-primary": "var(--color)",
       },
     },
     isLink: {
@@ -255,7 +263,7 @@ const Action = styled("div", {
 /**
  * Group a set of category buttons
  */
-export const CategoryButtonGroup = styled("div", {
+CategoryButton.Group = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
@@ -265,8 +273,6 @@ export const CategoryButtonGroup = styled("div", {
     overflow: "hidden",
   },
 });
-
-CategoryButton.Group = CategoryButtonGroup;
 
 type CollapseProps = Omit<
   ComponentProps<typeof CategoryButton>,
@@ -278,51 +284,38 @@ type CollapseProps = Omit<
   scrollable?: boolean;
 };
 
+const MAX_HEIGHT = 340;
+
 /**
  * Category button with collapsed children
  */
-export function CategoryCollapse(props: CollapseProps) {
-  const [local, remote] = splitProps(props, ["action", "children"]);
+CategoryButton.Collapse = (props: CollapseProps) => {
+  const [_, remote] = splitProps(props, ["action", "children"]);
 
   const [opened, setOpened] = createSignal(false);
-
-  let details: HTMLDivElement | undefined;
   let column: HTMLDivElement | undefined;
 
-  /**
-   * Toggle the opened state and scroll to the beginning of contents
-   */
+  //Toggle the opened state and scroll to the beginning of contents
   const toggleOpened = () => {
-    const openedState = opened();
-
-    if (!openedState) {
-      column?.scroll({ top: 0 });
-    }
-
-    setOpened(!openedState);
+    const open = !opened();
+    if (open) column?.scroll({ top: 0 });
+    setOpened(open);
   };
 
-  /**
-   * Recalculate the column height for transition
-   */
-  const updatedHeight = () => {
-    const calculatedHeight = opened()
-      ? Math.min(column?.scrollHeight || 0, 340)
+  //Recalculate the column height for transition
+  const updatedHeight = createMemo(() => {
+    const height = opened()
+      ? Math.min(column?.scrollHeight || 0, MAX_HEIGHT)
       : 0;
-
-    return `${calculatedHeight}px`;
-  };
+    return `${height}px`;
+  });
 
   return (
-    <Details
-      ref={details!}
-      onClick={toggleOpened}
-      class={opened() ? "open" : undefined}
-    >
+    <Details onClick={toggleOpened} class={opened() ? "open" : undefined}>
       <summary>
         <CategoryButton
           {...remote}
-          action={[local.action, "collapse"].flat()}
+          action={[props.action, "collapse"].flat()}
           onClick={() => void 0}
         >
           {props.title}
@@ -351,9 +344,117 @@ export function CategoryCollapse(props: CollapseProps) {
       </Switch>
     </Details>
   );
-}
+};
 
-CategoryButton.Collapse = CategoryCollapse;
+export type CategorySelectOption = Omit<
+  ComponentProps<typeof CategoryButton>,
+  "onClick" | "children"
+> &
+  (
+    | {
+        title: JSX.Element;
+        shortDesc?: JSX.Element;
+      }
+    | {
+        title?: JSX.Element;
+        shortDesc: JSX.Element;
+      }
+  );
+
+type SelectProps<T extends string> = Omit<
+  ComponentProps<typeof CategoryButton>,
+  "onClick" | "children" | "description"
+> & {
+  title?: JSX.Element;
+  options: { [k in T]: CategorySelectOption };
+  value?: T;
+  onUpdate: (v: T) => void;
+};
+
+/**
+ * Select dropdown with options from a dictionary
+ */
+CategoryButton.Select = <T extends string>(props: SelectProps<T>) => {
+  const [_, remote] = splitProps(props, [
+    "action",
+    "options",
+    "value",
+    "onUpdate",
+  ]);
+
+  const [opened, setOpened] = createSignal(false);
+  let column: HTMLDivElement | undefined, lastVal: T;
+
+  const opts = createMemo(() => Object.keys(props.options) as T[]);
+
+  const [value, setValue] = createSignal(undefined as unknown as T);
+
+  //Update if props.value changes, but don't run onUpdate
+  createRenderEffect(() => {
+    //@ts-expect-error Type check breaks
+    setValue((lastVal = props.value ?? opts()[0]));
+  });
+
+  //Send user input to onUpdate
+  createEffect(() => {
+    const val = value();
+    if (val !== lastVal) props.onUpdate((lastVal = val));
+  });
+
+  //Toggle the opened state and scroll to the beginning of contents
+  const toggleOpened = () => {
+    const open = !opened();
+    if (open && column && column.scrollHeight > MAX_HEIGHT)
+      column.children[opts().indexOf(value())]?.scrollIntoView();
+    setOpened(open);
+  };
+
+  //Recalculate the column height for transition
+  const updatedHeight = createMemo(() => {
+    const height = opened()
+      ? Math.min(column?.scrollHeight || 0, MAX_HEIGHT)
+      : 0;
+    return `${height}px`;
+  });
+
+  return (
+    <Details onClick={toggleOpened} class={opened() ? "open" : undefined}>
+      <summary>
+        <CategoryButton
+          {...remote}
+          description={(() => {
+            const opt = props.options[value()];
+            if (opt) return opt.shortDesc ?? opt.description ?? opt.title;
+          })()}
+          action={[props.action, "collapse"].flat()}
+          onClick={() => void 0}
+        >
+          {props.title}
+        </CategoryButton>
+      </summary>
+      <div
+        ref={column!}
+        style={{ height: updatedHeight() }}
+        use:scrollable={{ class: innerColumn() }}
+      >
+        <For each={opts()}>
+          {(val) => (
+            <CategoryButton
+              icon="blank"
+              variant={value() === val ? "tertiaryAlt" : "tertiary"}
+              action={<Radio2.Option checked={value() === val} />}
+              //@ts-expect-error Type check breaks
+              onClick={() => setValue(val)}
+              {...props.options[val]}
+            >
+              {props.options[val].title ?? props.options[val].shortDesc}
+            </CategoryButton>
+          )}
+        </For>
+      </div>
+    </Details>
+  );
+};
 
 /**
  * Column with inner content

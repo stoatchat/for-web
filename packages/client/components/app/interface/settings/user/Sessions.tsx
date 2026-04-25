@@ -23,8 +23,6 @@ import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
-  CategoryButtonGroup,
-  CategoryCollapse,
   CircularProgress,
   Column,
   Time,
@@ -74,8 +72,8 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
   const currentSession = () => client().sessions.get(client().sessionId!);
 
   return (
-    <CategoryButtonGroup>
-      <CategoryCollapse
+    <CategoryButton.Group>
+      <CategoryButton.Collapse
         title={<Trans>Current Session</Trans>}
         description={currentSession()?.name}
         icon={<SessionIcon session={currentSession()} />}
@@ -93,7 +91,7 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
         >
           <Trans>Rename</Trans>
         </CategoryButton>
-      </CategoryCollapse>
+      </CategoryButton.Collapse>
       {/* <CategoryButton
         action="chevron"
         icon={
@@ -123,7 +121,7 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
           <Trans>Log Out Other Sessions</Trans>
         </CategoryButton>
       </Show>
-    </CategoryButtonGroup>
+    </CategoryButton.Group>
   );
 }
 
@@ -136,10 +134,10 @@ function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
   return (
     <Show when={props.otherSessions().length}>
       <Column>
-        <CategoryButtonGroup>
+        <CategoryButton.Group>
           <For each={props.otherSessions()}>
             {(session) => (
-              <CategoryCollapse
+              <CategoryButton.Collapse
                 icon={<SessionIcon session={session} />}
                 title={<Capitalise>{session.name}</Capitalise>}
                 description={
@@ -167,10 +165,10 @@ function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
                 >
                   <Trans>Log Out</Trans>
                 </CategoryButton>
-              </CategoryCollapse>
+              </CategoryButton.Collapse>
             )}
           </For>
-        </CategoryButtonGroup>
+        </CategoryButton.Group>
       </Column>
     </Show>
   );

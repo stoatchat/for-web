@@ -15,8 +15,24 @@ type Props = JSX.HTMLAttributes<HTMLInputElement> & {
   rows?: number;
   "min-rows"?: number;
   "max-rows"?: number;
+  maxlength?: number;
+  minlength?: number;
+  counter?: boolean;
   placeholder?: string;
-  type?: "text" | "password" | "email" | "file";
+  type?:
+    | "text"
+    | "number"
+    | "password"
+    | "url"
+    | "email"
+    | "search"
+    | "tel"
+    | "hidden"
+    | "date"
+    | "datetime-local"
+    | "month"
+    | "time"
+    | "week";
   variant?: "filled" | "outlined";
   enterkeyhint?:
     | "enter"
@@ -26,6 +42,40 @@ type Props = JSX.HTMLAttributes<HTMLInputElement> & {
     | "previous"
     | "search"
     | "find";
+  helper?: string;
+  "helper-on-focus"?: boolean;
+  clearable?: boolean;
+  "clear-icon"?: string;
+  "end-aligned"?: boolean;
+  prefix?: string;
+  suffix?: string;
+  icon?: string;
+  "end-icon"?: string;
+  "error-icon"?: string;
+  form?: string;
+  readonly?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
+  pattern?: string;
+  "toggle-password"?: boolean;
+  "show-password-icon"?: string;
+  "hide-password-icon"?: string;
+  autocapitalize?: "none" | "sentences" | "words" | "characters";
+  autocorrect?: string;
+  autocomplete?: string;
+  spellcheck?: boolean;
+  inputmode?:
+    | "none"
+    | "text"
+    | "decimal"
+    | "numeric"
+    | "tel"
+    | "search"
+    | "email"
+    | "url";
+  autofocus?: boolean;
+  tabindex?: number;
 };
 
 /**

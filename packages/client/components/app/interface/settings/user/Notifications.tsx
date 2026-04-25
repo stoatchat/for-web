@@ -1,12 +1,6 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
-import {
-  CategoryButton,
-  CategoryButtonGroup,
-  CategoryCollapse,
-  Checkbox,
-  iconSize,
-} from "@revolt/ui";
+import { CategoryButton, Checkbox, iconSize } from "@revolt/ui";
 
 import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import MdSpeaker from "@material-design-icons/svg/outlined/speaker.svg?component-solid";
@@ -16,7 +10,7 @@ import MdSpeaker from "@material-design-icons/svg/outlined/speaker.svg?component
  */
 export default function Notifications() {
   return (
-    <CategoryButtonGroup>
+    <CategoryButton.Group>
       <CategoryButton
         action={<Checkbox checked onChange={(value) => void value} />}
         onClick={() => void 0}
@@ -41,7 +35,7 @@ export default function Notifications() {
           {t("app.settings.pages.notifications.enable_push")}
         </CategoryButton>
       </FormGroup> */}
-      <CategoryCollapse
+      <CategoryButton.Collapse
         title={<Trans>Sounds</Trans>}
         icon={<MdSpeaker {...iconSize(22)} />}
       >
@@ -73,7 +67,7 @@ export default function Notifications() {
         >
           <Trans>User Left Call</Trans>
         </CategoryButton>
-      </CategoryCollapse>
-    </CategoryButtonGroup>
+      </CategoryButton.Collapse>
+    </CategoryButton.Group>
   );
 }

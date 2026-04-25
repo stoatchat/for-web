@@ -74,6 +74,7 @@ export function ServerRoleOverview(props: { context: Server }) {
           {(entry) => (
             <ItemContainer>
               <MdDragIndicator
+                fill="var(--md-sys-color-on-surface)"
                 {...createDragHandle(entry.dragDisabled, entry.setDragDisabled)}
               />
 
