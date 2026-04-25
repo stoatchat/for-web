@@ -1,8 +1,6 @@
 import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
-
 import { Dialog, DialogProps } from "@revolt/ui";
-
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -13,10 +11,10 @@ export function DeleteRoleModal(
   props: DialogProps & Modals & { type: "delete_role" },
 ) {
   const { showError } = useModals();
-
   const deleteRole = useMutation(() => ({
     mutationFn: () => props.role.delete(),
     onError: showError,
+    onSuccess: () => props.cb(),
   }));
 
   return (
