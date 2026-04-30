@@ -11,7 +11,6 @@ import { useModals } from "@revolt/modal";
 import {
   Button,
   CategoryButton,
-  CategoryCollapse,
   Column,
   ComboBox,
   DataTable,
@@ -242,7 +241,7 @@ export function DevelopmentPage() {
           >
             I am a button
           </CategoryButton>
-          <CategoryCollapse
+          <CategoryButton.Collapse
             icon={<BiSolidSpeaker size={24} />}
             description="description!"
             title="Choose output device tbh"
@@ -276,7 +275,7 @@ export function DevelopmentPage() {
             >
               combo box
             </CategoryButton>
-          </CategoryCollapse>
+          </CategoryButton.Collapse>
         </Column>
       </div>
     </Column>

@@ -1,5 +1,55 @@
 # Changelog
 
+## [0.5.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.4.0...stoat-for-web-v0.5.0) (2026-04-12)
+
+
+### Features
+
+* Remember mic mute setting ([#1087](https://github.com/stoatchat/for-web/issues/1087)) ([899a6c1](https://github.com/stoatchat/for-web/commit/899a6c11bf8714fff31771926b7ad807301741d7))
+
+
+### Bug Fixes
+
+* drag indicator using wrong colour on dark mode ([#1094](https://github.com/stoatchat/for-web/issues/1094)) ([cfe0800](https://github.com/stoatchat/for-web/commit/cfe0800c866c303061e16f9502a9898d18002465))
+* Make the invite code box not disabled to fix missing invite ([#1078](https://github.com/stoatchat/for-web/issues/1078)) ([336dce1](https://github.com/stoatchat/for-web/commit/336dce15d808a1590e982047c0f76768c44233b8))
+* perfectly center notification badge number inside the DM list circle ([#1051](https://github.com/stoatchat/for-web/issues/1051)) ([df7ed0b](https://github.com/stoatchat/for-web/commit/df7ed0ba5a124fdfaa379bdc5b090caac5738b83))
+* **scrollable:** only show scrollbar on hover when content overflows ([#1095](https://github.com/stoatchat/for-web/issues/1095)) ([d1344eb](https://github.com/stoatchat/for-web/commit/d1344eb3767f4353e459449cb7744355e88270e6))
+
+## [0.4.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.3.0...stoat-for-web-v0.4.0) (2026-04-10)
+
+
+### Features
+
+* Accept autocomplete suggestion w/ tab ([#1003](https://github.com/stoatchat/for-web/issues/1003)) ([cfdbcd3](https://github.com/stoatchat/for-web/commit/cfdbcd37c096af390858383ef28ae6984a53edf6))
+* Accept autocomplete suggestion w/ tab, or accept emoji with a seocnd ':' ([cfdbcd3](https://github.com/stoatchat/for-web/commit/cfdbcd37c096af390858383ef28ae6984a53edf6))
+* add automatic gain control to voice processing options ([#953](https://github.com/stoatchat/for-web/issues/953)) ([b169f94](https://github.com/stoatchat/for-web/commit/b169f945682c191744a46ce4537a20e465d05fba))
+* Add invite_only support, add invite code field ([#1013](https://github.com/stoatchat/for-web/issues/1013)) ([50e9a38](https://github.com/stoatchat/for-web/commit/50e9a38229cc58c630fb03736fbeff961b2a4b3e))
+* Add Toggleable Enhanced Noise Suppression Using RNNoise ([#783](https://github.com/stoatchat/for-web/issues/783)) ([15c19df](https://github.com/stoatchat/for-web/commit/15c19df95390d01967089d3727c76ca4223aecdf))
+* copy username from modal/card ([#1044](https://github.com/stoatchat/for-web/issues/1044)) ([2d91cca](https://github.com/stoatchat/for-web/commit/2d91cca7dade23a927e872b4b42078b540343e95))
+* new voice ui better suited for video and screen share with focus feature ([#1090](https://github.com/stoatchat/for-web/issues/1090)) ([1dd3270](https://github.com/stoatchat/for-web/commit/1dd32704619b8d4bf88ae8921159ff3d9912ce01))
+
+
+### Bug Fixes
+
+* add missing jest-mocks package.json COPY in Dockerfile ([#994](https://github.com/stoatchat/for-web/issues/994)) ([1e595d8](https://github.com/stoatchat/for-web/commit/1e595d8b1e775e871a1f0d4c66e70c41679ddb51))
+* add VITE_GIFBOX_URL to Docker build and runtime injection ([#995](https://github.com/stoatchat/for-web/issues/995)) ([039e9ca](https://github.com/stoatchat/for-web/commit/039e9ca58430d4f10e51c35dcfe98e97f22727f4))
+* apply shared scrollable styles to autocomplete tooltip ([0a97cdb](https://github.com/stoatchat/for-web/commit/0a97cdbbf10d8af6eb3fc917aa003204629c61d1))
+* Bypass email registration page if the server configuration has email disabled ([#760](https://github.com/stoatchat/for-web/issues/760)) ([ec8b30f](https://github.com/stoatchat/for-web/commit/ec8b30fab6523eddb9fc81085f2e013e85e4d6f5))
+* Change underlined element for username click-to-copy ([#1058](https://github.com/stoatchat/for-web/issues/1058)) ([e9a60b6](https://github.com/stoatchat/for-web/commit/e9a60b603096115d8aded7f8f8c7ea5b054acd4a))
+* Dark theme flashbangs ([#1020](https://github.com/stoatchat/for-web/issues/1020)) ([c6bce05](https://github.com/stoatchat/for-web/commit/c6bce055d71c88f8c44eeaed89f00b579c741d23))
+* ensure mfa ticket is created before deleting server ([#876](https://github.com/stoatchat/for-web/issues/876)) ([161a205](https://github.com/stoatchat/for-web/commit/161a2059a96e8b0b0d0d33b5ae6698007b3064b0))
+* hide alert if server is muted ([#849](https://github.com/stoatchat/for-web/issues/849)) ([8fc3b5e](https://github.com/stoatchat/for-web/commit/8fc3b5ef003e0b11e6a3f3f651b0591e03e603b0))
+* info timestamp wrapping causing additional space below messages ([#719](https://github.com/stoatchat/for-web/issues/719)) ([d993343](https://github.com/stoatchat/for-web/commit/d99334318c0f561b92de3a926fbf702cb88294f6))
+* Ko-Fi link homepage ([1273de4](https://github.com/stoatchat/for-web/commit/1273de485fe4554ba968f1c4559d751fcdd7071a))
+* Ko-Fi link on Homepage ([#1082](https://github.com/stoatchat/for-web/issues/1082)) ([1273de4](https://github.com/stoatchat/for-web/commit/1273de485fe4554ba968f1c4559d751fcdd7071a))
+* Limit the length of various fields ([#801](https://github.com/stoatchat/for-web/issues/801)) ([cf1e9b6](https://github.com/stoatchat/for-web/commit/cf1e9b6e7cdae2a197c6734fd538e8f88263dd0e))
+* Make ProfileJoined.tsx adhere to locale ([#972](https://github.com/stoatchat/for-web/issues/972)) ([42d46f3](https://github.com/stoatchat/for-web/commit/42d46f35b87fd9b5f45b80a55e10eb2f3d48c80b))
+* May fix dark theme flashbangs as reported in [#606](https://github.com/stoatchat/for-web/issues/606) ([c6bce05](https://github.com/stoatchat/for-web/commit/c6bce055d71c88f8c44eeaed89f00b579c741d23))
+* Role autocomplete ([#1075](https://github.com/stoatchat/for-web/issues/1075)) ([e0362e4](https://github.com/stoatchat/for-web/commit/e0362e4ca15954aaae996bda261e5322ddbf0f55))
+* Server deletion using wrong credentials ([161a205](https://github.com/stoatchat/for-web/commit/161a2059a96e8b0b0d0d33b5ae6698007b3064b0))
+* unify autocomplete scrollbar styling via shared scrollable classes ([#1062](https://github.com/stoatchat/for-web/issues/1062)) ([0a97cdb](https://github.com/stoatchat/for-web/commit/0a97cdbbf10d8af6eb3fc917aa003204629c61d1))
+* zoomed-in browser view hiding thumbnails ([#885](https://github.com/stoatchat/for-web/issues/885)) ([f4304f1](https://github.com/stoatchat/for-web/commit/f4304f14a54bfd55ce0a76ed20d9b52969885b5c))
+
 ## [0.3.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.2.1...stoat-for-web-v0.3.0) (2026-03-03)
 
 

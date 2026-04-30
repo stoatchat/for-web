@@ -83,7 +83,14 @@ export function scrollable(
      * Handle mouse entry
      */
     const onMouseEnter = () => {
-      el.classList.add(...showClass);
+      const isOverflowing =
+        props.direction === "x"
+          ? el.scrollWidth > el.clientWidth
+          : el.scrollHeight > el.clientHeight;
+
+      if (isOverflowing) {
+        el.classList.add(...showClass);
+      }
     };
 
     /**
