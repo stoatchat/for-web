@@ -5,8 +5,18 @@ import { useLingui } from "@lingui-solid/solid/macro";
 
 import { useError } from "@revolt/i18n";
 import { Checkbox, Column, iconSize, Text, TextField } from "@revolt/ui";
+import { styled } from "styled-system/jsx";
 
 import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
+
+const ErrorContainer = styled("span", {
+  base: {
+    color: "var(--md-sys-color-error)",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.25em",
+  },
+});
 
 /**
  * Available field types
@@ -169,14 +179,7 @@ export function Form(props: Props) {
       <Column gap="lg">
         {props.children}
         <Show when={error()}>
-          <span
-            style={{
-              color: "var(--md-sys-color-error)",
-              display: "flex",
-              "align-items": "center",
-              gap: "0.25em",
-            }}
-          >
+          <ErrorContainer>
             <MdError
               {...iconSize("1rem")}
               fill="currentColor"
@@ -185,7 +188,7 @@ export function Form(props: Props) {
             <Text class="label" size="small">
               {err(error())}
             </Text>
-          </span>
+          </ErrorContainer>
         </Show>
       </Column>
       <Show when={props.captcha}>
