@@ -17,6 +17,7 @@ export {
   useLocation,
   useNavigate,
   useParams,
+  useSearchParams,
 } from "@solidjs/router";
 
 const RE_SERVER = /\/server\/([A-Z0-9]{26})/;
