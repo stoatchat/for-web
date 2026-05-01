@@ -28,7 +28,12 @@ import { KeybindContext } from "@revolt/keybinds";
 import { ModalContext, ModalRenderer, useModals } from "@revolt/modal";
 import { VoiceContext } from "@revolt/rtc";
 import { StateContext, SyncWorker, useState } from "@revolt/state";
-import { FloatingManager, LoadTheme } from "@revolt/ui";
+import {
+  FloatingManager,
+  LoadTheme,
+  SnackbarController,
+  SnackbarProvider,
+} from "@revolt/ui";
 
 /* @refresh reload */
 import "@revolt/ui/styles";
@@ -116,6 +121,11 @@ function MountContext(props: { children?: JSX.Element }) {
    */
   const client = new QueryClient();
 
+  /**
+   * Snackbar controller
+   */
+  const snackbarController = new SnackbarController();
+
   return (
     <KeybindContext>
       <ModalContext>
@@ -123,9 +133,11 @@ function MountContext(props: { children?: JSX.Element }) {
           <I18nProvider>
             <VoiceContext>
               <QueryClientProvider client={client}>
-                {props.children}
-                <ModalRenderer />
-                <FloatingManager />
+                <SnackbarProvider controller={snackbarController}>
+                  {props.children}
+                  <ModalRenderer />
+                  <FloatingManager />
+                </SnackbarProvider>
               </QueryClientProvider>
             </VoiceContext>
           </I18nProvider>
