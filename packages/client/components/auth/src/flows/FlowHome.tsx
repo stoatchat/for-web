@@ -1,29 +1,28 @@
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
 import { css } from "styled-system/css";
 
 import { useClientLifecycle } from "@revolt/client";
 import { TransitionType } from "@revolt/client/Controller";
-import { Navigate } from "@revolt/routing";
+import { Navigate, useSearchParams } from "@revolt/routing";
 import { Button, Column } from "@revolt/ui";
 
-import { useState } from "@revolt/state";
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 /**
  * Flow for logging into an account
  */
 export default function FlowHome() {
-  const state = useState();
   const { lifecycle, isLoggedIn, isError } = useClientLifecycle();
+  const [searchParams] = useSearchParams();
+  const ssoError = () => searchParams.error as string | undefined;
 
   return (
     <Switch
       fallback={
         <>
           <Show when={isLoggedIn()}>
-            <Navigate href={state.layout.popNextPath() ?? "/app"} />
+            <Navigate href="/app" />
           </Show>
 
           <Column gap="xl">
@@ -47,35 +46,37 @@ export default function FlowHome() {
                 }}
               >
                 <span>
-                  <Trans>
-                    Find your com
-                    <wbr />
-                    munity,
-                    <br />
-                    connect with the world.
-                  </Trans>
+                  Find your com
+                  <wbr />
+                  munity,
+                  <br />
+                  connect with the world.
                 </span>
               </b>
               <span style={{ "text-align": "center", opacity: "0.5" }}>
-                <Trans>
-                  Stoat is one of the best ways to stay connected with your
-                  friends and community, anywhere, anytime.
-                </Trans>
+                Stoat is one of the best ways to stay connected with your
+                friends and community, anywhere, anytime.
               </span>
             </Column>
 
+            <Show when={ssoError()}>
+              <span
+                style={{
+                  color: "var(--md-sys-color-error)",
+                  "text-align": "center",
+                }}
+              >
+                {ssoError() === "sso_disabled"
+                  ? "SSO login is currently unavailable."
+                  : "SSO login failed. Please try again."}
+              </span>
+            </Show>
+
             <Column>
-              <a href="/login/auth">
+              <a href="/api/auth/sso/login">
                 <Column>
                   <Button>
-                    <Trans>Log In</Trans>
-                  </Button>
-                </Column>
-              </a>
-              <a href="/login/create">
-                <Column>
-                  <Button variant="tonal">
-                    <Trans>Sign Up</Trans>
+                    Log In with SSO
                   </Button>
                 </Column>
               </a>
@@ -88,7 +89,7 @@ export default function FlowHome() {
         <Switch fallback={"an unknown error occurred"}>
           <Match when={lifecycle.permanentError === "InvalidSession"}>
             <h1>
-              <Trans>You were logged out!</Trans>
+              You were logged out!
             </h1>
           </Match>
         </Switch>
@@ -101,7 +102,7 @@ export default function FlowHome() {
             })
           }
         >
-          <Trans>OK</Trans>
+          OK
         </Button>
       </Match>
     </Switch>

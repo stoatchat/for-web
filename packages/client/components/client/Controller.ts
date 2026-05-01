@@ -585,11 +585,18 @@ export default class ClientController {
     });
   }
 
-  logout() {
+  async logout() {
+    const session = this.state.auth.getSession();
     this.state.auth.removeSession();
     this.lifecycle.transition({
       type: TransitionType.Logout,
     });
+
+    const apiUrl = CONFIGURATION.DEFAULT_API_URL;
+    const token = session?.token;
+    window.location.href = token
+      ? `${apiUrl}/auth/sso/end-session?session_token=${encodeURIComponent(token)}`
+      : `${apiUrl}/auth/sso/end-session`;
   }
 
   dispose() {

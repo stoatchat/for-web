@@ -15,13 +15,10 @@ import { PublicBot, PublicChannelInvite } from "stoat.js";
 
 import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
-import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
-import FlowDeleteAccount from "@revolt/auth/src/flows/FlowDelete";
 import FlowHome from "@revolt/auth/src/flows/FlowHome";
 import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
-import FlowReset from "@revolt/auth/src/flows/FlowReset";
-import FlowVerify from "@revolt/auth/src/flows/FlowVerify";
+import FlowSSO from "@revolt/auth/src/flows/FlowSSO";
 import { ClientContext, useClient } from "@revolt/client";
 import { I18nProvider } from "@revolt/i18n";
 import { KeybindContext } from "@revolt/keybinds";
@@ -141,14 +138,10 @@ render(
     <StateContext>
       <Router root={MountContext}>
         <Route path="/login" component={AuthPage as never}>
-          <Route path="/delete/:token" component={FlowDeleteAccount} />
           <Route path="/check" component={FlowCheck} />
-          <Route path="/create" component={FlowCreate} />
-          <Route path="/create/:code" component={FlowCreate} />
           <Route path="/auth" component={FlowLogin} />
+          <Route path="/sso" component={FlowSSO} />
           <Route path="/resend" component={FlowResend} />
-          <Route path="/reset" component={FlowReset} />
-          <Route path="/verify/:token" component={FlowVerify} />
           <Route path="/reset/:token" component={FlowConfirmReset} />
           <Route path="/*" component={FlowHome} />
         </Route>
