@@ -30,10 +30,7 @@ export type SnackbarItem = {
   closeOnAction?: boolean;
 };
 
-export type ShowSnackbarOptions = Omit<
-  SnackbarItem,
-  "id"
-> & {
+export type ShowSnackbarOptions = Omit<SnackbarItem, "id"> & {
   /**
    * Immediately replace the currently visible snackbar instead of queuing.
    * Use when the new message supersedes outdated information already on screen.
