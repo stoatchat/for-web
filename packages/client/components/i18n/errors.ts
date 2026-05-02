@@ -16,7 +16,9 @@ export function useError() {
     if (typeof error === "string") {
       try {
         error = JSON.parse(error);
-      } catch {}
+      } catch {
+        // Ignore JSON parse errors
+      }
     }
 
     // handle Revolt API errors
