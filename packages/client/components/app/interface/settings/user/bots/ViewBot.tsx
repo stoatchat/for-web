@@ -83,9 +83,13 @@ export function ViewBot(props: { bot: Bot }) {
           onClick={() => {
             navigator.clipboard.writeText(
               new URL(`/bot/${props.bot.id}`, window.origin).toString(),
-            )
+            );
 
-            snackbar.show({ message: t`Invite URL copied to clipboard`, placement: "bottom", closeable: true });
+            snackbar.show({
+              message: t`Invite URL copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
           }}
         >
           <Trans>Copy Invite URL</Trans>
@@ -95,7 +99,11 @@ export function ViewBot(props: { bot: Bot }) {
           action="copy"
           onClick={() => {
             navigator.clipboard.writeText(props.bot.id);
-            snackbar.show({ message: t`ID copied to clipboard`, placement: "bottom", closeable: true });
+            snackbar.show({
+              message: t`ID copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
           }}
         >
           <Trans>Copy ID</Trans>
@@ -105,7 +113,11 @@ export function ViewBot(props: { bot: Bot }) {
           action="copy"
           onClick={() => {
             navigator.clipboard.writeText(props.bot.token);
-            snackbar.show({ message: t`Token copied to clipboard`, placement: "bottom", closeable: true });
+            snackbar.show({
+              message: t`Token copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
           }}
         >
           <Trans>Copy Token</Trans>

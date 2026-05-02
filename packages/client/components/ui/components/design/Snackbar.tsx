@@ -1,4 +1,4 @@
-import type { JSX } from "solid-js";
+import type { Accessor, JSX, Setter } from "solid-js";
 import {
   Show,
   createContext,
@@ -7,7 +7,6 @@ import {
   onMount,
   useContext,
 } from "solid-js";
-import { type SetStoreFunction, createStore } from "solid-js/store";
 import { Portal } from "solid-js/web";
 
 import "mdui/components/snackbar.js";
@@ -19,12 +18,22 @@ export type SnackbarItem = {
   closeable?: boolean;
   autoCloseDelay?: number;
   messageLine?: 1 | 2;
-  placement?: "top" | "top-start" | "top-end" | "bottom" | "bottom-start" | "bottom-end";
+  placement?:
+    | "top"
+    | "top-start"
+    | "top-end"
+    | "bottom"
+    | "bottom-start"
+    | "bottom-end";
   onAction?: () => void;
   onClose?: () => void;
+  closeOnAction?: boolean;
 };
 
-export type ShowSnackbarOptions = Omit<SnackbarItem, "id"> & {
+export type ShowSnackbarOptions = Omit<
+  SnackbarItem,
+  "id"
+> & {
   /**
    * Immediately replace the currently visible snackbar instead of queuing.
    * Use when the new message supersedes outdated information already on screen.
@@ -36,12 +45,11 @@ export type ShowSnackbarOptions = Omit<SnackbarItem, "id"> & {
  * Manages a queue of active snackbars
  */
 export class SnackbarController {
-  items: SnackbarItem[];
-  setItems: SetStoreFunction<SnackbarItem[]>;
+  items: Accessor<SnackbarItem[]>;
+  setItems: Setter<SnackbarItem[]>;
 
   constructor() {
-    const [items, setItems] = createStore<SnackbarItem[]>([]);
-    // eslint-disable-next-line solid/reactivity
+    const [items, setItems] = createSignal<SnackbarItem[]>([]);
     this.items = items;
     this.setItems = setItems;
 
@@ -110,7 +118,7 @@ export function SnackbarProvider(props: ProviderProps) {
     <SnackbarContext.Provider value={props.controller}>
       {props.children}
       <Portal mount={document.getElementById("floating")!}>
-        <Show when={props.controller.items[0]} keyed>
+        <Show when={props.controller.items()[0]} keyed>
           {(item) => (
             <Snackbar
               {...item}
@@ -139,19 +147,22 @@ type SnackbarProps = SnackbarItem & {
  * @specification https://m3.material.io/components/snackbar/overview
  */
 function Snackbar(props: SnackbarProps) {
-  let el!: HTMLElement;
+  let el: HTMLElement | undefined;
 
   // mdui only animates when `open` transitions false -> true, so start closed
   const [open, setOpen] = createSignal(false);
 
   onMount(() => {
+    if (!el) return;
+
     // Dismiss from queue only after the close animation finishes
     el.addEventListener("closed", props.onClose);
 
-    // Close the snackbar after the action so the exit animation plays
     el.addEventListener("action-click", () => {
       props.onAction();
-      (el as unknown as { open: boolean }).open = false;
+      if (props.closeOnAction) {
+        (el as unknown as { open: boolean }).open = false;
+      }
     });
 
     // Let mdui commit the initial closed state before triggering the open
@@ -161,6 +172,7 @@ function Snackbar(props: SnackbarProps) {
   });
 
   onCleanup(() => {
+    if (!el) return;
     el.removeEventListener("closed", props.onClose);
   });
 
@@ -168,13 +180,13 @@ function Snackbar(props: SnackbarProps) {
     <mdui-snackbar
       ref={el}
       open={open()}
-      placement={props.placement ?? "bottom-start"}
+      placement={props.placement ?? "bottom"}
       action={props.action}
       closeable={props.closeable}
       auto-close-delay={props.autoCloseDelay}
       message-line={props.messageLine}
       style={{
-        transform: "translateY(calc(-1 * var(--snackbar-offset-bottom, 0px)))",
+        transform: "translateY(calc(-1 * var(--snackbar-offset-bottom, 80px)))",
       }}
     >
       {props.message}
