@@ -180,7 +180,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
           ([userId, volume]) =>
             typeof userId === "string" && typeof volume === "number",
         )
-        .forEach(([k, v]) => (data.userVolumes[k] = v));
+        .forEach(([k, v]) => (data.screenShareVolumes[k] = v));
     }
 
     if (typeof input.screenShareMutes === "object") {
@@ -188,7 +188,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
         .filter(
           ([userId, muted]) => typeof userId === "string" && muted === true,
         )
-        .forEach(([k, v]) => (data.userMutes[k] = v));
+        .forEach(([k, v]) => (data.screenShareMutes[k] = v));
     }
 
     return data;
