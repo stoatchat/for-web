@@ -152,7 +152,7 @@ function Snackbar(props: SnackbarProps) {
   onMount(() => {
     if (!el) return;
 
-    // Dismiss from queue only after the close animation finishes
+    // Dismiss from queue when the close animation starts
     el.addEventListener("close", props.onClose);
 
     el.addEventListener("action-click", () => {
