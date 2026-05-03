@@ -183,7 +183,7 @@ function Snackbar(props: SnackbarProps) {
       auto-close-delay={props.autoCloseDelay}
       message-line={props.messageLine}
       style={{
-        transform: "translateY(calc(-1 * var(--snackbar-offset-bottom, 80px)))",
+        translate: "0 calc(-1 * var(--snackbar-offset-bottom, 80px))",
       }}
     >
       {props.message}
