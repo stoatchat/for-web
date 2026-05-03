@@ -106,11 +106,6 @@ declare module "solid-js" {
           select: (index: number) => void;
         };
       };
-      snackbar: {
-        message: string;
-        action?: string;
-        trigger?: "click" | "contextmenu";
-      };
       autoComplete:
         | true
         | {

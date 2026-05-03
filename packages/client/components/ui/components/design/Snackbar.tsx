@@ -153,12 +153,12 @@ function Snackbar(props: SnackbarProps) {
     if (!el) return;
 
     // Dismiss from queue only after the close animation finishes
-    el.addEventListener("closed", props.onClose);
+    el.addEventListener("close", props.onClose);
 
     el.addEventListener("action-click", () => {
       props.onAction();
       if (props.closeOnAction) {
-        (el as unknown as { open: boolean }).open = false;
+        setOpen(false);
       }
     });
 
@@ -170,7 +170,7 @@ function Snackbar(props: SnackbarProps) {
 
   onCleanup(() => {
     if (!el) return;
-    el.removeEventListener("closed", props.onClose);
+    el.removeEventListener("close", props.onClose);
   });
 
   return (
