@@ -438,6 +438,7 @@ class Voice {
                   const v = qualities[k as ScreenShareQualityName]!;
                   return { name: k, fullName: v.fullName };
                 }),
+                audio: !!screenAudioTrack,
                 callback: async (qualityName, audio) => {
                   callback(qualityName, audio);
                   localTrack.resumeUpstream();
