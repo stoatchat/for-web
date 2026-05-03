@@ -373,6 +373,19 @@ class Voice {
         this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
 
         if (localTrack) {
+          // This event is only fired if the screen share is ended by closing the window being streamed.
+          // This catches the ending and disables screen sharing on our side. If this weren't here,
+          // livekit would still share stream audio after closing the window being streamed.
+          localTrack.on("ended", () => {
+            this.toggleScreenshare();
+            const oldAudioTrack = room.localParticipant.getTrackPublication(
+              Track.Source.ScreenShareAudio,
+            );
+            if (oldAudioTrack && oldAudioTrack.track) {
+              room.localParticipant.unpublishTrack(oldAudioTrack.track);
+            }
+          });
+
           const callback = async (
             qualityName: ScreenShareQualityName,
             audio: boolean,
