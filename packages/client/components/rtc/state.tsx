@@ -318,12 +318,37 @@ class Voice {
   async toggleScreenshare() {
     const room = this.room();
     if (!room) throw "invalid state";
+
     if (this.screenshare()) {
       await room.localParticipant.setScreenShareEnabled(false);
 
       this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
     } else {
       const qualities = this.getEnabledScreenShareQualities();
+      let screenPickerQualityName: ScreenShareQualityName | undefined;
+
+      // Register the modal on screen picker handler if it exists
+      if (window.native && window.native.onceScreenPicker) {
+        window.native.onceScreenPicker((sources) => {
+          this.openModal({
+            type: "screen_share_picker",
+            onCancel: () => {
+              window.native.screenPickerCallback(-1, false);
+            },
+            callback: (idx: number, qualityName: ScreenShareQualityName) => {
+              // TODO: Change this to true when enabling screen share audio.
+              window.native.screenPickerCallback(idx, false);
+              screenPickerQualityName = qualityName;
+            },
+            sources: sources,
+            qualities: Object.keys(qualities).map((k) => {
+              const v = qualities[k as ScreenShareQualityName]!;
+              return { name: k, fullName: v.fullName };
+            }),
+          });
+        });
+      }
+
       try {
         const localTrack = await room.localParticipant.setScreenShareEnabled(
           true,
@@ -360,7 +385,9 @@ class Voice {
             }
           };
 
-          if (this.#settings.screenShareQualityAsk) {
+          if (screenPickerQualityName) {
+            callback(screenPickerQualityName || "low");
+          } else if (this.#settings.screenShareQualityAsk) {
             if (Object.keys(qualities).length > 1) {
               localTrack.pauseUpstream();
               this.openModal({

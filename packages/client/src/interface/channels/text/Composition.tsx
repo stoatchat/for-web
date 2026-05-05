@@ -198,8 +198,13 @@ export function MessageComposition(props: Props) {
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
 
+    const maxSize = client().configured()
+      ? (client().configuration?.features.limits.default.file_upload_size_limits
+          .attachments ?? CONFIGURATION.MAX_FILE_SIZE)
+      : CONFIGURATION.MAX_FILE_SIZE;
+
     for (const file of files) {
-      if (file.size > CONFIGURATION.MAX_FILE_SIZE) {
+      if (file.size > maxSize) {
         console.log("File too large:", file);
         rejectedFiles.push(file);
       } else {
@@ -208,7 +213,7 @@ export function MessageComposition(props: Props) {
     }
 
     if (rejectedFiles.length > 0) {
-      const maxSizeFormatted = humanFileSize(CONFIGURATION.MAX_FILE_SIZE);
+      const maxSizeFormatted = humanFileSize(maxSize);
 
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];

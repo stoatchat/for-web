@@ -282,6 +282,7 @@ function FormVirtualSelect<K, T>(props: {
   children: (item: T, selected?: boolean) => JSX.Element;
   itemHeight?: number;
   selectHeight?: string;
+  isMaxHeight?: boolean;
   multiple?: boolean;
 }) {
   let ref;
@@ -290,9 +291,15 @@ function FormVirtualSelect<K, T>(props: {
     <div
       ref={ref}
       use:scrollable
-      style={{
-        height: props.selectHeight ?? "320px",
-      }}
+      style={
+        props.isMaxHeight
+          ? {
+              "max-height": props.selectHeight ?? "320px",
+            }
+          : {
+              height: props.selectHeight ?? "320px",
+            }
+      }
     >
       <VirtualContainer
         items={props.items}
@@ -308,7 +315,8 @@ function FormVirtualSelect<K, T>(props: {
             onClick={() => {
               if (!props.multiple) {
                 props.control.setValue(
-                  props.control.value[0] === item.item.value
+                  props.control.value[0] === item.item.value &&
+                    !props.control.isRequired
                     ? []
                     : [item.item.value],
                 );

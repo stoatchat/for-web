@@ -323,4 +323,16 @@ export type Modals =
       qualities: { name: string; fullName: string }[];
       callback: (qualityName: ScreenShareQualityName) => void;
       onCancel: () => void;
+    }
+  | {
+      type: "screen_share_picker";
+      callback: (idx: number, qualityName: ScreenShareQualityName) => void;
+      qualities: { name: string; fullName: string }[];
+      sources: {
+        idx: number;
+        name: string;
+        isFullScreen: boolean;
+        image?: string;
+      }[];
+      onCancel: () => void;
     };

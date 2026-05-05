@@ -46,8 +46,6 @@ const callCardContext = createContext<(state?: NewState) => void>(null!);
  * Voice call card context
  */
 export function VoiceCallCardContext(props: { children: JSX.Element }) {
-  const voice = useVoice();
-
   const [state, setState] = createSignal<State>({
     type: "floating",
     corner: "bottom-right",

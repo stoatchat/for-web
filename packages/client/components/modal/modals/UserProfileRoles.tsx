@@ -56,9 +56,10 @@ export function UserProfileRolesModal(
                   disabled={
                     // this needs a better API
                     // not sure if this actually works
+                    !props.member.server?.owner?.self &&
                     (role.rank ?? 0) <
-                    (props.member.server?.member?.orderedRoles.toReversed()[0]
-                      ?.rank ?? 0)
+                      (props.member.server?.member?.orderedRoles.toReversed()[0]
+                        ?.rank ?? 0)
                   }
                   onChange={() =>
                     props.member.edit({

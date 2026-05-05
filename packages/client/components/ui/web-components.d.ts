@@ -15,6 +15,7 @@ import type { SegmentedButton } from "mdui/components/segmented-button";
 import type { SegmentedButtonGroup } from "mdui/components/segmented-button-group";
 import type { Select } from "mdui/components/select";
 import type { Slider } from "mdui/components/slider";
+import type { Snackbar } from "mdui/components/snackbar";
 import type { TextField } from "mdui/components/text-field";
 
 declare module "solid-js" {
@@ -38,6 +39,7 @@ declare module "solid-js" {
       "mdui-slider": ComponentProps<Slider>;
       "mdui-radio": ComponentProps<Radio>;
       "mdui-radio-group": ComponentProps<RadioGroup>;
+      "mdui-snackbar": ComponentProps<Snackbar>;
     }
   }
 }

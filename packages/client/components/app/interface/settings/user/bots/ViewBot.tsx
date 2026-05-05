@@ -1,9 +1,9 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { Bot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, iconSize } from "@revolt/ui";
+import { CategoryButton, Column, iconSize, useSnackbar } from "@revolt/ui";
 
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
@@ -24,6 +24,8 @@ export function ViewBot(props: { bot: Bot }) {
   // eslint-disable-next-line solid/reactivity
   const profile = createProfileResource(props.bot.user!);
   const { openModal } = useModals();
+  const snackbar = useSnackbar();
+  const { t } = useLingui();
 
   return (
     <Column gap="lg">
@@ -78,25 +80,45 @@ export function ViewBot(props: { bot: Bot }) {
         <CategoryButton
           icon={<MdLink {...iconSize(22)} />}
           action="copy"
-          onClick={() =>
+          onClick={() => {
             navigator.clipboard.writeText(
               new URL(`/bot/${props.bot.id}`, window.origin).toString(),
-            )
-          }
+            );
+
+            snackbar.show({
+              message: t`Invite URL copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
+          }}
         >
           <Trans>Copy Invite URL</Trans>
         </CategoryButton>
         <CategoryButton
           icon={<MdContentCopy {...iconSize(22)} />}
           action="copy"
-          onClick={() => navigator.clipboard.writeText(props.bot.id)}
+          onClick={() => {
+            navigator.clipboard.writeText(props.bot.id);
+            snackbar.show({
+              message: t`ID copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
+          }}
         >
           <Trans>Copy ID</Trans>
         </CategoryButton>
         <CategoryButton
           icon={<MdKey {...iconSize(22)} />}
           action="copy"
-          onClick={() => navigator.clipboard.writeText(props.bot.token)}
+          onClick={() => {
+            navigator.clipboard.writeText(props.bot.token);
+            snackbar.show({
+              message: t`Token copied to clipboard`,
+              placement: "bottom",
+              closeable: true,
+            });
+          }}
         >
           <Trans>Copy Token</Trans>
         </CategoryButton>
