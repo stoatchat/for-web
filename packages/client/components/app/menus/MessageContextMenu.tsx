@@ -226,7 +226,12 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
             </For>
           </ContextMenuSubMenu>
         </Show>
-        <Show when={props.message!.reactions.size}>
+        <Show
+          when={
+            props.message!.reactions.size &&
+            props.message!.channel?.havePermission("ManageMessages")
+          }
+        >
           <ContextMenuButton
             symbol={MdSentimentContent}
             onClick={() => props.message!.clearReactions()}
