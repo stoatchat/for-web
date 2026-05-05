@@ -92,6 +92,12 @@ export function BanMemberModal(
             <MenuItem value="0">
               <Trans>Don't delete messages</Trans>
             </MenuItem>
+            <MenuItem value="3600">
+              <Trans>1 hour</Trans>
+            </MenuItem>
+            <MenuItem value="21600">
+              <Trans>6 hours</Trans>
+            </MenuItem>
             <MenuItem value="86400">
               <Trans>1 day</Trans>
             </MenuItem>
