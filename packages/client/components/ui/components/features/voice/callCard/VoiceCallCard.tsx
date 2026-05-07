@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
-import { createResizeObserver } from "@solid-primitives/resize-observer";
+import { makeResizeObserver } from "@solid-primitives/resize-observer";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -28,7 +28,7 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 
 type Info = {
   channel: Channel;
-  pos?: DOMRect;
+  pos: DOMRect;
 };
 
 type PtrEvent = {
@@ -50,9 +50,9 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
   const [mode, setMode] = createSignal<Mode>();
   const [info, setInfo] = createSignal<Info>();
-  let ref: HTMLDivElement | undefined;
 
-  let events: AbortController | null,
+  let ref: HTMLDivElement | undefined,
+    events: AbortController | null,
     tid = 0,
     ofsX = 0,
     ofsY = 0;
@@ -61,13 +61,16 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     for (const t of tl) if (t.identifier === id) return t;
   }
 
+  /**
+   * @param tid Touch ID, or null to track new touch
+   */
   function getPointer(
     e: MouseEvent | TouchEvent,
     tid: number | null,
   ): PtrEvent | undefined {
     let t: MouseEvent | Touch | undefined;
     if (e instanceof TouchEvent) {
-      t = tid ? getTouch(tid, e.changedTouches) : e.touches[0];
+      t = tid != null ? getTouch(tid, e.changedTouches) : e.touches[0];
       if (!t) return;
     } else t = e;
     return {
@@ -109,6 +112,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
     sty.transition = "all .2s cubic-bezier(0, 1.67, 0.85, 0.8)";
     setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
+    //Reset CSS transition on next render pass
     setTimeout(() => (sty.transition = ""), 1);
     resetEvents();
   }
@@ -140,7 +144,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       sty.width = `${inf.pos.width}px`;
       setMode();
     } else if (!voice.channel()) {
-      const y = inf?.pos?.y ?? ref.getBoundingClientRect().y;
+      const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
       sty.transform = `translate(${innerWidth + 50}px, ${y}px)`;
       setMode();
     } else if (!mode()) setFloat("tr");
@@ -174,7 +178,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
             <Match when={mode()}>
               <VoiceCallCardPiP />
             </Match>
-            <Match when={info() && channel()}>
+            <Match when={channel()}>
               <VoiceCallCard channel={channel()!} />
             </Match>
           </Switch>
@@ -216,28 +220,34 @@ const Float = styled("div", {
 
 /** 'Marker' to send position information for mounting the floating call card */
 export function VoiceChannelCallCardMount(props: { channel: Channel }) {
-  //const state = useState();
   const voice = useVoice();
-  const [width, setWidth] = createSignal(0);
   const setInfo = useContext(callCardContext)!;
   let ref: HTMLDivElement | undefined;
 
+  function updateInfo() {
+    const vc = voice.channel();
+    setInfo(
+      !vc || vc.id === props.channel.id
+        ? {
+            channel: props.channel,
+            pos: ref!.getBoundingClientRect(),
+          }
+        : undefined,
+    );
+  }
+
+  createEffect(updateInfo);
+
+  //Observe resize of parent
+  let obs: ReturnType<typeof makeResizeObserver>;
   onMount(() => {
-    createResizeObserver(ref, ({ width }) => setWidth(width));
+    obs = makeResizeObserver(updateInfo);
+    obs.observe(ref!.parentElement!);
   });
-
-  createEffect(() => {
-    width();
-    const active = voice.channel(),
-      canUpdate = !active || active.id === props.channel.id;
-    if (canUpdate)
-      setInfo({
-        channel: props.channel,
-        pos: ref!.getBoundingClientRect(),
-      });
+  onCleanup(() => {
+    obs.unobserve(ref!.parentElement!);
+    setInfo();
   });
-
-  onCleanup(setInfo);
 
   return <div ref={ref!} />;
 }
