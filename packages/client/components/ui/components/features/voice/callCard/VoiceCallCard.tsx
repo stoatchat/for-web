@@ -306,12 +306,7 @@ function VoiceCallCard(props: { channel: Channel }) {
   });
 
   return (
-    <Show
-      when={
-        inCall() ||
-        (props.channel.type === "TextChannel" && props.channel.isVoice)
-      }
-    >
+    <Show when={voice.showCard(props.channel)}>
       <Base>
         <Card ref={viewRef} active={inCall()}>
           <Show

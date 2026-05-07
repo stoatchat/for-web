@@ -136,7 +136,7 @@ export function ChannelHeader(props: Props) {
 
       <Spacer />
 
-      <Show when={props.channel.isVoice}>
+      <Show when={props.channel.isVoice && !voice.showCard(props.channel)}>
         <IconButton
           onPress={() => voice.connect(props.channel)}
           use:floating={{
