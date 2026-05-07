@@ -14,7 +14,6 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const navigate = useNavigate();
   const { t } = useLingui();
 
-  //TODO For changes in PR #999
   const enableVideo = CONFIGURATION.ENABLE_VIDEO;
 
   return (
@@ -25,8 +24,6 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
           size={props.size}
           onPress={() => {
             navigate(voice.channel()?.path ?? "");
-            //TODO For change in PR #835
-            //state.appDrawer()?.setShown(true);
           }}
           use:floating={{
             tooltip: {

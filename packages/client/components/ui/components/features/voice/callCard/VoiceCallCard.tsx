@@ -29,7 +29,6 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 type Info = {
   channel: Channel;
   pos?: DOMRect;
-  //drawer?: SlideState; TODO PR #835
 };
 
 const PAD = 16,
@@ -122,8 +121,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     const sty = ref.style;
 
     //Set mode based on state
-    //TODO for PR #835 to adapt VoiceCallCard to mobile UI
-    if (inf?.pos /*&& (!inf.drawer || inf.drawer === SlideState.SHOWN)*/) {
+    if (inf?.pos) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
       setMode();
@@ -222,7 +220,6 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
       setInfo({
         channel: props.channel,
         pos: ref!.getBoundingClientRect(),
-        //drawer: state.appDrawer()?.state, TODO PR #835
       });
   });
 
