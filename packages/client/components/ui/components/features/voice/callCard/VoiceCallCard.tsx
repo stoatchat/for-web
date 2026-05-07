@@ -31,15 +31,18 @@ type Info = {
   pos?: DOMRect;
 };
 
+type PtrEvent = {
+  type: string;
+  tid: number;
+  clientX: number;
+  clientY: number;
+};
+
 const PAD = 16,
   PAD_X = `${PAD}px`,
   PAD_Y = `${PAD + 56}px`;
 
 const callCardContext = createContext<(info?: Info) => void>();
-
-function getTouch(id: number, tl: TouchList) {
-  for (const t of tl) if (t.identifier === id) return t;
-}
 
 /** Voice call card context */
 export function VoiceCallCardContext(props: { children: JSX.Element }) {
@@ -54,44 +57,55 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     ofsX = 0,
     ofsY = 0;
 
-  function touchToMouse(e: MouseEvent | TouchEvent, down = false) {
+  function getTouch(id: number, tl: TouchList) {
+    for (const t of tl) if (t.identifier === id) return t;
+  }
+
+  function getPointer(
+    e: MouseEvent | TouchEvent,
+    tid: number | null,
+  ): PtrEvent | undefined {
+    let t: MouseEvent | Touch | undefined;
     if (e instanceof TouchEvent) {
-      const t = down ? e.touches[0] : getTouch(tid, e.changedTouches);
-      if (down) tid = t!.identifier;
-      else if (!t) return false;
-      //@ts-expect-error prop
-      e.clientX = t.clientX;
-      //@ts-expect-error prop
-      e.clientY = t.clientY;
-    }
-    return true;
+      t = tid ? getTouch(tid, e.changedTouches) : e.touches[0];
+      if (!t) return;
+    } else t = e;
+    return {
+      type: e.type,
+      tid: (t as Touch).identifier || 0,
+      clientX: t!.clientX,
+      clientY: t!.clientY,
+    };
   }
 
   function mouseDown(e: MouseEvent | TouchEvent) {
-    touchToMouse(e, true);
+    const ptr = getPointer(e, null)!;
+    tid = ptr.tid;
     if (mode() === "floating") {
       const pos = ref!.getBoundingClientRect();
-      ofsX = (e as MouseEvent).clientX - pos.x;
-      ofsY = (e as MouseEvent).clientY - pos.y;
+      ofsX = ptr.clientX - pos.x;
+      ofsY = ptr.clientY - pos.y;
       setMode("moving");
       addEvents();
     }
   }
 
   function mouseMove(e: MouseEvent | TouchEvent) {
-    if (!touchToMouse(e)) return;
+    const ptr = getPointer(e, tid);
+    if (!ptr) return;
     e.preventDefault();
-    const x = (e as MouseEvent).clientX - ofsX,
-      y = (e as MouseEvent).clientY - ofsY;
+    const x = ptr.clientX - ofsX,
+      y = ptr.clientY - ofsY;
     ref!.style.transform = `translate(${x}px, ${y}px)`;
   }
 
   function mouseUp(e: MouseEvent | TouchEvent) {
-    if (!touchToMouse(e)) return;
+    const ptr = getPointer(e, tid);
+    if (!ptr) return;
     const sty = ref!.style,
       pos = ref!.getBoundingClientRect(),
-      left = (e as MouseEvent).clientX - ofsX + pos.width / 2 < outerWidth / 2,
-      top = (e as MouseEvent).clientY - ofsY + pos.height / 2 < outerHeight / 2;
+      left = ptr.clientX - ofsX + pos.width / 2 < outerWidth / 2,
+      top = ptr.clientY - ofsY + pos.height / 2 < outerHeight / 2;
 
     sty.transition = "all .2s cubic-bezier(0, 1.67, 0.85, 0.8)";
     setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
