@@ -447,15 +447,16 @@ export function MessageComposition(props: Props) {
         content={draft()?.content ?? ""}
         setContent={setContent}
         actionsStart={
-          <Switch fallback={<MessageBox.InlineIcon size="short" />}>
-            <Match when={props.channel.havePermission("UploadFiles")}>
-              <MessageBox.InlineIcon size="wide">
-                <IconButton onPress={addFile}>
-                  <Symbol>add</Symbol>
-                </IconButton>
-              </MessageBox.InlineIcon>
-            </Match>
-          </Switch>
+          <Show
+            when={props.channel.havePermission("UploadFiles")}
+            fallback={<MessageBox.InlineIcon size="short" />}
+          >
+            <MessageBox.InlineIcon>
+              <IconButton onPress={addFile}>
+                <Symbol>add</Symbol>
+              </IconButton>
+            </MessageBox.InlineIcon>
+          </Show>
         }
         actionsEnd={
           <MessageBox.ActionContainer column>
@@ -477,13 +478,13 @@ export function MessageComposition(props: Props) {
                 {(triggerProps) => (
                   <>
                     <Show when={!canSend()}>
-                      <MessageBox.InlineIcon size="normal">
+                      <MessageBox.InlineIcon>
                         <IconButton onPress={triggerProps.onClickGif}>
                           <Symbol>gif</Symbol>
                         </IconButton>
                       </MessageBox.InlineIcon>
                     </Show>
-                    <MessageBox.InlineIcon size="normal">
+                    <MessageBox.InlineIcon>
                       <IconButton onPress={triggerProps.onClickEmoji}>
                         <Symbol>emoticon</Symbol>
                       </IconButton>

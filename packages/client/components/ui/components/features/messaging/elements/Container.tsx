@@ -237,6 +237,7 @@ const Body = styled("div", {
     editing: {
       true: {
         flexGrow: 1,
+        overflow: "visible",
       },
     },
   },

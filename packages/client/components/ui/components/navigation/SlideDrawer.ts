@@ -1,4 +1,4 @@
-const ANIM_MS = 200,
+const ANIM_MS = 150,
   VEL_MS = 33, //30Hz velocity update
   VEL_AVG = 5, //Moving avg smoothing
   VEL_TRIG = 0.3, //Override drawer pos if over

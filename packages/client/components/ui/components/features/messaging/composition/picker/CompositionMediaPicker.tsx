@@ -26,8 +26,8 @@ import { GifPicker } from "./GifPicker";
 
 export type MediaPickerProps = {
   ref: Setter<HTMLElement | undefined>;
-  onClickGif: (_: MouseEvent, ref?: HTMLDivElement) => void;
-  onClickEmoji: (_: MouseEvent, ref?: HTMLDivElement) => void;
+  onClickGif: (_: unknown, ref?: HTMLDivElement) => void;
+  onClickEmoji: (_: unknown, ref?: HTMLDivElement) => void;
 };
 
 interface Props {
@@ -102,6 +102,7 @@ function Picker(
   },
 ) {
   const [floating, setFloating] = createSignal<HTMLDivElement>();
+  const [fixed, setFixed] = createSignal(false);
 
   const position = useFloating(() => props.anchor(), floating, {
     placement: "top-end",
@@ -111,18 +112,36 @@ function Picker(
   function onMouseDown(e: MouseEvent) {
     if (!floating()?.contains(e.target as Node)) props.setShow();
   }
+  function onResize() {
+    const el = floating();
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
 
-  onMount(() => document.addEventListener("mousedown", onMouseDown));
-  onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+    //Prevent overflow off-screen
+    if (rect.right > innerWidth || rect.bottom > innerHeight) setFixed(true);
+  }
+  onMount(() => {
+    addEventListener("mousedown", onMouseDown);
+    addEventListener("resize", onResize);
+    setTimeout(onResize, 1);
+  });
+  onCleanup(() => {
+    removeEventListener("mousedown", onMouseDown);
+    removeEventListener("resize", onResize);
+  });
 
   return (
     <Base
       ref={setFloating}
-      style={{
-        position: position.strategy,
-        top: `${position.y ?? 0}px`,
-        left: `${position.x ?? 0}px`,
-      }}
+      style={
+        fixed()
+          ? { position: "absolute", bottom: 0, right: 0 }
+          : {
+              position: position.strategy,
+              top: `${position.y ?? 0}px`,
+              left: `${position.x ?? 0}px`,
+            }
+      }
     >
       <Container>
         <Row justify class="CompositionButton">
@@ -162,7 +181,8 @@ const Base = styled("div", {
   base: {
     width: "400px",
     height: "400px",
-    // paddingInlineEnd: "5px",
+    maxWidth: "100%",
+    maxHeight: "calc(100% - 72px)",
   },
 });
 
