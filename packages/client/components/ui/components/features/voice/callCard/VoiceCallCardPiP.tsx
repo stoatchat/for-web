@@ -68,9 +68,14 @@ function ConnectedUser() {
 
   return (
     <UserIcon speaking={isSpeaking()}>
-      <Avatar size={24} src={user().avatar} fallback={user().username} />
+      <Avatar
+        size={24}
+        src={user().avatar}
+        fallback={user().username}
+        shape="square"
+      />
       <Show when={isMuted()}>
-        <Symbol>mic_off</Symbol>
+        <Symbol background="rgba(0,0,0,.5)">mic_off</Symbol>
       </Show>
     </UserIcon>
   );
@@ -113,6 +118,8 @@ const UserIcon = styled("div", {
     width: "24px",
     height: "24px",
     color: "#fffb",
+    overflow: "hidden",
+    borderRadius: "var(--borderRadius-circle)",
 
     "& *": {
       gridArea: "1/1",
