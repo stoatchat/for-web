@@ -27,6 +27,7 @@ import {
 } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { useDevice } from "@revolt/common";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
 /**
@@ -54,8 +55,8 @@ type GifResult = {
 const FilterContext = createContext<(value: string) => void>();
 
 export function GifPicker() {
+  const { isMobile } = useDevice();
   const [filter, setFilter] = createSignal("");
-
   const fliterLowercase = () => filter().toLowerCase();
 
   return (
@@ -80,15 +81,10 @@ export function GifPicker() {
           </span>
         </Show>
         <TextField
-          autoFocus
+          autoFocus={!isMobile}
           variant="outlined"
           placeholder="Search for GIFs..."
           value={filter()}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-          }}
           onChange={(e) => setFilter(e.currentTarget.value)}
         />
       </SearchArea>
