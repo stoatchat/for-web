@@ -23,11 +23,7 @@ export function SettingsContent(props: {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <div
-      use:scrollable={{
-        class: base(),
-      }}
-    >
+    <div class="setBase" use:scrollable={{ class: base() }}>
       <Show when={props.page()}>
         <InnerContent class="setCont">
           <InnerColumn>

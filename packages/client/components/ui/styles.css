@@ -25,6 +25,35 @@ body {
   background: #191919;
 }
 
+/* App: Desktop view */
+.appRoot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.appSidebar {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* Settings: Desktop view */
+.setMain {
+  display: flex;
+  height: 100%;
+  pointer-events: all;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface-container-highest);
+}
+
+/* Settings: Tablet view */
+.setMobileBack { display: none }
+@media (max-width: 900px) {
+  .setCont { padding: 12px }
+  .setSidebar { padding: 8px 0 }
+  .setClose { display: none }
+  .setMobileBack { display: flex }
+}
+
 /* HighlightJs */
 /*!
   Theme: GitHub Dark

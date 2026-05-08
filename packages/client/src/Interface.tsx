@@ -1,4 +1,4 @@
-import { JSX, Match, Switch, createEffect } from "solid-js";
+import { createEffect, JSX, Match, Switch } from "solid-js";
 
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -59,13 +59,7 @@ const Interface = (props: { children: JSX.Element }) => {
 
   return (
     <MessageCache client={client()}>
-      <div
-        style={{
-          display: "flex",
-          "flex-direction": "column",
-          height: "100%",
-        }}
-      >
+      <div class="appRoot">
         <Titlebar />
         <Switch fallback={<CircularProgress />}>
           <Match when={!isLoggedIn()}>
@@ -96,6 +90,7 @@ const Interface = (props: { children: JSX.Element }) => {
                 })}
               />
               <Content
+                class="appCont"
                 sidebar={state.layout.getSectionState(
                   LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
                   true,
@@ -142,7 +137,6 @@ const Layout = styled("div", {
 const Content = styled("div", {
   base: {
     background: "var(--md-sys-color-surface-container-low)",
-
     display: "flex",
     width: "100%",
     minWidth: 0,

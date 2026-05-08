@@ -36,7 +36,7 @@ export function SettingsSidebar(props: {
   });
 
   return (
-    <Base>
+    <Base class="setSbBase">
       <div use:invisibleScrollable>
         <Content class="setSidebar">
           <Column gap="lg">
@@ -104,6 +104,7 @@ const Base = styled("div", {
     flex: "1 0 218px",
     paddingLeft: "8px",
     justifyContent: "flex-end",
+    height: "100%",
   },
 });
 

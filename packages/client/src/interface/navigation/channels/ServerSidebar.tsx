@@ -190,7 +190,10 @@ export const ServerSidebar = (props: Props) => {
   }
 
   return (
-    <SidebarBase use:floating={props.menuGenerator(props.server)}>
+    <SidebarBase
+      class="appSbBase"
+      use:floating={props.menuGenerator(props.server)}
+    >
       <Switch
         fallback={
           <Header placement="secondary">

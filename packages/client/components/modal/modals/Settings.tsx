@@ -5,7 +5,6 @@ import { Motion, Presence } from "solid-motionone";
 import { Settings, SettingsConfigurations } from "@revolt/app";
 import { DialogProps } from "@revolt/ui";
 
-import { styled } from "styled-system/jsx";
 import { Modals } from "../types";
 
 /**
@@ -32,7 +31,8 @@ export function SettingsModal(
       >
         <Presence>
           <Show when={props?.show}>
-            <Base
+            <Motion.div
+              class="setMain"
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1 }}
@@ -48,29 +48,10 @@ export function SettingsModal(
                 list={config.list}
                 context={props.context as never}
               />
-            </Base>
+            </Motion.div>
           </Show>
         </Presence>
       </div>
     </Portal>
   );
 }
-
-const Base = styled(Motion.div, {
-  base: {
-    height: "100%",
-    pointerEvents: "all",
-    display: "flex",
-    color: "var(--md-sys-color-on-surface)",
-    background: "var(--md-sys-color-surface-container-highest)",
-
-    //Tablet view
-    "& .setMobileBack": { display: "none" },
-    "@media (max-width: 800px)": {
-      "& .setCont": { padding: "12px" },
-      "& .setSidebar": { padding: "12px 0" },
-      "& .setClose": { display: "none" },
-      "& .setMobileBack": { display: "flex" },
-    },
-  },
-});
