@@ -1,4 +1,4 @@
-import { type IFormControl, IFormGroup } from "solid-forms";
+import { type IFormControl, ControlId, IFormGroup } from "solid-forms";
 import {
   type JSX,
   ComponentProps,
@@ -15,7 +15,14 @@ import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox, Radio2, Text, TextField } from "../design";
+import {
+  Button,
+  Checkbox,
+  FloatingSelect,
+  Radio2,
+  Text,
+  TextField,
+} from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Row } from "../layout";
 
@@ -96,36 +103,31 @@ const EditorBox = styled("div", {
 });
 
 /**
- * Form wrapper for TextField.Select
+ * Form wrapper for FloatingSelect
  */
-FormTextField.Select = (
-  props: {
-    control: IFormControl<string>;
-  } & ComponentProps<typeof TextField.Select>,
-) => {
-  const [local, remote] = splitProps(props, ["control"]);
+export function FormSelect(props: {
+  label?: string;
+  variant?: "filled" | "outlined";
+  control: IFormControl<string, Record<ControlId, unknown>>;
+  children: JSX.Element;
+}) {
+  const [local, others] = splitProps(props, ["control", "children"]);
 
   return (
-    <>
-      <TextField.Select
-        {...remote}
-        value={local.control.value}
-        onChange={(e) => {
-          local.control.setValue(e.currentTarget.value);
-          local.control.markDirty(true);
-        }}
-        required={local.control.isRequired}
-        disabled={local.control.isDisabled}
-      />
-
-      <Show when={local.control.isTouched && !local.control.isValid}>
-        <For each={Object.keys(local.control.errors!)}>
-          {(errorMsg: string) => <small>{errorMsg}</small>}
-        </For>
-      </Show>
-    </>
+    <FloatingSelect
+      {...others}
+      value={local.control.value}
+      required={local.control.isRequired}
+      disabled={local.control.isDisabled}
+      onChange={(e) => {
+        local.control.setValue(e.currentTarget.value || "");
+        local.control.markDirty(true);
+      }}
+    >
+      {local.children}
+    </FloatingSelect>
   );
-};
+}
 
 /**
  * Form wrapper for, single file, FileInput
@@ -478,6 +480,7 @@ function useSubmitHandler(
 export const Form2 = {
   TextField: FormTextField,
   TextEditor: FormTextEditor,
+  Select: FormSelect,
   FileInput: FormFileInput,
   Checkbox: FormCheckbox,
   Radio: FormRadio,
