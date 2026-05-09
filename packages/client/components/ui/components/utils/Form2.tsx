@@ -1,4 +1,4 @@
-import { type IFormControl, ControlId, IFormGroup } from "solid-forms";
+import { type IFormControl, IFormGroup } from "solid-forms";
 import {
   type JSX,
   ComponentProps,
@@ -105,27 +105,35 @@ const EditorBox = styled("div", {
 /**
  * Form wrapper for FloatingSelect
  */
-export function FormSelect(props: {
-  label?: string;
-  variant?: "filled" | "outlined";
-  control: IFormControl<string, Record<ControlId, unknown>>;
-  children: JSX.Element;
-}) {
+export function FormSelect(
+  props: { control: IFormControl<string> } & Omit<
+    ComponentProps<typeof FloatingSelect>,
+    "value" | "required" | "disabled" | "onChange"
+  >,
+) {
   const [local, others] = splitProps(props, ["control", "children"]);
 
   return (
-    <FloatingSelect
-      {...others}
-      value={local.control.value}
-      required={local.control.isRequired}
-      disabled={local.control.isDisabled}
-      onChange={(e) => {
-        local.control.setValue(e.currentTarget.value || "");
-        local.control.markDirty(true);
-      }}
-    >
-      {local.children}
-    </FloatingSelect>
+    <>
+      <FloatingSelect
+        {...others}
+        value={local.control.value}
+        required={local.control.isRequired}
+        disabled={local.control.isDisabled}
+        onChange={(e) => {
+          local.control.setValue(e.currentTarget.value || "");
+          local.control.markDirty(true);
+        }}
+      >
+        {local.children}
+      </FloatingSelect>
+
+      <Show when={local.control.isTouched && !local.control.isValid}>
+        <For each={Object.keys(local.control.errors!)}>
+          {(errorMsg: string) => <small>{errorMsg}</small>}
+        </For>
+      </Show>
+    </>
   );
 }
 
