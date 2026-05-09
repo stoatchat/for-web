@@ -42,19 +42,48 @@ export function codeMirrorAutoCompleteSource(
   const client = useClient();
 
   const emoji = createMemo(() => {
+    const recentEmojis = state.settings.getValue("recent_emojis") ?? [];
+
+    /**
+     * Calculate boost score based on recency.
+     * Index 0 (most recent) gets score 100.
+     * Items not in list get score 0.
+     */
+    const getBoost = (key: string) => {
+      const index = recentEmojis.indexOf(key);
+      return index === -1 ? 0 : 100 - index;
+    };
+
     return ([] as Completion[]).concat(
-      MAPPED_EMOJI_KEYS.map((emoji) => ({
-        ...emoji,
-        apply: `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${emoji.apply as string}`,
-        url: unicodeEmojiUrl(
-          state.settings.getValue("appearance:unicode_emoji"),
-          emoji.apply as string,
-        ),
-      })),
+      MAPPED_EMOJI_KEYS.map((emoji) => {
+        const emojiValue = emoji.apply as string;
+
+        return {
+          ...emoji,
+          boost: getBoost(emojiValue),
+          apply: (view, _completion, from, to) => {
+            const text = `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${emojiValue}`;
+            state.settings.pushRecentEmoji(emojiValue);
+            view.dispatch({
+              changes: { from, to, insert: text },
+            });
+          },
+          url: unicodeEmojiUrl(
+            state.settings.getValue("appearance:unicode_emoji"),
+            emojiValue,
+          ),
+        };
+      }),
       client().emojis.map((emoji) => ({
         type: "emoji",
         label: `:${emoji.name}:`,
-        apply: `:${emoji.id}: `,
+        apply: (view, _completion, from, to) => {
+          state.settings.pushRecentEmoji(emoji.id);
+          view.dispatch({
+            changes: { from, to, insert: `:${emoji.id}: ` },
+          });
+        },
+        boost: getBoost(emoji.id),
         url: emoji.url,
       })),
     );

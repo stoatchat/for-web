@@ -26,6 +26,10 @@ import {
   compositionContent,
 } from "./CompositionMediaPicker";
 
+const EMOJI_REVERSE_MAPPING = Object.fromEntries(
+  Object.entries(emojiMapping).map(([k, v]) => [v, k])
+);
+
 type Item =
   | {
       /**
@@ -93,16 +97,40 @@ export function EmojiPicker() {
     }
 
     const items: Item[] = [];
+    const recentEmojis = state.settings.getValue("recent_emojis") || [];
+
+    if (recentEmojis.length > 0) {
+      items.push({ t: 3, title: "Recently Used" });
+
+      while (items.length % COLUMNS) {
+        items.push({ t: 1 });
+      }
+
+      for (const recent of recentEmojis) {
+        const emoji = client().emojis.get(recent);
+
+        if (emoji) {
+          items.push({ t: 2, emoji });
+          continue;
+        }
+
+        const name = EMOJI_REVERSE_MAPPING[recent];
+        if (name) {
+          items.push({ t: 4, name, text: recent });
+        }
+      }
+
+      while (items.length % COLUMNS) {
+        items.push({ t: 1 });
+      }
+    }
 
     for (const server of state.ordering.orderedServers(client())) {
       const emojis = server.emojis;
 
       if (emojis.length === 0) continue;
 
-      items.push({
-        t: 0,
-        server,
-      });
+      items.push({ t: 0, server });
 
       while (items.length % COLUMNS) {
         items.push({ t: 1 });
@@ -117,21 +145,14 @@ export function EmojiPicker() {
       }
     }
 
-    items.push({
-      t: 3,
-      title: "Default",
-    });
+    items.push({ t: 3, title: "Default" });
 
     while (items.length % COLUMNS) {
       items.push({ t: 1 });
     }
 
     for (const emoji of Object.entries(emojiMapping)) {
-      items.push({
-        t: 4,
-        name: emoji[0],
-        text: emoji[1] as string,
-      });
+      items.push({ t: 4, name: emoji[0], text: emoji[1] as string });
     }
 
     return items;
@@ -235,6 +256,7 @@ const ServerOption = styled("div", {
 });
 
 const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
+  const client = useClient();
   const state = useState();
   const { onTextReplacement } = useContext(CompositionMediaPickerContext);
 
@@ -246,10 +268,19 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
       role="listitem"
       onClick={() => {
         if (props.item.t === 2) {
-          onTextReplacement(`:${props.item.emoji.id}:`);
+          const emoji = client().emojis.get(props.item.emoji.id);
+
+          if (!emoji) {
+            state.settings.removeRecentEmoji(props.item.emoji.id);
+            return;
+          }
+
+          state.settings.pushRecentEmoji(emoji.id);
+          onTextReplacement(`:${emoji.id}:`);
         }
 
         if (props.item.t === 4) {
+          state.settings.pushRecentEmoji(props.item.text);
           onTextReplacement(
             `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${props.item.text}`,
           );
