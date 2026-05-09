@@ -318,6 +318,10 @@ export type Modals =
       category: CategoryData;
     }
   | {
+      type: "enable_devtools";
+      enableDevtools: (untilTimestamp: number) => void;
+    }
+  | {
       type: "screen_share_settings";
       trackReference: TrackReference;
       qualities: { name: string; fullName: string }[];

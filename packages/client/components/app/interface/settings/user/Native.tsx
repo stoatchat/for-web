@@ -2,6 +2,7 @@ import { createSignal, onMount } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
+import { useModals } from "@revolt/modal";
 import { CategoryButton, Checkbox, Column } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
@@ -13,6 +14,7 @@ declare type DesktopConfig = {
   spellchecker: boolean;
   hardwareAcceleration: boolean;
   discordRpc: boolean;
+  enableDevtoolsUntilTimestamp: number;
   windowState: {
     isMaximised: boolean;
   };
@@ -59,6 +61,7 @@ export default function Native() {
   const { t } = useLingui();
   const [autostart, setAutostart] = createSignal(false);
   const [config, setConfig] = createSignal(window.desktopConfig.get());
+  const { openModal } = useModals();
 
   function set(config: Partial<DesktopConfig>) {
     window.desktopConfig.set(config);
@@ -76,6 +79,8 @@ export default function Native() {
     setAutostart(savedValue);
   }
 
+  let solidJsSucks = false;
+
   const toggles: Partial<Record<keyof DesktopConfig, () => void>> = {
     minimiseToTray: () => set({ minimiseToTray: !config().minimiseToTray }),
     startMinimisedToTray: () =>
@@ -83,6 +88,23 @@ export default function Native() {
     customFrame: () => set({ customFrame: !config().customFrame }),
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
     spellchecker: () => set({ spellchecker: !config().spellchecker }),
+    enableDevtoolsUntilTimestamp: () => {
+      if (config().enableDevtoolsUntilTimestamp > Date.now()) {
+        set({ enableDevtoolsUntilTimestamp: 0 });
+        return;
+      }
+
+      // When you press the checkbox itself, it makes two modals for some reason?
+      // If you have an actual fix (instead of this), please do tell me!
+      if (solidJsSucks) return;
+      solidJsSucks = true;
+      setTimeout(() => (solidJsSucks = false));
+
+      openModal({
+        type: "enable_devtools",
+        enableDevtools: (until) => set({ enableDevtoolsUntilTimestamp: until }),
+      });
+    },
     hardwareAcceleration: () =>
       set({ hardwareAcceleration: !config().hardwareAcceleration }),
   };
@@ -92,20 +114,17 @@ export default function Native() {
     icon: string,
     label: string,
     description: string,
+    checkedFunc?: (value: DesktopConfig[K]) => boolean,
   ) {
+    let checked: DesktopConfig[K] | boolean = config()[key];
+    if (checkedFunc) {
+      checked = checkedFunc(checked);
+    }
+
     return (
       <CategoryButton
-        action={
-          <Checkbox
-            checked={config()[key]}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              e.stopPropagation();
-              toggles[key]!();
-            }}
-          />
-        }
-        onClick={toggles[key]}
+        action={<Checkbox checked={!!checked} />}
+        onClick={() => toggles[key]!()}
         icon={<Symbol>{icon}</Symbol>}
         description={description}
       >
@@ -118,13 +137,7 @@ export default function Native() {
     <Column gap="lg">
       <CategoryButton.Group>
         <CategoryButton
-          action={
-            <Checkbox
-              checked={autostart()}
-              onClick={(e) => e.stopPropagation()}
-              onChange={toggleAutostart}
-            />
-          }
+          action={<Checkbox checked={autostart()} onChange={toggleAutostart} />}
           onClick={toggleAutostart}
           icon={<Symbol>exit_to_app</Symbol>}
           description={
@@ -172,6 +185,16 @@ export default function Native() {
           "speed",
           t`Hardware Acceleration`,
           t`Use the graphics card to improve performance.`,
+        )}
+      </CategoryButton.Group>
+
+      <CategoryButton.Group>
+        {CheckboxButton(
+          "enableDevtoolsUntilTimestamp",
+          "warning_amber",
+          t`Temporarily Enable Devtools`,
+          t`Allows you to temporarily use the Chromium Developer Tools.`,
+          (timestamp) => timestamp > Date.now(),
         )}
       </CategoryButton.Group>
 
