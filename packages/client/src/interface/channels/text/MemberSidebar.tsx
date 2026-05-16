@@ -1,7 +1,8 @@
 import { Match, Show, Switch, createEffect, createMemo, on } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
+import { useQuery } from "@tanstack/solid-query";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -9,17 +10,27 @@ import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { userInformation } from "@revolt/markdown/users";
+import { useModals } from "@revolt/modal";
+import { useState } from "@revolt/state";
 import {
   Avatar,
   Deferred,
+  IconButton,
   MenuButton,
   OverflowingText,
+  Profile,
   Row,
   Tooltip,
   UserStatus,
   Username,
   typography,
 } from "@revolt/ui";
+
+import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
+import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
+import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
+import MdPersonRemove from "@material-design-icons/svg/outlined/person_remove.svg?component-solid";
+import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
 
 interface Props {
   /**
@@ -51,6 +62,12 @@ export function MemberSidebar(props: Props) {
           scrollTargetElement={props.scrollTargetElement}
         />
       </Match>
+      <Match when={props.channel.type === "DirectMessage"}>
+        <DirectMessageSidebar
+          channel={props.channel}
+          scrollTargetElement={props.scrollTargetElement}
+        />
+      </Match>
     </Switch>
   );
 }
@@ -74,6 +91,7 @@ const LARGE_SERVERS = [
  * Server Member Sidebar
  */
 export function ServerMemberSidebar(props: Props) {
+// ... rest of the file ...
   const client = useClient();
 
   // todo: useQuery
@@ -319,6 +337,191 @@ export function GroupMemberSidebar(props: Props) {
     </Container>
   );
 }
+
+/**
+ * Direct Message Sidebar
+ */
+export function DirectMessageSidebar(props: Props) {
+  const { openModal } = useModals();
+  const client = useClient();
+  const state = useState();
+  const { t } = useLingui();
+
+  const recipient = () => props.channel.recipient;
+
+  const query = useQuery(() => ({
+    queryKey: ["profile", recipient()?.id],
+    queryFn: () => recipient()?.fetchProfile(),
+    enabled: !!recipient(),
+  }));
+
+  return (
+    <Container>
+      <Show when={recipient()}>
+        <ProfileWrapper>
+          <Profile.Banner
+            width={3}
+            user={recipient()!}
+            bannerUrl={query.data?.animatedBannerURL}
+            onClick={
+              query.data?.banner
+                ? () =>
+                    openModal({ type: "image_viewer", file: query.data!.banner! })
+                : undefined
+            }
+            onClickAvatar={(e) => {
+              e.stopPropagation();
+
+              if (recipient()!.avatar) {
+                openModal({ type: "image_viewer", file: recipient()!.avatar });
+              }
+            }}
+          />
+
+          <ActionsWrapper>
+            <Tooltip content={t`Profile`} placement="top">
+              <IconButton
+                onPress={() =>
+                  openModal({ type: "user_profile", user: recipient()! })
+                }
+              >
+                <MdAccountCircle />
+              </IconButton>
+            </Tooltip>
+            <Show when={recipient()?.relationship === "Friend"}>
+              <Tooltip content={t`Remove Friend`} placement="top">
+                <IconButton onPress={() => recipient()?.removeFriend()}>
+                  <MdPersonRemove />
+                </IconButton>
+              </Tooltip>
+            </Show>
+            <Tooltip content={t`Block User`} placement="top">
+              <IconButton onPress={() => recipient()?.blockUser()}>
+                <MdBlock />
+              </IconButton>
+            </Tooltip>
+            <Tooltip content={t`Report User`} placement="top">
+              <IconButton
+                onPress={() =>
+                  openModal({
+                    type: "report_content",
+                    target: recipient()!,
+                    client: client(),
+                  })
+                }
+              >
+                <MdReport />
+              </IconButton>
+            </Tooltip>
+            <Show when={state.settings.getValue("advanced:copy_id")}>
+              <Tooltip content={t`Copy User ID`} placement="top">
+                <IconButton
+                  onPress={() =>
+                    navigator.clipboard.writeText(recipient()!.id)
+                  }
+                >
+                  <MdBadge />
+                </IconButton>
+              </Tooltip>
+            </Show>
+          </ActionsWrapper>
+
+          <ProfileContent>
+            <Profile.Status user={recipient()!} />
+            <Profile.Badges user={recipient()!} />
+            <Profile.Bio content={query.data?.content} full />
+            <Profile.Joined user={recipient()!} />
+            <Profile.Mutuals user={recipient()!} />
+          </ProfileContent>
+        </ProfileWrapper>
+      </Show>
+    </Container>
+  );
+}
+
+/**
+ * Integrated wrapper for the entire profile
+ */
+const ProfileWrapper = styled("div", {
+  base: {
+    background: "var(--md-sys-color-surface-container-low)",
+    borderRadius: "var(--borderRadius-xl)",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    margin: "var(--gap-md)",
+    marginRight: 0,
+  },
+});
+
+/**
+ * Wrapper for profile actions to center them
+ */
+const ActionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "center",
+    padding: "var(--gap-md)",
+    background: "var(--md-sys-color-surface-container)",
+    borderBottom: "1px solid var(--md-sys-color-outline-variant)",
+    "& > *": {
+      justifyContent: "center !important",
+    },
+  },
+});
+
+/**
+ * Simplified content section for profile details
+ */
+const ProfileContent = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    padding: "var(--gap-md)",
+    gap: "var(--gap-md)",
+
+    // Aggressive overrides for ProfileCard to make it look like simple list items
+    "& [class*='ProfileCard']": {
+      background: "transparent !important",
+      padding: "0 !important",
+      borderRadius: "0 !important",
+      alignItems: "center !important",
+      textAlign: "center !important",
+      gap: "var(--gap-xs) !important",
+      height: "auto !important",
+      minHeight: "0 !important",
+    },
+
+    // Style the titles (Joined, Mutuals, etc.)
+    "& [class*='ProfileCard'] [class*='title']": {
+      fontSize: "0.65rem !important",
+      textTransform: "uppercase",
+      opacity: 0.5,
+      fontWeight: "800",
+      letterSpacing: "0.05em",
+    },
+
+    // Separators between sections
+    "& > *:not(:last-child)": {
+      borderBottom: "1px solid var(--md-sys-color-outline-variant)",
+      paddingBottom: "var(--gap-md) !important",
+    },
+
+    // Bio special handling (Left aligned content but centered title)
+    "& [class*='Bio']": {
+      textAlign: "left !important",
+      alignItems: "flex-start !important",
+    },
+    "& [class*='Bio'] [class*='title']": {
+      alignSelf: "center",
+    },
+
+    // Mutuals icons alignment
+    "& [class*='Mutuals'] div[class*='grid']": {
+      justifyContent: "center !important",
+    },
+  },
+});
 
 /**
  * Container styles
