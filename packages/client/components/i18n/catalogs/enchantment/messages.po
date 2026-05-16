@@ -229,6 +229,14 @@ msgstr ""
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
 
+#: components/modal/modals/BanMember.tsx
+msgid "1 day"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "1 hour"
+msgstr ""
+
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "1 !¡ᒷ∷ᓭ𝙹リ ∷ᒷᔑᓵℸᒷ↸"
@@ -239,6 +247,18 @@ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "3 days"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "6 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "7 days"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -339,6 +359,10 @@ msgstr ""
 msgid "Already friends with this user."
 msgstr "ᔑꖎ∷ᒷᔑ↸|| ⎓∷╎ᒷリ↸ᓭ ∴╎ℸ⍑ ℸ⍑╎ᓭ ⚍ᓭᒷ∷."
 
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Always Ask for Screen Share Quality"
+msgstr ""
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
 msgstr ""
@@ -372,6 +396,12 @@ msgstr ""
 #: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
+
+#. placeholder {0}: props.user?.displayName ?? props.user.username
+#. placeholder {1}: props.group.name
+#: components/modal/modals/RemoveMember.tsx
+msgid "Are you sure you want to remove {0} from {1}?"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -497,9 +527,12 @@ msgstr ""
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ResetBotToken.tsx
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/RemoveMember.tsx
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -786,6 +819,7 @@ msgid "Copy server ID"
 msgstr "ᓵ𝙹!¡|| ᓭᒷ∷⍊ᒷ∷ ╎↸"
 
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Copy text"
 msgstr "ᓵ𝙹!¡|| ℸᒷ/ℸ"
 
@@ -1026,6 +1060,10 @@ msgstr ""
 msgid "Delete message"
 msgstr "↸ᒷꖎᒷℸᒷ ᒲᒷᓭᓭᔑ⊣ᒷ"
 
+#: components/modal/modals/BanMember.tsx
+msgid "Delete Message History"
+msgstr ""
+
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
 msgstr "↸ᒷꖎᒷℸᒷ ∷𝙹ꖎᒷ"
@@ -1087,6 +1125,10 @@ msgstr ""
 msgid "Do Not Disturb"
 msgstr "↸𝙹 リ𝙹ℸ ↸╎ᓭℸ⚍∷ʖ"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+msgid "Don't ask me again"
+msgstr ""
+
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
 msgstr ""
@@ -1094,6 +1136,10 @@ msgstr ""
 #: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "Don't delete messages"
+msgstr ""
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1361,6 +1407,11 @@ msgstr ""
 msgid "Give us some detail"
 msgstr ""
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Go"
+msgstr ""
+
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowReset.tsx
@@ -1427,6 +1478,10 @@ msgstr ""
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Hide Others"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
 msgstr ""
@@ -1442,6 +1497,10 @@ msgstr "╎ ᓵ𝙹リ⎓╎∷ᒲ ℸ⍑ᔑℸ ╎ ᔑᒲ ᔑℸ ꖎᒷᔑᓭ�
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "I understand the consequences"
+msgstr ""
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "ID copied to clipboard"
 msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
@@ -1491,6 +1550,10 @@ msgstr "╎リ⍊╎ℸᒷ ᓵ𝙹↸ᒷ"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "╎リ⍊╎ℸᒷ 𝙹ℸ⍑ᒷ∷ᓭ"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Invite URL copied to clipboard"
+msgstr ""
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -2052,6 +2115,10 @@ msgstr ""
 msgid "Permissions"
 msgstr "!¡ᒷ∷ᒲ╎ᓭᓭ╎𝙹リᓭ"
 
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Pick a Screen to Share"
+msgstr ""
+
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
 msgstr "!¡╎ᓵꖌ ᔑ ⚍ᓭᒷ∷リᔑᒲᒷ ℸ⍑ᔑℸ ||𝙹⚍ ∴ᔑリℸ !¡ᒷ𝙹!¡ꖎᒷ ℸ𝙹 ʖᒷ ᔑʖꖎᒷ ℸ𝙹 ⎓╎リ↸ ||𝙹⚍ ʖ||. ℸ⍑╎ᓭ ᓵᔑリ ʖᒷ ᓵ⍑ᔑリ⊣ᒷ↸ ꖎᔑℸᒷ∷ ╎リ ||𝙹⚍∷ ⚍ᓭᒷ∷ ᓭᒷℸℸ╎リ⊣ᓭ."
@@ -2104,6 +2171,7 @@ msgstr "!¡∷╎⍊ᔑᓵ|| !¡𝙹ꖎ╎ᓵ||"
 msgid "Private Channel"
 msgstr ""
 
+#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
 msgstr "!¡∷𝙹⎓╎ꖎᒷ"
@@ -2195,6 +2263,10 @@ msgstr "∷ᒷ⋮ᒷᓵℸ ⎓∷╎ᒷリ↸ ∷ᒷᑑ⚍ᒷᓭℸ"
 msgid "Relevance"
 msgstr "∷ᒷꖎᒷ⍊ᔑリᓵᒷ"
 
+#: components/modal/modals/RemoveMember.tsx
+msgid "Remove"
+msgstr ""
+
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
 msgstr ""
@@ -2210,6 +2282,11 @@ msgstr "∷ᒷᒲ𝙹⍊ᒷ ᔑ⍊ᔑℸᔑ∷ᓭ"
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
 msgstr "∷ᒷᒲ𝙹⍊ᒷ ⎓∷╎ᒷリ↸"
+
+#: components/modal/modals/RemoveMember.tsx
+#: components/app/menus/UserContextMenu.tsx
+msgid "Remove Member"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
@@ -2358,6 +2435,11 @@ msgstr "ᓭᔑ⍊ᒷ↸ リ𝙹ℸᒷᓭ"
 msgid "Scams or fraud"
 msgstr ""
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Screen Share Settings"
+msgstr ""
+
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
 msgstr ""
@@ -2385,6 +2467,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Select noise suppression"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Select screen share quality"
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
@@ -2511,6 +2597,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Show Others"
 msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
@@ -2796,6 +2886,10 @@ msgstr "ℸ╎ᒲᒷ𝙹⚍ℸ ᒲᒷᒲʖᒷ∷ᓭ"
 msgid "Toggle main sidebar"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Token copied to clipboard"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
 msgstr ""
@@ -2996,6 +3090,10 @@ msgstr "⍊╎ᒷ∴╎リ⊣ 𝙹ꖎ↸ᒷ∷ ᒲᒷᓭᓭᔑ⊣ᒷᓭ"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
+msgstr ""
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Voice & Video"
 msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx

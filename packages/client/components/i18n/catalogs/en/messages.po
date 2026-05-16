@@ -229,6 +229,14 @@ msgstr "<0/> updated the group name to <1>{0}</1>"
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 
+#: components/modal/modals/BanMember.tsx
+msgid "1 day"
+msgstr "1 day"
+
+#: components/modal/modals/BanMember.tsx
+msgid "1 hour"
+msgstr "1 hour"
+
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "1 person reacted"
@@ -240,6 +248,18 @@ msgstr "12 hours"
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
 msgstr "24 hours"
+
+#: components/modal/modals/BanMember.tsx
+msgid "3 days"
+msgstr "3 days"
+
+#: components/modal/modals/BanMember.tsx
+msgid "6 hours"
+msgstr "6 hours"
+
+#: components/modal/modals/BanMember.tsx
+msgid "7 days"
+msgstr "7 days"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
@@ -339,6 +359,10 @@ msgstr "Allow others to add your bot to their servers from Discover"
 msgid "Already friends with this user."
 msgstr "Already friends with this user."
 
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Always Ask for Screen Share Quality"
+msgstr "Always Ask for Screen Share Quality"
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
 msgstr "American (MM/DD/YYYY)"
@@ -372,6 +396,12 @@ msgstr "Are you sure you want to go to "
 #: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr "Are you sure you want to go to <0>{0}</0>?"
+
+#. placeholder {0}: props.user?.displayName ?? props.user.username
+#. placeholder {1}: props.group.name
+#: components/modal/modals/RemoveMember.tsx
+msgid "Are you sure you want to remove {0} from {1}?"
+msgstr "Are you sure you want to remove {0} from {1}?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -497,9 +527,12 @@ msgstr "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ResetBotToken.tsx
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/RemoveMember.tsx
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -786,6 +819,7 @@ msgid "Copy server ID"
 msgstr "Copy server ID"
 
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Copy text"
 msgstr "Copy text"
 
@@ -1026,6 +1060,10 @@ msgstr "Delete Invite"
 msgid "Delete message"
 msgstr "Delete message"
 
+#: components/modal/modals/BanMember.tsx
+msgid "Delete Message History"
+msgstr "Delete Message History"
+
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
 msgstr "Delete Role"
@@ -1087,6 +1125,10 @@ msgstr "Display Name"
 msgid "Do Not Disturb"
 msgstr "Do Not Disturb"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+msgid "Don't ask me again"
+msgstr "Don't ask me again"
+
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
 msgstr "Don't ask me again for "
@@ -1094,6 +1136,10 @@ msgstr "Don't ask me again for "
 #: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr "Don't ask me again for <0>{0}</0>"
+
+#: components/modal/modals/BanMember.tsx
+msgid "Don't delete messages"
+msgstr "Don't delete messages"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1361,6 +1407,11 @@ msgstr "Give feedback on Stoat"
 msgid "Give us some detail"
 msgstr "Give us some detail"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Go"
+msgstr "Go"
+
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowReset.tsx
@@ -1427,6 +1478,10 @@ msgstr "Helped translate Stoat"
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr "Here is your new invite code: <0>{0}</0>"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Hide Others"
+msgstr "Hide Others"
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
 msgstr "High Contrast"
@@ -1443,6 +1498,10 @@ msgstr "I confirm that I am at least 18 years old."
 #: components/modal/modals/LinkWarning.tsx
 msgid "I understand the consequences"
 msgstr "I understand the consequences"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "ID copied to clipboard"
+msgstr "ID copied to clipboard"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -1491,6 +1550,10 @@ msgstr "Invite Code"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "Invite Others"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Invite URL copied to clipboard"
+msgstr "Invite URL copied to clipboard"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -2052,6 +2115,10 @@ msgstr "Pending"
 msgid "Permissions"
 msgstr "Permissions"
 
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Pick a Screen to Share"
+msgstr "Pick a Screen to Share"
+
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
 msgstr "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
@@ -2104,6 +2171,7 @@ msgstr "Privacy Policy"
 msgid "Private Channel"
 msgstr "Private Channel"
 
+#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
 msgstr "Profile"
@@ -2195,6 +2263,10 @@ msgstr "Reject friend request"
 msgid "Relevance"
 msgstr "Relevance"
 
+#: components/modal/modals/RemoveMember.tsx
+msgid "Remove"
+msgstr "Remove"
+
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
 msgstr "Remove all reactions"
@@ -2210,6 +2282,11 @@ msgstr "Remove Avatars"
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
 msgstr "Remove friend"
+
+#: components/modal/modals/RemoveMember.tsx
+#: components/app/menus/UserContextMenu.tsx
+msgid "Remove Member"
+msgstr "Remove Member"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
@@ -2358,6 +2435,11 @@ msgstr "Saved Notes"
 msgid "Scams or fraud"
 msgstr "Scams or fraud"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Screen Share Settings"
+msgstr "Screen Share Settings"
+
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
 msgstr "Search for groups..."
@@ -2386,6 +2468,10 @@ msgstr "Select members to add"
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Select noise suppression"
 msgstr "Select noise suppression"
+
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Select screen share quality"
+msgstr "Select screen share quality"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Select your language"
@@ -2512,6 +2598,10 @@ msgstr "Share camera or screen in voice call"
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
 msgstr "Show corrections and suggestions as you type."
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Show Others"
+msgstr "Show Others"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Show send message button"
@@ -2796,6 +2886,10 @@ msgstr "Timeout Members"
 msgid "Toggle main sidebar"
 msgstr "Toggle main sidebar"
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Token copied to clipboard"
+msgstr "Token copied to clipboard"
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
 msgstr "Tonal Spot"
@@ -2997,6 +3091,10 @@ msgstr "Viewing older messages"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
 msgstr "Voice"
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Voice & Video"
+msgstr "Voice & Video"
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
