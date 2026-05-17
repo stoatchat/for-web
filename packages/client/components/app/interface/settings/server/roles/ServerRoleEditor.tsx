@@ -21,10 +21,10 @@ import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
 
-import { useSettingsNavigation } from "../../Settings";
-import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
+import { useSettingsNavigation } from "../../Settings";
+import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
 /**
  * Role editor
@@ -47,9 +47,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
     name: createFormControl(role()?.name || ""),
-    icon: createFormControl<string | File[] | null>(
-      role()?.icon?.originalUrl,
-    ),
+    icon: createFormControl<string | File[] | null>(role()?.icon?.originalUrl),
     colour: createFormControl(role()?.colour || null),
     hoist: createFormControl(role()?.hoist == true),
   });
@@ -100,14 +98,14 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
     <Column>
       <form onSubmit={submit}>
         <Column gap="lg">
-            <Form2.TextField
-              minlength={1}
-              maxlength={32}
-              counter
-              name="name"
-              control={editGroup.controls.name}
-              label={t`Role Name`}
-            />
+          <Form2.TextField
+            minlength={1}
+            maxlength={32}
+            counter
+            name="name"
+            control={editGroup.controls.name}
+            label={t`Role Name`}
+          />
           <Column>
             <Row align>
               <IconButton

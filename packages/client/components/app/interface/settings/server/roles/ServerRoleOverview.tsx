@@ -7,7 +7,15 @@ import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, Draggable, Text, iconSize } from "@revolt/ui";
+import {
+  Avatar,
+  CategoryButton,
+  Column,
+  Draggable,
+  Row,
+  Text,
+  iconSize,
+} from "@revolt/ui";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 
 import MdDragIndicator from "@material-design-icons/svg/outlined/drag_indicator.svg?component-solid";
@@ -91,7 +99,16 @@ export function ServerRoleOverview(props: { context: Server }) {
                 action="chevron"
                 onClick={() => navigate(`roles/${entry.item.id}`)}
               >
-                {entry.item.name}
+                <Row>
+                  {entry.item.name}{" "}
+                  <Show when={entry.item.icon}>
+                    <Avatar
+                      shape="rounded-square"
+                      src={entry.item.icon!.previewUrl}
+                      size={24}
+                    />
+                  </Show>
+                </Row>
               </CategoryButton>
             </ItemContainer>
           )}
