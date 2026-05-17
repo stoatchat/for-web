@@ -1,10 +1,9 @@
-import { createFormControl, createFormGroup } from "solid-forms";
-import { For, Show, createMemo, createSignal } from "solid-js";
-
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { API, Server, ServerRole } from "stoat.js";
-import { styled } from "styled-system/jsx";
-
+import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
+import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
+import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+import { useClient } from "@revolt/client";
+import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import {
   Button,
@@ -16,13 +15,10 @@ import {
   Row,
   Text,
 } from "@revolt/ui";
-
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
-
-import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { createFormControl, createFormGroup } from "solid-forms";
+import { For, Show, createMemo, createSignal } from "solid-js";
+import { API, Server, ServerRole } from "stoat.js";
+import { styled } from "styled-system/jsx";
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
@@ -41,8 +37,6 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         (r) => r.id == props.roleId,
       ) as ServerRole,
   );
-
-  console.info(role());
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
