@@ -1,4 +1,4 @@
-import { Match, Switch } from "solid-js";
+import { Match, Switch, createEffect } from "solid-js";
 
 import {
   ImageEmbed,
@@ -10,6 +10,7 @@ import {
 import { css } from "styled-system/css";
 
 import { useModals } from "@revolt/modal";
+import { useState } from "@revolt/state";
 import { SizedContent } from "@revolt/ui/components/utils";
 
 import { TextEmbed } from "./TextEmbed";
@@ -17,8 +18,11 @@ import { TextEmbed } from "./TextEmbed";
 /**
  * Render a given embed
  */
-export function Embed(props: { embed: MessageEmbed }) {
+export function Embed(props: { embed: MessageEmbed; hovering?: boolean }) {
   const { openModal } = useModals();
+  const state = useState();
+
+  let videoRef: HTMLVideoElement | undefined;
 
   /**
    * Whether the embed is a GIF
@@ -46,6 +50,24 @@ export function Embed(props: { embed: MessageEmbed }) {
       ? (props.embed as ImageEmbed)
       : isGIF() && (props.embed as WebsiteEmbed).image) || undefined;
 
+  const hoverOnly = () =>
+    state.settings.getValue("accessibility:autoplay_gif_on_hover") ?? false;
+
+  createEffect(() => {
+    if (!videoRef || !isGIF()) return;
+
+    if (hoverOnly()) {
+      if (props.hovering) {
+        videoRef.play();
+      } else {
+        videoRef.pause();
+        videoRef.currentTime = 0;
+      }
+      return;
+    }
+    videoRef.play();
+  });
+
   return (
     <Switch fallback={`Could not render ${props.embed.type}!`}>
       <Match when={image()}>
@@ -67,9 +89,10 @@ export function Embed(props: { embed: MessageEmbed }) {
       <Match when={video()}>
         <SizedContent width={video()!.width} height={video()!.height}>
           <video
+            ref={videoRef}
             loop={isGIF()}
             muted={isGIF()}
-            autoplay={isGIF()}
+            autoplay={isGIF() && !hoverOnly()}
             controls={!isGIF()}
             preload="metadata"
             // bypass proxy for known GIF providers

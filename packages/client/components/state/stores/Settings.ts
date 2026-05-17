@@ -68,6 +68,11 @@ interface SettingsDefinition {
    * Last read changelog index
    */
   "changelog:last_index": number;
+
+  /**
+   * Whether to only autoplay GIFs on hover
+   */
+  "accessibility:autoplay_gif_on_hover": boolean;
 }
 
 /**
@@ -95,6 +100,7 @@ const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "advanced:copy_id": "boolean",
   "advanced:admin_panel": "boolean",
   "changelog:last_index": "number",
+  "accessibility:autoplay_gif_on_hover": "boolean",
 };
 
 /**
@@ -136,6 +142,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
       "appearance:compact_mode": false,
       "advanced:copy_id": false,
       "advanced:admin_panel": false,
+      "accessibility:autoplay_gif_on_hover": false,
     };
   }
 

@@ -291,7 +291,7 @@ export function Message(props: Props) {
       </Show>
       <Show when={props.message.embeds}>
         <For each={props.message.embeds}>
-          {(embed) => <Embed embed={embed} />}
+          {(embed) => <Embed embed={embed} hovering={isHovering()} />}
         </For>
       </Show>
       <Reactions
