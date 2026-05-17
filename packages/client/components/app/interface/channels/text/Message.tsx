@@ -174,6 +174,18 @@ export function Message(props: Props) {
         <Switch fallback={<div />}>
           <Match
             when={
+              props.message.iconRole
+            }
+          >
+            <Tooltip
+              content={props.message.iconRole!.name}
+              placement="top"
+            >
+              <Avatar size={16} shape="rounded-square" src={props.message.iconRole!.icon?.previewUrl} />
+            </Tooltip>
+          </Match>
+          <Match
+            when={
               props.message.masquerade &&
               props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
             }

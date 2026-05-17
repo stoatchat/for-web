@@ -23,12 +23,15 @@ import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component
 
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
+import { useClient } from "@revolt/client";
+import { CONFIGURATION } from "@revolt/common";
 
 /**
  * Role editor
  */
 export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const { t } = useLingui();
+  const client = useClient();
   const { openModal } = useModals();
   const { navigate } = useSettingsNavigation();
 
@@ -39,9 +42,14 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
       ) as ServerRole,
   );
 
+  console.info(role());
+
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
     name: createFormControl(role()?.name || ""),
+    icon: createFormControl<string | File[] | null>(
+      role()?.icon?.originalUrl,
+    ),
     colour: createFormControl(role()?.colour || null),
     hoist: createFormControl(role()?.hoist == true),
   });
@@ -54,6 +62,18 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
     if (editGroup.controls.name.isDirty) {
       changes.name = editGroup.controls.name.value.trim();
+    }
+
+    if (editGroup.controls.icon.isDirty) {
+      if (!editGroup.controls.icon.value) {
+        changes.remove!.push("Icon");
+      } else if (Array.isArray(editGroup.controls.icon.value)) {
+        changes.icon = await client().uploadFile(
+          "icons",
+          editGroup.controls.icon.value[0],
+          CONFIGURATION.DEFAULT_MEDIA_URL,
+        );
+      }
     }
 
     if (editGroup.controls.hoist.isDirty) {
@@ -69,6 +89,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
   function onReset() {
     editGroup.controls.name.setValue(role()?.name || "");
+    editGroup.controls.icon.setValue(role()?.icon?.originalUrl || null);
     editGroup.controls.hoist.setValue(role()?.hoist || false);
     editGroup.controls.colour.setValue(role()?.colour || null);
   }
@@ -79,7 +100,6 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
     <Column>
       <form onSubmit={submit}>
         <Column gap="lg">
-          <Column>
             <Form2.TextField
               minlength={1}
               maxlength={32}
@@ -88,7 +108,6 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
               control={editGroup.controls.name}
               label={t`Role Name`}
             />
-          </Column>
           <Column>
             <Row align>
               <IconButton
@@ -177,6 +196,13 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
               </Column>
             </Row>
           </Column>
+
+          <Form2.FileInput
+            control={editGroup.controls.icon}
+            accept="image/*"
+            label={t`Role Icon`}
+            imageJustify={false}
+          />
 
           <Column>
             <Text class="label">Hoist Role</Text>
