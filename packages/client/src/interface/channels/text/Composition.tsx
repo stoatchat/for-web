@@ -177,7 +177,7 @@ export function MessageComposition(props: Props) {
    * @param useContent Content to send
    */
   async function sendMessage(useContent?: unknown) {
-    if (!canSend()) {
+    if (!canSend() && typeof useContent !== "string") {
       return;
     }
     stopTyping();
