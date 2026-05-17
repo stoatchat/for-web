@@ -218,6 +218,8 @@ const Title = styled("span", {
 const Content = styled("div", {
   base: {
     color: "var(--md-sys-color-on-surface-variant)",
+    overflowWrap: "anywhere",
+    wordBreak: "break-word",
   },
 });
 
