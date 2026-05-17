@@ -9,10 +9,15 @@ import { State } from "..";
 import { AbstractStore } from ".";
 import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
+import { TypeReleaseNotes } from "./ReleaseNotes";
 
-type SynchronisedStores = "ordering" | "notifications";
+type SynchronisedStores = "ordering" | "notifications" | "release-notes";
 
-const STORE_KEYS: SynchronisedStores[] = ["ordering", "notifications"];
+const STORE_KEYS: SynchronisedStores[] = [
+  "ordering",
+  "notifications",
+  "release-notes",
+];
 
 export interface TypeSynchronisation {
   revision: Record<SynchronisedStores, number>;
@@ -55,6 +60,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       revision: {
         ordering: 0,
         notifications: 0,
+        "release-notes": 0,
       },
     };
   }
@@ -177,7 +183,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       if (
         !isEqual(
           this.state[key].get(),
-          parsed as TypeOrdering & TypeNotificationOptions,
+          parsed as TypeOrdering & TypeNotificationOptions & TypeReleaseNotes,
         )
       ) {
         this.touch(key);

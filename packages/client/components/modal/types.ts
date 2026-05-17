@@ -25,6 +25,8 @@ import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 
+import type { ChangelogResponse } from "./modals/Changelog";
+
 export type Modals =
   | {
       type: "add_bot";
@@ -50,7 +52,7 @@ export type Modals =
     }
   | {
       type: "changelog";
-      initial?: number;
+      changelog: ChangelogResponse;
     }
   | {
       type: "channel_info";
