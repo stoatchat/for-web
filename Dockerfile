@@ -1,19 +1,17 @@
 # ============================================
 # Stage 1: Build the web client
 # ============================================
-FROM node:24-alpine AS builder
+FROM denoland/deno:2.6.5 AS builder
 
-RUN apk add --no-cache git python3 make g++
-
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
+RUN apt-get update && apt-get install -y --no-install-recommends git python3 make g++ \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
 
-# Copy workspace config files for dependency resolution
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+# Copy workspace config + per-package manifests so deno install can resolve workspace members
+COPY deno.json deno.lock ./
 
-# Copy all package.json files for workspace packages
+# Copy all package manifests for workspace packages
 COPY packages/stoat.js/package.json packages/stoat.js/
 COPY packages/solid-livekit-components/package.json packages/solid-livekit-components/
 COPY packages/js-lingui-solid/packages/babel-plugin-lingui-macro/package.json packages/js-lingui-solid/packages/babel-plugin-lingui-macro/
@@ -21,28 +19,22 @@ COPY packages/js-lingui-solid/packages/babel-plugin-extract-messages/package.jso
 COPY packages/js-lingui-solid/packages/jest-mocks/package.json packages/js-lingui-solid/packages/jest-mocks/
 COPY packages/client/package.json packages/client/
 
-# Copy panda config needed by client's "prepare" lifecycle script (panda codegen)
+# Panda config is required by the build's codegen step
 COPY packages/client/panda.config.ts packages/client/
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN deno task install:frozen
 
 # Submodules:
 # In CI: actions/checkout@v4 with submodules: recursive handles this automatically.
 # Locally: run `git submodule update --init --recursive` before `docker build`.
 COPY packages/ packages/
 
-# Build sub-dependencies (stoat.js, livekit-components, lingui plugins, panda css etc)
-RUN pnpm --filter stoat.js build && \
-  pnpm --filter solid-livekit-components build && \
-  pnpm --filter @lingui-solid/babel-plugin-lingui-macro build && \
-  pnpm --filter @lingui-solid/babel-plugin-extract-messages build && \
-  pnpm --filter client exec lingui compile --typescript && \
-  pnpm --filter client exec node scripts/copyAssets.mjs && \
-  pnpm --filter client exec panda codegen 
+# Build sub-dependencies (stoat.js, livekit-components, lingui plugins, lingui catalogs)
+RUN deno task build:deps
 
-# Build the client with placeholder env vars for runtime injection 
-# these are replaced by inject.js at container run startup
+# Build the client with placeholder env vars for runtime injection.
+# These are replaced by docker/inject.ts at container startup.
 ENV VITE_API_URL=__VITE_API_URL__
 ENV VITE_WS_URL=__VITE_WS_URL__
 ENV VITE_MEDIA_URL=__VITE_MEDIA_URL__
@@ -55,25 +47,28 @@ ENV VITE_RNNOISE_WORKLET_CDN_URL=__VITE_RNNOISE_WORKLET_CDN_URL__
 ARG BASE_PATH=/
 ENV BASE_PATH=${BASE_PATH}
 
-RUN pnpm --filter client exec vite build
+RUN deno task build
 
 # ============================================
 # Stage 2: Minimal runtime image
 # ============================================
-FROM node:24-alpine
+FROM denoland/deno:2.6.5
 
 WORKDIR /app
 
-# Copy the server package and install dependencies
-COPY docker/package.json docker/inject.js ./
-RUN npm install --omit=dev
-
-# Copy built static assets stage 1
+# Copy built static assets from stage 1
 COPY --from=builder /build/packages/client/dist ./dist
+
+# Copy runtime scripts
+COPY docker/inject.ts docker/serve.ts ./docker/
+
+# Cache the runtime module graph so startup is fast
+RUN deno cache --allow-import docker/serve.ts
 
 EXPOSE 5000
 
 # Runtime env vars (overridden by Helm chart / docker run)
+ENV PORT=5000
 ENV VITE_API_URL=""
 ENV VITE_WS_URL=""
 ENV VITE_MEDIA_URL=""
@@ -83,4 +78,4 @@ ENV VITE_CFG_ENABLE_VIDEO=""
 ENV VITE_GIFBOX_URL=""
 ENV VITE_RNNOISE_WORKLET_CDN_URL=""
 
-CMD ["npm", "start"]
+CMD ["deno", "run", "--allow-net", "--allow-env", "--allow-read", "--allow-write=./dist", "docker/serve.ts"]

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-#MISE description="Check types are compiling"
-set -e
-
-pnpm --filter client tsc --noEmit

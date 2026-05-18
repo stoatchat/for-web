@@ -34,9 +34,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mise install:frozen
-      - run: mise build:deps
-      - run: mise lingui
+      - run: deno task install:frozen
+      - run: deno task build:deps
+      - run: deno task lingui
 
       - name: Check for uncommitted i18n changes
         run: |
@@ -59,9 +59,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mise install:frozen
-      - run: mise build:deps
-      - run: mise build:check
+      - run: deno task install:frozen
+      - run: deno task build:deps
+      - run: deno task build:check
 
   lint-format:
     name: Lint & Format
@@ -77,10 +77,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mise install:frozen
-      - run: mise build:deps
-      - run: mise lint
-      - run: mise format
+      - run: deno task install:frozen
+      - run: deno task build:deps
+      - run: deno task lint
+      - run: deno task format
 
   e2e:
     name: e2e Integration Test
@@ -98,10 +98,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mise install:frozen
-      - run: mise build:deps
-      - run: mise test:e2e:install-deps
-      - run: mise test:e2e
+      - run: deno task install:frozen
+      - run: deno task build:deps
+      - run: deno task test:e2e:install-deps
+      - run: deno task test:e2e
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

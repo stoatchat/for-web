@@ -1,7 +1,8 @@
 import { lingui as linguiSolidPlugin } from "@lingui-solid/vite-plugin";
 import devtools from "@solid-devtools/transform";
 import { readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import babelMacrosPlugin from "vite-plugin-babel-macros";
 import Inspect from "vite-plugin-inspect";
@@ -11,6 +12,7 @@ import solidSvg from "vite-plugin-solid-svg";
 
 import codegenPlugin from "./codegen.plugin";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const base = process.env.BASE_PATH ?? "/";
 
 export default defineConfig({

@@ -33,20 +33,12 @@ in pkgs.mkShell {
     export NIX_LD="${pkgs.stdenv.cc.libc}/lib/ld-linux-x86-64.so.2"
     export NIX_LD_LIBRARY_PATH="${nix-ld-libs}/lib"
 
-    export MISE_NODE_COMPILE=false
     eval "$(mise activate bash)"
 
     export PLAYWRIGHT_BROWSERS_PATH=${unstablePkgs.playwright-driver.browsers}
     export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
 
-    playwrightNpmVersion="$(npm show @playwright/test version)"
     echo "❄️  Playwright nix version: ${unstablePkgs.playwright.version}"
-    echo "📦 Playwright npm version: $playwrightNpmVersion"
-
-    if [ "${unstablePkgs.playwright.version}" != "$playwrightNpmVersion" ]; then
-      echo "❌ Playwright versions in nix and npm are not the same!"
-    else
-      echo "✅ Playwright versions in nix and npm are the same"
-    fi
+    echo "ℹ️  Verify with: deno task -f client deno run -A npm:playwright --version"
   '';
 }

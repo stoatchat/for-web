@@ -22,7 +22,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: mise mdbook:build
+      - run: deno task mdbook:build
 
       - name: Setup Pages
         if: github.ref == 'refs/heads/main'

@@ -34,22 +34,22 @@ cd client
 # git submodule init && git submodule update
 
 # install all packages
-mise install:frozen
+deno task install:frozen
 
 # build deps:
-mise build:deps
+deno task build:deps
 
 # or build a specific dep (e.g. stoat.js updates):
-# pnpm --filter stoat.js run build
+# deno task build:deps:stoat-js
 
 # customise the .env
 cp packages/client/.env.example packages/client/.env
 
 # run dev server
-mise dev
+deno task dev
 
 # run all CI checks locally
-mise check
+deno task build:check && deno task lint && deno task format
 ```
 
 Finally, navigate to http://local.revolt.chat:5173.
@@ -92,16 +92,16 @@ When these variables are not set, the client automatically falls back to the off
 
 ```bash
 # install packages
-mise install:frozen
+deno task install:frozen
 
 # build dependencies
-mise build:deps
+deno task build:deps
 
 # build for web
-mise build
+deno task build
 
 # ... when building for Stoat production
-mise build:prod
+deno task build:prod
 ```
 
 You can now deploy the directory `packages/client/dist`.

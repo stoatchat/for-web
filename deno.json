@@ -1,0 +1,72 @@
+{
+  "nodeModulesDir": "auto",
+  "workspace": [
+    "./packages/client",
+    "./packages/stoat.js",
+    "./packages/solid-livekit-components",
+    "./packages/js-lingui-solid/packages/jest-mocks",
+    "./packages/js-lingui-solid/packages/babel-plugin-extract-messages",
+    "./packages/js-lingui-solid/packages/babel-plugin-lingui-macro",
+    "./lifecycle"
+  ],
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1",
+    "@std/fs": "jsr:@std/fs@^1",
+    "@std/path": "jsr:@std/path@^1",
+    "@std/http": "jsr:@std/http@^1"
+  },
+  "tasks": {
+    "install": "deno install --allow-scripts",
+    "install:frozen": "deno install --frozen --allow-scripts",
+    "install:assets": "deno run -A packages/client/scripts/copyAssets.ts",
+
+    "build:deps:stoat-js": "cd packages/stoat.js && deno run -A npm:typescript/tsc",
+    "build:deps:livekit": "cd packages/solid-livekit-components && deno run -A npm:tsup",
+    "build:deps:lingui:macro": "cd packages/js-lingui-solid/packages/babel-plugin-lingui-macro && deno run -A npm:unbuild",
+    "build:deps:lingui:extract": "cd packages/js-lingui-solid/packages/babel-plugin-extract-messages && deno run -A npm:unbuild",
+    "build:deps:lingui": "deno task build:deps:lingui:macro && deno task build:deps:lingui:extract",
+    "build:deps": "deno task build:deps:stoat-js && deno task build:deps:livekit && deno task build:deps:lingui && deno task lingui:compile",
+
+    "lingui": "deno task lingui:extract && deno task lingui:compile",
+    "lingui:extract": "cd packages/client && deno run -A npm:@lingui/cli extract",
+    "lingui:compile": "cd packages/client && deno run -A npm:@lingui/cli compile --typescript",
+    "lingui:check": "deno task lingui && git status --porcelain -- packages/client/components/i18n/catalogs | { ! grep -q .; }",
+    "lingui:pr": "git checkout main -- packages/client/components/i18n/catalogs && deno task lingui:extract",
+
+    "build": "deno task install:assets && deno task lingui:compile && cd packages/client && deno run -A npm:@pandacss/dev codegen && deno run -A npm:vite build",
+    "build:check": "cd packages/client && deno run -A npm:typescript/tsc --noEmit",
+    "build:prod": "BASE_PATH=/app/ deno task build",
+
+    "dev": "deno task install:assets && cd packages/client && deno run -A npm:@pandacss/dev codegen && deno run -A npm:vite --host",
+    "start": "cd packages/client && deno run -A npm:vite preview --host",
+
+    "lint": "deno run -A npm:eslint --ext .ts,.tsx packages/client",
+    "lint:fix": "deno run -A npm:eslint --fix --ext .ts,.tsx packages/client",
+    "format": "deno run -A npm:prettier --check 'packages/client/**/*.{ts,tsx,json}'",
+    "format:fix": "deno run -A npm:prettier --write 'packages/client/**/*.{ts,tsx,json}'",
+
+    "test:e2e": "cd packages/client && deno run -A npm:@playwright/test test",
+    "test:e2e:install-deps": "cd packages/client && deno run -A npm:playwright install --with-deps",
+    "test:e2e:show-report": "cd packages/client && deno run -A npm:@playwright/test show-report",
+
+    "mdbook": "cd doc && mdbook serve",
+    "mdbook:build": "cd doc && mdbook build"
+  },
+  "fmt": {
+    "exclude": [
+      "**/dist",
+      "**/node_modules",
+      "**/.vite",
+      "**/styled-system",
+      "packages/client/components/i18n/catalogs",
+      "packages/client/components/i18n/locales"
+    ]
+  },
+  "lint": {
+    "exclude": [
+      "**/dist",
+      "**/node_modules",
+      "**/styled-system"
+    ]
+  }
+}

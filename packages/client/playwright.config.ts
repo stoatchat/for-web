@@ -72,7 +72,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: "mise start",
+    command: "deno task start",
+    cwd: "../..",
     url: "http://localhost:4173",
     timeout: 300_000,
     reuseExistingServer: !process.env.CI,

@@ -55,9 +55,9 @@ jobs:
       - name: Build and update i18n catalog
         if: ${{ steps.rp.outputs.prs_created == 'true' || steps.rp.outputs.prs_updated == 'true' }}
         run: |
-          mise install:frozen
-          mise build:deps
-          mise lingui
+          deno task install:frozen
+          deno task build:deps
+          deno task lingui
 
           if git diff --quiet; then
             echo "No changes to i18n catalog"
