@@ -31,13 +31,6 @@ type Info = {
   pos: DOMRect;
 };
 
-type PtrEvent = {
-  type: string;
-  tid: number;
-  clientX: number;
-  clientY: number;
-};
-
 const PAD = 16,
   PAD_X = `${PAD}px`,
   PAD_Y = `${PAD + 56}px`;
@@ -53,62 +46,35 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
   let ref: HTMLDivElement | undefined,
     events: AbortController | null,
-    tid = 0,
+    pid = 0,
     ofsX = 0,
     ofsY = 0;
 
-  function getTouch(id: number, tl: TouchList) {
-    for (const t of tl) if (t.identifier === id) return t;
-  }
-
-  /**
-   * @param tid Touch ID, or null to track new touch
-   */
-  function getPointer(
-    e: MouseEvent | TouchEvent,
-    tid: number | null,
-  ): PtrEvent | undefined {
-    let t: MouseEvent | Touch | undefined;
-    if (e instanceof TouchEvent) {
-      t = tid != null ? getTouch(tid, e.changedTouches) : e.touches[0];
-      if (!t) return;
-    } else t = e;
-    return {
-      type: e.type,
-      tid: (t as Touch).identifier || 0,
-      clientX: t!.clientX,
-      clientY: t!.clientY,
-    };
-  }
-
-  function mouseDown(e: MouseEvent | TouchEvent) {
-    const ptr = getPointer(e, null)!;
-    tid = ptr.tid;
+  function mouseDown(e: PointerEvent) {
+    pid = e.pointerId;
     if (mode() === "floating") {
       const pos = ref!.getBoundingClientRect();
-      ofsX = ptr.clientX - pos.x;
-      ofsY = ptr.clientY - pos.y;
+      ofsX = e.clientX - pos.x;
+      ofsY = e.clientY - pos.y;
       setMode("moving");
       addEvents();
     }
   }
 
-  function mouseMove(e: MouseEvent | TouchEvent) {
-    const ptr = getPointer(e, tid);
-    if (!ptr) return;
+  function mouseMove(e: PointerEvent) {
+    if (e.pointerId !== pid) return;
     e.preventDefault();
-    const x = ptr.clientX - ofsX,
-      y = ptr.clientY - ofsY;
+    const x = e.clientX - ofsX,
+      y = e.clientY - ofsY;
     ref!.style.transform = `translate(${x}px, ${y}px)`;
   }
 
-  function mouseUp(e: MouseEvent | TouchEvent) {
-    const ptr = getPointer(e, tid);
-    if (!ptr) return;
+  function mouseUp(e: PointerEvent) {
+    if (e.pointerId !== pid) return;
     const sty = ref!.style,
       pos = ref!.getBoundingClientRect(),
-      left = ptr.clientX - ofsX + pos.width / 2 < outerWidth / 2,
-      top = ptr.clientY - ofsY + pos.height / 2 < outerHeight / 2;
+      left = e.clientX - ofsX + pos.width / 2 < outerWidth / 2,
+      top = e.clientY - ofsY + pos.height / 2 < outerHeight / 2;
 
     sty.transition = "all .2s cubic-bezier(0, 1.67, 0.85, 0.8)";
     setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
@@ -121,10 +87,8 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     if (events) return;
     events = new AbortController();
     const opt = { passive: false, signal: events.signal };
-    document.addEventListener("mousemove", mouseMove, opt);
-    document.addEventListener("mouseup", mouseUp, opt);
-    document.addEventListener("touchmove", mouseMove, opt);
-    document.addEventListener("touchend", mouseUp, opt);
+    document.addEventListener("pointermove", mouseMove, opt);
+    document.addEventListener("pointerup", mouseUp, opt);
   }
 
   function resetEvents() {
@@ -168,12 +132,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     <callCardContext.Provider value={setInfo}>
       {props.children}
       <Portal ref={document.getElementById("floating")! as HTMLDivElement}>
-        <Float
-          ref={ref}
-          mode={mode()}
-          onMouseDown={mouseDown}
-          onTouchStart={mouseDown}
-        >
+        <Float ref={ref} mode={mode()} onPointerDown={mouseDown}>
           <Switch>
             <Match when={mode()}>
               <VoiceCallCardPiP />
@@ -195,6 +154,7 @@ const Float = styled("div", {
     pointerEvents: "none",
     transition: "all .3s cubic-bezier(1, 0, 0, 1)",
     height: "40vh",
+    touchAction: "none",
   },
   variants: {
     mode: {
