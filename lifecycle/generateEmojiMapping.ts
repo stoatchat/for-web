@@ -19,8 +19,6 @@ for (const group of Object.keys(ordering)) {
     for (const shortcode of emote.shortcodes) {
       if (!RE_SHORTCODE.test(shortcode)) continue;
 
-      console.log(emoji);
-
       Mapping[shortcode.substring(1, shortcode.length - 1).toLowerCase()] =
         emoji;
 
