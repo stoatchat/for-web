@@ -1,10 +1,10 @@
 import { JSX, Match, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { Message } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useMessage } from "@revolt/app";
 import { Ripple, typography } from "@revolt/ui/components/design";
 import { Column, Row } from "@revolt/ui/components/layout";
 import {
@@ -35,8 +35,6 @@ interface CommonProps {
 }
 
 type Props = CommonProps & {
-  message?: Message;
-
   /**
    * Avatar URL
    */
@@ -306,10 +304,11 @@ const CompactInfo = styled(Row, {
  */
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
+  const message = useMessage();
 
   return (
     <div
-      id={props.message?.id}
+      id={message?.id}
       onMouseEnter={() => props.onHover && props.onHover(true)}
       onMouseLeave={() => props.onHover && props.onHover(false)}
       class={
@@ -324,10 +323,8 @@ export function MessageContainer(props: Props) {
       }
       use:floating={{ contextMenu: props.contextMenu }}
     >
-      <Show
-        when={props.message && props.isLink !== true && props.isLink !== "hide"}
-      >
-        <MessageToolbar message={props.message} />
+      <Show when={message && props.isLink !== true && props.isLink !== "hide"}>
+        <MessageToolbar />
       </Show>
 
       <Show when={props.isLink}>

@@ -1,4 +1,14 @@
-import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
+import {
+  For,
+  JSX,
+  Match,
+  Show,
+  Switch,
+  createContext,
+  createSignal,
+  onMount,
+  useContext,
+} from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import {
@@ -74,6 +84,21 @@ interface Props {
   isLink?: boolean;
 }
 
+const messageContext = createContext<MessageInterface | undefined>(undefined);
+
+function MessageContext(props: {
+  children: JSX.Element;
+  message: MessageInterface;
+}) {
+  return (
+    <messageContext.Provider value={props.message}>
+      {props.children}
+    </messageContext.Provider>
+  );
+}
+
+export const useMessage = () => useContext(messageContext);
+
 /**
  * Render a Message with or without a tail
  */
@@ -118,220 +143,223 @@ export function Message(props: Props) {
   const unreact = (emoji: string) => props.message.unreact(emoji);
 
   return (
-    <MessageContainer
-      message={props.message}
-      onHover={setIsHovering}
-      username={
-        <div use:floating={floatingUserMenusFromMessage(props.message)}>
-          <Username
-            username={
-              props.message.masquerade?.name ??
-              props.message.member?.nickname ??
-              props.message.author?.displayName ??
-              props.message.author?.username ??
-              props.message.username
-            }
-            colour={props.message.roleColour!}
-          />
-        </div>
-      }
-      avatar={
-        <div
-          class={avatarContainer()}
-          use:floating={floatingUserMenusFromMessage(props.message)}
-        >
-          <Avatar
-            size={36}
-            src={
-              isHovering()
-                ? props.message.animatedAvatarURL
-                : props.message.avatarURL
-            }
-          />
-        </div>
-      }
-      contextMenu={() => <MessageContextMenu message={props.message} />}
-      timestamp={props.message.createdAt}
-      edited={props.message.editedAt}
-      mentioned={props.message.mentioned}
-      highlight={props.highlight}
-      editing={props.editing}
-      isLink={props.isLink}
-      tail={props.tail || state.settings.getValue("appearance:compact_mode")}
-      header={
-        <Show when={props.message.replyIds}>
-          <For each={props.message.replyIds}>
-            {(reply_id) => {
-              /**
-               * Signal the actual message
-               */
-              const message = () => client().messages.get(reply_id);
+    <MessageContext message={props.message}>
+      <MessageContainer
+        onHover={setIsHovering}
+        username={
+          <div use:floating={floatingUserMenusFromMessage(props.message)}>
+            <Username
+              username={
+                props.message.masquerade?.name ??
+                props.message.member?.nickname ??
+                props.message.author?.displayName ??
+                props.message.author?.username ??
+                props.message.username
+              }
+              colour={props.message.roleColour!}
+            />
+          </div>
+        }
+        avatar={
+          <div
+            class={avatarContainer()}
+            use:floating={floatingUserMenusFromMessage(props.message)}
+          >
+            <Avatar
+              size={36}
+              src={
+                isHovering()
+                  ? props.message.animatedAvatarURL
+                  : props.message.avatarURL
+              }
+            />
+          </div>
+        }
+        contextMenu={() => <MessageContextMenu message={props.message} />}
+        timestamp={props.message.createdAt}
+        edited={props.message.editedAt}
+        mentioned={props.message.mentioned}
+        highlight={props.highlight}
+        editing={props.editing}
+        isLink={props.isLink}
+        tail={props.tail || state.settings.getValue("appearance:compact_mode")}
+        header={
+          <Show when={props.message.replyIds}>
+            <For each={props.message.replyIds}>
+              {(reply_id) => {
+                /**
+                 * Signal the actual message
+                 */
+                const message = () => client().messages.get(reply_id);
 
-              onMount(() => {
-                if (!message()) {
-                  props.message.channel!.fetchMessage(reply_id);
-                }
-              });
+                onMount(() => {
+                  if (!message()) {
+                    props.message.channel!.fetchMessage(reply_id);
+                  }
+                });
 
-              return (
-                <MessageReply
-                  mention={props.message.mentionIds?.includes(
-                    message()!.authorId!,
-                  )}
-                  message={message()}
+                return (
+                  <MessageReply
+                    mention={props.message.mentionIds?.includes(
+                      message()!.authorId!,
+                    )}
+                    message={message()}
+                  />
+                );
+              }}
+            </For>
+          </Show>
+        }
+        info={
+          <Switch fallback={<div />}>
+            <Match when={props.message.iconRole}>
+              <Tooltip content={props.message.iconRole!.name} placement="top">
+                <Avatar
+                  size={16}
+                  shape="rounded-square"
+                  src={props.message.iconRole!.icon?.previewUrl}
                 />
-              );
-            }}
-          </For>
-        </Show>
-      }
-      info={
-        <Switch fallback={<div />}>
-          <Match when={props.message.iconRole}>
-            <Tooltip content={props.message.iconRole!.name} placement="top">
-              <Avatar
-                size={16}
-                shape="rounded-square"
-                src={props.message.iconRole!.icon?.previewUrl}
-              />
-            </Tooltip>
-          </Match>
-          <Match
-            when={
-              props.message.masquerade &&
-              props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
-            }
-          >
-            <Tooltip
-              content={t`Message was sent on another platform`}
-              placement="top"
+              </Tooltip>
+            </Match>
+            <Match
+              when={
+                props.message.masquerade &&
+                props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
+              }
             >
-              <Symbol size={16}>link</Symbol>
-            </Tooltip>
-          </Match>
-          <Match when={props.message.author?.privileged}>
-            <Tooltip content={t`Official Communication`} placement="top">
-              <Symbol size={16}>brightness_alert</Symbol>
-            </Tooltip>
-          </Match>
-          <Match when={props.message.author?.bot}>
-            <Tooltip content={t`Bot`} placement="top">
-              <Symbol size={16} fill>
-                smart_toy
-              </Symbol>
-            </Tooltip>
-          </Match>
-          <Match when={props.message.webhook}>
-            <Tooltip content={t`Webhook`} placement="top">
-              <Symbol size={16} fill>
-                cloud
-              </Symbol>
-            </Tooltip>
-          </Match>
-          <Match when={props.message.isSuppressed}>
-            <Tooltip content={t`Silent`} placement="top">
-              <Symbol size={16} fill>
-                notifications_off
-              </Symbol>
-            </Tooltip>
-          </Match>
-          <Match
-            when={
-              props.message.authorId &&
-              dayjs().diff(decodeTime(props.message.authorId), "day") < 1
-            }
-          >
-            <NewUser>
-              <Tooltip content={t`New to Stoat`} placement="top">
+              <Tooltip
+                content={t`Message was sent on another platform`}
+                placement="top"
+              >
+                <Symbol size={16}>link</Symbol>
+              </Tooltip>
+            </Match>
+            <Match when={props.message.author?.privileged}>
+              <Tooltip content={t`Official Communication`} placement="top">
+                <Symbol size={16}>brightness_alert</Symbol>
+              </Tooltip>
+            </Match>
+            <Match when={props.message.author?.bot}>
+              <Tooltip content={t`Bot`} placement="top">
                 <Symbol size={16} fill>
-                  spa
+                  smart_toy
                 </Symbol>
               </Tooltip>
-            </NewUser>
-          </Match>
-          <Match
-            when={
-              props.message.member &&
-              dayjs().diff(props.message.member.joinedAt, "day") < 1
-            }
-          >
-            <NewUser>
-              <Tooltip content={t`New to the server`} placement="top">
-                <Symbol size={16}>spa</Symbol>
+            </Match>
+            <Match when={props.message.webhook}>
+              <Tooltip content={t`Webhook`} placement="top">
+                <Symbol size={16} fill>
+                  cloud
+                </Symbol>
               </Tooltip>
-            </NewUser>
-          </Match>
-          {/* <Match when={props.message.authorId === "01EX2NCWQ0CHS3QJF0FEQS1GR4"}>
+            </Match>
+            <Match when={props.message.isSuppressed}>
+              <Tooltip content={t`Silent`} placement="top">
+                <Symbol size={16} fill>
+                  notifications_off
+                </Symbol>
+              </Tooltip>
+            </Match>
+            <Match
+              when={
+                props.message.authorId &&
+                dayjs().diff(decodeTime(props.message.authorId), "day") < 1
+              }
+            >
+              <NewUser>
+                <Tooltip content={t`New to Stoat`} placement="top">
+                  <Symbol size={16} fill>
+                    spa
+                  </Symbol>
+                </Tooltip>
+              </NewUser>
+            </Match>
+            <Match
+              when={
+                props.message.member &&
+                dayjs().diff(props.message.member.joinedAt, "day") < 1
+              }
+            >
+              <NewUser>
+                <Tooltip content={t`New to the server`} placement="top">
+                  <Symbol size={16}>spa</Symbol>
+                </Tooltip>
+              </NewUser>
+            </Match>
+            {/* <Match when={props.message.authorId === "01EX2NCWQ0CHS3QJF0FEQS1GR4"}>
             <span />
             <span>placeholder &middot; </span>
           </Match> */}
-        </Switch>
-      }
-      compact={
-        !!props.message.systemMessage ||
-        state.settings.getValue("appearance:compact_mode")
-      }
-      infoMatch={
-        <Match when={props.message.systemMessage}>
-          <SystemMessageIcon
+          </Switch>
+        }
+        compact={
+          !!props.message.systemMessage ||
+          state.settings.getValue("appearance:compact_mode")
+        }
+        infoMatch={
+          <Match when={props.message.systemMessage}>
+            <SystemMessageIcon
+              systemMessage={props.message.systemMessage!}
+              createdAt={props.message.createdAt}
+              isServer={!!props.message.server}
+            />
+          </Match>
+        }
+      >
+        <Show when={props.message.systemMessage}>
+          <SystemMessage
             systemMessage={props.message.systemMessage!}
-            createdAt={props.message.createdAt}
+            menuGenerator={(user) =>
+              user
+                ? floatingUserMenus(
+                    user!,
+                    // TODO: try to fetch on demand member
+                    props.message.server?.getMember(user!.id),
+                  )
+                : {}
+            }
             isServer={!!props.message.server}
           />
-        </Match>
-      }
-    >
-      <Show when={props.message.systemMessage}>
-        <SystemMessage
-          systemMessage={props.message.systemMessage!}
-          menuGenerator={(user) =>
-            user
-              ? floatingUserMenus(
-                  user!,
-                  // TODO: try to fetch on demand member
-                  props.message.server?.getMember(user!.id),
-                )
-              : {}
+        </Show>
+        <Switch>
+          <Match when={props.editing}>
+            <EditMessage message={props.message} />
+          </Match>
+          <Match when={props.message.content && !isOnlyGIF()}>
+            <BreakText>
+              <Markdown content={props.message.content!} />
+            </BreakText>
+          </Match>
+        </Switch>
+        <Show when={props.message.attachments}>
+          <For each={props.message.attachments}>
+            {(attachment) => (
+              <Attachment message={props.message} file={attachment} />
+            )}
+          </For>
+        </Show>
+        <Show when={props.message.embeds}>
+          <For each={props.message.embeds}>
+            {(embed) => <Embed embed={embed} />}
+          </For>
+        </Show>
+        <Reactions
+          reactions={
+            props.message.reactions as never as Map<string, Set<string>>
           }
-          isServer={!!props.message.server}
+          interactions={props.message.interactions}
+          userId={client().user!.id}
+          addReaction={react}
+          removeReaction={unreact}
+          sendGIF={(content) =>
+            props.message?.channel?.sendMessage({
+              content,
+              replies: [{ id: props.message.id, mention: true }],
+            })
+          }
         />
-      </Show>
-      <Switch>
-        <Match when={props.editing}>
-          <EditMessage message={props.message} />
-        </Match>
-        <Match when={props.message.content && !isOnlyGIF()}>
-          <BreakText>
-            <Markdown content={props.message.content!} />
-          </BreakText>
-        </Match>
-      </Switch>
-      <Show when={props.message.attachments}>
-        <For each={props.message.attachments}>
-          {(attachment) => (
-            <Attachment message={props.message} file={attachment} />
-          )}
-        </For>
-      </Show>
-      <Show when={props.message.embeds}>
-        <For each={props.message.embeds}>
-          {(embed) => <Embed embed={embed} />}
-        </For>
-      </Show>
-      <Reactions
-        reactions={props.message.reactions as never as Map<string, Set<string>>}
-        interactions={props.message.interactions}
-        userId={client().user!.id}
-        addReaction={react}
-        removeReaction={unreact}
-        sendGIF={(content) =>
-          props.message?.channel?.sendMessage({
-            content,
-            replies: [{ id: props.message.id, mention: true }],
-          })
-        }
-      />
-    </MessageContainer>
+      </MessageContainer>
+    </MessageContext>
   );
 }
 
