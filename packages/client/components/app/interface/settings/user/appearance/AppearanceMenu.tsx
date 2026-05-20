@@ -432,7 +432,7 @@ function EmojiPack(props: { pack: UnicodeEmojiPacks }) {
           <Match when={props.pack === "fluent-flat"}>Fluent Flat</Match>
           <Match when={props.pack === "mutant"}>Mutant Remix</Match>
           <Match when={props.pack === "noto"}>Noto</Match>
-          <Match when={props.pack === "openmoji"}>OpenMoji</Match>
+          {/* <Match when={props.pack === "openmoji"}>OpenMoji</Match> */}
           <Match when={props.pack === "twemoji"}>Twemoji</Match>
         </Switch>
       </Row>

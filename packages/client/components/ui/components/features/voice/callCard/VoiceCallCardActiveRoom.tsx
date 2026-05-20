@@ -1,8 +1,7 @@
+import { useLingui } from "@lingui-solid/solid/macro";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { createEffect, For, onMount, Show } from "solid-js";
 import { TrackLoop } from "solid-livekit-components";
-
-import { t } from "@lingui/core/macro";
-import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { styled } from "styled-system/jsx";
 
 import { InRoom, useVoice } from "@revolt/rtc";
@@ -57,6 +56,7 @@ const TILE_MIN_WIDTH = "250px",
  */
 function Participants() {
   const voice = useVoice();
+  const { t } = useLingui();
 
   // Modify this value to get test tracks
   const testTrackCount = 0;

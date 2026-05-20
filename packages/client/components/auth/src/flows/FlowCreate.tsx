@@ -30,7 +30,7 @@ export default function FlowCreate() {
    */
   async function create(data: FormData) {
     const email = data.get("email") as string;
-    const password = data.get("password") as string;
+    const password = data.get("new-password") as string;
     const captcha = data.get("captcha") as string;
     const invite = data.get("invite") as string;
 
@@ -71,7 +71,7 @@ export default function FlowCreate() {
         <Trans>Hello!</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={CONFIGURATION.HCAPTCHA_SITEKEY}>
-        <Fields fields={["email", "password"]} />
+        <Fields fields={["email", "new-password"]} />
         <Show when={isInviteOnly()}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>

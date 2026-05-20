@@ -25,6 +25,15 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
   }
 
   /**
+   * Get this store's value
+   *
+   * Reexported to allow equals checking for syncing
+   */
+  get() {
+    return super.get();
+  }
+
+  /**
    * Hydrate external context
    */
   hydrate(): void {

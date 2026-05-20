@@ -30,6 +30,17 @@ declare global {
       minimise(): void;
       maximise(): void;
       close(): void;
+      onceScreenPicker(
+        onScreenPick: (
+          sources: {
+            idx: number;
+            name: string;
+            isFullScreen: boolean;
+            image?: string;
+          }[],
+        ) => void,
+      ): void;
+      screenPickerCallback(idx: number, audio: boolean): void;
     };
 
     desktopConfig: {

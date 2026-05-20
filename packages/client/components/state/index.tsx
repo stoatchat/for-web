@@ -21,6 +21,7 @@ import { LinkSafety } from "./stores/LinkSafety";
 import { Locale } from "./stores/Locale";
 import { NotificationOptions } from "./stores/NotificationOptions";
 import { Ordering } from "./stores/Ordering";
+import { ReleaseNotes } from "./stores/ReleaseNotes";
 import { Settings } from "./stores/Settings";
 import { Sync } from "./stores/Sync";
 import { Theme } from "./stores/Theme";
@@ -57,6 +58,7 @@ export class State {
   locale = new Locale(this);
   notifications = new NotificationOptions(this);
   ordering = new Ordering(this);
+  "release-notes" = new ReleaseNotes(this);
   settings = new Settings(this);
   sync = new Sync(this);
   theme = new Theme(this);

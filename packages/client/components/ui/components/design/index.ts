@@ -21,7 +21,6 @@
  * - Search
  * - Sheets (N/A desktop)
  * - Range Sliders
- * - Snackbar
  * - Switch
  * - Tabs
  * - Toolbars
@@ -44,6 +43,14 @@ export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";
 export { Ripple } from "./Ripple";
 export { Slider } from "./Slider";
+export {
+  type ShowSnackbarOptions,
+  type SnackbarItem,
+  SnackbarContext,
+  SnackbarController,
+  SnackbarProvider,
+  useSnackbar,
+} from "./Snackbar";
 export { Switch } from "./Switch";
 export { Text, typography } from "./Text";
 export { TextEditor } from "./TextEditor";

@@ -10,6 +10,17 @@ export function useError() {
   return (error: unknown) => {
     // TODO: HTTP errors
 
+    // Attempt to parse the incoming error as JSON if it is a string,
+    // as some errors (e.g on login) are sent to this function as a string,
+    // which then causes the error message to be unlocalised and unhelpful.
+    if (typeof error === "string") {
+      try {
+        error = JSON.parse(error);
+      } catch {
+        // Ignore JSON parse errors
+      }
+    }
+
     // handle Revolt API errors
     if (
       (error as { type?: never } | undefined)?.type &&
