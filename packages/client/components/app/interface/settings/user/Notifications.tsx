@@ -8,7 +8,7 @@ import {
 } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { CategoryButton, Checkbox, iconSize } from "@revolt/ui";
+import { CategoryButton, Checkbox, iconSize, useSnackbar } from "@revolt/ui";
 
 import MdMarkUnreadChatAlt from "@material-design-icons/svg/outlined/mark_unread_chat_alt.svg?component-solid";
 import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
@@ -21,6 +21,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
   const { t } = useLingui();
   const getClient = useClient();
   const state = useState();
+  const snackbar = useSnackbar();
 
   const { showError } = useModals();
 
@@ -57,13 +58,29 @@ export default function Notifications(props: { isDesktop: boolean }) {
             onDeny();
           } else {
             state.settings.setValue("notifications:push", "allowed");
-            setUpServiceWorkerSubscription(getClient());
+            setUpServiceWorkerSubscription(getClient()).then((succeeded) => {
+              if (succeeded) {
+                return;
+              }
+              snackbar.show({
+                message: t`Failed to enable push notifications. Please try again later.`,
+              });
+              state.settings.setValue("notifications:push", "default");
+            });
           }
         });
       } else {
         // On safari mobile, just enable push notifications.
         state.settings.setValue("notifications:push", "allowed");
-        setUpServiceWorkerSubscription(getClient());
+        setUpServiceWorkerSubscription(getClient()).then((succeeded) => {
+          if (succeeded) {
+            return;
+          }
+          snackbar.show({
+            message: t`Failed to enable push notifications. Please try again later.`,
+          });
+          state.settings.setValue("notifications:push", "default");
+        });
       }
     } else {
       state.settings.setValue("notifications:push", "denied");

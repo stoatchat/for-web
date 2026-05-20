@@ -1,18 +1,19 @@
 import { Client } from "stoat.js";
 
-export function setUpServiceWorkerSubscription(client: Client) {
-  navigator.serviceWorker.getRegistration().then((registration) => {
-    if (!registration) return;
-    registration.pushManager
+export function setUpServiceWorkerSubscription(
+  client: Client,
+): Promise<boolean> {
+  return navigator.serviceWorker.getRegistration().then((registration) => {
+    if (!registration || !client.configured() || !client.configuration)
+      return false;
+    return registration.pushManager
       .getSubscription()
       .then(async (subscription) => {
         if (subscription) return subscription;
 
-        const config = await client.api.get("/");
-
         return registration.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: config.vapid,
+          applicationServerKey: client.configuration!.vapid,
         });
       })
       .then((subscription) => {
@@ -25,6 +26,7 @@ export function setUpServiceWorkerSubscription(client: Client) {
             subscription.getKey("auth") || new ArrayBuffer(),
           ),
         });
+        return true;
       });
   });
 }
