@@ -42,8 +42,8 @@ export function SyncWorker() {
   // sync LOCAL->REMOTE settings
   createEffect(
     on(
-      () => state.sync.shouldSync,
-      (shouldSync) => shouldSync && state.sync.save(client()),
+      [() => state.sync.shouldSync, isLoggedIn],
+      (input) => input[0] && input[1] && state.sync.save(client()),
     ),
   );
 
