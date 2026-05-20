@@ -73,8 +73,8 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     if (e.pointerId !== pid) return;
     const sty = ref!.style,
       pos = ref!.getBoundingClientRect(),
-      left = e.clientX - ofsX + pos.width / 2 < outerWidth / 2,
-      top = e.clientY - ofsY + pos.height / 2 < outerHeight / 2;
+      left = e.clientX - ofsX + pos.width / 2 < innerWidth / 2,
+      top = e.clientY - ofsY + pos.height / 2 < innerHeight / 2;
 
     sty.transition = "all .2s cubic-bezier(0, 1.5, 0.85, 0.8)";
     setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
