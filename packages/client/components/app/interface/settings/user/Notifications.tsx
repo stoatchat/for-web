@@ -52,6 +52,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
 
   function togglePushPermission() {
     if (state.settings.getValue("notifications:push") !== "allowed") {
+      const snackbarMessage = t`Failed to enable push notifications. Please try again later.`;
       if (Notification) {
         Notification.requestPermission().then((permission) => {
           if (permission === "denied") {
@@ -63,7 +64,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
                 return;
               }
               snackbar.show({
-                message: t`Failed to enable push notifications. Please try again later.`,
+                message: snackbarMessage,
               });
               state.settings.setValue("notifications:push", "default");
             });
@@ -77,7 +78,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
             return;
           }
           snackbar.show({
-            message: t`Failed to enable push notifications. Please try again later.`,
+            message: snackbarMessage,
           });
           state.settings.setValue("notifications:push", "default");
         });
