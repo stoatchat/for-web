@@ -43,7 +43,8 @@ export function SyncWorker() {
   createEffect(
     on(
       [() => state.sync.shouldSync, isLoggedIn],
-      (input) => input[0] && input[1] && state.sync.save(client()),
+      ([shouldSync, isLoggedIn]) =>
+        shouldSync && isLoggedIn && state.sync.save(client()),
     ),
   );
 
