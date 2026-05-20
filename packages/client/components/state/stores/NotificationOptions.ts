@@ -17,20 +17,6 @@ export type NotificationState = "all" | "mention" | "none";
 const NotificationStates: NotificationState[] = ["all", "mention", "none"];
 
 /**
- * Possible notification permission states
- */
-export type NotificationPermissionState = "default" | "denied" | "allowed";
-
-/**
- * Possible notification permission states
- */
-const NotificationPermissionStates: NotificationPermissionState[] = [
-  "default",
-  "denied",
-  "allowed",
-];
-
-/**
  * Default notification states for various types of channels
  */
 export const DEFAULT_STATES: {
@@ -52,16 +38,6 @@ export interface MuteState {
 }
 
 export interface TypeNotificationOptions {
-  /**
-   * Notification permission
-   */
-  enabled: NotificationPermissionState;
-
-  /**
-   * Push notification permission
-   */
-  pushEnabled: NotificationPermissionState;
-
   /**
    * Per-server settings
    */
@@ -130,8 +106,6 @@ export class NotificationOptions extends AbstractStore<
    */
   default(): TypeNotificationOptions {
     return {
-      enabled: "default",
-      pushEnabled: "default",
       server: {},
       channel: {},
       server_mutes: {},
@@ -143,23 +117,10 @@ export class NotificationOptions extends AbstractStore<
    * Validate the given data to see if it is compliant and return a compliant object
    */
   clean(input: Partial<TypeNotificationOptions>): TypeNotificationOptions {
-    let enabled: TypeNotificationOptions["enabled"] = "default";
-    let pushEnabled: TypeNotificationOptions["pushEnabled"] = "default";
     const server: TypeNotificationOptions["server"] = {};
     const channel: TypeNotificationOptions["channel"] = {};
     const server_mutes: TypeNotificationOptions["server_mutes"] = {};
     const channel_mutes: TypeNotificationOptions["channel_mutes"] = {};
-
-    if (typeof input.enabled === "string") {
-      if (NotificationPermissionStates.includes(input.enabled)) {
-        enabled = input.enabled;
-      }
-    }
-    if (typeof input.pushEnabled === "string") {
-      if (NotificationPermissionStates.includes(input.pushEnabled)) {
-        pushEnabled = input.pushEnabled;
-      }
-    }
 
     if (typeof input.server === "object") {
       for (const serverId of Object.keys(input.server)) {
@@ -220,8 +181,6 @@ export class NotificationOptions extends AbstractStore<
     }
 
     return {
-      enabled,
-      pushEnabled,
       server,
       channel,
       server_mutes,
@@ -251,38 +210,6 @@ export class NotificationOptions extends AbstractStore<
       this.computeForServer(channel.server) ??
       DEFAULT_STATES[channel.type]
     );
-  }
-
-  /**
-   * Set notification enabled state
-   * @param enabled Enabled state
-   */
-  setEnabled(enabled: NotificationPermissionState) {
-    this.set("enabled", enabled);
-  }
-
-  /**
-   * Set push notification enabled state
-   * @param enabled Enabled state
-   */
-  setPushEnabled(enabled: NotificationPermissionState) {
-    this.set("pushEnabled", enabled);
-  }
-
-  /**
-   * Get notification enabled state
-   * @returns Enabled state
-   */
-  getEnabled(): NotificationPermissionState {
-    return this.get().enabled;
-  }
-
-  /**
-   * Get push notification enabled state
-   * @returns Enabled state
-   */
-  getPushEnabled(): NotificationPermissionState {
-    return this.get().pushEnabled;
   }
 
   /**

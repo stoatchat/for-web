@@ -194,7 +194,7 @@ export function NotificationsWorker() {
     // Don't continue if we don't have notification permissions
     if (
       Notification.permission !== "granted" ||
-      state.notifications.getEnabled() !== "allowed"
+      state.settings.getValue("notifications:desktop") !== "allowed"
     )
       return;
 
@@ -228,15 +228,15 @@ export function NotificationsWorker() {
   function tryRequest() {
     document.removeEventListener("click", tryRequest);
 
-    if (state.notifications.getEnabled() === "default") {
+    if (state.settings.getValue("notifications:desktop") === "default") {
       Notification.requestPermission().then((permission) => {
         if (permission === "denied") {
           batch(() => {
-            state.notifications.setEnabled("denied");
-            state.notifications.setPushEnabled("denied");
+            state.settings.setValue("notifications:desktop", "denied");
+            state.settings.setValue("notifications:push", "denied");
           });
         } else {
-          state.notifications.setEnabled("allowed");
+          state.settings.setValue("notifications:desktop", "allowed");
         }
       });
     }
@@ -244,7 +244,7 @@ export function NotificationsWorker() {
 
   onMount(() => {
     // only add click listener if notifications are default
-    if (state.notifications.getEnabled() === "default") {
+    if (state.settings.getValue("notifications:desktop") === "default") {
       document.addEventListener("click", tryRequest);
     }
   });

@@ -26,8 +26,8 @@ export default function Notifications(props: { isDesktop: boolean }) {
 
   function onDeny() {
     batch(() => {
-      state.notifications.setEnabled("denied");
-      state.notifications.setPushEnabled("denied");
+      state.settings.setValue("notifications:desktop", "denied");
+      state.settings.setValue("notifications:push", "denied");
       killServiceWorkerSubscription(getClient());
     });
     showError(
@@ -36,37 +36,37 @@ export default function Notifications(props: { isDesktop: boolean }) {
   }
 
   function toggleNotificationPermission() {
-    if (state.notifications.getEnabled() !== "allowed") {
+    if (state.settings.getValue("notifications:desktop") !== "allowed") {
       Notification.requestPermission().then((permission) => {
         if (permission === "denied") {
           onDeny();
         } else {
-          state.notifications.setEnabled("allowed");
+          state.settings.setValue("notifications:desktop", "allowed");
         }
       });
     } else {
-      state.notifications.setEnabled("denied");
+      state.settings.setValue("notifications:desktop", "denied");
     }
   }
 
   function togglePushPermission() {
-    if (state.notifications.getPushEnabled() !== "allowed") {
+    if (state.settings.getValue("notifications:push") !== "allowed") {
       if (Notification) {
         Notification.requestPermission().then((permission) => {
           if (permission === "denied") {
             onDeny();
           } else {
-            state.notifications.setPushEnabled("allowed");
+            state.settings.setValue("notifications:push", "allowed");
             setUpServiceWorkerSubscription(getClient());
           }
         });
       } else {
         // On safari mobile, just enable push notifications.
-        state.notifications.setPushEnabled("allowed");
+        state.settings.setValue("notifications:push", "allowed");
         setUpServiceWorkerSubscription(getClient());
       }
     } else {
-      state.notifications.setPushEnabled("denied");
+      state.settings.setValue("notifications:push", "denied");
       killServiceWorkerSubscription(getClient());
     }
   }
@@ -78,7 +78,9 @@ export default function Notifications(props: { isDesktop: boolean }) {
         <CategoryButton
           action={
             <Checkbox
-              checked={state.notifications.getEnabled() === "allowed"}
+              checked={
+                state.settings.getValue("notifications:desktop") === "allowed"
+              }
               onChange={toggleNotificationPermission}
             />
           }
@@ -102,7 +104,9 @@ export default function Notifications(props: { isDesktop: boolean }) {
         <CategoryButton
           action={
             <Checkbox
-              checked={state.notifications.getPushEnabled() === "allowed"}
+              checked={
+                state.settings.getValue("notifications:push") === "allowed"
+              }
               onChange={togglePushPermission}
             />
           }
