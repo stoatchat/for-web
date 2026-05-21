@@ -153,8 +153,10 @@ export function MessageComposition(props: Props) {
 
     const tooLong = messageLength() > maxMessageLength();
 
+    const isSlowmode = currentSlowmode();
+
     return (
-      !tooLong && (draftContent.trim().length > 0 || draftFiles.length > 0)
+      !tooLong && (draftContent.trim().length > 0 || draftFiles.length > 0) && !isSlowmode
     );
   });
 
