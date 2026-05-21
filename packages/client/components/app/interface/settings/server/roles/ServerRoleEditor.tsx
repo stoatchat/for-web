@@ -58,7 +58,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
     if (editGroup.controls.icon.isDirty) {
       if (!editGroup.controls.icon.value) {
-        changes.remove!.push("Icon");
+        changes.remove = [...(changes.remove ?? []), "Icon"];
       } else if (Array.isArray(editGroup.controls.icon.value)) {
         changes.icon = await client().uploadFile(
           "icons",
