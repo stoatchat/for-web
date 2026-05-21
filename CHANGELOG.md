@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.7.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.6.0...stoat-for-web-v0.7.0) (2026-05-21)
+
+
+### Features
+
+* changelogs ([#1175](https://github.com/stoatchat/for-web/issues/1175)) ([e5ab20b](https://github.com/stoatchat/for-web/commit/e5ab20bda7a8b67c55255c937aeb13b9a959067a))
+* role icons ([#1173](https://github.com/stoatchat/for-web/issues/1173)) ([ae04583](https://github.com/stoatchat/for-web/commit/ae0458349cf2f7568bf2cfa2e7c8148d7f00ed07))
+
+
+### Bug Fixes
+
+* bypass canSend() check if passing `useContent` for gifbox ([#1174](https://github.com/stoatchat/for-web/issues/1174)) ([f2649e2](https://github.com/stoatchat/for-web/commit/f2649e248090192e2f33c5072448a1795c04bd0c))
+* Checkboxs firing multiple onClick events when nested inside a CategoryButton ([#937](https://github.com/stoatchat/for-web/issues/937)) ([2208cb9](https://github.com/stoatchat/for-web/commit/2208cb912216bc7db23a5a1efbcbcf5ba40d188f))
+* focus the text box when typing anything but space ([44e7501](https://github.com/stoatchat/for-web/commit/44e7501c2d86d5c714e83a544751c90fe370b1d8))
+* focus the text box when typing anything but space  ([#1179](https://github.com/stoatchat/for-web/issues/1179)) ([44e7501](https://github.com/stoatchat/for-web/commit/44e7501c2d86d5c714e83a544751c90fe370b1d8))
+* make remove all reactions action require ManageMessages permission ([#1150](https://github.com/stoatchat/for-web/issues/1150)) ([9a54a4d](https://github.com/stoatchat/for-web/commit/9a54a4de5212e8a65d16ac0d16312a98a41ed2c7))
+* Make the sync store only update if remote is different than local ([#1031](https://github.com/stoatchat/for-web/issues/1031)) ([78facb8](https://github.com/stoatchat/for-web/commit/78facb83985e51739c1cc2a775809b4a601b9a38))
+* remove member option was not showing correctly ([#1170](https://github.com/stoatchat/for-web/issues/1170)) ([5aba840](https://github.com/stoatchat/for-web/commit/5aba84040abd7c8f6fdb677e3df5f578d180dc1b))
+* Render channel links as in app scope as well ([#1172](https://github.com/stoatchat/for-web/issues/1172)) ([96bfb69](https://github.com/stoatchat/for-web/commit/96bfb69ad20a6f45f3164978e55bc9c82d52e277))
+* Sync settings on login instead of on load ([#1190](https://github.com/stoatchat/for-web/issues/1190)) ([f437ce5](https://github.com/stoatchat/for-web/commit/f437ce5a70023d9ae4fb8da80d6d776d2f4b7671))
+* update emoji mapping generator to remove ALL varsels ([#1187](https://github.com/stoatchat/for-web/issues/1187)) ([a23c8dc](https://github.com/stoatchat/for-web/commit/a23c8dcee062426a5ec4f6b66f3a8ee408ce338f))
+
 ## [0.6.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.5.0...stoat-for-web-v0.6.0) (2026-05-16)
 
 
