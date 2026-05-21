@@ -67,9 +67,7 @@ export function MessageComposition(props: Props) {
   });
 
   const isSlowmodeExempt = createMemo(() => {
-    return (
-      props.channel.havePermission("BypassSlowmode")
-    );
+    return props.channel.havePermission("BypassSlowmode");
   });
 
   const cooldownRemaining = createMemo(() => {
@@ -89,7 +87,7 @@ export function MessageComposition(props: Props) {
   const slowmodeText = createMemo(() => {
     const s = cooldownRemaining();
     if (!s) return "";
-    
+
     const h = Math.floor(s / 3600);
     const m = Math.floor((s % 3600) / 60);
     const sec = s % 60;
@@ -106,10 +104,12 @@ export function MessageComposition(props: Props) {
     const h = Math.floor(s / 3600);
     const m = Math.floor((s % 3600) / 60);
     const sec = s % 60;
-    
-    if (h > 0 && m === 0 && sec === 0) return h === 1 ? t`1 hour` : t`${h} hours`;
-    if (m > 0 && sec === 0 && h === 0) return m === 1 ? t`1 minute` : t`${m} minutes`;
-    
+
+    if (h > 0 && m === 0 && sec === 0)
+      return h === 1 ? t`1 hour` : t`${h} hours`;
+    if (m > 0 && sec === 0 && h === 0)
+      return m === 1 ? t`1 minute` : t`${m} minutes`;
+
     const parts = [];
     if (h > 0) parts.push(h === 1 ? t`1 hour` : t`${h} hours`);
     if (m > 0) parts.push(m === 1 ? t`1 minute` : t`${m} minutes`);
@@ -414,18 +414,25 @@ export function MessageComposition(props: Props) {
         }}
       </For>
       <Show when={props.channel.slowmode}>
-        <div style={{ display: "flex", "justify-content": "flex-end", padding: "0 12px 6px 0" }}>
-          <Tooltip content={t`Members can send one message every ${slowmodeWaitTime()}.`} placement="top">
-            <div style={{ display: "flex", "align-items": "center", gap: "4px" }}>
+        <div
+          style={{
+            display: "flex",
+            "justify-content": "flex-end",
+            padding: "0 12px 6px 0",
+          }}
+        >
+          <Tooltip
+            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
+            placement="top"
+          >
+            <div
+              style={{ display: "flex", "align-items": "center", gap: "4px" }}
+            >
               <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
               <span style={{ "font-size": "0.75rem", "font-weight": "600" }}>
                 <Switch fallback={t`Slowmode is enabled.`}>
-                  <Match when={isSlowmodeExempt()}>
-                    {t`Slowmode Immune`}
-                  </Match>
-                  <Match when={cooldownRemaining() > 0}>
-                    {slowmodeText()}
-                  </Match>
+                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
+                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
                 </Switch>
               </span>
             </div>
