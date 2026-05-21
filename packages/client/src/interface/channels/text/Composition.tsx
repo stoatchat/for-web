@@ -156,7 +156,9 @@ export function MessageComposition(props: Props) {
     const isSlowmode = currentSlowmode();
 
     return (
-      !tooLong && (draftContent.trim().length > 0 || draftFiles.length > 0) && !isSlowmode
+      !tooLong &&
+      (draftContent.trim().length > 0 || draftFiles.length > 0) &&
+      !isSlowmode
     );
   });
 
