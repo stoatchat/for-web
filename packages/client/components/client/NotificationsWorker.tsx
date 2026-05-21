@@ -230,7 +230,7 @@ export function NotificationsWorker() {
 
     if (state.settings.getValue("notifications:desktop") === "default") {
       Notification.requestPermission().then((permission) => {
-        if (permission === "denied") {
+        if (permission !== "granted") {
           batch(() => {
             state.settings.setValue("notifications:desktop", "denied");
             state.settings.setValue("notifications:push", "denied");
