@@ -32,37 +32,6 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 
-interface AppliedSlowmode {
-  sentAt: number;
-  value: number;
-}
-
-function loadAppliedSlowmodes(): Map<string, AppliedSlowmode> {
-  try {
-    const stored = JSON.parse(localStorage.getItem("stoatSlowmodes") ?? "[]");
-    const now = Date.now();
-    return new Map(
-      (stored as [string, AppliedSlowmode][]).filter(
-        ([, entry]) => entry.sentAt + entry.value * 1000 > now
-      )
-    );
-  } catch {
-    return new Map();
-  }
-}
-
-function saveAppliedSlowmodes(map: Map<string, AppliedSlowmode>) {
-  try {
-    const now = Date.now();
-    const valid = [...map.entries()].filter(
-      ([, entry]) => entry.sentAt + entry.value * 1000 > now
-    );
-    localStorage.setItem("stoatSlowmodes", JSON.stringify(valid));
-  } catch {}
-}
-
-const appliedSlowmodes = loadAppliedSlowmodes();
-
 interface Props {
   /**
    * Channel to compose for
@@ -86,6 +55,10 @@ export function MessageComposition(props: Props) {
 
   const [now, setNow] = createSignal(Date.now());
 
+  const currentSlowmode = createMemo(() =>
+    client().userSlowmodes.get(props.channel.id),
+  );
+
   createEffect(() => {
     if (cooldownRemaining() > 0) {
       const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -103,10 +76,13 @@ export function MessageComposition(props: Props) {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
     now();
 
-    const entry = appliedSlowmodes.get(props.channel.id);
+    const entry = currentSlowmode();
     if (!entry) return 0;
 
-    const remaining = Math.ceil(entry.value - (Date.now() - entry.sentAt) / 1000);
+    const receivedAt = entry.receivedAt ?? Date.now();
+    const remaining = Math.ceil(
+      entry.retry_after - (Date.now() - receivedAt) / 1000,
+    );
     return remaining > 0 ? remaining : 0;
   });
 
@@ -273,11 +249,6 @@ export function MessageComposition(props: Props) {
     props.onMessageSend?.();
 
     if (props.channel.slowmode) {
-      appliedSlowmodes.set(props.channel.id, {
-        sentAt: Date.now(),
-        value: props.channel.slowmode,
-      });
-      saveAppliedSlowmodes(appliedSlowmodes);
       setNow(Date.now());
     }
 
