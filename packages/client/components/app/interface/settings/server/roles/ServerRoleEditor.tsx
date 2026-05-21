@@ -50,7 +50,9 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
 
   async function onSubmit() {
-    const changes: API.DataEditRole = {};
+    const changes: API.DataEditRole = {
+      remove: [],
+    };
 
     if (editGroup.controls.name.isDirty) {
       changes.name = editGroup.controls.name.value.trim();
@@ -58,7 +60,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
     if (editGroup.controls.icon.isDirty) {
       if (!editGroup.controls.icon.value) {
-        changes.remove = [...(changes.remove ?? []), "Icon"];
+        changes.remove!.push("Icon")
       } else if (Array.isArray(editGroup.controls.icon.value)) {
         changes.icon = await client().uploadFile(
           "icons",
