@@ -8,10 +8,12 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
+import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
 import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
+import MdCampaign from "@material-design-icons/svg/outlined/campaign.svg?component-solid";
 import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
 import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
@@ -106,7 +108,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * @returns List
    */
   list() {
-    const { pop } = useModals();
+    const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
 
     return {
@@ -263,12 +265,15 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         },
         {
           entries: [
-            // {
-            //   onClick: () =>
-            //     getController("modal").push({ type: "changelog", posts: [] }),
-            //   icon: <MdFormatListBulleted {...iconSize(20)} />,
-            //   title: t("app.special.modals.changelogs.title"),
-            // },
+            {
+              onClick: async () => {
+                const changelog = await fetchLatestChangelog();
+                if (!changelog) return;
+                openModal({ type: "changelog", changelog });
+              },
+              icon: <MdCampaign {...iconSize(20)} />,
+              title: <Trans>What's New</Trans>,
+            },
             {
               href: "https://github.com/stoatchat",
               icon: <MdMemory {...iconSize(20)} />,

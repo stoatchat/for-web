@@ -293,8 +293,9 @@ export function UserContextMenu(props: {
     return (
       props.channel?.type === "Group" &&
       !props.user.self &&
-      props.channel.havePermission("ManageChannel") &&
-      !props.channel.owner?.self
+      props.channel.owner?.id !== props.user.id &&
+      (props.channel.havePermission("ManageChannel") ||
+        props.channel.owner?.self)
     );
   }
 
@@ -415,8 +416,22 @@ export function UserContextMenu(props: {
 
       {/* Moderation: kick, ban */}
       {/** TODO: #287 timeout users */}
-      <Show when={props.member && (canKick() || canBan())}>
+      <Show
+        when={
+          canRemoveMemberFromGroup() ||
+          (props.member && (canKick() || canBan()))
+        }
+      >
         <ContextMenuDivider />
+        <Show when={canRemoveMemberFromGroup()}>
+          <ContextMenuButton
+            icon={MdPersonRemove}
+            onClick={removeMember}
+            destructive
+          >
+            <Trans>Remove Member</Trans>
+          </ContextMenuButton>
+        </Show>
         <Show when={canKick()}>
           <ContextMenuButton
             icon={MdPersonRemove}
@@ -436,15 +451,6 @@ export function UserContextMenu(props: {
           </ContextMenuButton>
         </Show>
       </Show>
-      <Show when={canRemoveMemberFromGroup()}>
-        <ContextMenuButton
-          icon={MdPersonRemove}
-          onClick={removeMember}
-          destructive
-        >
-          <Trans>Remove Member</Trans>
-        </ContextMenuButton>
-      </Show>
       <Show when={canBanNonMember()}>
         <ContextMenuDivider />
         <ContextMenuButton
@@ -457,8 +463,6 @@ export function UserContextMenu(props: {
       </Show>
 
       {/* Safety: remove friend, block, report */}
-      <ContextMenuDivider />
-
       <Show when={!props.user.self}>
         <ContextMenuDivider />
         <Show when={props.user.relationship === "Friend"}>

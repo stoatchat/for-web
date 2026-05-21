@@ -2,7 +2,7 @@ import { createEffect, on, onCleanup } from "solid-js";
 
 import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
-import { useClient } from "@revolt/client";
+import { useClient, useClientLifecycle } from "@revolt/client";
 
 import { useState } from ".";
 
@@ -12,6 +12,7 @@ import { useState } from ".";
 export function SyncWorker() {
   const state = useState();
   const client = useClient();
+  const { isLoggedIn } = useClientLifecycle();
 
   /**
    * Handle incoming events
@@ -26,13 +27,13 @@ export function SyncWorker() {
   // sync REMOTE->LOCAL settings
   createEffect(
     on(
-      () => client(),
-      (client) => {
-        if (client) {
-          state.sync.initialSync(client);
+      () => isLoggedIn(),
+      (isLoggedIn) => {
+        if (isLoggedIn) {
+          state.sync.initialSync(client());
 
-          client.events.addListener("event", handleEvent);
-          onCleanup(() => client.events.removeListener("event", handleEvent));
+          client().events.addListener("event", handleEvent);
+          onCleanup(() => client().events.removeListener("event", handleEvent));
         }
       },
     ),
@@ -41,8 +42,9 @@ export function SyncWorker() {
   // sync LOCAL->REMOTE settings
   createEffect(
     on(
-      () => state.sync.shouldSync,
-      (shouldSync) => shouldSync && state.sync.save(client()),
+      [() => state.sync.shouldSync, isLoggedIn],
+      ([shouldSync, isLoggedIn]) =>
+        shouldSync && isLoggedIn && state.sync.save(client()),
     ),
   );
 

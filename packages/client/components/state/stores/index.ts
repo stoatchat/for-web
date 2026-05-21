@@ -11,6 +11,7 @@ import { TypeLinkSafety } from "./LinkSafety";
 import { TypeLocale } from "./Locale";
 import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
+import { TypeReleaseNotes } from "./ReleaseNotes";
 import { TypeSettings } from "./Settings";
 import { TypeSynchronisation } from "./Sync";
 import { TypeTheme } from "./Theme";
@@ -26,6 +27,7 @@ export type Store = {
   locale: TypeLocale;
   notifications: TypeNotificationOptions;
   ordering: TypeOrdering;
+  "release-notes": TypeReleaseNotes;
   settings: TypeSettings;
   sync: TypeSynchronisation;
   theme: TypeTheme;
