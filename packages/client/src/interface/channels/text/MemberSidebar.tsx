@@ -269,7 +269,7 @@ export function ServerMemberSidebar(props: Props) {
                 fallback={
                   <CategoryTitle>
                     <Show when={item.item.icon}>
-                      {(icon) => <RoleIcon src={icon()} alt="" />}
+                      <RoleIcon src={item.item.icon} alt="" />
                     </Show>
                     <span>{(item.item as { name: string }).name}</span>
                     <span>
