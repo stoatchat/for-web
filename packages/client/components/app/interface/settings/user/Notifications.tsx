@@ -92,7 +92,12 @@ export default function Notifications(props: { isDesktop: boolean }) {
   return (
     <CategoryButton.Group>
       {/* Safari on mobile will not have the Notification object. */}
-      <Show when={Notification}>
+      <Show
+        when={
+          Notification &&
+          state.settings.getValue("notifications:desktop") !== "unsupported"
+        }
+      >
         <CategoryButton
           action={
             <Checkbox

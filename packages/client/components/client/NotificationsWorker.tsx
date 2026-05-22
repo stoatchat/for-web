@@ -229,13 +229,34 @@ export function NotificationsWorker() {
     document.removeEventListener("click", tryRequest);
 
     if (state.settings.getValue("notifications:desktop") === "default") {
+      // We do this before permission checking because the constructor will still work fine if we don't have permission.
+      let supportsDesktopNotifications = false;
+      try {
+        const noti = new Notification(
+          "This is what notifications will look like. You shouldn't see this for long.",
+          { silent: true },
+        );
+        // Close the notification just after showing
+        noti.addEventListener("show", () =>
+          setTimeout(() => noti.close(), 250),
+        );
+        supportsDesktopNotifications = true;
+      } catch {
+        // An error means not supported.
+      }
+
+      if (!supportsDesktopNotifications) {
+        state.settings.setValue("notifications:desktop", "unsupported");
+      }
       Notification.requestPermission().then((permission) => {
         if (permission !== "granted") {
           batch(() => {
-            state.settings.setValue("notifications:desktop", "denied");
+            if (supportsDesktopNotifications) {
+              state.settings.setValue("notifications:desktop", "denied");
+            }
             state.settings.setValue("notifications:push", "denied");
           });
-        } else {
+        } else if (supportsDesktopNotifications) {
           state.settings.setValue("notifications:desktop", "allowed");
         }
       });

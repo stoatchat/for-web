@@ -10,7 +10,11 @@ import { AbstractStore } from ".";
 /**
  * Possible notification permission states
  */
-export type NotificationPermissionState = "default" | "denied" | "allowed";
+export type NotificationPermissionState =
+  | "default"
+  | "denied"
+  | "allowed"
+  | "unsupported";
 
 /**
  * Possible notification permission states
@@ -19,6 +23,7 @@ const NotificationPermissionStates: NotificationPermissionState[] = [
   "default",
   "denied",
   "allowed",
+  "unsupported",
 ];
 
 interface SettingsDefinition {
