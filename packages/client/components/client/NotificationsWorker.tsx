@@ -194,10 +194,7 @@ export function NotificationsWorker() {
     // todo: play sound
 
     // Don't continue if we don't have notification permissions
-    if (
-      Notification.permission !== "granted" ||
-      desktopState() !== "allowed"
-    )
+    if (Notification.permission !== "granted" || desktopState() !== "allowed")
       return;
 
     console.info(`[notification] ${title} ${icon} ${body}`);
