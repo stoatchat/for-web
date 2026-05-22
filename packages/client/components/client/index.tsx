@@ -18,10 +18,7 @@ import ClientController from "./Controller";
 
 export type { default as ClientController } from "./Controller";
 
-export {
-  killServiceWorkerSubscription,
-  setUpServiceWorkerSubscription,
-} from "./PushNotifications";
+export { useNotifications } from "./NotificationsController";
 
 const clientContext = createContext(null! as ClientController);
 

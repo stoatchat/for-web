@@ -1,4 +1,4 @@
-import { batch, createEffect, onCleanup, onMount } from "solid-js";
+import { createEffect, onCleanup, onMount } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import {
@@ -15,7 +15,7 @@ import {
 import { useNavigate, useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 
-import { useClient } from ".";
+import { useClient, useNotifications } from ".";
 
 /**
  * Process and display desktop notifications
@@ -26,6 +26,8 @@ export function NotificationsWorker() {
   const client = useClient();
   const navigate = useNavigate();
   const params = useSmartParams();
+
+  const { desktopState, initNotifications } = useNotifications();
 
   /**
    * Handle incoming messages
@@ -194,7 +196,7 @@ export function NotificationsWorker() {
     // Don't continue if we don't have notification permissions
     if (
       Notification.permission !== "granted" ||
-      state.settings.getValue("notifications:desktop") !== "allowed"
+      desktopState() !== "allowed"
     )
       return;
 
@@ -228,44 +230,12 @@ export function NotificationsWorker() {
   function tryRequest() {
     document.removeEventListener("click", tryRequest);
 
-    if (state.settings.getValue("notifications:desktop") === "default") {
-      // We do this before permission checking because the constructor will still work fine if we don't have permission.
-      let supportsDesktopNotifications = false;
-      try {
-        const noti = new Notification(
-          "This is what notifications will look like. You shouldn't see this for long.",
-          { silent: true },
-        );
-        // Close the notification just after showing
-        noti.addEventListener("show", () =>
-          setTimeout(() => noti.close(), 250),
-        );
-        supportsDesktopNotifications = true;
-      } catch {
-        // An error means not supported.
-      }
-
-      if (!supportsDesktopNotifications) {
-        state.settings.setValue("notifications:desktop", "unsupported");
-      }
-      Notification.requestPermission().then((permission) => {
-        if (permission !== "granted") {
-          batch(() => {
-            if (supportsDesktopNotifications) {
-              state.settings.setValue("notifications:desktop", "denied");
-            }
-            state.settings.setValue("notifications:push", "denied");
-          });
-        } else if (supportsDesktopNotifications) {
-          state.settings.setValue("notifications:desktop", "allowed");
-        }
-      });
-    }
+    initNotifications();
   }
 
   onMount(() => {
     // only add click listener if notifications are default
-    if (state.settings.getValue("notifications:desktop") === "default") {
+    if (desktopState() === "default") {
       document.addEventListener("click", tryRequest);
     }
   });

@@ -1,113 +1,34 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { batch, Show } from "solid-js";
+import { Trans } from "@lingui-solid/solid/macro";
+import { Show } from "solid-js";
 
-import {
-  killServiceWorkerSubscription,
-  setUpServiceWorkerSubscription,
-  useClient,
-} from "@revolt/client";
-import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { CategoryButton, Checkbox, iconSize, useSnackbar } from "@revolt/ui";
+import { CategoryButton, Checkbox, iconSize } from "@revolt/ui";
 
 import MdMarkUnreadChatAlt from "@material-design-icons/svg/outlined/mark_unread_chat_alt.svg?component-solid";
 import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import MdSpeaker from "@material-design-icons/svg/outlined/speaker.svg?component-solid";
+import { useNotifications } from "@revolt/client";
 
 /**
  * Notifications Page
  */
 export default function Notifications(props: { isDesktop: boolean }) {
-  const { t } = useLingui();
-  const getClient = useClient();
   const state = useState();
-  const snackbar = useSnackbar();
 
-  const { showError } = useModals();
-
-  function onDeny() {
-    batch(() => {
-      state.settings.setValue("notifications:desktop", "denied");
-      state.settings.setValue("notifications:push", "denied");
-      killServiceWorkerSubscription(getClient());
-    });
-    showError(
-      t`Failed to enable notifications. Stoat does not have notification permission.`,
-    );
-  }
-
-  function toggleNotificationPermission() {
-    if (state.settings.getValue("notifications:desktop") !== "allowed") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "denied") {
-          onDeny();
-        } else {
-          state.settings.setValue("notifications:desktop", "allowed");
-        }
-      });
-    } else {
-      state.settings.setValue("notifications:desktop", "denied");
-    }
-  }
-
-  function togglePushPermission() {
-    if (state.settings.getValue("notifications:push") !== "allowed") {
-      const snackbarMessage = t`Failed to enable push notifications. Please try again later.`;
-      if (Notification) {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "denied") {
-            onDeny();
-          } else {
-            state.settings.setValue("notifications:push", "allowed");
-            setUpServiceWorkerSubscription(getClient()).then((succeeded) => {
-              if (succeeded) {
-                return;
-              }
-              snackbar.show({
-                message: snackbarMessage,
-              });
-              state.settings.setValue("notifications:push", "default");
-            });
-          }
-        });
-      } else {
-        // On safari mobile, just enable push notifications.
-        state.settings.setValue("notifications:push", "allowed");
-        setUpServiceWorkerSubscription(getClient()).then((succeeded) => {
-          if (succeeded) {
-            return;
-          }
-          snackbar.show({
-            message: snackbarMessage,
-          });
-          state.settings.setValue("notifications:push", "default");
-        });
-      }
-    } else {
-      state.settings.setValue("notifications:push", "denied");
-      killServiceWorkerSubscription(getClient());
-    }
-  }
+  const {
+    desktopState,
+    pushState,
+    toggleNotificationPermission,
+    togglePushPermission,
+  } = useNotifications();
 
   return (
     <CategoryButton.Group>
       {/* Safari on mobile will not have the Notification object. */}
-      <Show
-        when={
-          Notification &&
-          state.settings.getValue("notifications:desktop") !== "unsupported"
-        }
-      >
+      <Show when={Notification && desktopState() !== "unsupported"}>
         <CategoryButton
-          action={
-            <Checkbox
-              checked={
-                state.settings.getValue("notifications:desktop") === "allowed"
-              }
-              onChange={toggleNotificationPermission}
-            />
-          }
-          onClick={toggleNotificationPermission}
+          action={<Checkbox checked={desktopState() === "allowed"} />}
+          onClick={() => toggleNotificationPermission(true)}
           icon={<MdNotifications {...iconSize(22)} />}
           description={
             props.isDesktop ? (
@@ -125,15 +46,8 @@ export default function Notifications(props: { isDesktop: boolean }) {
       </Show>
       <Show when={!props.isDesktop}>
         <CategoryButton
-          action={
-            <Checkbox
-              checked={
-                state.settings.getValue("notifications:push") === "allowed"
-              }
-              onChange={togglePushPermission}
-            />
-          }
-          onClick={togglePushPermission}
+          action={<Checkbox checked={pushState() === "allowed"} />}
+          onClick={() => togglePushPermission(true)}
           icon={<MdMarkUnreadChatAlt {...iconSize(22)} />}
           description={
             <Trans>Receive push notifications while the app is closed.</Trans>
