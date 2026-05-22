@@ -4,8 +4,6 @@ import { JSX } from "solid-js/jsx-runtime";
 import { AriaButtonProps, createButton } from "@solid-aria/button";
 import { cva } from "styled-system/css/cva";
 
-import { debounce } from "@revolt/common";
-
 import { Ripple } from "./Ripple";
 import { typography } from "./Text";
 
@@ -43,12 +41,12 @@ export function IconButton(props: Props) {
 
   const [btn, noBtnRest] = splitProps(rest, ["onPress"]);
 
-  //Eslint being silly, this is reactive
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, solid/reactivity
-  const onPress = debounce((e: any) => btn.onPress?.(e), 100),
-    restBtn = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
+  //Emulate delay of native onClick (solves click-through issue)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 1),
+    btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
 
-  const { buttonProps } = createButton(restBtn, () => ref);
+  const { buttonProps } = createButton(btnRest, () => ref);
   return (
     <button
       {...passthrough}
