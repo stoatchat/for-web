@@ -1,9 +1,9 @@
 import { Trans } from "@lingui-solid/solid/macro";
 import { Show } from "solid-js";
 
+import { useNotifications } from "@revolt/client";
 import { useState } from "@revolt/state";
 import { CategoryButton, Checkbox, iconSize } from "@revolt/ui";
-import { useNotifications } from "@revolt/client";
 
 import MdMarkUnreadChatAlt from "@material-design-icons/svg/outlined/mark_unread_chat_alt.svg?component-solid";
 import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
