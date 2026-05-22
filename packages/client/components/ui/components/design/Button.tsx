@@ -125,14 +125,13 @@ export function Button(props: Props) {
   //Eslint being silly, this is reactive
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, solid/reactivity
   const onPress = debounce((e: any) => btn.onPress?.(e), 100),
-    btnRest = mergeProps(noBtnRest, { onPress });
+    btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
 
   const { buttonProps } = createButton(btnRest, () => ref);
   return (
     <button
       {...passthrough}
       {...buttonProps}
-      onTouchEnd={onPress}
       ref={ref}
       class={button({
         shape: shape(),
