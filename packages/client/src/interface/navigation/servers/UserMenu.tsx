@@ -77,7 +77,7 @@ export function UserMenu(props: Props) {
     const target = event.target as Node;
     // Ignore clicks on the anchor (avatar) — the click handler on the anchor
     // will toggle the menu. Ignore clicks inside the menu itself too.
-    if (props.anchor()?.contains(target) || ref()?.contains(target)) return;
+    if (props.anchor()?.contains(target)) return;
     close();
   }
 
