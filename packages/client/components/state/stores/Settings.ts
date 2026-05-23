@@ -2,10 +2,10 @@ import {
   UNICODE_EMOJI_PACKS,
   UnicodeEmojiPacks,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { batch } from "solid-js";
 
 import { State } from "..";
 
-import { batch } from "solid-js";
 import { AbstractStore } from ".";
 
 /**
