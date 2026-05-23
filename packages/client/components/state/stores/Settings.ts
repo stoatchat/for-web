@@ -212,4 +212,36 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
   getValue<T extends keyof TypeSettings>(key: T) {
     return this.get()[key] ?? DEFAULT_VALUES[key];
   }
+
+  /**
+   * Get the permission state for desktop notifications
+   */
+  get desktopNotificationsState(): NotificationPermissionState {
+    return this.getValue("notifications:desktop") ?? "default";
+  }
+
+  /**
+   * Get the permission state for push notifications
+   */
+  get pushNotificationsState(): NotificationPermissionState {
+    return this.getValue("notifications:push") ?? "default";
+  }
+
+  /**
+   * Set the permission state for desktop notifications. If deskop notifications are ever set to `unsupported` this function will noop.
+   */
+  set desktopNotificationsState(newState: NotificationPermissionState) {
+    if (this.desktopNotificationsState !== "unsupported") {
+      this.setValue("notifications:desktop", newState);
+    }
+  }
+
+  /**
+   * Set the permission state for push notifications. If newState is `unsupported` this function will noop.
+   */
+  set pushNotificationsState(newState: NotificationPermissionState) {
+    if (newState !== "unsupported") {
+      this.setValue("notifications:push", newState);
+    }
+  }
 }

@@ -13,21 +13,20 @@ import MdSpeaker from "@material-design-icons/svg/outlined/speaker.svg?component
  * Notifications Page
  */
 export default function Notifications(props: { isDesktop: boolean }) {
-  const state = useState();
+  const { settings } = useState();
 
-  const {
-    desktopState,
-    pushState,
-    toggleNotificationPermission,
-    togglePushPermission,
-  } = useNotifications();
+  const { toggleNotificationPermission, togglePushPermission } =
+    useNotifications();
 
   return (
     <CategoryButton.Group>
-      {/* Safari on mobile will not have the Notification object. */}
-      <Show when={Notification && desktopState() !== "unsupported"}>
+      <Show when={settings.desktopNotificationsState !== "unsupported"}>
         <CategoryButton
-          action={<Checkbox checked={desktopState() === "allowed"} />}
+          action={
+            <Checkbox
+              checked={settings.desktopNotificationsState === "allowed"}
+            />
+          }
           onClick={() => toggleNotificationPermission(true)}
           icon={<MdNotifications {...iconSize(22)} />}
           description={
@@ -46,7 +45,9 @@ export default function Notifications(props: { isDesktop: boolean }) {
       </Show>
       <Show when={!props.isDesktop}>
         <CategoryButton
-          action={<Checkbox checked={pushState() === "allowed"} />}
+          action={
+            <Checkbox checked={settings.pushNotificationsState === "allowed"} />
+          }
           onClick={() => togglePushPermission(true)}
           icon={<MdMarkUnreadChatAlt {...iconSize(22)} />}
           description={

@@ -27,7 +27,7 @@ export function NotificationsWorker() {
   const navigate = useNavigate();
   const params = useSmartParams();
 
-  const { desktopState, initNotifications } = useNotifications();
+  const { initNotifications } = useNotifications();
 
   /**
    * Handle incoming messages
@@ -194,7 +194,10 @@ export function NotificationsWorker() {
     // todo: play sound
 
     // Don't continue if we don't have notification permissions
-    if (Notification.permission !== "granted" || desktopState() !== "allowed")
+    if (
+      Notification.permission !== "granted" ||
+      state.settings.desktopNotificationsState !== "allowed"
+    )
       return;
 
     console.info(`[notification] ${title} ${icon} ${body}`);
@@ -231,10 +234,7 @@ export function NotificationsWorker() {
   }
 
   onMount(() => {
-    // only add click listener if notifications are default
-    if (desktopState() === "default") {
-      document.addEventListener("click", tryRequest);
-    }
+    document.addEventListener("click", tryRequest);
   });
 
   onCleanup(() => document.removeEventListener("click", tryRequest));

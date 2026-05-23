@@ -10,18 +10,20 @@ import { useSnackbar } from "@revolt/ui";
 import { IS_DEV, useClient } from ".";
 
 export function useNotifications() {
-  const state = useState();
+  const { settings } = useState();
   const { t } = useLingui();
   const getClient = useClient();
   const snackbar = useSnackbar();
   const { showError } = useModals();
 
+  const supportsNotification = (): boolean => {
+    return "Notification" in window;
+  };
+
   const onDeny = (showModal?: boolean) => {
     batch(() => {
-      if (state.settings.getValue("notifications:desktop") !== "unsupported") {
-        state.settings.setValue("notifications:desktop", "denied");
-      }
-      state.settings.setValue("notifications:push", "denied");
+      settings.desktopNotificationsState = "denied";
+      settings.pushNotificationsState = "denied";
       killServiceWorkerSubscription(getClient());
     });
     if (showModal) {
@@ -31,11 +33,10 @@ export function useNotifications() {
     }
   };
 
-  const initNotifications = () => {
-    if (state.settings.getValue("notifications:desktop") === "default") {
+  const initNotifications = async () => {
+    if (settings.desktopNotificationsState === "default") {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
-      let supportsDesktopNotifications = !!Notification;
-      if (supportsDesktopNotifications) {
+      if (supportsNotification()) {
         try {
           const noti = new Notification(
             "This is what notifications will look like. You shouldn't see this for long.",
@@ -46,128 +47,108 @@ export function useNotifications() {
           noti.addEventListener("show", () =>
             setTimeout(() => noti.close(), 100),
           );
-          supportsDesktopNotifications = true;
         } catch {
           // An error means not supported.
-          supportsDesktopNotifications = false;
+          settings.desktopNotificationsState = "unsupported";
         }
+      } else {
+        settings.desktopNotificationsState = "unsupported";
       }
 
-      if (!supportsDesktopNotifications) {
-        state.settings.setValue("notifications:desktop", "unsupported");
-      }
-      if (Notification) {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            if (supportsDesktopNotifications) {
-              toggleNotificationPermission();
-            }
-            togglePushPermission();
-          } else {
-            onDeny(false);
-          }
-        });
+      if (supportsNotification()) {
+        if ((await Notification.requestPermission()) === "granted") {
+          settings.desktopNotificationsState = "allowed";
+          enablePushSubscription();
+        } else {
+          onDeny();
+        }
       } else {
-        togglePushPermission();
+        enablePushSubscription();
       }
     }
   };
 
-  const toggleNotificationPermission = (modalOnDeny?: boolean) => {
-    if (state.settings.getValue("notifications:desktop") !== "allowed") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          state.settings.setValue("notifications:desktop", "allowed");
-        } else {
-          onDeny(modalOnDeny);
-        }
-      });
+  const toggleNotificationPermission = async (modalOnDeny?: boolean) => {
+    if (settings.desktopNotificationsState !== "allowed") {
+      if ((await Notification.requestPermission()) === "granted") {
+        settings.desktopNotificationsState = "allowed";
+      } else {
+        onDeny(modalOnDeny);
+      }
     } else {
-      state.settings.setValue("notifications:desktop", "denied");
+      settings.desktopNotificationsState = "denied";
     }
   };
 
   const enablePushSubscription = () => {
-    const snackbarMessage = t`Failed to enable push notifications. Please try again later.`;
-    setUpServiceWorkerSubscription(getClient()).then((succeeded) => {
-      if (succeeded) {
-        return;
-      }
+    settings.pushNotificationsState = "allowed";
+    try {
+      setUpServiceWorkerSubscription(getClient());
+    } catch (e) {
+      console.error(e);
       snackbar.show({
-        message: snackbarMessage,
+        message: t`Failed to enable push notifications. Please try again later.`,
       });
-      state.settings.setValue("notifications:push", "default");
-    });
+      settings.pushNotificationsState = "default";
+    }
   };
 
-  const togglePushPermission = (modalOnDeny?: boolean) => {
-    if (state.settings.getValue("notifications:push") !== "allowed") {
-      if (Notification) {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            state.settings.setValue("notifications:push", "allowed");
-            enablePushSubscription();
-          } else {
-            onDeny(modalOnDeny);
-          }
-        });
+  const togglePushPermission = async (modalOnDeny?: boolean) => {
+    if (settings.pushNotificationsState !== "allowed") {
+      if (supportsNotification()) {
+        if ((await Notification.requestPermission()) === "granted") {
+          enablePushSubscription();
+        } else {
+          onDeny(modalOnDeny);
+        }
       } else {
         // On safari mobile, just enable push notifications.
-        state.settings.setValue("notifications:push", "allowed");
         enablePushSubscription();
       }
     } else {
-      state.settings.setValue("notifications:push", "denied");
+      settings.pushNotificationsState = "denied";
       killServiceWorkerSubscription(getClient());
     }
   };
 
   return {
-    desktopState: () => state.settings.getValue("notifications:desktop"),
-    pushState: () => state.settings.getValue("notifications:push"),
     toggleNotificationPermission,
     togglePushPermission,
     initNotifications,
   };
 }
 
-async function setUpServiceWorkerSubscription(
-  client: Client,
-): Promise<boolean> {
+async function setUpServiceWorkerSubscription(client: Client) {
   if (IS_DEV) {
-    console.log(
-      "I would have set up the service worker with push notifications in production.",
-    );
-    return true;
+    console.log("Skipping push worker in dev.");
+    return;
   }
-  return await navigator.serviceWorker
-    .getRegistration()
-    .then((registration) => {
-      if (!registration || !client.configured() || !client.configuration)
-        return false;
-      return registration.pushManager
-        .getSubscription()
-        .then(async (subscription) => {
-          if (subscription) return subscription;
 
-          return registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: client.configuration!.vapid,
-          });
-        })
-        .then((subscription) => {
-          client.api.post("/push/subscribe", {
-            endpoint: subscription.endpoint,
-            p256dh: arrayBufferToBase64URL(
-              subscription.getKey("p256dh") || new ArrayBuffer(),
-            ),
-            auth: arrayBufferToBase64URL(
-              subscription.getKey("auth") || new ArrayBuffer(),
-            ),
-          });
-          return true;
-        });
-    });
+  if (!client.configured() || !client.configuration) {
+    throw "Client not configured";
+  }
+
+  const registration = await navigator.serviceWorker.getRegistration();
+  if (!registration) {
+    throw "Failed to get service worker";
+  }
+
+  const subscription =
+    (await registration.pushManager.getSubscription()) ||
+    (await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: client.configuration!.vapid,
+    }));
+
+  client.api.post("/push/subscribe", {
+    endpoint: subscription.endpoint,
+    p256dh: arrayBufferToBase64URL(
+      subscription.getKey("p256dh") || new ArrayBuffer(),
+    ),
+    auth: arrayBufferToBase64URL(
+      subscription.getKey("auth") || new ArrayBuffer(),
+    ),
+  });
 }
 
 function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
@@ -183,22 +164,17 @@ function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
     .replace(/=+$/, "");
 }
 
-// Exported for the client controller. Don't use this unless you have to.
-export function killServiceWorkerSubscription(client: Client) {
+/** Exported for the client controller. Don't use this unless you have to. */
+export async function killServiceWorkerSubscription(client: Client) {
   if (IS_DEV) {
-    console.log(
-      "I would have killed the service worker push notifications in production.",
-    );
+    console.log("Skipping killing push worker in dev.");
     return;
   }
-  navigator.serviceWorker.getRegistration().then((registration) => {
-    if (!registration) return;
-    registration.pushManager.getSubscription().then((subscription) =>
-      subscription?.unsubscribe().then((successful) => {
-        if (successful) {
-          client.api.post("/push/unsubscribe");
-        }
-      }),
-    );
-  });
+
+  const registration = await navigator.serviceWorker.getRegistration();
+  if (!registration) return;
+  const subscription = await registration.pushManager.getSubscription();
+  if (await subscription?.unsubscribe()) {
+    await client.api.post("/push/unsubscribe");
+  }
 }
