@@ -46,7 +46,7 @@ export class Device {
 
     this.pMedia = matchMedia(`(max-width: ${this.phoneMaxWidth})`);
     this.tMedia = matchMedia(`(max-width: ${this.tabletMaxWidth})`);
-    (this.pMedia.onchange = this.tMedia.onchange = this.onLayout)();
+    (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
   }
 
   onLayout() {
