@@ -41,9 +41,11 @@ export function IconButton(props: Props) {
 
   const [btn, noBtnRest] = splitProps(rest, ["onPress"]);
 
-  //Emulate delay of native onClick (solves click-through issue)
+  //Emulate delay of native onClick
+  // See issue https://github.com/solidjs-community/solid-aria/issues/84
+  // Delay must be at least 32ms for Safari
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 1),
+  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 32),
     btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
 
   const { buttonProps } = createButton(btnRest, () => ref);
