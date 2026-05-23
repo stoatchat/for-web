@@ -38,6 +38,7 @@ import { Sessions } from "./user/Sessions";
 import { AccountCard } from "./user/_AccountCard";
 import { AppearanceMenu } from "./user/appearance";
 import { MyBots, ViewBot } from "./user/bots";
+import { KeybindSettings } from "./user/keybinds";
 import { EditProfile } from "./user/profile";
 import { EditSubscription } from "./user/subscriptions";
 import { VoiceSettings } from "./user/voice/VoiceSettings";
@@ -96,6 +97,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Native />;
       case "voice":
         return <VoiceSettings />;
+      case "keybinds":
+        return <KeybindSettings />;
       default:
         return null;
     }
@@ -235,11 +238,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             //   icon: <MdNotifications {...iconSize(20)} />,
             //   title: t("app.settings.pages.notifications.title"),
             // },
-            // {
-            //   id: "keybinds",
-            //   icon: <MdKeybinds {...iconSize(20)} />,
-            //   title: t("app.settings.pages.keybinds.title"),
-            // },
+            {
+              id: "keybinds",
+              icon: <Symbol size={20}>keyboard</Symbol>,
+              title: <Trans>Keybinds</Trans>,
+            },
             {
               id: "language",
               icon: <MdLanguage {...iconSize(20)} />,

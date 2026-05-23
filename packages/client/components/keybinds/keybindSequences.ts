@@ -4,7 +4,7 @@ import { KeybindAction } from "./keybindActions";
  * Sequences are a set of keys that must be pressed at the same time
  */
 export const DEFAULT_SEQUENCES: Record<KeybindAction, (string | RegExp)[]> = {
-  [KeybindAction.NAVIGATION_CHANNEL_UP]: ["Alt", "ArrowDown"],
+  [KeybindAction.NAVIGATION_CHANNEL_UP]: ["Alt", "ArrowUp"],
   [KeybindAction.NAVIGATION_CHANNEL_DOWN]: ["Alt", "ArrowDown"],
   [KeybindAction.NAVIGATION_SERVER_UP]: ["Control", "Alt", "ArrowUp"],
   [KeybindAction.NAVIGATION_SERVER_DOWN]: ["Control", "Alt", "ArrowDown"],
@@ -45,3 +45,10 @@ export const DEFAULT_MAC_SEQUENCES: Record<KeybindAction, (string | RegExp)[]> =
     [KeybindAction.CLOSE_FLOATING]: ["Escape"],
     [KeybindAction.CLOSE_SIDEBAR]: ["Escape"],
   };
+
+export function getSequences(action: KeybindAction) {
+  if (navigator.platform.startsWith("Mac")) {
+    return DEFAULT_MAC_SEQUENCES[action];
+  }
+  return DEFAULT_SEQUENCES[action];
+}

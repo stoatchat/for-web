@@ -132,13 +132,13 @@ export const ServerSidebar = (props: Props) => {
     }
   };
 
-  // todo: I think these cause the infinite hang bug:
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () =>
+    _navigateChannel(-1),
+  );
 
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
-
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
-  //   navigateChannel(1),
-  // );
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
+    _navigateChannel(1),
+  );
 
   createKeybind(KeybindAction.CHAT_MARK_SERVER_AS_READ, () => {
     if (props.server.unread) {
