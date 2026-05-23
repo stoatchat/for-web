@@ -16,9 +16,11 @@ export default defineConfig([
       "**/dist/**",
       "**/styled-system/**",
     ],
+  },
+  {
     languageOptions: {
       parserOptions: {
-        tsconfigRootDir: import.meta.dirname + "/packages/client",
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },
