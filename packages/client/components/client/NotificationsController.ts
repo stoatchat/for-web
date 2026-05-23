@@ -29,11 +29,21 @@ export function useNotifications() {
     await killServiceWorkerSubscription(getClient());
   };
 
+  const notificationStateMismatch = (): boolean => {
+    const areNotificationsAllowed =
+      settings.desktopNotificationsState === "allowed" ||
+      settings.pushNotificationsState === "allowed";
+
+    const notificationPermissionGranted =
+      !supportsNotification() || Notification.permission === "granted";
+
+    return areNotificationsAllowed && !notificationPermissionGranted;
+  };
+
   const initNotifications = async () => {
     if (
       settings.desktopNotificationsState === "default" ||
-      (settings.desktopNotificationsState === "allowed" &&
-        Notification.permission !== "granted")
+      notificationStateMismatch()
     ) {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
       if (supportsNotification()) {
