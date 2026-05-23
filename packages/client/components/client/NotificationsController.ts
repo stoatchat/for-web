@@ -1,5 +1,4 @@
 import { useLingui } from "@lingui-solid/solid/macro";
-import { batch } from "solid-js";
 
 import { Client } from "stoat.js";
 
@@ -20,21 +19,22 @@ export function useNotifications() {
     return "Notification" in window;
   };
 
-  const onDeny = (showModal?: boolean) => {
-    batch(() => {
-      settings.desktopNotificationsState = "denied";
-      settings.pushNotificationsState = "denied";
-      killServiceWorkerSubscription(getClient());
-    });
+  const onDeny = async (showModal?: boolean) => {
+    settings.resetNotificationsState("denied");
     if (showModal) {
       showError(
         t`Failed to enable notifications. Stoat does not have notification permission.`,
       );
     }
+    await killServiceWorkerSubscription(getClient());
   };
 
   const initNotifications = async () => {
-    if (settings.desktopNotificationsState === "default") {
+    if (
+      settings.desktopNotificationsState === "default" ||
+      (settings.desktopNotificationsState === "allowed" &&
+        Notification.permission !== "granted")
+    ) {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
       if (supportsNotification()) {
         try {
@@ -58,12 +58,12 @@ export function useNotifications() {
       if (supportsNotification()) {
         if ((await Notification.requestPermission()) === "granted") {
           settings.desktopNotificationsState = "allowed";
-          enablePushSubscription();
+          await enablePushSubscription();
         } else {
-          onDeny();
+          await onDeny();
         }
       } else {
-        enablePushSubscription();
+        await enablePushSubscription();
       }
     }
   };
@@ -73,17 +73,17 @@ export function useNotifications() {
       if ((await Notification.requestPermission()) === "granted") {
         settings.desktopNotificationsState = "allowed";
       } else {
-        onDeny(modalOnDeny);
+        await onDeny(modalOnDeny);
       }
     } else {
       settings.desktopNotificationsState = "denied";
     }
   };
 
-  const enablePushSubscription = () => {
+  const enablePushSubscription = async () => {
     settings.pushNotificationsState = "allowed";
     try {
-      setUpServiceWorkerSubscription(getClient());
+      await setUpServiceWorkerSubscription(getClient());
     } catch (e) {
       console.error(e);
       snackbar.show({
@@ -97,17 +97,17 @@ export function useNotifications() {
     if (settings.pushNotificationsState !== "allowed") {
       if (supportsNotification()) {
         if ((await Notification.requestPermission()) === "granted") {
-          enablePushSubscription();
+          await enablePushSubscription();
         } else {
-          onDeny(modalOnDeny);
+          await onDeny(modalOnDeny);
         }
       } else {
         // On safari mobile, just enable push notifications.
-        enablePushSubscription();
+        await enablePushSubscription();
       }
     } else {
       settings.pushNotificationsState = "denied";
-      killServiceWorkerSubscription(getClient());
+      await killServiceWorkerSubscription(getClient());
     }
   };
 

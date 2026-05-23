@@ -5,6 +5,7 @@ import {
 
 import { State } from "..";
 
+import { batch } from "solid-js";
 import { AbstractStore } from ".";
 
 /**
@@ -243,5 +244,17 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
     if (newState !== "unsupported") {
       this.setValue("notifications:push", newState);
     }
+  }
+
+  /**
+   * Reset the notifications state for both desktop and push notifications.
+   * @param newState The state to set both notification states to. Defaults to "default"
+   */
+  resetNotificationsState(newState?: "default" | "denied") {
+    batch(() => {
+      // Use setValue here instead of the setter as we want to bypass the unsupported block.
+      this.setValue("notifications:desktop", newState ?? "default");
+      this.pushNotificationsState = newState ?? "default";
+    });
   }
 }

@@ -596,9 +596,7 @@ export default class ClientController {
   }
 
   logout() {
-    if (this.state.settings.pushNotificationsState === "allowed") {
-      this.state.settings.pushNotificationsState = "default";
-    }
+    this.state.settings.resetNotificationsState();
     killServiceWorkerSubscription(this.getCurrentClient());
     this.state.auth.removeSession();
     this.lifecycle.transition({
