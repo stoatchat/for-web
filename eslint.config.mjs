@@ -16,6 +16,11 @@ export default defineConfig([
       "**/dist/**",
       "**/styled-system/**",
     ],
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname + "/packages/client",
+      },
+    },
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
