@@ -8,6 +8,7 @@ import { CONFIGURATION } from "@revolt/common";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
+import { killServiceWorkerSubscription } from "./NotificationsController";
 
 export enum State {
   Ready = "Ready",
@@ -595,6 +596,8 @@ export default class ClientController {
   }
 
   logout() {
+    this.state.settings.resetNotificationsState();
+    killServiceWorkerSubscription(this.getCurrentClient());
     this.state.auth.removeSession();
     this.lifecycle.transition({
       type: TransitionType.Logout,

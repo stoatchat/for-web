@@ -73,8 +73,16 @@ export function UserMenu(props: Props) {
     setShow(false);
   }
 
-  onMount(() => document.addEventListener("mousedown", close));
-  onCleanup(() => document.removeEventListener("mousedown", close));
+  function onMouseDown(event: MouseEvent) {
+    const target = event.target as Node;
+    // Ignore clicks on the anchor (avatar) — the click handler on the anchor
+    // will toggle the menu. Ignore clicks inside the menu itself too.
+    if (props.anchor()?.contains(target)) return;
+    close();
+  }
+
+  onMount(() => document.addEventListener("mousedown", onMouseDown));
+  onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
 
   createEffect(
     on(

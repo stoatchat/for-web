@@ -50,7 +50,9 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
 
   async function onSubmit() {
-    const changes: API.DataEditRole = {};
+    const changes: API.DataEditRole = {
+      remove: [],
+    };
 
     if (editGroup.controls.name.isDirty) {
       changes.name = editGroup.controls.name.value.trim();
