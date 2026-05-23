@@ -15,9 +15,7 @@ export function useNotifications() {
   const snackbar = useSnackbar();
   const { showError } = useModals();
 
-  const supportsNotification = (): boolean => {
-    return "Notification" in window;
-  };
+  const supportsNotification = "Notification" in window;
 
   const onDeny = async (showModal?: boolean) => {
     settings.resetNotificationsState("denied");
@@ -35,7 +33,7 @@ export function useNotifications() {
       settings.pushNotificationsState === "allowed";
 
     const notificationPermissionGranted =
-      !supportsNotification() || Notification.permission === "granted";
+      !supportsNotification || Notification.permission === "granted";
 
     return areNotificationsAllowed && !notificationPermissionGranted;
   };
@@ -46,7 +44,7 @@ export function useNotifications() {
       notificationStateMismatch()
     ) {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
-      if (supportsNotification()) {
+      if (supportsNotification) {
         try {
           const noti = new Notification(
             "This is what notifications will look like. You shouldn't see this for long.",
@@ -65,7 +63,7 @@ export function useNotifications() {
         settings.desktopNotificationsState = "unsupported";
       }
 
-      if (supportsNotification()) {
+      if (supportsNotification) {
         if ((await Notification.requestPermission()) === "granted") {
           settings.desktopNotificationsState = "allowed";
           await enablePushSubscription();
@@ -105,7 +103,7 @@ export function useNotifications() {
 
   const togglePushPermission = async (modalOnDeny?: boolean) => {
     if (settings.pushNotificationsState !== "allowed") {
-      if (supportsNotification()) {
+      if (supportsNotification) {
         if ((await Notification.requestPermission()) === "granted") {
           await enablePushSubscription();
         } else {
