@@ -34,6 +34,7 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
+import { UserSlowmodes } from "stoat.js/lib/events/v1";
 
 interface Props {
   /**
@@ -56,33 +57,20 @@ export function MessageComposition(props: Props) {
   const client = useClient();
   const { openModal } = useModals();
 
-  function currentSlowmode() {
+  const currentSlowmode = (): UserSlowmodes => {
     return client().userSlowmodes.get(props.channel.id);
-  }
-
-  const [slowmodeKey, setSlowmodeKey] = createSignal({});
-
-  createEffect(() => {
-    const handler = () => setSlowmodeKey({});
-    client().on("userSlowmodes", handler);
-    onCleanup(() => client().off("userSlowmodes", handler));
-  });
-
+  };
   const countdownForEntry = createMemo(() => {
-    slowmodeKey();
-
     const entry = currentSlowmode();
-    if (!entry) return null;
-
+    if (!entry) return;
     const receivedAt = entry.receivedAt ?? Date.now();
     const targetTs = receivedAt + entry.retry_after * 1000;
-
     return createCountdownFromNow(targetTs);
   });
 
-  function isSlowmodeExempt() {
+  const isSlowmodeExempt = (): boolean => {
     return props.channel.havePermission("BypassSlowmode");
-  }
+  };
 
   const cooldownRemaining = createMemo(() => {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
@@ -90,19 +78,11 @@ export function MessageComposition(props: Props) {
     const cd = countdownForEntry();
     if (!cd) return 0;
 
-    // createCountdownFromNow returns [store, metadata], access store at [0]
-    const store = cd[0];
+    const [store] = cd;
 
-    const h =
-      typeof store.hours === "function" ? store.hours() : (store.hours ?? 0);
-    const m =
-      typeof store.minutes === "function"
-        ? store.minutes()
-        : (store.minutes ?? 0);
-    const s =
-      typeof store.seconds === "function"
-        ? store.seconds()
-        : (store.seconds ?? 0);
+    const h = store.hours;
+    const m = store.minutes;
+    const s = store.seconds;
 
     const totalSeconds = h * 3600 + m * 60 + s;
     return totalSeconds > 0 ? totalSeconds : 0;
@@ -559,7 +539,7 @@ const SlowmodeRow = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "4px",
+    gap: "var(--gap-sm)",
   },
 });
 
