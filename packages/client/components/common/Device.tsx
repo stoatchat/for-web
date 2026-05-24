@@ -1,4 +1,5 @@
 import {
+  Accessor,
   createContext,
   createSignal,
   JSX,
@@ -25,13 +26,13 @@ export class Device {
   readonly tabletMaxWidth = style.getPropertyValue("--tablet-max-width");
 
   /** Layout type based on viewport size */
-  readonly layout;
+  readonly layout: Accessor<Layout>;
 
   /** Mobile device detection based on User Agent.
 
    * **Warning:** Don't use unless absolutely necessary.
    * Granular feature-detection is preferred when possible. */
-  readonly isMobile;
+  readonly isMobile: boolean;
 
   private pMedia;
   private tMedia;
