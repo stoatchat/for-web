@@ -20,7 +20,9 @@ export function ScreenShareSettingsModal(
       voice.screenShareQuality || "low",
       { required: true },
     ),
-    audio: createFormControl(voice.screenShareAudio),
+    audio: createFormControl(props.audio && voice.screenShareAudio, {
+      disabled: !props.audio,
+    }),
     dontAsk: createFormControl(false),
   });
 
@@ -88,6 +90,11 @@ export function ScreenShareSettingsModal(
           <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
           </Form2.Checkbox>
+          <Show when={!props.audio}>
+            <small>
+              <Trans>Audio disabled by browser</Trans>
+            </small>
+          </Show>
         </Column>
       </form>
     </Dialog>
