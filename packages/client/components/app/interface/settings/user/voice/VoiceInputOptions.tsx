@@ -61,10 +61,7 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
       <Trans>Select audio output</Trans>
     );
 
-  const activeId = createMemo(() => {
-    const active = media().activeDeviceId();
-    return (active === "default" ? state.voice[setKey()] : undefined) ?? active;
-  });
+  const activeId = createMemo(() => state.voice[setKey()] ?? "default");
 
   const devOpts = createMemo(() => {
     const devs = media().devices(),
@@ -72,7 +69,7 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
 
     //Ensure default is at top
     let d = devs.find((d) => d.deviceId === "default");
-    if (d) opts.default = { title: d.label };
+    opts.default = { title: d?.label ?? "Default" };
 
     for (d of devs)
       if (d.deviceId !== "default") opts[d.deviceId] = { title: d.label };
@@ -86,11 +83,15 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
       value={activeId()}
       options={devOpts()}
       onUpdate={(id) => {
-        const mMedia = media(),
-          dev = mMedia.devices().find((d) => d.deviceId === id);
-        if (dev) {
-          state.voice[setKey()] = dev.deviceId;
-          mMedia.setActiveMediaDevice(dev.deviceId);
+        const mMedia = media();
+        if (
+          id === "default" ||
+          mMedia.devices().find((d) => d.deviceId === id)
+        ) {
+          //Can't setActiveMediaDevice to default for video
+          if (props.kind !== "videoinput" || id !== "default")
+            mMedia.setActiveMediaDevice(id);
+          state.voice[setKey()] = id === "default" ? undefined : id;
         }
       }}
     />
