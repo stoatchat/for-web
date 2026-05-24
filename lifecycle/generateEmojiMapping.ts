@@ -7,8 +7,12 @@ const ordering = await fetch(
 
 // Add our custom regional indicators
 for (const group of Object.keys(emojiExtensions.extensions)) {
+  const orderingGroup = ordering.find((og) => {
+    return og.group === emojiExtensions.extensions[group].group;
+  });
+
   for (const emote of emojiExtensions.extensions[group].emoji) {
-    ordering[group].emoji.push(emote);
+    orderingGroup.emoji.push(emote);
   }
 }
 
