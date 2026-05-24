@@ -152,6 +152,7 @@ export function ServerMemberSidebar(props: Props) {
         role: {
           id: "default",
           name: "Online",
+          icon: undefined,
         },
         members: byRole["default"],
       },
@@ -159,6 +160,7 @@ export function ServerMemberSidebar(props: Props) {
         role: {
           id: "offline",
           name: "Offline",
+          icon: undefined,
         },
         members: byRole["offline"],
       },
@@ -180,14 +182,15 @@ export function ServerMemberSidebar(props: Props) {
     }));
   });
 
+  type MemberRoleElement =
+    | { t: 0; name: string; count: number; icon?: string | null }
+    | { t: 1; member: ServerMember; icon?: never };
+
   // Stage 5: Flatten into a single list with caching
-  const objectCache = new Map();
+  const objectCache = new Map<string, MemberRoleElement>();
 
   const elements = createMemo(() => {
-    const elements: (
-      | { t: 0; name: string; count: number; icon?: string | null }
-      | { t: 1; member: ServerMember }
-    )[] = [];
+    const elements: MemberRoleElement[] = [];
 
     // Create elements
     for (const role of roles()) {
@@ -204,7 +207,7 @@ export function ServerMemberSidebar(props: Props) {
       }
 
       for (const member of role.members) {
-        const memberElement = objectCache.get(member.id);
+        const memberElement = objectCache.get(member.id.user);
         if (memberElement) {
           elements.push(memberElement);
         } else {
@@ -224,7 +227,7 @@ export function ServerMemberSidebar(props: Props) {
       if (element.t === 0) {
         objectCache.set(element.name + element.count, element);
       } else {
-        objectCache.set(element.member.id, element);
+        objectCache.set(element.member.id.user, element);
       }
     }
 
@@ -269,7 +272,7 @@ export function ServerMemberSidebar(props: Props) {
                 fallback={
                   <CategoryTitle>
                     <Show when={item.item.icon}>
-                      <RoleIcon src={item.item.icon} alt="" />
+                      <RoleIcon src={item.item.icon!} alt="" />
                     </Show>
                     <span>{(item.item as { name: string }).name}</span>
                     <span>
