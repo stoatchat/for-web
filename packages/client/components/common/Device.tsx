@@ -11,11 +11,7 @@ import { isMobileBrowser } from "@livekit/components-core";
 
 const style = getComputedStyle(document.body);
 
-export enum Layout {
-  DESKTOP = 1,
-  PHONE,
-  TABLET,
-}
+export type Layout = "desktop" | "tablet" | "phone";
 
 /** Device type and compatibility info */
 export class Device {
@@ -41,7 +37,7 @@ export class Device {
   constructor() {
     this.isMobile = isMobileBrowser();
 
-    const [lo, setLo] = createSignal<Layout>(Layout.DESKTOP);
+    const [lo, setLo] = createSignal<Layout>("desktop");
     this.layout = lo;
     this.setLayout = setLo;
 
@@ -53,10 +49,10 @@ export class Device {
   onLayout() {
     this.setLayout(
       this.pMedia.matches
-        ? Layout.PHONE
+        ? "phone"
         : this.tMedia.matches
-          ? Layout.TABLET
-          : Layout.DESKTOP,
+          ? "tablet"
+          : "desktop",
     );
   }
 
