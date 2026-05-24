@@ -25,3 +25,6 @@
       - [Reference Guide](./components/ui/themes/reference.md)
     - [Tools]()
       - [Form2](./components/ui/tools/form2.md)
+- [Responsive]()
+  - [Device](./responsive/device.md)
+  - [Feature Detection](./responsive/feature-detection.md)
