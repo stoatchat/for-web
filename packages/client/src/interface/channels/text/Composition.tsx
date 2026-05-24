@@ -1,3 +1,4 @@
+import { createCountdownFromNow } from "@solid-primitives/date";
 import {
   For,
   Match,
@@ -9,7 +10,6 @@ import {
   on,
   onCleanup,
 } from "solid-js";
-import { createCountdownFromNow } from "@solid-primitives/date";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Channel } from "stoat.js";
@@ -93,9 +93,16 @@ export function MessageComposition(props: Props) {
     // createCountdownFromNow returns [store, metadata], access store at [0]
     const store = cd[0];
 
-    const h = typeof store.hours === "function" ? store.hours() : store.hours ?? 0;
-    const m = typeof store.minutes === "function" ? store.minutes() : store.minutes ?? 0;
-    const s = typeof store.seconds === "function" ? store.seconds() : store.seconds ?? 0;
+    const h =
+      typeof store.hours === "function" ? store.hours() : (store.hours ?? 0);
+    const m =
+      typeof store.minutes === "function"
+        ? store.minutes()
+        : (store.minutes ?? 0);
+    const s =
+      typeof store.seconds === "function"
+        ? store.seconds()
+        : (store.seconds ?? 0);
 
     const totalSeconds = h * 3600 + m * 60 + s;
     return totalSeconds > 0 ? totalSeconds : 0;
@@ -268,7 +275,6 @@ export function MessageComposition(props: Props) {
     }
     stopTyping();
     props.onMessageSend?.();
-
 
     if (typeof useContent === "string") {
       const currentDraft = draft();
@@ -563,4 +569,3 @@ const SlowmodeText = styled("span", {
     fontWeight: "600",
   },
 });
-
