@@ -142,6 +142,9 @@ class Voice {
       audioOutput: {
         deviceId: this.#settings.preferredAudioOutputDevice,
       },
+      videoCaptureDefaults: {
+        deviceId: this.#settings.preferredVideoDevice,
+      },
     });
 
     this.vidTracks = useTracks(
