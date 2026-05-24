@@ -10,11 +10,9 @@ allowBuilds:
   "@swc/core": true
   esbuild: true
 nodeLinker: isolated
-onlyBuiltDependencies:
-  - "@swc/core"
-  - esbuild
 
 # Override prettier because some of the submodules have ancient prettiers required
 # Having multiple prettiers makes the vscode extension unpredictable
 overrides:
   "prettier": "^3.8.1"
+strictPeerDependencies: false
