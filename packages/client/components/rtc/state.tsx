@@ -457,6 +457,15 @@ class Voice {
     return this.room()?.getParticipantByIdentity(userId);
   }
 
+  showCard(channel: Channel) {
+    return (
+      channel.isVoice &&
+      (this.channel()?.id === channel.id ||
+        channel.type === "TextChannel" ||
+        channel.voiceParticipants.size)
+    );
+  }
+
   get listenPermission() {
     return !!this.channel()?.havePermission("Listen");
   }
