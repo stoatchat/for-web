@@ -41,7 +41,6 @@ for (const group of Object.keys(ordering)) {
           Mapping[alias.toLowerCase()] = emoji;
         }
       }
-      break;
     }
   }
 }
