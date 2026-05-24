@@ -4,9 +4,9 @@ import { useQuery } from "@tanstack/solid-query";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useDevice } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 
-import { useState } from "@revolt/state";
 import { Profile } from "../features";
 
 /**
@@ -34,7 +34,7 @@ export function UserCard(
   props: JSX.Directives["floating"]["userCard"] &
     object & { onClose: () => void },
 ) {
-  const { isMobile } = useState();
+  const { isMobile } = useDevice();
   const { openModal } = useModals();
   const query = useQuery(() => ({
     queryKey: ["profile", props.user.id],

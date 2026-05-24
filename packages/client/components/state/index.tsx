@@ -11,7 +11,6 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
-import { isMobileBrowser } from "@livekit/components-core";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
@@ -53,7 +52,6 @@ export class State {
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
 
-  isMobile: boolean;
   appDrawer;
   setAppDrawer;
   diagDrawer;
@@ -109,11 +107,9 @@ export class State {
    */
   constructor() {
     const [store, setStore] = createStore(this.defaults() as Store);
-
     this.store = store as never;
     this.setStore = setStore;
     this.writeQueue = {};
-    this.isMobile = isMobileBrowser();
 
     const [ad, setAd] = createSignal<SlideDrawer>();
     this.appDrawer = ad;

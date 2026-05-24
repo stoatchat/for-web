@@ -1,4 +1,12 @@
-import { createSignal } from "solid-js";
+import {
+  Accessor,
+  createEffect,
+  createRoot,
+  createSignal,
+  Setter,
+} from "solid-js";
+
+import { useDevice } from "@revolt/common";
 
 const ANIM_MS = 150,
   VEL_MS = 33, //30Hz velocity update
@@ -29,16 +37,16 @@ export enum SlideState {
 }
 
 export class SlideDrawer {
-  private media;
   private touch: TrackTouch | null = null;
   private tTmr: NodeJS.Timeout | null = null;
   private vTmr: NodeJS.Timeout | null = null;
   private ofs = 0;
 
-  private eGet;
-  private eSet;
-  private sGet;
-  private sSet;
+  private dispose!: () => void;
+  private eGet!: Accessor<boolean>;
+  private eSet!: Setter<boolean>;
+  private sGet!: Accessor<SlideState>;
+  private sSet!: Setter<SlideState>;
 
   constructor(
     private drawer: HTMLElement,
@@ -50,21 +58,23 @@ export class SlideDrawer {
     root.addEventListener("touchmove", this.move);
     root.addEventListener("touchend", this.move);
 
-    //Signals
-    const [eg, es] = createSignal(false);
-    this.eGet = eg;
-    this.eSet = es;
-    const [sg, ss] = createSignal(SlideState.HIDDEN);
-    this.sGet = sg;
-    this.sSet = ss;
+    createRoot((dispose) => {
+      this.dispose = dispose;
 
-    //Auto-enable based on device width
-    const pwMax = getComputedStyle(document.body).getPropertyValue(
-      "--phone-max-width",
-    );
-    this.media = matchMedia(`(max-width: ${pwMax})`);
-    this.media.onchange = (e) => (this.enabled = e.matches);
-    this.enabled = this.media.matches;
+      //Signals
+      const [eg, es] = createSignal(false);
+      this.eGet = eg;
+      this.eSet = es;
+      const [sg, ss] = createSignal(SlideState.HIDDEN);
+      this.sGet = sg;
+      this.sSet = ss;
+
+      //Auto-enable based on layout
+      const dev = useDevice();
+      createEffect(() => {
+        this.enabled = dev.layout() === "phone";
+      });
+    });
   }
 
   private start(e: TouchEvent) {
@@ -210,7 +220,7 @@ export class SlideDrawer {
     this.root.removeEventListener("touchstart", this.start);
     this.root.removeEventListener("touchmove", this.move);
     this.root.removeEventListener("touchend", this.move);
-    this.media.onchange = null;
+    this.dispose();
   }
 
   get enabled() {

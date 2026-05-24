@@ -13,6 +13,7 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
@@ -37,7 +38,6 @@ import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
-
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
@@ -451,6 +451,7 @@ function Entry(
   const state = useState();
   const voice = useVoice();
   const { openModal } = useModals();
+  const { isMobile } = useDevice();
 
   const canEditChannel = createMemo(() =>
     (["ManageChannel", "ManagePermissions", "ManageWebhooks"] as const).some(
@@ -511,7 +512,7 @@ function Entry(
           </>
         }
         actions={
-          <Show when={!state.isMobile}>
+          <Show when={!isMobile}>
             <Show when={canInvite()}>
               <a
                 use:floating={{

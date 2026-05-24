@@ -5,6 +5,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useMessage } from "@revolt/app";
+import { useDevice } from "@revolt/common";
 import { Ripple, typography } from "@revolt/ui/components/design";
 import { Column, Row } from "@revolt/ui/components/layout";
 import {
@@ -13,7 +14,6 @@ import {
   Time,
 } from "@revolt/ui/components/utils";
 
-import { useState } from "@revolt/state";
 import { MessageToolbar } from "./MessageToolbar";
 
 interface CommonProps {
@@ -309,7 +309,7 @@ const CompactInfo = styled(Row, {
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
   const { message } = useMessage();
-  const { isMobile } = useState();
+  const { isMobile } = useDevice();
 
   return (
     <div

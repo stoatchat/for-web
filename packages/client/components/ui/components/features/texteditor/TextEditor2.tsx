@@ -9,7 +9,7 @@ import { css } from "styled-system/css";
 import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
-import { useState } from "@revolt/state";
+import { useDevice } from "@revolt/common";
 import { codeMirrorAutoComplete } from "./codeMirrorAutoComplete";
 import { isInFencedCodeBlock } from "./codeMirrorCommon";
 import { smartLineWrapping } from "./codeMirrorLineWrap";
@@ -74,7 +74,7 @@ const placeholderCompartment = new Compartment();
 export function TextEditor2(props: Props) {
   const editorScrollbarClasses = scrollableStyles();
 
-  const { isMobile } = useState();
+  const { isMobile } = useDevice();
   const codeMirror = document.createElement("div");
   codeMirror.className = editor;
 
