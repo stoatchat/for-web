@@ -252,6 +252,8 @@ export function MessageComposition(props: Props) {
   async function sendMessage(useContent?: unknown) {
     if (!canSend() && typeof useContent !== "string") {
       return;
+    } else if (currentSlowmode()) {
+      return;
     }
     stopTyping();
     props.onMessageSend?.();
