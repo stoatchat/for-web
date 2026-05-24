@@ -9,9 +9,12 @@ import {
   on,
   onCleanup,
 } from "solid-js";
+import { createCountdownFromNow } from "@solid-primitives/date";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Channel } from "stoat.js";
+
+import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION, debounce } from "@revolt/common";
@@ -53,35 +56,49 @@ export function MessageComposition(props: Props) {
   const client = useClient();
   const { openModal } = useModals();
 
-  const [now, setNow] = createSignal(Date.now());
+  function currentSlowmode() {
+    return client().userSlowmodes.get(props.channel.id);
+  }
 
-  const currentSlowmode = createMemo(() =>
-    client().userSlowmodes.get(props.channel.id),
-  );
+  const [slowmodeKey, setSlowmodeKey] = createSignal({});
 
   createEffect(() => {
-    if (cooldownRemaining() > 0) {
-      const timer = setInterval(() => setNow(Date.now()), 1000);
-      onCleanup(() => clearInterval(timer));
-    }
+    const handler = () => setSlowmodeKey({});
+    client().on("userSlowmodes", handler);
+    onCleanup(() => client().off("userSlowmodes", handler));
   });
 
-  const isSlowmodeExempt = createMemo(() => {
-    return props.channel.havePermission("BypassSlowmode");
+  const countdownForEntry = createMemo(() => {
+    slowmodeKey();
+
+    const entry = currentSlowmode();
+    if (!entry) return null;
+
+    const receivedAt = entry.receivedAt ?? Date.now();
+    const targetTs = receivedAt + entry.retry_after * 1000;
+
+    return createCountdownFromNow(targetTs);
   });
+
+  function isSlowmodeExempt() {
+    return props.channel.havePermission("BypassSlowmode");
+  }
 
   const cooldownRemaining = createMemo(() => {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
-    now();
 
-    const entry = currentSlowmode();
-    if (!entry) return 0;
+    const cd = countdownForEntry();
+    if (!cd) return 0;
 
-    const receivedAt = entry.receivedAt ?? Date.now();
-    const remaining = Math.ceil(
-      entry.retry_after - (Date.now() - receivedAt) / 1000,
-    );
-    return remaining > 0 ? remaining : 0;
+    // createCountdownFromNow returns [store, metadata], access store at [0]
+    const store = cd[0];
+
+    const h = typeof store.hours === "function" ? store.hours() : store.hours ?? 0;
+    const m = typeof store.minutes === "function" ? store.minutes() : store.minutes ?? 0;
+    const s = typeof store.seconds === "function" ? store.seconds() : store.seconds ?? 0;
+
+    const totalSeconds = h * 3600 + m * 60 + s;
+    return totalSeconds > 0 ? totalSeconds : 0;
   });
 
   const slowmodeText = createMemo(() => {
@@ -252,9 +269,6 @@ export function MessageComposition(props: Props) {
     stopTyping();
     props.onMessageSend?.();
 
-    if (props.channel.slowmode) {
-      setNow(Date.now());
-    }
 
     if (typeof useContent === "string") {
       const currentDraft = draft();
@@ -418,30 +432,22 @@ export function MessageComposition(props: Props) {
         }}
       </For>
       <Show when={props.channel.slowmode}>
-        <div
-          style={{
-            display: "flex",
-            "justify-content": "flex-end",
-            padding: "0 12px 6px 0",
-          }}
-        >
+        <SlowmodeContainer>
           <Tooltip
             content={t`Members can send one message every ${slowmodeWaitTime()}.`}
             placement="top"
           >
-            <div
-              style={{ display: "flex", "align-items": "center", gap: "4px" }}
-            >
+            <SlowmodeRow>
               <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
-              <span style={{ "font-size": "0.75rem", "font-weight": "600" }}>
+              <SlowmodeText>
                 <Switch fallback={t`Slowmode is enabled.`}>
                   <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
                   <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
                 </Switch>
-              </span>
-            </div>
+              </SlowmodeText>
+            </SlowmodeRow>
           </Tooltip>
-        </div>
+        </SlowmodeContainer>
       </Show>
       <MessageBox
         initialValue={initialValue()}
@@ -534,3 +540,27 @@ export function MessageComposition(props: Props) {
     </>
   );
 }
+
+const SlowmodeContainer = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "flex-end",
+    padding: "0 12px 6px 0",
+  },
+});
+
+const SlowmodeRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
+  },
+});
+
+const SlowmodeText = styled("span", {
+  base: {
+    fontSize: "0.75rem",
+    fontWeight: "600",
+  },
+});
+

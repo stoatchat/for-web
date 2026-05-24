@@ -36,7 +36,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     icon: createFormControl<string | File[] | null>(
       props.channel.animatedIconURL,
     ),
-    slowmode: createFormControl(String(props.channel.slowmode ?? 0)),
+    slowmode: createFormControl<number>(props.channel.slowmode ?? 0),
   });
   /* eslint-enable solid/reactivity */
 
@@ -44,7 +44,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     editGroup.controls.name.setValue(props.channel.name);
     editGroup.controls.description.setValue(props.channel.description || "");
     editGroup.controls.icon.setValue(props.channel.animatedIconURL ?? null);
-    editGroup.controls.slowmode.setValue(String(props.channel.slowmode ?? 0));
+    editGroup.controls.slowmode.setValue(props.channel.slowmode ?? 0);
   }
 
   async function onSubmit() {
@@ -90,7 +90,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     }
 
     if (editGroup.controls.slowmode.isDirty) {
-      changes.slowmode = Number(editGroup.controls.slowmode.value);
+      changes.slowmode = editGroup.controls.slowmode.value;
     }
 
     await props.channel.edit(changes);
@@ -127,11 +127,12 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Show when={props.channel.type === "TextChannel"}>
             <FloatingSelect
               label={t`Channel Slowmode`}
-              value={editGroup.controls.slowmode.value}
+              value={String(editGroup.controls.slowmode.value)}
               onChange={(
                 e: Event & { currentTarget: HTMLElement; target: Element },
               ) => {
-                const next = e.currentTarget.getAttribute("value") || "0";
+                const nextStr = e.currentTarget.getAttribute("value") || "0";
+                const next = Number(nextStr) || 0;
                 const control = editGroup.controls.slowmode;
 
                 // Only mark dirty when value actually changed from initial/current baseline
