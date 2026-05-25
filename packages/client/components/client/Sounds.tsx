@@ -136,7 +136,7 @@ export class SoundController {
         break;
       }
     }
-    this.lastPlayedSound = "deafen";
+    this.lastPlayedSound = sound;
     this.node.play();
     return true;
   }
