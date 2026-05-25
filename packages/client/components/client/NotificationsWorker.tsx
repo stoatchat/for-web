@@ -15,9 +15,7 @@ import {
 import { useNavigate, useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 
-import messageSound from "../../assets/sounds/message_sound.ogg";
-
-import { useClient, useNotifications } from ".";
+import { useClient, useNotifications, useSound } from ".";
 
 /**
  * Process and display desktop notifications
@@ -28,6 +26,7 @@ export function NotificationsWorker() {
   const client = useClient();
   const navigate = useNavigate();
   const params = useSmartParams();
+  const sound = useSound();
 
   const { initNotifications } = useNotifications();
 
@@ -200,8 +199,7 @@ export function NotificationsWorker() {
     )
       return;
 
-    const audio = new Audio(messageSound);
-    audio.play();
+    sound.playSound("message");
 
     console.info(`[notification] ${title} ${icon} ${body}`);
 

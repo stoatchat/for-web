@@ -39,12 +39,6 @@ interface SettingsDefinition {
   "notifications:push": NotificationPermissionState;
 
   /**
-   * Customise notification sounds
-   * TODO: implement
-   */
-  // "notifications:sounds": SoundOptions;
-
-  /**
    * Selected unicode emoji
    */
   "appearance:unicode_emoji": UnicodeEmojiPacks;

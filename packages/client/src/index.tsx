@@ -22,7 +22,7 @@ import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
 import FlowReset from "@revolt/auth/src/flows/FlowReset";
 import FlowVerify from "@revolt/auth/src/flows/FlowVerify";
-import { ClientContext, useClient } from "@revolt/client";
+import { ClientContext, SoundContext, useClient } from "@revolt/client";
 import { DeviceContext } from "@revolt/common";
 import { I18nProvider } from "@revolt/i18n";
 import { KeybindContext } from "@revolt/keybinds";
@@ -132,15 +132,17 @@ function MountContext(props: { children?: JSX.Element }) {
       <ModalContext>
         <ClientContext state={state}>
           <I18nProvider>
-            <VoiceContext>
-              <QueryClientProvider client={client}>
-                <SnackbarProvider controller={snackbarController}>
-                  {props.children}
-                  <ModalRenderer />
-                  <FloatingManager />
-                </SnackbarProvider>
-              </QueryClientProvider>
-            </VoiceContext>
+            <SoundContext>
+              <VoiceContext>
+                <QueryClientProvider client={client}>
+                  <SnackbarProvider controller={snackbarController}>
+                    {props.children}
+                    <ModalRenderer />
+                    <FloatingManager />
+                  </SnackbarProvider>
+                </QueryClientProvider>
+              </VoiceContext>
+            </SoundContext>
           </I18nProvider>
           <SyncWorker />
         </ClientContext>
