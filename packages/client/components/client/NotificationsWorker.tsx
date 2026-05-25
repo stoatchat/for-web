@@ -15,6 +15,8 @@ import {
 import { useNavigate, useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 
+import messageSound from "../../assets/sounds/message_sound.ogg";
+
 import { useClient, useNotifications } from ".";
 
 /**
@@ -191,14 +193,15 @@ export function NotificationsWorker() {
       body = t`Sent ${message.attachments!.length} attachments`;
     }
 
-    // todo: play sound
-
     // Don't continue if we don't have notification permissions
     if (
       Notification.permission !== "granted" ||
       state.settings.desktopNotificationsState !== "allowed"
     )
       return;
+
+    const audio = new Audio(messageSound);
+    audio.play();
 
     console.info(`[notification] ${title} ${icon} ${body}`);
 
