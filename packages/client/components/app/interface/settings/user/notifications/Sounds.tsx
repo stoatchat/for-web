@@ -1,10 +1,22 @@
 import { Trans } from "@lingui-solid/solid/macro";
-import { useState } from "@revolt/state";
-import { CategoryButton, Checkbox, Column, Text } from "@revolt/ui";
 import { Show } from "solid-js";
+
+import { useSound } from "@revolt/client";
+import { useState } from "@revolt/state";
+import {
+  CategoryButton,
+  Checkbox,
+  Column,
+  IconButton,
+  Text,
+  iconSize,
+} from "@revolt/ui";
+
+import MdVolumeUp from "@material-design-icons/svg/outlined/volume_up.svg?component-solid";
 
 export default function Sounds() {
   const { settings, sounds } = useState();
+  const soundController = useSound();
 
   return (
     <Show when={settings.desktopNotificationsState !== "unsupported"}>
@@ -16,35 +28,65 @@ export default function Sounds() {
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("message")} />}
             onClick={() => sounds.toggle("message")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("message", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Message Received</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("mute")} />}
             onClick={() => sounds.toggle("mute")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("mute", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Mute</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("unmute")} />}
             onClick={() => sounds.toggle("unmute")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("unmute", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Unmute</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("deafen")} />}
             onClick={() => sounds.toggle("deafen")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("deafen", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Deafen</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("undeafen")} />}
             onClick={() => sounds.toggle("undeafen")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("undeafen", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Undeafen</Trans>
           </CategoryButton>
@@ -61,28 +103,54 @@ export default function Sounds() {
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("userJoinVoice")} />}
             onClick={() => sounds.toggle("userJoinVoice")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("userJoinVoice", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>User Joined Call</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("userLeaveVoice")} />}
             onClick={() => sounds.toggle("userLeaveVoice")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() =>
+                  soundController.playSound("userLeaveVoice", true)
+                }
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>User Left Call</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("streamStart")} />}
             onClick={() => sounds.toggle("streamStart")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("streamStart", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Stream Start</Trans>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("streamEnd")} />}
             onClick={() => sounds.toggle("streamEnd")}
-            icon="blank"
+            icon={
+              <IconButton
+                onPress={() => soundController.playSound("streamEnd", true)}
+              >
+                <MdVolumeUp {...iconSize(22)} />
+              </IconButton>
+            }
           >
             <Trans>Stream End</Trans>
           </CategoryButton>

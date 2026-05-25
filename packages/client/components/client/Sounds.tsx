@@ -18,6 +18,9 @@ import userJoinVoiceSound from "../../assets/sounds/user_join_voice.ogg";
 import userLeaveVoiceSound from "../../assets/sounds/user_leave_voice.ogg";
 import userMovedSound from "../../assets/sounds/user_moved.ogg";
 
+/**
+ * A controller class for making sure sounds are managed in one place and to prevent undesirable sound overlaps
+ */
 export class SoundController {
   readonly soundState: Sounds;
 
@@ -27,8 +30,27 @@ export class SoundController {
 
   constructor(soundState: Sounds) {
     this.soundState = soundState;
+
+    this.isPlaying = this.isPlaying.bind(this);
+    this.canPlay = this.canPlay.bind(this);
+    this.playSound = this.playSound.bind(this);
   }
 
+  /**
+   * Get whether a sound is currently being played by the sound controller
+   *
+   * @returns Whether a sound is currently playing
+   */
+  isPlaying(): boolean {
+    return this.node?.paused ?? false;
+  }
+
+  /**
+   * Get whether a sound can be played right now
+   *
+   * @param newSound Sound to check for playability
+   * @returns Whether the sound passed is playable currently
+   */
   canPlay(newSound: keyof TypeSounds): boolean {
     // Never let a sound turned off play
     if (!this.soundState.enabled(newSound)) {
@@ -36,7 +58,7 @@ export class SoundController {
     }
 
     // Always let the sound play if nothing is currently playing
-    if (!this.node || this.node.paused) {
+    if (!this.isPlaying()) {
       return true;
     }
 
@@ -45,8 +67,15 @@ export class SoundController {
     return true;
   }
 
-  playSound(sound: keyof TypeSounds): boolean {
-    if (!this.canPlay(sound)) {
+  /**
+   * Play a sound, following the rules of sound playability unless force is true
+   *
+   * @param sound The sound to play
+   * @param force Bypass canPlay check
+   * @returns Whether the sound played
+   */
+  playSound(sound: keyof TypeSounds, force?: boolean): boolean {
+    if (!force && !this.canPlay(sound)) {
       return false;
     }
     switch (sound) {
