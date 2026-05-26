@@ -19,8 +19,7 @@ import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
-
-import emojiMapping from "../../../../../emojiMapping.json";
+import { EMOJI_MAP } from "@revolt/ui/emojis";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import {
@@ -91,9 +90,15 @@ export function EmojiPicker() {
               .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
               .map((emoji) => ({ t: 2, emoji })),
           ),
-        ...Object.entries(emojiMapping)
-          .filter(([name]) => name.toLowerCase().includes(filterText))
-          .map(([name, text]) => ({ t: 4, name, text })),
+        ...EMOJI_MAP.filter(
+          (ed) =>
+            ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
+              .length > 0,
+        ).map((ed) => ({
+          t: 4,
+          name: ed.shorthands[0],
+          text: ed.emoji,
+        })),
       ] as Item[];
     }
 
@@ -131,11 +136,11 @@ export function EmojiPicker() {
       items.push({ t: 1 });
     }
 
-    for (const emoji of Object.entries(emojiMapping)) {
+    for (const emoji of EMOJI_MAP) {
       items.push({
         t: 4,
-        name: emoji[0],
-        text: emoji[1] as string,
+        name: emoji.shorthands[0],
+        text: emoji.emoji,
       });
     }
 
