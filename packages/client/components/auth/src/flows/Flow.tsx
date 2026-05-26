@@ -29,6 +29,13 @@ export const FlowBase = styled("div", {
     justifySelf: "center",
     marginInline: "auto",
   },
+  variants: {
+    mobile: {
+      true: {
+        background: "none",
+      },
+    },
+  },
 });
 
 /**
