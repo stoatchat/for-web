@@ -1,13 +1,9 @@
-import { Accessor, JSX, createSignal, onCleanup } from "solid-js";
+import { Accessor, createSignal, JSX, onCleanup } from "solid-js";
 
 import { Channel, Client, ServerMember, ServerRole, User } from "stoat.js";
 
-import emojiMapping from "../emojiMapping.json";
-
+import { EMOJI_KEYS, getEmojiByShorthand, MAPPED_EMOJI_KEYS } from "../emojis";
 import { registerFloatingElement, unregisterFloatingElement } from "./floating";
-
-const EMOJI_KEYS = Object.keys(emojiMapping).sort();
-const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map((id) => ({ id, name: id }));
 
 type Operator = "@" | ":" | "#" | "%";
 
@@ -305,8 +301,8 @@ function searchMatches(
           : {
               type: "unicode",
               shortcode: id,
-              codepoint: emojiMapping[id as keyof typeof emojiMapping],
-              replacement: emojiMapping[id as keyof typeof emojiMapping],
+              codepoint: getEmojiByShorthand(id).emoji,
+              replacement: getEmojiByShorthand(id).emoji,
             },
       ),
     };
