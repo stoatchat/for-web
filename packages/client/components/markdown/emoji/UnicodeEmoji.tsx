@@ -38,6 +38,11 @@ export const UNICODE_EMOJI_PACK_PUA: Record<string, string> = {
 const UNICODE_EMOJI_REGIONAL_INDICATORS =
   "\u{1f1e6}|\u{1f1e7}|\u{1f1e8}|\u{1f1e9}|\u{1f1ea}|\u{1f1eb}|\u{1f1ec}|\u{1f1ed}|\u{1f1ee}|\u{1f1ef}|\u{1f1f0}|\u{1f1f1}|\u{1f1f2}|\u{1f1f3}|\u{1f1f4}|\u{1f1f5}|\u{1f1f6}|\u{1f1f7}|\u{1f1f8}|\u{1f1f9}|\u{1f1fa}|\u{1f1fb}|\u{1f1fc}|\u{1f1fd}|\u{1f1fe}|\u{1f1ff}";
 
+// Maybe it's because these are too new, but they are not captured by emojiRegex
+// TODO: Remove these once emoji-regex updates i guess
+const UNICODE_EMOJI_EXTRA =
+  "\u{1faea}|\u{1faef}|\u{1fac8}|\u{1f6d8}|\u{1facd}|\u{1fa8a}|\u{1fa8e}";
+
 /**
  * Regex for matching emoji
  */
@@ -46,6 +51,8 @@ export const RE_UNICODE_EMOJI = new RegExp(
     emojiRegex().source +
     "|" +
     UNICODE_EMOJI_REGIONAL_INDICATORS +
+    "|" +
+    UNICODE_EMOJI_EXTRA +
     "))",
   "g",
 );
