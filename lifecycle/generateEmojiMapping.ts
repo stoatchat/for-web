@@ -11,6 +11,8 @@ for (const group of emojiExtensions.extensions) {
   for (const emote of group.emoji) orderingGroup.emoji.push(emote);
 }
 
+type AliasKey = keyof typeof emojiExtensions.aliases;
+
 const Mapping: string[][] = [];
 
 const RE_SHORTCODE = /^:[\w\-+]+:$/;
@@ -27,20 +29,17 @@ for (const group of ordering) {
     for (const code of emote.shortcodes) {
       if (!RE_SHORTCODE.test(code)) continue;
 
-      const name = code
-        .substring(1, code.length - 1)
-        .toLowerCase() as keyof typeof emojiExtensions.aliases;
-
+      const name = code.substring(1, code.length - 1).toLowerCase();
       emojiDef.push(name);
 
       // Check for aliases
-      const aliases = emojiExtensions.aliases[name];
+      const aliases = emojiExtensions.aliases[name as AliasKey];
       if (aliases) {
         for (const alias of aliases) {
           if (!RE_SHORTCODE.test(`:${alias}:`)) continue;
           emojiDef.push(alias.toLowerCase());
         }
-        delete emojiExtensions.aliases[name];
+        delete emojiExtensions.aliases[name as AliasKey];
       }
     }
     Mapping.push(emojiDef);
