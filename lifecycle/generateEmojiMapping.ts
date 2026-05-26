@@ -65,5 +65,5 @@ Deno.writeTextFile(
     import.meta.dirname!,
     "../packages/client/components/ui/emojiMapping.json",
   ),
-  JSON.stringify(Mapping),
+  JSON.stringify(Mapping.map((ed) => [ed.emoji, ...ed.shorthands])),
 );
