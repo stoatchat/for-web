@@ -15,7 +15,7 @@ type AliasKey = keyof typeof emojiExtensions.aliases;
 
 const Mapping: string[][] = [];
 
-const RE_SHORTCODE = /^:[\w\-+]+:$/;
+const RE_SHORTCODE = /^:[\w\-+]+:$/u;
 
 for (const group of ordering) {
   for (const emote of group.emoji) {
@@ -26,7 +26,8 @@ for (const group of ordering) {
     const emoji = String.fromCodePoint(...emote.base);
     const emojiDef = [emoji];
 
-    for (const code of emote.shortcodes) {
+    for (let code of emote.shortcodes) {
+      code = code.replaceAll(" ", "-");
       if (!RE_SHORTCODE.test(code)) continue;
 
       const name = code.substring(1, code.length - 1).toLowerCase();
