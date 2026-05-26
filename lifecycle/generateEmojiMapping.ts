@@ -11,12 +11,7 @@ for (const group of emojiExtensions.extensions) {
   for (const emote of group.emoji) orderingGroup.emoji.push(emote);
 }
 
-type EmojiDefinition = {
-  emoji: string;
-  shorthands: string[];
-};
-
-const Mapping: EmojiDefinition[] = [];
+const Mapping: string[][] = [];
 
 const RE_SHORTCODE = /^:[\w\-+]+:$/;
 
@@ -27,25 +22,23 @@ for (const group of ordering) {
     );
 
     const emoji = String.fromCodePoint(...emote.base);
-
-    const emojiDef: EmojiDefinition = {
-      emoji: emoji,
-      shorthands: [],
-    };
+    const emojiDef = [emoji];
 
     for (const code of emote.shortcodes) {
       if (!RE_SHORTCODE.test(code)) continue;
 
-      const name = code.substring(1, code.length - 1).toLowerCase();
-      emojiDef.shorthands.push(name);
+      const name = code
+        .substring(1, code.length - 1)
+        .toLowerCase() as keyof typeof emojiExtensions.aliases;
+
+      emojiDef.push(name);
 
       // Check for aliases
-      const aliases =
-        emojiExtensions.aliases[name as keyof typeof emojiExtensions.aliases];
+      const aliases = emojiExtensions.aliases[name];
       if (aliases) {
         for (const alias of aliases) {
           if (!RE_SHORTCODE.test(`:${alias}:`)) continue;
-          emojiDef.shorthands.push(alias.toLowerCase());
+          emojiDef.push(alias.toLowerCase());
         }
         delete emojiExtensions.aliases[name];
       }
@@ -65,5 +58,5 @@ Deno.writeTextFile(
     import.meta.dirname!,
     "../packages/client/components/ui/emojiMapping.json",
   ),
-  JSON.stringify(Mapping.map((ed) => [ed.emoji, ...ed.shorthands])),
+  JSON.stringify(Mapping),
 );
