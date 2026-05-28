@@ -61,6 +61,12 @@ export function UserProfileEditor(props: Props) {
     on(
       () => profile.data,
       (profileData) => {
+        // Skip overwriting form controls while the operator has uncommitted edits.
+        // Without this guard, a post-save background refetch of the ["profile", user.id]
+        // query (triggered by queryClient.setQueryData below + WS UserUpdate event) re-runs
+        // this effect and clobbers in-flight bio/banner edits with the pre-save snapshot,
+        // producing the "Save reverts on first click" symptom in Settings → My Bots.
+        if (editGroup.isDirty) return;
         if (profileData) {
           editGroup.controls.banner.setValue(
             profileData.animatedBannerURL || null,

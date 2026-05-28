@@ -461,8 +461,26 @@ function useSubmitHandler(
 
     try {
       await handler();
+      // Do NOT call onReset?.() on successful submit. onReset is the operator's
+      // "discard my changes, restore server state" path (FormResetButton). On a
+      // successful submit the just-typed control values ARE the new server state,
+      // so re-running onReset would overwrite them with stale `props.*` / `query.data`
+      // values (the WS UserUpdate / TanStack refetch may not have settled yet).
+      //
+      // Concretely for UserProfileEditor: the bio is rendered by Form2.TextEditor
+      // whose `initialValue={initialBio()}` accessor is driven by a signal that
+      // onReset re-seeds from `profile.data.content`. Calling onReset post-save
+      // makes initialBio() flip to the stale pre-save value, which the TextEditor
+      // createEffect dispatches into CodeMirror as a `replaceSelection`, producing
+      // a visible "form briefly reverts to old text" stutter even though the
+      // server-side persistence succeeded. Skipping onReset here keeps the
+      // visible form == the just-submitted values; the subsequent createEffect
+      // (in the parent) updates the form to the canonical server value once the
+      // refetch settles, which is a no-op when the server echoes back what we sent.
+      //
+      // resetGeneric(group, true) only clears dirty/touched flags — it does NOT
+      // touch control.value — so the Save button correctly grays out post-submit.
       resetGeneric(group, true);
-      onReset?.();
     } catch (err) {
       group.setErrors({
         error: err,
