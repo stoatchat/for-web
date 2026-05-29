@@ -34,6 +34,10 @@ export function EditMessage(props: { message: Message }) {
     const content = state.draft.editingMessageContent;
 
     if (content?.length) {
+      if (content === props.message.content) {
+        return;
+      }
+
       state.draft._setNodeReplacement?.(["_focus"]); // focus message box
       change.mutate(content);
     } else if (isOpen("delete_message")) {
