@@ -104,11 +104,14 @@ const EditorBox = styled("div", {
 
 /**
  * Form wrapper for FloatingSelect
+ *
+ * Note: If control is 'required', an '*' will only appear if the control has a label.
+ * Required will still be enforced, this is just visual.
  */
 export function FormSelect(
-  props: { control: IFormControl<string> } & Omit<
+  props: { control: IFormControl<string>; label?: string } & Omit<
     ComponentProps<typeof FloatingSelect>,
-    "value" | "required" | "disabled" | "onChange"
+    "value" | "label" | "required" | "disabled" | "onChange"
   >,
 ) {
   const [local, others] = splitProps(props, ["control", "children"]);
@@ -118,7 +121,7 @@ export function FormSelect(
       <FloatingSelect
         {...others}
         value={local.control.value}
-        required={local.control.isRequired}
+        required={local.control.isRequired as never}
         disabled={local.control.isDisabled}
         onChange={(e) => {
           local.control.setValue(e.currentTarget.value || "");

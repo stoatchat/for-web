@@ -15,10 +15,12 @@ import { autoUpdate, flip, offset, shift, size } from "@floating-ui/dom";
 import { MenuItem } from "mdui/components/menu-item";
 import { styled } from "styled-system/jsx";
 
-type FloatingSelectProps = {
+type FloatingSelectPropsLabel =
+  | { required: true; label: string }
+  | { required?: false; label?: string };
+
+type FloatingSelectProps = FloatingSelectPropsLabel & {
   value?: string;
-  label?: string;
-  required?: boolean;
   disabled?: boolean;
   variant?: "filled" | "outlined";
   children: JSX.Element;
