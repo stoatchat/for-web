@@ -81,11 +81,9 @@ export function BanMemberModal(
           <FloatingSelect
             label={t`Delete Message History`}
             value={group.controls.deleteMessageSeconds.value}
-            onChange={(
-              e: Event & { currentTarget: HTMLElement; target: Element },
-            ) =>
+            onChange={(e) =>
               group.controls.deleteMessageSeconds.setValue(
-                e.currentTarget.getAttribute("value") || "0",
+                e.currentTarget.value || "0",
               )
             }
           >
