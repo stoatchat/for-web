@@ -110,8 +110,7 @@ export function FloatingSelect(props: FloatingSelectProps) {
         ) as MenuItem);
 
     if (menuItem) {
-      const value = menuItem.getAttribute("value");
-      if (value !== null && local.onChange) {
+      if (menuItem.value != null && local.onChange) {
         // Create a synthetic event that matches the expected interface
         local.onChange({ ...event, currentTarget: menuItem });
       }
