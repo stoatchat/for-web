@@ -57,7 +57,7 @@ export function MessageComposition(props: Props) {
   const client = useClient();
   const { openModal } = useModals();
 
-  const currentSlowmode = (): UserSlowmodes => {
+  const currentSlowmode = (): UserSlowmodes | undefined => {
     return client().userSlowmodes.get(props.channel.id);
   };
   const countdownForEntry = createMemo(() => {
@@ -80,9 +80,9 @@ export function MessageComposition(props: Props) {
 
     const [store] = cd;
 
-    const h = store.hours;
-    const m = store.minutes;
-    const s = store.seconds;
+    const h = store.hours ?? 0;
+    const m = store.minutes ?? 0;
+    const s = store.seconds ?? 0;
 
     const totalSeconds = h * 3600 + m * 60 + s;
     return totalSeconds > 0 ? totalSeconds : 0;
