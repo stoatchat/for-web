@@ -11,7 +11,6 @@ import {
   Button,
   CircularProgress,
   Column,
-  FloatingSelect,
   Form2,
   MenuItem,
   Row,
@@ -36,7 +35,9 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     icon: createFormControl<string | File[] | null>(
       props.channel.animatedIconURL,
     ),
-    slowmode: createFormControl<number>(props.channel.slowmode ?? 0),
+    slowmode: createFormControl<string>(
+      props.channel.slowmode.toString() ?? "0",
+    ),
   });
   /* eslint-enable solid/reactivity */
 
@@ -44,7 +45,9 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     editGroup.controls.name.setValue(props.channel.name);
     editGroup.controls.description.setValue(props.channel.description || "");
     editGroup.controls.icon.setValue(props.channel.animatedIconURL ?? null);
-    editGroup.controls.slowmode.setValue(props.channel.slowmode ?? 0);
+    editGroup.controls.slowmode.setValue(
+      props.channel.slowmode.toString() ?? "0",
+    );
   }
 
   async function onSubmit() {
@@ -90,7 +93,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
     }
 
     if (editGroup.controls.slowmode.isDirty) {
-      changes.slowmode = editGroup.controls.slowmode.value;
+      changes.slowmode = Number(editGroup.controls.slowmode.value);
     }
 
     await props.channel.edit(changes);
@@ -125,22 +128,9 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
             placeholder={t`This channel is about...`}
           />
           <Show when={props.channel.type === "TextChannel"}>
-            <FloatingSelect
+            <Form2.Select
               label={t`Channel Slowmode`}
-              value={String(editGroup.controls.slowmode.value)}
-              onChange={(
-                e: Event & { currentTarget: HTMLElement; target: Element },
-              ) => {
-                const nextStr = e.currentTarget.getAttribute("value") || "0";
-                const next = Number(nextStr) || 0;
-                const control = editGroup.controls.slowmode;
-
-                // Only mark dirty when value actually changed from initial/current baseline
-                if (control.value !== next) {
-                  control.setValue(next);
-                  control.markDirty(true);
-                }
-              }}
+              control={editGroup.controls.slowmode}
             >
               <MenuItem value="0">
                 <Trans>Slowmode off</Trans>
@@ -175,7 +165,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
               <MenuItem value="21600">
                 <Trans>6 hours</Trans>
               </MenuItem>
-            </FloatingSelect>
+            </Form2.Select>
           </Show>
           <Row>
             <Form2.Reset group={editGroup} onReset={onReset} />
