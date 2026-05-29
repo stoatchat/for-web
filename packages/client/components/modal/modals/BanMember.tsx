@@ -7,7 +7,6 @@ import {
   Column,
   Dialog,
   DialogProps,
-  FloatingSelect,
   Form2,
   MenuItem,
   Text,
@@ -78,16 +77,9 @@ export function BanMemberModal(
             label={t`Reason`}
             placeholder={t`User broke a certain rule…`}
           />
-          <FloatingSelect
+          <Form2.Select
             label={t`Delete Message History`}
-            value={group.controls.deleteMessageSeconds.value}
-            onChange={(
-              e: Event & { currentTarget: HTMLElement; target: Element },
-            ) =>
-              group.controls.deleteMessageSeconds.setValue(
-                e.currentTarget.getAttribute("value") || "0",
-              )
-            }
+            control={group.controls.deleteMessageSeconds}
           >
             <MenuItem value="0">
               <Trans>Don't delete messages</Trans>
@@ -107,7 +99,7 @@ export function BanMemberModal(
             <MenuItem value="604800">
               <Trans>7 days</Trans>
             </MenuItem>
-          </FloatingSelect>
+          </Form2.Select>
         </Column>
       </form>
     </Dialog>

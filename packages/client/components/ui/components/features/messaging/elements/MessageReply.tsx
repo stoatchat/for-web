@@ -96,7 +96,6 @@ const Attachments = styled("em", {
 const Link = styled("a", {
   base: {
     minWidth: 0,
-    display: "flex",
     alignItems: "center",
     gap: "var(--gap-md)",
   },
@@ -158,7 +157,6 @@ export function MessageReply(props: Props) {
 
 const ReplyContent = styled("div", {
   base: {
-    display: "flex",
     overflow: "hidden",
     alignItems: "center",
     whiteSpace: "nowrap",

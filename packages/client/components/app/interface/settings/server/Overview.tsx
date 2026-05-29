@@ -254,10 +254,8 @@ export default function ServerOverview(props: ServerSettingsProps) {
             <Trans>System message channels</Trans>
           </Text>
           <Column>
-            <Text class="label">
-              <Trans>User Joined</Trans>
-            </Text>
-            <Form2.TextField.Select
+            <Form2.Select
+              label={t`User Joined`}
               control={editGroup.controls.sys_user_joined}
             >
               <MenuItem value="none">
@@ -268,13 +266,13 @@ export default function ServerOverview(props: ServerSettingsProps) {
                   <MenuItem value={element.value}>{element.item.name}</MenuItem>
                 )}
               </For>
-            </Form2.TextField.Select>
+            </Form2.Select>
           </Column>
           <Column>
-            <Text class="label">
-              <Trans>User Left</Trans>
-            </Text>
-            <Form2.TextField.Select control={editGroup.controls.sys_user_left}>
+            <Form2.Select
+              label={t`User Left`}
+              control={editGroup.controls.sys_user_left}
+            >
               <MenuItem value="none">
                 <Trans>Disabled</Trans>
               </MenuItem>
@@ -283,13 +281,11 @@ export default function ServerOverview(props: ServerSettingsProps) {
                   <MenuItem value={element.value}>{element.item.name}</MenuItem>
                 )}
               </For>
-            </Form2.TextField.Select>
+            </Form2.Select>
           </Column>
           <Column>
-            <Text class="label">
-              <Trans>User Kicked</Trans>
-            </Text>
-            <Form2.TextField.Select
+            <Form2.Select
+              label={t`User Kicked`}
               control={editGroup.controls.sys_user_kicked}
             >
               <MenuItem value="none">
@@ -300,13 +296,11 @@ export default function ServerOverview(props: ServerSettingsProps) {
                   <MenuItem value={element.value}>{element.item.name}</MenuItem>
                 )}
               </For>
-            </Form2.TextField.Select>
+            </Form2.Select>
           </Column>
           <Column>
-            <Text class="label">
-              <Trans>User Banned</Trans>
-            </Text>
-            <Form2.TextField.Select
+            <Form2.Select
+              label={t`User Banned`}
               control={editGroup.controls.sys_user_banned}
             >
               <MenuItem value="none">
@@ -317,7 +311,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
                   <MenuItem value={element.value}>{element.item.name}</MenuItem>
                 )}
               </For>
-            </Form2.TextField.Select>
+            </Form2.Select>
           </Column>
           <Row>
             <Form2.Reset group={editGroup} onReset={onReset} />

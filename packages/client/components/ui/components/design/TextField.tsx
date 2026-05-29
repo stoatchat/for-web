@@ -92,30 +92,3 @@ export function TextField(props: Props) {
     />
   );
 }
-
-function Select(
-  props: JSX.HTMLAttributes<HTMLInputElement> & {
-    value?: string;
-    variant?: "filled" | "outlined";
-    required?: boolean;
-    disabled?: boolean;
-  },
-) {
-  return <mdui-select {...props} />;
-}
-
-/**
- * Select menu allows the user to pick a menu item
- *
- * Use the `MenuItem` component as the child:
- * ```tsx
- * <TextField.Select>
- *   <MenuItem value="itemA">hello!</MenuItem>
- *   <MenuItem value="itemB">world!</MenuItem>
- * </TextField.Select>
- * ```
- *
- * @library MDUI
- * @specification https://m3.material.io/components/menus
- */
-TextField.Select = Select;

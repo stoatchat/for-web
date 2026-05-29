@@ -157,6 +157,8 @@ class Lifecycle {
           enabled: false,
           nodes: [],
         },
+        legal_links: {} as never,
+        limits: {} as never,
       },
       vapid: String(),
       ws: CONFIGURATION.DEFAULT_WS_URL,

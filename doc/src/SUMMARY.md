@@ -11,6 +11,7 @@
     - [Server Sidebar](./user-interface/navigation/server-sidebar.md)
   - [Channels]()
     - [Text Channels](./user-interface/channels/text-channels.md)
+  - [Icons](./user-interface/icons.md)
 - [Components]()
   - [Client]()
     - [Session Lifecycle](./components/client/session-lifecycle.md)

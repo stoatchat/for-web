@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -16,13 +16,13 @@ import {
   Button,
   Checkbox,
   Column,
+  FloatingSelect,
   IconButton,
   MenuItem,
   MessageContainer,
   Row,
   Slider,
   Text,
-  TextField,
 } from "@revolt/ui";
 import {
   FONT_KEYS,
@@ -39,6 +39,7 @@ import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component
 export function AppearanceMenu() {
   const user = useUser();
   const state = useState();
+  const { t } = useLingui();
   const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
 
   return (
@@ -345,11 +346,8 @@ export function AppearanceMenu() {
         }
       />
 
-      <Text class="label">
-        <Trans>Interface Font</Trans>
-      </Text>
-      <TextField.Select
-        title="Interface Font"
+      <FloatingSelect
+        label={t`Interface Font`}
         value={state.theme.interfaceFont}
         onChange={(e) =>
           state.theme.setInterfaceFont(e.currentTarget.value as Fonts)
@@ -358,13 +356,10 @@ export function AppearanceMenu() {
         <For each={FONT_KEYS}>
           {(key) => <MenuItem value={key}>{key}</MenuItem>}
         </For>
-      </TextField.Select>
+      </FloatingSelect>
 
-      <Text class="label">
-        <Trans>Monospace Font</Trans>
-      </Text>
-      <TextField.Select
-        title="Monospace Font"
+      <FloatingSelect
+        label={t`Monospace Font`}
         value={state.theme.monospaceFont}
         onChange={(e) =>
           state.theme.setMonospaceFont(e.currentTarget.value as MonospaceFonts)
@@ -373,7 +368,7 @@ export function AppearanceMenu() {
         <For each={MONOSPACE_FONT_KEYS}>
           {(key) => <MenuItem value={key}>{key}</MenuItem>}
         </For>
-      </TextField.Select>
+      </FloatingSelect>
 
       <Column>
         <Text class="title" size="small">
@@ -392,10 +387,8 @@ export function AppearanceMenu() {
           <Trans>Show send message button</Trans>
         </Checkbox>
 
-        <Text class="label">
-          <Trans>Emoji Pack (affects your messages only)</Trans>
-        </Text>
-        <TextField.Select
+        <FloatingSelect
+          label={t`Emoji Pack (affects your messages only)`}
           value={state.settings.getValue("appearance:unicode_emoji")}
           onChange={(e) =>
             state.settings.setValue(
@@ -407,7 +400,7 @@ export function AppearanceMenu() {
           <For each={UNICODE_EMOJI_PACKS}>
             {(pack) => <EmojiPack pack={pack} />}
           </For>
-        </TextField.Select>
+        </FloatingSelect>
       </Column>
     </Column>
   );

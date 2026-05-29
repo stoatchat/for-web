@@ -44,6 +44,7 @@ export function UserContextMenu(props: {
   member?: ServerMember;
   contextMessage?: Message;
   inVoice?: boolean;
+  isScreenshare?: boolean;
 }) {
   // TODO: if we take serverId instead, we could dynamically fetch server member here
   // same for the floating menu I guess?
@@ -302,7 +303,7 @@ export function UserContextMenu(props: {
   return (
     <ContextMenu class="UserContextMenu">
       {/* Voice controls */}
-      <Show when={props.inVoice && !props.user.self}>
+      <Show when={props.inVoice && !props.user.self && !props.isScreenshare}>
         <ContextMenuButton
           onMouseDown={(e) => e.stopImmediatePropagation()}
           onClick={(e) => e.stopImmediatePropagation()}
@@ -338,6 +339,47 @@ export function UserContextMenu(props: {
         >
           <Trans>Mute</Trans>
         </ContextMenuButton>
+        <ContextMenuDivider />
+      </Show>
+      <Show when={props.isScreenshare && !props.user.self}>
+        <ContextMenuButton
+          onMouseDown={(e) => e.stopImmediatePropagation()}
+          onClick={(e) => e.stopImmediatePropagation()}
+        >
+          <Text class="label">
+            <Trans>Screen Share Volume</Trans>
+          </Text>
+          <Slider
+            min={0}
+            max={3}
+            step={0.1}
+            value={state.voice.getScreenShareVolume(props.user.id)}
+            onInput={(event) =>
+              state.voice.setScreenShareVolume(
+                props.user.id,
+                event.currentTarget.value,
+              )
+            }
+            labelFormatter={(label) => (label * 100).toFixed(0) + "%"}
+          />
+        </ContextMenuButton>
+        <ContextMenuButton
+          icon={MdMicOff}
+          onClick={() =>
+            state.voice.setScreenShareMuted(
+              props.user.id,
+              !state.voice.getScreenShareMuted(props.user.id),
+            )
+          }
+          actionSymbol={
+            state.voice.getScreenShareMuted(props.user.id)
+              ? MdChecked
+              : MdUnchecked
+          }
+        >
+          <Trans>Mute Screen Share</Trans>
+        </ContextMenuButton>
+
         <ContextMenuDivider />
       </Show>
 
