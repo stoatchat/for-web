@@ -102,7 +102,7 @@ class Voice {
     this.#setState = setState;
 
     this.deafen = () => voiceSettings.deafen;
-    this.microphone = () => voiceSettings.micOn;
+    this.microphone = () => voiceSettings.micOn && !voiceSettings.deafen;
 
     const [video, setVideo] = createSignal(false);
     this.video = video;
@@ -211,11 +211,29 @@ class Voice {
     }
   }
 
-  async toggleDeafen() {
-    this.#settings.deafen = !this.#settings.deafen;
+  async toggleDeafen(fromMute?: boolean) {
+    try {
+      const room = this.room();
+      if (!room) throw "invalid state";
+      await room.localParticipant.setMicrophoneEnabled(
+        (this.#settings.micOn || !!fromMute) &&
+          !room.localParticipant.isMicrophoneEnabled,
+      );
+
+      if (fromMute) {
+        this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      }
+      this.#settings.deafen = !this.#settings.deafen;
+    } catch (e) {
+      this.onErr(e);
+    }
   }
 
   async toggleMute() {
+    if (this.#settings.deafen) {
+      this.toggleDeafen(true);
+      return;
+    }
     try {
       const room = this.room();
       if (!room) throw "invalid state";
