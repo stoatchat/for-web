@@ -207,7 +207,9 @@ export function ServerMemberSidebar(props: Props) {
       }
 
       for (const member of role.members) {
-        const memberElement = objectCache.get(member.id.user);
+        const memberElement = objectCache.get(
+          `${member.id.server}-${member.id.user}`,
+        );
         if (memberElement) {
           elements.push(memberElement);
         } else {
@@ -227,7 +229,10 @@ export function ServerMemberSidebar(props: Props) {
       if (element.t === 0) {
         objectCache.set(element.name + element.count, element);
       } else {
-        objectCache.set(element.member.id.user, element);
+        objectCache.set(
+          `${element.member.id.server}-${element.member.id.user}`,
+          element,
+        );
       }
     }
 
