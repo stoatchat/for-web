@@ -1,8 +1,9 @@
-import { createMemo } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { useMediaDeviceSelect } from "solid-livekit-components";
 
 import { Trans } from "@lingui-solid/solid/macro";
 
+import { CONFIGURATION } from "@revolt/common";
 import { useState } from "@revolt/state";
 import {
   CategoryButton,
@@ -22,7 +23,9 @@ export function VoiceInputOptions() {
       <CategoryButton.Group>
         <SelectInput kind="audioinput" />
         <SelectInput kind="audiooutput" />
-        <SelectInput kind="videoinput" />
+        <Show when={CONFIGURATION.ENABLE_VIDEO}>
+          <SelectInput kind="videoinput" />
+        </Show>
       </CategoryButton.Group>
       <VolumeSliders />
     </Column>
