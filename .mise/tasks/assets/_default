@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Pull in Stoat brand assets"
+#MISE depends=["assets:fallback"]
+set -e
+
+git -c submodule."packages/client/assets".update=checkout submodule update --init packages/client/assets
