@@ -7,7 +7,6 @@ import { styled } from "styled-system/jsx";
 import { useModals } from "@revolt/modal";
 
 import { Ripple, Text, typography } from "../../design";
-import { dismissFloatingElements } from "../../floating";
 import { Row } from "../../layout";
 
 import { ProfileCard } from "./ProfileCard";
@@ -25,7 +24,6 @@ export function ProfileRoles(props: { member?: ServerMember }) {
 
   function openRoles() {
     openModal({ type: "user_profile_roles", member: props.member! });
-    dismissFloatingElements();
   }
 
   return (
