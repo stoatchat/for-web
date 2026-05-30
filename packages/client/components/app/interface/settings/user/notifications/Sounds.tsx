@@ -1,5 +1,6 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { Show } from "solid-js";
+import { styled } from "styled-system/jsx";
 
 import { useSound } from "@revolt/client";
 import { useState } from "@revolt/state";
@@ -17,6 +18,9 @@ import MdVolumeUp from "@material-design-icons/svg/outlined/volume_up.svg?compon
 export default function Sounds() {
   const { settings, sounds } = useState();
   const soundController = useSound();
+  const { t } = useLingui();
+
+  const playSoundString = t`Play sound`;
 
   return (
     <Show when={settings.desktopNotificationsState !== "unsupported"}>
@@ -28,67 +32,102 @@ export default function Sounds() {
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("message")} />}
             onClick={() => sounds.toggle("message")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Message Received</Trans>{" "}
               <IconButton
                 onPress={() => soundController.playSound("message", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Message Received</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("mute")} />}
             onClick={() => sounds.toggle("mute")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Mute</Trans>
               <IconButton
                 onPress={() => soundController.playSound("mute", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Mute</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("unmute")} />}
             onClick={() => sounds.toggle("unmute")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Unmute</Trans>
               <IconButton
                 onPress={() => soundController.playSound("unmute", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Unmute</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("deafen")} />}
             onClick={() => sounds.toggle("deafen")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Deafen</Trans>
               <IconButton
                 onPress={() => soundController.playSound("deafen", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Deafen</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("undeafen")} />}
             onClick={() => sounds.toggle("undeafen")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Undeafen</Trans>
               <IconButton
                 onPress={() => soundController.playSound("undeafen", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Undeafen</Trans>
+            </Content>
           </CategoryButton>
           {/* I don't think we need this? */}
           <Show when={false}>
@@ -103,59 +142,99 @@ export default function Sounds() {
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("userJoinVoice")} />}
             onClick={() => sounds.toggle("userJoinVoice")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>User Joined Call</Trans>
               <IconButton
                 onPress={() => soundController.playSound("userJoinVoice", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>User Joined Call</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("userLeaveVoice")} />}
             onClick={() => sounds.toggle("userLeaveVoice")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>User Left Call</Trans>
               <IconButton
                 onPress={() =>
                   soundController.playSound("userLeaveVoice", true)
                 }
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>User Left Call</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("streamStart")} />}
             onClick={() => sounds.toggle("streamStart")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Stream Start</Trans>
               <IconButton
                 onPress={() => soundController.playSound("streamStart", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Stream Start</Trans>
+            </Content>
           </CategoryButton>
           <CategoryButton
             action={<Checkbox checked={sounds.enabled("streamEnd")} />}
             onClick={() => sounds.toggle("streamEnd")}
-            icon={
+            icon="blank"
+          >
+            <Content>
+              <Trans>Stream End</Trans>
               <IconButton
                 onPress={() => soundController.playSound("streamEnd", true)}
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
               >
-                <MdVolumeUp {...iconSize(22)} />
+                <MdVolumeUp {...iconSize(18)} />
               </IconButton>
-            }
-          >
-            <Trans>Stream End</Trans>
+            </Content>
           </CategoryButton>
         </CategoryButton.Group>
       </Column>
     </Show>
   );
 }
+
+/**
+ * Sound content wrapper
+ */
+const Content = styled("div", {
+  base: {
+    display: "flex",
+    flexGrow: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
