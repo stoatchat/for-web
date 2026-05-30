@@ -85,6 +85,7 @@ class Voice {
 
   private openModal;
   private getClient;
+  private screenShareTracks: Set<string>;
 
   constructor(
     voiceSettings: VoiceSettings,
@@ -134,6 +135,8 @@ class Voice {
     this.openModal = modals.openModal;
 
     this.getClient = useClient();
+
+    this.screenShareTracks = new Set();
   }
 
   async connect(channel: Channel, auth?: { url: string; token: string }) {
@@ -185,6 +188,14 @@ class Voice {
               );
             }
           });
+      for (const p of room.remoteParticipants.values()) {
+        const screenShareTrack = p.getTrackPublication(
+          Track.Source.ScreenShare,
+        );
+        if (screenShareTrack) {
+          this.screenShareTracks.add(screenShareTrack.trackSid);
+        }
+      }
       this.sound.playSound("userJoinVoice");
     });
 
@@ -198,15 +209,25 @@ class Voice {
       this.sound.playSound("userLeaveVoice");
     });
 
-    room.addListener("trackSubscribed", (pub) => {
+    room.addListener("trackPublished", (pub) => {
       if (pub.source === Track.Source.ScreenShare) {
-        // Play the sound once playback starts, which might be quite a bit after subscription
-        // as it starts paused for the screen share settings modal.
-        pub.once("videoPlaybackStarted", () => {
-          this.sound.playSound("streamStart");
-          // After playback starts we can add the stream end sound.
-          pub.once("ended", () => this.sound.playSound("streamEnd"));
+        pub.once("subscribed", (track) => {
+          // Play the sound once playback starts, which might be quite a bit after subscription
+          // as it starts paused for the screen share settings modal.
+          track.once("videoPlaybackStarted", () => {
+            this.sound.playSound("streamStart");
+            if (track.sid) {
+              this.screenShareTracks.add(track.sid);
+            }
+          });
         });
+      }
+    });
+
+    room.addListener("trackUnpublished", (unpub) => {
+      if (this.screenShareTracks.has(unpub.trackSid)) {
+        this.sound.playSound("streamEnd");
+        this.screenShareTracks.delete(unpub.trackSid);
       }
     });
 
@@ -234,6 +255,8 @@ class Voice {
         this.#setFullscreen(false);
         this.vidTracks = () => [];
       });
+
+      this.screenShareTracks = new Set();
 
       this.sound.playSound("userLeaveVoice");
     } catch (e) {
