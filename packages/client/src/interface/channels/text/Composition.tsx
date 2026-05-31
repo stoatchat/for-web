@@ -150,6 +150,14 @@ export function MessageComposition(props: Props) {
 
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
 
+  // Can the user upload files here?
+  const canUploadFiles = createMemo(() => {
+    return (
+      props.channel.havePermission("SendMessage") &&
+      props.channel.havePermission("UploadFiles")
+    );
+  });
+
   // Whether the send button should be active/clickable
   const canSend = createMemo(() => {
     const draftContent = draft()?.content ?? "";
@@ -290,6 +298,8 @@ export function MessageComposition(props: Props) {
    * @param files List of files
    */
   function onFiles(files: File[]) {
+    if (!canUploadFiles()) return;
+
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
 
@@ -342,6 +352,8 @@ export function MessageComposition(props: Props) {
    * Add a file to the message
    */
   function addFile() {
+    if (!canUploadFiles()) return;
+
     const input = document.createElement("input");
     input.accept = "*";
     input.type = "file";
@@ -523,8 +535,10 @@ export function MessageComposition(props: Props) {
           </Show>
         }
       />
-      <FilePasteCollector onFiles={onFiles} />
-      <FileDropAnywhereCollector onFiles={onFiles} />
+      <Show when={canUploadFiles()}>
+        <FilePasteCollector onFiles={onFiles} />
+        <FileDropAnywhereCollector onFiles={onFiles} />
+      </Show>
     </>
   );
 }
