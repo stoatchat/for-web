@@ -23,11 +23,14 @@ import { NotificationOptions } from "./stores/NotificationOptions";
 import { Ordering } from "./stores/Ordering";
 import { ReleaseNotes } from "./stores/ReleaseNotes";
 import { Settings } from "./stores/Settings";
+import { Sounds } from "./stores/Sounds";
 import { Sync } from "./stores/Sync";
 import { Theme } from "./stores/Theme";
 import { Voice } from "./stores/Voice";
 
 export { SyncWorker } from "./SyncWorker";
+
+export type { Sounds, TypeSounds } from "./stores/Sounds";
 
 /**
  * Introduce some delay before writing state to disk
@@ -63,6 +66,7 @@ export class State {
   sync = new Sync(this);
   theme = new Theme(this);
   voice = new Voice(this);
+  sounds = new Sounds(this);
 
   /**
    * Iterate over all available stores

@@ -13,6 +13,7 @@ import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
 import { TypeReleaseNotes } from "./ReleaseNotes";
 import { TypeSettings } from "./Settings";
+import { TypeSounds } from "./Sounds";
 import { TypeSynchronisation } from "./Sync";
 import { TypeTheme } from "./Theme";
 import { TypeVoice } from "./Voice";
@@ -29,6 +30,7 @@ export type Store = {
   ordering: TypeOrdering;
   "release-notes": TypeReleaseNotes;
   settings: TypeSettings;
+  sounds: TypeSounds;
   sync: TypeSynchronisation;
   theme: TypeTheme;
   voice: TypeVoice;

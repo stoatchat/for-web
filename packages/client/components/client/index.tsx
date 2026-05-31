@@ -19,6 +19,7 @@ import ClientController from "./Controller";
 export type { default as ClientController } from "./Controller";
 
 export { useNotifications } from "./NotificationsController";
+export { SoundContext, SoundController, useSound } from "./Sounds";
 
 const clientContext = createContext(null! as ClientController);
 

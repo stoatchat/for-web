@@ -59,15 +59,13 @@ Finally, navigate to http://local.revolt.chat:5173.
 If you want to pull in Stoat brand assets after pulling, run the following:
 
 ```bash
-# update the assets
-git -c submodule."packages/client/assets".update=checkout submodule update --init packages/client/assets
+mise assets
 ```
 
 You can switch back to the fallback assets by running deinit and continuing as normal:
 
 ```bash
-# deinit submodule which clears directory
-git submodule deinit packages/client/assets
+mise assets:fallback
 ```
 
 ### Using the official backend
@@ -75,6 +73,7 @@ git submodule deinit packages/client/assets
 By default, the client connects to a backend running on the same host (localhost).
 
 If you want the client to connect to the official hosted backend instead, open the .env file at /packages/client/.env and comment out the local URL varaibles like this:
+
 ```env
 # connect to local Stoat instance
 #VITE_API_URL=http://localhost:14702

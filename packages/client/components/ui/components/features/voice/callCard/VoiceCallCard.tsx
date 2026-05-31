@@ -13,7 +13,7 @@ import {
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
-import { makeResizeObserver } from "@solid-primitives/resize-observer";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -198,14 +198,13 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
 
   createEffect(updateInfo);
 
-  //Observe resize of parent
-  let obs: ReturnType<typeof makeResizeObserver>;
   onMount(() => {
-    obs = makeResizeObserver(updateInfo);
-    obs.observe(ref!.parentElement!);
+    const target = ref?.parentElement;
+    if (!target) return;
+
+    createResizeObserver(target, updateInfo);
   });
   onCleanup(() => {
-    obs.unobserve(ref!.parentElement!);
     setInfo();
   });
 

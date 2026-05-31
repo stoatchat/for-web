@@ -22,7 +22,7 @@ import {
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
-import { useClient } from "@revolt/client";
+import { SoundController, useClient, useSound } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { ModalController, useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -81,11 +81,19 @@ class Voice {
   showBar: Accessor<boolean>;
   #setShowBar: Setter<boolean>;
 
+  private sound: SoundController;
+
   private openModal;
   private getClient;
+  private screenShareTracks: Set<string>;
 
-  constructor(voiceSettings: VoiceSettings, modals: ModalController) {
+  constructor(
+    voiceSettings: VoiceSettings,
+    modals: ModalController,
+    sound: SoundController,
+  ) {
     this.#settings = voiceSettings;
+    this.sound = sound;
 
     const [channel, setChannel] = createSignal<Channel>();
     this.channel = channel;
@@ -102,7 +110,7 @@ class Voice {
     this.#setState = setState;
 
     this.deafen = () => voiceSettings.deafen;
-    this.microphone = () => voiceSettings.micOn;
+    this.microphone = () => voiceSettings.micOn && !voiceSettings.deafen;
 
     const [video, setVideo] = createSignal(false);
     this.video = video;
@@ -127,6 +135,8 @@ class Voice {
     this.openModal = modals.openModal;
 
     this.getClient = useClient();
+
+    this.screenShareTracks = new Set();
   }
 
   async connect(channel: Channel, auth?: { url: string; token: string }) {
@@ -178,9 +188,48 @@ class Voice {
               );
             }
           });
+      for (const p of room.remoteParticipants.values()) {
+        const screenShareTrack = p.getTrackPublication(
+          Track.Source.ScreenShare,
+        );
+        if (screenShareTrack) {
+          this.screenShareTracks.add(screenShareTrack.trackSid);
+        }
+      }
+      this.sound.playSound("userJoinVoice");
     });
 
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
+
+    room.addListener("participantConnected", () => {
+      this.sound.playSound("userJoinVoice");
+    });
+
+    room.addListener("participantDisconnected", () => {
+      this.sound.playSound("userLeaveVoice");
+    });
+
+    room.addListener("trackPublished", (pub) => {
+      if (pub.source === Track.Source.ScreenShare) {
+        pub.once("subscribed", (track) => {
+          // Play the sound once playback starts, which might be quite a bit after subscription
+          // as it starts paused for the screen share settings modal.
+          track.once("videoPlaybackStarted", () => {
+            this.sound.playSound("streamStart");
+            if (track.sid) {
+              this.screenShareTracks.add(track.sid);
+            }
+          });
+        });
+      }
+    });
+
+    room.addListener("trackUnpublished", (unpub) => {
+      if (this.screenShareTracks.has(unpub.trackSid)) {
+        this.sound.playSound("streamEnd");
+        this.screenShareTracks.delete(unpub.trackSid);
+      }
+    });
 
     if (!auth) {
       auth = await channel.joinCall("worldwide");
@@ -206,16 +255,43 @@ class Voice {
         this.#setFullscreen(false);
         this.vidTracks = () => [];
       });
+
+      this.screenShareTracks = new Set();
+
+      this.sound.playSound("userLeaveVoice");
     } catch (e) {
       this.onErr(e);
     }
   }
 
-  async toggleDeafen() {
-    this.#settings.deafen = !this.#settings.deafen;
+  async toggleDeafen(fromMute?: boolean) {
+    try {
+      const room = this.room();
+      if (!room) throw "invalid state";
+      await room.localParticipant.setMicrophoneEnabled(
+        (this.#settings.micOn || !!fromMute) &&
+          !room.localParticipant.isMicrophoneEnabled,
+      );
+
+      this.#settings.deafen = !this.#settings.deafen;
+      if (fromMute) {
+        this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      }
+      if (this.#settings.deafen) {
+        this.sound.playSound("deafen");
+      } else {
+        this.sound.playSound("undeafen");
+      }
+    } catch (e) {
+      this.onErr(e);
+    }
   }
 
   async toggleMute() {
+    if (this.#settings.deafen) {
+      this.toggleDeafen(true);
+      return;
+    }
     try {
       const room = this.room();
       if (!room) throw "invalid state";
@@ -224,6 +300,12 @@ class Voice {
       );
 
       this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+
+      if (this.#settings.micOn) {
+        this.sound.playSound("unmute");
+      } else {
+        this.sound.playSound("mute");
+      }
     } catch (e) {
       this.onErr(e);
     }
@@ -326,6 +408,8 @@ class Voice {
       await room.localParticipant.setScreenShareEnabled(false);
 
       this.#setScreenshare(room.localParticipant.isScreenShareEnabled);
+
+      this.sound.playSound("streamEnd");
     } else {
       const qualities = this.getEnabledScreenShareQualities();
       let screenPickerQualityName: ScreenShareQualityName | undefined;
@@ -412,6 +496,7 @@ class Voice {
               if (!audio && screenAudioTrack?.track) {
                 room.localParticipant.unpublishTrack(screenAudioTrack.track);
               }
+              this.sound.playSound("streamStart");
             }
           };
 
@@ -529,7 +614,8 @@ const voiceContext = createContext<Voice>(null as unknown as Voice);
 export function VoiceContext(props: { children: JSX.Element }) {
   const state = useState();
   const modals = useModals();
-  const voice = new Voice(state.voice, modals);
+  const sound = useSound();
+  const voice = new Voice(state.voice, modals, sound);
 
   return (
     <voiceContext.Provider value={voice}>

@@ -30,17 +30,17 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import { AccountCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
+import { AppearanceMenu } from "./user/appearance";
+import { MyBots, ViewBot } from "./user/bots";
 import { Feedback } from "./user/Feedback";
 import { LanguageSettings } from "./user/Language";
 import Native from "./user/Native";
-import Notifications from "./user/Notifications";
-import { Sessions } from "./user/Sessions";
-import { AccountCard } from "./user/_AccountCard";
-import { AppearanceMenu } from "./user/appearance";
-import { MyBots, ViewBot } from "./user/bots";
+import Notifications from "./user/notifications/Notifications";
 import { EditProfile } from "./user/profile";
+import { Sessions } from "./user/Sessions";
 import { EditSubscription } from "./user/subscriptions";
 import { VoiceSettings } from "./user/voice/VoiceSettings";
 

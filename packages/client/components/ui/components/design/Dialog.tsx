@@ -125,7 +125,7 @@ Dialog.Scrim = styled("div", {
     right: 0,
     bottom: 0,
     position: "fixed",
-    zIndex: "100",
+    zIndex: "998",
 
     maxHeight: "100%",
 
