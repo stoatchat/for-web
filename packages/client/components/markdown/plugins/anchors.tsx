@@ -256,11 +256,15 @@ function LinkComponent(
   }
   return (
     <a
-      use:floating={{
-        contextMenu: () => (
-          <MessageContextMenu message={message} link={localProps.dest} />
-        ),
-      }}
+      use:floating={
+        message
+          ? {
+              contextMenu: () => (
+                <MessageContextMenu message={message} link={localProps.dest} />
+              ),
+            }
+          : undefined
+      }
       {...remoteProps}
     />
   );
