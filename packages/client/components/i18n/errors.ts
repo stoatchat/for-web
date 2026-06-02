@@ -178,7 +178,7 @@ export function useError() {
       p.innerHTML = error;
       p.querySelector("head")?.remove();
       p.querySelector("[role=contentinfo]")?.remove();
-      error = p.textContent.trim().replace(RE_BREAK, ". ");
+      error = p.textContent!.trim().replace(RE_BREAK, ". ");
     }
 
     return t`Something went wrong! ${error}`;
