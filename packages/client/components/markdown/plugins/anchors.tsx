@@ -130,7 +130,7 @@ export function RenderAnchor(
                 disabled={localProps.disabled}
                 href={internalUrl()}
               >
-                <Symbol>tag</Symbol>
+                <Symbol>{channel()!.isVoice ? "headset_mic" : "tag"}</Symbol>
                 {channel()!.name}
                 {params.exactMessage && (
                   <>

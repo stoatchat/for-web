@@ -231,7 +231,7 @@ class ChannelMentionWidget extends WidgetType {
     mention.contentEditable = "false";
 
     const icon = document.createElement("span");
-    icon.innerText = "tag";
+    icon.innerText = this.channel.isVoice ? "headset_mic" : "tag";
     icon.classList.add("material-symbols-outlined");
     mention.appendChild(icon);
 
