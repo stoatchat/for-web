@@ -63,7 +63,7 @@ type Item =
       text: string;
     };
 
-const COLUMNS = 9;
+const COLUMNS = 10;
 
 export function EmojiPicker() {
   const client = useClient();
@@ -176,7 +176,7 @@ export function EmojiPicker() {
                   );
                   if (idx !== -1 && emojiScrollTargetElement) {
                     emojiScrollTargetElement.scrollTop =
-                      Math.floor(idx / COLUMNS) * 40;
+                      Math.floor(idx / COLUMNS) * 35;
                   }
                 }}
               />
@@ -192,7 +192,7 @@ export function EmojiPicker() {
           <VirtualContainer
             items={items()}
             scrollTarget={emojiScrollTargetElement}
-            itemSize={{ height: 40, width: 40 }}
+            itemSize={{ height: 35, width: 35 }}
             crossAxisCount={() => COLUMNS}
           >
             {EmojiItem}
@@ -208,6 +208,7 @@ const Stack = styled("div", {
     minHeight: 0,
     display: "flex",
     flexDirection: "column",
+    gap: "var(--gap-md)",
   },
 });
 
@@ -219,8 +220,9 @@ const scrollContainer = cva({
         display: "flex",
         flexDirection: "column",
         flexShrink: 0,
-        width: "40px",
+        width: "44px",
         gap: "var(--gap-sm)",
+        paddingLeft: "4px",
       },
       emoji: {
         flexGrow: 1,
@@ -256,6 +258,8 @@ const ServerOption = styled("div", {
   base: {
     width: "100%",
     cursor: "pointer",
+    display: "flex",
+    justifyContent: "center",
   },
 });
 
