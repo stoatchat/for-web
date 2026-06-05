@@ -35,6 +35,7 @@ import {
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { getChannelIcon } from "@revolt/common";
 
 import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
 
@@ -492,15 +493,15 @@ function Entry(
           attention={attentionState()}
           icon={
             <>
-              <Switch fallback={<Symbol>grid_3x3</Symbol>}>
-                <Match when={props.channel.isVoice}>
-                  <Symbol
-                    color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                  >
-                    headset_mic
-                  </Symbol>
-                </Match>
-              </Switch>
+              <Symbol
+                color={
+                  props.channel.isVoice && inCall()
+                    ? "var(--md-sys-color-primary)"
+                    : undefined
+                }
+              >
+                {getChannelIcon(props.channel)}
+              </Symbol>
               <Show when={props.channel.icon}>
                 <ChannelIcon
                   src={props.channel.iconURL}
