@@ -1,9 +1,10 @@
-import { Show } from "solid-js";
+import { Show, createResource } from "solid-js";
 
 import { useNavigate } from "@solidjs/router";
-import { ServerMember, User } from "stoat.js";
+import { ServerMember, User, PublicBot } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { useClient } from "@revolt/client";
 import { UserContextMenu } from "@revolt/app";
 import { useModals } from "@revolt/modal";
 
@@ -24,7 +25,17 @@ export function ProfileActions(props: {
   member?: ServerMember;
 }) {
   const navigate = useNavigate();
+  const client = useClient();
   const { openModal } = useModals();
+
+  const [publicBot] = createResource(
+    () => props.user.bot && props.user.id,
+    (id) =>
+      client()
+        .bots.fetchPublic(id)
+        .then((b) => (b instanceof PublicBot ? b : new PublicBot(client(), b)))
+        .catch(() => {}),
+  );
 
   /**
    * Open direct message channel
@@ -64,6 +75,18 @@ export function ProfileActions(props: {
       </Show>
       <Show when={props.user.relationship === "Friend"}>
         <Button onPress={openDm}>Message</Button>
+      </Show>
+      <Show when={publicBot()}>
+        <Button
+          onPress={() =>
+            openModal({
+              type: "add_bot",
+              invite: publicBot()!,
+            })
+          }
+        >
+          Add Bot
+        </Button>
       </Show>
 
       <Show
