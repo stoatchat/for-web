@@ -254,7 +254,9 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
             <Trans>Delete message</Trans>
           </ContextMenuButton>
         </Show>
-        <Show when={!props.message!.author?.self}>
+        <Show
+          when={!props.message!.author?.self && !props.message!.systemMessage}
+        >
           <ContextMenuButton icon={MdReport} onClick={report} destructive>
             <Trans>Report message</Trans>
           </ContextMenuButton>
