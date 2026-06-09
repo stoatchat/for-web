@@ -95,6 +95,7 @@ const Attachments = styled("em", {
  */
 const Link = styled("a", {
   base: {
+    display: "flex",
     minWidth: 0,
     alignItems: "center",
     gap: "var(--gap-md)",
