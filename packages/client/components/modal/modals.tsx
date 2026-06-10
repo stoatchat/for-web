@@ -44,6 +44,7 @@ import { MFAEnableTOTPModal } from "./modals/MFAEnableTOTP";
 import { MFAFlowModal } from "./modals/MFAFlow";
 import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
+import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
 import { RemoveMemberModal } from "./modals/RemoveMember";
 import { RenameSessionModal } from "./modals/RenameSession";
@@ -60,7 +61,6 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
-import { PinMessageModal } from "./modals/PinMessage";
 
 /**
  * Render the modal
