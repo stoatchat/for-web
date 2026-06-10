@@ -128,6 +128,10 @@ export type Modals =
       message: Message;
     }
   | {
+      type: "pin_message";
+      message: Message;
+    }
+  | {
       type: "delete_server";
       server: Server;
     }
