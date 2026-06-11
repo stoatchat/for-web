@@ -1,8 +1,8 @@
 import { splitProps } from "solid-js";
 
+import { useState } from "@revolt/state";
 import { typography } from "../../design/Text";
 import { ColouredText } from "../../utils/ColouredText";
-import { useState } from "@revolt/state";
 type Props = {
   /**
    * Username

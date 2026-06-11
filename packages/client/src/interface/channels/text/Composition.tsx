@@ -198,6 +198,7 @@ export function MessageComposition(props: Props) {
     state.draft._setNodeReplacement = undefined;
     state.draft._appendMention = undefined;
   });
+  
   createEffect(
     on(
       () => props.channel,

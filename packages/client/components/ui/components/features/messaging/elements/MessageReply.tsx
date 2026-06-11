@@ -129,7 +129,7 @@ export function MessageReply(props: Props) {
             <NonBreakingText>
               <Username
                 colour={props.message!.roleColour!}
-                userId={props.message.authorId}
+                userId={props.message?.authorId}
                 username={(props.mention ? "@" : "") + props.message!.username}
               />
             </NonBreakingText>
