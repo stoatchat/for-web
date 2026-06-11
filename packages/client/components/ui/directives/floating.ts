@@ -118,6 +118,12 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
    * Handle context menu click
    */
   function onContextMenu(event: MouseEvent) {
+    // allow opening system context menu by invoking context menu again while context menu is already open
+    if (show()?.contextMenu) {
+      setShow(undefined);
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
