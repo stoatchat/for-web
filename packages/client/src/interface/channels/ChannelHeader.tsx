@@ -82,6 +82,11 @@ export function ChannelHeader(props: Props) {
           </HeaderIcon>
           <NonBreakingText
             class={typography({ class: "title", size: "medium" })}
+            style={
+              layout() === "phone"
+                ? { overflow: "hidden", "text-overflow": "ellipsis" }
+                : ""
+            }
             onClick={() =>
               openModal({
                 type: "channel_info",
@@ -91,7 +96,7 @@ export function ChannelHeader(props: Props) {
           >
             <TextWithEmoji content={props.channel.name!} />
           </NonBreakingText>
-          <Show when={props.channel.description}>
+          <Show when={layout() !== "phone" && props.channel.description}>
             <Divider />
             <a
               class={descriptionLink}
@@ -122,7 +127,9 @@ export function ChannelHeader(props: Props) {
           <HeaderIcon>
             <Symbol>alternate_email</Symbol>
           </HeaderIcon>
-          <TextWithEmoji content={props.channel.recipient?.username} />
+          <OverflowingText>
+            <TextWithEmoji content={props.channel.recipient?.username} />
+          </OverflowingText>
           <UserStatus status={props.channel.recipient?.presence} size="8px" />
         </Match>
         <Match when={props.channel.type === "SavedMessages"}>
