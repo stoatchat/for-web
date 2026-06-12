@@ -6,6 +6,7 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { useVoice } from "@revolt/rtc";
@@ -57,6 +58,7 @@ export function ChannelHeader(props: Props) {
   const { t } = useLingui();
   const state = useState();
   const voice = useVoice();
+  const { layout } = useDevice();
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
@@ -248,27 +250,48 @@ export function ChannelHeader(props: Props) {
       </Show>
 
       <Show when={searchValue() !== null}>
-        <input
-          class={css({
-            height: "40px",
-            width: "240px",
-            paddingInline: "16px",
-            borderRadius: "var(--borderRadius-full)",
-            background: "var(--md-sys-color-surface-container-high)",
-          })}
-          placeholder="Search messages..."
-          value={searchValue()!}
-          onChange={(e) =>
-            e.currentTarget.value
-              ? props.setSidebarState!({
-                  state: "search",
-                  query: e.currentTarget.value,
-                })
-              : props.setSidebarState!({
-                  state: "default",
-                })
+        <Show
+          when={
+            layout() === "desktop" || props.sidebarState!().state !== "default"
           }
-        />
+          fallback={
+            <IconButton
+              onPress={() =>
+                props.setSidebarState!({ state: "search", query: "" })
+              }
+              use:floating={{
+                tooltip: {
+                  placement: "bottom",
+                  content: t`Search`,
+                },
+              }}
+            >
+              <Symbol>search</Symbol>
+            </IconButton>
+          }
+        >
+          <input
+            class={css({
+              height: "40px",
+              width: "240px",
+              paddingInline: "16px",
+              borderRadius: "var(--borderRadius-full)",
+              background: "var(--md-sys-color-surface-container-high)",
+            })}
+            placeholder="Search messages..."
+            value={searchValue()!}
+            onChange={(e) =>
+              e.currentTarget.value
+                ? props.setSidebarState!({
+                    state: "search",
+                    query: e.currentTarget.value,
+                  })
+                : props.setSidebarState!({
+                    state: "default",
+                  })
+            }
+          />
+        </Show>
       </Show>
     </>
   );

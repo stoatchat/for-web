@@ -40,6 +40,7 @@ export class SlideDrawer {
   private touch: TrackTouch | null = null;
   private tTmr: NodeJS.Timeout | null = null;
   private vTmr: NodeJS.Timeout | null = null;
+  private lShow = false;
   private ofs = 0;
 
   private dispose!: () => void;
@@ -122,6 +123,8 @@ export class SlideDrawer {
         this.tfTimer();
         this.velTimer();
         if (!isEnd) this.sSet(SlideState.MOVING);
+        //Hide keyboard
+        (document.activeElement as HTMLElement)?.blur();
       }
 
       dx = Math.max(Math.min(this.ofs + dx, 0), max);
@@ -231,10 +234,13 @@ export class SlideDrawer {
       this.drawer.style.zIndex = en ? "1" : "";
       this.tfTimer();
       this.endTouch();
-      if (!en) this.setElState(true);
-      this.ofs = 0;
+      if (!en) this.lShow = this.sGet() === SlideState.SHOWN;
+      //Restore show/hide state
+      const show = en ? this.lShow : false;
+      this.setElState(!en || show);
+      this.ofs = show ? -innerWidth : 0;
       this.eSet(en);
-      this.sSet(SlideState.HIDDEN);
+      this.sSet(show ? SlideState.SHOWN : SlideState.HIDDEN);
     }
   }
 

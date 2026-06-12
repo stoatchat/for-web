@@ -32,6 +32,10 @@ export const Header = styled("div", {
     "& svg": {
       flexShrink: 0,
     },
+
+    _tablet: {
+      paddingRight: 0,
+    },
   },
   variants: {
     placement: {
