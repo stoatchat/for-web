@@ -89,7 +89,7 @@ const Interface = (props: { children: JSX.Element }) => {
 
   return (
     <MessageCache client={client()}>
-      <div ref={rootRef} class="app_root">
+      <AppRoot ref={rootRef} class="app_root">
         <Titlebar />
         <Switch fallback={<CircularProgress />}>
           <Match when={!isLoggedIn()}>
@@ -134,10 +134,18 @@ const Interface = (props: { children: JSX.Element }) => {
         </Switch>
 
         <NotificationsWorker />
-      </div>
+      </AppRoot>
     </MessageCache>
   );
 };
+
+const AppRoot = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  },
+});
 
 /**
  * Parent container

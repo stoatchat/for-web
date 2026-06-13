@@ -103,6 +103,16 @@ const Base = styled("div", {
     paddingLeft: "8px",
     justifyContent: "flex-end",
     height: "100%",
+
+    _phone: {
+      position: "absolute",
+      width: "100vw",
+      paddingLeft: "12px",
+
+      "& > *": {
+        width: "100%",
+      },
+    },
   },
 });
 
@@ -121,6 +131,14 @@ const Content = styled("div", {
 
     "& a > div": {
       margin: 0,
+    },
+
+    _tablet: {
+      padding: "8px 0",
+    },
+    _phone: {
+      padding: "8px 0",
+      maxWidth: "unset",
     },
   },
 });

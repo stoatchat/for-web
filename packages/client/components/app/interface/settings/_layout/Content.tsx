@@ -1,6 +1,6 @@
-import { Accessor, JSX, Setter, Show } from "solid-js";
+import { Accessor, JSX, onMount, Setter, Show } from "solid-js";
 
-import { css, cva } from "styled-system/css";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Breadcrumbs, IconButton, Text } from "@revolt/ui";
@@ -22,9 +22,18 @@ export function SettingsContent(props: {
   ref: Setter<HTMLDivElement | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
+  let contRef: HTMLDivElement | undefined;
+
+  onMount(() => {
+    //Weird solution required due to use:scrollable
+    contRef!.classList.add(...scrollBase.split(" "));
+  });
 
   return (
-    <div ref={props.ref} class="settings" use:scrollable={{ class: base() }}>
+    <div
+      ref={(ref) => props.ref((contRef = ref))}
+      use:scrollable={{ class: base }}
+    >
       <Show when={props.page()}>
         <InnerContent class="settings_cont">
           <InnerColumn>
@@ -55,22 +64,26 @@ export function SettingsContent(props: {
   );
 }
 
+const scrollBase =
+  "settings " +
+  css({
+    _phone: { borderRadius: 0 },
+  });
+
 /**
  * Base styles
  */
-const base = cva({
-  base: {
-    minWidth: 0,
-    flex: "1 1 800px",
-    flexDirection: "row",
-    display: "flex",
-    background: "var(--md-sys-color-surface-container-low)",
-    borderStartStartRadius: "30px",
-    borderEndStartRadius: "30px",
+const base = css({
+  minWidth: 0,
+  flex: "1 1 800px",
+  flexDirection: "row",
+  display: "flex",
+  background: "var(--md-sys-color-surface-container-low)",
+  borderStartStartRadius: "30px",
+  borderEndStartRadius: "30px",
 
-    "& > a": {
-      textDecoration: "none",
-    },
+  "& > a": {
+    textDecoration: "none",
   },
 });
 
@@ -87,6 +100,9 @@ const InnerContent = styled("div", {
     padding: "80px 32px",
     justifyContent: "stretch",
     zIndex: 1,
+
+    _tablet: { padding: "12px" },
+    _phone: { height: "100vh" },
   },
 });
 
@@ -124,6 +140,10 @@ const CloseAction = styled("div", {
       fontWeight: 600,
       color: "var(--md-sys-color-on-surface)",
       fontSize: "0.75rem",
+    },
+
+    _tablet: {
+      display: "none",
     },
   },
 });

@@ -153,6 +153,7 @@ Dialog.Scrim = styled("div", {
     padding: {
       true: {
         padding: "80px",
+        _phone: { padding: "30px" },
       },
     },
     overflow: {

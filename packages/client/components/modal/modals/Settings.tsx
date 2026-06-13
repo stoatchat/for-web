@@ -1,12 +1,13 @@
 import { createEffect, createSignal, on, onCleanup, Show } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
+import { css } from "styled-system/css";
 
 import { Settings, SettingsConfigurations } from "@revolt/app";
-import { DialogProps } from "@revolt/ui";
-
 import { useState } from "@revolt/state";
+import { DialogProps } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
+
 import { Modals } from "../types";
 
 /**
@@ -51,7 +52,7 @@ export function SettingsModal(
           <Show when={props?.show}>
             <Motion.div
               ref={rootRef}
-              class="settings_overlay"
+              class={settingsOverlay}
               initial={{ opacity: 0, scale: 1.1 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 1.1 }}
@@ -75,3 +76,13 @@ export function SettingsModal(
     </Portal>
   );
 }
+
+const settingsOverlay =
+  "settings_overlay " +
+  css({
+    display: "flex",
+    height: "100%",
+    pointerEvents: "all",
+    color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface-container-highest)",
+  });

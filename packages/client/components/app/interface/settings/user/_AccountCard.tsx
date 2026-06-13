@@ -5,6 +5,7 @@ import { Avatar, OverflowingText, Ripple, typography } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/outlined/arrow_back.svg?component-solid";
 
+import { css } from "styled-system/css";
 import { useSettingsNavigation } from "../Settings";
 import {
   SidebarButton,
@@ -45,7 +46,11 @@ export function AccountCard() {
 
 export function BackCard(props: { onClose?: () => void }) {
   return (
-    <SidebarButton class="back" onClick={props.onClose} noDrawer>
+    <SidebarButton
+      class={"back " + mobileOnly}
+      onClick={props.onClose}
+      noDrawer
+    >
       <Ripple />
       <SidebarButtonTitle>
         <MdArrowBack />
@@ -56,3 +61,8 @@ export function BackCard(props: { onClose?: () => void }) {
     </SidebarButton>
   );
 }
+
+const mobileOnly = css({
+  display: "none",
+  _tablet: { display: "flex" },
+});
