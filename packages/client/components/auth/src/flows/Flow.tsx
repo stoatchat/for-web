@@ -28,12 +28,9 @@ export const FlowBase = styled("div", {
     marginBottom: "20px",
     justifySelf: "center",
     marginInline: "auto",
-  },
-  variants: {
-    mobile: {
-      true: {
-        background: "none",
-      },
+
+    _phone: {
+      background: "none",
     },
   },
 });

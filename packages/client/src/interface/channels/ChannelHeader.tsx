@@ -81,11 +81,10 @@ export function ChannelHeader(props: Props) {
             <Symbol>grid_3x3</Symbol>
           </HeaderIcon>
           <NonBreakingText
-            class={typography({ class: "title", size: "medium" })}
-            style={
-              layout() === "phone"
-                ? { overflow: "hidden", "text-overflow": "ellipsis" }
-                : ""
+            class={
+              typography({ class: "title", size: "medium" }) +
+              " " +
+              mobileOverflow
             }
             onClick={() =>
               openModal({
@@ -321,4 +320,11 @@ const Divider = styled("div", {
  */
 const descriptionLink = css({
   minWidth: 0,
+});
+
+const mobileOverflow = css({
+  _phone: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
 });

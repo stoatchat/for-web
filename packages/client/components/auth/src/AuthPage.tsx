@@ -5,7 +5,6 @@ import { Trans } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
-import { useDevice } from "@revolt/common";
 import { useState } from "@revolt/state";
 import { IconButton, iconSize } from "@revolt/ui";
 
@@ -118,7 +117,6 @@ const Bullet = styled("div", {
  */
 export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
-  const { layout } = useDevice();
 
   return (
     <div
@@ -146,7 +144,7 @@ export function AuthPage(props: { children: JSX.Element }) {
             <MdDarkMode {...iconSize("24px")} />
           </IconButton>
         </Nav>
-        <FlowBase mobile={layout() === "phone"}>{props.children}</FlowBase>
+        <FlowBase>{props.children}</FlowBase>
         <Nav>
           <NavItems variant="stack">
             <NavItems>
