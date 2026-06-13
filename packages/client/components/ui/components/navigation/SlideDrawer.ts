@@ -193,7 +193,7 @@ export class SlideDrawer {
     this.setElState(false);
     if (set) {
       this.ofs = show ? -innerWidth : 0;
-      ds.transition = `transform ${ANIM_MS}ms`;
+      ds.transition = `transform ${ANIM_MS}ms ease-out`;
       ds.transform = `translateX(${this.ofs}px)`;
       this.sSet(show ? SlideState.SHOWING : SlideState.HIDING);
     } else {

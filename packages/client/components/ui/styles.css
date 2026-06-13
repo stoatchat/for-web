@@ -36,24 +36,10 @@ body {
   flex-shrink: 0;
 }
 
-/* Main: Phone view */
-@media (max-width: 600px) {
-  main {
-    margin: 0;
-    border-radius: 0;
-  }
-  .dialog_scrim { padding: 30px }
-  .channel_bar { flex-grow: 1 }
-  .main_bar {
-    --layout-width-channel-sidebar: auto;
-    position: absolute;
-    width: 100vw;
-    height: 100%;
-  }
-}
-
 /* Settings: Desktop view */
-.button.back { display: none }
+.button.back {
+  display: none;
+}
 .settings_overlay {
   display: flex;
   height: 100%;
@@ -64,24 +50,58 @@ body {
 
 /* Settings: Tablet view */
 @media (max-width: 900px) {
-  .settings_cont { padding: 12px }
-  .settings_sidebar .content { padding: 8px 0 }
-  .settings .close { display: none }
-  .button.back { display: flex }
+  .settings_cont {
+    padding: 12px;
+  }
+  .settings_sidebar .content {
+    padding: 8px 0;
+  }
+  .settings .close {
+    display: none;
+  }
+  .button.back {
+    display: flex;
+  }
 }
 
-/* Settings: Phone view */
+/* Main: Phone view */
 @media (max-width: 600px) {
+  main {
+    margin: 0;
+    border-radius: 0;
+  }
+  .dialog_scrim {
+    padding: 30px;
+  }
+  .channel_bar {
+    flex-grow: 1;
+  }
+  .main_bar {
+    --layout-width-channel-sidebar: auto;
+    position: absolute;
+    width: 100vw;
+    height: 100%;
+  }
+
+  /* Settings: Phone view */
   .settings_sidebar {
     position: absolute;
     width: 100vw;
     height: 100%;
     padding-left: 12px;
   }
-  .settings_sidebar > * { width: 100% }
-  .settings_sidebar .content { max-width: unset }
-  .settings { border-radius: 0 }
-  .settings_cont { height: 100vh }
+  .settings_sidebar > * {
+    width: 100%;
+  }
+  .settings_sidebar .content {
+    max-width: unset;
+  }
+  .settings {
+    border-radius: 0;
+  }
+  .settings_cont {
+    height: 100vh;
+  }
 }
 
 /* HighlightJs */

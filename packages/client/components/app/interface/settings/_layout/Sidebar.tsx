@@ -2,7 +2,7 @@ import { Accessor, For, Setter, Show, onMount } from "solid-js";
 
 import { styled } from "styled-system/jsx";
 
-import { Column, OverflowingText, Ripple } from "@revolt/ui";
+import { Column, OverflowingText } from "@revolt/ui";
 
 // import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
 // import MdOpenInNew from "@material-design-icons/svg/filled/open_in_new.svg?component-solid";
@@ -24,14 +24,13 @@ export function SettingsSidebar(props: {
   page: Accessor<string | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
-  const list = props.list();
 
   /**
    * Select first page on load
    */
   onMount(() => {
     if (!props.page()) {
-      props.setPage(list.entries[0].entries[0].id);
+      props.setPage(props.list().entries[0].entries[0].id);
     }
   });
 
@@ -40,8 +39,8 @@ export function SettingsSidebar(props: {
       <div use:invisibleScrollable>
         <Content class="content">
           <Column gap="lg">
-            {list.prepend}
-            <For each={list.entries}>
+            {props.list().prepend}
+            <For each={props.list().entries}>
               {(category) => (
                 <Show when={!category.hidden}>
                   <Column>
@@ -59,7 +58,6 @@ export function SettingsSidebar(props: {
                                 entry.id?.split("/")[0]
                               }
                             >
-                              <Ripple />
                               <SidebarButtonTitle>
                                 {entry.icon}
                                 <SidebarButtonContent>
@@ -87,7 +85,7 @@ export function SettingsSidebar(props: {
                 </Show>
               )}
             </For>
-            {list.append}
+            {props.list().append}
           </Column>
         </Content>
       </div>

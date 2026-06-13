@@ -1,6 +1,10 @@
-import { useState } from "@revolt/state";
-import { JSX, splitProps } from "solid-js";
+import { createEffect, JSX, splitProps } from "solid-js";
 import { styled } from "styled-system/jsx";
+
+import { MdRipple } from "@material/web/ripple/ripple";
+import { useState } from "@revolt/state";
+import { Ripple } from "@revolt/ui";
+import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
 /**
  * Sidebar button
@@ -13,6 +17,14 @@ export function SidebarButton(
 ) {
   const { diagDrawer } = useState();
   const [local, other] = splitProps(props, ["onClick", "noDrawer", "class"]);
+  let ripple: MdRipple | undefined;
+
+  createEffect(() => {
+    const sPos = diagDrawer()?.state;
+    if (sPos === SlideState.SHOWN || sPos === SlideState.HIDDEN)
+      //@ts-expect-error private call
+      ripple?.endPressAnimation();
+  });
 
   function onClick(e: Event) {
     if (!local.noDrawer) diagDrawer()?.setShown(true);
@@ -25,7 +37,10 @@ export function SidebarButton(
       {...other}
       class={"button" + (local.class ? " " + local.class : "")}
       onClick={onClick}
-    />
+    >
+      <Ripple ref={ripple} />
+      {props.children}
+    </SidebarButtonBase>
   );
 }
 

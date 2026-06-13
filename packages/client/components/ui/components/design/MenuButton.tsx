@@ -1,9 +1,11 @@
-import { JSX, Show, splitProps } from "solid-js";
+import { createEffect, JSX, Show, splitProps } from "solid-js";
 
+import { MdRipple } from "@material/web/ripple/ripple";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useState } from "@revolt/state";
+import { SlideState } from "../navigation/SlideDrawer";
 import { Ripple } from "./Ripple";
 import { Unreads } from "./Unreads";
 
@@ -62,6 +64,14 @@ export function MenuButton(
     "alert",
     "actions",
   ]);
+  let ripple: MdRipple | undefined;
+
+  createEffect(() => {
+    const sPos = appDrawer()?.state;
+    if (sPos === SlideState.SHOWN || sPos === SlideState.HIDDEN)
+      //@ts-expect-error private call
+      ripple?.endPressAnimation();
+  });
 
   function onClick(e: Event) {
     if (!local.noDrawer) appDrawer()?.setShown(true);
@@ -71,7 +81,7 @@ export function MenuButton(
 
   const cont = (
     <>
-      <Ripple />
+      <Ripple ref={ripple} />
       {local.icon}
       <Content>{local.children}</Content>
       <Show when={local.alert}>
