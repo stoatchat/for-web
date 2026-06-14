@@ -91,6 +91,7 @@ type OrderingEvent =
  */
 export const ServerSidebar = (props: Props) => {
   const navigate = useNavigate();
+  const { isMobile } = useDevice();
 
   // Users can manage certain parts of the server individually, regardless of their ManageServer Permission
   const canManageServer = () =>
@@ -231,7 +232,9 @@ export const ServerSidebar = (props: Props) => {
         <Draggable
           dragHandles
           type="category"
-          disabled={noOrdering()}
+          //TODO - No channel ordering on mobile due to usability issue
+          //Consider adding a way to enable reordering with dragHandles in server settings
+          disabled={isMobile || noOrdering()}
           items={props.server.orderedChannels}
           onChange={(ids) => handleOrdering({ type: "categories", ids })}
         >
@@ -334,6 +337,7 @@ function Category(
 ) {
   const state = useState();
   const isOpen = () => state.layout.getSectionState(props.category.id, true);
+  const { isMobile } = useDevice();
 
   const channels = createMemo(() =>
     props.category.channels.filter(
@@ -373,7 +377,9 @@ function Category(
             moved: channelIds.length !== current.length,
           });
         }}
-        disabled={props.noOrdering() || !isOpen()}
+        //TODO - No channel ordering on mobile due to usability issue
+        //Consider adding a way to enable reordering with dragHandles in server settings
+        disabled={isMobile || props.noOrdering() || !isOpen()}
         minimumDropAreaHeight="32px"
       >
         {(entry) => (
