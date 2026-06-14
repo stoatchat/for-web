@@ -54,20 +54,6 @@ mise check
 
 Finally, navigate to http://local.revolt.chat:5173.
 
-### Pulling in Stoat's brand assets
-
-If you want to pull in Stoat brand assets after pulling, run the following:
-
-```bash
-mise assets
-```
-
-You can switch back to the fallback assets by running deinit and continuing as normal:
-
-```bash
-mise assets:fallback
-```
-
 ### Using the official backend
 
 By default, the client connects to a backend running on the same host (localhost).
