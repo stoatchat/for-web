@@ -1,13 +1,14 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
+import { useApi, useClient, useClientLifecycle } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
-import { useNavigate } from "@revolt/routing";
+import { useModals } from "@revolt/modal";
+import { useNavigate, useParams } from "@revolt/routing";
 import { Button, Row, iconSize } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
-import { useApi } from "../../../client";
-
+import { Show } from "solid-js";
 import { FlowTitle } from "./Flow";
 import { setFlowCheckEmail } from "./FlowCheck";
 import { Fields, Form } from "./Form";
@@ -17,7 +18,11 @@ import { Fields, Form } from "./Form";
  */
 export default function FlowCreate() {
   const api = useApi();
+  const getClient = useClient();
   const navigate = useNavigate();
+  const { code } = useParams();
+  const modals = useModals();
+  const { login } = useClientLifecycle();
 
   /**
    * Create an account
@@ -25,23 +30,40 @@ export default function FlowCreate() {
    */
   async function create(data: FormData) {
     const email = data.get("email") as string;
-    const password = data.get("password") as string;
+    const password = data.get("new-password") as string;
     const captcha = data.get("captcha") as string;
+    const invite = data.get("invite") as string;
 
     await api.post("/auth/account/create", {
       email,
       password,
       captcha,
+      ...(invite ? { invite } : {}),
     });
 
-    // FIXME: should tell client if email was sent
-    //        or if email even needs to be confirmed
-
-    // TODO: log straight in if no email confirmation?
-
-    setFlowCheckEmail(email);
-    navigate("/login/check", { replace: true });
+    const client = getClient();
+    if (client.configuration && !client.configuration.features.email) {
+      await login(
+        {
+          email,
+          password,
+        },
+        modals,
+      );
+      navigate("/login/auth", { replace: true });
+    } else {
+      setFlowCheckEmail(email);
+      navigate("/login/check", { replace: true });
+    }
   }
+
+  const isInviteOnly = () => {
+    const client = getClient();
+    if (client.configured()) {
+      return client.configuration?.features.invite_only;
+    }
+    return false;
+  };
 
   return (
     <>
@@ -49,7 +71,10 @@ export default function FlowCreate() {
         <Trans>Hello!</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={CONFIGURATION.HCAPTCHA_SITEKEY}>
-        <Fields fields={["email", "password"]} />
+        <Fields fields={["email", "new-password"]} />
+        <Show when={isInviteOnly()}>
+          <Fields fields={[{ field: "invite", value: code }]} />
+        </Show>
         <Row justify>
           <a href="..">
             <Button variant="text">

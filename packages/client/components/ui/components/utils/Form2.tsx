@@ -4,6 +4,7 @@ import {
   ComponentProps,
   For,
   Match,
+  ParentProps,
   Show,
   Switch,
   splitProps,
@@ -14,8 +15,16 @@ import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox, Radio2, Text, TextField } from "../design";
+import {
+  Button,
+  Checkbox,
+  FloatingSelect,
+  Radio2,
+  Text,
+  TextField,
+} from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
+import { Row } from "../layout";
 
 import { FileInput } from "./files";
 
@@ -94,27 +103,33 @@ const EditorBox = styled("div", {
 });
 
 /**
- * Form wrapper for TextField.Select
+ * Form wrapper for FloatingSelect
+ *
+ * Note: If control is 'required', an '*' will only appear if the control has a label.
+ * Required will still be enforced, this is just visual.
  */
-FormTextField.Select = (
-  props: {
-    control: IFormControl<string>;
-  } & ComponentProps<typeof TextField.Select>,
-) => {
-  const [local, remote] = splitProps(props, ["control"]);
+export function FormSelect(
+  props: { control: IFormControl<string>; label?: string } & Omit<
+    ComponentProps<typeof FloatingSelect>,
+    "value" | "label" | "required" | "disabled" | "onChange"
+  >,
+) {
+  const [local, others] = splitProps(props, ["control", "children"]);
 
   return (
     <>
-      <TextField.Select
-        {...remote}
+      <FloatingSelect
+        {...others}
         value={local.control.value}
+        required={local.control.isRequired as never}
+        disabled={local.control.isDisabled}
         onChange={(e) => {
-          local.control.setValue(e.currentTarget.value);
+          local.control.setValue(e.currentTarget.value || "");
           local.control.markDirty(true);
         }}
-        required={local.control.isRequired}
-        disabled={local.control.isDisabled}
-      />
+      >
+        {local.children}
+      </FloatingSelect>
 
       <Show when={local.control.isTouched && !local.control.isValid}>
         <For each={Object.keys(local.control.errors!)}>
@@ -123,7 +138,7 @@ FormTextField.Select = (
       </Show>
     </>
   );
-};
+}
 
 /**
  * Form wrapper for, single file, FileInput
@@ -230,6 +245,48 @@ const FormRadio = (
 };
 
 /**
+ * Form element wrapper for button groups
+ */
+const FormButtonGroup = (props: {
+  control: IFormControl<string>;
+  buttonDefinitions: (Omit<
+    ParentProps<ComponentProps<typeof Button>>,
+    "group" | "groupActive" | "onPress"
+  > & { value: string })[];
+}) => {
+  return (
+    <>
+      <Row justify="stretch">
+        <For each={props.buttonDefinitions}>
+          {(buttonDef, index) => (
+            <Button
+              group={
+                index() === 0
+                  ? "connected-start"
+                  : index() === props.buttonDefinitions.length - 1
+                    ? "connected-end"
+                    : "connected"
+              }
+              groupActive={props.control.value === buttonDef.value}
+              onPress={() => {
+                props.control.setValue(buttonDef.value);
+                props.control.markDirty(true);
+              }}
+              {...buttonDef}
+            />
+          )}
+        </For>
+      </Row>
+      <Show when={props.control.isTouched && !props.control.isValid}>
+        <For each={Object.keys(props.control.errors!)}>
+          {(errorMsg: string) => <small>{errorMsg}</small>}
+        </For>
+      </Show>
+    </>
+  );
+};
+
+/**
  * Form element for virtual selection
  */
 function FormVirtualSelect<K, T>(props: {
@@ -238,6 +295,7 @@ function FormVirtualSelect<K, T>(props: {
   children: (item: T, selected?: boolean) => JSX.Element;
   itemHeight?: number;
   selectHeight?: string;
+  isMaxHeight?: boolean;
   multiple?: boolean;
 }) {
   let ref;
@@ -246,9 +304,15 @@ function FormVirtualSelect<K, T>(props: {
     <div
       ref={ref}
       use:scrollable
-      style={{
-        height: props.selectHeight ?? "320px",
-      }}
+      style={
+        props.isMaxHeight
+          ? {
+              "max-height": props.selectHeight ?? "320px",
+            }
+          : {
+              height: props.selectHeight ?? "320px",
+            }
+      }
     >
       <VirtualContainer
         items={props.items}
@@ -264,7 +328,8 @@ function FormVirtualSelect<K, T>(props: {
             onClick={() => {
               if (!props.multiple) {
                 props.control.setValue(
-                  props.control.value[0] === item.item.value
+                  props.control.value[0] === item.item.value &&
+                    !props.control.isRequired
                     ? []
                     : [item.item.value],
                 );
@@ -426,9 +491,11 @@ function useSubmitHandler(
 export const Form2 = {
   TextField: FormTextField,
   TextEditor: FormTextEditor,
+  Select: FormSelect,
   FileInput: FormFileInput,
   Checkbox: FormCheckbox,
   Radio: FormRadio,
+  ButtonGroup: FormButtonGroup,
   VirtualSelect: FormVirtualSelect,
   Reset: FormResetButton,
   Submit: FormSubmitButton,

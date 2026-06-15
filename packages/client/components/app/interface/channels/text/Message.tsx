@@ -172,6 +172,15 @@ export function Message(props: Props) {
       }
       info={
         <Switch fallback={<div />}>
+          <Match when={props.message.iconRole}>
+            <Tooltip content={props.message.iconRole!.name} placement="top">
+              <Avatar
+                size={16}
+                shape="rounded-square"
+                src={props.message.iconRole!.icon?.previewUrl}
+              />
+            </Tooltip>
+          </Match>
           <Match
             when={
               props.message.masquerade &&

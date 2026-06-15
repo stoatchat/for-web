@@ -9,6 +9,7 @@ declare type DesktopConfig = {
   firstLaunch: boolean;
   customFrame: boolean;
   minimiseToTray: boolean;
+  startMinimisedToTray: boolean;
   spellchecker: boolean;
   hardwareAcceleration: boolean;
   discordRpc: boolean;
@@ -29,6 +30,17 @@ declare global {
       minimise(): void;
       maximise(): void;
       close(): void;
+      onceScreenPicker(
+        onScreenPick: (
+          sources: {
+            idx: number;
+            name: string;
+            isFullScreen: boolean;
+            image?: string;
+          }[],
+        ) => void,
+      ): void;
+      screenPickerCallback(idx: number, audio: boolean): void;
     };
 
     desktopConfig: {
@@ -66,6 +78,8 @@ export default function Native() {
 
   const toggles: Partial<Record<keyof DesktopConfig, () => void>> = {
     minimiseToTray: () => set({ minimiseToTray: !config().minimiseToTray }),
+    startMinimisedToTray: () =>
+      set({ startMinimisedToTray: !config().startMinimisedToTray }),
     customFrame: () => set({ customFrame: !config().customFrame }),
     discordRpc: () => set({ discordRpc: !config().discordRpc }),
     spellchecker: () => set({ spellchecker: !config().spellchecker }),
@@ -73,7 +87,7 @@ export default function Native() {
       set({ hardwareAcceleration: !config().hardwareAcceleration }),
   };
 
-  function CheckboxButton<K extends keyof DesktopConfig>(
+  function CheckboxButton<K extends keyof Omit<DesktopConfig, "windowState">>(
     key: K,
     icon: string,
     label: string,
@@ -81,16 +95,7 @@ export default function Native() {
   ) {
     return (
       <CategoryButton
-        action={
-          <Checkbox
-            checked={config()[key]}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => {
-              e.stopPropagation();
-              toggles[key]!();
-            }}
-          />
-        }
+        action={<Checkbox checked={config()[key]} />}
         onClick={toggles[key]}
         icon={<Symbol>{icon}</Symbol>}
         description={description}
@@ -104,13 +109,7 @@ export default function Native() {
     <Column gap="lg">
       <CategoryButton.Group>
         <CategoryButton
-          action={
-            <Checkbox
-              checked={autostart()}
-              onClick={(e) => e.stopPropagation()}
-              onChange={toggleAutostart}
-            />
-          }
+          action={<Checkbox checked={autostart()} />}
           onClick={toggleAutostart}
           icon={<Symbol>exit_to_app</Symbol>}
           description={
@@ -119,6 +118,13 @@ export default function Native() {
         >
           <Trans>Start with Computer</Trans>
         </CategoryButton>
+        {autostart() &&
+          CheckboxButton(
+            "startMinimisedToTray",
+            "minimize",
+            t`Start Minimised to Tray`,
+            t`Stoat will start in the system tray.`,
+          )}
         {CheckboxButton(
           "minimiseToTray",
           "cancel_presentation",

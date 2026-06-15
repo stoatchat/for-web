@@ -1,3 +1,4 @@
+import isEqual from "lodash.isequal";
 import { batch } from "solid-js";
 
 import { ReactiveSet } from "@solid-primitives/set";
@@ -6,10 +7,17 @@ import { Client } from "stoat.js";
 import { State } from "..";
 
 import { AbstractStore } from ".";
+import { TypeNotificationOptions } from "./NotificationOptions";
+import { TypeOrdering } from "./Ordering";
+import { TypeReleaseNotes } from "./ReleaseNotes";
 
-type SynchronisedStores = "ordering" | "notifications";
+type SynchronisedStores = "ordering" | "notifications" | "release-notes";
 
-const STORE_KEYS: SynchronisedStores[] = ["ordering", "notifications"];
+const STORE_KEYS: SynchronisedStores[] = [
+  "ordering",
+  "notifications",
+  "release-notes",
+];
 
 export interface TypeSynchronisation {
   revision: Record<SynchronisedStores, number>;
@@ -52,6 +60,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       revision: {
         ordering: 0,
         notifications: 0,
+        "release-notes": 0,
       },
     };
   }
@@ -163,15 +172,22 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
     if (import.meta.env.DEV)
       console.info(`[sync] merge ${key} at ${ts} with`, data);
 
+    const parsed = this.state[key].clean(JSON.parse(data));
     if (ts > this.ts(key)) {
       // if ts is newer, hydrate the store with it
-      const parsed = this.state[key].clean(JSON.parse(data));
       this.set("revision", key, ts);
       this.#blockSync.add(key);
       this.state.set(key, parsed);
     } else if (ts !== this.ts(key)) {
-      // if ts is old, trigger write to synchronise to remote
-      this.touch(key);
+      // if ts is old, trigger write to synchronise to remote, but only if the data has been updated
+      if (
+        !isEqual(
+          this.state[key].get(),
+          parsed as TypeOrdering & TypeNotificationOptions & TypeReleaseNotes,
+        )
+      ) {
+        this.touch(key);
+      }
     }
   }
 

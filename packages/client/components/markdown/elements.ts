@@ -184,3 +184,11 @@ export const code = styled("code", {
 export const time = cva({
   base: inlineCodeStyles,
 });
+
+export const img = styled("img", {
+  base: {
+    maxWidth: "100%",
+    height: "auto",
+    borderRadius: "var(--borderRadius-md)",
+  },
+});

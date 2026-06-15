@@ -1,40 +1,83 @@
-import { Match, Switch } from "solid-js";
-
 import { Trans } from "@lingui-solid/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { useVoice } from "@revolt/rtc";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-export function VoiceCallCardStatus() {
+export function VoiceCallCardStatus(props: { pip?: boolean }) {
   const voice = useVoice();
 
+  const symbol = () => {
+    switch (voice.state()) {
+      case "CONNECTED":
+        return "wifi_tethering";
+      case "CONNECTING":
+        return "wifi_tethering";
+      case "DISCONNECTED":
+        return "wifi_tethering_error";
+      case "RECONNECTING":
+        return "wifi_tethering";
+      default:
+        return "";
+    }
+  };
+
+  const text = () => {
+    switch (voice.state()) {
+      case "CONNECTED":
+        return <Trans>Connected</Trans>;
+      case "CONNECTING":
+        return <Trans>Connecting</Trans>;
+      case "DISCONNECTED":
+        return <Trans>Disconnected</Trans>;
+      case "RECONNECTING":
+        return <Trans>Reconnecting</Trans>;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Status status={voice.state()}>
-      <Switch>
-        <Match when={voice.state() === "CONNECTED"}>
-          <Symbol>wifi_tethering</Symbol> <Trans>Connected</Trans>
-        </Match>
-        <Match when={voice.state() === "CONNECTING"}>
-          <Symbol>wifi_tethering</Symbol> <Trans>Connecting</Trans>
-        </Match>
-        <Match when={voice.state() === "DISCONNECTED"}>
-          <Symbol>wifi_tethering_error</Symbol> <Trans>Disconnected</Trans>
-        </Match>
-        <Match when={voice.state() === "RECONNECTING"}>
-          <Symbol>wifi_tethering</Symbol> <Trans>Reconnecting</Trans>
-        </Match>
-      </Switch>
+    <Status status={voice.state()} pip={props.pip}>
+      <Symbol>{symbol()}</Symbol>{" "}
+      <FadeOut fade={voice.state() === "CONNECTED"}>{text()}</FadeOut>
     </Status>
   );
 }
+
+const FadeOut = styled("div", {
+  base: {
+    paddingLeft: "var(--gap-md)",
+  },
+  variants: {
+    fade: {
+      true: {
+        opacity: 0,
+        fontSize: 0,
+        paddingLeft: 0,
+        transition:
+          "opacity .3s 5s ease, font-size .3s 6s, padding-left .3s 6s",
+      },
+    },
+  },
+});
+
 const Status = styled("div", {
   base: {
     flexShrink: 0,
-    gap: "var(--gap-md)",
 
     display: "flex",
     justifyContent: "center",
+    zIndex: 1,
+
+    _hover: {
+      "& div": {
+        opacity: 1,
+        fontSize: "inherit",
+        paddingLeft: "var(--gap-md)",
+        transition: "opacity 0s 0s, font-size 0s 0s, padding-left 0s 0s",
+      },
+    },
   },
   variants: {
     status: {
@@ -50,6 +93,13 @@ const Status = styled("div", {
       },
       RECONNECTING: {
         color: "var(--md-sys-color-outline)",
+      },
+    },
+    pip: {
+      true: {
+        position: "absolute",
+        left: "var(--gap-md)",
+        top: "var(--gap-md)",
       },
     },
   },

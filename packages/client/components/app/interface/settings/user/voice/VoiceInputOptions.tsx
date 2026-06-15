@@ -1,14 +1,17 @@
-import { For } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { useMediaDeviceSelect } from "solid-livekit-components";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui-solid/solid/macro";
 
+import { CONFIGURATION } from "@revolt/common";
 import { useState } from "@revolt/state";
-import { Checkbox, Column, Slider, Text } from "@revolt/ui";
 import {
   CategoryButton,
-  CategoryCollapse,
-} from "@revolt/ui/components/design/CategoryButton";
+  CategorySelectOption,
+  Column,
+  Slider,
+  Text,
+} from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 /**
@@ -18,8 +21,11 @@ export function VoiceInputOptions() {
   return (
     <Column>
       <CategoryButton.Group>
-        <SelectMicrophone />
-        <SelectSpeaker />
+        <SelectInput kind="audioinput" />
+        <SelectInput kind="audiooutput" />
+        <Show when={CONFIGURATION.ENABLE_VIDEO}>
+          <SelectInput kind="videoinput" />
+        </Show>
       </CategoryButton.Group>
       <VolumeSliders />
     </Column>
@@ -27,92 +33,72 @@ export function VoiceInputOptions() {
 }
 
 /**
- * Select audio input
+ * Select input device w/ type
  */
-function SelectMicrophone() {
-  const { t } = useLingui();
+function SelectInput(props: { kind: MediaDeviceKind }) {
   const state = useState();
-  const { activeDeviceId, devices, setActiveMediaDevice } =
-    useMediaDeviceSelect({
-      kind: "audioinput",
-    });
+  const media = createMemo(() => useMediaDeviceSelect({ kind: props.kind }));
 
-  const activeId = () =>
-    (activeDeviceId() === "default"
-      ? state.voice.preferredAudioInputDevice
-      : undefined) ?? activeDeviceId();
+  const setKey = () =>
+    props.kind === "videoinput"
+      ? "preferredVideoDevice"
+      : props.kind === "audioinput"
+        ? "preferredAudioInputDevice"
+        : "preferredAudioOutputDevice";
 
-  const description = () =>
-    devices().find((device) => device.deviceId === activeId())?.label ??
-    t`Using default microphone`;
+  const icon = () =>
+    props.kind === "videoinput" ? (
+      <Symbol>camera_video</Symbol>
+    ) : props.kind === "audioinput" ? (
+      <Symbol>mic</Symbol>
+    ) : (
+      <Symbol>speaker</Symbol>
+    );
+
+  const title = () =>
+    props.kind === "videoinput" ? (
+      <Trans>Select video input</Trans>
+    ) : props.kind === "audioinput" ? (
+      <Trans>Select audio input</Trans>
+    ) : (
+      <Trans>Select audio output</Trans>
+    );
+
+  const activeId = createMemo(() => state.voice[setKey()] ?? "default");
+
+  const devOpts = createMemo(() => {
+    const devs = media().devices(),
+      opts: { [k in string]: CategorySelectOption } = {};
+
+    //Ensure default is at top
+    let d = devs.find((d) => d.deviceId === "default");
+    opts.default = { title: d?.label ?? "Default" };
+
+    for (d of devs)
+      if (d.deviceId !== "default") opts[d.deviceId] = { title: d.label };
+    return opts;
+  });
 
   return (
-    <CategoryCollapse
-      icon={<Symbol>mic</Symbol>}
-      title={<Trans>Select audio input</Trans>}
-      description={description()}
-      scrollable
-    >
-      <For each={devices()}>
-        {(device) => (
-          <CategoryButton
-            icon="blank"
-            action={<Checkbox checked={device.deviceId === activeId()} />}
-            onClick={() => {
-              state.voice.preferredAudioInputDevice = device.deviceId;
-              setActiveMediaDevice(device.deviceId);
-            }}
-          >
-            {device.label}
-          </CategoryButton>
-        )}
-      </For>
-    </CategoryCollapse>
-  );
-}
-
-/**
- * Select audio output
- */
-function SelectSpeaker() {
-  const { t } = useLingui();
-  const state = useState();
-  const { activeDeviceId, devices, setActiveMediaDevice } =
-    useMediaDeviceSelect({
-      kind: "audiooutput",
-    });
-
-  const activeId = () =>
-    (activeDeviceId() === "default"
-      ? state.voice.preferredAudioOutputDevice
-      : undefined) ?? activeDeviceId();
-
-  const description = () =>
-    devices().find((device) => device.deviceId === activeId())?.label ??
-    t`Using default speaker`;
-
-  return (
-    <CategoryCollapse
-      icon={<Symbol>speaker</Symbol>}
-      title={<Trans>Select audio output</Trans>}
-      description={description()}
-      scrollable
-    >
-      <For each={devices()}>
-        {(device) => (
-          <CategoryButton
-            icon="blank"
-            action={<Checkbox checked={device.deviceId === activeId()} />}
-            onClick={() => {
-              state.voice.preferredAudioOutputDevice = device.deviceId;
-              setActiveMediaDevice(device.deviceId);
-            }}
-          >
-            {device.label}
-          </CategoryButton>
-        )}
-      </For>
-    </CategoryCollapse>
+    <CategoryButton.Select
+      icon={icon()}
+      title={title()}
+      value={activeId()}
+      options={devOpts()}
+      onUpdate={(id) => {
+        const mMedia = media();
+        if (
+          id === "default" ||
+          mMedia.devices().find((d) => d.deviceId === id)
+        ) {
+          //Can't setActiveMediaDevice to "default" for video, only audio
+          //But it can be applied on livekit init, so this choice will be remembered
+          if (props.kind !== "videoinput" || id !== "default")
+            mMedia.setActiveMediaDevice(id);
+          state.voice[setKey()] = id === "default" ? undefined : id;
+        }
+      }}
+    />
   );
 }
 

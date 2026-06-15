@@ -18,7 +18,9 @@ const UnreadCounter = styled("div", {
   base: {
     width: "10px",
     height: "10px",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
     fontSize: "8px",
     fontWeight: 600,

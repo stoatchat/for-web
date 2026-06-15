@@ -229,18 +229,36 @@ msgstr ""
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
 
+#: components/modal/modals/BanMember.tsx
+msgid "1 day"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "1 hour"
+msgstr ""
+
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "एक यूजर ने रियेक्ट किया"
 
 #: components/app/interface/settings/user/Language.tsx
-#: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
-#: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "3 days"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "6 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "7 days"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -341,7 +359,10 @@ msgstr ""
 msgid "Already friends with this user."
 msgstr "पहले से ही इस उपयोगकर्ता के साथ दोस्त."
 
-#: components/app/interface/settings/user/Language.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Always Ask for Screen Share Quality"
+msgstr ""
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
 msgstr ""
@@ -376,6 +397,12 @@ msgstr ""
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
+#. placeholder {0}: props.user?.displayName ?? props.user.username
+#. placeholder {1}: props.group.name
+#: components/modal/modals/RemoveMember.tsx
+msgid "Are you sure you want to remove {0} from {1}?"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
 msgstr ""
@@ -389,6 +416,10 @@ msgstr "भूमिकाएँ असाइन करें"
 #: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
 msgstr "ऑथेंटिकटर ऍप"
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Automatic Gain Control"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -465,12 +496,16 @@ msgid "Bot"
 msgstr "बौट"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Browser"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
-msgid "Browser Noise Supression"
-msgstr ""
+#~ msgid "Browser Noise Supression"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -492,9 +527,12 @@ msgstr ""
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ResetBotToken.tsx
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/RemoveMember.tsx
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -579,8 +617,8 @@ msgid "Change your profile per-server"
 msgstr ""
 
 #: components/modal/modals/Changelog.tsx
-msgid "Changelog"
-msgstr ""
+#~ msgid "Changelog"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
@@ -625,6 +663,10 @@ msgstr "स्पष्ट स्थिति"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
+msgstr ""
+
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Click to copy username"
 msgstr ""
 
 #: src/interface/channels/ChannelHeader.tsx
@@ -734,6 +776,10 @@ msgstr ""
 msgid "Conversations"
 msgstr "बात चिट"
 
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Copied!"
+msgstr ""
+
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
 msgstr ""
@@ -773,6 +819,7 @@ msgid "Copy server ID"
 msgstr "सर्वर आईडी कॉपी करें"
 
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Copy text"
 msgstr "टेक्स्ट कॉपी करें"
 
@@ -932,6 +979,10 @@ msgstr ""
 msgid "Database error, please contact support. ({0})"
 msgstr ""
 
+#: components/app/interface/settings/user/Language.tsx
+msgid "Date format"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
@@ -1009,6 +1060,10 @@ msgstr ""
 msgid "Delete message"
 msgstr "संदेश को हटाएं"
 
+#: components/modal/modals/BanMember.tsx
+msgid "Delete Message History"
+msgstr ""
+
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
 msgstr "भूमिका हटाएँ"
@@ -1038,6 +1093,7 @@ msgstr "खाता अक्षम करें"
 msgid "Disable one-time password authenticator"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -1069,6 +1125,10 @@ msgstr ""
 msgid "Do Not Disturb"
 msgstr "परेशान न करें"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+msgid "Don't ask me again"
+msgstr ""
+
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
 msgstr ""
@@ -1076,6 +1136,10 @@ msgstr ""
 #: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "Don't delete messages"
+msgstr ""
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1194,6 +1258,14 @@ msgstr "डेस्कटॉप सूचनाएं सक्षम करे
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced (RNNoise)"
+msgstr ""
+
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
 msgstr ""
@@ -1219,6 +1291,10 @@ msgstr "अपना वर्तमान पासवर्ड डालें
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
 msgid "Enter your current password..."
+msgstr ""
+
+#: components/auth/src/flows/Form.tsx
+msgid "Enter your invite code."
 msgstr ""
 
 #: components/auth/src/flows/Form.tsx
@@ -1331,6 +1407,11 @@ msgstr ""
 msgid "Give us some detail"
 msgstr ""
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Go"
+msgstr ""
+
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowReset.tsx
@@ -1397,6 +1478,10 @@ msgstr ""
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Hide Others"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
 msgstr ""
@@ -1412,6 +1497,10 @@ msgstr "मैं पुष्टि करता/करती हूं कि 
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "I understand the consequences"
+msgstr ""
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "ID copied to clipboard"
 msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
@@ -1453,6 +1542,7 @@ msgstr "अपने सभी दोस्तों, कुछ अच्छे 
 msgid "Invite Bot"
 msgstr ""
 
+#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
 msgstr "कोड आमंत्रित"
@@ -1460,6 +1550,10 @@ msgstr "कोड आमंत्रित"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "दूसरों को आमंत्रित करें"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Invite URL copied to clipboard"
+msgstr ""
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -1477,7 +1571,6 @@ msgstr ""
 msgid "irrelevant joke badge 2"
 msgstr ""
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr ""
@@ -2022,6 +2115,10 @@ msgstr ""
 msgid "Permissions"
 msgstr "अनुमतियां"
 
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Pick a Screen to Share"
+msgstr ""
+
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
 msgstr "एक उपयोगकर्ता नाम चुनें जिसे आप चाहते हैं कि लोग आपको ढूंढ सकें, इसे बाद में सेटिंग में बदला जा सकता है।"
@@ -2062,6 +2159,10 @@ msgstr "कृपया अपने अनुरोध को प्रमा�
 msgid "Please select a reason"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Powered by RNNoise"
+msgstr ""
+
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
 msgstr "गोपनीयता नीति"
@@ -2070,6 +2171,7 @@ msgstr "गोपनीयता नीति"
 msgid "Private Channel"
 msgstr ""
 
+#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
 msgstr "प्रोफ़ाइल"
@@ -2103,8 +2205,8 @@ msgid "Read Message History"
 msgstr "संदेश का इतिहास पढ़ें"
 
 #: components/modal/modals/Changelog.tsx
-msgid "Read More"
-msgstr ""
+#~ msgid "Read More"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channel"
@@ -2119,6 +2221,10 @@ msgstr ""
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Reason"
 msgstr "कारण"
+
+#: components/modal/modals/ReportContent.tsx
+msgid "Reason for report"
+msgstr ""
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2157,6 +2263,10 @@ msgstr ""
 msgid "Relevance"
 msgstr "प्रासंगिकता"
 
+#: components/modal/modals/RemoveMember.tsx
+msgid "Remove"
+msgstr ""
+
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
 msgstr ""
@@ -2172,6 +2282,11 @@ msgstr "अवतारों को हटाएं"
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
 msgstr "मित्र को निकालें"
+
+#: components/modal/modals/RemoveMember.tsx
+#: components/app/menus/UserContextMenu.tsx
+msgid "Remove Member"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
@@ -2282,6 +2397,10 @@ msgstr ""
 #~ msgid "Roadmap"
 #~ msgstr ""
 
+#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
+msgid "Role Icon"
+msgstr ""
+
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Name"
@@ -2320,6 +2439,11 @@ msgstr "सहेजे गए नोट"
 msgid "Scams or fraud"
 msgstr ""
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Screen Share Settings"
+msgstr ""
+
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
 msgstr ""
@@ -2343,6 +2467,14 @@ msgstr ""
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Select members to add"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Select noise suppression"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Select screen share quality"
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
@@ -2471,6 +2603,10 @@ msgstr ""
 msgid "Show corrections and suggestions as you type."
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Show Others"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Show send message button"
 msgstr ""
@@ -2528,6 +2664,10 @@ msgstr "बोलना"
 msgid "Spellchecker"
 msgstr ""
 
+#: components/app/interface/settings/user/Native.tsx
+msgid "Start Minimised to Tray"
+msgstr ""
+
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Start the call"
 msgstr ""
@@ -2558,6 +2698,10 @@ msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
+msgstr ""
+
+#: components/app/interface/settings/user/Native.tsx
+msgid "Stoat will start in the system tray."
 msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
@@ -2734,6 +2878,10 @@ msgstr ""
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
 msgstr ""
 
+#: components/app/interface/settings/user/Language.tsx
+msgid "Time format"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
 msgstr "टाइमआउट सदस्य"
@@ -2742,11 +2890,14 @@ msgstr "टाइमआउट सदस्य"
 msgid "Toggle main sidebar"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Token copied to clipboard"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
 msgstr ""
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "Traditional (DD/MM/YYYY)"
 msgstr ""
@@ -2888,12 +3039,12 @@ msgid "Users will no longer be asked to confirm their age before joining this ch
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default microphone"
-msgstr ""
+#~ msgid "Using default microphone"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default speaker"
-msgstr ""
+#~ msgid "Using default speaker"
+#~ msgstr ""
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
@@ -2945,6 +3096,10 @@ msgstr "पुराने संदेश देखना"
 msgid "Voice"
 msgstr ""
 
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Voice & Video"
+msgstr ""
+
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
 msgstr "आवाज चैनल"
@@ -2990,6 +3145,14 @@ msgstr ""
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome!"
 msgstr "आपका स्वागत है!"
+
+#: components/modal/modals/Changelog.tsx
+msgid "What's new"
+msgstr ""
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "What's New"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"

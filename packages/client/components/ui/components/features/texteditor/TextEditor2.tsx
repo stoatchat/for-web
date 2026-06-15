@@ -6,6 +6,7 @@ import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView, keymap, placeholder } from "@codemirror/view";
 import { css } from "styled-system/css";
 
+import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
 import { codeMirrorAutoComplete } from "./codeMirrorAutoComplete";
@@ -70,6 +71,8 @@ const placeholderCompartment = new Compartment();
  * Text editor powered by CodeMirror
  */
 export function TextEditor2(props: Props) {
+  const editorScrollbarClasses = scrollableStyles();
+
   const codeMirror = document.createElement("div");
   codeMirror.className = editor;
 
@@ -121,8 +124,8 @@ export function TextEditor2(props: Props) {
 
         /* Mount keymaps */
         enterKeymap,
-        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
         arrowUpKeymap,
+        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
 
         /* Enable history */
         history(),
@@ -162,6 +165,12 @@ export function TextEditor2(props: Props) {
       ],
     }),
   });
+
+  // Apply shared scrollbar styles from the exported scrollable style classes.
+  const scroller = codeMirror.querySelector<HTMLDivElement>(".cm-scroller");
+  if (scroller) {
+    scroller.classList.add(...editorScrollbarClasses.split(" "));
+  }
 
   // connect signals to extensions
   createEffect(
@@ -258,6 +267,7 @@ const editor = css({
   "& .cm-editor": {
     width: "100%",
     alignSelf: "center",
+    maxHeight: "100%",
   },
 
   "& .cm-editor.cm-focused": {

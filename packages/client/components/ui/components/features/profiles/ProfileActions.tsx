@@ -12,7 +12,6 @@ import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
 import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
 
 import { Button, IconButton } from "../../design";
-import { dismissFloatingElements } from "../../floating";
 import { iconSize } from "../../utils";
 
 /**
@@ -38,13 +37,11 @@ export function ProfileActions(props: {
    * Open edit menu
    */
   function openEdit() {
-    if (props.member) {
-      openModal({ type: "server_identity", member: props.member });
-    } else {
-      openModal({ type: "settings", config: "user" });
-    }
-
-    dismissFloatingElements();
+    openModal(
+      props.member
+        ? { type: "server_identity", member: props.member }
+        : { type: "settings", config: "user" },
+    );
   }
 
   return (

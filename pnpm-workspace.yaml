@@ -6,7 +6,13 @@ packages:
   - packages/js-lingui-solid/packages/jest-mocks
   - packages/js-lingui-solid/packages/babel-plugin-extract-messages
   - packages/js-lingui-solid/packages/babel-plugin-lingui-macro
+allowBuilds:
+  "@swc/core": true
+  esbuild: true
 nodeLinker: isolated
-onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
+
+# Override prettier because some of the submodules have ancient prettiers required
+# Having multiple prettiers makes the vscode extension unpredictable
+overrides:
+  "prettier": "^3.8.1"
+strictPeerDependencies: false

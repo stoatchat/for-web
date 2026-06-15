@@ -6,8 +6,11 @@
 @import "@fontsource/inter/800";
 @import "@fontsource/jetbrains-mono";
 
-* {
-  box-sizing: border-box;
+* { box-sizing: border-box; }
+
+:root {
+  --phone-max-width: 600px;
+  --tablet-max-width: 960px;
 }
 
 body {
@@ -22,6 +25,7 @@ body {
   left: env(safe-area-inset-left);
   right: env(safe-area-inset-right);
   bottom: env(safe-area-inset-bottom);
+  background: #191919;
 }
 
 /* HighlightJs */

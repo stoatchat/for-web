@@ -8,7 +8,6 @@ import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
 import { Avatar, Ripple, Text } from "../../design";
-import { dismissFloatingElements } from "../../floating";
 
 import { ProfileCard } from "./ProfileCard";
 
@@ -55,8 +54,6 @@ export function ProfileMutuals(props: { user: User }) {
       type: "user_profile_mutual_friends",
       users: query.data!.users,
     });
-
-    dismissFloatingElements();
   }
 
   /**
@@ -67,8 +64,6 @@ export function ProfileMutuals(props: { user: User }) {
       type: "user_profile_mutual_groups",
       groups: query.data!.groups,
     });
-
-    dismissFloatingElements();
   }
 
   return (
