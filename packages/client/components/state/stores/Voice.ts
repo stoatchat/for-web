@@ -27,7 +27,6 @@ export const ScreenShareQualityNames: ScreenShareQualityName[] = [
   "text",
 ];
 
-
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
@@ -130,7 +129,6 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
     if (typeof input.screenShareQualityAsk === "boolean") {
       data.screenShareQualityAsk = input.screenShareQualityAsk;
     }
-
 
     if (typeof input.inputVolume === "number") {
       data.inputVolume = input.inputVolume;
