@@ -59,6 +59,8 @@ export function BanMemberModal(
             <Trans>You are about to ban {props.member.user?.username}</Trans>
           </Text>
           <Form2.TextField
+            maxlength={1024}
+            counter
             name="reason"
             control={group.controls.reason}
             label={t`Reason`}

@@ -4,6 +4,7 @@ import {
   ComponentProps,
   For,
   Match,
+  ParentProps,
   Show,
   Switch,
   splitProps,
@@ -16,6 +17,7 @@ import { styled } from "styled-system/jsx";
 
 import { Button, Checkbox, Radio2, Text, TextField } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
+import { Row } from "../layout";
 
 import { FileInput } from "./files";
 
@@ -230,6 +232,48 @@ const FormRadio = (
 };
 
 /**
+ * Form element wrapper for button groups
+ */
+const FormButtonGroup = (props: {
+  control: IFormControl<string>;
+  buttonDefinitions: (Omit<
+    ParentProps<ComponentProps<typeof Button>>,
+    "group" | "groupActive" | "onPress"
+  > & { value: string })[];
+}) => {
+  return (
+    <>
+      <Row justify="stretch">
+        <For each={props.buttonDefinitions}>
+          {(buttonDef, index) => (
+            <Button
+              group={
+                index() === 0
+                  ? "connected-start"
+                  : index() === props.buttonDefinitions.length - 1
+                    ? "connected-end"
+                    : "connected"
+              }
+              groupActive={props.control.value === buttonDef.value}
+              onPress={() => {
+                props.control.setValue(buttonDef.value);
+                props.control.markDirty(true);
+              }}
+              {...buttonDef}
+            />
+          )}
+        </For>
+      </Row>
+      <Show when={props.control.isTouched && !props.control.isValid}>
+        <For each={Object.keys(props.control.errors!)}>
+          {(errorMsg: string) => <small>{errorMsg}</small>}
+        </For>
+      </Show>
+    </>
+  );
+};
+
+/**
  * Form element for virtual selection
  */
 function FormVirtualSelect<K, T>(props: {
@@ -429,6 +473,7 @@ export const Form2 = {
   FileInput: FormFileInput,
   Checkbox: FormCheckbox,
   Radio: FormRadio,
+  ButtonGroup: FormButtonGroup,
   VirtualSelect: FormVirtualSelect,
   Reset: FormResetButton,
   Submit: FormSubmitButton,

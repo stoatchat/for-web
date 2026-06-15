@@ -92,6 +92,9 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           </Text>
           <Form2.FileInput control={editGroup.controls.icon} accept="image/*" />
           <Form2.TextField
+            minlength={1}
+            maxlength={32}
+            counter
             name="name"
             control={editGroup.controls.name}
             label={t`Channel Name`}
@@ -99,6 +102,8 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Form2.TextField
             autosize
             min-rows={2}
+            maxlength={1024}
+            counter
             name="description"
             control={editGroup.controls.description}
             label={t`Channel Description`}

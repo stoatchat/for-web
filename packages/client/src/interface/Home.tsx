@@ -175,11 +175,7 @@ export function HomePage() {
             </Switch>
             <CategoryButton
               variant="tertiary"
-              onClick={() =>
-                window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/",
-                )
-              }
+              onClick={() => window.open("https://ko-fi.com/stoatchat")}
               description={
                 <Trans>Support the project by donating - thank you!</Trans>
               }
