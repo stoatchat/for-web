@@ -326,6 +326,16 @@ export function ChannelPermissionsEditor(props: Props) {
         Any: t`React to messages with emoji`,
       },
     },
+
+    {
+      key: "BypassSlowmode",
+      value: 2n ** 39n,
+      title: t`Bypass Slowmode`,
+      description: {
+        Server: t`Bypasses slowmode in channels`,
+        TextChannel: t`Bypasses slowmode in channels`,
+      },
+    },
     {
       heading: t`Voice`,
       key: "Connect",

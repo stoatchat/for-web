@@ -5,13 +5,15 @@ import emojiRegex from "emoji-regex";
 import { useState } from "@revolt/state";
 import { EmojiBase, toCodepoint } from ".";
 
+// openmoji is off due to incomplete implementation
+
 export type UnicodeEmojiPacks =
   | "fluent-3d"
   | "fluent-color"
   | "fluent-flat"
   | "mutant"
   | "noto"
-  | "openmoji"
+  //  | "openmoji"
   | "twemoji";
 
 export const UNICODE_EMOJI_PACKS: UnicodeEmojiPacks[] = [
@@ -20,7 +22,7 @@ export const UNICODE_EMOJI_PACKS: UnicodeEmojiPacks[] = [
   "fluent-flat",
   "mutant",
   "noto",
-  "openmoji",
+  //  "openmoji",
   "twemoji",
 ];
 
@@ -29,7 +31,7 @@ export const UNICODE_EMOJI_PACK_PUA: Record<string, string> = {
   "fluent-flat": "\uE0E2",
   mutant: "\uE0E3",
   noto: "\uE0E4",
-  openmoji: "\uE0E5",
+  //  openmoji: "\uE0E5",
   twemoji: "\uE0E6",
 };
 
@@ -50,7 +52,7 @@ export const UNICODE_EMOJI_PUA_PACK: Record<string, UnicodeEmojiPacks> = {
   ["\uE0E2"]: "fluent-flat",
   ["\uE0E3"]: "mutant",
   ["\uE0E4"]: "noto",
-  ["\uE0E5"]: "openmoji",
+  //  ["\uE0E5"]: "openmoji",
   ["\uE0E6"]: "twemoji",
 };
 

@@ -37,6 +37,8 @@ export default function FlowLogin() {
     const email = data.get("email") as string;
     const password = data.get("password") as string;
 
+    if (!email || !password) return;
+
     await login(
       {
         email,

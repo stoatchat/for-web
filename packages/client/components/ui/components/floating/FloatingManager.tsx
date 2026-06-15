@@ -174,7 +174,7 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
           position: position.strategy,
           top: `${position.y ?? 0}px`,
           left: `${position.x ?? 0}px`,
-          "z-index": (999 - (props.show()?.userCard ? 1 : 0)).toString(),
+          "z-index": props.show()?.userCard ? "99" : "999",
         }}
       >
         <Switch>

@@ -6,6 +6,7 @@ import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 import { VideoTrack } from "solid-livekit-components";
 
+import { Show } from "solid-js";
 import { Modals } from "../types";
 
 export function ScreenShareSettingsModal(
@@ -19,6 +20,9 @@ export function ScreenShareSettingsModal(
       voice.screenShareQuality || "low",
       { required: true },
     ),
+    audio: createFormControl(props.audio && voice.screenShareAudio, {
+      disabled: !props.audio,
+    }),
     dontAsk: createFormControl(false),
   });
 
@@ -26,9 +30,13 @@ export function ScreenShareSettingsModal(
     if (group.controls.dontAsk.value) {
       voice.screenShareQuality = group.controls.qualityName.value;
       voice.screenShareQualityAsk = false;
+      voice.screenShareAudio = group.controls.audio.value;
     }
 
-    props.callback(group.controls.qualityName.value);
+    props.callback(
+      group.controls.qualityName.value,
+      group.controls.audio.value && props.audio,
+    );
     props.onClose();
   }
 
@@ -74,9 +82,19 @@ export function ScreenShareSettingsModal(
               };
             })}
           />
+          <Show when={props.audio}>
+            <Form2.Checkbox control={group.controls.audio}>
+              <Trans>Share audio</Trans>
+            </Form2.Checkbox>
+          </Show>
           <Form2.Checkbox control={group.controls.dontAsk}>
             <Trans>Don't ask me again</Trans>
           </Form2.Checkbox>
+          <Show when={!props.audio}>
+            <small>
+              <Trans>Audio disabled by browser</Trans>
+            </small>
+          </Show>
         </Column>
       </form>
     </Dialog>

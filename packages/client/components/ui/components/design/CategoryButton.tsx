@@ -61,7 +61,14 @@ export function CategoryButton(props: Props) {
       isLink={!!props.onClick}
       disabled={props.disabled}
       aria-disabled={props.disabled}
-      onClick={props.disabled ? undefined : props.onClick}
+      onClick={(e: Event) => {
+        // Disable action when button is disabled
+        if (props.disabled) return;
+
+        // Prevent propagation when action is called
+        e.preventDefault();
+        props.onClick?.();
+      }}
     >
       <Ripple />
 

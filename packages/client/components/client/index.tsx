@@ -11,14 +11,15 @@ import {
 import type { Client, User } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
+import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
 import { State } from "@revolt/state";
 
-import { State as LifecycleState } from "./Controller";
-
-import { CHANGELOG_MODAL_CONST } from "@revolt/modal/modals/Changelog";
 import ClientController from "./Controller";
 
 export type { default as ClientController } from "./Controller";
+
+export { useNotifications } from "./NotificationsController";
+export { SoundContext, SoundController, useSound } from "./Sounds";
 
 const clientContext = createContext(null! as ClientController);
 
@@ -32,25 +33,31 @@ export function ClientContext(props: { state: State; children: JSXElement }) {
   const controller = new ClientController(props.state);
   onCleanup(() => controller.dispose());
 
-  createEffect(() => {
-    const lastIndex = props.state.settings.getValue("changelog:last_index");
-    if (controller.lifecycle.state() === LifecycleState.Ready) return;
+  let fetchedChangelog = false;
+  createEffect(
+    on(
+      () => controller.isLoggedIn(),
+      (loggedIn) => {
+        if (!loggedIn || fetchedChangelog) return;
+        fetchedChangelog = true;
 
-    if (
-      lastIndex !== CHANGELOG_MODAL_CONST.index &&
-      new Date() < CHANGELOG_MODAL_CONST.until
-    ) {
-      openModal({
-        type: "changelog",
-        initial: CHANGELOG_MODAL_CONST.index,
-      });
+        fetchLatestChangelog().then((changelog) => {
+          if (!changelog) return;
+          if (props.state["release-notes"].lastSeenId === changelog.id) return;
 
-      props.state.settings.setValue(
-        "changelog:last_index",
-        CHANGELOG_MODAL_CONST.index,
-      );
-    }
-  });
+          props.state["release-notes"].markSeen(
+            changelog.id,
+            changelog.published_at,
+          );
+
+          openModal({
+            type: "changelog",
+            changelog,
+          });
+        });
+      },
+    ),
+  );
 
   createEffect(
     on(

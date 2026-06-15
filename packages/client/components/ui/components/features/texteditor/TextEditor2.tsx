@@ -124,8 +124,8 @@ export function TextEditor2(props: Props) {
 
         /* Mount keymaps */
         enterKeymap,
-        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
         arrowUpKeymap,
+        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
 
         /* Enable history */
         history(),

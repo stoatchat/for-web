@@ -4,7 +4,7 @@ import { styled } from "styled-system/jsx";
 import { useVoice } from "@revolt/rtc";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-export function VoiceCallCardStatus() {
+export function VoiceCallCardStatus(props: { pip?: boolean }) {
   const voice = useVoice();
 
   const symbol = () => {
@@ -38,7 +38,7 @@ export function VoiceCallCardStatus() {
   };
 
   return (
-    <Status status={voice.state()}>
+    <Status status={voice.state()} pip={props.pip}>
       <Symbol>{symbol()}</Symbol>{" "}
       <FadeOut fade={voice.state() === "CONNECTED"}>{text()}</FadeOut>
     </Status>
@@ -68,6 +68,7 @@ const Status = styled("div", {
 
     display: "flex",
     justifyContent: "center",
+    zIndex: 1,
 
     _hover: {
       "& div": {
@@ -92,6 +93,13 @@ const Status = styled("div", {
       },
       RECONNECTING: {
         color: "var(--md-sys-color-outline)",
+      },
+    },
+    pip: {
+      true: {
+        position: "absolute",
+        left: "var(--gap-md)",
+        top: "var(--gap-md)",
       },
     },
   },

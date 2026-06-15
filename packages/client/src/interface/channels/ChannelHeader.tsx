@@ -8,6 +8,7 @@ import { styled } from "styled-system/jsx";
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -55,6 +56,7 @@ export function ChannelHeader(props: Props) {
   const client = useClient();
   const { t } = useLingui();
   const state = useState();
+  const voice = useVoice();
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
@@ -133,6 +135,20 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
+
+      <Show when={props.channel.isVoice && !voice.showCard(props.channel)}>
+        <IconButton
+          onPress={() => voice.connect(props.channel)}
+          use:floating={{
+            tooltip: {
+              placement: "bottom",
+              content: t`Join the voice channel`,
+            },
+          }}
+        >
+          <Symbol>call</Symbol>
+        </IconButton>
+      </Show>
 
       <Show
         when={

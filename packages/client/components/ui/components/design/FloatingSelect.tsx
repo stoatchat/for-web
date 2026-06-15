@@ -15,16 +15,16 @@ import { autoUpdate, flip, offset, shift, size } from "@floating-ui/dom";
 import { MenuItem } from "mdui/components/menu-item";
 import { styled } from "styled-system/jsx";
 
-type FloatingSelectProps = JSX.HTMLAttributes<HTMLButtonElement> & {
+type FloatingSelectPropsLabel =
+  | { required: true; label: string }
+  | { required?: false; label?: string };
+
+type FloatingSelectProps = FloatingSelectPropsLabel & {
   value?: string;
-  label?: string;
-  required?: boolean;
   disabled?: boolean;
   variant?: "filled" | "outlined";
   children: JSX.Element;
-  onChange?: (
-    event: Event & { currentTarget: HTMLElement; target: Element },
-  ) => void;
+  onChange?: (event: Event & { currentTarget: MenuItem }) => void;
 };
 
 /**
@@ -110,20 +110,9 @@ export function FloatingSelect(props: FloatingSelectProps) {
         ) as MenuItem);
 
     if (menuItem) {
-      const value = menuItem.getAttribute("value");
-      if (value !== null && local.onChange) {
+      if (menuItem.value != null && local.onChange) {
         // Create a synthetic event that matches the expected interface
-        const syntheticEvent = {
-          ...event,
-          currentTarget: menuItem as HTMLElement,
-          target: menuItem as Element,
-        };
-        local.onChange(
-          syntheticEvent as Event & {
-            currentTarget: HTMLElement;
-            target: Element;
-          },
-        );
+        local.onChange({ ...event, currentTarget: menuItem });
       }
       setIsOpen(false);
     }
@@ -139,11 +128,13 @@ export function FloatingSelect(props: FloatingSelectProps) {
         onClick={() => !local.disabled && setIsOpen(!isOpen())}
         {...others}
       >
-        <SelectLabel floating={!!local.value || isOpen()}>
-          {local.label}
-          {local.required && " *"}
-        </SelectLabel>
-        <SelectValue>{selectedText()}</SelectValue>
+        <Show when={local.label}>
+          <SelectLabel floating={!!local.value || isOpen()}>
+            {local.label}
+            {local.required && " *"}
+          </SelectLabel>
+        </Show>
+        <SelectValue labeled={!!local.label}>{selectedText()}</SelectValue>
         <ArrowIcon open={isOpen()} viewBox="0 0 24 24">
           <path d="M7 10l5 5 5-5z" />
         </ArrowIcon>
@@ -250,10 +241,17 @@ const SelectLabel = styled("label", {
 const SelectValue = styled("span", {
   base: {
     flex: 1,
-    paddingTop: "16px",
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
+  },
+
+  variants: {
+    labeled: {
+      true: {
+        paddingTop: "16px",
+      },
+    },
   },
 });
 

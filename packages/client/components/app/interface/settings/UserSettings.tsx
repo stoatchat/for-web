@@ -8,15 +8,18 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
+import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
 import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
+import MdCampaign from "@material-design-icons/svg/outlined/campaign.svg?component-solid";
 import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
 import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
 import MdMic from "@material-design-icons/svg/outlined/mic.svg?component-solid";
+import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
 import MdRateReview from "@material-design-icons/svg/outlined/rate_review.svg?component-solid";
 import MdScience from "@material-design-icons/svg/outlined/science.svg?component-solid";
@@ -27,16 +30,17 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import { AccountCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
+import { AppearanceMenu } from "./user/appearance";
+import { MyBots, ViewBot } from "./user/bots";
 import { Feedback } from "./user/Feedback";
 import { LanguageSettings } from "./user/Language";
 import Native from "./user/Native";
-import { Sessions } from "./user/Sessions";
-import { AccountCard } from "./user/_AccountCard";
-import { AppearanceMenu } from "./user/appearance";
-import { MyBots, ViewBot } from "./user/bots";
+import Notifications from "./user/notifications/Notifications";
 import { EditProfile } from "./user/profile";
+import { Sessions } from "./user/Sessions";
 import { EditSubscription } from "./user/subscriptions";
 import { VoiceSettings } from "./user/voice/VoiceSettings";
 
@@ -94,6 +98,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Native />;
       case "voice":
         return <VoiceSettings />;
+      case "notifications":
+        return <Notifications isDesktop={!!window.native} />;
       default:
         return null;
     }
@@ -106,7 +112,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * @returns List
    */
   list() {
-    const { pop } = useModals();
+    const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
 
     return {
@@ -228,11 +234,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             //   title: t("app.settings.pages.plugins.title"),
             //   hidden: !getController("state").experiments.isEnabled("plugins"),
             // },
-            // {
-            //   id: "notifications",
-            //   icon: <MdNotifications {...iconSize(20)} />,
-            //   title: t("app.settings.pages.notifications.title"),
-            // },
+            {
+              id: "notifications",
+              icon: <MdNotifications {...iconSize(20)} />,
+              title: <Trans>Notifications</Trans>,
+            },
             // {
             //   id: "keybinds",
             //   icon: <MdKeybinds {...iconSize(20)} />,
@@ -263,12 +269,15 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         },
         {
           entries: [
-            // {
-            //   onClick: () =>
-            //     getController("modal").push({ type: "changelog", posts: [] }),
-            //   icon: <MdFormatListBulleted {...iconSize(20)} />,
-            //   title: t("app.special.modals.changelogs.title"),
-            // },
+            {
+              onClick: async () => {
+                const changelog = await fetchLatestChangelog();
+                if (!changelog) return;
+                openModal({ type: "changelog", changelog });
+              },
+              icon: <MdCampaign {...iconSize(20)} />,
+              title: <Trans>What's New</Trans>,
+            },
             {
               href: "https://github.com/stoatchat",
               icon: <MdMemory {...iconSize(20)} />,

@@ -6,12 +6,12 @@ FROM node:24-alpine AS builder
 RUN apk add --no-cache git python3 make g++
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
+RUN corepack enable && corepack prepare pnpm@11.3.0 --activate
 
 WORKDIR /build
 
 # Copy workspace config files for dependency resolution
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
 # Copy all package.json files for workspace packages
 COPY packages/stoat.js/package.json packages/stoat.js/

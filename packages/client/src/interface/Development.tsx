@@ -90,13 +90,6 @@ export function DevelopmentPage() {
     });
   }
 
-  function changelog() {
-    openModal({
-      type: "changelog",
-      initial: 0,
-    });
-  }
-
   const manyData = new Array(1000).fill(0).map((_, idx) => idx);
 
   return (
@@ -121,8 +114,6 @@ export function DevelopmentPage() {
       >
         bot test
       </Button>
-
-      <Button onPress={changelog}>Changelog Modal</Button>
 
       <Row align>
         <Button variant="elevated">Elevated</Button>

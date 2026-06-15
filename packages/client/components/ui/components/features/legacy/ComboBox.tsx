@@ -3,7 +3,7 @@ import { styled } from "styled-system/jsx";
 /**
  * Dropdown element
  *
- * @deprecated Use TextField.Select instead
+ * @deprecated Use FloatingSelect or Form2.Select instead
  */
 export const ComboBox = styled("select", {
   base: {

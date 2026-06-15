@@ -116,6 +116,47 @@ const components = () => ({
   style: Null,
 });
 
+const changelogComponents = () => ({
+  unicodeEmoji: RenderUnicodeEmoji,
+  customEmoji: RenderCustomEmoji,
+  mention: RenderMention,
+  timestamp: RenderTimestamp,
+  spoiler: RenderSpoiler,
+
+  a: RenderAnchor,
+  p: elements.paragraph,
+  em: elements.emphasis,
+  strong: elements.strong,
+  del: elements.strikethrough,
+  h1: elements.heading1,
+  h2: elements.heading2,
+  h3: elements.heading3,
+  h4: elements.heading4,
+  h5: elements.heading5,
+  h6: elements.heading6,
+  pre: RenderCodeblock,
+  li: elements.listItem,
+  ul: elements.unorderedList,
+  ol: RenderOrderedList,
+  blockquote: elements.blockquote,
+  table: elements.table,
+  th: elements.tableHeader,
+  td: elements.tableElement,
+  code: elements.code,
+  time: elements.time,
+
+  // Block image elements
+  img: elements.img,
+  // Catch literally everything else just in case
+  video: Null,
+  figure: Null,
+  picture: Null,
+  source: Null,
+  audio: Null,
+  script: Null,
+  style: Null,
+});
+
 const replyComponents = () => ({
   unicodeEmoji: RenderUnicodeEmoji,
   customEmoji: RenderCustomEmoji,
@@ -281,6 +322,30 @@ export function renderSimpleMarkdown(content: string) {
         ...defaults,
         // @ts-expect-error it doesn't like the td component
         components: replyComponents(),
+      },
+      schema: html,
+      listDepth: 0,
+    },
+    hastNode,
+  );
+}
+
+export function renderChangelogMarkdown(content: string) {
+  const file = new VFile();
+  file.value = sanitise(content);
+
+  const hastNode = replyPipeline.runSync(replyPipeline.parse(file), file);
+
+  if (hastNode.type !== "root") {
+    throw new TypeError("Expected a `root` node");
+  }
+
+  return childrenToSolid(
+    {
+      options: {
+        ...defaults,
+        // @ts-expect-error it doesn't like the td component
+        components: changelogComponents(),
       },
       schema: html,
       listDepth: 0,

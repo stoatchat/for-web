@@ -1,10 +1,22 @@
 import HCaptcha, { HCaptchaFunctions } from "solid-hcaptcha";
-import { For, JSX, Show, createSignal } from "solid-js";
+import { createSignal, For, JSX, Show } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 
 import { useError } from "@revolt/i18n";
-import { Checkbox2, Column, Text, TextField } from "@revolt/ui";
+import { Checkbox, Column, iconSize, Text, TextField } from "@revolt/ui";
+import { styled } from "styled-system/jsx";
+
+import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
+
+const ErrorContainer = styled("span", {
+  base: {
+    color: "var(--md-sys-color-error)",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.25em",
+  },
+});
 
 /**
  * Available field types
@@ -93,9 +105,9 @@ export function Fields(props: FieldProps) {
         return (
           <label>
             {field.field === "log-out" ? (
-              <Checkbox2 name={field.field}>
+              <Checkbox name={field.field}>
                 {fieldConfiguration[field.field].name()}
-              </Checkbox2>
+              </Checkbox>
             ) : (
               <TextField
                 required
@@ -157,6 +169,7 @@ export function Form(props: Props) {
     try {
       await props.onSubmit(formData);
     } catch (err) {
+      console.error(err);
       setError(err);
     }
   }
@@ -166,9 +179,16 @@ export function Form(props: Props) {
       <Column gap="lg">
         {props.children}
         <Show when={error()}>
-          <Text class="label" size="small">
-            {err(error())}
-          </Text>
+          <ErrorContainer>
+            <MdError
+              {...iconSize("1rem")}
+              fill="currentColor"
+              style={{ "flex-shrink": 0 }}
+            />
+            <Text class="label" size="small">
+              {err(error())}
+            </Text>
+          </ErrorContainer>
         </Show>
       </Column>
       <Show when={props.captcha}>

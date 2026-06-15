@@ -30,6 +30,7 @@ export const ScreenShareQualityNames: ScreenShareQualityName[] = [
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
+  preferredVideoDevice?: string;
 
   echoCancellation: boolean;
   noiseSupression: NoiseSuppresionState;
@@ -37,6 +38,7 @@ export interface TypeVoice {
 
   screenShareQuality: ScreenShareQualityName;
   screenShareQualityAsk: boolean;
+  screenShareAudio: boolean;
 
   inputVolume: number;
   outputVolume: number;
@@ -45,6 +47,9 @@ export interface TypeVoice {
 
   userVolumes: Record<string, number>;
   userMutes: Record<string, boolean>;
+
+  screenShareVolumes: Record<string, number>;
+  screenShareMutes: Record<string, boolean>;
 }
 
 /**
@@ -76,12 +81,15 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       autoGainControl: true,
       screenShareQuality: "low",
       screenShareQualityAsk: true,
+      screenShareAudio: true,
       inputVolume: 1.0,
       outputVolume: 1.0,
       deafen: false,
       micOn: true,
       userVolumes: {},
       userMutes: {},
+      screenShareVolumes: {},
+      screenShareMutes: {},
     };
   }
 
@@ -97,6 +105,10 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
 
     if (typeof input.preferredAudioOutputDevice === "string") {
       data.preferredAudioOutputDevice = input.preferredAudioOutputDevice;
+    }
+
+    if (typeof input.preferredVideoDevice === "string") {
+      data.preferredVideoDevice = input.preferredVideoDevice;
     }
 
     if (typeof input.echoCancellation === "boolean") {
@@ -130,6 +142,10 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       data.screenShareQualityAsk = input.screenShareQualityAsk;
     }
 
+    if (typeof input.screenShareAudio === "boolean") {
+      data.screenShareAudio = input.screenShareAudio;
+    }
+
     if (typeof input.inputVolume === "number") {
       data.inputVolume = input.inputVolume;
     }
@@ -161,6 +177,23 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
           ([userId, muted]) => typeof userId === "string" && muted === true,
         )
         .forEach(([k, v]) => (data.userMutes[k] = v));
+    }
+
+    if (typeof input.screenShareVolumes === "object") {
+      Object.entries(input.screenShareVolumes)
+        .filter(
+          ([userId, volume]) =>
+            typeof userId === "string" && typeof volume === "number",
+        )
+        .forEach(([k, v]) => (data.screenShareVolumes[k] = v));
+    }
+
+    if (typeof input.screenShareMutes === "object") {
+      Object.entries(input.screenShareMutes)
+        .filter(
+          ([userId, muted]) => typeof userId === "string" && muted === true,
+        )
+        .forEach(([k, v]) => (data.screenShareMutes[k] = v));
     }
 
     return data;
@@ -203,17 +236,60 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   }
 
   /**
+   * Set a user's screen share volume
+   * @param userId User ID
+   * @param volume Volume
+   */
+  setScreenShareVolume(userId: string, volume: number) {
+    this.set("screenShareVolumes", userId, volume);
+  }
+
+  /**
+   * Get a user's screen share volume
+   * @param userId User ID
+   * @returns Volume or default
+   */
+  getScreenShareVolume(userId: string): number {
+    return this.get().screenShareVolumes[userId] || 1.0;
+  }
+
+  /**
+   * Set whether a user's screen share is muted
+   * @param userId User ID
+   * @param muted Whether they should be muted
+   */
+  setScreenShareMuted(userId: string, muted: boolean) {
+    this.set("screenShareMutes", userId, muted);
+  }
+
+  /**
+   * Get whether a user's screen share is muted
+   * @param userId User ID
+   * @returns Whether muted
+   */
+  getScreenShareMuted(userId: string): boolean {
+    return this.get().screenShareMutes[userId] ?? true;
+  }
+
+  /**
    * Set the preferred audio input device
    */
-  set preferredAudioInputDevice(value: string) {
+  set preferredAudioInputDevice(value: string | undefined) {
     this.set("preferredAudioInputDevice", value);
   }
 
   /**
    * Set the preferred audio output device
    */
-  set preferredAudioOutputDevice(value: string) {
+  set preferredAudioOutputDevice(value: string | undefined) {
     this.set("preferredAudioOutputDevice", value);
+  }
+
+  /**
+   * Set the preferred video input device
+   */
+  set preferredVideoDevice(value: string | undefined) {
+    this.set("preferredVideoDevice", value);
   }
 
   /**
@@ -249,6 +325,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   set screenShareQualityAsk(value: boolean) {
     this.set("screenShareQualityAsk", value);
+  }
+
+  /**
+   * Set screen share audio
+   */
+  set screenShareAudio(value: boolean) {
+    this.set("screenShareAudio", value);
   }
 
   /**
@@ -290,7 +373,14 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    * Get the preferred audio output device
    */
   get preferredAudioOutputDevice(): string | undefined {
-    return this.get().preferredAudioInputDevice;
+    return this.get().preferredAudioOutputDevice;
+  }
+
+  /**
+   * Get the preferred video input device
+   */
+  get preferredVideoDevice(): string | undefined {
+    return this.get().preferredVideoDevice;
   }
 
   /**
@@ -326,6 +416,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get screenShareQualityAsk(): boolean {
     return this.get().screenShareQualityAsk;
+  }
+
+  /**
+   * Get screen share audio
+   */
+  get screenShareAudio(): boolean {
+    return this.get().screenShareAudio;
   }
 
   /**
