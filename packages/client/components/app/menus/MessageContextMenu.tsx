@@ -14,6 +14,7 @@ import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-s
 import MdDeleteSweep from "@material-design-icons/svg/outlined/delete_sweep.svg?component-solid";
 import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
 import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
+import MdEmojiEmotions from "@material-design-icons/svg/outlined/emoji_emotions.svg?component-solid";
 import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
 import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
 import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
@@ -25,6 +26,7 @@ import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-s
 
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
 
+import { useMessage } from "../interface/channels/text/Message";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -44,6 +46,7 @@ export function MessageContextMenu(props: {
   const state = useState();
   const client = useClient();
   const { openModal, showError } = useModals();
+  const { reactPicker } = useMessage();
 
   /**
    * Reply to this message
@@ -177,7 +180,20 @@ export function MessageContextMenu(props: {
         <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
           <Trans>Copy text</Trans>
         </ContextMenuButton>
+
         <ContextMenuDivider />
+
+        <Show
+          when={reactPicker && props.message?.channel?.havePermission("React")}
+        >
+          <ContextMenuButton
+            icon={MdEmojiEmotions}
+            onClick={(e) => reactPicker!()?.onClickEmoji(e)}
+          >
+            <Trans>React</Trans>
+          </ContextMenuButton>
+        </Show>
+
         <Show
           when={
             props.message!.author?.self &&

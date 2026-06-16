@@ -101,6 +101,8 @@ type Props = CommonProps & {
    */
   contextMenu?: () => JSX.Element;
 
+  ref?: HTMLDivElement;
+
   /**
    * Additional match cases for the inline-start information element
    */
@@ -311,6 +313,7 @@ export function MessageContainer(props: Props) {
   return (
     <div
       id={message?.id}
+      ref={props.ref}
       onMouseEnter={() => props.onHover && props.onHover(true)}
       onMouseLeave={() => props.onHover && props.onHover(false)}
       class={

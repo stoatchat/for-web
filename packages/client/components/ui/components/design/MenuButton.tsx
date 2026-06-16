@@ -39,6 +39,8 @@ export type Props = {
    * Hover actions
    */
   readonly actions?: JSX.Element;
+
+  readonly noDrawer?: boolean;
 };
 
 /**
@@ -52,6 +54,7 @@ export function MenuButton(
   const { appDrawer } = useState();
   const [local, other] = splitProps(props, [
     "onClick",
+    "noDrawer",
     "attention",
     "size",
     "icon",
@@ -61,7 +64,7 @@ export function MenuButton(
   ]);
 
   function onClick(e: Event) {
-    appDrawer()?.setShown(true);
+    if (!local.noDrawer) appDrawer()?.setShown(true);
     // @ts-expect-error callable listener
     if (local.onClick) local.onClick(e);
   }

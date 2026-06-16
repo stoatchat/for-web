@@ -3,7 +3,6 @@ import {
   Accessor,
   JSX,
   Match,
-  Ref,
   Setter,
   Show,
   Switch,
@@ -25,17 +24,18 @@ import { Row } from "@revolt/ui/components/layout";
 import { EmojiPicker } from "./EmojiPicker";
 import { GifPicker } from "./GifPicker";
 
+export type MediaPickerProps = {
+  ref: Setter<HTMLElement | undefined>;
+  onClickGif: (_: MouseEvent, ref?: HTMLDivElement) => void;
+  onClickEmoji: (_: MouseEvent, ref?: HTMLDivElement) => void;
+};
+
 interface Props {
   /**
    * User card trigger area
-   * @param triggerProps Props that need to be applied to the trigger area
+   * @param trigProps Props that need to be applied to the trigger area
    */
-  children: (triggerProps: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ref: Ref<any>;
-    onClickGif: () => void;
-    onClickEmoji: () => void;
-  }) => JSX.Element;
+  children: (trigProps: MediaPickerProps) => JSX.Element;
 
   /**
    * Send a message
@@ -55,19 +55,24 @@ export const CompositionMediaPickerContext = createContext(
 export function CompositionMediaPicker(props: Props) {
   const [anchor, setAnchor] = createSignal<HTMLElement>();
   const [show, setShow] = createSignal<"gif" | "emoji">();
+  let altRef: HTMLDivElement | undefined;
 
   return (
     <CompositionMediaPickerContext.Provider value={props}>
       {props.children({
         ref: setAnchor,
-        onClickGif: () =>
-          setShow((current) => (current === "gif" ? undefined : "gif")),
-        onClickEmoji: () =>
-          setShow((current) => (current === "emoji" ? undefined : "emoji")),
+        onClickGif: (_, ref) => {
+          altRef = ref;
+          setShow((current) => (current === "gif" ? undefined : "gif"));
+        },
+        onClickEmoji: (_, ref) => {
+          altRef = ref;
+          setShow((current) => (current === "emoji" ? undefined : "emoji"));
+        },
       })}
-      <Portal mount={document.getElementById("floating")!}>
-        <Presence>
-          <Show when={show()}>
+      <Presence>
+        <Show when={show()}>
+          <Portal mount={document.getElementById("floating")!}>
             <Motion
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -75,16 +80,16 @@ export function CompositionMediaPicker(props: Props) {
               transition={{ duration: 0.2, easing: [0.87, 0, 0.13, 1] }}
             >
               <Picker
-                anchor={anchor}
+                anchor={() => altRef || anchor()}
                 show={show}
                 setShow={setShow}
                 onMessage={props.onMessage}
                 onTextReplacement={props.onTextReplacement}
               />
             </Motion>
-          </Show>
-        </Presence>
-      </Portal>
+          </Portal>
+        </Show>
+      </Presence>
     </CompositionMediaPickerContext.Provider>
   );
 }
@@ -103,8 +108,8 @@ function Picker(
     middleware: [offset(5), flip(), shift()],
   });
 
-  function onMouseDown() {
-    props.setShow();
+  function onMouseDown(e: MouseEvent) {
+    if (!floating()?.contains(e.target as Node)) props.setShow();
   }
 
   onMount(() => document.addEventListener("mousedown", onMouseDown));
