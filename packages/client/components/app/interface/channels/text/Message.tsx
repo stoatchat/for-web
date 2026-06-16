@@ -195,7 +195,12 @@ export function Message(props: Props) {
         contextMenu={
           props.editing
             ? undefined
-            : () => <MessageContextMenu message={props.message} />
+            : () => (
+                <MessageContextMenu
+                  message={props.message}
+                  reactPicker={reactPicker}
+                />
+              )
         }
         timestamp={props.message.createdAt}
         edited={props.message.editedAt}

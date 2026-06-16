@@ -84,7 +84,9 @@ export function MessageToolbar() {
       <div
         class={tool()}
         use:floating={{
-          contextMenu: () => <MessageContextMenu message={message!} />,
+          contextMenu: () => (
+            <MessageContextMenu message={message!} reactPicker={reactPicker} />
+          ),
           contextMenuHandler: "click",
         }}
       >
