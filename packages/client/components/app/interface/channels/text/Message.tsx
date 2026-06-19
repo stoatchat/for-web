@@ -210,31 +210,29 @@ export function Message(props: Props) {
         isLink={props.isLink}
         tail={props.tail || state.settings.getValue("appearance:compact_mode")}
         header={
-          <Show when={props.message.replyIds}>
-            <For each={props.message.replyIds}>
-              {(reply_id) => {
-                /**
-                 * Signal the actual message
-                 */
-                const message = () => client().messages.get(reply_id);
+          <For each={props.message.replyIds}>
+            {(reply_id) => {
+              /**
+               * Signal the actual message
+               */
+              const message = () => client().messages.get(reply_id);
 
-                onMount(() => {
-                  if (!message()) {
-                    props.message.channel!.fetchMessage(reply_id);
-                  }
-                });
+              onMount(() => {
+                if (!message()) {
+                  props.message.channel!.fetchMessage(reply_id);
+                }
+              });
 
-                return (
-                  <MessageReply
-                    mention={props.message.mentionIds?.includes(
-                      message()!.authorId!,
-                    )}
-                    message={message()}
-                  />
-                );
-              }}
-            </For>
-          </Show>
+              return (
+                <MessageReply
+                  mention={props.message.mentionIds?.includes(
+                    message()!.authorId!,
+                  )}
+                  message={message()}
+                />
+              );
+            }}
+          </For>
         }
         info={
           <Switch fallback={<div />}>
