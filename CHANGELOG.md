@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.9.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.8.0...stoat-for-web-v0.9.0) (2026-06-19)
+
+
+### Features
+
+* add gif providers regex to detect gif providers ([#1243](https://github.com/stoatchat/for-web/issues/1243)) ([26b248e](https://github.com/stoatchat/for-web/commit/26b248e0ea3f8a886e5e3071aa97929fa555b7c3))
+* add NFKC normalization to autocomplete ([#1267](https://github.com/stoatchat/for-web/issues/1267)) ([79dc800](https://github.com/stoatchat/for-web/commit/79dc800e8c5f06d6e5b655c36028088b664e1995))
+* add toggle for password field visibility ([#1252](https://github.com/stoatchat/for-web/issues/1252)) ([57dbb08](https://github.com/stoatchat/for-web/commit/57dbb087eb1f4df4c877d003fcc6d5ccff07ae6a))
+* add toggle for password visibility ([57dbb08](https://github.com/stoatchat/for-web/commit/57dbb087eb1f4df4c877d003fcc6d5ccff07ae6a))
+
+
+### Bug Fixes
+
+* add missing onSuccess to DeleteRole.tsx ([#1248](https://github.com/stoatchat/for-web/issues/1248)) ([89e8705](https://github.com/stoatchat/for-web/commit/89e87057f652ee1270dd6fa27e0440b4e1fb1797))
+* call logout request on logout ([#1197](https://github.com/stoatchat/for-web/issues/1197)) ([21c64ce](https://github.com/stoatchat/for-web/commit/21c64cedbeb52857f5c467e488a9dd7215edb52e))
+* Force touch keyboard to resize content window on mobile ([#1253](https://github.com/stoatchat/for-web/issues/1253)) ([c399afd](https://github.com/stoatchat/for-web/commit/c399afdd9ee63d4efb22d8fd91e7f163cb394a0d))
+* Persist 'member' prop from preview card to full profile view ([#1216](https://github.com/stoatchat/for-web/issues/1216)) ([54bb75b](https://github.com/stoatchat/for-web/commit/54bb75bd19a8f9672b3a624c1f74eac54350644d))
+* prevent all invites from disappearing on deletion ([#1249](https://github.com/stoatchat/for-web/issues/1249)) ([9915ab0](https://github.com/stoatchat/for-web/commit/9915ab0f5cba647410667d289293a2a0dc2f1ecf))
+* use `mise assets` for prod release ([#1278](https://github.com/stoatchat/for-web/issues/1278)) ([90f0fe8](https://github.com/stoatchat/for-web/commit/90f0fe8f73000fd50d55e4882d1cd46b1f9c79e3))
+
 ## [0.8.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.7.0...stoat-for-web-v0.8.0) (2026-06-16)
 
 
