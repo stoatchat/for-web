@@ -64,8 +64,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
             placement: "top",
             content: voice.listenPermission
               ? voice.deafen()
-                ? t`Listen`
-                : t`Defean`
+                ? t`Undeafen`
+                : t`Deafen`
               : t`Missing permission`,
           },
         }}
