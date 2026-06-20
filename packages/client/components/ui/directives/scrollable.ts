@@ -2,7 +2,7 @@ import { type Accessor, type JSX, onCleanup } from "solid-js";
 
 import { cva } from "styled-system/css";
 
-const baseStyles = cva({
+export const scrollableStyles = cva({
   base: {
     willChange: "transform",
     scrollbarColor: "var(--md-sys-color-primary) transparent",
@@ -66,7 +66,7 @@ export function scrollable(
   }
 
   el.classList.add(
-    ...baseStyles({
+    ...scrollableStyles({
       direction: props.direction,
       showOnHover: props.showOnHover,
     }).split(" "),
@@ -83,7 +83,14 @@ export function scrollable(
      * Handle mouse entry
      */
     const onMouseEnter = () => {
-      el.classList.add(...showClass);
+      const isOverflowing =
+        props.direction === "x"
+          ? el.scrollWidth > el.clientWidth
+          : el.scrollHeight > el.clientHeight;
+
+      if (isOverflowing) {
+        el.classList.add(...showClass);
+      }
     };
 
     /**

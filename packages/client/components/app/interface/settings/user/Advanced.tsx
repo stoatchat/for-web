@@ -5,12 +5,7 @@ import {
   AVAILABLE_EXPERIMENTS,
   EXPERIMENTS,
 } from "@revolt/state/stores/Experiments";
-import {
-  CategoryButton,
-  CategoryButtonGroup,
-  Checkbox,
-  Column,
-} from "@revolt/ui";
+import { CategoryButton, Checkbox, Column } from "@revolt/ui";
 
 /**
  * Advanced settings
@@ -52,7 +47,7 @@ export default function AdvancedSettings() {
           Show admin panel shortcuts in context menus
         </Checkbox>
       </Column>
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         <For each={AVAILABLE_EXPERIMENTS}>
           {(key) => (
             <CategoryButton
@@ -74,7 +69,7 @@ export default function AdvancedSettings() {
             </CategoryButton>
           )}
         </For>
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }

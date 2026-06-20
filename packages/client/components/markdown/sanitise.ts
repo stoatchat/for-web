@@ -28,7 +28,7 @@ const RE_PLUS = /^\s*\+(?:$|[^+])/gm;
  * Regex for matching non-breaking spaces in code blocks
  */
 const RE_CODEBLOCK_EMPTY_LINE_FIX =
-  /(?<=`{3}[\s\S]*)\n\uF800\n(?=[\s\S]*`{3})/gm;
+  /(?<=`{3}[\s\S]*)\n\u200B\n(?=[\s\S]*`{3})/gm;
 
 /**
  * Sanitise Markdown input before rendering
@@ -44,17 +44,17 @@ export function sanitise(content: string) {
       // Append empty character if string starts with html tag
       // This is to avoid inconsistencies in rendering Markdown inside/after HTML tags
       // https://github.com/revoltchat/revite/issues/733
-      .replace(RE_HTML_TAGS, (match) => `\uF800${match}`)
+      .replace(RE_HTML_TAGS, (match) => `\u200B${match}`)
 
       // Append empty character if line starts with a plus
       // which would usually open a new list but we want
       // to avoid that behaviour in our case.
-      .replace(RE_PLUS, (match) => `\uF800${match}`)
+      .replace(RE_PLUS, (match) => `\u200B${match}`)
 
       // Replace empty lines with non-breaking space
       // because remark renderer is collapsing empty
       // or otherwise whitespace-only lines of text
-      .replace(RE_EMPTY_LINE, "\n\uF800\n")
+      .replace(RE_EMPTY_LINE, "\n\u200B\n")
 
       // Reverts previous empty line operation specifically for codeblocks.
       // Hacky solution, I know, but so far I haven't found a more elegant
@@ -67,7 +67,7 @@ export function sanitise(content: string) {
 }
 
 /**
- * Replace \uF800 with break elements
+ * Replace \u200B with break elements
  */
 export function remarkInsertBreaks() {
   return (tree: import("hast").Root) => {
@@ -80,7 +80,7 @@ export function remarkInsertBreaks() {
       element: Record<string, unknown> & { children: unknown[] },
     ): unknown {
       if (element.type === "text") {
-        if (element.value === "\uF800") {
+        if (element.value === "\u200B") {
           return {
             type: "element",
             tagName: "br",

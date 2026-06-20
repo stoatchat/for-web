@@ -1,7 +1,11 @@
 import { For, Match, Show, Switch, createSignal, onMount } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { Message as MessageInterface, WebsiteEmbed } from "stoat.js";
+import {
+  ImageEmbed,
+  Message as MessageInterface,
+  WebsiteEmbed,
+} from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { decodeTime } from "ulid";
@@ -37,6 +41,11 @@ import { EditMessage } from "./EditMessage";
  */
 const RE_URL =
   /[(http(s)?)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+
+/**
+ * Regex for matching gif providers
+ */
+const GIF_PROVIDERS_REGEX = /^https:\/\/(tenor\.com|gifbox\.me|giphy\.com)/;
 
 interface Props {
   /**
@@ -82,11 +91,17 @@ export function Message(props: Props) {
   const isOnlyGIF = () =>
     props.message.embeds &&
     props.message.embeds.length === 1 &&
-    props.message.embeds[0].type === "Website" &&
-    ((props.message.embeds[0] as WebsiteEmbed).specialContent?.type === "GIF" ||
-      (props.message.embeds[0] as WebsiteEmbed).originalUrl?.startsWith(
-        "https://tenor.com",
-      )) &&
+    ((props.message.embeds[0].type === "Website" &&
+      ((props.message.embeds[0] as WebsiteEmbed).specialContent?.type ===
+        "GIF" ||
+        !!(
+          (props.message.embeds[0] as WebsiteEmbed).originalUrl ||
+          (props.message.embeds[0] as WebsiteEmbed).url
+        )?.match(GIF_PROVIDERS_REGEX))) ||
+      (props.message.embeds[0].type === "Image" &&
+        !!(props.message.embeds[0] as ImageEmbed).url?.match(
+          GIF_PROVIDERS_REGEX,
+        ))) &&
     props.message.content &&
     !props.message.content.replace(RE_URL, "").length;
 
@@ -172,6 +187,15 @@ export function Message(props: Props) {
       }
       info={
         <Switch fallback={<div />}>
+          <Match when={props.message.iconRole}>
+            <Tooltip content={props.message.iconRole!.name} placement="top">
+              <Avatar
+                size={16}
+                shape="rounded-square"
+                src={props.message.iconRole!.icon?.previewUrl}
+              />
+            </Tooltip>
+          </Match>
           <Match
             when={
               props.message.masquerade &&

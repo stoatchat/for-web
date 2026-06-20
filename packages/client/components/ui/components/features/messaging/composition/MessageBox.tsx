@@ -127,6 +127,7 @@ const Parent = styled("div", {
     display: "flex",
     gap: "var(--gap-md)",
     margin: "0 0 var(--gap-md) 0",
+    maxHeight: "var(--layout-height-message-box)",
   },
 });
 
@@ -162,6 +163,49 @@ export const InlineIcon = styled("div", {
       },
       wide: {
         width: "62px",
+      },
+    },
+  },
+});
+
+const FloatingAction = styled("div", {
+  base: {
+    flexShrink: 0,
+    flexGrow: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+  },
+  variants: {
+    size: {
+      short: {
+        height: "1em",
+      },
+      normal: {
+        height: "1.5em",
+      },
+      tall: {
+        height: "2em",
+      },
+    },
+    error: {
+      true: {
+        color: "var(--md-sys-color-error)",
+      },
+    },
+  },
+});
+
+const ActionContainer = styled("div", {
+  base: {
+    flexShrink: 0,
+    display: "flex",
+    flexGrow: 1,
+  },
+  variants: {
+    column: {
+      true: {
+        flexFlow: "column",
       },
     },
   },
@@ -227,3 +271,7 @@ export function MessageBox(props: Props) {
 }
 
 MessageBox.InlineIcon = InlineIcon;
+
+MessageBox.FloatingAction = FloatingAction;
+
+MessageBox.ActionContainer = ActionContainer;

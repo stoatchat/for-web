@@ -40,7 +40,7 @@ export function UserCard(
   }));
 
   function openFull() {
-    openModal({ type: "user_profile", user: props.user });
+    openModal({ type: "user_profile", user: props.user, member: props.member });
     props.onClose();
   }
 

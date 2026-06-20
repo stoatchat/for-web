@@ -1,3 +1,4 @@
+import { TrackReference } from "solid-livekit-components";
 import {
   API,
   Bot,
@@ -6,9 +7,9 @@ import {
   Emoji,
   File,
   ImageEmbed,
+  Message,
   MFA,
   MFATicket,
-  Message,
   PublicBot,
   PublicChannelInvite,
   Server,
@@ -22,6 +23,9 @@ import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
+import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
+
+import type { ChangelogResponse } from "./modals/Changelog";
 
 export type Modals =
   | {
@@ -48,7 +52,7 @@ export type Modals =
     }
   | {
       type: "changelog";
-      initial?: number;
+      changelog: ChangelogResponse;
     }
   | {
       type: "channel_info";
@@ -278,6 +282,7 @@ export type Modals =
       user: User;
       isPlaceholder?: boolean;
       placeholderProfile?: API.UserProfile;
+      member?: ServerMember;
     }
   | {
       type: "user_profile_roles";
@@ -286,6 +291,7 @@ export type Modals =
   | {
       type: "user_profile_mutual_friends";
       users: User[];
+      server?: Server;
     }
   | {
       type: "user_profile_mutual_groups";
@@ -314,4 +320,33 @@ export type Modals =
       type: "edit_category";
       server: Server;
       category: CategoryData;
+    }
+  | {
+      type: "remove_member";
+      group: Channel;
+      user: User;
+    }
+  | {
+      type: "screen_share_settings";
+      trackReference: TrackReference;
+      qualities: { name: string; fullName: string }[];
+      audio: boolean;
+      callback: (qualityName: ScreenShareQualityName, audio: boolean) => void;
+      onCancel: () => void;
+    }
+  | {
+      type: "screen_share_picker";
+      callback: (
+        idx: number,
+        qualityName: ScreenShareQualityName,
+        audio: boolean,
+      ) => void;
+      qualities: { name: string; fullName: string }[];
+      sources: {
+        idx: number;
+        name: string;
+        isFullScreen: boolean;
+        image?: string;
+      }[];
+      onCancel: () => void;
     };

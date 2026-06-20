@@ -70,11 +70,13 @@ export function TextChannel(props: ChannelPageProps) {
    */
   const highlightMessageId = () => params().messageId;
 
+  const canConnect = () =>
+    props.channel.isVoice && props.channel.havePermission("Connect");
+
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
-  // Get a reference to the message list's "end status"
-  let atEndRef: (() => boolean) | undefined;
+  const [atEnd, setEnd] = createSignal(true);
 
   // Store last unread message id
   createEffect(
@@ -93,7 +95,7 @@ export function TextChannel(props: ChannelPageProps) {
   createEffect(
     on(
       // must be at the end of the conversation
-      () => props.channel.unread && (atEndRef ? atEndRef() : true),
+      () => props.channel.unread && atEnd(),
       (unread) => {
         if (unread) {
           if (document.hasFocus()) {
@@ -113,7 +115,7 @@ export function TextChannel(props: ChannelPageProps) {
 
   // Mark as read on re-focus
   function onFocus() {
-    if (props.channel.unread && (atEndRef ? atEndRef() : true)) {
+    if (props.channel.unread && atEnd()) {
       props.channel.ack();
     }
   }
@@ -165,7 +167,7 @@ export function TextChannel(props: ChannelPageProps) {
       <Content>
         <main class={main()}>
           <Show
-            when={props.channel.isVoice}
+            when={canConnect()}
             fallback={
               <BelowFloatingHeader>
                 <div>
@@ -199,8 +201,8 @@ export function TextChannel(props: ChannelPageProps) {
             }
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
-            atEndRef={(ref) => (atEndRef = ref)}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+            atEnd={[atEnd, setEnd]}
           />
 
           <MessageComposition

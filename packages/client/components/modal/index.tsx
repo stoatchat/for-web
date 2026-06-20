@@ -11,6 +11,7 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 import type { MFA, MFATicket } from "stoat.js";
 
 import { Keybind, KeybindAction } from "@revolt/keybinds";
+import { dismissFloatingElements } from "@revolt/ui";
 
 import { RenderModal } from "./modals";
 import { Modals } from "./types";
@@ -70,7 +71,7 @@ export class ModalController {
         props,
       },
     ]);
-
+    dismissFloatingElements();
     // after modal commits to DOM,
     // we can begin animations!
     // setTimeout(

@@ -8,7 +8,6 @@ import { useModals } from "@revolt/modal";
 import {
   Avatar,
   CategoryButton,
-  CategoryButtonGroup,
   CircularProgress,
   Column,
   iconSize,
@@ -40,7 +39,7 @@ function CreateBot() {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <CategoryButtonGroup>
+    <CategoryButton.Group>
       <CategoryButton
         action="chevron"
         icon={<MdSmartToy {...iconSize(22)} />}
@@ -71,7 +70,7 @@ function CreateBot() {
       >
         <Trans>Developer Documentation</Trans>
       </CategoryButton>
-    </CategoryButtonGroup>
+    </CategoryButton.Group>
   );
 }
 
@@ -85,7 +84,7 @@ function ListBots() {
   return (
     <ErrorBoundary fallback="Failed to load bots...">
       <Suspense fallback={<CircularProgress />}>
-        <CategoryButtonGroup>
+        <CategoryButton.Group>
           <For each={bots.data}>
             {(bot) => (
               <CategoryButton
@@ -104,7 +103,7 @@ function ListBots() {
               </CategoryButton>
             )}
           </For>
-        </CategoryButtonGroup>
+        </CategoryButton.Group>
       </Suspense>
     </ErrorBoundary>
   );

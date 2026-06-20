@@ -53,6 +53,7 @@ export function RenameSessionModal(
       <form onSubmit={submit}>
         <Column>
           <Form2.TextField
+            //TODO: the length should probably be limited here, I couldn't find the server-side validator
             name="name"
             control={group.controls.name}
             label={t`Name`}

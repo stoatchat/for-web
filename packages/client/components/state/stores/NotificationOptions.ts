@@ -86,6 +86,15 @@ export class NotificationOptions extends AbstractStore<
   }
 
   /**
+   * Get this store's value
+   *
+   * Reexported to allow equals checking for syncing
+   */
+  get() {
+    return super.get();
+  }
+
+  /**
    * Hydrate external context
    */
   hydrate(): void {

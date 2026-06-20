@@ -45,9 +45,12 @@ import { MFAFlowModal } from "./modals/MFAFlow";
 import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PolicyChangeModal } from "./modals/PolicyChange";
+import { RemoveMemberModal } from "./modals/RemoveMember";
 import { RenameSessionModal } from "./modals/RenameSession";
 import { ReportContentModal } from "./modals/ReportContent";
 import { ResetBotTokenModal } from "./modals/ResetBotToken";
+import { ScreenSharePickerModal } from "./modals/ScreenSharePicker";
+import { ScreenShareSettingsModal } from "./modals/ScreenShareSettings";
 import { ServerIdentityModal } from "./modals/ServerIdentity";
 import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
@@ -183,7 +186,13 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ResetBotTokenModal {...modalProps} />;
     case "edit_category":
       return <EditCategoryModal {...modalProps} />;
+    case "remove_member":
+      return <RemoveMemberModal {...modalProps} />;
 
+    case "screen_share_settings":
+      return <ScreenShareSettingsModal {...modalProps} />;
+    case "screen_share_picker":
+      return <ScreenSharePickerModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",

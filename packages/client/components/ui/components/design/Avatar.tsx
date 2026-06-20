@@ -16,7 +16,7 @@ export type Props = {
   /**
    * Avatar shape
    */
-  shape?: "circle" | "rounded-square";
+  shape?: "circle" | "square" | "rounded-square";
 
   /**
    * Image source
@@ -205,6 +205,7 @@ const Shape = styled("div", {
       circle: {
         borderRadius: "var(--borderRadius-circle)",
       },
+      square: {},
       "rounded-square": {
         borderRadius: "var(--borderRadius-md)",
       },

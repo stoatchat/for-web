@@ -4,6 +4,7 @@ import {
   JSX,
   Match,
   Show,
+  Signal,
   Switch,
   batch,
   createEffect,
@@ -90,11 +91,7 @@ interface Props {
    */
   jumpToBottomRef?: (fn: (nearby?: string) => void) => void;
 
-  /**
-   * Bind the atEnd signal to the parent component
-   * @param fn Function
-   */
-  atEndRef?: (fn: () => boolean) => void;
+  atEnd?: Signal<boolean>;
 }
 
 /**
@@ -120,7 +117,8 @@ export function Messages(props: Props) {
   /**
    * Whether we've reached the end of the conversation
    */
-  const [atEnd, setEnd] = createSignal(true);
+  // eslint-disable-next-line solid/reactivity
+  const [atEnd, setEnd] = props.atEnd ?? createSignal(true);
 
   /**
    * The current direction of fetching
@@ -606,7 +604,6 @@ export function Messages(props: Props) {
   // Setup references if they exists
   onMount(() => {
     props.jumpToBottomRef?.(jumpToBottom);
-    props.atEndRef?.(atEnd);
   });
 
   /**
@@ -671,17 +668,34 @@ export function Messages(props: Props) {
       );
     }
   }
+  /**
+   * Handle bulk-deleted messages
+   */
+  function onMessageDeleteBulk(
+    deleted_messages: { id: string; channelId: string }[],
+    channel?: { id: string },
+  ) {
+    if (channel?.id === props.channel.id) {
+      setMessages((messages) =>
+        messages.filter(
+          (msg) => !deleted_messages.find((m) => m.id === msg.id),
+        ),
+      );
+    }
+  }
 
   // Add listener for messages
   onMount(() => {
     const c = client();
     c.addListener("messageCreate", onMessage);
     c.addListener("messageDelete", onMessageDelete);
+    c.addListener("messageDeleteBulk", onMessageDeleteBulk);
   });
 
   onCleanup(() => {
     const c = client();
     c.removeListener("messageCreate", onMessage);
+    c.removeListener("messageDeleteBulk", onMessageDeleteBulk);
     c.removeListener("messageDelete", onMessageDelete);
   });
 

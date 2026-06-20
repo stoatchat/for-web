@@ -111,6 +111,14 @@ export function ListView2(props: Props) {
           parent: true,
         }),
       }}
+      // Account for https://issues.chromium.org/issues/40829494
+      // Chromium based browsers (read: Chrome and Electron) will overscroll on reverse column flexboxes
+      // breaking automatic scrolling when adding new messages. This caps the scrolltop at 0 (it's negative.)
+      onScroll={(e) => {
+        if (e.target.scrollTop > 0) {
+          e.target.scrollTop = 0;
+        }
+      }}
     >
       <div class={container()}>
         <div>

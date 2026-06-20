@@ -2,7 +2,10 @@ import { ComponentProps, splitProps } from "solid-js";
 
 import emojiRegex from "emoji-regex";
 
+import { useState } from "@revolt/state";
 import { EmojiBase, toCodepoint } from ".";
+
+// openmoji is off due to incomplete implementation
 
 export type UnicodeEmojiPacks =
   | "fluent-3d"
@@ -10,7 +13,7 @@ export type UnicodeEmojiPacks =
   | "fluent-flat"
   | "mutant"
   | "noto"
-  | "openmoji"
+  //  | "openmoji"
   | "twemoji";
 
 export const UNICODE_EMOJI_PACKS: UnicodeEmojiPacks[] = [
@@ -19,7 +22,7 @@ export const UNICODE_EMOJI_PACKS: UnicodeEmojiPacks[] = [
   "fluent-flat",
   "mutant",
   "noto",
-  "openmoji",
+  //  "openmoji",
   "twemoji",
 ];
 
@@ -28,7 +31,7 @@ export const UNICODE_EMOJI_PACK_PUA: Record<string, string> = {
   "fluent-flat": "\uE0E2",
   mutant: "\uE0E3",
   noto: "\uE0E4",
-  openmoji: "\uE0E5",
+  //  openmoji: "\uE0E5",
   twemoji: "\uE0E6",
 };
 
@@ -49,7 +52,7 @@ export const UNICODE_EMOJI_PUA_PACK: Record<string, UnicodeEmojiPacks> = {
   ["\uE0E2"]: "fluent-flat",
   ["\uE0E3"]: "mutant",
   ["\uE0E4"]: "noto",
-  ["\uE0E5"]: "openmoji",
+  //  ["\uE0E5"]: "openmoji",
   ["\uE0E6"]: "twemoji",
 };
 
@@ -77,6 +80,7 @@ export function UnicodeEmoji(
   >,
 ) {
   const [local, remote] = splitProps(props, ["emoji"]);
+  const state = useState();
 
   return (
     <EmojiBase
@@ -85,7 +89,10 @@ export function UnicodeEmoji(
       class="emoji"
       alt={local.emoji}
       draggable={false}
-      src={unicodeEmojiUrl(props.pack, props.emoji)}
+      src={unicodeEmojiUrl(
+        props.pack ?? state.settings.getValue("appearance:unicode_emoji"),
+        props.emoji,
+      )}
     />
   );
 }

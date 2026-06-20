@@ -1,17 +1,21 @@
-import { Show } from "solid-js";
-
 import { Trans } from "@lingui-solid/solid/macro";
-import { Channel } from "stoat.js";
+import { Show } from "solid-js";
+import type { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useState } from "@revolt/state";
-import { UnsentMessage } from "@revolt/state/stores/Draft";
+import type { UnsentMessage } from "@revolt/state/stores/Draft";
 
 import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
+import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MdRefresh from "@material-design-icons/svg/outlined/refresh.svg?component-solid";
 
-import { ContextMenu, ContextMenuButton } from "./ContextMenu";
+import {
+  ContextMenu,
+  ContextMenuButton,
+  ContextMenuDivider,
+} from "./ContextMenu";
 
 interface Props {
   draft: UnsentMessage;
@@ -30,6 +34,15 @@ export function DraftMessageContextMenu(props: Props) {
    */
   function retrySend() {
     state.draft.retrySend(client(), props.channel, props.draft.idempotencyKey);
+  }
+
+  /**
+   * Copy draft message text to clipboard
+   */
+  function copyText() {
+    if (props.draft.content) {
+      navigator.clipboard.writeText(props.draft.content);
+    }
   }
 
   /**
@@ -55,6 +68,12 @@ export function DraftMessageContextMenu(props: Props) {
           <ContextMenuButton icon={MdRefresh} onClick={retrySend}>
             <Trans>Retry sending</Trans>
           </ContextMenuButton>
+          <Show when={props.draft.content}>
+            <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
+              <Trans>Copy text</Trans>
+            </ContextMenuButton>
+          </Show>
+          <ContextMenuDivider />
           <ContextMenuButton
             icon={MdDelete}
             onClick={deleteMessage}

@@ -6,18 +6,19 @@ FROM node:24-alpine AS builder
 RUN apk add --no-cache git python3 make g++
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@10.28.1 --activate
+RUN corepack enable && corepack prepare pnpm@11.3.0 --activate
 
 WORKDIR /build
 
 # Copy workspace config files for dependency resolution
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
 # Copy all package.json files for workspace packages
 COPY packages/stoat.js/package.json packages/stoat.js/
 COPY packages/solid-livekit-components/package.json packages/solid-livekit-components/
 COPY packages/js-lingui-solid/packages/babel-plugin-lingui-macro/package.json packages/js-lingui-solid/packages/babel-plugin-lingui-macro/
 COPY packages/js-lingui-solid/packages/babel-plugin-extract-messages/package.json packages/js-lingui-solid/packages/babel-plugin-extract-messages/
+COPY packages/js-lingui-solid/packages/jest-mocks/package.json packages/js-lingui-solid/packages/jest-mocks/
 COPY packages/client/package.json packages/client/
 
 # Copy panda config needed by client's "prepare" lifecycle script (panda codegen)
@@ -47,7 +48,12 @@ ENV VITE_WS_URL=__VITE_WS_URL__
 ENV VITE_MEDIA_URL=__VITE_MEDIA_URL__
 ENV VITE_PROXY_URL=__VITE_PROXY_URL__
 ENV VITE_HCAPTCHA_SITEKEY=__VITE_HCAPTCHA_SITEKEY__
-ENV BASE_PATH=/
+ENV VITE_CFG_ENABLE_VIDEO=__VITE_CFG_ENABLE_VIDEO__
+ENV VITE_GIFBOX_URL=__VITE_GIFBOX_URL__
+ENV VITE_RNNOISE_WORKLET_CDN_URL=__VITE_RNNOISE_WORKLET_CDN_URL__
+
+ARG BASE_PATH=/
+ENV BASE_PATH=${BASE_PATH}
 
 RUN pnpm --filter client exec vite build
 
@@ -73,6 +79,8 @@ ENV VITE_WS_URL=""
 ENV VITE_MEDIA_URL=""
 ENV VITE_PROXY_URL=""
 ENV VITE_HCAPTCHA_SITEKEY=""
-ENV REVOLT_PUBLIC_URL=""
+ENV VITE_CFG_ENABLE_VIDEO=""
+ENV VITE_GIFBOX_URL=""
+ENV VITE_RNNOISE_WORKLET_CDN_URL=""
 
 CMD ["npm", "start"]

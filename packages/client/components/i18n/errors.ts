@@ -1,6 +1,8 @@
 import { useLingui } from "@lingui-solid/solid/macro";
 import { API } from "stoat.js";
 
+const RE_BREAK = /\s*\n\s*/g;
+
 /**
  * Translate any error
  */
@@ -9,6 +11,17 @@ export function useError() {
 
   return (error: unknown) => {
     // TODO: HTTP errors
+
+    // Attempt to parse the incoming error as JSON if it is a string,
+    // as some errors (e.g on login) are sent to this function as a string,
+    // which then causes the error message to be unlocalised and unhelpful.
+    if (typeof error === "string") {
+      try {
+        error = JSON.parse(error);
+      } catch {
+        // Ignore JSON parse errors
+      }
+    }
 
     // handle Revolt API errors
     if (
@@ -159,6 +172,13 @@ export function useError() {
     ) {
       const message = (error as { message: string }).message.trim();
       if (message) return message;
+    } else if (typeof error === "string") {
+      //Strip HTML from string
+      const p = document.createElement("html");
+      p.innerHTML = error;
+      p.querySelector("head")?.remove();
+      p.querySelector("[role=contentinfo]")?.remove();
+      error = p.textContent!.trim().replace(RE_BREAK, ". ");
     }
 
     return t`Something went wrong! ${error}`;
