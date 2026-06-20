@@ -182,6 +182,23 @@ export function MessageComposition(props: Props) {
   state.draft._setNodeReplacement = setNodeReplacement;
   onCleanup(() => (state.draft._setNodeReplacement = undefined));
 
+  // Safely insert a mention
+  state.draft._appendMention = (mentionText: string) => {
+    const currentContent = draft()?.content ?? "";
+    const separator =
+      currentContent.endsWith(" ") || currentContent === "" ? "" : " ";
+    const newContent = currentContent + separator + mentionText;
+
+    setContent(newContent);
+    setInitialValue([newContent]);
+    setNodeReplacement(["_focus"]);
+  };
+
+  onCleanup(() => {
+    state.draft._setNodeReplacement = undefined;
+    state.draft._appendMention = undefined;
+  });
+
   createEffect(
     on(
       () => props.channel,

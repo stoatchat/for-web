@@ -115,6 +115,11 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
   _setNodeReplacement?: Setter<readonly [string | "_focus"] | undefined>;
 
   /**
+   * Method to safely append a mention
+   */
+  _appendMention?: (mentionText: string) => void;
+
+  /**
    * Construct store
    * @param state State
    */
