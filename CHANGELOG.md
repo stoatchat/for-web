@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.9.0...stoat-for-web-v0.9.1) (2026-06-20)
+
+
+### Bug Fixes
+
+* Add base path to service worker registration check ([#1279](https://github.com/stoatchat/for-web/issues/1279)) ([c3f91f9](https://github.com/stoatchat/for-web/commit/c3f91f9779888efc24e94c27c652bfaa3c2f2723))
+* Pass atEnd as a signal to fix acks when clicking on a channel ([#1281](https://github.com/stoatchat/for-web/issues/1281)) ([0f3d024](https://github.com/stoatchat/for-web/commit/0f3d024e49c91099fca29fe3a4a4ad8f85c47799))
+
 ## [0.9.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.8.0...stoat-for-web-v0.9.0) (2026-06-19)
 
 
