@@ -64,7 +64,8 @@ export function MessageComposition(props: Props) {
     const entry = currentSlowmode();
     if (!entry) return;
     const receivedAt = entry.receivedAt ?? Date.now();
-    const targetTs = receivedAt + entry.retry_after * 1000;
+    // Add 1 second so we can show 0:00 to users.
+    const targetTs = receivedAt + (entry.retry_after + 1) * 1000;
     return createCountdownFromNow(targetTs);
   });
 
@@ -89,8 +90,11 @@ export function MessageComposition(props: Props) {
   });
 
   const slowmodeText = createMemo(() => {
-    const s = cooldownRemaining();
+    let s = cooldownRemaining();
     if (!s) return "";
+
+    // Subtract 1 from s to account for 1 added above
+    s--;
 
     const h = Math.floor(s / 3600);
     const m = Math.floor((s % 3600) / 60);
@@ -378,6 +382,24 @@ export function MessageComposition(props: Props) {
 
   return (
     <>
+      <Show when={props.channel.slowmode}>
+        <SlowmodeContainer>
+          <Tooltip
+            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
+            placement="top"
+          >
+            <SlowmodeRow>
+              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
+              <SlowmodeText>
+                <Switch fallback={t`Slowmode is enabled.`}>
+                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
+                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
+                </Switch>
+              </SlowmodeText>
+            </SlowmodeRow>
+          </Tooltip>
+        </SlowmodeContainer>
+      </Show>
       <Show when={state.draft.hasAdditionalElements(props.channel.id)}>
         <Keybind
           keybind={KeybindAction.CHAT_REMOVE_COMPOSITION_ELEMENT}
@@ -419,24 +441,6 @@ export function MessageComposition(props: Props) {
           );
         }}
       </For>
-      <Show when={props.channel.slowmode}>
-        <SlowmodeContainer>
-          <Tooltip
-            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
-            placement="top"
-          >
-            <SlowmodeRow>
-              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
-              <SlowmodeText>
-                <Switch fallback={t`Slowmode is enabled.`}>
-                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
-                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
-                </Switch>
-              </SlowmodeText>
-            </SlowmodeRow>
-          </Tooltip>
-        </SlowmodeContainer>
-      </Show>
       <MessageBox
         initialValue={initialValue()}
         nodeReplacement={nodeReplacement()}
