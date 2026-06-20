@@ -1,4 +1,4 @@
-import { Match, Switch } from "solid-js";
+import { Match, Switch, createSignal } from "solid-js";
 
 import { useMutation } from "@tanstack/solid-query";
 import { Message } from "stoat.js";
@@ -9,14 +9,19 @@ import { useClient } from "@revolt/client";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Text } from "@revolt/ui";
+import { CompositionMediaPicker, IconButton, Text } from "@revolt/ui";
 import { TextEditor2 } from "@revolt/ui/components/features/texteditor/TextEditor2";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 
 export function EditMessage(props: { message: Message }) {
   const state = useState();
   const client = useClient();
   const { openModal, isOpen, pop } = useModals();
+
+  const [nodeReplacement, setNodeReplacement] = createSignal<
+    readonly [string | "_focus"] | undefined
+  >();
 
   const initialValue = [state.draft.editingMessageContent || ""] as const;
 
@@ -66,8 +71,25 @@ export function EditMessage(props: { message: Message }) {
           onComplete={saveMessage}
           onChange={state.draft.setEditingMessageContent}
           initialValue={initialValue}
+          nodeReplacement={nodeReplacement()}
           autoCompleteSearchSpace={searchSpace}
         />
+
+        <CompositionMediaPicker
+          onMessage={() => {
+            // noop
+          }}
+          onTextReplacement={(text) => setNodeReplacement([text])}
+        >
+          {(triggerProps) => (
+            <EditorActions>
+              <IconButton onPress={triggerProps.onClickEmoji}>
+                <Symbol>emoticon</Symbol>
+              </IconButton>
+              <div ref={triggerProps.ref} />
+            </EditorActions>
+          )}
+        </CompositionMediaPicker>
       </EditorBox>
 
       <Switch
@@ -91,10 +113,23 @@ export function EditMessage(props: { message: Message }) {
 
 const EditorBox = styled("div", {
   base: {
+    position: "relative",
     background: "var(--md-sys-color-surface-container-highest)",
     color: "var(--md-sys-color-on-surface-container)",
     borderRadius: "var(--borderRadius-sm)",
     padding: "var(--gap-md)",
+    paddingInlineEnd: "calc(var(--gap-md) + 36px)",
+  },
+});
+
+const EditorActions = styled("div", {
+  base: {
+    position: "absolute",
+    top: "var(--gap-sm)",
+    right: "var(--gap-sm)",
+    display: "flex",
+    alignItems: "center",
+    zIndex: 2,
   },
 });
 

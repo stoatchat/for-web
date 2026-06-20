@@ -236,6 +236,7 @@ const Body = styled("div", {
     editing: {
       true: {
         flexGrow: 1,
+        overflow: "visible",
       },
     },
   },
@@ -325,7 +326,12 @@ export function MessageContainer(props: Props) {
       use:floating={{ contextMenu: props.contextMenu }}
     >
       <Show
-        when={props.message && props.isLink !== true && props.isLink !== "hide"}
+        when={
+          props.message &&
+          props.isLink !== true &&
+          props.isLink !== "hide" &&
+          !props.editing
+        }
       >
         <MessageToolbar message={props.message} />
       </Show>
