@@ -84,14 +84,21 @@ interface Props {
   isLink?: boolean;
 }
 
-const messageContext = createContext<MessageInterface | undefined>(undefined);
+interface MessageContextShape {
+  message?: MessageInterface;
+}
+
+const messageContext = createContext<MessageContextShape>({});
 
 function MessageContext(props: {
   children: JSX.Element;
   message: MessageInterface;
 }) {
+  // eslint-disable-next-line solid/reactivity
+  const contextShape = { message: props.message };
+
   return (
-    <messageContext.Provider value={props.message}>
+    <messageContext.Provider value={contextShape}>
       {props.children}
     </messageContext.Provider>
   );

@@ -304,7 +304,7 @@ const CompactInfo = styled(Row, {
  */
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
-  const message = useMessage();
+  const { message } = useMessage();
 
   return (
     <div

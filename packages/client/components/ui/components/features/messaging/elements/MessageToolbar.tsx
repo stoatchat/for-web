@@ -23,7 +23,7 @@ export function MessageToolbar() {
   const user = useUser();
   const state = useState();
   const { openModal } = useModals();
-  const message = useMessage();
+  const { message } = useMessage();
 
   // todo: a11y for buttons; tabindex
 

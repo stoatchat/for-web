@@ -249,7 +249,7 @@ function LinkComponent(
     dest?: string;
   } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
-  const message = useMessage();
+  const { message } = useMessage();
   const [localProps, remoteProps] = splitProps(props, ["disabled", "dest"]);
   if (localProps.disabled) {
     return <span class={remoteProps.class}>{remoteProps.children}</span>;
