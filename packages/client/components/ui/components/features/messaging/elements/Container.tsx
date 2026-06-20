@@ -1,7 +1,9 @@
 import { JSX, Match, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { Message } from "stoat.js";
+import { Message} from "stoat.js";
+import type { UnsentMessage } from "@revolt/state/stores/Draft";
+import type { Channel } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -56,6 +58,16 @@ type Props = CommonProps & {
    * Message header
    */
   header?: JSX.Element;
+
+  /**
+   * Whether this message is a draft
+   */
+  draft?: UnsentMessage;
+
+  /**
+   * Channel this message is in
+   */
+  channel?: Channel;
 
   /**
    * Message info line
@@ -325,10 +337,12 @@ export function MessageContainer(props: Props) {
       use:floating={{ contextMenu: props.contextMenu }}
     >
       <Show
-        when={props.message && props.isLink !== true && props.isLink !== "hide"}
+        when={props.isLink !== true && props.isLink !== "hide"}
       >
-        <MessageToolbar message={props.message} />
+        <MessageToolbar message={props.message} draft={props.draft} channel={props.channel} />
       </Show>
+
+
 
       <Show when={props.isLink}>
         <Ripple />
