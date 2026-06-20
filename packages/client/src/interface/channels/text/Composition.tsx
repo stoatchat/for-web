@@ -64,8 +64,8 @@ export function MessageComposition(props: Props) {
     const entry = currentSlowmode();
     if (!entry) return;
     const receivedAt = entry.receivedAt ?? Date.now();
-    // Add 1 second so we can show 0:00 to users.
-    const targetTs = receivedAt + (entry.retry_after + 1) * 1000;
+    // Add 100 ms here so the countdown has a bit to render
+    const targetTs = receivedAt + 100 + entry.retry_after * 1000;
     return createCountdownFromNow(targetTs);
   });
 
@@ -90,11 +90,8 @@ export function MessageComposition(props: Props) {
   });
 
   const slowmodeText = createMemo(() => {
-    let s = cooldownRemaining();
+    const s = cooldownRemaining();
     if (!s) return "";
-
-    // Subtract 1 from s to account for 1 added above
-    s--;
 
     const h = Math.floor(s / 3600);
     const m = Math.floor((s % 3600) / 60);
