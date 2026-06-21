@@ -141,7 +141,7 @@ export function EmojiPicker() {
     <Stack>
       <TextField
         autoFocus
-        variant="filled"
+        variant="outlined"
         placeholder="Search for emojis..."
         value={filter()}
         onMouseDown={(e) => {
@@ -241,10 +241,12 @@ const ServerItem = (props: {
     style={props.style as never}
     tabIndex={props.tabIndex}
     role="listitem"
-    onClick={(e) => {
+    onMouseDown={(e) => {
+      e.preventDefault();
       e.stopPropagation();
-      props.onClick(e);
+      e.stopImmediatePropagation();
     }}
+    onClick={props.onClick}
   >
     <Avatar
       size={32}

@@ -103,9 +103,7 @@ function Picker(
     middleware: [offset(5), flip(), shift()],
   });
 
-  function onMouseDown(e: MouseEvent) {
-    if (floating()?.contains(e.target as Node)) return;
-
+  function onMouseDown() {
     props.setShow();
   }
 
