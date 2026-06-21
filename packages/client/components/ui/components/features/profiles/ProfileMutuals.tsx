@@ -1,7 +1,7 @@
 import { For, Show } from "solid-js";
 
 import { useQuery } from "@tanstack/solid-query";
-import { User } from "stoat.js";
+import { ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
@@ -11,7 +11,7 @@ import { Avatar, Ripple, Text } from "../../design";
 
 import { ProfileCard } from "./ProfileCard";
 
-export function ProfileMutuals(props: { user: User }) {
+export function ProfileMutuals(props: { user: User; member?: ServerMember }) {
   const client = useClient();
   const { openModal } = useModals();
 
@@ -53,6 +53,7 @@ export function ProfileMutuals(props: { user: User }) {
     openModal({
       type: "user_profile_mutual_friends",
       users: query.data!.users,
+      server: props.member?.server,
     });
   }
 
@@ -88,7 +89,7 @@ export function ProfileMutuals(props: { user: User }) {
           </Grid>
         </ProfileCard>
       </Show>
-      <Show when={query.data?.users.length}>
+      <Show when={query.data?.groups.length}>
         <ProfileCard isLink onClick={openGroups}>
           <Ripple />
 

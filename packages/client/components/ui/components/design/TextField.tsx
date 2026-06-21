@@ -59,8 +59,8 @@ type Props = JSX.HTMLAttributes<HTMLInputElement> & {
   step?: number;
   pattern?: string;
   "toggle-password"?: boolean;
-  "show-password-icon"?: string;
-  "hide-password-icon"?: string;
+  showPasswordIcon?: string;
+  hidePasswordIcon?: string;
   autocapitalize?: "none" | "sentences" | "words" | "characters";
   autocorrect?: string;
   autocomplete?: string;

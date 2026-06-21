@@ -24,7 +24,13 @@ export function UserProfileMutualFriendsModal(
         <For each={props.users}>
           {(user) => (
             <List.Item
-              onClick={() => openModal({ type: "user_profile", user })}
+              onClick={() =>
+                openModal({
+                  type: "user_profile",
+                  user,
+                  member: props.server?.getMember(user.id),
+                })
+              }
             >
               <Avatar
                 slot="icon"

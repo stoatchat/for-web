@@ -64,7 +64,8 @@ export function MessageComposition(props: Props) {
     const entry = currentSlowmode();
     if (!entry) return;
     const receivedAt = entry.receivedAt ?? Date.now();
-    const targetTs = receivedAt + entry.retry_after * 1000;
+    // Add 100 ms here so the countdown has a bit to render
+    const targetTs = receivedAt + 100 + entry.retry_after * 1000;
     return createCountdownFromNow(targetTs);
   });
 
@@ -378,6 +379,24 @@ export function MessageComposition(props: Props) {
 
   return (
     <>
+      <Show when={props.channel.slowmode}>
+        <SlowmodeContainer>
+          <Tooltip
+            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
+            placement="top"
+          >
+            <SlowmodeRow>
+              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
+              <SlowmodeText>
+                <Switch fallback={t`Slowmode is enabled.`}>
+                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
+                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
+                </Switch>
+              </SlowmodeText>
+            </SlowmodeRow>
+          </Tooltip>
+        </SlowmodeContainer>
+      </Show>
       <Show when={state.draft.hasAdditionalElements(props.channel.id)}>
         <Keybind
           keybind={KeybindAction.CHAT_REMOVE_COMPOSITION_ELEMENT}
@@ -419,24 +438,6 @@ export function MessageComposition(props: Props) {
           );
         }}
       </For>
-      <Show when={props.channel.slowmode}>
-        <SlowmodeContainer>
-          <Tooltip
-            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
-            placement="top"
-          >
-            <SlowmodeRow>
-              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
-              <SlowmodeText>
-                <Switch fallback={t`Slowmode is enabled.`}>
-                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
-                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
-                </Switch>
-              </SlowmodeText>
-            </SlowmodeRow>
-          </Tooltip>
-        </SlowmodeContainer>
-      </Show>
       <MessageBox
         initialValue={initialValue()}
         nodeReplacement={nodeReplacement()}
