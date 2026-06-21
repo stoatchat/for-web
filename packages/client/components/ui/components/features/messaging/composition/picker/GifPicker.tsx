@@ -518,6 +518,7 @@ function GifSearch(props: { query: string }) {
                 }}
               >
                 <video
+                  playsinline
                   loop
                   autoplay
                   muted
