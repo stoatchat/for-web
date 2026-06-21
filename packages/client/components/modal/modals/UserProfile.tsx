@@ -27,6 +27,7 @@ export function UserProfileModal(
         <Profile.Banner
           width={3}
           user={props.user}
+          member={props.member}
           bannerUrl={query.data?.animatedBannerURL}
           onClick={
             query.data?.banner
@@ -43,11 +44,12 @@ export function UserProfileModal(
           }}
         />
 
-        <Profile.Actions user={props.user} width={3} />
+        <Profile.Actions user={props.user} member={props.member} width={3} />
+        <Profile.Roles member={props.member} />
         <Profile.Status user={props.user} />
         <Profile.Badges user={props.user} />
-        <Profile.Joined user={props.user} />
-        <Profile.Mutuals user={props.user} />
+        <Profile.Joined user={props.user} member={props.member} />
+        <Profile.Mutuals user={props.user} member={props.member} />
         <Profile.Bio content={query.data?.content} full />
       </Grid>
     </Dialog>

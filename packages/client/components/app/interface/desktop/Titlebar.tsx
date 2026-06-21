@@ -17,6 +17,8 @@ import MdMinimize from "@material-symbols/svg-400/outlined/minimize.svg?componen
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
+const isMacOS = navigator.platform.startsWith("Mac");
+
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
     window.native ? window.desktopConfig.get().windowState.isMaximised : false,
@@ -52,6 +54,7 @@ export function Titlebar() {
         >
           <Base disconnected={isDisconnected()}>
             <Title
+              macos={isMacOS}
               style={{
                 "-webkit-user-select": "none",
                 "-webkit-app-region": "drag",
@@ -68,6 +71,7 @@ export function Titlebar() {
               </Show>
             </Title>
             <DragHandle
+              macos={isMacOS}
               style={{
                 "-webkit-user-select": "none",
                 "-webkit-app-region": "drag",
@@ -122,7 +126,7 @@ export function Titlebar() {
                 </div>
               </Show>
             </DragHandle>
-            <Show when={window.native}>
+            <Show when={window.native && !isMacOS}>
               <Action onClick={window.native.minimise}>
                 <Ripple />
                 <MdMinimize {...symbolSize(20)} />
@@ -183,6 +187,14 @@ const Title = styled("div", {
     color: "var(--md-sys-color-on-surface)",
     ...typography.raw({ class: "title", size: "small" }),
   },
+  variants: {
+    macos: {
+      true: {
+        order: 1,
+        paddingInlineEnd: "var(--gap-md)",
+      },
+    },
+  },
 });
 
 const DragHandle = styled("div", {
@@ -196,6 +208,13 @@ const DragHandle = styled("div", {
     paddingInlineStart: "var(--gap-md)",
 
     ...typography.raw({ class: "label", size: "large" }),
+  },
+  variants: {
+    macos: {
+      true: {
+        marginInlineStart: "70px",
+      },
+    },
   },
 });
 

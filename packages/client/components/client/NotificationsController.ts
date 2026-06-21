@@ -136,7 +136,9 @@ async function setUpServiceWorkerSubscription(client: Client) {
     throw "Client not configured";
   }
 
-  const registration = await navigator.serviceWorker.getRegistration();
+  const registration = await navigator.serviceWorker.getRegistration(
+    import.meta.env.BASE_URL ?? undefined,
+  );
   if (!registration) {
     throw "Failed to get service worker";
   }
@@ -173,16 +175,21 @@ function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
 }
 
 /** Exported for the client controller. Don't use this unless you have to. */
-export async function killServiceWorkerSubscription(client: Client) {
+export async function killServiceWorkerSubscription(
+  client: Client,
+  loggingOut?: boolean,
+) {
   if (IS_DEV) {
     console.log("Skipping killing push worker in dev.");
     return;
   }
 
-  const registration = await navigator.serviceWorker.getRegistration();
+  const registration = await navigator.serviceWorker.getRegistration(
+    import.meta.env.BASE_URL ?? undefined,
+  );
   if (!registration) return;
   const subscription = await registration.pushManager.getSubscription();
   if (await subscription?.unsubscribe()) {
-    await client.api.post("/push/unsubscribe");
+    if (!loggingOut) await client.api.post("/push/unsubscribe");
   }
 }

@@ -356,7 +356,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   }
 
   /**
-   * Set defean status
+   * Set deafen status
    */
   set deafen(value: boolean) {
     this.set("deafen", value);
