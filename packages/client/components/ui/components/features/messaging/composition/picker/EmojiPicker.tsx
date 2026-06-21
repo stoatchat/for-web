@@ -349,6 +349,9 @@ const EmojiOption = styled("div", {
         "& img": {
           width: "100%",
           height: "100%",
+          maxHeight: "32px",
+          maxWidth: "32px",
+          margin: "auto",
           objectFit: "contain",
         },
       },
