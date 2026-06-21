@@ -63,11 +63,11 @@ type Item =
       text: string;
     };
 
-const COLUMNS = 8;
+const COLUMNS = 9;
 
 export function EmojiPicker() {
   const client = useClient();
-  const state = useState();
+  const { ordering } = useState();
 
   const [filter, setFilter] = createSignal("");
 
@@ -79,7 +79,7 @@ export function EmojiPicker() {
 
     if (filterText) {
       return [
-        ...state.ordering
+        ...ordering
           .orderedServers(client())
           .flatMap((server) =>
             server.emojis
@@ -94,7 +94,7 @@ export function EmojiPicker() {
 
     const items: Item[] = [];
 
-    for (const server of state.ordering.orderedServers(client())) {
+    for (const server of ordering.orderedServers(client())) {
       const emojis = server.emojis;
 
       if (emojis.length === 0) continue;
@@ -151,7 +151,7 @@ export function EmojiPicker() {
         }}
         onInput={(e) => setFilter(e.currentTarget.value)}
       />
-      <Row class={compositionContent()}>
+      <Row gap={"none"} class={compositionContent()}>
         <div
           ref={serverScrollTargetElement}
           use:invisibleScrollable={{
@@ -159,7 +159,7 @@ export function EmojiPicker() {
           }}
         >
           <VirtualContainer
-            items={state.ordering
+            items={ordering
               .orderedServers(client())
               .filter((s) => s.emojis.length > 0)}
             scrollTarget={serverScrollTargetElement}
@@ -176,7 +176,7 @@ export function EmojiPicker() {
                   );
                   if (idx !== -1 && emojiScrollTargetElement) {
                     emojiScrollTargetElement.scrollTop =
-                      Math.floor(idx / COLUMNS) * 35;
+                      Math.floor(idx / COLUMNS) * 40;
                   }
                 }}
               />
@@ -192,7 +192,7 @@ export function EmojiPicker() {
           <VirtualContainer
             items={items()}
             scrollTarget={emojiScrollTargetElement}
-            itemSize={{ height: 42, width: 42 }}
+            itemSize={{ height: 40, width: 40 }}
             crossAxisCount={() => COLUMNS}
           >
             {EmojiItem}
@@ -220,9 +220,8 @@ const scrollContainer = cva({
         display: "flex",
         flexDirection: "column",
         flexShrink: 0,
-        width: "44px",
+        width: "40px",
         gap: "var(--gap-sm)",
-        paddingLeft: "4px",
       },
       emoji: {
         flexGrow: 1,
@@ -351,9 +350,6 @@ const EmojiOption = styled("div", {
         "& img": {
           width: "100%",
           height: "100%",
-          maxHeight: "32px",
-          maxWidth: "32px",
-          margin: "auto",
           objectFit: "contain",
         },
       },
