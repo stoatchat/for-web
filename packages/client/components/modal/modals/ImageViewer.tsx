@@ -166,6 +166,7 @@ export function ImageViewerModal(
                 <Match when={props.gif}>
                   <Video
                     ref={setRef}
+                    playsinline
                     loop
                     muted
                     autoplay
