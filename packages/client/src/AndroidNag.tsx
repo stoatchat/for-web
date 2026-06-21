@@ -22,6 +22,18 @@ const PLAY_STORE_URL =
 const isAndroid = () => /android/i.test(navigator.userAgent);
 
 /**
+ * Whether the origin of the request makes us eligible to show the nag screen
+ */
+const isEligibleOrigin = () => {
+  const { hostname } = window.location;
+  return (
+    hostname === "localhost" ||
+    hostname.endsWith(".stoat.chat") ||
+    hostname === "stoat.chat"
+  );
+};
+
+/**
  * Full screen nag encouraging Android users to install the native app
  */
 export function AndroidNag() {
@@ -33,7 +45,10 @@ export function AndroidNag() {
     state.layout.getSectionState(ANDROID_NAG_DISMISS_KEY, false);
 
   const show = () =>
-    isAndroid() && !dismissedThisSession() && !permanentlyDismissed();
+    isAndroid() &&
+    isEligibleOrigin() &&
+    !dismissedThisSession() &&
+    !permanentlyDismissed();
 
   return (
     <Show when={show()}>
