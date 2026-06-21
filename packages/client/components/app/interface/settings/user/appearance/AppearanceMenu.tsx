@@ -371,22 +371,6 @@ export function AppearanceMenu() {
       </FloatingSelect>
 
       <Column>
-        <Text class="title" size="small">
-          <Trans>Chat Input</Trans>
-        </Text>
-
-        <Checkbox
-          checked={state.settings.getValue("appearance:show_send_button")}
-          onChange={(event) =>
-            state.settings.setValue(
-              "appearance:show_send_button",
-              event.currentTarget.checked,
-            )
-          }
-        >
-          <Trans>Show send message button</Trans>
-        </Checkbox>
-
         <FloatingSelect
           label={t`Emoji Pack (affects your messages only)`}
           value={state.settings.getValue("appearance:unicode_emoji")}

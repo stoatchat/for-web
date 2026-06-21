@@ -58,7 +58,12 @@ interface SettingsDefinition {
   /**
    * Show message send button
    */
-  "appearance:show_send_button": boolean;
+  "accessibility:show_send_button": boolean;
+
+  /**
+   * Show unread conversations in server list
+   */
+  "accessibility:show_unread_conversations": boolean;
 
   /**
    * Whether to render messages in compact mode
@@ -104,7 +109,8 @@ const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "notifications:desktop": "string",
   "notifications:push": "string",
   "appearance:unicode_emoji": "string",
-  "appearance:show_send_button": "boolean",
+  "accessibility:show_send_button": "boolean",
+  "accessibility:show_unread_conversations": "boolean",
   "appearance:compact_mode": "boolean",
   "advanced:copy_id": "boolean",
   "advanced:admin_panel": "boolean",
@@ -147,7 +153,8 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
       "notifications:desktop": "default",
       "notifications:push": "default",
       "appearance:unicode_emoji": "fluent-3d",
-      "appearance:show_send_button": true,
+      "accessibility:show_send_button": true,
+      "accessibility:show_unread_conversations": true,
       "appearance:compact_mode": false,
       "advanced:copy_id": false,
       "advanced:admin_panel": false,
@@ -204,7 +211,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
    * @param key Colon-divided key
    * @returns Value at key or default value
    */
-  getValue<T extends keyof TypeSettings>(key: T) {
+  getValue<T extends keyof TypeSettings>(key: T): TypeSettings[T] {
     return this.get()[key] ?? DEFAULT_VALUES[key];
   }
 

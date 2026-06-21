@@ -1,6 +1,6 @@
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/77ef7a29d276c6d8303aece3444d61118ef71ac2.tar.gz";
-    sha256 = "0pm4l48jq8plzrrrisimahxqlcpx7qqq9c99hylmf7p3zlc3phsy";
+    url = "https://github.com/NixOS/nixpkgs/archive/64c08a7ca051951c8eae34e3e3cb1e202fe36786.tar.gz";
+    sha256 = "16mzn8kd1x08cgl13csgfmix41qbx2q1g3acpby0cwg92drq375n";
   }) {},
 
   # Playwright v1.57.0
@@ -25,7 +25,7 @@ in pkgs.mkShell {
     mise
     cargo-binstall
     (writeShellScriptBin "fish" ''
-      exec ${pkgs.fish}/bin/fish -C 'mise activate fish | source' "$@"
+      exec ${pkgs.fish}/bin/fish -C '${pkgs.mise}/bin/mise activate fish | source' "$@"
     '')
   ];
 
@@ -34,7 +34,7 @@ in pkgs.mkShell {
     export NIX_LD_LIBRARY_PATH="${nix-ld-libs}/lib"
 
     export MISE_NODE_COMPILE=false
-    eval "$(mise activate bash)"
+    eval "$(${pkgs.mise}/bin/mise activate bash)"
 
     export PLAYWRIGHT_BROWSERS_PATH=${unstablePkgs.playwright-driver.browsers}
     export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true

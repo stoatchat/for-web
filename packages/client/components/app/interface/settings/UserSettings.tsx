@@ -12,6 +12,7 @@ import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
 import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import MdAccessibility from "@material-design-icons/svg/outlined/accessibility.svg?component-solid";
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import MdCampaign from "@material-design-icons/svg/outlined/campaign.svg?component-solid";
 import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
@@ -31,6 +32,7 @@ import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
 import { AccountCard } from "./user/_AccountCard";
+import Accessibility from "./user/Accessibility";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
 import { AppearanceMenu } from "./user/appearance";
@@ -82,6 +84,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <AppearanceMenu />;
       case "advanced":
         return <AdvancedSettings />;
+      case "accessibility":
+        return <Accessibility />;
       case "profile":
         return <EditProfile />;
       case "sessions":
@@ -223,11 +227,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
               icon: <MdPalette {...iconSize(20)} />,
               title: <Trans>Appearance</Trans>,
             },
-            // {
-            //   id: "accessibility",
-            //   icon: <MdAccessibility {...iconSize(20)} />,
-            //   title: t("app.settings.pages.accessibility.title"),
-            // },
+            {
+              id: "accessibility",
+              icon: <MdAccessibility {...iconSize(20)} />,
+              title: <Trans>Accessibility</Trans>,
+            },
             // {
             //   id: "plugins",
             //   icon: <MdExtension {...iconSize(20)} />,
