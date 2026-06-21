@@ -57,7 +57,17 @@ export function CompositionMediaPicker(props: Props) {
   const [show, setShow] = createSignal<"gif" | "emoji">();
 
   return (
-    <CompositionMediaPickerContext.Provider value={props}>
+    <CompositionMediaPickerContext.Provider
+      value={{
+        ...props,
+        // close the picker once a GIF is sent
+        // (technically any message, but what else are you gonna be sending out the gif picker)
+        onMessage: (content) => {
+          props.onMessage(content);
+          setShow(undefined);
+        },
+      }}
+    >
       {props.children({
         ref: setAnchor,
         onClickGif: () =>
