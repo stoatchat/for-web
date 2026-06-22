@@ -115,7 +115,7 @@ function PickDateFormat() {
     <CategoryButton.Select
       icon={<MdCalendarMonth {...iconSize(22)} />}
       title={<Trans>Date format</Trans>}
-      value={timeLocale()[1].formats.L}
+      value={locale.get().options.dateFormat ?? "DD/MM/YYYY"}
       options={{
         "DD/MM/YYYY": {
           shortDesc: <Trans>Traditional (DD/MM/YYYY)</Trans>,
@@ -145,7 +145,7 @@ function PickTimeFormat() {
     <CategoryButton.Select
       icon={<MdSchedule {...iconSize(22)} />}
       title={<Trans>Time format</Trans>}
-      value={timeLocale()[1].formats.LT}
+      value={locale.getOptions().timeFormat ?? "HH:mm"}
       options={{
         "HH:mm": {
           shortDesc: <Trans>24 hours</Trans>,
