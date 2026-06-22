@@ -5,7 +5,7 @@ The state is available anywhere inside the StateContext. You can only use the st
 You can use the state by using the `useState` hook. The `useState` hook returns an object that contains all state stores. When using it inside a component, you should favor destructing the object and using the substates you need instead of the whole state.
 
 ```typescript
-import { createEffect } from "solidjs";
+import { createEffect } from "solid-js";
 
 import { useState } from "@revolt/state";
 

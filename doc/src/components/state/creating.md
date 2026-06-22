@@ -144,7 +144,7 @@ export class State {
 You should now be able to access your new state store just like other state stores.
 
 ```typescript
-import { createEffect } from "solidjs";
+import { createEffect } from "solid-js";
 
 import { useState } from "@revolt/state";
 import { Button } from "@revolt/ui";
