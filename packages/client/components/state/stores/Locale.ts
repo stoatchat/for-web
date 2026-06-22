@@ -111,4 +111,21 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
       timeFormat,
     });
   }
+
+  /**
+ * Clear date format override, reverting to the locale's default
+ */
+  clearDateFormat(): void {
+    this.set("options", "dateFormat", undefined);
+    updateTimeLocaleOptions({ dateFormat: undefined });
+  }
+
+  /**
+   * Clear time format override, reverting to the locale's default
+   */
+  clearTimeFormat(): void {
+    this.set("options", "timeFormat", undefined);
+    updateTimeLocaleOptions({ timeFormat: undefined });
+  }
 }
+
