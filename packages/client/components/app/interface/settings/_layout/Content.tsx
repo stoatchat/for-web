@@ -1,4 +1,4 @@
-import { Accessor, JSX, onMount, Setter, Show } from "solid-js";
+import { Accessor, JSX, Setter, Show } from "solid-js";
 
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -22,18 +22,9 @@ export function SettingsContent(props: {
   ref: Setter<HTMLDivElement | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
-  let contRef: HTMLDivElement | undefined;
-
-  onMount(() => {
-    //Weird solution required due to use:scrollable
-    contRef!.classList.add(...scrollBase.split(" "));
-  });
 
   return (
-    <div
-      ref={(ref) => props.ref((contRef = ref))}
-      use:scrollable={{ class: base }}
-    >
+    <div ref={props.ref} use:scrollable={{ class: base }}>
       <Show when={props.page()}>
         <InnerContent class="settings_cont">
           <InnerColumn>
@@ -64,12 +55,6 @@ export function SettingsContent(props: {
   );
 }
 
-const scrollBase =
-  "settings " +
-  css({
-    _phone: { borderRadius: 0 },
-  });
-
 /**
  * Base styles
  */
@@ -84,6 +69,10 @@ const base = css({
 
   "& > a": {
     textDecoration: "none",
+  },
+
+  _phone: {
+    borderRadius: 0,
   },
 });
 
