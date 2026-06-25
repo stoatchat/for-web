@@ -40,7 +40,7 @@ export class SlideDrawer {
   private touch: TrackTouch | null = null;
   private tTmr: NodeJS.Timeout | null = null;
   private vTmr: NodeJS.Timeout | null = null;
-  private lShow = false;
+  private lShow = true;
   private ofs = 0;
 
   private dispose!: () => void;
