@@ -884,6 +884,36 @@ export function Messages(props: Props) {
   );
 
   /**
+   * Scroll the message being edited into view when it enters the editing state.
+   * Editing can be triggered by the up-arrow keybind on a message that has been
+   * scrolled off-screen, in which case it should be brought back into view.
+   */
+  createEffect(
+    on(
+      () =>
+        typeof state.draft.editingMessageId === "string"
+          ? state.draft.editingMessageId
+          : undefined,
+      (editingMessageId) => {
+        // Only act once a concrete message is being edited and messages are loaded
+        if (!editingMessageId || !messages()) return;
+
+        const index = messagesWithTail().findIndex(
+          (entry) => entry.t === 0 && entry.message.id === editingMessageId,
+        );
+        if (index === -1) return;
+
+        // `block: "nearest"` brings it into view only when off-screen, leaving an
+        // already-visible message where it is. Mirrors `scrollToNearestMessage`.
+        listRef!.children[index + (atStart() ? 1 : 0)]?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      },
+    ),
+  );
+
+  /**
    * Check whether to trail the currently pending messages
    * @returns Whether to trail pending message
    */
