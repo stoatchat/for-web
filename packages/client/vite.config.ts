@@ -32,7 +32,8 @@ export default defineConfig({
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 4000000,
+        maximumFileSizeToCacheInBytes: 8000000,
+        globPatterns: ["**/*.{js,css,html}", "**/material-symbols-*.woff2"],
       },
       devOptions: {
         enabled: true,
