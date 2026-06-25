@@ -169,6 +169,8 @@ export function AppearanceMenu() {
           </div> */}
           </Row>
 
+          {/* TODO: Cursed on mobile; may need to be replaced
+          with FloatingSelect / similar on small screens */}
           <Row justify="stretch">
             <Button
               size="xs"
