@@ -276,14 +276,7 @@ export function ChannelHeader(props: Props) {
             </IconButton>
           }
         >
-          <input
-            class={css({
-              height: "40px",
-              width: "240px",
-              paddingInline: "16px",
-              borderRadius: "var(--borderRadius-full)",
-              background: "var(--md-sys-color-surface-container-high)",
-            })}
+          <SearchBox
             placeholder="Search messages..."
             value={searchValue()!}
             onChange={(e) =>
@@ -302,6 +295,16 @@ export function ChannelHeader(props: Props) {
     </>
   );
 }
+
+const SearchBox = styled("input", {
+  base: {
+    height: "40px",
+    width: "240px",
+    paddingInline: "16px",
+    borderRadius: "var(--borderRadius-full)",
+    background: "var(--md-sys-color-surface-container-high)",
+  },
+});
 
 /**
  * Vertical divider between name and topic
