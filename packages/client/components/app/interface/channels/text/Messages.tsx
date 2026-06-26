@@ -234,7 +234,10 @@ export function Messages(props: Props) {
       }
 
       // Cancel if we've been pre-empted
-      if (preempted()) return;
+      if (preempted()) {
+        collectedMessages = undefined;
+        return;
+      }
 
       // Assume we are not at the end if we jumped to a message
       // NB. we set this late to not display the "jump to bottom" bar
@@ -485,7 +488,10 @@ export function Messages(props: Props) {
         });
 
         // Cancel if we've been pre-empted
-        if (preempted()) return;
+        if (preempted()) {
+          collectedMessages = undefined;
+          return;
+        }
 
         // Check if we're at the start of the conversation
         // NB. this may be counter-intuitive because we are in history but,
