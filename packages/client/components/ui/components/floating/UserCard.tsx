@@ -1,4 +1,4 @@
-import { JSX, Show } from "solid-js";
+import { JSX, onMount, Show } from "solid-js";
 
 import { useQuery } from "@tanstack/solid-query";
 import { cva } from "styled-system/css";
@@ -46,8 +46,12 @@ export function UserCard(
     props.onClose();
   }
 
+  onMount(() => {
+    if (isMobile) openFull();
+  });
+
   return (
-    <Show when={!isMobile || openFull()}>
+    <Show when={!isMobile}>
       <div
         use:invisibleScrollable={{ class: base() }}
         onMouseDown={(e) => {
@@ -64,7 +68,12 @@ export function UserCard(
             onClick={openFull}
           />
 
-          <Profile.Actions user={props.user} member={props.member} width={2} />
+          <Profile.Actions
+            user={props.user}
+            member={props.member}
+            onClose={props.onClose}
+            width={2}
+          />
           <Profile.Roles member={props.member} />
           <Profile.Badges user={props.user} />
           <Profile.Status user={props.user} />

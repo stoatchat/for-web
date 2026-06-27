@@ -7,7 +7,7 @@ import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { dismissFloatingElements, Slider, Text } from "@revolt/ui";
+import { Slider, Text } from "@revolt/ui";
 
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import MdAddCircleOutline from "@material-design-icons/svg/outlined/add_circle_outline.svg?component-solid";
@@ -40,6 +40,7 @@ import { NotificationContextMenu } from "./shared/NotificationContextMenu";
  */
 export function UserContextMenu(props: {
   user: User;
+  onClose?: () => void;
   channel?: Channel;
   member?: ServerMember;
   contextMessage?: Message;
@@ -61,6 +62,7 @@ export function UserContextMenu(props: {
    */
   function openDm() {
     props.user.openDM().then((channel) => navigate(channel.url));
+    props.onClose?.();
   }
 
   /**
@@ -89,14 +91,10 @@ export function UserContextMenu(props: {
    * Open user profile
    */
   function openProfile() {
-    if (isProfileOpen()) return;
-
     openModal({
       type: "user_profile",
       user: props.user,
     });
-
-    dismissFloatingElements();
   }
 
   /**
@@ -384,9 +382,11 @@ export function UserContextMenu(props: {
       </Show>
 
       {/* Quick actions: Profile, Message, Mention */}
-      <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
-        <Trans>Profile</Trans>
-      </ContextMenuButton>
+      <Show when={!isProfileOpen()}>
+        <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
+          <Trans>Profile</Trans>
+        </ContextMenuButton>
+      </Show>
       <Show when={props.user.relationship === "Friend"}>
         <ContextMenuButton icon={MdChat} onClick={openDm}>
           <Trans>Message</Trans>
