@@ -1,4 +1,4 @@
-import { type JSX, createSignal, onCleanup } from "solid-js";
+import { type JSX, createEffect, createSignal, onCleanup } from "solid-js";
 
 import { useTime } from "@revolt/i18n";
 
@@ -40,6 +40,7 @@ export function formatTime(
           value: options.value,
         })} ${formatTime(dayjs, { format: "time", value: options.value })}`;
       case "date":
+        return dayjs(options.value).format("L");
       case "dateNormal":
         return dayjs(options.value).format("DD/MM/YYYY");
       case "dateAmerican":
@@ -67,6 +68,10 @@ export function Time(props: Props) {
   const dayjs = useTime();
   const [time, setTime] = createSignal(formatTime(dayjs, props));
 
+  // Reactively update immediately when the locale signal changes
+  createEffect(() => setTime(formatTime(dayjs, props)));
+
+  // Also poll for time-based formats (relative, calendar) that change over time
   const timer = setInterval(() => {
     const value = formatTime(dayjs, props);
     if (value !== time()) {
