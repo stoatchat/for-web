@@ -457,7 +457,13 @@ export function ChannelPermissionsEditor(props: Props) {
                 />
               }
             >
-              <Match when={props.type.startsWith("channel_")}>
+              <Match
+                when={[
+                  "channel_default",
+                  "channel_role",
+                  "server_role",
+                ].includes(props.type)}
+              >
                 <ChannelPermissionOverride
                   key={entry.key}
                   title={entry.title}
