@@ -106,7 +106,19 @@ function Categories() {
         headers: {
           [authHeader]: authHeaderValue,
         },
-      }).then((r) => r.json());
+        })
+          .then(async (r) => {
+            const data = await r.json();
+            if (r.ok) return data;
+            else if (r.status == 429) {
+              setTimeout(getTrendingCategories, data.retry_after);
+            }
+            else return {};
+          })
+          .catch((_) => {return {}});
+      }
+
+      return getTrendingCategories();
     },
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
