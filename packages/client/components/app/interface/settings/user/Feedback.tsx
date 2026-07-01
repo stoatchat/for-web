@@ -50,7 +50,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdStar {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={
               <Trans>Suggest new Stoat features on GitHub discussions.</Trans>
             }
@@ -65,7 +65,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdFormatListNumbered {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={<Trans>Submit feedback</Trans>}
           >
             <Trans>Feedback</Trans>
@@ -78,7 +78,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdBugReport {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={<Trans>View currently active bug reports here.</Trans>}
           >
             <Trans>Bug Tracker</Trans>

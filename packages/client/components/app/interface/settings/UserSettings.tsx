@@ -30,7 +30,7 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
-import { AccountCard } from "./user/_AccountCard";
+import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
 import { AppearanceMenu } from "./user/appearance";
@@ -111,7 +111,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * Generate list of categories / entries for client settings
    * @returns List
    */
-  list() {
+  list(_, onClose) {
     const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
 
@@ -119,6 +119,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
       context: null!,
       prepend: (
         <Column gap="s">
+          <BackCard onClose={onClose} />
           <AccountCard />
           <div />
         </Column>

@@ -66,6 +66,8 @@ const Buttons = styled("div", {
     gap: "8px",
     padding: "8px",
     display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     borderRadius: "var(--borderRadius-lg)",
 
     color: "var(--md-sys-color-on-surface-variant)",

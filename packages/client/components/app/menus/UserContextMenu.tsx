@@ -6,7 +6,7 @@ import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { dismissFloatingElements, Slider, Text } from "@revolt/ui";
+import { Slider, Text } from "@revolt/ui";
 
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import MdAddCircleOutline from "@material-design-icons/svg/outlined/add_circle_outline.svg?component-solid";
@@ -39,6 +39,7 @@ import { NotificationContextMenu } from "./shared/NotificationContextMenu";
  */
 export function UserContextMenu(props: {
   user: User;
+  onClose?: () => void;
   channel?: Channel;
   member?: ServerMember;
   contextMessage?: Message;
@@ -60,6 +61,7 @@ export function UserContextMenu(props: {
    */
   function openDm() {
     props.user.openDM().then((channel) => navigate(channel.url));
+    props.onClose?.();
   }
 
   /**
@@ -88,14 +90,10 @@ export function UserContextMenu(props: {
    * Open user profile
    */
   function openProfile() {
-    if (isProfileOpen()) return;
-
     openModal({
       type: "user_profile",
       user: props.user,
     });
-
-    dismissFloatingElements();
   }
 
   /**
@@ -347,9 +345,11 @@ export function UserContextMenu(props: {
       </Show>
 
       {/* Quick actions: Profile, Message, Mention */}
-      <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
-        <Trans>Profile</Trans>
-      </ContextMenuButton>
+      <Show when={!isProfileOpen()}>
+        <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
+          <Trans>Profile</Trans>
+        </ContextMenuButton>
+      </Show>
       <Show when={props.user.relationship === "Friend"}>
         <ContextMenuButton icon={MdChat} onClick={openDm}>
           <Trans>Message</Trans>
@@ -393,13 +393,14 @@ export function UserContextMenu(props: {
       <Show
         when={
           !props.user.self &&
+          !props.user.bot &&
           (props.user.relationship === "None" ||
             props.user.relationship === "Incoming" ||
             props.user.relationship === "Outgoing")
         }
       >
         <ContextMenuDivider />
-        <Show when={props.user.relationship === "None" && !props.user.bot}>
+        <Show when={props.user.relationship === "None"}>
           <ContextMenuButton icon={MdPersonAddAlt} onClick={addFriend}>
             <Trans>Add friend</Trans>
           </ContextMenuButton>
@@ -489,9 +490,11 @@ export function UserContextMenu(props: {
             <Trans>Unblock user</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuButton icon={MdReport} onClick={reportUser} destructive>
-          <Trans>Report user</Trans>
-        </ContextMenuButton>
+        <Show when={!props.user.privileged}>
+          <ContextMenuButton icon={MdReport} onClick={reportUser} destructive>
+            <Trans>Report user</Trans>
+          </ContextMenuButton>
+        </Show>
       </Show>
 
       {/* Invite to server */}

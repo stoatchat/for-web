@@ -99,7 +99,7 @@ export function AppearanceMenu() {
         </Row> */}
 
         <Show when={state.theme.preset === "you"}>
-          <Row align justify>
+          <Row align justify wrap>
             <IconButton
               ref={setPickerRef}
               variant="filled"
@@ -169,6 +169,8 @@ export function AppearanceMenu() {
           </div> */}
           </Row>
 
+          {/* TODO: Cursed on mobile; may need to be replaced
+          with FloatingSelect / similar on small screens */}
           <Row justify="stretch">
             <Button
               size="xs"

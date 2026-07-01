@@ -71,7 +71,7 @@ export function codeMirrorAutoCompleteSource(
 
       return {
         type: "user",
-        label: "@" + entry.displayName,
+        label: ("@" + entry.displayName).normalize("NFKC"),
         displayLabel: entry.displayName,
         detail:
           entry.displayName !== user.username
@@ -89,7 +89,7 @@ export function codeMirrorAutoCompleteSource(
         (entry) =>
           ({
             type: "role",
-            label: "%" + entry.name,
+            label: ("%" + entry.name).normalize("NFKC"),
             displayLabel: entry.name,
             apply: `<%${entry.id}> `,
             colour: entry.colour,
@@ -103,7 +103,8 @@ export function codeMirrorAutoCompleteSource(
       (entry) =>
         ({
           type: "channel",
-          label: "#" + entry.name,
+          label: ("#" + entry.name).normalize("NFKC"),
+          displayLabel: "#" + entry.name,
           apply: `<#${entry.id}> `,
         }) as Completion,
     ),
@@ -116,7 +117,9 @@ export function codeMirrorAutoCompleteSource(
     }
 
     const token = context.matchBefore(RE_match);
-    switch (token?.text[0]) {
+    if (!token) return null;
+    const normalizedText = token.text.normalize("NFKC");
+    switch (normalizedText[0]) {
       case ":":
         return {
           from: token.from,
