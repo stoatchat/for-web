@@ -5,7 +5,7 @@ import {
   loadAndSwitchLocale,
 } from "@revolt/i18n";
 import type { LocaleOptions } from "@revolt/i18n/Languages";
-import { updateTimeLocaleOptions } from "@revolt/i18n/dayjs";
+import { loadTimeLocale, updateTimeLocaleOptions } from "@revolt/i18n/dayjs";
 
 import { State } from "..";
 
@@ -82,6 +82,13 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
   }
 
   /**
+   * Get current locale options
+   */
+  getOptions(): LocaleOptions {
+    return this.get().options;
+  }
+
+  /**
    * Switch to another language
    * @param language Language
    */
@@ -113,11 +120,12 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
   }
 
   /**
- * Clear date format override, reverting to the locale's default
- */
+   * Clear date format override, reverting to the locale's default
+   */
   clearDateFormat(): void {
     this.set("options", "dateFormat", undefined);
-    updateTimeLocaleOptions({ dateFormat: undefined });
+    const { lang, options } = this.get();
+    loadTimeLocale(Languages[lang], options);
   }
 
   /**
@@ -125,7 +133,8 @@ export class Locale extends AbstractStore<"locale", TypeLocale> {
    */
   clearTimeFormat(): void {
     this.set("options", "timeFormat", undefined);
-    updateTimeLocaleOptions({ timeFormat: undefined });
+    const { lang, options } = this.get();
+    loadTimeLocale(Languages[lang], options);
   }
 }
 
