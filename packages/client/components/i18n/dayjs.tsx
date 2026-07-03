@@ -25,7 +25,15 @@ const [timeLocale, setTimeLocale] = createSignal<[string, ILocale]>([
   null!,
 ]);
 
-export { dayjs, timeLocale };
+/**
+ * Native locale formats before any user overrides are applied.
+ * Use this to display the locale's default date/time format (e.g. Automatic preview).
+ */
+const [nativeLocaleFormats, setNativeLocaleFormats] = createSignal<
+  Pick<NonNullable<ILocale["formats"]>, "L" | "LT">
+>({ L: "", LT: "" });
+
+export { dayjs, timeLocale, nativeLocaleFormats };
 
 export async function loadTimeLocale(
   language: LanguageEntry,
@@ -49,6 +57,12 @@ export async function loadTimeLocale(
     nextWeek: i18n._(`dddd [at] LT`),
     sameElse: "L",
   };
+
+  // store native formats before user overrides are applied
+  setNativeLocaleFormats({
+    L: locale.formats?.L ?? "",
+    LT: locale.formats?.LT ?? "",
+  });
 
   // merge locale options
   const options = {

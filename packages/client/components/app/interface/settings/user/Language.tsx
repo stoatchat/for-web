@@ -1,8 +1,10 @@
+import { createMemo } from "solid-js";
+
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Language, Languages, browserPreferredLanguage } from "@revolt/i18n";
 import type { LanguageEntry } from "@revolt/i18n/Languages";
-import { timeLocale } from "@revolt/i18n/dayjs";
+import { dayjs, nativeLocaleFormats } from "@revolt/i18n/dayjs";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useState } from "@revolt/state";
 import {
@@ -111,15 +113,26 @@ function PickDateFormat() {
   const LastWeek = new Date();
   LastWeek.setDate(LastWeek.getDate() - 7);
 
+  // createMemo tracks nativeLocaleFormats() — shows the locale's native date
+  // format unaffected by any user override, so Automatic always reflects the
+  // locale default (e.g. DD.MM.YYYY for German, not a previously picked override).
+  const autoDatePreview = createMemo(() =>
+    dayjs(LastWeek).format(nativeLocaleFormats().L),
+  );
+
   return (
     <CategoryButton.Select
       icon={<MdCalendarMonth {...iconSize(22)} />}
       title={<Trans>Date format</Trans>}
-      value={locale.get().options.dateFormat ?? "DD/MM/YYYY"}
+      value={locale.getOptions().dateFormat ?? "auto"}
       options={{
+        auto: {
+          shortDesc: <Trans>Automatic</Trans>,
+          description: <>{autoDatePreview()}</>,
+        },
         "DD/MM/YYYY": {
           shortDesc: <Trans>Traditional (DD/MM/YYYY)</Trans>,
-          description: <Time format="date" value={LastWeek} />,
+          description: <Time format="dateNormal" value={LastWeek} />,
         },
         "MM/DD/YYYY": {
           shortDesc: <Trans>American (MM/DD/YYYY)</Trans>,
@@ -130,7 +143,7 @@ function PickDateFormat() {
           description: <Time format="iso8601" value={LastWeek} />,
         },
       }}
-      onUpdate={(f) => locale.setDateFormat(f)}
+      onUpdate={(f) => f === "auto" ? locale.clearDateFormat() : locale.setDateFormat(f)}
     />
   );
 }
@@ -140,13 +153,24 @@ function PickDateFormat() {
  */
 function PickTimeFormat() {
   const { locale } = useState();
+  const now = new Date();
+
+  // createMemo tracks nativeLocaleFormats() — shows the locale's native time
+  // format unaffected by any user override.
+  const autoTimePreview = createMemo(() =>
+    dayjs(now).format(nativeLocaleFormats().LT),
+  );
 
   return (
     <CategoryButton.Select
       icon={<MdSchedule {...iconSize(22)} />}
       title={<Trans>Time format</Trans>}
-      value={locale.getOptions().timeFormat ?? "HH:mm"}
+      value={locale.getOptions().timeFormat ?? "auto"}
       options={{
+        auto: {
+          shortDesc: <Trans>Automatic</Trans>,
+          description: <>{autoTimePreview()}</>,
+        },
         "HH:mm": {
           shortDesc: <Trans>24 hours</Trans>,
           description: <Time format="time24" value={new Date()} />,
@@ -156,7 +180,7 @@ function PickTimeFormat() {
           description: <Time format="time12" value={new Date()} />,
         },
       }}
-      onUpdate={(f) => locale.setTimeFormat(f)}
+      onUpdate={(f) => f === "auto" ? locale.clearTimeFormat() : locale.setTimeFormat(f)}
     />
   );
 }
