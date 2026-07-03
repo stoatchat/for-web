@@ -67,6 +67,7 @@ export function Embed(props: { embed: MessageEmbed }) {
       <Match when={video()}>
         <SizedContent width={video()!.width} height={video()!.height}>
           <video
+            playsinline
             loop={isGIF()}
             muted={isGIF()}
             autoplay={isGIF()}

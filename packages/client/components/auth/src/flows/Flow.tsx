@@ -19,7 +19,6 @@ export const FlowBase = styled("div", {
     flexGrow: 0,
     background: "var(--md-sys-color-surface-container)",
     color: "var(--md-sys-color-on-surface)",
-    width: "360px",
     maxWidth: "360px",
     maxHeight: "600px",
     padding: "45px 40px",
@@ -28,6 +27,11 @@ export const FlowBase = styled("div", {
     marginBottom: "20px",
     justifySelf: "center",
     marginInline: "auto",
+
+    _phone: {
+      background: "none",
+      padding: 0,
+    },
   },
 });
 

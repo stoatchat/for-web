@@ -19,6 +19,7 @@ import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissio
 import { ChannelPermissionsOverview } from "./channel/permissions/ChannelPermissionsOverview";
 import { ViewWebhook } from "./channel/webhooks/ViewWebhook";
 import { WebhooksList } from "./channel/webhooks/WebhooksList";
+import { BackCard } from "./user/_AccountCard";
 
 const Config: SettingsConfiguration<Channel> = {
   /**
@@ -98,11 +99,12 @@ const Config: SettingsConfiguration<Channel> = {
    * Generate list of categories / entries for channel settings
    * @returns List
    */
-  list(channel) {
+  list(channel, onClose) {
     const { openModal } = useModals();
 
     return {
       context: channel,
+      prepend: <BackCard onClose={onClose} />,
       entries: [
         {
           title: <TextWithEmoji content={channel.name} />,
