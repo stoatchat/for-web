@@ -1,5 +1,5 @@
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { Show, createSignal, onCleanup, onMount } from "solid-js";
+import { JSX, Show, createSignal, onCleanup, onMount } from "solid-js";
 import { styled } from "styled-system/jsx";
 
 import { Button, CircularProgress, Symbol, Text } from "@revolt/ui";
@@ -10,6 +10,12 @@ import { Button, CircularProgress, Symbol, Text } from "@revolt/ui";
 const STATUS_PAGE_URL = "https://status.stoat.chat";
 
 /**
+ * Connection troubleshooting knowledge base article
+ */
+const TROUBLESHOOTING_URL =
+  "https://support.stoat.chat/kb/troubleshooting/connection-issues";
+
+/**
  * Status API queried when the client is slow to connect
  */
 const STATUS_API_URL = "https://stoat.chat/-/status";
@@ -17,7 +23,12 @@ const STATUS_API_URL = "https://stoat.chat/-/status";
 /**
  * How long to wait for a proper connection before asking the status API
  */
-const STATUS_PROBE_DELAY = 5000;
+const STATUS_PROBE_DELAY = 5_000;
+
+/**
+ * How long to wait before showing troubleshooting advice if an incident has not been reported by the status API yet
+ */
+const TROUBLESHOOTING_DELAY = 10_000;
 
 /**
  * Partial API response we care about
@@ -51,14 +62,18 @@ const isEligibleOrigin = () => {
  * If the connection does not succeed within {@link STATUS_PROBE_DELAY}, and we
  * are on an eligible origin, the status API is queried and any ongoing incident
  * is shown so the user knows the outage isn't on their end.
+ *
+ * Additionally if the connection does not succeed within {@link TROUBLESHOOTING_DELAY},
+ * a troubleshooting notice is shown to help the user diagnose their connection issues.
+ * We also link to the support page there.
  */
 export function LoadingScreen() {
   const { t } = useLingui();
 
-  const [incident, setIncident] = createSignal<{
-    impact: string;
-    title: string;
-  }>();
+  const [notice, setNotice] = createSignal<
+    | { type: "incident"; impact: string; title: string }
+    | { type: "troubleshooting" }
+  >();
 
   /**
    * Label for a status impact level
@@ -85,31 +100,37 @@ export function LoadingScreen() {
 
     const controller = new AbortController();
 
-    const timer = setTimeout(async () => {
+    // Check the status API for an ongoing incident.
+    const statusTimer = setTimeout(async () => {
       try {
         const res = await fetch(STATUS_API_URL, { signal: controller.signal });
         const data = (await res.json()) as StatusResponse;
 
         const impact = data?.status?.current_incident_impact;
-        if (!impact || impact === "operational") return;
-
         const active = (data.status?.active_incidents ?? []).filter(
           (i) => i.status !== "recovered",
         );
-        if (!active.length) return;
 
-        const newest = active.reduce((a, b) =>
-          Date.parse(b.incident_at) > Date.parse(a.incident_at) ? b : a,
-        );
+        if (impact && impact !== "operational" && active.length) {
+          const newest = active.reduce((a, b) =>
+            Date.parse(b.incident_at) > Date.parse(a.incident_at) ? b : a,
+          );
 
-        setIncident({ impact, title: newest.title });
+          setNotice({ type: "incident", impact, title: newest.title });
+        }
       } catch {
-        // Don't care
+        // the troubleshooting timer handles this case
       }
     }, STATUS_PROBE_DELAY);
 
+    // Still no incident so try troubleshooting
+    const troubleshootingTimer = setTimeout(() => {
+      setNotice((prev) => prev ?? { type: "troubleshooting" });
+    }, TROUBLESHOOTING_DELAY);
+
     onCleanup(() => {
-      clearTimeout(timer);
+      clearTimeout(statusTimer);
+      clearTimeout(troubleshootingTimer);
       controller.abort();
     });
   });
@@ -120,36 +141,69 @@ export function LoadingScreen() {
         <CircularProgress />
       </Spinner>
 
-      <Show when={incident()}>
-        {(active) => (
-          <Notice>
-            <Header>
-              <Impact>
-                <Symbol fill={active().impact === "maintenance"} size={28}>
-                  {active().impact === "maintenance"
-                    ? "build"
-                    : "running_with_errors"}
-                </Symbol>
-                <Text class="label" size="large">
-                  {impactLabel(active().impact)}
-                </Text>
-              </Impact>
-              <Text class="title" size="medium">
-                {active().title}
-              </Text>
-            </Header>
-            <Button
-              variant="text"
-              onPress={() =>
-                window.open(STATUS_PAGE_URL, "_blank", "noopener,noreferrer")
+      <Show when={notice()} keyed>
+        {(current) =>
+          current.type === "incident" ? (
+            <NoticeContent
+              symbol={
+                current.impact === "maintenance"
+                  ? "build"
+                  : "running_with_errors"
               }
-            >
-              <Trans>View status page</Trans>
-            </Button>
-          </Notice>
-        )}
+              fill={current.impact === "maintenance"}
+              label={impactLabel(current.impact)}
+              title={current.title}
+              url={STATUS_PAGE_URL}
+              action={<Trans>View status page</Trans>}
+            />
+          ) : (
+            <NoticeContent
+              symbol="wifi_off"
+              label={t`This is taking longer than usual.`}
+              title={t`You may be experiencing connection issues.`}
+              url={TROUBLESHOOTING_URL}
+              action={<Trans>Troubleshooting</Trans>}
+            />
+          )
+        }
       </Show>
     </Base>
+  );
+}
+
+/**
+ * A notice that can be shown below the loading spinner
+ */
+function NoticeContent(props: {
+  symbol: string;
+  fill?: boolean;
+  label: JSX.Element;
+  title: JSX.Element;
+  url: string;
+  action: JSX.Element;
+}) {
+  return (
+    <Notice>
+      <Header>
+        <Impact>
+          <Symbol fill={props.fill} size={28}>
+            {props.symbol}
+          </Symbol>
+          <Text class="label" size="large">
+            {props.label}
+          </Text>
+        </Impact>
+        <Text class="title" size="medium">
+          {props.title}
+        </Text>
+      </Header>
+      <Button
+        variant="text"
+        onPress={() => window.open(props.url, "_blank", "noopener,noreferrer")}
+      >
+        {props.action}
+      </Button>
+    </Notice>
   );
 }
 
