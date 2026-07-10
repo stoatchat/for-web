@@ -447,15 +447,16 @@ export function MessageComposition(props: Props) {
         content={draft()?.content ?? ""}
         setContent={setContent}
         actionsStart={
-          <Switch fallback={<MessageBox.InlineIcon size="short" />}>
-            <Match when={props.channel.havePermission("UploadFiles")}>
-              <MessageBox.InlineIcon size="wide">
-                <IconButton onPress={addFile}>
-                  <Symbol>add</Symbol>
-                </IconButton>
-              </MessageBox.InlineIcon>
-            </Match>
-          </Switch>
+          <Show
+            when={props.channel.havePermission("UploadFiles")}
+            fallback={<MessageBox.InlineIcon size="short" />}
+          >
+            <MessageBox.InlineIcon>
+              <IconButton onPress={addFile}>
+                <Symbol>add</Symbol>
+              </IconButton>
+            </MessageBox.InlineIcon>
+          </Show>
         }
         actionsEnd={
           <MessageBox.ActionContainer column>
@@ -476,17 +477,18 @@ export function MessageComposition(props: Props) {
               >
                 {(triggerProps) => (
                   <>
-                    <MessageBox.InlineIcon size="normal">
-                      <IconButton onPress={triggerProps.onClickGif}>
-                        <Symbol>gif</Symbol>
-                      </IconButton>
-                    </MessageBox.InlineIcon>
-                    <MessageBox.InlineIcon size="normal">
+                    <Show when={!canSend()}>
+                      <MessageBox.InlineIcon>
+                        <IconButton onPress={triggerProps.onClickGif}>
+                          <Symbol>gif</Symbol>
+                        </IconButton>
+                      </MessageBox.InlineIcon>
+                    </Show>
+                    <MessageBox.InlineIcon>
                       <IconButton onPress={triggerProps.onClickEmoji}>
                         <Symbol>emoticon</Symbol>
                       </IconButton>
                     </MessageBox.InlineIcon>
-
                     <div ref={triggerProps.ref} />
                   </>
                 )}

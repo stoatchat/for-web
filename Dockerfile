@@ -30,6 +30,7 @@ RUN pnpm --filter stoat.js build && \
   pnpm --filter client exec node scripts/copyAssets.mjs && \
   pnpm --filter client exec panda codegen
 
+RUN pnpm --filter client exec lingui extract
 RUN pnpm --filter client exec lingui compile --typescript
 
 # Build the client with placeholder env vars for runtime injection 

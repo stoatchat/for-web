@@ -6,7 +6,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { CONFIGURATION, useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
@@ -68,6 +68,7 @@ export const ServerList = (props: Props) => {
   const state = useState();
   const client = useClient();
   const navigate = useNavigate();
+  const { isMobile } = useDevice();
   const { openModal } = useModals();
 
   const navigateServer = (byOffset: number) => {
@@ -211,6 +212,9 @@ export const ServerList = (props: Props) => {
           type="servers"
           items={props.orderedServers}
           onChange={props.setServerOrder}
+          //TODO - No channel ordering on mobile due to usability issue
+          //Consider adding a way to enable reordering in user settings
+          disabled={isMobile}
         >
           {(entry) => (
             <Tooltip

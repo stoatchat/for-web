@@ -44,7 +44,12 @@ export function UserProfileModal(
           }}
         />
 
-        <Profile.Actions user={props.user} member={props.member} width={3} />
+        <Profile.Actions
+          user={props.user}
+          member={props.member}
+          onClose={props.onClose}
+          width={3}
+        />
         <Profile.Roles member={props.member} />
         <Profile.Status user={props.user} />
         <Profile.Badges user={props.user} />
