@@ -71,15 +71,14 @@ const NavItems = styled("div", {
   },
   variants: {
     variant: {
-      default: {},
+      default: {
+        "& > *": {
+          textAlign: "center",
+        },
+      },
       stack: {
         md: {
           flexDirection: "column",
-        },
-      },
-      hide: {
-        md: {
-          display: "none",
         },
       },
     },
@@ -173,13 +172,6 @@ export function AuthPage(props: { children: JSX.Element }) {
                 <Trans>Privacy Policy</Trans>
               </a>
             </NavItems>
-          </NavItems>
-          <NavItems variant="hide">
-            <Trans>Image by {"@fakurian"}</Trans>
-            <Bullet />
-            <a href="https://unsplash.com/" target="_blank" rel="noreferrer">
-              unsplash.com
-            </a>
           </NavItems>
         </Nav>
       </Base>

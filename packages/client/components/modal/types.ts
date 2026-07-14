@@ -153,15 +153,6 @@ export type Modals =
       emoji: Emoji;
     }
   | {
-      /**
-       * @deprecated build proper error handling!
-       */
-      type: "error";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
-    }
-  | {
       type: "error2";
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -287,6 +278,7 @@ export type Modals =
       user: User;
       isPlaceholder?: boolean;
       placeholderProfile?: API.UserProfile;
+      member?: ServerMember;
     }
   | {
       type: "user_profile_roles";
@@ -295,6 +287,7 @@ export type Modals =
   | {
       type: "user_profile_mutual_friends";
       users: User[];
+      server?: Server;
     }
   | {
       type: "user_profile_mutual_groups";

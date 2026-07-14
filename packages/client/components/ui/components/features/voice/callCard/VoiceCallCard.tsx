@@ -18,6 +18,8 @@ import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useVoice } from "@revolt/rtc";
+import { useState } from "@revolt/state";
+import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
@@ -29,6 +31,7 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 type Info = {
   channel: Channel;
   pos: DOMRect;
+  drawer?: SlideState;
 };
 
 const PAD = 16,
@@ -103,7 +106,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     const sty = ref.style;
 
     //Set mode based on state
-    if (inf?.pos) {
+    if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
       setMode();
@@ -181,6 +184,7 @@ const Float = styled("div", {
 /** 'Marker' to send position information for mounting the floating call card */
 export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   const voice = useVoice();
+  const state = useState();
   const setInfo = useContext(callCardContext)!;
   let ref: HTMLDivElement | undefined;
 
@@ -191,6 +195,7 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
         ? {
             channel: props.channel,
             pos: ref!.getBoundingClientRect(),
+            drawer: state.appDrawer()?.state,
           }
         : undefined,
     );

@@ -17,6 +17,7 @@ export function DeleteRoleModal(
   const deleteRole = useMutation(() => ({
     mutationFn: () => props.role.delete(),
     onError: showError,
+    onSuccess: () => props.cb(),
   }));
 
   return (

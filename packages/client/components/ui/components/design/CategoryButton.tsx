@@ -49,6 +49,8 @@ export interface Props {
   readonly roundedIcon?: boolean;
 
   readonly variant?: "filled" | "tonal" | "tertiary" | "tertiaryAlt";
+
+  readonly ignoreClick?: boolean;
 }
 
 /**
@@ -63,7 +65,7 @@ export function CategoryButton(props: Props) {
       aria-disabled={props.disabled}
       onClick={(e: Event) => {
         // Disable action when button is disabled
-        if (props.disabled) return;
+        if (props.disabled || props.ignoreClick) return;
 
         // Prevent propagation when action is called
         e.preventDefault();

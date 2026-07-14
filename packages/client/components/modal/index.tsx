@@ -61,11 +61,11 @@ export class ModalController {
    * @param props Modal parameters
    */
   openModal(props: Modals) {
-    const id = Math.random().toString();
+    //Unique ID from clock that can't run backwards
+    const id = performance.now().toString();
     this.setModals((modals) => [
       ...modals,
       {
-        // just need something unique
         id,
         show: true,
         props,

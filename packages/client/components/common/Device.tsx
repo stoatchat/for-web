@@ -8,20 +8,16 @@ import {
 } from "solid-js";
 
 import { isMobileBrowser } from "@livekit/components-core";
-
-const style = getComputedStyle(document.body);
+import Breakpoint from "./Breakpoint";
 
 export type Layout = "desktop" | "tablet" | "phone";
 
 /** Device type and compatibility info */
 export class Device {
-  /** Max width for phone layout */
-  readonly phoneMaxWidth = style.getPropertyValue("--phone-max-width");
+  /** Layout type based on viewport size
 
-  /** Max width for tablet layout */
-  readonly tabletMaxWidth = style.getPropertyValue("--tablet-max-width");
-
-  /** Layout type based on viewport size */
+   * **Note:** This is for advanced reactivity. If you only need to
+   * adjust CSS, use the `_phone` and `_tablet` PandaCSS breakpoints. */
   readonly layout: Accessor<Layout>;
 
   /** Mobile device detection based on User Agent.
@@ -41,8 +37,8 @@ export class Device {
     this.layout = lo;
     this.setLayout = setLo;
 
-    this.pMedia = matchMedia(`(max-width: ${this.phoneMaxWidth})`);
-    this.tMedia = matchMedia(`(max-width: ${this.tabletMaxWidth})`);
+    this.pMedia = matchMedia(Breakpoint.phone);
+    this.tMedia = matchMedia(Breakpoint.tablet);
     (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
   }
 

@@ -3,6 +3,7 @@ import { JSX, Match, Show, Switch, splitProps } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { cva } from "styled-system/css";
 
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
@@ -216,6 +217,7 @@ export function RenderAnchor(
           <LinkComponent
             {...remoteProps}
             class={link()}
+            dest={localProps.href}
             disabled={localProps.disabled}
             onClick={onHandleWarning}
             onAuxClick={onHandleWarning}
@@ -226,6 +228,7 @@ export function RenderAnchor(
           {...remoteProps}
           class={link()}
           disabled={localProps.disabled}
+          dest={localProps.href}
           href={localProps.href}
           target={"_blank"}
           rel="noreferrer"
@@ -241,11 +244,32 @@ export function RenderAnchor(
 }
 
 function LinkComponent(
-  props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
+  props: {
+    disabled?: boolean;
+    dest?: string;
+  } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
-  const [localProps, remoteProps] = splitProps(props, ["disabled"]);
+  const { message, reactPicker } = useMessage();
+  const [localProps, remoteProps] = splitProps(props, ["disabled", "dest"]);
   if (localProps.disabled) {
     return <span class={remoteProps.class}>{remoteProps.children}</span>;
   }
-  return <a {...remoteProps} />;
+  return (
+    <a
+      use:floating={
+        message
+          ? {
+              contextMenu: () => (
+                <MessageContextMenu
+                  message={message}
+                  reactPicker={reactPicker}
+                  link={localProps.dest}
+                />
+              ),
+            }
+          : undefined
+      }
+      {...remoteProps}
+    />
+  );
 }

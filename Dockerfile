@@ -13,24 +13,13 @@ WORKDIR /build
 # Copy workspace config files for dependency resolution
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
-# Copy all package.json files for workspace packages
-COPY packages/stoat.js/package.json packages/stoat.js/
-COPY packages/solid-livekit-components/package.json packages/solid-livekit-components/
-COPY packages/js-lingui-solid/packages/babel-plugin-lingui-macro/package.json packages/js-lingui-solid/packages/babel-plugin-lingui-macro/
-COPY packages/js-lingui-solid/packages/babel-plugin-extract-messages/package.json packages/js-lingui-solid/packages/babel-plugin-extract-messages/
-COPY packages/js-lingui-solid/packages/jest-mocks/package.json packages/js-lingui-solid/packages/jest-mocks/
-COPY packages/client/package.json packages/client/
+COPY packages/ packages/
 
 # Copy panda config needed by client's "prepare" lifecycle script (panda codegen)
 COPY packages/client/panda.config.ts packages/client/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
-
-# Submodules:
-# In CI: actions/checkout@v4 with submodules: recursive handles this automatically.
-# Locally: run `git submodule update --init --recursive` before `docker build`.
-COPY packages/ packages/
 
 # Build sub-dependencies (stoat.js, livekit-components, lingui plugins, panda css etc)
 RUN pnpm --filter stoat.js build && \
@@ -39,7 +28,10 @@ RUN pnpm --filter stoat.js build && \
   pnpm --filter @lingui-solid/babel-plugin-extract-messages build && \
   pnpm --filter client exec lingui compile --typescript && \
   pnpm --filter client exec node scripts/copyAssets.mjs && \
-  pnpm --filter client exec panda codegen 
+  pnpm --filter client exec panda codegen
+
+RUN pnpm --filter client exec lingui extract
+RUN pnpm --filter client exec lingui compile --typescript
 
 # Build the client with placeholder env vars for runtime injection 
 # these are replaced by inject.js at container run startup
