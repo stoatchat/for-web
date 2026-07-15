@@ -12,6 +12,7 @@ import solidSvg from "vite-plugin-solid-svg";
 import codegenPlugin from "./codegen.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
+const pwaScope = process.env.PWA_SCOPE ?? base;
 
 export default defineConfig({
   base,
@@ -42,6 +43,7 @@ export default defineConfig({
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
         start_url: base,
+        scope: pwaScope,
         orientation: "any",
         display_override: ["window-controls-overlay"],
         display: "standalone",
