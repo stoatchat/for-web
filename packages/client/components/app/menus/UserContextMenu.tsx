@@ -1,11 +1,10 @@
 import { Trans } from "@lingui-solid/solid/macro";
-import { useNavigate } from "@solidjs/router";
-import { type JSX, Match, Show, Switch } from "solid-js";
-import type { Channel, Message, ServerMember, User } from "stoat.js";
+import { useNavigate, useSmartParams } from "@revolt/routing";
+import { Channel, Message, ServerMember, User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
-import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Slider, Text } from "@revolt/ui";
 
@@ -214,88 +213,52 @@ export function UserContextMenu(props: {
   }
 
   /**
-   * Remove user from group
+   * Open server selection modal for invitation
    */
-  function removeMember() {
+  function openServerSelection() {
+    const servers = state.ordering.orderedServers(client());
+
+    if (servers.length === 0) return;
+
     openModal({
-      type: "remove_member",
-      user: props.user,
-      group: props.channel!,
+      type: "server_selection",
+      servers: servers,
+      onSelect: inviteToServer,
     });
   }
+  async function inviteToServer(serverId: string) {
+    const server = client().servers.get(serverId);
+    if (!server) return;
 
-  /**
-   * Whether the user can edit identity on this server
-   */
-  function canEditIdentity() {
-    return (
-      props.member &&
-      (props.user.self
-        ? props.member!.server!.havePermission("ChangeNickname") ||
-          props.member!.server!.havePermission("ChangeAvatar")
-        : (props.member!.server!.havePermission("ManageNicknames") ||
-            props.member!.server!.havePermission("RemoveAvatars")) &&
-          props.member!.inferiorTo(props.member!.server!.member!))
+    // Find a text channel in the server
+    const inviteChannel = server.channels.find(
+      (channel: Channel) => channel.type === "TextChannel",
     );
-  }
+    if (!inviteChannel) return;
 
-  /**
-   * Whether the user can edit roles for this member
-   */
-  function canEditRoles() {
-    return (
-      props.member &&
-      (props.member?.server?.owner?.self ||
-        (props.member?.server?.havePermission("AssignRoles") &&
-          props.member.inferiorTo(props.member.server.member!)))
-    );
-  }
+    try {
+      // Create invite for the channel
+      const invite = await inviteChannel.createInvite();
 
-  /**
-   * Whether the user can kick this member
-   */
-  function canKick() {
-    return (
-      !props.user.self &&
-      props.member?.server?.havePermission("KickMembers") &&
-      props.member.inferiorTo(props.member.server.member!)
-    );
-  }
+      // Generate invite link
+      const inviteLink = CONFIGURATION.IS_STOAT
+        ? `https://stt.gg/${invite._id}`
+        : `${window.location.protocol}//${window.location.host}/invite/${invite._id}`;
 
-  /**
-   * Whether the user can ban this member
-   */
-  function canBan() {
-    return (
-      !props.user.self &&
-      props.member?.server?.havePermission("BanMembers") &&
-      props.member.inferiorTo(props.member.server.member!)
-    );
-  }
+      // Open DM with the user and send the invite
+      const dmChannel = await props.user.openDM();
 
-  /**
-   * Whether the user can ban a non-member in the current server
-   */
-  function canBanNonMember() {
-    return (
-      !props.user.self &&
-      props.member?.server?.havePermission("BanMembers") &&
-      params().serverId &&
-      !props.member
-    );
-  }
+      // Send the invite message
+      await dmChannel.sendMessage({
+        content: inviteLink,
+      });
 
-  /**
-   * Whether the user can remove a member from the current group
-   */
-  function canRemoveMemberFromGroup() {
-    return (
-      props.channel?.type === "Group" &&
-      !props.user.self &&
-      props.channel.owner?.id !== props.user.id &&
-      (props.channel.havePermission("ManageChannel") ||
-        props.channel.owner?.self)
-    );
+      // Navigate to the DM channel
+      navigate(dmChannel.url);
+    } catch (error) {
+      console.error("Failed to invite user to server:", error);
+      // You could show an error message to the user here
+    }
   }
 
   return (
@@ -534,7 +497,13 @@ export function UserContextMenu(props: {
         </Show>
       </Show>
 
-      {/* Developer tools */}
+      {/* Invite to server */}
+      <Show when={!props.user.self && props.user.relationship === "Friend"}>
+        <ContextMenuButton icon={MdPersonAddAlt} onClick={openServerSelection}>
+          <Trans>Invite to server</Trans>
+        </ContextMenuButton>
+      </Show>
+
       <Show
         when={
           state.settings.getValue("advanced:admin_panel") ||

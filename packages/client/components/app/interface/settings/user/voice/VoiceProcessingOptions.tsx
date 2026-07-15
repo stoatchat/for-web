@@ -44,6 +44,7 @@ export function VoiceProcessingOptions() {
         >
           <Trans>Automatic Gain Control</Trans>
         </CategoryButton>
+
       </CategoryButton.Group>
     </Column>
   );

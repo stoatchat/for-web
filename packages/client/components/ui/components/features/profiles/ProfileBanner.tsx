@@ -133,6 +133,9 @@ const UserShort = styled("div", {
     lineHeight: "1em",
     gap: "var(--gap-xs)",
     flexDirection: "column",
+    _hover: {
+      textDecoration: "underline",
+    },
   },
 });
 

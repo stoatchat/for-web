@@ -204,10 +204,9 @@
 * Make ProfileJoined.tsx adhere to locale ([#972](https://github.com/stoatchat/for-web/issues/972)) ([42d46f3](https://github.com/stoatchat/for-web/commit/42d46f35b87fd9b5f45b80a55e10eb2f3d48c80b))
 * May fix dark theme flashbangs as reported in [#606](https://github.com/stoatchat/for-web/issues/606) ([c6bce05](https://github.com/stoatchat/for-web/commit/c6bce055d71c88f8c44eeaed89f00b579c741d23))
 * Role autocomplete ([#1075](https://github.com/stoatchat/for-web/issues/1075)) ([e0362e4](https://github.com/stoatchat/for-web/commit/e0362e4ca15954aaae996bda261e5322ddbf0f55))
-* Server deletion using wrong credentials ([161a205](https://github.com/stoatchat/for-web/commit/161a2059a96e8b0b0d0d33b5ae6698007b3064b0))
 * unify autocomplete scrollbar styling via shared scrollable classes ([#1062](https://github.com/stoatchat/for-web/issues/1062)) ([0a97cdb](https://github.com/stoatchat/for-web/commit/0a97cdbbf10d8af6eb3fc917aa003204629c61d1))
-* zoomed-in browser view hiding thumbnails ([#885](https://github.com/stoatchat/for-web/issues/885)) ([f4304f1](https://github.com/stoatchat/for-web/commit/f4304f14a54bfd55ce0a76ed20d9b52969885b5c))
-
+* Use 'new-password' field in account creation form ([#1052](https://github.com/stoatchat/for-web/issues/1052)) ([ef5428e](https://github.com/stoatchat/for-web/commit/ef5428eea9a46c309c11d43689bc6f47ab8cbd3b))
+* zoomed-in browser view hiding thumbnails ([#885](https://github.com/stoatchat/for-web/issues/885)) ([f4304f1](https://github.com/stoatchat/for-web/commit/f4304f14ca97860350714b00674822f1e09d0e0b))
 ## [0.3.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.2.1...stoat-for-web-v0.3.0) (2026-03-03)
 
 
