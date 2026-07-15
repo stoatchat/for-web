@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.11.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.10.0...stoat-for-web-v0.11.0) (2026-07-15)
+
+
+### Features
+
+* add legal links to the settings page ([#1288](https://github.com/stoatchat/for-web/issues/1288)) ([19866fc](https://github.com/stoatchat/for-web/commit/19866fc3209828dbe2a66121ae3a6679eca3d673))
+* helpful loading screen ([#1327](https://github.com/stoatchat/for-web/issues/1327)) ([a9dde04](https://github.com/stoatchat/for-web/commit/a9dde041d6b4d1d77443571a72cf5631c0eda58f))
+* Show an icon when users are in voice, video, or screenshare ([#1324](https://github.com/stoatchat/for-web/issues/1324)) ([9d5028c](https://github.com/stoatchat/for-web/commit/9d5028cc5290b8868a952aa0fd7967a4a42bf3e9))
+* show the message that is being deleted ([#1320](https://github.com/stoatchat/for-web/issues/1320)) ([fa1a99f](https://github.com/stoatchat/for-web/commit/fa1a99fbc857df5b8d3c46f8b679eb590f044ec8))
+
+
+### Bug Fixes
+
+* Allow overwriting pwa scope for production ([#1343](https://github.com/stoatchat/for-web/issues/1343)) ([551f07e](https://github.com/stoatchat/for-web/commit/551f07ef425bfd230ec2efbc1aae1576fbfd7431))
+* clicking message on profiles and context menu should work now ([#1334](https://github.com/stoatchat/for-web/issues/1334)) ([45134ba](https://github.com/stoatchat/for-web/commit/45134ba647080fba774a3efcc98498197c96ea39))
+* Make gifbox videos embed correctly ([#1329](https://github.com/stoatchat/for-web/issues/1329)) ([035a385](https://github.com/stoatchat/for-web/commit/035a38563cf67ad8af3824a1d32437ea7031f431))
+* user could report priviledged accounts ([#1319](https://github.com/stoatchat/for-web/issues/1319)) ([9405255](https://github.com/stoatchat/for-web/commit/94052551cc5507a288069fae6ec551ed47a52d24))
+
 ## [0.10.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.9.1...stoat-for-web-v0.10.0) (2026-06-30)
 
 
