@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.11.0...stoat-for-web-v0.12.0) (2026-07-17)
+
+
+### Features
+
+* Add a latency checker for all available livekit nodes and choose ([64bdbbb](https://github.com/stoatchat/for-web/commit/64bdbbbac47046fd0dead3391d526bd5b7c91820))
+
+
+### Bug Fixes
+
+* Add a latency checker for all available livekit nodes and choose ([#1345](https://github.com/stoatchat/for-web/issues/1345)) ([64bdbbb](https://github.com/stoatchat/for-web/commit/64bdbbbac47046fd0dead3391d526bd5b7c91820))
+
 ## [0.11.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.10.0...stoat-for-web-v0.11.0) (2026-07-15)
 
 
