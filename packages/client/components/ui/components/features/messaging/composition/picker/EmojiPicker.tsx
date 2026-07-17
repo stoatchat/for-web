@@ -70,7 +70,7 @@ const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
 
 export function EmojiPicker() {
   const client = useClient();
-  const { ordering } = useState();
+  const { ordering, settings } = useState();
 
   const [filter, setFilter] = createSignal("");
 
@@ -192,92 +192,109 @@ export function EmojiPicker() {
             )}
           </VirtualContainer>
         </div>
+
         <div
-          ref={emojiScrollTargetElement}
-          use:invisibleScrollable={{
-            class: scrollContainer({ component: "emoji" }),
+          style={{
+            display: "flex",
+            "flex-direction": "column",
+            flex: 1,
+            "min-width": 0,
+            "min-height": 0,
           }}
         >
-          <VirtualContainer
-            items={items()}
-            scrollTarget={emojiScrollTargetElement}
-            itemSize={{ height: 40, width: 40 }}
-            crossAxisCount={() => COLUMNS}
+          <div
+            ref={emojiScrollTargetElement}
+            use:invisibleScrollable={{
+              class: scrollContainer({ component: "emoji" }),
+            }}
           >
-            {EmojiItem}
-          </VirtualContainer>
+            <VirtualContainer
+              items={items()}
+              scrollTarget={emojiScrollTargetElement}
+              itemSize={{ height: 40, width: 40 }}
+              crossAxisCount={() => COLUMNS}
+            >
+              {EmojiItem}
+            </VirtualContainer>
+          </div>
+
+          <EmojiPreviewBar>
+            <Show when={hoveredItem()}>
+              {(item) => (
+                <>
+                  <Row align gap="md" style={{ flex: 1, "min-width": 0 }}>
+                    <PreviewEmoji>
+                      <Switch>
+                        <Match when={item().t === 2}>
+                          <img src={(item() as Item & { t: 2 }).emoji.url} />
+                        </Match>
+                        <Match when={item().t === 4}>
+                          <UnicodeEmoji
+                            emoji={(item() as Item & { t: 4 }).text}
+                            pack={settings.getValue("appearance:unicode_emoji")}
+                          />
+                        </Match>
+                      </Switch>
+                    </PreviewEmoji>
+                    <div>
+                      <PreviewName>
+                        <Switch>
+                          <Match when={item().t === 2}>
+                            :{(item() as Item & { t: 2 }).emoji.name}:
+                          </Match>
+                          <Match when={item().t === 4}>
+                            :{(item() as Item & { t: 4 }).name}:
+                          </Match>
+                        </Switch>
+                      </PreviewName>
+                      <Show when={item().t === 2}>
+                        <PreviewFrom>
+                          from{" "}
+                          <strong>
+                            {(() => {
+                              const parent = (item() as Item & { t: 2 }).emoji
+                                .parent;
+                              return parent.type === "Server"
+                                ? (client().servers.get(parent.id)?.name ??
+                                    "Unknown Server")
+                                : "Unknown Server";
+                            })()}
+                          </strong>
+                        </PreviewFrom>
+                      </Show>
+                    </div>
+                  </Row>
+
+                  {/* Extracted Server Avatar logic */}
+                  <Show
+                    when={
+                      item().t === 2 &&
+                      (item() as Item & { t: 2 }).emoji.parent.type === "Server"
+                    }
+                  >
+                    {(() => {
+                      const parent = (item() as Item & { t: 2 }).emoji.parent;
+
+                      const server =
+                        parent.type === "Server"
+                          ? client().servers.get(parent.id)
+                          : null;
+
+                      return (
+                        <Avatar
+                          size={32}
+                          src={server?.animatedIconURL}
+                          fallback={server?.name ?? ""}
+                        />
+                      );
+                    })()}
+                  </Show>
+                </>
+              )}
+            </Show>
+          </EmojiPreviewBar>
         </div>
       </Row>
-      <EmojiPreviewBar>
-        <Show when={hoveredItem()}>
-          {(item) => (
-            <>
-              <Row align gap="md" style={{ flex: 1, "min-width": 0 }}>
-                <PreviewEmoji>
-                  <Switch>
-                    <Match when={item().t === 2}>
-                      <img src={(item() as Item & { t: 2 }).emoji.url} />
-                    </Match>
-                    <Match when={item().t === 4}>
-                      <UnicodeEmoji
-                        emoji={(item() as Item & { t: 4 }).text}
-                        pack={state.settings.getValue(
-                          "appearance:unicode_emoji",
-                        )}
-                      />
-                    </Match>
-                  </Switch>
-                </PreviewEmoji>
-                <div>
-                  <PreviewName>
-                    <Switch>
-                      <Match when={item().t === 2}>
-                        :{(item() as Item & { t: 2 }).emoji.name}:
-                      </Match>
-                      <Match when={item().t === 4}>
-                        :{(item() as Item & { t: 4 }).name}:
-                      </Match>
-                    </Switch>
-                  </PreviewName>
-                  <Show when={item().t === 2}>
-                    <PreviewFrom>
-                      from{" "}
-                      <strong>
-                        {(item() as Item & { t: 2 }).emoji.parent.type ===
-                        "Server"
-                          ? (client().servers.get(
-                              (item() as Item & { t: 2 }).emoji.parent.id,
-                            )?.name ?? "Unknown Server")
-                          : "Unknown Server"}
-                      </strong>
-                    </PreviewFrom>
-                  </Show>
-                </div>
-              </Row>
-              <Show
-                when={
-                  item().t === 2 &&
-                  (item() as Item & { t: 2 }).emoji.parent.type === "Server"
-                }
-              >
-                <Avatar
-                  size={32}
-                  src={
-                    client().servers.get(
-                      (item() as Item & { t: 2 }).emoji.parent.id,
-                    )?.animatedIconURL
-                  }
-                  fallback={
-                    client().servers.get(
-                      (item() as Item & { t: 2 }).emoji.parent.id,
-                    )?.name ?? ""
-                  }
-                />
-              </Show>
-            </>
-          )}
-        </Show>
-      </EmojiPreviewBar>
     </Stack>
   );
 }
