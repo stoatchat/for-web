@@ -249,7 +249,7 @@ function LinkComponent(
     dest?: string;
   } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
-  const { message } = useMessage();
+  const { message, reactPicker } = useMessage();
   const [localProps, remoteProps] = splitProps(props, ["disabled", "dest"]);
   if (localProps.disabled) {
     return <span class={remoteProps.class}>{remoteProps.children}</span>;
@@ -260,7 +260,11 @@ function LinkComponent(
         message
           ? {
               contextMenu: () => (
-                <MessageContextMenu message={message} link={localProps.dest} />
+                <MessageContextMenu
+                  message={message}
+                  reactPicker={reactPicker}
+                  link={localProps.dest}
+                />
               ),
             }
           : undefined

@@ -1,4 +1,11 @@
-import { JSX, Match, Switch, createEffect } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  JSX,
+  Match,
+  onCleanup,
+  Switch,
+} from "solid-js";
 
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -13,8 +20,9 @@ import { useModals } from "@revolt/modal";
 import { Navigate, useBeforeLeave, useLocation } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import { CircularProgress } from "@revolt/ui";
 
+import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
+import { LoadingScreen } from "./LoadingScreen";
 import { Sidebar } from "./interface/Sidebar";
 
 /**
@@ -31,10 +39,7 @@ const Interface = (props: { children: JSX.Element }) => {
     if (!e.defaultPrevented) {
       if (e.to === "/settings") {
         e.preventDefault();
-        openModal({
-          type: "settings",
-          config: "user",
-        });
+        openModal({ type: "settings", config: "user" });
       } else if (typeof e.to === "string") {
         state.layout.setLastActivePath(e.to);
       }
@@ -57,17 +62,36 @@ const Interface = (props: { children: JSX.Element }) => {
     ].includes(lifecycle.state());
   }
 
+  //Drawer slider for mobile
+  let rootRef, sDrawer: SlideDrawer | undefined;
+  const [contRef, setContRef] = createSignal<HTMLDivElement>();
+  function rstLayout() {
+    state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
+    state.layout.setSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, false, true);
+  }
+  createEffect(() => {
+    //Create drawer
+    const cont = contRef();
+    if (cont && !sDrawer) sDrawer = new SlideDrawer(cont, rootRef!);
+    //Update on layout change
+    if (sDrawer) {
+      const en = sDrawer.enabled;
+      setTimeout(() => {
+        state.setAppDrawer(en ? sDrawer : undefined);
+        if (en) rstLayout();
+      }, 1);
+    }
+  });
+  onCleanup(() => {
+    sDrawer?.delete();
+    state.setAppDrawer((sDrawer = undefined));
+  });
+
   return (
     <MessageCache client={client()}>
-      <div
-        style={{
-          display: "flex",
-          "flex-direction": "column",
-          height: "100%",
-        }}
-      >
+      <AppRoot ref={rootRef} class="app_root">
         <Titlebar />
-        <Switch fallback={<CircularProgress />}>
+        <Switch fallback={<LoadingScreen />}>
           <Match when={!isLoggedIn()}>
             <Navigate href="/login" />
           </Match>
@@ -96,6 +120,8 @@ const Interface = (props: { children: JSX.Element }) => {
                 })}
               />
               <Content
+                ref={setContRef}
+                class="app_body"
                 sidebar={state.layout.getSectionState(
                   LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
                   true,
@@ -108,10 +134,18 @@ const Interface = (props: { children: JSX.Element }) => {
         </Switch>
 
         <NotificationsWorker />
-      </div>
+      </AppRoot>
     </MessageCache>
   );
 };
+
+const AppRoot = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  },
+});
 
 /**
  * Parent container
@@ -142,7 +176,6 @@ const Layout = styled("div", {
 const Content = styled("div", {
   base: {
     background: "var(--md-sys-color-surface-container-low)",
-
     display: "flex",
     width: "100%",
     minWidth: 0,

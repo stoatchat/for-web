@@ -234,7 +234,10 @@ export function Messages(props: Props) {
       }
 
       // Cancel if we've been pre-empted
-      if (preempted()) return;
+      if (preempted()) {
+        collectedMessages = undefined;
+        return;
+      }
 
       // Assume we are not at the end if we jumped to a message
       // NB. we set this late to not display the "jump to bottom" bar
@@ -271,7 +274,7 @@ export function Messages(props: Props) {
       }
 
       // Stop collecting messages
-      collectedMessages = [];
+      collectedMessages = undefined;
 
       // Mark as fetching has ended
       setFetching();
@@ -279,7 +282,7 @@ export function Messages(props: Props) {
       // If we're not at the end, restore scroll position
       if (existingState && !existingState.atEnd) {
         setTimeout(() =>
-          listRef!.scrollTo({
+          listRef?.scrollTo({
             top: existingState.scrollTop!,
             behavior: "instant",
           }),
@@ -288,7 +291,7 @@ export function Messages(props: Props) {
       // Or... reset scroll to the end
       else if (atEnd()) {
         setTimeout(() =>
-          listRef!.scrollTo({
+          listRef?.scrollTo({
             top: 9999999,
             behavior: "instant",
           }),
@@ -485,7 +488,10 @@ export function Messages(props: Props) {
         });
 
         // Cancel if we've been pre-empted
-        if (preempted()) return;
+        if (preempted()) {
+          collectedMessages = undefined;
+          return;
+        }
 
         // Check if we're at the start of the conversation
         // NB. this may be counter-intuitive because we are in history but,
@@ -507,7 +513,7 @@ export function Messages(props: Props) {
         );
 
         // Stop collecting messages
-        collectedMessages = [];
+        collectedMessages = undefined;
 
         // Animate scroll to bottom
         setTimeout(() => {
@@ -650,8 +656,14 @@ export function Messages(props: Props) {
    * @param message Message object
    */
   function onMessage(message: MessageInterface) {
-    if (message.channelId === props.channel.id && atEnd()) {
-      setMessages([message, ...messages()]);
+    if (message.channelId === props.channel.id) {
+      if (collectedMessages) {
+        collectedMessages.push(message);
+        return;
+      }
+      if (atEnd()) {
+        setMessages([message, ...messages()]);
+      }
     }
   }
 
@@ -707,7 +719,7 @@ export function Messages(props: Props) {
         if (
           state === State.Connected &&
           atEnd() &&
-          !props.highlightedMessageId
+          !props.highlightedMessageId()
         ) {
           caseInitialLoad();
         }

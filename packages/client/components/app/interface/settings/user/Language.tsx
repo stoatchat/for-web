@@ -202,11 +202,11 @@ function PickTimeFormat() {
  */
 function ContributeLanguageLink() {
   return (
-    <a href="https://weblate.insrt.uk/engage/revolt/" target="_blank">
+    <a href="https://translate.stoat.chat/projects/revolt/" target="_blank">
       <CategoryButton
         action="external"
         icon={<MdTranslate {...iconSize(22)} />}
-        onClick={() => void 0}
+        ignoreClick
         description={
           <Trans>Help contribute to an existing or new language</Trans>
         }

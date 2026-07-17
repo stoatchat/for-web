@@ -6,7 +6,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { CONFIGURATION, useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
@@ -21,6 +21,7 @@ import MdSettings from "@material-design-icons/svg/filled/settings.svg?component
 import { Tooltip } from "../../../../components/ui/components/floating";
 import { Draggable } from "../../../../components/ui/components/utils/Draggable";
 
+import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 import { UserMenu } from "./UserMenu";
 
 interface Props {
@@ -68,6 +69,7 @@ export const ServerList = (props: Props) => {
   const state = useState();
   const client = useClient();
   const navigate = useNavigate();
+  const { isMobile } = useDevice();
   const { openModal } = useModals();
 
   const navigateServer = (byOffset: number) => {
@@ -211,6 +213,9 @@ export const ServerList = (props: Props) => {
           type="servers"
           items={props.orderedServers}
           onChange={props.setServerOrder}
+          //TODO - No channel ordering on mobile due to usability issue
+          //Consider adding a way to enable reordering in user settings
+          disabled={isMobile}
         >
           {(entry) => (
             <Tooltip
@@ -262,7 +267,13 @@ export const ServerList = (props: Props) => {
                     size={42}
                     src={entry.item.iconURL}
                     holepunch={
-                      entry.item.mentions.length ? "top-right" : "none"
+                      entry.item.mentions.length
+                        ? entry.item.voiceStatus !== "none"
+                          ? "right"
+                          : "top-right"
+                        : entry.item.voiceStatus !== "none"
+                          ? "bottom-right"
+                          : "none"
                     }
                     overlay={
                       <>
@@ -275,6 +286,11 @@ export const ServerList = (props: Props) => {
                           <Unreads.Graphic
                             count={entry.item.mentions.length}
                             unread
+                          />
+                        </Show>
+                        <Show when={entry.item.voiceStatus !== "none"}>
+                          <VoiceStatus.Graphic
+                            status={entry.item.voiceStatus}
                           />
                         </Show>
                       </>

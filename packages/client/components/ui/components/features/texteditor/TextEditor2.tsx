@@ -9,6 +9,7 @@ import { css } from "styled-system/css";
 import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
+import { useDevice } from "@revolt/common";
 import { codeMirrorAutoComplete } from "./codeMirrorAutoComplete";
 import { isInFencedCodeBlock } from "./codeMirrorCommon";
 import { smartLineWrapping } from "./codeMirrorLineWrap";
@@ -73,8 +74,12 @@ const placeholderCompartment = new Compartment();
 export function TextEditor2(props: Props) {
   const editorScrollbarClasses = scrollableStyles();
 
+  const { isMobile } = useDevice();
   const codeMirror = document.createElement("div");
   codeMirror.className = editor;
+
+  //Custom CSS
+  codeMirror.style.minWidth = "0";
 
   /**
    * Handle 'Enter' key presses
@@ -82,7 +87,8 @@ export function TextEditor2(props: Props) {
    */
   const enterKeymap = keymap.of([
     {
-      key: "Enter",
+      key: isMobile ? "Ctrl-Enter" : "Enter",
+      //TODO Ctrl-Enter is only detected on Firefox mobile, not Chrome mobile
       run: (view) => {
         if (!props.onComplete) return false;
 
@@ -120,7 +126,11 @@ export function TextEditor2(props: Props) {
       doc: props.initialValue?.[0],
       extensions: [
         /* Enable browser spellchecking */
-        EditorView.contentAttributes.of({ spellcheck: "true" }),
+        EditorView.contentAttributes.of({
+          spellcheck: "true",
+          autocorrect: "true",
+          autocapitalize: "true",
+        }),
 
         /* Mount keymaps */
         enterKeymap,

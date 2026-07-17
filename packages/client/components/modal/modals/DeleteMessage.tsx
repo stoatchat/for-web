@@ -3,6 +3,8 @@ import { useMutation } from "@tanstack/solid-query";
 
 import { Dialog, DialogProps } from "@revolt/ui";
 
+import { Message } from "@revolt/app";
+import { styled } from "styled-system/jsx";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -34,6 +36,19 @@ export function DeleteMessageModal(
       isDisabled={deleteMessage.isPending}
     >
       <Trans>Are you sure you want to delete this?</Trans>
+      <MessagePreview>
+        <Message isLink="hide" message={props.message} />
+      </MessagePreview>
     </Dialog>
   );
 }
+
+const MessagePreview = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    paddingBlock: "var(--gap-md)",
+    gap: "var(--message-group-spacing)",
+    pointerEvents: "none",
+  },
+});
