@@ -37,7 +37,7 @@ export function ListServerInvites(props: { server: Server }) {
       await invite.delete();
       client.setQueryData(
         ["invites", props.server.id],
-        query.data!.filter((entry) => entry.id !== entry.id),
+        query.data!.filter((entry) => entry.id !== invite.id),
       );
     } catch (error) {
       showError(error);

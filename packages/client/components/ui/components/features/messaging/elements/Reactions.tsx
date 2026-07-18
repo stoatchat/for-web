@@ -4,6 +4,7 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { useMessage } from "@revolt/app";
 import { Emoji } from "@revolt/markdown";
 import { useUsers } from "@revolt/markdown/users";
 import { Ripple, Text } from "@revolt/ui/components/design";
@@ -11,9 +12,6 @@ import { Tooltip } from "@revolt/ui/components/floating";
 import { Row } from "@revolt/ui/components/layout";
 
 import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-
-import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
-import { CompositionMediaPicker } from "../composition";
 
 interface Props {
   /**
@@ -38,12 +36,6 @@ interface Props {
   addReaction(reaction: string): void;
 
   /**
-   * Send a GIF reaction
-   * @param text Message
-   */
-  sendGIF(text: string): void;
-
-  /**
    * Remove a reaction
    * @param reaction ID
    */
@@ -54,6 +46,8 @@ interface Props {
  * Message reactions
  */
 export function Reactions(props: Props) {
+  const { reactPicker } = useMessage();
+
   /**
    * Determine two lists of 'required' and 'optional' reactions
    */
@@ -93,6 +87,8 @@ export function Reactions(props: Props) {
       : required.length || optional.length;
   };
 
+  let reactRef;
+
   return (
     <Show when={hasReactions()}>
       <List>
@@ -121,27 +117,15 @@ export function Reactions(props: Props) {
             />
           )}
         </For>
-        <CompositionMediaPicker
-          onMessage={props.sendGIF}
-          onTextReplacement={(emoji) =>
-            props.addReaction(
-              emoji.startsWith(":")
-                ? emoji.slice(1, emoji.length - 1)
-                : startsWithPackPUA(emoji)
-                  ? emoji.slice(1)
-                  : emoji,
-            )
-          }
+        <div
+          ref={reactRef}
+          onClick={(e) => reactPicker!()?.onClickEmoji(e, reactRef)}
         >
-          {(triggerProps) => (
-            <div ref={triggerProps.ref} onClick={triggerProps.onClickEmoji}>
-              <AddReaction class="add">
-                <Ripple />
-                <MdAdd />
-              </AddReaction>
-            </div>
-          )}
-        </CompositionMediaPicker>
+          <AddReaction class="add">
+            <Ripple />
+            <MdAdd />
+          </AddReaction>
+        </div>
       </List>
     </Show>
   );

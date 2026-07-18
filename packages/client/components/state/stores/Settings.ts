@@ -2,24 +2,41 @@ import {
   UNICODE_EMOJI_PACKS,
   UnicodeEmojiPacks,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { batch } from "solid-js";
 
 import { State } from "..";
 
 import { AbstractStore } from ".";
 
+/**
+ * Possible notification permission states
+ */
+export type NotificationPermissionState =
+  | "default"
+  | "denied"
+  | "allowed"
+  | "unsupported";
+
+/**
+ * Possible notification permission states
+ */
+const NotificationPermissionStates: NotificationPermissionState[] = [
+  "default",
+  "denied",
+  "allowed",
+  "unsupported",
+];
+
 interface SettingsDefinition {
   /**
    * Whether to enable desktop notifications
-   * Stoat will try to get notification permission after login if it doesn't already.
-   * TODO: implement
    */
-  // "notifications:desktop": boolean;
+  "notifications:desktop": NotificationPermissionState;
 
   /**
-   * Customise notification sounds
-   * TODO: implement
+   * Whether to enable push notifications
    */
-  // "notifications:sounds": SoundOptions;
+  "notifications:push": NotificationPermissionState;
 
   /**
    * Selected unicode emoji
@@ -63,11 +80,6 @@ interface SettingsDefinition {
    * Whether to include admin panel links in context menus
    */
   "advanced:admin_panel": boolean;
-
-  /**
-   * Last read changelog index
-   */
-  "changelog:last_index": number;
 }
 
 /**
@@ -89,12 +101,13 @@ type ValueType<T extends keyof SettingsDefinition> =
  * If we cannot validate the value as a primitive, clean it up using a function.
  */
 const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
+  "notifications:desktop": "string",
+  "notifications:push": "string",
   "appearance:unicode_emoji": "string",
   "appearance:show_send_button": "boolean",
   "appearance:compact_mode": "boolean",
   "advanced:copy_id": "boolean",
   "advanced:admin_panel": "boolean",
-  "changelog:last_index": "number",
 };
 
 /**
@@ -131,6 +144,8 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
    */
   default(): TypeSettings {
     return {
+      "notifications:desktop": "default",
+      "notifications:push": "default",
       "appearance:unicode_emoji": "fluent-3d",
       "appearance:show_send_button": true,
       "appearance:compact_mode": false,
@@ -159,6 +174,14 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
         if (UNICODE_EMOJI_PACKS.includes(input[key] as never)) {
           settings[key] = input[key];
         }
+      } else if (key === "notifications:desktop") {
+        if (NotificationPermissionStates.includes(input[key] as never)) {
+          settings[key] = input[key];
+        }
+      } else if (key === "notifications:push") {
+        if (NotificationPermissionStates.includes(input[key] as never)) {
+          settings[key] = input[key];
+        }
       } else if (typeof input[key] === expectedType) {
         settings[key] = input[key] as never;
       }
@@ -183,5 +206,49 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
    */
   getValue<T extends keyof TypeSettings>(key: T) {
     return this.get()[key] ?? DEFAULT_VALUES[key];
+  }
+
+  /**
+   * Get the permission state for desktop notifications
+   */
+  get desktopNotificationsState(): NotificationPermissionState {
+    return this.getValue("notifications:desktop") ?? "default";
+  }
+
+  /**
+   * Get the permission state for push notifications
+   */
+  get pushNotificationsState(): NotificationPermissionState {
+    return this.getValue("notifications:push") ?? "default";
+  }
+
+  /**
+   * Set the permission state for desktop notifications. If deskop notifications are ever set to `unsupported` this function will noop.
+   */
+  set desktopNotificationsState(newState: NotificationPermissionState) {
+    if (this.desktopNotificationsState !== "unsupported") {
+      this.setValue("notifications:desktop", newState);
+    }
+  }
+
+  /**
+   * Set the permission state for push notifications. If newState is `unsupported` this function will noop.
+   */
+  set pushNotificationsState(newState: NotificationPermissionState) {
+    if (newState !== "unsupported") {
+      this.setValue("notifications:push", newState);
+    }
+  }
+
+  /**
+   * Reset the notifications state for both desktop and push notifications.
+   * @param newState The state to set both notification states to. Defaults to "default"
+   */
+  resetNotificationsState(newState?: "default" | "denied") {
+    batch(() => {
+      // Use setValue here instead of the setter as we want to bypass the unsupported block.
+      this.setValue("notifications:desktop", newState ?? "default");
+      this.pushNotificationsState = newState ?? "default";
+    });
   }
 }

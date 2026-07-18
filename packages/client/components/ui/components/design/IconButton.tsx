@@ -1,4 +1,4 @@
-import { Show, splitProps } from "solid-js";
+import { mergeProps, Show, splitProps } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 
 import { AriaButtonProps, createButton } from "@solid-aria/button";
@@ -13,7 +13,7 @@ type Props = Omit<
     JSX.DirectiveAttributes &
     Pick<
       JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-      "role" | "tabIndex" | "aria-selected"
+      "role" | "tabIndex" | "aria-selected" | "style"
     >,
   "onClick" | "disabled"
 >;
@@ -28,6 +28,7 @@ export function IconButton(props: Props) {
     "aria-selected",
     "tabIndex",
     "role",
+    "style",
   ]);
 
   const [style, rest] = splitProps(propsRest, [
@@ -39,7 +40,16 @@ export function IconButton(props: Props) {
   ]);
   let ref: HTMLButtonElement | undefined;
 
-  const { buttonProps } = createButton(rest, () => ref);
+  const [btn, noBtnRest] = splitProps(rest, ["onPress"]);
+
+  //Emulate delay of native onClick
+  // See issue https://github.com/solidjs-community/solid-aria/issues/84
+  // Delay must be at least 32ms for Safari
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 32),
+    btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
+
+  const { buttonProps } = createButton(btnRest, () => ref);
   return (
     <button
       {...passthrough}

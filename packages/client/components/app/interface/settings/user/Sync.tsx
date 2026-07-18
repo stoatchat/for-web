@@ -1,13 +1,6 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
-import {
-  CategoryButton,
-  CategoryButtonGroup,
-  Checkbox,
-  Column,
-  Time,
-  iconSize,
-} from "@revolt/ui";
+import { CategoryButton, Checkbox, Column, Time, iconSize } from "@revolt/ui";
 
 import MdBrush from "@material-design-icons/svg/outlined/brush.svg?component-solid";
 import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
@@ -19,7 +12,7 @@ import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component
 export default function Sync() {
   return (
     <Column gap="lg">
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         <CategoryButton
           action={<Checkbox checked onChange={(value) => void value} />}
           onClick={() => void 0}
@@ -51,14 +44,14 @@ export default function Sync() {
         >
           <Trans>Language</Trans>
         </CategoryButton>
-      </CategoryButtonGroup>
-      <CategoryButtonGroup>
+      </CategoryButton.Group>
+      <CategoryButton.Group>
         <CategoryButton>
           <Trans>
             Last sync <Time format="relative" value={0} />
           </Trans>
         </CategoryButton>
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }

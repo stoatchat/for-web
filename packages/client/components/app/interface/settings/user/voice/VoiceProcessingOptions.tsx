@@ -7,7 +7,7 @@ import { CategoryButton, Checkbox, Column, Text } from "@revolt/ui";
  * Voice processing options
  */
 export function VoiceProcessingOptions() {
-  const state = useState();
+  const { voice } = useState();
 
   return (
     <Column>
@@ -15,23 +15,34 @@ export function VoiceProcessingOptions() {
         <Trans>Voice Processing</Trans>
       </Text>
       <CategoryButton.Group>
+        <CategoryButton.Select
+          icon={"blank"}
+          title={<Trans>Select noise suppression</Trans>}
+          options={{
+            disabled: { title: <Trans>Disabled</Trans> },
+            browser: { title: <Trans>Browser</Trans> },
+            enhanced: {
+              title: <Trans>Enhanced</Trans>,
+              description: <Trans>Powered by RNNoise</Trans>,
+              shortDesc: <Trans>Enhanced (RNNoise)</Trans>,
+            },
+          }}
+          value={voice.noiseSupression}
+          onUpdate={(ns) => (voice.noiseSupression = ns)}
+        />
         <CategoryButton
           icon="blank"
-          action={<Checkbox checked={state.voice.noiseSupression} />}
-          onClick={() =>
-            (state.voice.noiseSupression = !state.voice.noiseSupression)
-          }
+          action={<Checkbox checked={voice.echoCancellation} />}
+          onClick={() => (voice.echoCancellation = !voice.echoCancellation)}
         >
-          <Trans>Browser Noise Supression</Trans>
+          <Trans>Browser Echo Cancellation</Trans>
         </CategoryButton>
         <CategoryButton
           icon="blank"
-          action={<Checkbox checked={state.voice.echoCancellation} />}
-          onClick={() =>
-            (state.voice.echoCancellation = !state.voice.echoCancellation)
-          }
+          action={<Checkbox checked={voice.autoGainControl} />}
+          onClick={() => (voice.autoGainControl = !voice.autoGainControl)}
         >
-          <Trans>Browser Echo Cancellation</Trans>
+          <Trans>Automatic Gain Control</Trans>
         </CategoryButton>
       </CategoryButton.Group>
     </Column>

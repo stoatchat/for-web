@@ -1,4 +1,4 @@
-import { Match, Show, Switch, createEffect, createMemo, on } from "solid-js";
+import { createEffect, createMemo, Match, on, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
@@ -16,9 +16,9 @@ import {
   OverflowingText,
   Row,
   Tooltip,
-  UserStatus,
-  Username,
   typography,
+  Username,
+  UserStatus,
 } from "@revolt/ui";
 
 interface Props {
@@ -152,6 +152,7 @@ export function ServerMemberSidebar(props: Props) {
         role: {
           id: "default",
           name: "Online",
+          icon: undefined,
         },
         members: byRole["default"],
       },
@@ -159,6 +160,7 @@ export function ServerMemberSidebar(props: Props) {
         role: {
           id: "offline",
           name: "Offline",
+          icon: undefined,
         },
         members: byRole["offline"],
       },
@@ -180,14 +182,15 @@ export function ServerMemberSidebar(props: Props) {
     }));
   });
 
+  type MemberRoleElement =
+    | { t: 0; name: string; count: number; icon?: string | null }
+    | { t: 1; member: ServerMember; icon?: never };
+
   // Stage 5: Flatten into a single list with caching
-  const objectCache = new Map();
+  const objectCache = new Map<string, MemberRoleElement>();
 
   const elements = createMemo(() => {
-    const elements: (
-      | { t: 0; name: string; count: number }
-      | { t: 1; member: ServerMember }
-    )[] = [];
+    const elements: MemberRoleElement[] = [];
 
     // Create elements
     for (const role of roles()) {
@@ -198,12 +201,15 @@ export function ServerMemberSidebar(props: Props) {
         elements.push({
           t: 0,
           name: role.role.name,
+          icon: role.role.icon?.previewUrl,
           count: role.members.length,
         });
       }
 
       for (const member of role.members) {
-        const memberElement = objectCache.get(member.id);
+        const memberElement = objectCache.get(
+          `${member.id.server}-${member.id.user}`,
+        );
         if (memberElement) {
           elements.push(memberElement);
         } else {
@@ -223,7 +229,10 @@ export function ServerMemberSidebar(props: Props) {
       if (element.t === 0) {
         objectCache.set(element.name + element.count, element);
       } else {
-        objectCache.set(element.member.id, element);
+        objectCache.set(
+          `${element.member.id.server}-${element.member.id.user}`,
+          element,
+        );
       }
     }
 
@@ -267,8 +276,14 @@ export function ServerMemberSidebar(props: Props) {
               <Switch
                 fallback={
                   <CategoryTitle>
-                    {(item.item as { name: string }).name} {"–"}{" "}
-                    {(item.item as { count: number }).count}
+                    <Show when={item.item.icon}>
+                      <RoleIcon src={item.item.icon!} alt="" />
+                    </Show>
+                    <span>{(item.item as { name: string }).name}</span>
+                    <span>
+                      {" – "}
+                      {(item.item as { count: number }).count}
+                    </span>
                   </CategoryTitle>
                 }
               >
@@ -311,7 +326,7 @@ export function GroupMemberSidebar(props: Props) {
                 width: "100%",
               }}
             >
-              <Member user={item.item} />
+              <Member user={item.item} group={props.channel} />
             </div>
           )}
         </VirtualContainer>
@@ -337,8 +352,20 @@ const CategoryTitle = styled("div", {
   base: {
     padding: "28px 14px 0",
     color: "var(--md-sys-color-on-surface)",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
 
     ...typography.raw({ class: "label", size: "small" }),
+  },
+});
+
+const RoleIcon = styled("img", {
+  base: {
+    width: "16px",
+    height: "16px",
+    borderRadius: "var(--borderRadius-sm)",
+    objectFit: "cover",
   },
 });
 
@@ -378,7 +405,11 @@ const NameStatusStack = styled("div", {
 /**
  * Member
  */
-function Member(props: { user?: User; member?: ServerMember }) {
+function Member(props: {
+  user?: User;
+  member?: ServerMember;
+  group?: Channel;
+}) {
   const { t } = useLingui();
 
   /**
@@ -408,6 +439,8 @@ function Member(props: { user?: User; member?: ServerMember }) {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        undefined,
+        props.group,
       )}
     >
       <MenuButton

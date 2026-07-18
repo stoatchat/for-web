@@ -95,9 +95,9 @@ interface Props {
 const Base = styled("div", {
   base: {
     flexGrow: 1,
+    minWidth: 0,
 
-    paddingInlineEnd: "var(--gap-md)",
-    paddingBlock: "var(--gap-sm)",
+    padding: "var(--gap-sm) var(--gap-md)",
     borderStartRadius: "var(--borderRadius-xl)",
 
     display: "flex",
@@ -141,6 +141,9 @@ const Blocked = styled(Row, {
     userSelect: "none",
     padding: "var(--gap-md)",
   },
+  variants: {
+    noPad: { true: { padding: 0 } },
+  },
 });
 
 /**
@@ -155,14 +158,53 @@ export const InlineIcon = styled("div", {
   },
   variants: {
     size: {
+      short: { width: "14px" },
+      normal: { width: "42px" },
+    },
+  },
+  defaultVariants: {
+    size: "normal",
+  },
+});
+
+const FloatingAction = styled("div", {
+  base: {
+    flexShrink: 0,
+    flexGrow: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+  },
+  variants: {
+    size: {
       short: {
-        width: "14px",
+        height: "1em",
       },
       normal: {
-        width: "42px",
+        height: "1.5em",
       },
-      wide: {
-        width: "62px",
+      tall: {
+        height: "2em",
+      },
+    },
+    error: {
+      true: {
+        color: "var(--md-sys-color-error)",
+      },
+    },
+  },
+});
+
+const ActionContainer = styled("div", {
+  base: {
+    flexShrink: 0,
+    display: "flex",
+    flexGrow: 1,
+  },
+  variants: {
+    column: {
+      true: {
+        flexFlow: "column",
       },
     },
   },
@@ -189,7 +231,7 @@ export function MessageBox(props: Props) {
       <Base hasActionsAppend={props.hasActionsAppend}>
         <Switch fallback={props.actionsStart}>
           <Match when={!props.sendingAllowed}>
-            <InlineIcon size="wide">
+            <InlineIcon>
               <Blocked>
                 <BiRegularBlock size={24} />
               </Blocked>
@@ -214,7 +256,7 @@ export function MessageBox(props: Props) {
           }
         >
           <Match when={!props.sendingAllowed}>
-            <Blocked align>
+            <Blocked align noPad>
               <Trans>
                 You don't have permission to send messages in this channel.
               </Trans>
@@ -228,3 +270,7 @@ export function MessageBox(props: Props) {
 }
 
 MessageBox.InlineIcon = InlineIcon;
+
+MessageBox.FloatingAction = FloatingAction;
+
+MessageBox.ActionContainer = ActionContainer;

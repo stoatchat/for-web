@@ -11,6 +11,7 @@ import { SetStoreFunction, createStore } from "solid-js/store";
 import type { MFA, MFATicket } from "stoat.js";
 
 import { Keybind, KeybindAction } from "@revolt/keybinds";
+import { dismissFloatingElements } from "@revolt/ui";
 
 import { RenderModal } from "./modals";
 import { Modals } from "./types";
@@ -60,17 +61,17 @@ export class ModalController {
    * @param props Modal parameters
    */
   openModal(props: Modals) {
-    const id = Math.random().toString();
+    //Unique ID from clock that can't run backwards
+    const id = performance.now().toString();
     this.setModals((modals) => [
       ...modals,
       {
-        // just need something unique
         id,
         show: true,
         props,
       },
     ]);
-
+    dismissFloatingElements();
     // after modal commits to DOM,
     // we can begin animations!
     // setTimeout(

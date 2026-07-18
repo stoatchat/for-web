@@ -12,6 +12,7 @@ import solidSvg from "vite-plugin-solid-svg";
 import codegenPlugin from "./codegen.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
+const pwaScope = process.env.PWA_SCOPE ?? base;
 
 export default defineConfig({
   base,
@@ -33,13 +34,17 @@ export default defineConfig({
       injectManifest: {
         maximumFileSizeToCacheInBytes: 4000000,
       },
+      devOptions: {
+        enabled: true,
+      },
       manifest: {
         name: "Stoat",
         short_name: "Stoat",
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
         start_url: base,
-        orientation: "portrait",
+        scope: pwaScope,
+        orientation: "any",
         display_override: ["window-controls-overlay"],
         display: "standalone",
         background_color: "#101823",
@@ -76,6 +81,21 @@ export default defineConfig({
     target: "esnext",
     rollupOptions: {
       external: ["hast"],
+      output: {
+        manualChunks: {
+          markdown: [
+            "lowlight",
+            "rehype-highlight",
+            "rehype-katex",
+            "remark-breaks",
+            "remark-gfm",
+            "remark-math",
+            "remark-parse",
+            "remark-rehype",
+            "vfile",
+          ],
+        },
+      },
     },
     sourcemap: true,
   },

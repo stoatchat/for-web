@@ -12,7 +12,6 @@ import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
 import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
 
 import { Button, IconButton } from "../../design";
-import { dismissFloatingElements } from "../../floating";
 import { iconSize } from "../../utils";
 
 /**
@@ -23,6 +22,7 @@ export function ProfileActions(props: {
 
   user: User;
   member?: ServerMember;
+  onClose: () => void;
 }) {
   const navigate = useNavigate();
   const { openModal } = useModals();
@@ -31,20 +31,20 @@ export function ProfileActions(props: {
    * Open direct message channel
    */
   function openDm() {
-    props.user.openDM().then((channel) => navigate(channel.url));
+    props.user.openDM().then((channel) => navigate(`/channel/${channel.id}`));
+    props.onClose();
   }
 
   /**
    * Open edit menu
    */
   function openEdit() {
-    if (props.member) {
-      openModal({ type: "server_identity", member: props.member });
-    } else {
-      openModal({ type: "settings", config: "user" });
-    }
-
-    dismissFloatingElements();
+    openModal(
+      props.member
+        ? { type: "server_identity", member: props.member }
+        : { type: "settings", config: "user" },
+    );
+    if (!props.member) props.onClose();
   }
 
   return (
@@ -89,7 +89,11 @@ export function ProfileActions(props: {
       <IconButton
         use:floating={{
           contextMenu: () => (
-            <UserContextMenu user={props.user} member={props.member} />
+            <UserContextMenu
+              user={props.user}
+              member={props.member}
+              onClose={props.onClose}
+            />
           ),
           contextMenuHandler: "click",
         }}

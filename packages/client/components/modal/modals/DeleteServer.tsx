@@ -19,8 +19,10 @@ export function DeleteServerModal(
   const deleteServer = useMutation(() => ({
     mutationFn: async () => {
       const mfa = await client().account.mfa();
-      await mfaFlow(mfa as never);
-      await props.server.delete(); // TODO: should use ticket in API
+      const ticket = await mfaFlow(mfa);
+      if (ticket) {
+        await props.server.delete();
+      }
     },
     onError: showError,
   }));

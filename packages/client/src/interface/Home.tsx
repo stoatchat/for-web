@@ -66,6 +66,8 @@ const Buttons = styled("div", {
     gap: "8px",
     padding: "8px",
     display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     borderRadius: "var(--borderRadius-lg)",
 
     color: "var(--md-sys-color-on-surface-variant)",
@@ -175,11 +177,7 @@ export function HomePage() {
             </Switch>
             <CategoryButton
               variant="tertiary"
-              onClick={() =>
-                window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/",
-                )
-              }
+              onClick={() => window.open("https://ko-fi.com/stoatchat")}
               description={
                 <Trans>Support the project by donating - thank you!</Trans>
               }

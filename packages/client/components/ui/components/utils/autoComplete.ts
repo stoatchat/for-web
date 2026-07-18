@@ -24,7 +24,7 @@ function generateSearchSpaceFrom(
     if (object.channel) return generateSearchSpaceFrom(object.channel, client);
   } else if (object instanceof Channel) {
     if (object.server) return generateSearchSpaceFrom(object.server, client);
-    if (object.type === "Group") {
+    if (object.type === "Group" || object.type === "DirectMessage") {
       return {
         users: object.recipients,
       };

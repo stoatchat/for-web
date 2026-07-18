@@ -15,7 +15,7 @@ import {
 import { useNavigate, useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 
-import { useClient } from ".";
+import { useClient, useNotifications, useSound } from ".";
 
 /**
  * Process and display desktop notifications
@@ -26,6 +26,9 @@ export function NotificationsWorker() {
   const client = useClient();
   const navigate = useNavigate();
   const params = useSmartParams();
+  const sound = useSound();
+
+  const { initNotifications } = useNotifications();
 
   /**
    * Handle incoming messages
@@ -97,58 +100,90 @@ export function NotificationsWorker() {
           body = (message.systemMessage as TextSystemMessage).content;
           break;
         case "user_added":
-          body = t`${(message.systemMessage as UserModeratedSystemMessage).user?.username} was added by ${(message.systemMessage as UserModeratedSystemMessage).by?.username}`;
+          body = t`${
+            (message.systemMessage as UserModeratedSystemMessage).user?.username
+          } was added by ${
+            (message.systemMessage as UserModeratedSystemMessage).by?.username
+          }`;
           icon = (message.systemMessage as UserModeratedSystemMessage).user
             ?.avatarURL;
           break;
         case "user_remove":
-          body = t`${(message.systemMessage as UserModeratedSystemMessage).user?.username} was removed by ${(message.systemMessage as UserModeratedSystemMessage).by?.username}`;
+          body = t`${
+            (message.systemMessage as UserModeratedSystemMessage).user?.username
+          } was removed by ${
+            (message.systemMessage as UserModeratedSystemMessage).by?.username
+          }`;
           icon = (message.systemMessage as UserModeratedSystemMessage).user
             ?.avatarURL;
           break;
         case "user_joined":
-          body = t`${(message.systemMessage as UserSystemMessage).user?.username} joined`;
+          body = t`${
+            (message.systemMessage as UserSystemMessage).user?.username
+          } joined`;
           icon = (message.systemMessage as UserSystemMessage).user?.avatarURL;
           break;
         case "user_left":
-          body = t`${(message.systemMessage as UserSystemMessage).user?.username} left`;
+          body = t`${
+            (message.systemMessage as UserSystemMessage).user?.username
+          } left`;
           icon = (message.systemMessage as UserSystemMessage).user?.avatarURL;
           break;
         case "user_kicked":
-          body = t`${(message.systemMessage as UserSystemMessage).user?.username} was kicked`;
+          body = t`${
+            (message.systemMessage as UserSystemMessage).user?.username
+          } was kicked`;
           icon = (message.systemMessage as UserSystemMessage).user?.avatarURL;
           break;
         case "user_banned":
-          body = t`${(message.systemMessage as UserSystemMessage).user?.username} was banned`;
+          body = t`${
+            (message.systemMessage as UserSystemMessage).user?.username
+          } was banned`;
           icon = (message.systemMessage as UserSystemMessage).user?.avatarURL;
           break;
         case "channel_renamed":
-          body = t`${(message.systemMessage as ChannelRenamedSystemMessage).by?.username} renamed the channel`;
+          body = t`${
+            (message.systemMessage as ChannelRenamedSystemMessage).by?.username
+          } renamed the channel`;
           icon = (message.systemMessage as ChannelRenamedSystemMessage).by
             ?.avatarURL;
           break;
         case "channel_description_changed":
-          body = t`${(message.systemMessage as ChannelEditSystemMessage).by?.username} changed the channel description`;
+          body = t`${
+            (message.systemMessage as ChannelEditSystemMessage).by?.username
+          } changed the channel description`;
           icon = (message.systemMessage as ChannelEditSystemMessage).by
             ?.avatarURL;
           break;
         case "channel_icon_changed":
-          body = t`${(message.systemMessage as ChannelEditSystemMessage).by?.username} changed the channel icon`;
+          body = t`${
+            (message.systemMessage as ChannelEditSystemMessage).by?.username
+          } changed the channel icon`;
           icon = (message.systemMessage as ChannelEditSystemMessage).by
             ?.avatarURL;
           break;
         case "channel_ownership_changed":
-          body = t`${(message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username} made ${(message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username} the new group owner`;
+          body = t`${
+            (message.systemMessage as ChannelOwnershipChangeSystemMessage).from
+              ?.username
+          } made ${
+            (message.systemMessage as ChannelOwnershipChangeSystemMessage).to
+              ?.username
+          } the new group owner`;
           icon = (message.systemMessage as ChannelOwnershipChangeSystemMessage)
             .from?.avatarURL;
           break;
         case "message_pinned":
-          body = t`${(message.systemMessage as MessagePinnedSystemMessage).by?.username} pinned a message`;
+          body = t`${
+            (message.systemMessage as MessagePinnedSystemMessage).by?.username
+          } pinned a message`;
           icon = (message.systemMessage as MessagePinnedSystemMessage).by
             ?.avatarURL;
           break;
         case "message_unpinned":
-          body = t`${(message.systemMessage as MessagePinnedSystemMessage).by?.username} unpinned a message`;
+          body = t`${
+            (message.systemMessage as MessagePinnedSystemMessage).by?.username
+          } unpinned a message`;
           icon = (message.systemMessage as MessagePinnedSystemMessage).by
             ?.avatarURL;
           break;
@@ -157,10 +192,14 @@ export function NotificationsWorker() {
       body = t`Sent ${message.attachments!.length} attachments`;
     }
 
-    // todo: play sound
-
     // Don't continue if we don't have notification permissions
-    if (Notification.permission !== "granted") return;
+    if (
+      Notification.permission !== "granted" ||
+      state.settings.desktopNotificationsState !== "allowed"
+    )
+      return;
+
+    sound.playSound("message");
 
     console.info(`[notification] ${title} ${icon} ${body}`);
 
@@ -192,20 +231,11 @@ export function NotificationsWorker() {
   function tryRequest() {
     document.removeEventListener("click", tryRequest);
 
-    if (!localStorage.getItem("denied-notifications")) {
-      Notification.requestPermission().then(
-        (permission) =>
-          permission === "denied" &&
-          localStorage.setItem("denied-notifications", "1"),
-      );
-    }
+    initNotifications();
   }
 
   onMount(() => {
-    // don't bother mounting if denied before
-    if (!localStorage.getItem("denied-notifications")) {
-      document.addEventListener("click", tryRequest);
-    }
+    document.addEventListener("click", tryRequest);
   });
 
   onCleanup(() => document.removeEventListener("click", tryRequest));

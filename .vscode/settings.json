@@ -1,14 +1,10 @@
 {
   // Configure Prettier eslint
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  // Enable ESLint auto-fixing on save
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
   // Exclude files from the file explorer
   "files.exclude": {
     "**/node_modules": true,
@@ -20,5 +16,11 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   // Nix environment settings
-  "nixEnvSelector.nixFile": "${workspaceFolder}/default.nix"
+  "nixEnvSelector.nixFile": "${workspaceFolder}/default.nix",
+  "search.exclude": {
+    "**/coverage": true,
+    "**/dist": true,
+    "**/i18n": true,
+    "**/styled-system": true
+  }
 }

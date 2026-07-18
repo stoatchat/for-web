@@ -101,8 +101,8 @@ msgstr ""
 msgid "{0} left"
 msgstr ""
 
-#. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username
-#. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username
+#. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from ?.username
+#. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
 msgstr ""
@@ -154,6 +154,20 @@ msgstr ""
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/Composition.tsx
+msgid "{h} hours"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/Composition.tsx
+msgid "{m} minutes"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+msgid "{sec} seconds"
 msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
@@ -233,18 +247,78 @@ msgstr ""
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
 
+#: components/modal/modals/BanMember.tsx
+msgid "1 day"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/Composition.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "1 hour"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/Composition.tsx
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "1 minute"
+msgstr ""
+
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "1 tud ersavet"
 
-#: components/app/interface/settings/user/Language.tsx
+#: src/interface/channels/text/Composition.tsx
+msgid "1 second"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "10 minutes"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "10 seconds"
+msgstr ""
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr ""
 
-#: components/app/interface/settings/user/Language.tsx
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "2 hours"
+msgstr ""
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "3 days"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "30 minutes"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "30 seconds"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "5 minutes"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "5 seconds"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "6 hours"
+msgstr ""
+
+#: components/modal/modals/BanMember.tsx
+msgid "7 days"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -333,6 +407,10 @@ msgstr ""
 msgid "All Messages"
 msgstr "Holl ar c'hemennadennoù"
 
+#: src/LoadingScreen.tsx
+msgid "All Systems Operational"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
 msgstr ""
@@ -341,11 +419,14 @@ msgstr ""
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Already friends with this user."
 msgstr "Mignon oc'h dija gant an implijer-mañ."
 
-#: components/app/interface/settings/user/Language.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Always Ask for Screen Share Quality"
+msgstr ""
+
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
 msgstr ""
@@ -355,7 +436,7 @@ msgid "An error occurred."
 msgstr ""
 
 #. placeholder {0}: err.location
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "An internal error occurred. ({0})"
 msgstr ""
 
@@ -379,6 +460,12 @@ msgstr ""
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
+#. placeholder {0}: props.user?.displayName ?? props.user.username
+#. placeholder {1}: props.group.name
+#: components/modal/modals/RemoveMember.tsx
+msgid "Are you sure you want to remove {0} from {1}?"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
 msgstr ""
@@ -387,11 +474,19 @@ msgstr ""
 msgid "Assign Roles"
 msgstr "Reiñ Perzhioù"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+msgid "Audio disabled by browser"
+msgstr ""
+
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
 msgstr "aplikadenn aotentikadur"
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Automatic Gain Control"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -403,6 +498,7 @@ msgstr "Skeudenn ar Profil"
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCheck.tsx
+#: components/app/interface/settings/user/_AccountCard.tsx
 msgid "Back"
 msgstr ""
 
@@ -468,12 +564,16 @@ msgid "Bot"
 msgstr "Robot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Browser"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
-msgid "Browser Noise Supression"
-msgstr ""
+#~ msgid "Browser Noise Supression"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -493,11 +593,27 @@ msgstr ""
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Bypass Slowmode"
+msgstr ""
+
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Bypasses slowmode in channels"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
+msgstr ""
+
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ResetBotToken.tsx
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/RemoveMember.tsx
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -531,7 +647,7 @@ msgstr ""
 msgid "Cannot delete account until servers are deleted or transferred"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Cannot edit this message."
 msgstr ""
 
@@ -582,8 +698,8 @@ msgid "Change your profile per-server"
 msgstr ""
 
 #: components/modal/modals/Changelog.tsx
-msgid "Changelog"
-msgstr ""
+#~ msgid "Changelog"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
@@ -600,6 +716,10 @@ msgstr "Anv ar c'hanol"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Channel Settings"
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "Channel Slowmode"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -628,6 +748,10 @@ msgstr "Lemel ar statud"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
+msgstr ""
+
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Click to copy username"
 msgstr ""
 
 #: src/interface/channels/ChannelHeader.tsx
@@ -682,6 +806,11 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Coming soon! 👀"
+msgstr ""
+
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
 msgstr ""
@@ -725,6 +854,10 @@ msgstr ""
 msgid "Continue"
 msgstr "Kenderc'hel"
 
+#: src/AndroidNag.tsx
+msgid "Continue in browser"
+msgstr ""
+
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
 msgstr ""
@@ -737,6 +870,10 @@ msgstr ""
 msgid "Conversations"
 msgstr "Kaozeadennoù"
 
+#: components/ui/components/features/profiles/ProfileBanner.tsx
+msgid "Copied!"
+msgstr ""
+
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
 msgstr ""
@@ -744,6 +881,10 @@ msgstr ""
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy channel ID"
 msgstr "Eilañ an ID ar c'hanol"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy file link"
+msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -753,7 +894,6 @@ msgstr "Eilañ ID"
 msgid "Copy Invite URL"
 msgstr ""
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy link"
@@ -767,6 +907,10 @@ msgstr ""
 msgid "Copy message ID"
 msgstr "Eilañ an ID ar c'hemennad"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy message link"
+msgstr ""
+
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
 msgstr ""
@@ -776,6 +920,7 @@ msgid "Copy server ID"
 msgstr "Eilañ an ID ar servijer"
 
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Copy text"
 msgstr "Eilañ ar skrid"
 
@@ -792,7 +937,7 @@ msgstr "Eilañ ID implijer"
 msgid "Copy webhook URL"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Could not find what you requested."
 msgstr ""
 
@@ -930,8 +1075,17 @@ msgid "Dark"
 msgstr ""
 
 #. placeholder {0}: err.location
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Database error, please contact support. ({0})"
+msgstr ""
+
+#: components/app/interface/settings/user/Language.tsx
+msgid "Date format"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Deafen"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -952,6 +1106,14 @@ msgstr "Dre ziouer"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Default Permissions"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#~ msgid "Defean"
+#~ msgstr ""
+
+#: src/LoadingScreen.tsx
+msgid "Degraded Performance"
 msgstr ""
 
 #: components/modal/modals/EmojiPreview.tsx
@@ -1011,6 +1173,10 @@ msgstr ""
 msgid "Delete message"
 msgstr "Dilemel ar c'hemennad"
 
+#: components/modal/modals/BanMember.tsx
+msgid "Delete Message History"
+msgstr ""
+
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
 msgstr "Dilemel ar Perzh"
@@ -1040,6 +1206,7 @@ msgstr "Diweredekaat ar Gont"
 msgid "Disable one-time password authenticator"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -1071,6 +1238,10 @@ msgstr ""
 msgid "Do Not Disturb"
 msgstr "Arabat Direnkañ"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+msgid "Don't ask me again"
+msgstr ""
+
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
 msgstr ""
@@ -1078,8 +1249,16 @@ msgstr ""
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
+#: components/modal/modals/BanMember.tsx
+msgid "Don't delete messages"
+msgstr ""
+
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
+msgstr ""
+
+#: src/AndroidNag.tsx
+msgid "Don't show this again"
 msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
@@ -1187,12 +1366,28 @@ msgstr ""
 msgid "Enable authenticator app"
 msgstr "Elumiñ arload dilesadur"
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Enable Desktop Notifications"
 msgstr "Elumiñ ar c'hemennoù da burev"
 
+#: components/app/interface/settings/user/notifications/Notifications.tsx
+msgid "Enable Push Notifications"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "End call"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Enhanced (RNNoise)"
 msgstr ""
 
 #: components/modal/modals/RenameSession.tsx
@@ -1223,6 +1418,10 @@ msgid "Enter your current password..."
 msgstr ""
 
 #: components/auth/src/flows/Form.tsx
+msgid "Enter your invite code."
+msgstr ""
+
+#: components/auth/src/flows/Form.tsx
 msgid "Enter your preferred username."
 msgstr "Roit ho anv implijer muiañ-karet."
 
@@ -1238,7 +1437,15 @@ msgstr ""
 msgid "Extreme violence, gore or animal cruelty"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/client/NotificationsController.ts
+msgid "Failed to enable notifications. Stoat does not have notification permission."
+msgstr ""
+
+#: components/client/NotificationsController.ts
+msgid "Failed to enable push notifications. Please try again later."
+msgstr ""
+
+#: components/i18n/errors.tsx
 msgid "Failed to process the image you provided."
 msgstr ""
 
@@ -1324,12 +1531,29 @@ msgstr ""
 msgid "Get active recovery codes"
 msgstr ""
 
+#: src/AndroidNag.tsx
+msgid "Get it on Google Play"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "GIFs are now powered by Gifbox"
+msgstr ""
+
 #: src/interface/Home.tsx
 msgid "Give feedback on Stoat"
 msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Give us some detail"
+msgstr ""
+
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Go"
 msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
@@ -1356,6 +1580,14 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Got a better GIF? Share it with everyone on Gifbox."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Got it"
+msgstr ""
+
 #. placeholder {0}: countBits(props.context.rolePermissions![role.id].a)
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
@@ -1365,6 +1597,10 @@ msgstr ""
 #: components/modal/modals/CreateGroup.tsx
 msgid "Group Name"
 msgstr "Anv ar strollad"
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Guidelines"
+msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Harassment or cyberbullying"
@@ -1396,6 +1632,10 @@ msgstr ""
 msgid "Here is your new invite code: <0>{0}</0>"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Hide Others"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
 msgstr ""
@@ -1413,6 +1653,10 @@ msgstr "Kadarnaat on un den-a-dra (18 vloaz on da nebeutañ)."
 msgid "I understand the consequences"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "ID copied to clipboard"
+msgstr ""
+
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
@@ -1425,11 +1669,15 @@ msgid "Illegal hacking or cracking"
 msgstr ""
 
 #: components/auth/src/AuthPage.tsx
-msgid "Image by @fakurian"
-msgstr ""
+#~ msgid "Image by @fakurian"
+#~ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Impersonation"
+msgstr ""
+
+#: src/AndroidNag.tsx
+msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
@@ -1452,6 +1700,7 @@ msgstr "Pedit ho mignoned, ur re bennak robotoù, ha bec'h d'ar fest."
 msgid "Invite Bot"
 msgstr ""
 
+#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
 msgstr "Boneg-pediñ"
@@ -1459,6 +1708,10 @@ msgstr "Boneg-pediñ"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "Pediñ tud all"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Invite URL copied to clipboard"
+msgstr ""
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -1476,7 +1729,6 @@ msgstr ""
 msgid "irrelevant joke badge 2"
 msgstr ""
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr ""
@@ -1498,6 +1750,7 @@ msgstr ""
 msgid "Join the Stoat Lounge"
 msgstr ""
 
+#: src/interface/channels/ChannelHeader.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Join the voice channel"
 msgstr ""
@@ -1554,6 +1807,10 @@ msgstr "Hini diwezhañ"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Launch Stoat when you log into your computer."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Learn more"
 msgstr ""
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
@@ -1626,6 +1883,10 @@ msgstr "Kevreañ"
 msgid "Logs you out of all sessions except this device."
 msgstr ""
 
+#: src/LoadingScreen.tsx
+msgid "Major Outage"
+msgstr ""
+
 #: components/modal/modals/ReportContent.tsx
 msgid "Malware or phishing"
 msgstr ""
@@ -1694,6 +1955,11 @@ msgstr "Maskaradenn"
 msgid "Members"
 msgstr "Izili"
 
+#. placeholder {0}: slowmodeWaitTime()
+#: src/interface/channels/text/Composition.tsx
+msgid "Members can send one message every {0}."
+msgstr ""
+
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mention"
 msgstr "Ober meneg"
@@ -1743,11 +2009,11 @@ msgstr ""
 msgid "Message not loaded, click to jump"
 msgstr ""
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Message Received"
 msgstr "Kemennadenn Resevet"
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Message Sent"
 msgstr "Kemennadenn Kaset"
 
@@ -1793,11 +2059,13 @@ msgstr "Dilecʼhiañ an Izili"
 msgid "Move members between voice channels"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Multi-factor authentication is already enabled for this account."
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Mute"
 msgstr ""
 
@@ -1813,6 +2081,10 @@ msgstr ""
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute Members"
 msgstr "Lazhañ vouezh an izili"
+
+#: components/app/menus/UserContextMenu.tsx
+msgid "Mute Screen Share"
+msgstr ""
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
@@ -1879,6 +2151,10 @@ msgstr ""
 msgid "Nickname"
 msgstr "Lesanv"
 
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "No GIFs found"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
 msgstr ""
@@ -1903,6 +2179,7 @@ msgstr ""
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Notifications"
 msgstr "Kemennoù"
 
@@ -1949,6 +2226,10 @@ msgstr "N'eus distro ebet ur wech dilamet eo."
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "One of the first 1000 users!"
+msgstr ""
+
+#: src/LoadingScreen.tsx
+msgid "Ongoing Maintenance"
 msgstr ""
 
 #: src/interface/Friends.tsx
@@ -2005,12 +2286,20 @@ msgstr "Diverradur"
 msgid "Pardon User"
 msgstr ""
 
+#: src/LoadingScreen.tsx
+msgid "Partial Outage"
+msgstr ""
+
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Password"
 msgstr "Ger-tremen"
+
+#: components/modal/modals/EditPassword.tsx
+msgid "Password changed successfully."
+msgstr ""
 
 #: src/interface/Friends.tsx
 msgid "Pending"
@@ -2019,6 +2308,10 @@ msgstr ""
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Permissions"
 msgstr "Aotreoù"
+
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Pick a Screen to Share"
+msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
@@ -2032,6 +2325,10 @@ msgstr ""
 msgid "Platform Moderator"
 msgstr ""
 
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Play sound"
+msgstr ""
+
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please confirm this action using the selected method."
 msgstr ""
@@ -2040,7 +2337,7 @@ msgstr ""
 msgid "Please enter your email."
 msgstr "Skrivit ho postell."
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Please log in again."
 msgstr ""
 
@@ -2060,6 +2357,14 @@ msgstr ""
 msgid "Please select a reason"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Powered by RNNoise"
+msgstr ""
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Privacy"
+msgstr ""
+
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
 msgstr "Buhez Prevez"
@@ -2068,6 +2373,7 @@ msgstr "Buhez Prevez"
 msgid "Private Channel"
 msgstr ""
 
+#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
 msgstr "Profil"
@@ -2080,7 +2386,7 @@ msgstr ""
 msgid "Promotes harm"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Provided email or password is wrong."
 msgstr ""
 
@@ -2088,6 +2394,7 @@ msgstr ""
 msgid "Raid or spam attack"
 msgstr ""
 
+#: components/app/menus/MessageContextMenu.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React"
 msgstr ""
@@ -2101,8 +2408,8 @@ msgid "Read Message History"
 msgstr "Lenn roll-istor ar c'hemennadennoù"
 
 #: components/modal/modals/Changelog.tsx
-msgid "Read More"
-msgstr ""
+#~ msgid "Read More"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channel"
@@ -2122,8 +2429,16 @@ msgstr ""
 msgid "Reason for report"
 msgstr ""
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
+msgstr ""
+
+#: components/app/interface/settings/user/notifications/Notifications.tsx
+msgid "Receive notifications while the tab is open."
+msgstr ""
+
+#: components/app/interface/settings/user/notifications/Notifications.tsx
+msgid "Receive push notifications while the app is closed."
 msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
@@ -2159,6 +2474,10 @@ msgstr ""
 msgid "Relevance"
 msgstr "Reizhidigezh"
 
+#: components/modal/modals/RemoveMember.tsx
+msgid "Remove"
+msgstr ""
+
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
 msgstr ""
@@ -2174,6 +2493,11 @@ msgstr "Lemel ar skeudennoù profil"
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
 msgstr "Lemel ur mignon"
+
+#: components/modal/modals/RemoveMember.tsx
+#: components/app/menus/UserContextMenu.tsx
+msgid "Remove Member"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
@@ -2272,6 +2596,10 @@ msgstr "Kudennoù surentez diskuilhet en un doare atebek"
 msgid "Retry sending"
 msgstr "Klask kas en-dro"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Return to voice channel"
+msgstr ""
+
 #: components/modal/modals/ReportContent.tsx
 msgid "Revenge or underage pornography"
 msgstr "Hudur dial pe bugale"
@@ -2282,6 +2610,10 @@ msgstr "Gwiriekaat ar c'hemmoù reolennoù"
 
 #~ msgid "Roadmap"
 #~ msgstr ""
+
+#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
+msgid "Role Icon"
+msgstr ""
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
@@ -2321,6 +2653,19 @@ msgstr "Notennoù Enrollet"
 msgid "Scams or fraud"
 msgstr ""
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Screen Share Settings"
+msgstr ""
+
+#: components/app/menus/UserContextMenu.tsx
+msgid "Screen Share Volume"
+msgstr ""
+
+#: src/interface/channels/ChannelHeader.tsx
+msgid "Search"
+msgstr ""
+
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
 msgstr ""
@@ -2343,6 +2688,18 @@ msgstr ""
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Select members to add"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+msgid "Select noise suppression"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+msgid "Select screen share quality"
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
+msgid "Select video input"
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
@@ -2462,13 +2819,26 @@ msgstr ""
 msgid "Several people are typing…"
 msgstr "Kalz tud o skrivañ…"
 
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+msgid "Share audio"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Share screen"
+msgstr ""
+
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Show Others"
 msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
@@ -2487,6 +2857,18 @@ msgstr ""
 msgid "Silent"
 msgstr ""
 
+#: src/interface/channels/text/Composition.tsx
+msgid "Slowmode Immune"
+msgstr ""
+
+#: src/interface/channels/text/Composition.tsx
+msgid "Slowmode is enabled."
+msgstr ""
+
+#: components/app/interface/settings/channel/Overview.tsx
+msgid "Slowmode off"
+msgstr ""
+
 #: components/modal/modals/EditEmail.tsx
 msgid "someone@example.com"
 msgstr ""
@@ -2496,18 +2878,18 @@ msgid "Something cool about me..."
 msgstr ""
 
 #. placeholder {0}: err.error
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Something is wrong with your request, {0}."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Something went wrong! {error}"
 msgstr ""
 
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Sounds"
 msgstr "Sonioù"
 
@@ -2525,6 +2907,10 @@ msgstr "Komz"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Spellchecker"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Start camera"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
@@ -2564,6 +2950,26 @@ msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Stoat will start in the system tray."
+msgstr ""
+
+#: src/AndroidNag.tsx
+msgid "Stoat works best as an app"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Stop camera"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+msgid "Stop sharing"
+msgstr ""
+
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Stream End"
+msgstr ""
+
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Stream Start"
 msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
@@ -2630,6 +3036,10 @@ msgstr ""
 msgid "Temporarily prevent lower-ranking members from interacting"
 msgstr ""
 
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Terms"
+msgstr ""
+
 #: components/auth/src/AuthPage.tsx
 msgid "Terms of Service"
 msgstr "Divizoù Implijout"
@@ -2638,7 +3048,7 @@ msgstr "Divizoù Implijout"
 msgid "Text Channel"
 msgstr "Kanol Skrid"
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "That action had no effect."
 msgstr ""
 
@@ -2647,7 +3057,7 @@ msgstr ""
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "The password is too short."
 msgstr ""
 
@@ -2655,11 +3065,11 @@ msgstr ""
 msgid "Theme"
 msgstr "Danvez"
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This bot is private and can only be added by the creator."
 msgstr ""
 
@@ -2679,21 +3089,25 @@ msgstr ""
 msgid "This content is not available in your region."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This feature is currently disabled."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This file type is not allowed."
 msgstr ""
 
 #. placeholder {0}: err.max
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This group is too large, you can have up to {0} users."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This has already been sent."
+msgstr ""
+
+#: src/LoadingScreen.tsx
+msgid "This is taking longer than usual."
 msgstr ""
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
@@ -2704,15 +3118,15 @@ msgstr "Setu penn-kentañ ar gaozeadenn."
 msgid "This is the start of your notes."
 msgstr "Setu penn-kentañ ho notennoù."
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This message is already pinned."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This message is empty and has not been sent."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This password has previously appeared in security leaks, please use another password."
 msgstr ""
 
@@ -2720,7 +3134,11 @@ msgstr ""
 msgid "This server is about..."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
+msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
+msgstr ""
+
+#: components/i18n/errors.tsx
 msgid "This user has blocked you."
 msgstr "Stanket hoc'h bet gant an implijer-mañ."
 
@@ -2728,16 +3146,20 @@ msgstr "Stanket hoc'h bet gant an implijer-mañ."
 msgid "This user is not part of the server and may already be banned"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This username is already taken."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "This username is not allowed."
 msgstr ""
 
 #: components/modal/modals/ResetBotToken.tsx
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
+msgstr ""
+
+#: components/app/interface/settings/user/Language.tsx
+msgid "Time format"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -2748,11 +3170,14 @@ msgstr "Ehanañ an Izili"
 msgid "Toggle main sidebar"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Token copied to clipboard"
+msgstr ""
+
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
 msgstr ""
 
-#: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "Traditional (DD/MM/YYYY)"
 msgstr ""
@@ -2761,13 +3186,26 @@ msgstr ""
 msgid "Trending GIFs"
 msgstr ""
 
+#: src/LoadingScreen.tsx
+msgid "Troubleshooting"
+msgstr ""
+
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
 msgstr "Distankañ an implijer"
 
 #. placeholder {0}: err.type
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Uncaught Stoat error: {0}"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Undeafen"
+msgstr ""
+
+#: src/LoadingScreen.tsx
+msgid "Unknown"
 msgstr ""
 
 #: components/markdown/plugins/anchors.tsx
@@ -2784,6 +3222,11 @@ msgstr ""
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Unmark this channel as mature?"
+msgstr ""
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
+msgid "Unmute"
 msgstr ""
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -2815,6 +3258,11 @@ msgstr ""
 msgid "Upload Files"
 msgstr "Uskargañ Restroù"
 
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Upload to Gifbox"
+msgstr ""
+
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
 msgstr ""
@@ -2840,7 +3288,7 @@ msgstr ""
 msgid "User Joined"
 msgstr ""
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Joined Call"
 msgstr "Erruet eo an implijer er bellgomzadenn"
 
@@ -2852,7 +3300,7 @@ msgstr ""
 msgid "User Left"
 msgstr ""
 
-#: components/app/interface/settings/user/Notifications.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Left Call"
 msgstr "Aet eo kuit an implijer eus ar bellgomzadenn"
 
@@ -2894,12 +3342,12 @@ msgid "Users will no longer be asked to confirm their age before joining this ch
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default microphone"
-msgstr ""
+#~ msgid "Using default microphone"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Using default speaker"
-msgstr ""
+#~ msgid "Using default speaker"
+#~ msgstr ""
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
@@ -2941,6 +3389,10 @@ msgstr ""
 msgid "View Recovery Codes"
 msgstr ""
 
+#: src/LoadingScreen.tsx
+msgid "View status page"
+msgstr ""
+
 #: components/ui/components/features/messaging/bars/JumpToBottom.tsx
 msgid "Viewing older messages"
 msgstr "O sellet ouzh kemennadennoù kozh"
@@ -2948,6 +3400,10 @@ msgstr "O sellet ouzh kemennadennoù kozh"
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
+msgstr ""
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "Voice & Video"
 msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx
@@ -2964,6 +3420,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Want to change username?"
+msgstr ""
+
+#: src/AndroidNag.tsx
+msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
@@ -2995,6 +3455,14 @@ msgstr ""
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome!"
 msgstr "Donemat !"
+
+#: components/modal/modals/Changelog.tsx
+msgid "What's new"
+msgstr ""
+
+#: components/app/interface/settings/UserSettings.tsx
+msgid "What's New"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
@@ -3029,7 +3497,7 @@ msgstr ""
 msgid "You are about to kick {0}"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You are banned from this server."
 msgstr ""
 
@@ -3056,37 +3524,37 @@ msgstr ""
 "ganeomp."
 
 #. placeholder {0}: err.max
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
 msgstr ""
 
 #. placeholder {0}: err.max
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You can't have more than {0} channels on this server."
 msgstr ""
 
 #. placeholder {0}: err.max
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You can't have more than {0} emojis on this server."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You cannot give yourself missing permissions."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You cannot join this call."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You cannot remove yourself."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You cannot report yourself."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You cannot timeout yourself."
 msgstr ""
 
@@ -3099,7 +3567,7 @@ msgstr "N'eo ket posubl dizober an obererezh-mañ."
 msgid "You clicked on \"{0}\""
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You do not have permission to do this."
 msgstr ""
 
@@ -3107,12 +3575,16 @@ msgstr ""
 msgid "You don't have permission to send messages in this channel."
 msgstr "Ne c'hallit ket kas kemennadennoù er c'hanol-mañ."
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You have this user blocked."
+msgstr ""
+
+#: src/LoadingScreen.tsx
+msgid "You may be experiencing connection issues."
 msgstr ""
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
@@ -3136,16 +3608,16 @@ msgstr ""
 msgid "You won't be able to rejoin unless you are re-invited."
 msgstr "Ne c'hallit ket dont en-dro hep ur bedadenn nevez."
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You're already part of this group."
 msgstr ""
 
 #: components/modal/modals/Invite.tsx
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You're already part of this server."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You've already sent a request to this user."
 msgstr ""
 
@@ -3157,12 +3629,12 @@ msgstr ""
 msgid "You've been signed out of Stoat!"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You've reached your personal bot limit."
 msgstr ""
 
 #. placeholder {0}: err.max
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "You've sent too many friend requests, the maximum is {0}"
 msgstr ""
 
@@ -3174,11 +3646,11 @@ msgstr ""
 msgid "Your account has been verified!"
 msgstr "Gwiriet eo bet ho kont !"
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
 msgstr ""
 
@@ -3186,10 +3658,10 @@ msgstr ""
 msgid "Your recovery codes"
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Your role ranking is too low to take this action."
 msgstr ""
 
-#: components/i18n/errors.ts
+#: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
 msgstr ""

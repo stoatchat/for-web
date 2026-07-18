@@ -3,6 +3,7 @@ import { JSX, Match, Show, Switch, splitProps } from "solid-js";
 import { Trans } from "@lingui-solid/solid/macro";
 import { cva } from "styled-system/css";
 
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
@@ -44,6 +45,21 @@ const internalLink = cva({
   },
 });
 
+function inAppScope(link: URL): boolean {
+  return (
+    [
+      location.origin,
+      "https://old.stoat.chat",
+      "https://revolt.chat",
+      "https://app.revolt.chat",
+      "https://stoat.chat",
+    ].includes(link.origin) &&
+    /\/(app|home|pwa|dev|invite|bot|friends|server|channel)\/?/.test(
+      link.pathname,
+    )
+  );
+}
+
 export function RenderAnchor(
   props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
@@ -59,9 +75,18 @@ export function RenderAnchor(
   // Handle case where there is no link
   if (!localProps.href) return <span>{remoteProps.children}</span>;
 
-  // Handle links that navigate internally
   try {
     let url = new URL(localProps.href);
+
+    // Only allow http, https, mailto, and tel protocols
+    if (
+      url.protocol !== "http:" &&
+      url.protocol !== "https:" &&
+      url.protocol !== "mailto:" &&
+      url.protocol !== "tel:"
+    ) {
+      return <span>{remoteProps.children}</span>;
+    }
 
     // Remap discover links to native links
     if (url.origin === "https://rvlt.gg" || url.origin === "https://stt.gg") {
@@ -73,16 +98,7 @@ export function RenderAnchor(
     }
 
     // Determine whether it's in our scope
-    if (
-      [
-        location.origin,
-        // legacy
-        "https://app.revolt.chat",
-        "https://revolt.chat",
-        // new
-        "https://stoat.chat",
-      ].includes(url.origin)
-    ) {
+    if (inAppScope(url)) {
       const client = useClient();
       const params = paramsFromPathname(url.pathname);
 
@@ -201,6 +217,7 @@ export function RenderAnchor(
           <LinkComponent
             {...remoteProps}
             class={link()}
+            dest={localProps.href}
             disabled={localProps.disabled}
             onClick={onHandleWarning}
             onAuxClick={onHandleWarning}
@@ -211,6 +228,7 @@ export function RenderAnchor(
           {...remoteProps}
           class={link()}
           disabled={localProps.disabled}
+          dest={localProps.href}
           href={localProps.href}
           target={"_blank"}
           rel="noreferrer"
@@ -226,11 +244,32 @@ export function RenderAnchor(
 }
 
 function LinkComponent(
-  props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
+  props: {
+    disabled?: boolean;
+    dest?: string;
+  } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
 ) {
-  const [localProps, remoteProps] = splitProps(props, ["disabled"]);
+  const { message, reactPicker } = useMessage();
+  const [localProps, remoteProps] = splitProps(props, ["disabled", "dest"]);
   if (localProps.disabled) {
     return <span class={remoteProps.class}>{remoteProps.children}</span>;
   }
-  return <a {...remoteProps} />;
+  return (
+    <a
+      use:floating={
+        message
+          ? {
+              contextMenu: () => (
+                <MessageContextMenu
+                  message={message}
+                  reactPicker={reactPicker}
+                  link={localProps.dest}
+                />
+              ),
+            }
+          : undefined
+      }
+      {...remoteProps}
+    />
+  );
 }

@@ -21,7 +21,6 @@
  * - Search
  * - Sheets (N/A desktop)
  * - Range Sliders
- * - Snackbar
  * - Switch
  * - Tabs
  * - Toolbars
@@ -31,7 +30,7 @@
 export { Avatar } from "./Avatar";
 export { Badge } from "./Badge";
 export { Button } from "./Button";
-export { CategoryButton } from "./CategoryButton";
+export { type CategorySelectOption, CategoryButton } from "./CategoryButton";
 export { Checkbox } from "./Checkbox";
 export { DataTable } from "./DataTable";
 export { type DialogProps, Dialog } from "./Dialog";
@@ -44,6 +43,14 @@ export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";
 export { Ripple } from "./Ripple";
 export { Slider } from "./Slider";
+export {
+  type ShowSnackbarOptions,
+  type SnackbarItem,
+  SnackbarContext,
+  SnackbarController,
+  SnackbarProvider,
+  useSnackbar,
+} from "./Snackbar";
 export { Switch } from "./Switch";
 export { Text, typography } from "./Text";
 export { TextEditor } from "./TextEditor";

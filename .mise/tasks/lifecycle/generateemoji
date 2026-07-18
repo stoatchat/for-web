@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Run the generate emoji mapping script"
+set -e
+
+deno --allow-net --allow-write lifecycle/generateEmojiMapping.ts
+pnpm prettier packages/client/components/ui/emojiMapping.json -w

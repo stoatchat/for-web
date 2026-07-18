@@ -1,23 +1,19 @@
-import { Trans } from "@lingui-solid/solid/macro";
-import { styled } from "styled-system/jsx";
+import { useNavigate } from "@solidjs/router";
+import { Match, Switch } from "solid-js";
 
-import {
-  CategoryButton,
-  CategoryButtonGroup,
-  Column,
-  iconSize,
-} from "@revolt/ui";
+import { Trans } from "@lingui-solid/solid/macro";
+import { PublicChannelInvite } from "stoat.js";
+import { styled } from "styled-system/jsx";
 
 import MdGroups3 from "@material-design-icons/svg/filled/groups_3.svg?component-solid";
 import MdBugReport from "@material-design-icons/svg/outlined/bug_report.svg?component-solid";
 import MdFormatListNumbered from "@material-design-icons/svg/outlined/format_list_numbered.svg?component-solid";
 import MdStar from "@material-design-icons/svg/outlined/star_outline.svg?component-solid";
+
 import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { useModals } from "@revolt/modal";
-import { useNavigate } from "@solidjs/router";
-import { Match, Switch } from "solid-js";
-import { PublicChannelInvite } from "stoat.js";
+import { CategoryButton, Column, iconSize } from "@revolt/ui";
 
 /**
  * Feedback
@@ -33,7 +29,7 @@ export function Feedback() {
 
   return (
     <Column gap="lg">
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         {/* <Link
           href="https://example.com"
           target="_blank"
@@ -54,7 +50,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdStar {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={
               <Trans>Suggest new Stoat features on GitHub discussions.</Trans>
             }
@@ -69,7 +65,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdFormatListNumbered {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={<Trans>Submit feedback</Trans>}
           >
             <Trans>Feedback</Trans>
@@ -82,7 +78,7 @@ export function Feedback() {
           <CategoryButton
             action="external"
             icon={<MdBugReport {...iconSize(22)} />}
-            onClick={() => void 0}
+            ignoreClick
             description={<Trans>View currently active bug reports here.</Trans>}
           >
             <Trans>Bug Tracker</Trans>
@@ -126,7 +122,7 @@ export function Feedback() {
             </CategoryButton>
           </Match>
         </Switch>
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }
