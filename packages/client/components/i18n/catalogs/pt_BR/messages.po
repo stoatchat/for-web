@@ -3,50 +3,50 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-20 15:29+0000\n"
-"Last-Translator: World170_ <dylanartigas10@gmail.com>\n"
-"Language-Team: Catalan <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/ca/>\n"
-"Language: ca\n"
+"PO-Revision-Date: 2026-02-24 11:29+0000\n"
+"Last-Translator: Yasmin Sophia <flowyde@proton.me>\n"
+"Language-Team: Portuguese (Brazil) <https://translate.stoat.chat/projects/"
+"revolt/revolt-for-web/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr "[Ahir a les] LT"
+msgstr "[Ontem às] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr "[Avui a les] LT"
+msgstr "[Hoje às] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr "[Demà a les] LT"
+msgstr "[Amanhã às] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[El] dddd [passat a les] LT"
+msgstr "dddd [passado às] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [a les] LT"
+msgstr "dddd [às] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr "(s’estan desant els canvis…)"
+msgstr "(mudanças estão sendo salvas…)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, plural, one {# missatge bloquejat} other {# missatges bloquejats}}"
+msgstr "{0, plural, one {# mensagem bloqueada} other {# mensagens bloqueadas}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -54,209 +54,209 @@ msgstr "{0, plural, one {# missatge bloquejat} other {# missatges bloquejats}}"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Deixar anar fitxer} other {Deixar anar # fitxers}}"
+msgstr "{0, plural, one {Solte um arquivo} other {Solte # arquivos}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} and {1} are typing…"
-msgstr "{0} i {1} estan escrivint…"
+msgstr "{0} e {1} estão digitando…"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel description"
-msgstr "{0} ha canviat la descripció del canal"
+msgstr "{0} mudou a descrição do canal"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr "{0} ha canviat la icona del canal"
+msgstr "{0} mudou o ícone do canal"
 
 #. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr "{0} espais d’emoji disponibles"
+msgstr "{0} espaços de emoji restantes"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
 msgstr ""
-"Els {0} fitxers superen la mida màxima de {maxSizeFormatted} i no s’han "
-"pujat."
+"{0} arquivos excedem o tamanho máximo de {maxSizeFormatted} e não foram "
+"enviados."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "{0} is typing…"
-msgstr "{0} està escrivint…"
+msgstr "{0} está digitando…"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} joined"
-msgstr "{0} s’ha unit"
+msgstr "{0} juntou-se"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr "{0} ha marxat"
+msgstr "{0} saiu"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0} ha fet que {1} sigui el nou propietari del grup"
+msgstr "{0} tornou {1} o novo dono do grupo"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} pinned a message"
-msgstr "{0} ha fixat un missatge"
+msgstr "{0} fixou uma mensagem"
 
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr "{0} ha canviat el nom del canal"
+msgstr "{0} renomeou o canal"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} unpinned a message"
-msgstr "{0} ha desfixat un missatge"
+msgstr "{0} desafixou uma mensagem"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was added by {1}"
-msgstr "{0} ha estat afegit per {1}"
+msgstr "{0} foi adicionado por {1}"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr "{0} ha estat banejat"
+msgstr "{0} foi banido"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr "{0} ha estat expulsat"
+msgstr "{0} foi expulso"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr "{0} ha estat expulsat per {1}"
+msgstr "{0} foi removido(a) por {1}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
 #. placeholder {2}: props.itemCount
 #: components/ui/components/design/DataTable.tsx
 msgid "{0}-{1} of {2}"
-msgstr "{0}‐{1} de {2}"
+msgstr "{0}-{1} de {2}"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr "Rols de {0}"
+msgstr "Cargos de {0}"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
-msgstr "{unknown} ha reaccionat"
+msgstr "{unknown} reagiu"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr "{usernames} i {unknown} altres han reaccionat"
+msgstr "{usernames} e {unknown} outros reagiram"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
-msgstr "{usernames} han reaccionat"
+msgstr "{usernames} reagiram"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
-msgstr "<0/> ha estat afegit per <1/>"
+msgstr "<0/> foi adicionado(a) por <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been banned from the server"
-msgstr "<0/> ha estat banejat del servidor"
+msgstr "<0/> foi banido(a) do servidor"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been kicked from the server"
-msgstr "<0/> ha estat expulsat del servidor"
+msgstr "<0/> foi expulso(a) do servidor"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr "<0/> ha estat eliminat per <1/>"
+msgstr "<0/> foi removido por <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
-msgstr "<0/> s’ha unit al servidor"
+msgstr "<0/> entrou no servidor"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the group"
-msgstr "<0/> ha marxat del grup"
+msgstr "<0/> saiu do grupo"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the server"
-msgstr "<0/> ha marxat del servidor"
+msgstr "<0/> saiu do servidor"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> pinned <1/>"
-msgstr "<0/> ha fixat <1/>"
+msgstr "<0/> fixou <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
-msgstr "<0/> ha iniciat una trucada"
+msgstr "<0/> iniciou uma chamada"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call that lasted "
-msgstr "<0/> ha iniciat una trucada que ha durat "
+msgstr "<0/> iniciou uma chamada que durou "
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> transferred group ownership to <1/>"
-msgstr "<0/> ha transferit la propietat del grup a <1/>"
+msgstr "<0/> transferiu a posse do grupo para <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> unpinned <1/>"
-msgstr "<0/> ha desfixat <1/>"
+msgstr "<0/> desafixou <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
-msgstr "<0/> ha actualitzat la descripció del grup"
+msgstr "<0/> atualizou a descrição do grupo"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group icon "
-msgstr "<0/> ha actualitzat la icona del grup "
+msgstr "<0/> atualizou o ícone do grupo "
 
 #. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
-msgstr "<0/> ha actualitzat el nom del grup a <1>{0}</1>"
+msgstr "<0/> atualizou o nome do grupo para <1>{0}</1>"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
-msgstr "<0>Compte!</0><1/>Això no és el mateix que l’enllaç que es mostrava:"
+msgstr "<0>Cuidado!</0><1/>Este não é o mesmo link que foi exibido:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
-msgstr "1 persona ha reaccionat"
+msgstr "1 pessoa reagiu"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
-msgstr "12 hores"
+msgstr "12 horas"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
-msgstr "24 hores"
+msgstr "24 horas"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr "Pot accedir als canals d’aquest servidor"
+msgstr "Pode acessar canais neste servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
-msgstr "Pot accedir a aquest canal"
+msgstr "Pode acessar este canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr "Pot parlar a la trucada de veu"
+msgstr "Pode falar em chamada de voz"
 
 #: components/auth/src/AuthPage.tsx
 msgid "About"
@@ -264,42 +264,42 @@ msgstr "Sobre"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Accept"
-msgstr "Acceptar"
+msgstr "Aceitar"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Accept friend request"
-msgstr "Acceptar la sol·licitud d'amistat"
+msgstr "Aceitar solicitação de amizade"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr "Reconèixer"
+msgstr "Reconhecer"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
 msgid "Add"
-msgstr "Afegeix"
+msgstr "Adicionar"
 
 #: src/interface/Friends.tsx
 #: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
-msgstr "Afegeix un nou amic"
+msgstr "Adicionar um amigo"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
-msgstr "Afagur amic"
+msgstr "Adicionar amigo"
 
 #: src/interface/channels/ChannelHeader.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add friends to group"
-msgstr "Afegeix amics al grup"
+msgstr "Adicionar amigos ao grupo"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Add new members to the group"
-msgstr "Afegeix nous membres al grup"
+msgstr "Adicionar novos membros ao grupo"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr "Afegeix estat"
+msgstr "Definir texto de status"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
@@ -310,87 +310,88 @@ msgstr "Administrador"
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Admin Panel"
-msgstr "Panell d’administrador"
+msgstr "Painel de administrador"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
-msgstr "Avançat"
+msgstr "Avançado"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Affects all roles and users"
-msgstr "Afecta tots els rols i usuaris"
+msgstr "Afeta todos os cargos e usuários"
 
 #: src/interface/Friends.tsx
 msgid "All"
-msgstr "Tots"
+msgstr "Todos"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
-msgstr "Tots els missatges"
+msgstr "Todas as mensagens"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr "Permet als membres canviar nom i avatar per missatge"
+msgstr "Permitir que membros mudem nome e avatar por mensagem"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr ""
-"Permet que altres afegeixin el teu bot als seus servidors des de Discover"
+"Permitir que outros adicionem seu bot aos servidores deles a partir do "
+"Discover"
 
 #: components/i18n/errors.ts
 msgid "Already friends with this user."
-msgstr "Ya ets amic d'aquest usuari."
+msgstr "Já é amigo(a) desse usuário."
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
-msgstr "Americà (MM/DD/YYYY)"
+msgstr "Formato americano (MM/DD/YYYY)"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
-msgstr "S’ha produït un error."
+msgstr "Ocorreu um erro."
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "An internal error occurred. ({0})"
-msgstr "S’ha produït un error intern. ({0})"
+msgstr "Um erro interno ocorreu. ({0})"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Appearance"
-msgstr "Aparença"
+msgstr "Aparência"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr "Estàs segur que vols esborrar les teves sessions?"
+msgstr "Tem certeza de que quer encerrar suas sessões?"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
-msgstr "Estàs segur que vols eliminar-ho?"
+msgstr "Tem certeza de que quer deletar isso?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr "Estàs segur que vols anar a "
+msgstr "Tem certeza de que quer ir para "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
-msgstr "Assigna rols de rang inferior als membres de rang més baix"
+msgstr "Atribuir cargos de ranking mais baixo a membros com ranking mais baixo"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign Roles"
-msgstr "Assignar Rols"
+msgstr "Atribuir cargos"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
-msgstr "App d'Autentificació"
+msgstr "Aplicativo autenticador"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -402,65 +403,66 @@ msgstr "Avatar"
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCheck.tsx
+#, fuzzy
 msgid "Back"
-msgstr "Enrere"
+msgstr "Voltar"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Badges"
-msgstr "Insignies"
+msgstr "Insígnias"
 
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 msgid "Ban"
-msgstr "Vetar"
+msgstr "Banir"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Ban evasion"
-msgstr "Evasió de ban"
+msgstr "Evasão de banimento"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr "Banejar membres de rang més baix del servidor"
+msgstr "Banir membros de ranking mais baixo do servidor"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
-msgstr "Banear membre"
+msgstr "Banir membro"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Ban Member"
-msgstr "Banejar Membre"
+msgstr "Banir Membro"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
-msgstr "Banejar membres"
+msgstr "Banir Membros"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban user"
-msgstr "Banejar usuari"
+msgstr "Banir usuário"
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
-msgstr "Banejar Usuari"
+msgstr "Banir Usuário"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
-msgstr "Bàner"
+msgstr "Banner"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Bans"
-msgstr "Blocs"
+msgstr "Banimentos"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Block user"
-msgstr "Bloquejar usuari"
+msgstr "Bloquear usuário"
 
 #: src/interface/Friends.tsx
 msgid "Blocked"
-msgstr "Bloquejat"
+msgstr "Bloqueado(a)"
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Blocked User"
-msgstr "Usuari blocat"
+msgstr "Usuário Bloqueado"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Bot"
@@ -468,29 +470,30 @@ msgstr "Bot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr "Cancel·lació d’eco del navegador"
+msgstr "Cancelamento de Eco do Navegador"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Noise Supression"
-msgstr "Supressió de soroll del navegador"
+msgstr "Supressão de Ruído do Navegador"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
-msgstr "Seguidor d'errors"
+msgstr "Rastreador de Bugs"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Busy"
-msgstr "Ocupat"
+msgstr "Ocupado(a)"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "En crear aquest bot, accepteu la <0>Política d’Ús Acceptable</0>."
+msgstr "Ao criar esse bot, você concorda com a <0>Política de Uso Aceitável</0>"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "En crear aquest servidor, accepteu la <0>Política d’Ús Acceptable</0>."
+msgstr ""
+"Ao criar esse bot, você concorda com a <0>Política de Uso Aceitável</0>."
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
@@ -520,127 +523,127 @@ msgstr "Cancelar"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
-msgstr "Cancel·lar la sol·licitud d'amistat"
+msgstr "Cancelar pedido de amizade"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Cancel message"
-msgstr "Cancel·la missatge"
+msgstr "Cancelar mensagem"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr "No es pot suprimir el compte fins que els servidors no s’hagin suprimit o transferit"
+msgstr "Não é possível excluir a conta até que os servidores sejam excluídos ou transferidos"
 
 #: components/i18n/errors.ts
 msgid "Cannot edit this message."
-msgstr "No es pot editar aquest missatge."
+msgstr "Não é possível editar esta mensagem."
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 msgid "Change"
-msgstr "Canvia"
+msgstr "Alterar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
-msgstr "Canviar avatar"
+msgstr "Alterar avatar"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change identity on {0}"
-msgstr "Canvia la identitat a {0}"
+msgstr "Alterar identidade em {0}"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr "Canvia el correu d’inici de sessió"
+msgstr "Alterar e-mail de login"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
-msgstr "Canvia la contrasenya d’inici de sessió"
+msgstr "Alterar senha de login"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Nickname"
-msgstr "Canviar sobrenom"
+msgstr "Alterar apelido"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr "Canvia els sobrenoms dels altres membres"
+msgstr "Alterar apelidos de outros membros"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
-msgstr "Canvia l’avatar propi"
+msgstr "Alterar o próprio avatar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own nickname"
-msgstr "Canvia el sobrenom propi"
+msgstr "Mudar o próprio apelido"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
-msgstr "Canvia el nom d’usuari"
+msgstr "Alterar nome de usuário"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
+#, fuzzy
 msgid "Change your profile per-server"
-msgstr "Canvia el teu perfil per servidor"
+msgstr "Alterar seu perfil por servidor"
 
 #: components/modal/modals/Changelog.tsx
 msgid "Changelog"
-msgstr "Registre de canvis"
+msgstr "Registro de mudanças"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
-msgstr "Descripció del canal"
+msgstr "Descrição do Canal"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Info"
-msgstr "Informació del canal"
+msgstr "Informação do Canal"
 
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Name"
-msgstr "Nom del canal"
+msgstr "Nome do Canal"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Channel Settings"
-msgstr "Configuració del canal"
+msgstr "Configurações do Canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Channels"
-msgstr "Canals"
+msgstr "Canais"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Chat Input"
-msgstr "Caixa de xat"
+msgstr "Entrada do Chat"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
-msgstr "Comprova el teu correu electrònic!"
+msgstr "Confira sua caixa de entrada!"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
-msgstr "Tria un nom d’usuari"
+msgstr "Escolher um apelido"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
-msgstr "Tria nom d’usuari"
+msgstr "Escolher apelido"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Clear status"
-msgstr "Borrar 'estatus' personalitzat"
+msgstr "Limpar status"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
-msgstr ""
-"Fes clic als elements següents per saber-ne més sobre els diferents canvis!"
+msgstr "Clique nos itens abaixo para saber mais sobre diferentes mudanças!"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
-msgstr "Fes clic per mostrar la descripció completa"
+msgstr "Clique para mostrar descrição completa"
 
 #: components/ui/components/utils/Spoiler.tsx
 msgid "Click to show spoiler"
-msgstr "Fes clic per mostrar el spoiler"
+msgstr "Clique para mostrar spoiler"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Client Settings"
-msgstr "Configuració del client"
+msgstr "Configurações do Cliente"
 
 #: components/modal/modals/UserProfileRoles.tsx
 #: components/modal/modals/UserProfileMutualGroups.tsx
@@ -667,60 +670,60 @@ msgstr "Configuració del client"
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddFriend.tsx
 msgid "Close"
-msgstr "Tancar"
+msgstr "Fechar"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Close chat"
-msgstr "Tanca el xat"
+msgstr "Fechar chat"
 
 #. placeholder {0}: props.channel.recipient?.displayName
 #: components/modal/modals/DeleteChannel.tsx
 msgid "Close conversation with {0}?"
-msgstr "Vols tancar la conversa amb {0}?"
+msgstr "Fechar conversa com {0}?"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Code"
-msgstr "Codi"
+msgstr "Código"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
 msgstr ""
-"Configura una manera de recuperar el teu compte en cas que perdis l’"
-"autenticació de dos factors"
+"Configure uma maneira de recuperar sua conta no caso da perda da "
+"Autenticação de Dois Fatores"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr "Configura l’autenticació amb contrasenya d’un sol ús"
+msgstr "Configurar autenticação da senha de uso único"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Confirm"
-msgstr "Confirma"
+msgstr "Confirmar"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Confirm action"
-msgstr "Confirma l'acció"
+msgstr "Confirmar ação"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect"
-msgstr "Connectar"
+msgstr "Conectar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr "Permet unir-se al canal de veu"
+msgstr "Conectar ao canal de voz"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
-msgstr "Connectat"
+msgstr "Conectado"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connecting"
-msgstr "Connectant"
+msgstr "Conectando"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
-msgstr "El contingut incompleix una o més normes"
+msgstr "Conteúdo viola uma ou mais leis"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 #: components/modal/modals/LinkWarning.tsx
@@ -729,23 +732,23 @@ msgstr "Continuar"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
-msgstr "Continua a l’aplicació"
+msgstr "Continuar para o aplicativo"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Contribute a language"
-msgstr "Contribueix amb un idioma"
+msgstr "Contribuir ao idioma"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Conversations"
-msgstr "Converses"
+msgstr "Conversas"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
-msgstr "Copia ID de la categoria"
+msgstr "Copiar ID da categoria"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy channel ID"
-msgstr "Copiar l'ID del canal"
+msgstr "Copiar ID do canal"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -753,33 +756,33 @@ msgstr "Copiar ID"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
-msgstr "Copia l’URL d’invitació"
+msgstr "Copiar URL do Convite"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy link"
-msgstr "Copiar enllaç"
+msgstr "Copiar link"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
-msgstr "Copia l’enllaç"
+msgstr "Copiar Link"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
-msgstr "Copiar l'ID del missatge"
+msgstr "Copiar ID da mensagem"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
-msgstr "Copia l’ID del rol"
+msgstr "Copiar ID do cargo"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Copy server ID"
-msgstr "Copiar l'ID del servidor"
+msgstr "Copiar ID do servidor"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy text"
-msgstr "Copiar text"
+msgstr "Copiar texto"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Token"
@@ -788,15 +791,15 @@ msgstr "Copiar Token"
 #: src/interface/navigation/servers/UserMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
 msgid "Copy user ID"
-msgstr "Copiar l'ID d'usuari"
+msgstr "Copiar ID do usuário"
 
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Copy webhook URL"
-msgstr "Copia l’URL del webhook"
+msgstr "Copiar URL do webhook"
 
 #: components/i18n/errors.ts
 msgid "Could not find what you requested."
-msgstr "No s’ha pogut trobar el que has sol·licitat."
+msgstr "Não foi possível encontrar o que pediu."
 
 #: components/modal/modals/CreateWebhook.tsx
 #: components/modal/modals/CreateServer.tsx
@@ -807,155 +810,155 @@ msgstr "No s’ha pogut trobar el que has sol·licitat."
 #: components/modal/modals/CreateBot.tsx
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Create"
-msgstr "Crear"
+msgstr "Criar"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create a channel before inviting others!"
-msgstr "Has de crear un canal abans d’invitar a altres!"
+msgstr "Crie um canal antes de convidar outras pessoas!"
 
 #~ msgid "Create a group"
-#~ msgstr "Crea un grup"
+#~ msgstr "Criar um grupo"
 
 #: src/interface/Home.tsx
 msgid "Create a group or server"
-msgstr "Crea un grup o un servidor"
+msgstr "Criar um grupo ou servidor"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "Create a new bot"
-msgstr "Crear un nou bot"
+msgstr "Criar um novo bot"
 
 #: components/modal/modals/CreateCategory.tsx
 msgid "Create a new category"
-msgstr "Crea una categoria nova"
+msgstr "Criar uma nova categoria"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: components/modal/modals/CreateGroup.tsx
 msgid "Create a new group"
-msgstr "Crea un grup nou"
+msgstr "Criar um novo grupo"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create a new role"
-msgstr "Crea un nou rol"
+msgstr "Criar um novo cargo"
 
 #: components/modal/modals/CreateWebhook.tsx
 msgid "Create a webhook"
-msgstr "Crea un webhook"
+msgstr "Criar um webhook"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Create an account"
-msgstr "Crear un compte"
+msgstr "Criar uma conta"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit server roles"
-msgstr "Permet crear y editar rols del servidor"
+msgstr "Criar e editar cargos do servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
-msgstr "Permet crear i editar webhooks"
+msgstr "Criar e editar webhooks"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Create Bot"
-msgstr "Crea bot"
+msgstr "Criar Bot"
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Create category"
-msgstr "Crear categoria"
+msgstr "Criar categoria"
 
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Create channel"
-msgstr "Crear canal"
+msgstr "Criar canal"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create invite"
-msgstr "Crear invitació"
+msgstr "Criar convite"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Create Invite"
-msgstr "Crea invitació"
+msgstr "Criar Convite"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr "Crea invitacions perquè altres les utilitzin"
+msgstr "Criar convites para outros usarem"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create Role"
-msgstr "Crea un rol"
+msgstr "Criar Cargo"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "Create server"
-msgstr "Crea un servidor"
+msgstr "Criar servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create server emoji"
-msgstr "Permet crear un emoji personalitzat"
+msgstr "Criar emoji para o servidor"
 
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
-msgstr "Crea un Webhook"
+msgstr "Criar Webhook"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
-msgstr "S’ha creat <0/>"
+msgstr "Criou <0/>"
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
 msgid "Current Password"
-msgstr "Contrasenya actual"
+msgstr "Senha Atual"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Current Session"
-msgstr "Sessió actual"
+msgstr "Sessão Atual"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
-msgstr "'Estatus' personalitzat"
+msgstr "Status personalizado"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr "Marc de finestra personalitzat"
+msgstr "Borda de janela personalizada"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
-msgstr "Personalització"
+msgstr "Personalização"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Dark"
-msgstr "Fosc"
+msgstr "Escuro"
 
 #. placeholder {0}: err.location
 #: components/i18n/errors.ts
 msgid "Database error, please contact support. ({0})"
-msgstr "Error de base de dades, contacta amb el suport. ({0})"
+msgstr "Erro na base de dados. Por favor, contate o suporte. ({0})"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Deafen lower-ranking members in voice call"
-msgstr ""
-"Permet desactivar el so als membres de rang inferior a la trucada de veu"
+msgstr "Silencie membros de cargo inferior na chamada de voz."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen Members"
-msgstr "Membres sords"
+msgstr "Desativar Áudio para Membros"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Default"
-msgstr "Predeterminat"
+msgstr "Padrão"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/ChannelSettings.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Default Permissions"
-msgstr "Permisos predeterminats"
+msgstr "Permissões Padrão"
 
 #: components/modal/modals/EmojiPreview.tsx
 #: components/modal/modals/DeleteServer.tsx
@@ -965,7 +968,7 @@ msgstr "Permisos predeterminats"
 #: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteBot.tsx
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Excluir"
 
 #. placeholder {0}: props.server.name
 #. placeholder {0}: props.role.name
@@ -975,84 +978,84 @@ msgstr "Eliminar"
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/DeleteBot.tsx
 msgid "Delete {0}?"
-msgstr "Eliminar {0}?"
+msgstr "Excluir {0}?"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Delete Account"
-msgstr "Elimina el compte"
+msgstr "Excluir conta"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
-msgstr "Permet eliminar i fixar els missatges enviats per altres membres"
+msgstr "Excluir e fixar mensagens enviadas por outros membros"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
-msgstr "Eliminar Bot"
+msgstr "Excluir Bot"
 
 #: components/modal/modals/DeleteCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Delete category"
-msgstr "Eliminar Categoria"
+msgstr "Excluir categoria"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Delete channel"
-msgstr "Eliminar canal"
+msgstr "Excluir canal"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Delete Channel"
-msgstr "Eliminar Canal"
+msgstr "Excluir Canal"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Delete Invite"
-msgstr "Eliminar Invitació"
+msgstr "Excluir Convite"
 
 #: components/modal/modals/DeleteMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Delete message"
-msgstr "Eliminar missatge"
+msgstr "Apagar mensagem"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
-msgstr "Suprimeix el rol"
+msgstr "Excluir Cargo"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Delete Server"
-msgstr "Eliminar Servidor"
+msgstr "Excluir Servidor"
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
 msgid "Description provided by {0}"
-msgstr "Descripció proporcionada per {0}"
+msgstr "Descrição providenciada por {0}"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Desktop"
-msgstr "Escriptori"
+msgstr "Área de trabalho"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Developer Documentation"
-msgstr "Documentació per a desenvolupadors"
+msgstr "Documentação para Desenvolvedores"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable Account"
-msgstr "Desactiva el compte"
+msgstr "Desativar Conta"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable one-time password authenticator"
-msgstr "Desactiva l’autenticador de contrasenya d’un sol ús"
+msgstr "Desativar autenticador da senha de uso único"
 
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
-msgstr "Desactivat"
+msgstr "Desativado"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Disconnected"
-msgstr "Desconnectat"
+msgstr "Desconectado"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
@@ -1060,281 +1063,289 @@ msgstr "Discord RPC"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
-msgstr "Descobreix Stoat"
+msgstr "Explorar o Stoat"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+#, fuzzy
 msgid "Display & Text"
-msgstr "Visualització i text"
+msgstr "Aparência e Texto"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Display Name"
-msgstr "Sobrenom"
+msgstr "Nome de exibição"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Do Not Disturb"
-msgstr "No Molestar"
+msgstr "Não Perturbar"
 
 #: components/modal/modals/LinkWarning.tsx
+#, fuzzy
 msgid "Don't ask me again for "
-msgstr "No em tornis a preguntar per "
+msgstr "Não me peça de novo para "
 
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
 #: components/modal/modals/LeaveServer.tsx
+#, fuzzy
 msgid "Don't notify others that you've left"
-msgstr "No notifiquis als altres que has marxat"
+msgstr "Não notificar os outros de que você saiu"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
-msgstr "Fes una donació"
+msgstr "Doar"
 
 #: src/interface/Home.tsx
 msgid "Donate to Stoat"
-msgstr "Fes-li una donació a Stoat"
+msgstr "Doar para o Stoat"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Donated to Stoat"
-msgstr "Ha donat a Stoat"
+msgstr "Doou ao Stoat"
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Done"
-msgstr "Fet"
+msgstr "Feito"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Drugs or illegal goods"
-msgstr "Drogues o béns il·legals"
+msgstr "Drogas ou bens ilícitos"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "Edit {0}'s roles"
-msgstr "Edita els rols de {0}"
+msgstr "Editar cargos de {0}"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit and delete channel"
-msgstr "Permet editar i eliminar canals"
+msgstr "Editar e excluir canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit any permissions on the server"
-msgstr "Permet editar qualsevol permís del servidor"
+msgstr "Editar qualquer permissão do servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit channel-specific role and default permissions"
-msgstr ""
-"Permet editar els permisos del rol específic del canal i els predeterminats"
+msgstr "Editar cargos específicos a canais e permissões padrão"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
-msgstr "Edita el teu perfil global"
+msgstr "Editar Perfil Global"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
-msgstr "Permet editar el nom i la descripció del grup"
+msgstr "Editar nome do grupo e descrição"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit identity"
-msgstr "Editar identitat"
+msgstr "Editar identidade"
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Edit Identity"
-msgstr "Edita Identitat"
+msgstr "Editar identidade"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Edit message"
-msgstr "Editar missatge"
+msgstr "Editar mensagem"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit roles"
-msgstr "Edita rols"
+msgstr "Editar cargos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit the server's information and settings"
-msgstr "Permet editar la informació i la configuració del servidor"
+msgstr "Editar informações do servidor e configurações"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Edit your identity"
-msgstr "Edita la teva identitat"
+msgstr "Editar sua identidade"
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
-msgstr "Editat"
+msgstr "Editado"
 
 #: components/modal/modals/PolicyChange.tsx
+#, fuzzy
 msgid "Effective <0/> (<1/>)"
-msgstr "Vigent <0/> (<1/>)"
+msgstr "Efetivo <0/> (<1/>)"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Email"
-msgstr "Correu electrònic"
+msgstr "E-mail"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Emoji Name"
-msgstr "Nom de l'Emoji"
+msgstr "Nome do Emoji"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Emoji Pack (affects your messages only)"
-msgstr "Pack d’emojis (només afecta els teus missatges)"
+msgstr "Pacote de Emojis (afeta apenas suas mensagens)"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Emojis"
-msgstr "Emoji"
+msgstr "Emojis"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Enable Authenticator"
-msgstr "Activa l’autenticador"
+msgstr "Ativar Autenticador"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Enable authenticator app"
-msgstr "Activa l'aplicació d'autenticació"
+msgstr "Ativar aplicativo autenticador"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Enable Desktop Notifications"
-msgstr "Activa les notificacions d'escriptori"
+msgstr "Ativar notificações da área de trabalho"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr "Activar efectes de vidre translúcid/borrosos (lent en equips antics)"
+msgstr ""
+"Habilitar efeitos de transparência de vidro/desfoque (lento em dispositivos "
+"antigos)"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
-msgstr "Introdueix un nou nom per a aquesta sessió"
+msgstr "Insira um novo nome para esta sessão"
 
 #: components/modal/modals/EditPassword.tsx
 #: components/auth/src/flows/Form.tsx
 msgid "Enter a new password."
-msgstr "Introdueix una contrasenya nova."
+msgstr "Insira uma nova senha."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "Enter Channel"
-msgstr "Entra al canal"
+msgstr "Entrar no Canal"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Enter Code"
-msgstr "Introduïu el codi"
+msgstr "Inserir Código"
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your current password."
-msgstr "Introdueix la teva contrasenya actual."
+msgstr "Insira sua senha atual."
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
 msgid "Enter your current password..."
-msgstr "Introdueix la teva contrasenya actual…"
+msgstr "Insira sua senha atual..."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your preferred username."
-msgstr "Introdueix el teu nom d'usuari preferit."
+msgstr "Insira o nome de usuário de sua preferência."
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "External links can be dangerous!"
-msgstr "Els enllaços externs poden ser perillosos!"
+msgstr "Links externos podem ser perigosos!"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Extortion or blackmail"
-msgstr "Xantatge o extorsió"
+msgstr "Extorsão ou chantagem"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Extreme violence, gore or animal cruelty"
-msgstr "Violència extrema, gore o crueltat amb animals"
+msgstr "Violência extrema, gore ou crueldade com animais"
 
 #: components/i18n/errors.ts
+#, fuzzy
 msgid "Failed to process the image you provided."
-msgstr "No s’ha pogut processar la imatge que has proporcionat."
+msgstr "Falha ao processar a imagem oferecida."
 
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Failed to send"
-msgstr "No s’ha pogut enviar"
+msgstr "Falha ao enviar"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Failed to verify!"
-msgstr "Error al verificar!"
+msgstr "Falha ao verificar!"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Feedback"
-msgstr "Commentaris"
+msgstr "Comentários"
 
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
-msgstr "Troba una comunitat segons les teves aficions o interessos."
+msgstr "Descubra uma comunidade baseada em seus hobbies ou interesses."
 
 #: components/auth/src/flows/FlowHome.tsx
+#, fuzzy
 msgid "Find your com<0/>munity,<1/>connect with the world."
-msgstr "Troba la teva com<0/>unitat,<1/>connecta amb el món."
+msgstr "Encontre sua com<0/>unidade,<1/>conecte-se com o mundo."
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Focus"
-msgstr "Concentrat"
+msgstr "Concentrado"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "For 1 hour"
-msgstr "Durant 1 hora"
+msgstr "Por 1 hora"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "For 15 minutes"
-msgstr "Durant 15 minuts"
+msgstr "Por 15 minutos"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "For 24 hours"
-msgstr "Durant 24 hores"
+msgstr "Por 24 horas"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "For 3 hours"
-msgstr "Durant 3 hores"
+msgstr "Por 3 horas"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "For 8 hours"
-msgstr "Durant 8 hores"
+msgstr "Por 8 horas"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
-msgstr "Amics"
+msgstr "Amigos"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
-msgstr "Tot de fruita"
+msgstr "Salada de frutas"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Generate a new token if it gets lost or compromised"
-msgstr "Genera un nou token si es perd o es veu compromès"
+msgstr "Gere um novo token caso seja perdido ou comprometido"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Generate Recovery Codes"
-msgstr "Genera codis de recuperació"
+msgstr "Gerar Códigos de Recuperação"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Generating invite…"
-msgstr "Generant invitació…"
+msgstr "Gerando convite…"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Get a new set of recovery codes"
-msgstr "Genera un nou conjunt de codis de recuperació"
+msgstr "Receber novo conjunto de códigos de recuperação"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Get active recovery codes"
-msgstr "Mostra els codis de recuperació actius"
+msgstr "Receber códigos de recuperação ativos"
 
 #: src/interface/Home.tsx
+#, fuzzy
 msgid "Give feedback on Stoat"
-msgstr "Dóna la teva opinió sobre Stoat"
+msgstr "Dê feedback sobre o Stoat"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Give us some detail"
-msgstr "Dóna’ns alguns detalls"
+msgstr "Nos dê alguns detalhes"
 
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
@@ -1342,186 +1353,190 @@ msgstr "Dóna’ns alguns detalls"
 #: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Go back to login"
-msgstr "Torna a l'inici de sessió"
+msgstr "Voltar para o login"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
+#, fuzzy
 msgid "Go to account settings to edit your username"
-msgstr "Ves a la configuració del compte per editar el teu nom d’usuari"
+msgstr "Vá para configurações da conta para editar seu nome de usuário"
 
 #: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
+#, fuzzy
 msgid "Go to the Stoat Lounge"
-msgstr "Ves al Stoat Lounge"
+msgstr "Ir para o Stoat Lounge"
 
 #~ msgid "Go to the testers server"
-#~ msgstr "Ves al servidor de proves"
+#~ msgstr "Ir para o servidor de testadores"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Good"
-msgstr "Bé"
+msgstr "Bom"
 
 #. placeholder {0}: countBits(props.context.rolePermissions![role.id].a)
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Grants {0} permissions and denies {1} permissions"
-msgstr "Atorga {0} permisos i en denega {1}"
+msgstr "Concede permissões a {0} e nega permissões a {1}"
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Group Name"
-msgstr "Nom del grup"
+msgstr "Nome do Grupo"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Harassment or cyberbullying"
-msgstr "Assetjament o ciberassetjament"
+msgstr "Assédio ou cyberbullying"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Hardware Acceleration"
-msgstr "Acceleració per hardware"
+msgstr "Aceleração de Hardware"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Hear other people and see their video"
-msgstr "Permet escoltar altres persones i veure el seu vídeo"
+msgstr "Escutar outras pessoas e ver a entrada de vídeo delas"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Hello!"
-msgstr "Hola!"
+msgstr "Olá!"
 
 #: components/app/interface/settings/user/Language.tsx
+#, fuzzy
 msgid "Help contribute to an existing or new language"
-msgstr "Ajuda a contribuir a un idioma existent o nou"
+msgstr "Ajude a contribuir a um idioma existente ou novo"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Helped translate Stoat"
-msgstr "Ha ajudat a traduir Stoat"
+msgstr "Ajudou a traduzir o Stoat"
 
 #. placeholder {0}: link()
 #: components/modal/modals/CreateInvite.tsx
 msgid "Here is your new invite code: <0>{0}</0>"
-msgstr "Aquí tens el teu nou codi d’invitació: <0>{0}</0>"
+msgstr "Aqui está seu novo código de convite: <0>{0}</0>"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
-msgstr "Alt contrast"
+msgstr "Alto Contraste"
 
 #: src/interface/Home.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Home"
-msgstr "Inici"
+msgstr "Início"
 
 #: src/interface/channels/AgeGate.tsx
 msgid "I confirm that I am at least 18 years old."
-msgstr "Confirmo que tinc almenys 18 anys."
+msgstr "Confirmo que tenho pelo menos 18 anos de idade."
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "I understand the consequences"
-msgstr "Entenc les conseqüències"
+msgstr "Entendo as consequências"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Idle"
-msgstr "Inactiu"
+msgstr "Ausente"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Illegal hacking or cracking"
-msgstr "Hacking o cracking il·legal"
+msgstr "Hacking ou cracking ilegais"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Image by @fakurian"
-msgstr "Imatge de @fakurian"
+msgstr "Imagem por @fakurian"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Impersonation"
-msgstr "Suplantació"
+msgstr "Falsa Identidade"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Instead of closing, Stoat will hide in your tray."
-msgstr "En lloc de tancar-se, Stoat s’amagarà a la safata."
+msgstr "Em vez de fechar, o Stoat vai se esconder na sua bandeja."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Interface Font"
-msgstr "Tipografia de la interfície"
+msgstr "Fonte da Interface"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Invisible"
-msgstr "Invisible"
+msgstr "Invisível"
 
 #: src/interface/Home.tsx
 msgid "Invite all of your friends, some cool bots, and throw a big party."
-msgstr "Convida tots els teus amics, alguns bots divertits i organitza una gran festa."
+msgstr "Convide todos os seus amigos, alguns bots legais e dê uma grande festa."
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite Bot"
-msgstr "Invitar bot"
+msgstr "Convidar Bot"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
-msgstr "Codi d'invitació"
+msgstr "Código de Convite"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
-msgstr "Invitar altres"
+msgstr "Convidar pessoas"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
-msgstr "Membre que l'ha convidat"
+msgstr "Convidante"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Invites"
-msgstr "Invitacions"
+msgstr "Convites"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "irrelevant joke badge 1"
-msgstr "insígnia de broma irrellevant 1"
+msgstr "Insígnia de piada irrelevante 1"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "irrelevant joke badge 2"
-msgstr "insígnia de broma irrellevant 2"
+msgstr "Insígnia de piada irrelevante 2"
 
 #: components/app/interface/settings/user/Language.tsx
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
-msgstr "Estàndard ISO (AAAA-MM-DD)"
+msgstr "Padrão ISO (YYYY-MM-DD)"
 
 #: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/Invite.tsx
 msgid "Join"
-msgstr "Uneix-te"
+msgstr "Juntar-se"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Join a server"
-msgstr "Uneix-te a un servidor"
+msgstr "Juntar-se a um servidor"
 
 #~ msgid "Join call"
 #~ msgstr ""
 
 #: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
+#, fuzzy
 msgid "Join the Stoat Lounge"
-msgstr "Uneix-te al Stoat Lounge"
+msgstr "Entre no Saguão Stoat"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Join the voice channel"
-msgstr "Uneix-te al canal de veu"
+msgstr "Entrar no canal de voz"
 
 #: components/ui/components/features/profiles/ProfileJoined.tsx
 #: components/ui/components/features/messaging/elements/Invite.tsx
 msgid "Joined"
-msgstr "Es va unir"
+msgstr "Juntou-se"
 
 #: components/ui/components/features/messaging/bars/JumpToBottom.tsx
 msgid "Jump to present"
-msgstr "Ves al present"
+msgstr "Pular para o presente"
 
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
 msgid "Jump to the beginning"
-msgstr "Ves al començament"
+msgstr "Pular para o começo"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Keep as is"
-msgstr "Deixa-ho com està"
+msgstr "Deixar como está"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick"
@@ -1529,174 +1544,182 @@ msgstr "Expulsar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick lower-ranking members from the server"
-msgstr "Permet expulsar els membres de rang inferior del servidor"
+msgstr "Expulsar membros de rankings mais baixos do servidor"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Kick member"
-msgstr "Expulsar membre"
+msgstr "Expulsar membro"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick Member"
-msgstr "Expulsar membre"
+msgstr "Expulsar Membro"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
-msgstr "Expulsar membres"
+msgstr "Expulsar membros"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Language"
-msgstr "Llengua"
+msgstr "Idioma"
 
 #: components/app/interface/settings/user/Sync.tsx
+#, fuzzy
 msgid "Last sync <0/>"
-msgstr "Última sincronització <0/>"
+msgstr "Última sincronização <0/>"
 
 #: src/interface/channels/text/TextSearchSidebar.tsx
 msgid "Latest"
-msgstr "Més recents"
+msgstr "Recente"
 
 #: components/app/interface/settings/user/Native.tsx
+#, fuzzy
 msgid "Launch Stoat when you log into your computer."
-msgstr "Inicia Stoat quan iniciïs sessió al teu ordinador."
+msgstr "Iniciar Stoat quando logar em seu computador."
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
+#, fuzzy
 msgid "Learn more about how to create bots on Stoat."
-msgstr "Més informació sobre com crear bots a Stoat."
+msgstr "Aprenda mais sobre como criar bots no Stoat."
 
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
 msgid "Leave"
-msgstr "Abandonar"
+msgstr "Sair"
 
 #. placeholder {0}: props.server.name
 #. placeholder {0}: props.channel.name
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
 msgid "Leave {0}?"
-msgstr "Abandonar {0}?"
+msgstr "Sair de {0}?"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Leave group"
-msgstr "Abandonar grup"
+msgstr "Sair do grupo"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Leave server"
-msgstr "Abandonar servidor"
+msgstr "Sair do servidor"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Let Stoat use its own custom titlebar."
-msgstr "Permet que Stoat utilitzi la seva pròpia barra de títol personalitzada."
+msgstr "Permita que o Stoat use sua própria barra de título."
 
 #: src/interface/Home.tsx
 msgid "Let us know how we can improve our app by giving us feedback."
-msgstr "Explica’ns com podem millorar l’aplicació enviant-nos comentaris."
+msgstr "Deixe-nos saber como podemos melhorar nosso app, dando-nos feedback."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Light"
-msgstr "Clar"
+msgstr "Claro"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#, fuzzy
 msgid "Listen"
-msgstr "Escoltar"
+msgstr "Escutar"
 
 #. placeholder {0}: humanFileSize(props.file.size ?? 0)
 #: components/ui/components/features/messaging/elements/TextFile.tsx
+#, fuzzy
 msgid "Load file ({0})"
-msgstr "Carrega el fitxer ({0})"
+msgstr "Carregar arquivo ({0})"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Log In"
-msgstr "Inicia sessió"
+msgstr "Iniciar Sessão"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Log Out"
-msgstr "Tanca la sessió"
+msgstr "Encerrar sessão"
 
 #: components/auth/src/flows/Form.tsx
 msgid "Log out of all other sessions"
-msgstr "Desconnecta la resta de sessions"
+msgstr "Sair de todas as outras sessões"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Log Out Other Sessions"
-msgstr "Tanca les altres sessions"
+msgstr "Encerrar Outras Sessões"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Login"
-msgstr "Inicia sessió"
+msgstr "Entrar"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Logs you out of all sessions except this device."
-msgstr "Tanca la sessió a tots els dispositius excepte aquest."
+msgstr "Encerra suas sessões exceto neste dispositivo."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Malware or phishing"
-msgstr "Programari maliciós o phishing"
+msgstr "Programas maliciosos ou phishing"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Channel"
-msgstr "Gestionar el canal"
+msgstr "Gerenciar Canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Customisation"
-msgstr "Gestiona personalització"
+msgstr "Gerenciar personalização"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Messages"
-msgstr "Administrar missatges"
+msgstr "Gerenciar mensagens"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Nicknames"
-msgstr "Administrar sobrenoms"
+msgstr "Gerenciar apelidos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Permissions"
-msgstr "Administrar Permisos"
+msgstr "Gerenciar permissões"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Roles"
-msgstr "Administrar rols"
+msgstr "Gerenciar cargos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Server"
-msgstr "Administrar servidor"
+msgstr "Gerenciar servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Manage Webhooks"
-msgstr "Gestionar Webhooks"
+msgstr "Gerenciar webhooks"
 
 #: components/modal/modals/ChannelToggleMature.tsx
+#, fuzzy
 msgid "Mark as mature"
-msgstr "Marca com a contingut adult"
+msgstr "Marcar como adulto"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/Overview.tsx
+#, fuzzy
 msgid "Mark as Mature"
-msgstr "Marca com a contingut adult"
+msgstr "Marcar como Adulto"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Mark as read"
-msgstr "Marcar com llegit"
+msgstr "Marcar como lido"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Mark as unread"
-msgstr "Marcar com no llegit"
+msgstr "Marcar como não lido"
 
 #: components/modal/modals/ChannelToggleMature.tsx
+#, fuzzy
 msgid "Mark this channel as mature?"
-msgstr "Marca aquest canal com a contingut per a adults?"
+msgstr "Marcar esse canal como adulto?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Masquerade"
-msgstr "Mascarada"
+msgstr "Mascarado"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Members"
-msgstr "Membres"
+msgstr "Membros"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mention"
@@ -1704,103 +1727,104 @@ msgstr "Mencionar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention Everyone"
-msgstr "Mencionar a tothom"
+msgstr "Mencionar Todos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention everyone and online members inside the server"
-msgstr "Permet mencionar a tothom i els membres en línia del servidor"
+msgstr "Mencionar todos e membros online dentro do servidor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention Roles"
-msgstr "Mencionar rols"
+msgstr "Mencionar Cargos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mention specific roles"
-msgstr "Permet mencionar rols específics"
+msgstr "Mencionar cargos específicos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mentions"
-msgstr "Mencions"
+msgstr "Menções"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mentions Only"
-msgstr "Només mencions"
+msgstr "Apenas menções"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Message"
-msgstr "Enviar missatge"
+msgstr "Enviar mensagem"
 
 #. placeholder {0}: props.channel.recipient?.username
 #. placeholder {0}: props.channel.name
 #: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 msgid "Message {0}"
-msgstr "Envia un missatge a {0}"
+msgstr "Mensagem {0}"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+#, fuzzy
 msgid "Message Group Spacing"
-msgstr "Espaiat dels missatges"
+msgstr "Espaçamento do Grupo de Mensagens"
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Message not loaded, click to jump"
-msgstr "Missatge no carregat, fes clic per anar-hi"
+msgstr "Mensagem não carregada, clique para ir"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Message Received"
-msgstr "Missatge rebut"
+msgstr "Mensagem recebida"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Message Sent"
-msgstr "Missatge enviat"
+msgstr "Mensagem enviada"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Message Size"
-msgstr "Mida del missatge"
+msgstr "Tamanho da Mensagem"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Message was sent on another platform"
-msgstr "El missatge s’ha enviat des d’una altra plataforma"
+msgstr "Mensagem enviada em outra plataforma"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Messaging"
-msgstr "Missatgeria"
+msgstr "Mensagens"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
-msgstr "Minimitzar a la safata"
+msgstr "Minimizar para a Bandeja"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Missing permission"
-msgstr "Permís no concedit"
+msgstr "Permissão faltando"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Monochrome"
-msgstr "Monocromàtic"
+msgstr "Monocromático"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+#, fuzzy
 msgid "Monospace Font"
-msgstr "Tipus de lletra monoespaiada"
+msgstr "Fonte Monoespaçada"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "More Contrast"
-msgstr "Més contrast"
+msgstr "Maior Contraste"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move Members"
-msgstr "Moure els membres"
+msgstr "Mover membros"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
-msgstr "Permet moure els membres entre canals de veu"
+msgstr "Mover membros entre canais de voz"
 
 #: components/i18n/errors.ts
 msgid "Multi-factor authentication is already enabled for this account."
-msgstr ""
-"L’autenticació de múltiples factors ja està activada per a aquest compte."
+msgstr "A autenticação de múltiplos fatores já está ativada para esta conta."
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mute"
@@ -1808,116 +1832,116 @@ msgstr "Silenciar"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mute Channel"
-msgstr "Silenciar canal"
+msgstr "Silenciar Canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
-msgstr "Permet silenciar membres de un rang inferior a trucades de veu"
+msgstr "Silenciar membros com cargo inferior na chamada de voz"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute Members"
-msgstr "Silenciar Membres"
+msgstr "Silenciar membros"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
-msgstr "Silenciar servidor"
+msgstr "Silenciar Servidor"
 
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted"
-msgstr "Silenciat"
+msgstr "Silenciado"
 
 #: src/interface/navigation/servers/ServerList.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Muted until <0/>"
-msgstr "Silenciat fins a <0/>"
+msgstr "Silenciado(a) até <0/>"
 
 #: components/modal/modals/UserProfileMutualFriends.tsx
 msgid "Mutual Friends"
-msgstr "Amics en comú"
+msgstr "Amigos em comum"
 
 #: components/modal/modals/UserProfileMutualGroups.tsx
 msgid "Mutual Groups"
-msgstr "Grups en comú"
+msgstr "Grupos em comum"
 
 #: components/app/interface/settings/user/_AccountCard.tsx
 msgid "My Account"
-msgstr "El meu compte"
+msgstr "Minha conta"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "My Bots"
-msgstr "Els meus bots"
+msgstr "Meus bots"
 
 #: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/CreateCategory.tsx
 msgid "Name"
-msgstr "Nom"
+msgstr "Nome"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Neutral"
-msgstr "Neutral"
+msgstr "Neutro"
 
 #: components/ui/components/features/messaging/elements/MessageDivider.tsx
 msgid "NEW"
-msgstr "NOU"
+msgstr "NOVO"
 
 #. placeholder {0}: dayjs(decodeTime(props.lastId()!)).fromNow()
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
 msgid "New messages since {0}"
-msgstr "Nous missatges des de fa {0}"
+msgstr "Novas mensagens desde {0}"
 
 #: components/modal/modals/EditPassword.tsx
 #: components/auth/src/flows/Form.tsx
 msgid "New Password"
-msgstr "Contrasenya nova"
+msgstr "Nova senha"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "New to Stoat"
-msgstr "Nou a Stoat"
+msgstr "Novo no Stoat"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "New to the server"
-msgstr "Nou al servidor"
+msgstr "Novo no servidor"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Nickname"
-msgstr "Sobrenom"
+msgstr "Apelido"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
-msgstr ""
+msgstr "Nenhuma permissão definida ainda"
 
 #: src/interface/Friends.tsx
 msgid "Nobody here right now!"
-msgstr ""
+msgstr "Ninguém aqui agora mesmo!"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
-msgstr "Cap"
+msgstr "Nada"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Not of minimum age to use the platform"
-msgstr ""
+msgstr "Não possui a idade mínima para usar a plataforma"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Notifications"
-msgstr "Notificacions"
+msgstr "Notificações"
 
 #: components/ui/components/features/messaging/composition/MessageReplyPreview.tsx
 msgid "Off"
-msgstr "Desactivat"
+msgstr "Desligado"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Official Communication"
-msgstr "Comunicació oficial"
+msgstr "Comunicado Oficial"
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Official Server"
@@ -1927,22 +1951,22 @@ msgstr "Servidor oficial"
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Offline"
-msgstr "Fora de línia"
+msgstr "Offline"
 
 #: components/modal/modals/SignedOut.tsx
 #: components/modal/modals/Error2.tsx
 #: components/modal/modals/CreateInvite.tsx
 #: components/auth/src/flows/FlowHome.tsx
 msgid "OK"
-msgstr "D'acord"
+msgstr "OK"
 
 #: src/interface/channels/text/TextSearchSidebar.tsx
 msgid "Oldest"
-msgstr "Més antics"
+msgstr "Antigo"
 
 #: components/ui/components/features/messaging/composition/MessageReplyPreview.tsx
 msgid "On"
-msgstr "Activat"
+msgstr "Ligado"
 
 #: components/modal/modals/DeleteServer.tsx
 #: components/modal/modals/DeleteRole.tsx
@@ -1950,11 +1974,11 @@ msgstr "Activat"
 #: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteBot.tsx
 msgid "Once it's deleted, there's no going back."
-msgstr "Una vegada eliminat, no hi ha volta enrere."
+msgstr "Depois de excluído, não há como voltar atrás."
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "One of the first 1000 users!"
-msgstr ""
+msgstr "Um dos primeiros 1000 usuários!"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
@@ -1962,116 +1986,116 @@ msgstr ""
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Online"
-msgstr "En línia"
+msgstr "Disponível"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Only mentions will notify you"
-msgstr ""
+msgstr "Apenas menções vão te notificar"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
-msgstr ""
+msgstr "Abrir"
 
 #. placeholder {0}: provider()![0]
 #: components/auth/src/flows/MailProvider.tsx
 msgid "Open {0}"
-msgstr ""
+msgstr "Abrir {0}"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Open channel settings"
-msgstr ""
+msgstr "Abrir configurações de canal"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Open file"
-msgstr ""
+msgstr "Abrir arquivo"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Open server settings"
-msgstr ""
+msgstr "Abrir configurações de servidor"
 
 #: src/interface/Home.tsx
 msgid "Open settings"
-msgstr "Obre la configuració"
+msgstr "Abrir configurações"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Other"
-msgstr ""
+msgstr "Outros"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Output Volume"
-msgstr ""
+msgstr "Volume de Saída"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Overview"
-msgstr "Visió general"
+msgstr "Visão geral"
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Pardon User"
-msgstr ""
+msgstr "Perdoar usuário"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Password"
-msgstr "Contrasenya"
+msgstr "Senha"
 
 #: src/interface/Friends.tsx
 msgid "Pending"
-msgstr ""
+msgstr "Pendente"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Permissions"
-msgstr "Permisos"
+msgstr "Permissões"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
-msgstr "Trieu un nom d'usuari amb el qual voleu que la gent us pugui trobar. Es pot canviar més endavant als paràmetres d'usuari."
+msgstr "Escolha um nome de usuário que você deseja que as pessoas usem para te encontrar. Isso pode ser alterado nas configurações de sua conta."
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Pin message"
-msgstr ""
+msgstr "Fixar mensagem"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Platform Moderator"
-msgstr ""
+msgstr "Moderador da Plataforma"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please confirm this action using the selected method."
-msgstr "Si us plau, confirmeu aquesta acció utilitzant el mètode seleccionat."
+msgstr "Por favor, confirme essa ação usando o método selecionado."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Please enter your email."
-msgstr "Introdueix el teu correu electrònic."
+msgstr "Insira seu e-mail."
 
 #: components/i18n/errors.ts
 msgid "Please log in again."
-msgstr ""
+msgstr "Por favor inicie a sessão novamente."
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Please save these to a safe location."
-msgstr "Deseu-los en un lloc segur."
+msgstr "Por favor, salve-os em um local seguro."
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Please scan or use the token below in your authenticator app."
-msgstr "Si us plau, escanegeu o utilitzeu el codi mostrat a continuació a la teva aplicació d'autenticació."
+msgstr "Por favor, escaneie ou use o token abaixo no seu aplicativo autenticador."
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
-msgstr "Seleccioneu un mètode per a autenticar la vostra petició."
+msgstr "Por favor, selecione um método para autenticar sua requisição."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Please select a reason"
-msgstr ""
+msgstr "Selecione um motivo"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
-msgstr "Política de privadesa"
+msgstr "Política de Privacidade"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Private Channel"
-msgstr ""
+msgstr "Canal privado"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
@@ -2079,168 +2103,165 @@ msgstr "Perfil"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Profile Bio"
-msgstr ""
+msgstr "Biografia de perfil"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Promotes harm"
-msgstr ""
+msgstr "Incentivo à violência"
 
 #: components/i18n/errors.ts
 msgid "Provided email or password is wrong."
-msgstr ""
+msgstr "O e-mail ou a senha fornecidos estão incorretos."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Raid or spam attack"
-msgstr ""
+msgstr "Ataque de raid ou spam"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React"
-msgstr ""
+msgstr "Reagir"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React to messages with emoji"
-msgstr ""
+msgstr "Reagir às mensagens com emoji"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read Message History"
-msgstr "Llegeix l'historial de missatges"
+msgstr "Ler histórico de mensagem"
 
 #: components/modal/modals/Changelog.tsx
 msgid "Read More"
-msgstr ""
+msgstr "Ler mais"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channel"
-msgstr ""
+msgstr "Ler mensagens anteriores enviadas no canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channels"
-msgstr ""
+msgstr "Ler mensagens anteriores enviadas nos canais"
 
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Reason"
-msgstr "raó"
-
-#: components/modal/modals/ReportContent.tsx
-msgid "Reason for report"
-msgstr ""
+msgstr "Motivo"
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
 msgstr ""
+"Receber notificações enquanto o aplicativo estiver aberto e em segundo plano."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Reconnecting"
-msgstr ""
+msgstr "Reconectando"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 msgid "Recovery Code"
-msgstr "Codi de recuperació"
+msgstr "Código de recuperação"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Recovery Codes"
-msgstr ""
+msgstr "Códigos De Recuperação"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Reduced"
-msgstr ""
+msgstr "Reduzido"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Register"
-msgstr "Registra't"
+msgstr "Registrar"
 
 #: components/modal/modals/AddBot.tsx
 msgid "Registered since <0/>"
-msgstr ""
+msgstr "Registrado desde <0/>"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Reject friend request"
-msgstr "Rebutjar la sol·licitud d'amistat"
+msgstr "Rejeitar pedido de amizade"
 
 #: src/interface/channels/text/TextSearchSidebar.tsx
 msgid "Relevance"
-msgstr "Rellevància"
+msgstr "Relevância"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
-msgstr ""
+msgstr "Remover todas as reações"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Remove Authenticator"
-msgstr "Elimina autenticador"
+msgstr "Remover autenticador"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove Avatars"
-msgstr "Eliminar avatars"
+msgstr "Remover avatares"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
-msgstr "Eliminar amic"
+msgstr "Remover amigo"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
-msgstr ""
+msgstr "Remover os avatares de outros membros"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove reaction"
-msgstr ""
+msgstr "Remover reação"
 
 #: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/EditCategory.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: components/modal/modals/EditCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Rename category"
-msgstr ""
+msgstr "Renomear categoria"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
-msgstr ""
+msgstr "Renomear sessão"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Rep Stoat using Discord rich presence."
-msgstr ""
+msgstr "Representar o Stoat usando o Discord Rich Presence."
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Reply"
-msgstr "Respondre"
+msgstr "Responder"
 
 #: components/ui/components/features/messaging/composition/MessageReplyPreview.tsx
 msgid "Replying to"
-msgstr "Responent a"
+msgstr "Respondendo a"
 
 #: components/modal/modals/ServerInfo.tsx
 #: components/modal/modals/ReportContent.tsx
 msgid "Report"
-msgstr "Reporta"
+msgstr "Denunciar"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Report message"
-msgstr "Informeu sobre el missatge"
+msgstr "Denunciar mensagem"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Report server"
-msgstr "Informeu sobre el servidor"
+msgstr "Denunciar servidor"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Report user"
-msgstr "informa sobre l'usuari"
+msgstr "Denunciar usuário"
 
 #: components/auth/src/flows/FlowResend.tsx
 msgid "Resend"
-msgstr ""
+msgstr "Reenviar"
 
 #: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Resend verification"
-msgstr "Reenviar verificació"
+msgstr "Reenviar verificação"
 
 #: components/ui/components/utils/Form2.tsx
 #: components/modal/modals/ResetBotToken.tsx
@@ -2248,18 +2269,18 @@ msgstr "Reenviar verificació"
 #: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Reset"
-msgstr "Reinicia"
+msgstr "Redefinir"
 
 #. placeholder {0}: props.bot.user!.username
 #: components/modal/modals/ResetBotToken.tsx
 msgid "Reset {0}'s token?"
-msgstr ""
+msgstr "Redefinir o token de {0}?"
 
 #: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Reset password"
-msgstr "Restablir la contrasenya"
+msgstr "Redefinir senha"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Reset Recovery Codes"
@@ -2267,7 +2288,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Reset Token"
-msgstr "Restableix el token"
+msgstr "Redefinir Token"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Responsibly disclosed security issues"
@@ -2291,12 +2312,12 @@ msgstr ""
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Name"
-msgstr "Nom del rol"
+msgstr "Nome do cargo"
 
 #: components/ui/components/features/profiles/ProfileRoles.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Roles"
-msgstr "Rols"
+msgstr "Cargos"
 
 #: components/modal/modals/ServerIdentity.tsx
 #: components/modal/modals/CustomStatus.tsx
@@ -2306,7 +2327,7 @@ msgstr "Rols"
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Save file"
@@ -2314,13 +2335,13 @@ msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
-msgstr "Desa a les teves notes"
+msgstr "Salvar nas suas notas"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Saved Notes"
-msgstr "Notes Desades"
+msgstr "Notas salvas"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Scams or fraud"
@@ -2352,15 +2373,15 @@ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Select your language"
-msgstr "Seleccioneu la vostra llengua"
+msgstr "Selecione seu idioma"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send attachments to chat"
-msgstr ""
+msgstr "Enviar arquivos ao chat"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Send email"
-msgstr ""
+msgstr "Enviar e-mail"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
@@ -2368,20 +2389,20 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
-msgstr "Enviar Incrustacions"
+msgstr "Enviar embeds"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Messages"
-msgstr "Enviar missatges"
+msgstr "Enviar mensagens"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
-msgstr ""
+msgstr "Enviar mensagens no canal"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channels"
-msgstr ""
+msgstr "Enviar mensagens em canais"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "Send Request"
@@ -2404,11 +2425,11 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Sent an attachment"
-msgstr "Ha enviat un adjunt"
+msgstr "Enviou um anexo"
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Sent multiple attachments"
-msgstr "Ha enviat diversos adjunts"
+msgstr "Enviou vários anexos"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Server Avatar"
@@ -2424,7 +2445,7 @@ msgstr ""
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Description"
-msgstr "Descripció del servidor"
+msgstr "Descrição do servidor"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Icon"
@@ -2437,7 +2458,7 @@ msgstr ""
 #: components/modal/modals/CreateServer.tsx
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Name"
-msgstr "Nom del servidor"
+msgstr "Nome do servidor"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Server Roles"
@@ -2445,7 +2466,7 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Sessions"
-msgstr "Sessions"
+msgstr "Sessões"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Set your status"
@@ -2453,7 +2474,7 @@ msgstr ""
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Settings"
-msgstr "Configuració"
+msgstr "Configurações"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Setup one-time password authenticator"
@@ -2465,7 +2486,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "Several people are typing…"
-msgstr "Diverses persones estan escrivint…"
+msgstr "Várias pessoas estão digitando…"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -2518,7 +2539,7 @@ msgstr "Sons"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Source Code"
-msgstr "Codi font"
+msgstr "Código-fonte"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Spam or similar platform abuse"
@@ -2526,14 +2547,10 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Speak"
-msgstr "Parlar"
+msgstr "Falar"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Spellchecker"
-msgstr ""
-
-#: components/app/interface/settings/user/Native.tsx
-msgid "Start Minimised to Tray"
 msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -2566,18 +2583,16 @@ msgstr ""
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 msgstr ""
-
-#: components/app/interface/settings/user/Native.tsx
-msgid "Stoat will start in the system tray."
-msgstr ""
+"Stoat é uma das melhores maneiras de se manter conectado com seus amigos e "
+"comunidade, em qualquer lugar, a qualquer hora."
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Submit feature suggestion"
-msgstr "Proposa una funcionalitat"
+msgstr "Enviar sugestão de funcionalidade"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Submit feedback"
-msgstr "Envia comentaris"
+msgstr "Enviar comentário"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Submit to Discover"
@@ -2585,76 +2600,79 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Subscriptions"
-msgstr ""
+msgstr "Inscrições"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Suggest new Stoat features on GitHub discussions."
-msgstr ""
+msgstr "Sugerir novas features ao Stoat em discussões do GitHub."
 
 #: src/interface/Home.tsx
 msgid "Support the project by donating - thank you!"
-msgstr "Dona suport al projecte amb una donació – gràcies!"
+msgstr "Apoie o projeto doando - obrigado!"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
-msgstr ""
+msgstr "Mudar para esse canal de voz"
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync appearance options, such as chosen emoji pack and message density."
 msgstr ""
+"Sincronizar opções de aparências, assim como pacotes de emoji e tamanho de "
+"mensagens."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your chosen theme, colours, and any custom CSS."
-msgstr ""
+msgstr "Sincronizar seu tema escolhido, cores e qualquer CSS customizado."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your currently chosen language."
-msgstr ""
+msgstr "Sincronizar sua atual linguagem escolhida."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "System message channels"
-msgstr ""
+msgstr "Canais de mensagem do sistema"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this message"
-msgstr ""
+msgstr "Diga-nos o que há de errado com esta mensagem"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this server"
-msgstr ""
+msgstr "Diga-nos o que há de errado com este servidor"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this user"
-msgstr ""
+msgstr "Diga-nos o que há de errado com este usuário"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Temporarily prevent lower-ranking members from interacting"
-msgstr ""
+msgstr "Previne temporariamente que membros de nível mais baixo interajam"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Terms of Service"
-msgstr "Condicions de servei"
+msgstr "Termos de Serviço"
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Text Channel"
-msgstr "Canal de text"
+msgstr "Canal de texto"
 
 #: components/i18n/errors.ts
 msgid "That action had no effect."
-msgstr ""
+msgstr "Essa ação não teve efeito."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr ""
+"O Arquivo \"{0}\" ({fileSize}) excede o tamanho limite de {maxSizeFormatted}."
 
 #: components/i18n/errors.ts
 msgid "The password is too short."
-msgstr ""
+msgstr "Essa senha é pequena demais."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -2663,18 +2681,19 @@ msgstr "Tema"
 #: components/i18n/errors.ts
 msgid "This account is not activated! Please check your account's inbox and try again."
 msgstr ""
+"Essa conta não está ativada! Cheque por favor seu email e tente novamente."
 
 #: components/i18n/errors.ts
 msgid "This bot is private and can only be added by the creator."
-msgstr ""
+msgstr "Esse robô é privado e pode ser adicionado pelo criador."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "This channel is about..."
-msgstr ""
+msgstr "Esse canal é sobre..."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This channel is marked as mature."
-msgstr ""
+msgstr "Esse canal está marcado como adulto."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This channel is not available in your region while we review options on legal compliance."
@@ -2682,52 +2701,54 @@ msgstr ""
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This content is not available in your region."
-msgstr ""
+msgstr "Esse conteúdo não está disponível na sua região."
 
 #: components/i18n/errors.ts
 msgid "This feature is currently disabled."
-msgstr ""
+msgstr "Esse recurso atualmente está desabilitado."
 
 #: components/i18n/errors.ts
 msgid "This file type is not allowed."
-msgstr ""
+msgstr "Esse tipo de arquivo não é permitido."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
 msgid "This group is too large, you can have up to {0} users."
-msgstr ""
+msgstr "Esse grupo é grande demais, você pode ter até no máximo {0} usuários."
 
 #: components/i18n/errors.ts
 msgid "This has already been sent."
-msgstr ""
+msgstr "Isso já foi enviado."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "This is the start of your conversation."
-msgstr "Aquest és l’inici de la teva conversa."
+msgstr "Este é o começo da sua conversa."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "This is the start of your notes."
-msgstr "Aquest és l’inici de les teves notes."
+msgstr "Este é o começo das suas notas."
 
 #: components/i18n/errors.ts
 msgid "This message is already pinned."
-msgstr ""
+msgstr "Essa mensagem já está fixada."
 
 #: components/i18n/errors.ts
 msgid "This message is empty and has not been sent."
-msgstr ""
+msgstr "Essa mensagem está vazia e não foi enviada."
 
 #: components/i18n/errors.ts
 msgid "This password has previously appeared in security leaks, please use another password."
 msgstr ""
+"Essa senha já apareceu anteriormente em vazamentos de segurança, por favor "
+"utilize outra senha."
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "This server is about..."
-msgstr ""
+msgstr "Esse servidor é sobre..."
 
 #: components/i18n/errors.ts
 msgid "This user has blocked you."
-msgstr "Aquest usuari t'ha bloquejat."
+msgstr "Esse usuário bloqueou você."
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "This user is not part of the server and may already be banned"
@@ -2747,7 +2768,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
-msgstr "Membres de temps d'espera"
+msgstr "Castigar membros"
 
 #: src/interface/common/CommonHeader.tsx
 msgid "Toggle main sidebar"
@@ -2768,7 +2789,7 @@ msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
-msgstr "Desbloquejar usuari"
+msgstr "Desbloquear usuário"
 
 #. placeholder {0}: err.type
 #: components/i18n/errors.ts
@@ -2818,7 +2839,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
-msgstr "Pujar arxius"
+msgstr "Enviar arquivos"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
@@ -2830,7 +2851,7 @@ msgstr ""
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "User"
-msgstr "Usuari"
+msgstr "Usuário"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Banned"
@@ -2847,7 +2868,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "User Joined Call"
-msgstr "Un usuari s'ha unit a la trucada"
+msgstr "Usuário entrou na chamada"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Kicked"
@@ -2859,15 +2880,15 @@ msgstr ""
 
 #: components/app/interface/settings/user/Notifications.tsx
 msgid "User Left Call"
-msgstr "Un usuari ha marxat de la trucada"
+msgstr "Usuário saiu da chamada"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "User Management"
-msgstr "Gestió dels usuaris"
+msgstr "Gerenciamento de usuários"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "User Settings"
-msgstr "Configuració de l'usuari"
+msgstr "Configurações de usuário"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "User's profile has inappropriate content"
@@ -2880,7 +2901,7 @@ msgstr ""
 #: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Username"
-msgstr "Nom d'usuari"
+msgstr "Nome de usuário"
 
 #: components/modal/modals/AddFriend.tsx
 msgid "username#1234"
@@ -2912,7 +2933,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Verifying your account…"
-msgstr "Verificant el vostre compte…"
+msgstr "Verificando sua conta…"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Native.tsx
@@ -2925,18 +2946,18 @@ msgstr "Vídeo"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "View Channel"
-msgstr "Veure canal"
+msgstr "Ver canal"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "View currently active bug reports here."
-msgstr "Vegeu aquí els informes d'errors actius actualment."
+msgstr "Veja aqui os relatórios de bugs atualmente ativos."
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
 msgstr ""
 
 #~ msgid "View older updates"
-#~ msgstr "Mostra les actualitzacions més antigues"
+#~ msgstr "Ver atualizações antigas"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
@@ -2944,11 +2965,11 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "View Recovery Codes"
-msgstr "Mostra els codis de recuperació"
+msgstr "Ver códigos de recuperação"
 
 #: components/ui/components/features/messaging/bars/JumpToBottom.tsx
 msgid "Viewing older messages"
-msgstr "S’estan mostrant missatges anteriors"
+msgstr "Visualizando mensagens antigas"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -2957,7 +2978,7 @@ msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
-msgstr "Canal de veu"
+msgstr "Canal de voz"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
@@ -2973,7 +2994,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
-msgstr "T'hem enviat un correu de verificació. Si us plau, espera fins a 10 minuts perquè arribi."
+msgstr "Enviamos a você um e-mail de verificação. Aguarde até 10 minutos para recebê-lo."
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
@@ -2993,11 +3014,11 @@ msgid "Webhooks"
 msgstr "Webhooks"
 
 #~ msgid "Welcome to"
-#~ msgstr "Us donem la benvinguda a"
+#~ msgstr "Bem-vindo(a) ao"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome!"
-msgstr "Us donem la benvinguda!"
+msgstr "Bem-vindo(a) de volta!"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
@@ -3041,18 +3062,18 @@ msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
-#~ msgstr "També pots fer clic dret a la icona d’usuari a la part superior esquerra, o clic esquerre si ja ets a l’inici."
+#~ msgstr "Você também pode clicar com o botão direito no ícone do usuário no canto superior esquerdo ou clicar com o botão esquerdo se já estiver no início."
 
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
-msgstr "Es pot tornar a obrir més tard, però desapareixerà per als dos usuaris."
+msgstr "Você pode abrir novamente mais tarde, mas vai desaparecer para ambos usuários."
 
 #: src/interface/Home.tsx
 #: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr "Aquí pots denunciar problemes i discutir millores amb nosaltres directament."
+msgstr "Você pode relatar problemas e discutir melhorias conosco diretamente aqui."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.ts
@@ -3091,7 +3112,7 @@ msgstr ""
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "You cannot undo this action."
-msgstr "Aquesta acció es irreversible."
+msgstr "Você não pode desfazer essa ação."
 
 #. placeholder {0}: props.display
 #: components/modal/modals/LinkWarning.tsx
@@ -3104,7 +3125,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
-msgstr "No tens permís per enviar missatges en aquest canal."
+msgstr "Você não tem permissão para enviar mensagens neste canal."
 
 #: components/i18n/errors.ts
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
@@ -3128,12 +3149,12 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
-msgstr "No podràs accedir al teu compte si no contactes amb el servei de suport; tanmateix, les teves dades no se suprimiran."
+msgstr "Você não conseguirá acessar sua conta, a menos que entre em contato com o suporte - no entanto, seus dados não serão excluídos."
 
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You won't be able to rejoin unless you are re-invited."
-msgstr "No us hi podreu tornar a unir fins que no rebeu una altra invitació."
+msgstr "Você não poderá voltar a participar, a menos que seja convidado novamente."
 
 #: components/i18n/errors.ts
 msgid "You're already part of this group."
@@ -3171,7 +3192,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
-msgstr "El compte vostre ha sigut verificat!"
+msgstr "Sua conta foi verificada!"
 
 #: components/i18n/errors.ts
 msgid "Your discriminator change has been ratelimited, please try again later."
@@ -3183,7 +3204,7 @@ msgstr ""
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"
-msgstr "Els vostres codis de recuperació"
+msgstr "Seus códigos de recuperação"
 
 #: components/i18n/errors.ts
 msgid "Your role ranking is too low to take this action."
