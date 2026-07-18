@@ -77,7 +77,7 @@ interface Props {
   /**
    * Whether this message is a link
    */
-  isLink?: boolean;
+  isLink?: boolean | "hide";
 }
 
 interface MessageContextShape {

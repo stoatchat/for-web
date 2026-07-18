@@ -231,8 +231,19 @@ class Voice {
       }
     });
 
+    // Gather latency
+    const selected = await Promise.race(
+      this.getClient().configuration!.features.livekit.nodes.map(
+        async (node) => {
+          return fetch(node.public_url.replace("wss", "https")).then(() => {
+            return node.name;
+          });
+        },
+      ),
+    );
+
     if (!auth) {
-      auth = await channel.joinCall("worldwide");
+      auth = await channel.joinCall(selected);
     }
 
     await room.connect(auth.url, auth.token, {

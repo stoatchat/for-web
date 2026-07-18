@@ -114,6 +114,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
   list(_, onClose) {
     const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
+    const client = useClient();
+
+    const legalLinks = () =>
+      client().configured()
+        ? client().configuration?.features.legal_links
+        : undefined;
 
     return {
       context: null!,
@@ -149,6 +155,53 @@ const Config: SettingsConfiguration<{ server: Server }> = {
                 {window.native.versions.chrome()}
               </span>
             </Text>
+          </Show>
+          <Show when={legalLinks()}>
+            {(links) => (
+              <Text class="label">
+                <span
+                  class={css({
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.5em",
+                    opacity: "0.5",
+                    "& a": {
+                      color: "inherit",
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    },
+                  })}
+                >
+                  <Show when={links().terms_of_service}>
+                    <a
+                      href={links().terms_of_service}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Terms</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().privacy_policy}>
+                    <a
+                      href={links().privacy_policy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Privacy</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().guidelines}>
+                    <a
+                      href={links().guidelines}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Guidelines</Trans>
+                    </a>
+                  </Show>
+                </span>
+              </Text>
+            )}
           </Show>
         </Column>
       ),

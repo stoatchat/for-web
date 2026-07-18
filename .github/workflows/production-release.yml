@@ -44,5 +44,6 @@ jobs:
             registry.stoatinternal.com/stoat/frontend:latest
           build-args: |
             BASE_PATH=/app/
+            PWA_SCOPE=/
           cache-from: type=gha
           cache-to: type=gha,mode=max
