@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-02-18 11:44+0000\n"
 "Last-Translator: Simone <formica04@gmail.com>\n"
-"Language-Team: Italian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/it/>\n"
+"Language-Team: Italian <https://translate.stoat.chat/projects/revolt/revolt-for-web/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -76,12 +75,8 @@ msgstr "Rimangono {0} slot per le emoji"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
-msgid ""
-"{0} files exceed the maximum size limit of {maxSizeFormatted} and were not "
-"uploaded."
-msgstr ""
-"{0} file superano il limite massimo di {maxSizeFormatted} e non sono stati "
-"caricati."
+msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
+msgstr "{0} file superano il limite massimo di {maxSizeFormatted} e non sono stati caricati."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -241,8 +236,7 @@ msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> ha cambiato il nome del gruppo in <1>{0}</1>"
 
 #: components/modal/modals/LinkWarning.tsx
-msgid ""
-"<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
+msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr "<0>Attenzione!</0><1/>Questo link è diverso da quello visualizzato:"
 
 #: components/modal/modals/BanMember.tsx
@@ -328,6 +322,7 @@ msgid "Able to access this channel"
 msgstr "Può accedere a questo canale"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
 msgstr "Può parlare nel canale vocale"
 
@@ -352,7 +347,8 @@ msgstr "Ho capito"
 msgid "Add"
 msgstr "Aggiungi"
 
-#: src/interface/Friends.tsx components/modal/modals/AddFriend.tsx
+#: src/interface/Friends.tsx
+#: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
 msgstr "Aggiungi amico"
 
@@ -399,6 +395,7 @@ msgstr "Tutti"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
 msgstr "Tutti i messaggi"
 
@@ -412,8 +409,7 @@ msgstr "Consenti ai membri di cambiare nome e avatar per ogni messaggio"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr ""
-"Consenti ad altri di aggiungere il tuo bot ai loro server tramite Discover"
+msgstr "Consenti ad altri di aggiungere il tuo bot ai loro server tramite Discover"
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
@@ -472,6 +468,7 @@ msgid "Audio disabled by browser"
 msgstr ""
 
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAFlow.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
 msgstr "Applicazione di autenticazione"
@@ -484,7 +481,9 @@ msgstr ""
 msgid "Avatar"
 msgstr "Avatar"
 
-#: src/interface/channels/AgeGate.tsx components/modal/modals/MFAFlow.tsx
+#: src/interface/channels/AgeGate.tsx
+#: src/interface/channels/AgeGate.tsx
+#: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowCreate.tsx
 #: components/auth/src/flows/FlowCheck.tsx
@@ -609,7 +608,8 @@ msgstr ""
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAEnableTOTP.tsx
 #: components/modal/modals/LeaveServer.tsx
-#: components/modal/modals/KickMember.tsx components/modal/modals/Invite.tsx
+#: components/modal/modals/KickMember.tsx
+#: components/modal/modals/Invite.tsx
 #: components/modal/modals/EditCategory.tsx
 #: components/modal/modals/DeleteServer.tsx
 #: components/modal/modals/DeleteRole.tsx
@@ -618,7 +618,8 @@ msgstr ""
 #: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteBot.tsx
 #: components/modal/modals/BanNonMember.tsx
-#: components/modal/modals/BanMember.tsx components/modal/modals/AddBot.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/modal/modals/AddBot.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Cancel"
 msgstr "Annulla"
@@ -633,9 +634,7 @@ msgstr "Annulla"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr ""
-"Non puoi eliminare l'account finché i server non vengono eliminati o "
-"trasferiti"
+msgstr "Non puoi eliminare l'account finché i server non vengono eliminati o trasferiti"
 
 #: components/i18n/errors.tsx
 msgid "Cannot edit this message."
@@ -809,7 +808,8 @@ msgstr "Configura un modo per recuperare l'account se perdi la 2FA"
 msgid "Configure one-time password authentication"
 msgstr "Configura l'autenticazione con codice monouso"
 
-#: components/modal/modals/MFAFlow.tsx components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/FlowLogin.tsx
 msgid "Confirm"
 msgstr "Conferma"
 
@@ -821,6 +821,7 @@ msgstr "Conferma"
 msgid "Connect"
 msgstr "Connettersi"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
 msgstr "Connettere al canale vocale"
@@ -944,6 +945,9 @@ msgstr "Crea"
 msgid "Create a channel before inviting others!"
 msgstr "Crea un canale prima di invitare altre persone!"
 
+#~ msgid "Create a group"
+#~ msgstr "Crea un gruppo"
+
 #: src/interface/Home.tsx
 msgid "Create a group or server"
 msgstr "Crea un gruppo o un server"
@@ -977,6 +981,8 @@ msgstr "Crea un account"
 msgid "Create and edit server roles"
 msgstr "Creare e modificare ruoli del server"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
 msgstr "Creare e modificare webhooks"
@@ -1060,8 +1066,7 @@ msgstr "Scuro"
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "Database error, please contact support. ({0})"
-msgstr ""
-"Errore del database, per favore contatta il servizio di supporto. ({0})"
+msgstr "Errore del database, per favore contatta il servizio di supporto. ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
@@ -1072,6 +1077,7 @@ msgstr ""
 msgid "Deafen"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
 msgstr "Silenziare l'audio dei membri di grado inferiore nella chiamata vocale"
@@ -1123,6 +1129,8 @@ msgstr "Eliminare {0}?"
 msgid "Delete Account"
 msgstr "Elimina Account"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
 msgstr "Cancellare e fissare messaggi inviati da altri membri"
@@ -1188,6 +1196,9 @@ msgid "Disable one-time password authenticator"
 msgstr "Disattiva autenticazione con codice monouso"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
 msgstr "Disattivato"
@@ -1307,6 +1318,7 @@ msgid "Edit your identity"
 msgstr "Modifica la tua identità"
 
 #: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Modificato"
 
@@ -1314,7 +1326,8 @@ msgstr "Modificato"
 msgid "Effective <0/> (<1/>)"
 msgstr "In vigore dal <0/> (<1/>)"
 
-#: components/modal/modals/EditEmail.tsx components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditEmail.tsx
+#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Email"
 msgstr "Email"
@@ -1349,9 +1362,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr ""
-"Attiva effetti di trasparenza/sfocatura (potrebbe rallentare i vecchi "
-"dispositivi)"
+msgstr "Attiva effetti di trasparenza/sfocatura (potrebbe rallentare i vecchi dispositivi)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1369,7 +1380,8 @@ msgstr ""
 msgid "Enter a new name for this session"
 msgstr "Inserisci un nuovo nome per questa sessione"
 
-#: components/modal/modals/EditPassword.tsx components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
 msgid "Enter a new password."
 msgstr "Inserire una nuova password."
 
@@ -1476,7 +1488,8 @@ msgstr "Per 3 ore"
 msgid "For 8 hours"
 msgstr "Per 8 ore"
 
-#: src/interface/Friends.tsx src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/Friends.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
 msgstr "Amici"
 
@@ -1530,6 +1543,7 @@ msgid "Go"
 msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
+#: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
@@ -1540,9 +1554,13 @@ msgstr "Torna al login"
 msgid "Go to account settings to edit your username"
 msgstr "Vai nelle impostazioni dell'account per modificare il tuo nome utente"
 
-#: src/interface/Home.tsx components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "Go to the Stoat Lounge"
 msgstr "Vai nella Stoat Lounge"
+
+#~ msgid "Go to the testers server"
+#~ msgstr "Vai al server dei tester"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Good"
@@ -1579,6 +1597,7 @@ msgid "Hardware Acceleration"
 msgstr "Accelerazione Hardware"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Hear other people and see their video"
 msgstr "Sentire le altre persone e vedere il loro video"
 
@@ -1607,7 +1626,8 @@ msgstr ""
 msgid "High Contrast"
 msgstr "Alto Contrasto"
 
-#: src/interface/Home.tsx src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/Home.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Home"
 msgstr "Pagina iniziale"
 
@@ -1660,9 +1680,7 @@ msgstr "Invisibile"
 
 #: src/interface/Home.tsx
 msgid "Invite all of your friends, some cool bots, and throw a big party."
-msgstr ""
-"Invita tutti i tuoi amici, qualche bot interessante, e fai partire una "
-"grande festa."
+msgstr "Invita tutti i tuoi amici, qualche bot interessante, e fai partire una grande festa."
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite Bot"
@@ -1701,7 +1719,8 @@ msgstr "premio battuta fuori luogo 2"
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr "ISO Standard (YYYY-MM-DD)"
 
-#: components/modal/modals/JoinServer.tsx components/modal/modals/Invite.tsx
+#: components/modal/modals/JoinServer.tsx
+#: components/modal/modals/Invite.tsx
 msgid "Join"
 msgstr "Unisciti"
 
@@ -1709,7 +1728,8 @@ msgstr "Unisciti"
 msgid "Join a server"
 msgstr "Unisciti a un server"
 
-#: src/interface/Home.tsx components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "Join the Stoat Lounge"
 msgstr "Unisciti al Stoat Lounge"
 
@@ -1806,8 +1826,7 @@ msgstr "Usa la barra del titolo personalizzata di Stoat."
 
 #: src/interface/Home.tsx
 msgid "Let us know how we can improve our app by giving us feedback."
-msgstr ""
-"Facci sapere come possiamo migliorare la nostra app dandoci del feedback."
+msgstr "Facci sapere come possiamo migliorare la nostra app dandoci del feedback."
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Light"
@@ -1892,6 +1911,7 @@ msgid "Mark as mature"
 msgstr "Contrassegna come \"vietato ai minori\""
 
 #: components/app/interface/settings/channel/Overview.tsx
+#: components/app/interface/settings/channel/Overview.tsx
 msgid "Mark as Mature"
 msgstr "Contrassegna come \"vietato ai minori\""
 
@@ -1949,6 +1969,7 @@ msgstr "Menzioni"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mentions Only"
 msgstr "Solo menzioni"
 
@@ -1958,6 +1979,7 @@ msgstr "Messaggia"
 
 #. placeholder {0}: props.channel.recipient?.username
 #. placeholder {0}: props.channel.name
+#: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 msgid "Message {0}"
 msgstr "Invia un messaggio a {0}"
@@ -1995,6 +2017,7 @@ msgid "Minimise to Tray"
 msgstr "Riduci nell'area di notifica"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Missing permission"
 msgstr "Permesso mancante"
 
@@ -2015,13 +2038,13 @@ msgid "Move Members"
 msgstr "Spostare membri"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
 msgstr "Spostare membri tra i canali vocali"
 
 #: components/i18n/errors.tsx
 msgid "Multi-factor authentication is already enabled for this account."
-msgstr ""
-"L'autenticazione a più fattori è stata già attivata per questo account."
+msgstr "L'autenticazione a più fattori è stata già attivata per questo account."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -2033,6 +2056,7 @@ msgstr "Silenzia"
 msgid "Mute Channel"
 msgstr "Silenzia Canale"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
 msgstr "Silenziare membri di grado inferiore nei canali vocali"
@@ -2093,7 +2117,8 @@ msgstr "NUOVI"
 msgid "New messages since {0}"
 msgstr "Nuovi messaggi dalle {0}"
 
-#: components/modal/modals/EditPassword.tsx components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
 msgid "New Password"
 msgstr "Nuova Password"
 
@@ -2122,6 +2147,7 @@ msgid "Nobody here right now!"
 msgstr "Non c'è nessuno qui al momento!"
 
 #: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
 msgstr "Nessuna"
@@ -2158,7 +2184,8 @@ msgstr "Server ufficiale"
 msgid "Offline"
 msgstr "Offline"
 
-#: components/modal/modals/SignedOut.tsx components/modal/modals/Error2.tsx
+#: components/modal/modals/SignedOut.tsx
+#: components/modal/modals/Error2.tsx
 #: components/modal/modals/CreateInvite.tsx
 #: components/auth/src/flows/FlowHome.tsx
 msgid "OK"
@@ -2270,12 +2297,8 @@ msgid "Pick a Screen to Share"
 msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid ""
-"Pick a username that you want people to be able to find you by. This can be "
-"changed later in your user settings."
-msgstr ""
-"Scegli un nome utente con cui vuoi che le persone possano trovarti, questo "
-"può essere modificato in seguito nelle impostazioni."
+msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
+msgstr "Scegli un nome utente con cui vuoi che le persone possano trovarti, questo può essere modificato in seguito nelle impostazioni."
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Pin message"
@@ -2307,8 +2330,7 @@ msgstr "Salvali in un luogo sicuro."
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Please scan or use the token below in your authenticator app."
-msgstr ""
-"Scansiona o utilizza il token in basso nella tua app di autenticazione."
+msgstr "Scansiona o utilizza il token in basso nella tua app di autenticazione."
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
@@ -2407,6 +2429,7 @@ msgid "Reconnecting"
 msgstr "Riconnessione"
 
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Recovery Code"
 msgstr "Codice di recupero"
 
@@ -2469,6 +2492,7 @@ msgstr "Rimuovi reazione"
 
 #: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/EditCategory.tsx
+#: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
 msgstr "Rinomina"
@@ -2600,6 +2624,7 @@ msgid "Save to your notes"
 msgstr "Salva nelle tue note"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Saved Notes"
 msgstr "Note salvate"
@@ -2668,8 +2693,7 @@ msgstr "Invia email"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
-msgstr ""
-"Inviare contenuti incorporati come anteprime dei link o embed personalizzati"
+msgstr "Inviare contenuti incorporati come anteprime dei link o embed personalizzati"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
@@ -2679,6 +2703,7 @@ msgstr "Inviare embed"
 msgid "Send Messages"
 msgstr "Inviare messaggi"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
 msgstr "Inviare messaggi nel canale"
@@ -2695,6 +2720,8 @@ msgstr "Invia richiesta"
 msgid "Sending..."
 msgstr "Invio in corso..."
 
+#: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Sent"
 msgstr "Inviato"
@@ -2775,6 +2802,7 @@ msgid "Share audio"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
 msgstr "Condividere video o schermo nel canale vocale"
 
@@ -2835,6 +2863,10 @@ msgstr "C'è un problema con la tua richiesta, {0}."
 msgid "Something went wrong! {error}"
 msgstr "Qualcosa è andato storto! {error}"
 
+#: components/i18n/errors.ts
+#~ msgid "Something went wrong! Try again later."
+#~ msgstr "Qualcosa è andato storto! Riprova più tardi."
+
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Sounds"
 msgstr "Suoni"
@@ -2888,12 +2920,8 @@ msgid "Stoat Founder"
 msgstr "Creatore di Stoat"
 
 #: components/auth/src/flows/FlowHome.tsx
-msgid ""
-"Stoat is one of the best ways to stay connected with your friends and "
-"community, anywhere, anytime."
-msgstr ""
-"Stoat è uno dei migliori modi per restare in contatto con i tuoi amici e la "
-"tua community, ovunque ed in qualsiasi momento."
+msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
+msgstr "Stoat è uno dei migliori modi per restare in contatto con i tuoi amici e la tua community, ovunque ed in qualsiasi momento."
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Stoat will start in the system tray."
@@ -2949,14 +2977,11 @@ msgstr "Passa a questo canale vocale"
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync appearance options, such as chosen emoji pack and message density."
-msgstr ""
-"Sincronizza le impostazioni dell'aspetto, come il pacchetto emoji e la "
-"densità dei messaggi."
+msgstr "Sincronizza le impostazioni dell'aspetto, come il pacchetto emoji e la densità dei messaggi."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your chosen theme, colours, and any custom CSS."
-msgstr ""
-"Sincronizza il tema scelto, i colori e ogni eventuale CSS personalizzato."
+msgstr "Sincronizza il tema scelto, i colori e ogni eventuale CSS personalizzato."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your currently chosen language."
@@ -3004,12 +3029,8 @@ msgstr "Nessuna modifica apportata."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
-msgid ""
-"The file \"{0}\" ({fileSize}) exceeds the maximum size limit of "
-"{maxSizeFormatted}."
-msgstr ""
-"Il file \"{0}\" ({fileSize}) supera il limite massimo di dimensione di "
-"{maxSizeFormatted}."
+msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
+msgstr "Il file \"{0}\" ({fileSize}) supera il limite massimo di dimensione di {maxSizeFormatted}."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3021,9 +3042,7 @@ msgstr "Tema"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
-msgstr ""
-"Questo account non è stato attivato! Controlla la casella di posta in arrivo "
-"e riprova."
+msgstr "Questo account non è stato attivato! Controlla la casella di posta in arrivo e riprova."
 
 #: components/i18n/errors.tsx
 msgid "This bot is private and can only be added by the creator."
@@ -3038,12 +3057,8 @@ msgid "This channel is marked as mature."
 msgstr "Questo canale è contrassegnato come \"vietato ai minori\"."
 
 #: src/interface/channels/AgeGate.tsx
-msgid ""
-"This channel is not available in your region while we review options on "
-"legal compliance."
-msgstr ""
-"Questo canale non è disponibile nella tua regione poiché stiamo valutando le "
-"opzioni locali sulla conformità legale."
+msgid "This channel is not available in your region while we review options on legal compliance."
+msgstr "Questo canale non è disponibile nella tua regione poiché stiamo valutando le opzioni locali sulla conformità legale."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This content is not available in your region."
@@ -3088,9 +3103,7 @@ msgstr "Questo messaggio è vuoto e non è stato inviato."
 
 #: components/i18n/errors.tsx
 msgid "This password has previously appeared in security leaks, please use another password."
-msgstr ""
-"Questa password è già comparsa in precedenti violazioni di sicurezza, usane "
-"un'altra."
+msgstr "Questa password è già comparsa in precedenti violazioni di sicurezza, usane un'altra."
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "This server is about..."
@@ -3106,8 +3119,7 @@ msgstr "Questo utente ti ha bloccatə."
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "This user is not part of the server and may already be banned"
-msgstr ""
-"Questo utente non fa parte del server e potrebbe essere già stato bannato"
+msgstr "Questo utente non fa parte del server e potrebbe essere già stato bannato"
 
 #: components/i18n/errors.tsx
 msgid "This username is already taken."
@@ -3118,12 +3130,8 @@ msgid "This username is not allowed."
 msgstr "Questo nome utente non è consentito."
 
 #: components/modal/modals/ResetBotToken.tsx
-msgid ""
-"This will invalidate the current token and stop any existing instances of "
-"the bot from running."
-msgstr ""
-"Questa azione renderà invalido il token corrente e fermerà ogni istanza "
-"esistente connessa ad esso."
+msgid "This will invalidate the current token and stop any existing instances of the bot from running."
+msgstr "Questa azione renderà invalido il token corrente e fermerà ogni istanza esistente connessa ad esso."
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Time format"
@@ -3285,7 +3293,8 @@ msgstr "Il profilo dell'utente ha contenuti inappropriati"
 
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/CreateBot.tsx components/modal/modals/AddFriend.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/AddFriend.tsx
 #: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "Username"
@@ -3297,24 +3306,15 @@ msgstr "username#1234"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
-msgstr ""
-"Agli utenti verrà chiesto di confermare la loro età prima di unirsi a questo "
-"canale."
+msgstr "Agli utenti verrà chiesto di confermare la loro età prima di unirsi a questo canale."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Users will be asked to confirm their age before opening this channel."
-msgstr ""
-"Agli utenti verrà chiesto di confermare la loro età prima di aprire questo "
-"canale."
+msgstr "Agli utenti verrà chiesto di confermare la loro età prima di aprire questo canale."
 
 #: components/modal/modals/ChannelToggleMature.tsx
-msgid ""
-"Users will no longer be asked to confirm their age before joining this "
-"channel.<0/> Please ensure the content is appropriate for all ages."
-msgstr ""
-"Agli utenti non verrà più chiesto di confermare l'età prima di unirsi a "
-"questo canale. <0/> Assicurati che i contenuti siano appropriati per tutte "
-"le età."
+msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
+msgstr "Agli utenti non verrà più chiesto di confermare l'età prima di unirsi a questo canale. <0/> Assicurati che i contenuti siano appropriati per tutte le età."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
@@ -3352,6 +3352,9 @@ msgstr "Visualizza qui le segnalazioni di bug attualmente attive."
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
 msgstr "Vedi membri"
+
+#~ msgid "View older updates"
+#~ msgstr "Visualizza gli aggiornamenti precedenti"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
@@ -3399,12 +3402,8 @@ msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
-msgid ""
-"We've sent you a verification email. Please allow up to 10 minutes for it to "
-"arrive."
-msgstr ""
-"Ti abbiamo inviato un'email di verifica. Per favore, attendi almeno 10 "
-"minuti per l'arrivo della mail."
+msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
+msgstr "Ti abbiamo inviato un'email di verifica. Per favore, attendi almeno 10 minuti per l'arrivo della mail."
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
@@ -3422,6 +3421,9 @@ msgstr "Nome del Webhook"
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
 msgstr "Webhook"
+
+#~ msgid "Welcome to"
+#~ msgstr "Benvenutə a"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome!"
@@ -3476,15 +3478,19 @@ msgstr "Sei stato bannato da questo server."
 msgid "You can also click the gear icon in the bottom left."
 msgstr "Puoi anche cliccare sull'icona dell'ingranaggio in basso a sinistra."
 
+#~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
+#~ msgstr "Puoi anche premere sull'icona utente in alto a sinistra con un click destro, o con un click sinistro se sei già nella home."
+
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
 msgstr "Potrai riaprirla in seguito ma scomparirà su entrambi i lati."
 
-#: src/interface/Home.tsx components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
+#: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr ""
-"Puoi segnalare problemi e discutere miglioramenti con noi direttamente da "
-"qui."
+msgstr "Puoi segnalare problemi e discutere miglioramenti con noi direttamente da qui."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -3540,9 +3546,7 @@ msgstr "Non sei autorizzato ad inviare messaggi in questo canale."
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
-msgstr ""
-"L'accesso è stato bloccato per aver inserito una password errata troppe "
-"volte. Attendi qualche minuto e riprova."
+msgstr "L'accesso è stato bloccato per aver inserito una password errata troppe volte. Attendi qualche minuto e riprova."
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."
@@ -3565,12 +3569,8 @@ msgid "You will not receive any notifications"
 msgstr "Non riceverai alcuna notifica"
 
 #: components/app/interface/settings/user/Account.tsx
-msgid ""
-"You won't be able to access your account unless you contact support - "
-"however, your data will not be deleted."
-msgstr ""
-"Non sarai in grado di accedere al tuo account a meno che non contatti il "
-"supporto - Tuttavia, i tuoi dati non verranno cancellati."
+msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
+msgstr "Non sarai in grado di accedere al tuo account a meno che non contatti il supporto - Tuttavia, i tuoi dati non verranno cancellati."
 
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
@@ -3608,15 +3608,8 @@ msgid "You've sent too many friend requests, the maximum is {0}"
 msgstr "Hai inviato troppe richieste d'amicizia, il massimo è {0}"
 
 #: components/app/interface/settings/user/Account.tsx
-msgid ""
-"Your account and all of your data (including your messages and friends list) "
-"will be queued for deletion. A confirmation email will be sent - you can "
-"cancel this within 7 days by contacting support."
-msgstr ""
-"Il tuo account e tutti i tuoi dati (inclusi i messaggi e la lista amici) "
-"verranno messi in coda per essere eliminati. Una mail di conferma verrà "
-"inviata - puoi cancellare quest'operazione entro 7 giorni contattando il "
-"servizio di supporto."
+msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
+msgstr "Il tuo account e tutti i tuoi dati (inclusi i messaggi e la lista amici) verranno messi in coda per essere eliminati. Una mail di conferma verrà inviata - puoi cancellare quest'operazione entro 7 giorni contattando il servizio di supporto."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -3624,9 +3617,7 @@ msgstr "Il tuo account è stato verificato!"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
-msgstr ""
-"La modifica del discriminatore è stata limitata per troppi tentativi, "
-"riprova più tardi."
+msgstr "La modifica del discriminatore è stata limitata per troppi tentativi, riprova più tardi."
 
 #: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
@@ -3642,29 +3633,4 @@ msgstr "Il grado del tuo ruolo è troppo basso per fare questa azione."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
-msgstr ""
-"Hai già creato il tuo utente? Prova ad accedere di nuovo o ricarica "
-"l'applicazione."
-
-#: components/i18n/errors.ts
-msgid "Something went wrong! Try again later."
-msgstr "Qualcosa è andato storto! Riprova più tardi."
-
-#~ msgid "Create a group"
-#~ msgstr "Crea un gruppo"
-
-#~ msgid "Go to the testers server"
-#~ msgstr "Vai al server dei tester"
-
-#~ msgid "View older updates"
-#~ msgstr "Visualizza gli aggiornamenti precedenti"
-
-#~ msgid "Welcome to"
-#~ msgstr "Benvenutə a"
-
-#~ msgid ""
-#~ "You can also right-click the user icon in the top left, or left click it "
-#~ "if you're already home."
-#~ msgstr ""
-#~ "Puoi anche premere sull'icona utente in alto a sinistra con un click "
-#~ "destro, o con un click sinistro se sei già nella home."
+msgstr "Hai già creato il tuo utente? Prova ad accedere di nuovo o ricarica l'applicazione."

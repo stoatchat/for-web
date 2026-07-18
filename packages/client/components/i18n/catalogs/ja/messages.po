@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-03-02 05:29+0000\n"
 "Last-Translator: siyukatu <siyukatu@gmail.com>\n"
-"Language-Team: Japanese <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/ja/>\n"
+"Language-Team: Japanese <https://translate.stoat.chat/projects/revolt/revolt-for-web/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -80,8 +79,7 @@ msgstr "あと {0} 個追加可能"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "{0} 個のファイルは、最大容量の {maxSizeFormatted} "
-"を超過していたためアップロードされませんでした。"
+msgstr "{0} 個のファイルは、最大容量の {maxSizeFormatted} を超過していたためアップロードされませんでした。"
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -123,7 +121,7 @@ msgstr "{0} がメッセージのピン留めを解除しました"
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was added by {1}"
-msgstr "{1] が {0} を追加しました"
+msgstr "{1} が {0} を追加しました"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
@@ -138,7 +136,6 @@ msgstr "{0} がキックされました"
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
-#, fuzzy
 msgid "{0} was removed by {1}"
 msgstr "{1} が {0} を除名しました"
 
@@ -585,13 +582,11 @@ msgstr "忙しい"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "ボットを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこと"
-"になります。"
+msgstr "ボットを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したことになります。"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "サーバーを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこ"
-"とになります。"
+msgstr "サーバーを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したことになります。"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -645,8 +640,7 @@ msgstr "メッセージを取り消す"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr "所有するサーバーが削除または譲渡されるまで、アカウントを削除することはできま"
-"せん"
+msgstr "所有するサーバーが削除または譲渡されるまで、アカウントを削除することはできません"
 
 #: components/i18n/errors.tsx
 msgid "Cannot edit this message."
@@ -1078,8 +1072,7 @@ msgstr "ダーク"
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "Database error, please contact support. ({0})"
-msgstr "サーバー内部でデータベースエラーが発生しました。サポートまでご連絡ください。 "
-"({0})"
+msgstr "サーバー内部でデータベースエラーが発生しました。サポートまでご連絡ください。 ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
@@ -1146,8 +1139,7 @@ msgstr "アカウントを削除"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
-msgstr "他のメンバーが送信したメッセージを削除したり、ピン留めしたりすることができま"
-"す"
+msgstr "他のメンバーが送信したメッセージを削除したり、ピン留めしたりすることができます"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
@@ -1379,8 +1371,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr "透明感のあるガラス・ブラー効果を有効にする "
-"(古いPCでは動作が重くなる場合があります)"
+msgstr "透明感のあるガラス・ブラー効果を有効にする (古いPCでは動作が重くなる場合があります)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1517,8 +1508,7 @@ msgstr "フルーツサラダ"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Generate a new token if it gets lost or compromised"
-msgstr "トークンをなくしてしまったり、誰かにバレてしまったりした場合はトークンを再発"
-"行できます"
+msgstr "トークンをなくしてしまったり、誰かにバレてしまったりした場合はトークンを再発行できます"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Generate Recovery Codes"
@@ -3404,7 +3394,6 @@ msgstr "古いメッセージを表示しています"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#, fuzzy
 msgid "Voice"
 msgstr "ボイス"
 

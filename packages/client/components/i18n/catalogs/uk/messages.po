@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-02-26 18:29+0000\n"
 "Last-Translator: Verne <08denik@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/uk/>\n"
+"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/revolt-for-web/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -47,9 +45,7 @@ msgstr "(зміни зберігаються…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
-"{0, plural, one {# заблоковане повідомлення} few {# заблованих повідомлення} "
-"other {# заблокованих повідомлень}}"
+msgstr "{0, plural, one {# заблоковане повідомлення} few {# заблованих повідомлення} other {# заблокованих повідомлень}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -57,9 +53,7 @@ msgstr ""
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
-"{0, plural, one {Скинути файл} few {Скинути # файли} other {Скинути # "
-"файлів}}"
+msgstr "{0, plural, one {Скинути файл} few {Скинути # файли} other {Скинути # файлів}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -85,9 +79,7 @@ msgstr "Лишилось {0} слотів емоджі"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr ""
-"{0} файлів перевищують ліміт розміру в {maxSizeFormatted}, тому не були "
-"завантажені."
+msgstr "{0} файлів перевищують ліміт розміру в {maxSizeFormatted}, тому не були завантажені."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -248,8 +240,7 @@ msgstr "<0/> оновив(ла) назву групи на <1>{0}</1>"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
-msgstr ""
-"<0>Будьте обережні!</0><1/>Це не теж саме посилання, яке було відображено:"
+msgstr "<0>Будьте обережні!</0><1/>Це не теж саме посилання, яке було відображено:"
 
 #: components/modal/modals/BanMember.tsx
 msgid "1 day"
@@ -591,15 +582,11 @@ msgstr "Зайнятий"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Створюючи цього бота, ви погоджуєтесь з <0>Політикою Прийнятного "
-"Використання</0>."
+msgstr "Створюючи цього бота, ви погоджуєтесь з <0>Політикою Прийнятного Використання</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Створюючи цей сервер, ви погоджуєтесь з <0>Політикою Прийнятного "
-"Використання</0>."
+msgstr "Створюючи цей сервер, ви погоджуєтесь з <0>Політикою Прийнятного Використання</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -821,9 +808,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr ""
-"Налаштувати спосіб повернення до свого облікового запису на випадок втрати "
-"2ФА"
+msgstr "Налаштувати спосіб повернення до свого облікового запису на випадок втрати 2ФА"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
@@ -1576,9 +1561,7 @@ msgstr "Повернутися до входу"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Go to account settings to edit your username"
-msgstr ""
-"Перейдіть до налаштувань особистого запису, щоб редагувати своє ім'я "
-"користувача"
+msgstr "Перейдіть до налаштувань особистого запису, щоб редагувати своє ім'я користувача"
 
 #: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
@@ -2958,9 +2941,7 @@ msgstr "Засновник Stoat"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
-msgstr ""
-"Stoat - один з найкращих способів залишатися на зв'язку з друзями та "
-"спільнотою, будь-де, будь-коли."
+msgstr "Stoat - один з найкращих способів залишатися на зв'язку з друзями та спільнотою, будь-де, будь-коли."
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Stoat will start in the system tray."
@@ -3081,9 +3062,7 @@ msgstr "Тема"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
-msgstr ""
-"Цей акаунт неактивований! Будь ласка, перевірте вхідні повідомлення вашого "
-"акаунту та спробуйте ще раз."
+msgstr "Цей акаунт неактивований! Будь ласка, перевірте вхідні повідомлення вашого акаунту та спробуйте ще раз."
 
 #: components/i18n/errors.tsx
 msgid "This bot is private and can only be added by the creator."
@@ -3160,8 +3139,7 @@ msgstr "Цей користувач заблокував вас."
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "This user is not part of the server and may already be banned"
-msgstr ""
-"Цей користувач не являється частиною сервера, та, можливо, вже забанений"
+msgstr "Цей користувач не являється частиною сервера, та, можливо, вже забанений"
 
 #: components/i18n/errors.tsx
 msgid "This username is already taken."
@@ -3537,9 +3515,7 @@ msgstr "Ви можете повідомляти про помилки та об
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
-msgstr ""
-"Ви не можете бути в більш ніж {0} серверах, будь ласка, залиште один та "
-"спробуйте знову."
+msgstr "Ви не можете бути в більш ніж {0} серверах, будь ласка, залиште один та спробуйте знову."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -3661,15 +3637,11 @@ msgstr "Ваш акаунт перевірено!"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
-msgstr ""
-"Ваша зміна дискримінатора була обмежена за швидкістю, будь ласка, спробуйте "
-"пізніше."
+msgstr "Ваша зміна дискримінатора була обмежена за швидкістю, будь ласка, спробуйте пізніше."
 
 #: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
-msgstr ""
-"Ваше повідомлення занадто довге, будь ласка, видаліть деякі символи та "
-"спробуйте ще раз."
+msgstr "Ваше повідомлення занадто довге, будь ласка, видаліть деякі символи та спробуйте ще раз."
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"

@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-02-27 20:29+0000\n"
 "Last-Translator: Ondřej Novák <pikacus196@gmail.com>\n"
-"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/cs/>\n"
+"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/revolt-for-web/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -46,8 +45,7 @@ msgstr "(ukládání změn...)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
-"{0, množné číslo, jedna {# blokovaná zpráva} další {# blokované zprávy}}"
+msgstr "{0, plural, one {# blokovaná zpráva} few {# blokované zprávy} other {# blokovaných zpráv}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -81,9 +79,7 @@ msgstr "{0} zbývající místa pro emodži"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr ""
-"Soubory {0} překračují maximální velikostní limit {maxSizeFormatted} a "
-"nebyly nahrány."
+msgstr "Soubory {0} překračují maximální velikostní limit {maxSizeFormatted} a nebyly nahrány."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -416,9 +412,7 @@ msgstr "Umožnit členům změnit jméno a avatar pro každou zprávu"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr ""
-"Umožnit ostatním členům přidat vašeho bota do jejich serveru ze stránky "
-"\"Objevovat\""
+msgstr "Umožnit ostatním členům přidat vašeho bota do jejich serveru ze stránky \"Objevovat\""
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
@@ -814,8 +808,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr ""
-"Nastavte si způsob přístupu do účtu v případě ztráty dvoufázového ověření"
+msgstr "Nastavte si způsob přístupu do účtu v případě ztráty dvoufázového ověření"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
@@ -1293,7 +1286,6 @@ msgid "Edit and delete channel"
 msgstr "Upravit a smazat kanál"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#, fuzzy
 msgid "Edit any permissions on the server"
 msgstr "Upravit jakékoli oprávnění na serveru"
 
@@ -1482,7 +1474,6 @@ msgstr "Soustředěný"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#, fuzzy
 msgid "For 1 hour"
 msgstr "Na jednu hodinu"
 
@@ -3524,9 +3515,7 @@ msgstr "Zde můžete nahlásit problémy a diskutovat o vylepšeních přímo s 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
-msgstr ""
-"Nemůžete být na více než {0} serverech, proím opusťte jeden a zkuste to "
-"znovu."
+msgstr "Nemůžete být na více než {0} serverech, proím opusťte jeden a zkuste to znovu."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -3640,10 +3629,7 @@ msgstr "Poslali jste maxium žádostí o přátelství, maximum je {0}"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr ""
-"Váš účet a všechny vaše údaje (i vaše zprávy a list přátel) budou zařazeny "
-"do fronty na smazání. E-mail pro potvrzení bude odeslán - toto můžete zrušit "
-"do 7 dnů kontaktováním podpory."
+msgstr "Váš účet a všechny vaše údaje (i vaše zprávy a list přátel) budou zařazeny do fronty na smazání. E-mail pro potvrzení bude odeslán - toto můžete zrušit do 7 dnů kontaktováním podpory."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
