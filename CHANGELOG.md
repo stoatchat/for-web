@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.0...stoat-for-web-v0.12.1) (2026-07-18)
+
+
+### Bug Fixes
+
+* Add pwa_scope variable to dockerfile ([#1351](https://github.com/stoatchat/for-web/issues/1351)) ([3db55f3](https://github.com/stoatchat/for-web/commit/3db55f36da32ca996fa418e7770920ce8265be49))
+
 ## [0.12.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.11.0...stoat-for-web-v0.12.0) (2026-07-17)
 
 
