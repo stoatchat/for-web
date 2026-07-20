@@ -27,6 +27,8 @@ import MdPersonRemove from "@material-design-icons/svg/outlined/person_remove.sv
 import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
 import MdChecked from "@material-symbols/svg-400/outlined/check_box.svg?component-solid";
 import MdUnchecked from "@material-symbols/svg-400/outlined/check_box_outline_blank.svg?component-solid";
+import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
+import MdTimerPlay from "@material-symbols/svg-400/outlined/timer_play.svg?component-solid";
 
 import {
   ContextMenu,
@@ -88,6 +90,13 @@ export function UserContextMenu(props: {
   }
 
   /**
+   * Whether the member is in timeout
+   */
+  function isInTimeout(member: ServerMember): boolean {
+    return !!member.timeout && member.timeout.getTime() > Date.now();
+  }
+
+  /**
    * Open user profile
    */
   function openProfile() {
@@ -133,6 +142,26 @@ export function UserContextMenu(props: {
   function editRoles() {
     openModal({
       type: "user_profile_roles",
+      member: props.member!,
+    });
+  }
+
+  /**
+   * Timeout the member
+   */
+  function timeoutMember() {
+    openModal({
+      type: "timeout_member",
+      member: props.member!,
+    });
+  }
+
+  /**
+   * Remove timeout from the member
+   */
+  function removeTimeout() {
+    openModal({
+      type: "remove_timeout",
       member: props.member!,
     });
   }
@@ -248,6 +277,17 @@ export function UserContextMenu(props: {
       (props.member?.server?.owner?.self ||
         (props.member?.server?.havePermission("AssignRoles") &&
           props.member.inferiorTo(props.member.server.member!)))
+    );
+  }
+
+  /**
+   * Whether the user can timeout this member
+   */
+  function canTimeout() {
+    return (
+      !props.user.self &&
+      props.member?.server?.havePermission("TimeoutMembers") &&
+      props.member.inferiorTo(props.member.server.member!)
     );
   }
 
@@ -462,7 +502,7 @@ export function UserContextMenu(props: {
       <Show
         when={
           canRemoveMemberFromGroup() ||
-          (props.member && (canKick() || canBan()))
+          (props.member && (canTimeout() || canKick() || canBan()))
         }
       >
         <ContextMenuDivider />
@@ -473,6 +513,24 @@ export function UserContextMenu(props: {
             destructive
           >
             <Trans>Remove Member</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={canTimeout() && !isInTimeout(props.member!)}>
+          <ContextMenuButton
+            icon={MdTimerOff}
+            onClick={timeoutMember}
+            destructive
+          >
+            <Trans>Timeout Member</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={canTimeout() && isInTimeout(props.member!)}>
+          <ContextMenuButton
+            icon={MdTimerPlay}
+            onClick={removeTimeout}
+            destructive
+          >
+            <Trans>Remove Timeout</Trans>
           </ContextMenuButton>
         </Show>
         <Show when={canKick()}>

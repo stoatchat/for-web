@@ -122,6 +122,26 @@ export function MessageComposition(props: Props) {
     return parts.join(" ");
   });
 
+  const member = () => props.channel.server?.member;
+
+  const [now, setNow] = createSignal(Date.now());
+
+  createEffect(() => {
+    const until = member()?.timeout;
+    if (!until) return;
+
+    const remaining = until.getTime() - Date.now();
+    if (remaining <= 0) return;
+
+    const timer = setTimeout(() => setNow(Date.now()), remaining + 100);
+    onCleanup(() => clearTimeout(timer));
+  });
+
+  const isTimedOut = createMemo(() => {
+    const until = member()?.timeout;
+    return !!until && until.getTime() > now();
+  });
+
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
   );
@@ -155,15 +175,14 @@ export function MessageComposition(props: Props) {
   const canSend = createMemo(() => {
     const draftContent = draft()?.content ?? "";
     const draftFiles = draft()?.files ?? [];
-
     const tooLong = messageLength() > maxMessageLength();
-
     const isSlowmode = currentSlowmode();
 
     return (
       !tooLong &&
       (draftContent.trim().length > 0 || draftFiles.length > 0) &&
-      !isSlowmode
+      !isSlowmode &&
+      !isTimedOut()
     );
   });
 
@@ -503,7 +522,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !isTimedOut()
+        }
+        timeoutActive={isTimedOut()}
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)

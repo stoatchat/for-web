@@ -340,4 +340,12 @@ export type Modals =
         image?: string;
       }[];
       onCancel: () => void;
+    }
+  | {
+      type: "timeout_member";
+      member: ServerMember;
+    }
+  | {
+      type: "remove_timeout";
+      member: ServerMember;
     };

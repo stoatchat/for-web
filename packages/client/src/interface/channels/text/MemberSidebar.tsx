@@ -4,6 +4,8 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
+import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
+
 
 import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
 import { useClient } from "@revolt/client";
@@ -401,10 +403,13 @@ const NameStatusStack = styled("div", {
     justifyContent: "center",
   },
 });
-
 /**
- * Member
+ * Whether a member is currently timed out
  */
+function isInTimeout(member?: ServerMember): boolean {
+  return !!member?.timeout && member.timeout.getTime() > Date.now();
+}
+
 function Member(props: {
   user?: User;
   member?: ServerMember;
@@ -412,15 +417,11 @@ function Member(props: {
 }) {
   const { t } = useLingui();
 
-  /**
-   * Create user information
-   */
   const user = () =>
     userInformation((props.user ?? props.member?.user)!, props.member);
 
-  /**
-   * Get user status
-   */
+  const timedOut = () => isInTimeout(props.member);
+
   const status = () =>
     (props.user ?? props.member?.user)?.statusMessage((s) =>
       s === "Online"
@@ -449,21 +450,33 @@ function Member(props: {
           (props.user ?? props.member?.user)?.online ? "active" : "muted"
         }
         icon={
-          <Avatar
-            src={user().avatar}
-            size={32}
-            holepunch="bottom-right"
-            overlay={
-              <UserStatus.Graphic
-                status={(props.user ?? props.member?.user)?.presence}
-              />
-            }
-          />
+          <div style={{ opacity: timedOut() ? 0.5 : 1 }}>
+            <Avatar
+              src={user().avatar}
+              size={32}
+              holepunch="bottom-right"
+              overlay={
+                <UserStatus.Graphic
+                  status={(props.user ?? props.member?.user)?.presence}
+                />
+              }
+            />
+          </div>
         }
       >
         <NameStatusStack>
           <OverflowingText>
-            <Username username={user().username} colour={user().colour!} />
+            <Row align gap="xs">
+              <Username username={user().username} colour={user().colour!} />
+              <Show when={timedOut()}>
+                <Tooltip
+                  content={t`Timed out until ${props.member!.timeout!.toLocaleString()}`}
+                  placement="top"
+                >
+                  <MdTimerOff width={14} height={14} />
+                </Tooltip>
+              </Show>
+            </Row>
           </OverflowingText>
           <Show when={status()}>
             <Tooltip
