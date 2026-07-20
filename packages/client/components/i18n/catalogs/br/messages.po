@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
+"PO-Revision-Date: 2026-02-23 10:46+0000\n"
+"Last-Translator: Tornoz <tornoz@gozmail.bzh>\n"
+"Language-Team: Breton <https://translate.stoat.chat/projects/revolt/revolt-for-web/br/>\n"
+"Language: br\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: br\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=5; plural=(n % 10 == 1 && n % 100 != 11 && n % 100 != 71 && n % 100 != 91) ? 0 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 && n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && (n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 < 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)));\n"
+"X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -47,7 +47,6 @@ msgstr ""
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr ""
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
 
@@ -401,7 +400,7 @@ msgstr ""
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
-msgstr "Kemennadennoù holl"
+msgstr "Holl ar c'hemennadennoù"
 
 #: src/LoadingScreen.tsx
 msgid "All Systems Operational"
@@ -417,7 +416,7 @@ msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
-msgstr "Dija oc'h mignon gant an implijer-se."
+msgstr "Mignon oc'h dija gant an implijer-mañ."
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
@@ -453,7 +452,6 @@ msgstr ""
 msgid "Are you sure you want to go to "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
 
@@ -953,7 +951,6 @@ msgstr "Krouiñ"
 msgid "Create a channel before inviting others!"
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "Create a group"
 #~ msgstr "Krouiñ ur strollad"
 
@@ -1244,7 +1241,6 @@ msgstr ""
 msgid "Don't ask me again for "
 msgstr ""
 
-#: components/modal/modals/LinkWarning.tsx
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
@@ -1474,7 +1470,7 @@ msgstr ""
 #: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Focus"
-msgstr "Dizourennet"
+msgstr "Emgreizet"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1572,8 +1568,6 @@ msgstr ""
 msgid "Go to the Stoat Lounge"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: src/interface/Home.tsx
 #~ msgid "Go to the testers server"
 #~ msgstr "Mont er servijer ar prouaderien"
 
@@ -1743,7 +1737,6 @@ msgstr ""
 msgid "Join a server"
 msgstr ""
 
-#: src/interface/channels/ChannelHeader.tsx
 #~ msgid "Join call"
 #~ msgstr ""
 
@@ -2519,15 +2512,15 @@ msgstr ""
 #: components/modal/modals/EditCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Rename category"
-msgstr ""
+msgstr "Adenvel ar rummad"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
-msgstr ""
+msgstr "Adenvel an estez"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Rep Stoat using Discord rich presence."
-msgstr ""
+msgstr "Rep Stoat oc'h ober gant Discord rich presence."
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Reply"
@@ -2540,23 +2533,23 @@ msgstr "O respont da"
 #: components/modal/modals/ServerInfo.tsx
 #: components/modal/modals/ReportContent.tsx
 msgid "Report"
-msgstr ""
+msgstr "Danevelliñ"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Report message"
-msgstr ""
+msgstr "Danevelliñ ar gemennadenn"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Report server"
-msgstr ""
+msgstr "Danevelliñ ar servijer"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Report user"
-msgstr ""
+msgstr "Danevelliñ an implijer"
 
 #: components/auth/src/flows/FlowResend.tsx
 msgid "Resend"
-msgstr ""
+msgstr "Adkas"
 
 #: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -2569,12 +2562,12 @@ msgstr "Adkas ar gwiriadur"
 #: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Reset"
-msgstr "Adkorañ"
+msgstr "Adderaouekaat"
 
 #. placeholder {0}: props.bot.user!.username
 #: components/modal/modals/ResetBotToken.tsx
 msgid "Reset {0}'s token?"
-msgstr ""
+msgstr "Adderaouekaat jedouer {0}?"
 
 #: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowLogin.tsx
@@ -2584,19 +2577,19 @@ msgstr "Krouiñ ur ger-tremen nevez"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Reset Recovery Codes"
-msgstr ""
+msgstr "Adderaouekaat ar c'hodoù adtapout"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Reset Token"
-msgstr ""
+msgstr "Adderaouekaat ar jedouer"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Responsibly disclosed security issues"
-msgstr ""
+msgstr "Kudennoù surentez diskuilhet en un doare atebek"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
-msgstr ""
+msgstr "Klask kas en-dro"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Return to voice channel"
@@ -2604,13 +2597,12 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Revenge or underage pornography"
-msgstr ""
+msgstr "Hudur dial pe bugale"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Review policy changes"
-msgstr ""
+msgstr "Gwiriekaat ar c'hemmoù reolennoù"
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "Roadmap"
 #~ msgstr ""
 
@@ -2636,15 +2628,15 @@ msgstr "Perzhioù"
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Save"
-msgstr "Gwareziñ"
+msgstr "Enrollañ"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Save file"
-msgstr ""
+msgstr "Enrollañ ar restr"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
-msgstr "Gwareziñ er c'harned-notenniñ"
+msgstr "Enrollañ en notennoù"
 
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -2678,7 +2670,6 @@ msgstr ""
 msgid "Search for users..."
 msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
 
@@ -2724,11 +2715,11 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
-msgstr "Kas Enframmet Kemennadennoù"
+msgstr "Kas kemennadennoù enframmet"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Messages"
-msgstr "Kas Kemennadennoù"
+msgstr "Kas kemennadennoù"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -2764,7 +2755,7 @@ msgstr "Restr stag kaset"
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Sent multiple attachments"
-msgstr "Lies restroù stag kaset"
+msgstr "Meur a restr stag kaset"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Server Avatar"
@@ -2821,7 +2812,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
 msgid "Several people are typing…"
-msgstr "Kalz tud o skriv…"
+msgstr "Kalz tud o skrivañ…"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 #: components/modal/modals/ScreenSharePicker.tsx
@@ -2890,7 +2881,6 @@ msgstr ""
 msgid "Something went wrong! {error}"
 msgstr ""
 
-#: components/i18n/errors.ts
 #~ msgid "Something went wrong! Try again later."
 #~ msgstr ""
 
@@ -2934,7 +2924,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: components/app/interface/settings/user/Native.tsx
 #~ msgid "Stoat Desktop"
 #~ msgstr ""
 
@@ -3000,7 +2989,7 @@ msgstr ""
 
 #: src/interface/Home.tsx
 msgid "Support the project by donating - thank you!"
-msgstr "Skorañ ar raktres gant reiñ - trugarez !"
+msgstr "Harpañ ar raktres en ur reiñ arc'hant - trugarez deoc'h !"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
@@ -3118,11 +3107,11 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "This is the start of your conversation."
-msgstr "Setu ar deraouenn ar gaozeadenn."
+msgstr "Setu penn-kentañ ar gaozeadenn."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "This is the start of your notes."
-msgstr "Setu ar deraouenn ho karned-notenniñ."
+msgstr "Setu penn-kentañ ho notennoù."
 
 #: components/i18n/errors.tsx
 msgid "This message is already pinned."
@@ -3146,7 +3135,7 @@ msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "This user has blocked you."
-msgstr "An implijer-se a verzas ho kont."
+msgstr "Stanket hoc'h bet gant an implijer-mañ."
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "This user is not part of the server and may already be banned"
@@ -3198,7 +3187,7 @@ msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
-msgstr "Dinaskañ an implijer"
+msgstr "Distankañ an implijer"
 
 #. placeholder {0}: err.type
 #: components/i18n/errors.tsx
@@ -3262,7 +3251,7 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
-msgstr "Ezkargañ Restroù"
+msgstr "Uskargañ Restroù"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
@@ -3296,7 +3285,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Joined Call"
-msgstr "Erru eo an implijer er pellgomzadenn"
+msgstr "Erruet eo an implijer er bellgomzadenn"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Kicked"
@@ -3308,7 +3297,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Left Call"
-msgstr "Aet eo an implijer eus pellgomzadenn"
+msgstr "Aet eo kuit an implijer eus ar bellgomzadenn"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "User Management"
@@ -3374,17 +3363,16 @@ msgstr "Video"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "View Channel"
-msgstr "Gwelout ouzh ar C'hanol"
+msgstr "Gwelout ar c'hanol"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "View currently active bug reports here."
-msgstr "Gwelout amañ an danevell oberiant beugoù a-vremañ."
+msgstr "Gwelout amañ an danevelloù oberiant beugoù a-vremañ."
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
 msgstr ""
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "View older updates"
 #~ msgstr ""
 
@@ -3402,7 +3390,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/bars/JumpToBottom.tsx
 msgid "Viewing older messages"
-msgstr "O sell ouzh kemennadennoù kozh"
+msgstr "O sellet ouzh kemennadennoù kozh"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -3435,7 +3423,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
-msgstr "Postell gwiriañ a kasjoc'h. Mar plij. Gortozit 10 munutenn a-raok resev ar postel."
+msgstr "Kaset hon eus ur postel gwiriañ. Betek 10 munutenn e c'hall lakaat evit erruout."
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
@@ -3454,8 +3442,6 @@ msgstr ""
 msgid "Webhooks"
 msgstr ""
 
-#: src/interface/Home.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome to"
 #~ msgstr "Degemer mat war"
 
@@ -3512,20 +3498,19 @@ msgstr ""
 msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
-#: src/interface/Home.tsx
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Klikañ a c'hallit war an arlun an implijer war laez a-gleiz gant ar c'hlik dehou, pe gant ar c'hlik kleiz ma er pajenn-zegemer oc'h dija."
 
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
-msgstr "Diwezhatoc'h a c'hallit digeriñ ar c'hemennadoù-se en-dro, met an daou du a steuziint."
+msgstr "Diwezhatoc'h e c'halloc'h digeriñ ar c'hemennadoù-se en-dro, met diverket e vint eus an daou du."
 
 #: src/interface/Home.tsx
 #: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr "Amañ a c'hallit aroueziañ ar gudennoù ha kaozeal diwar-benn gwellaenn ganeomp."
+msgstr "Amañ a c'hallit aroueziañ ar c'hudennoù ha kaozeal diwar-benn ar gwellaennoù ganeomp."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -3610,7 +3595,7 @@ msgstr ""
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You won't be able to rejoin unless you are re-invited."
-msgstr "Ne c'hallit ket dont en-dro hep ur pedadenn nevez."
+msgstr "Ne c'hallit ket dont en-dro hep ur bedadenn nevez."
 
 #: components/i18n/errors.tsx
 msgid "You're already part of this group."
@@ -3648,7 +3633,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
-msgstr "ho kont en deus gwiriet !"
+msgstr "Gwiriet eo bet ho kont !"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."

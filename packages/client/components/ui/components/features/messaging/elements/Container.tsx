@@ -42,6 +42,11 @@ type Props = CommonProps & {
   avatar: JSX.Element;
 
   /**
+   * Pronouns
+   */
+  pronouns?: string;
+
+  /**
    * Username element
    */
   username: JSX.Element;
@@ -292,6 +297,16 @@ const infoText = cva({
 });
 
 /**
+ * Pronouns display — muted, same weight as timestamp
+ */
+const pronounsText = cva({
+  base: {
+    color: "var(--md-sys-color-outline)",
+    ...typography.raw({ class: "body", size: "small" }),
+  },
+});
+
+/**
  * Additional styles for compact mode
  */
 const CompactInfo = styled(Row, {
@@ -431,6 +446,10 @@ export function MessageContainer(props: Props) {
               <NonBreakingText>
                 <div class={infoText()}>
                   {props.info}
+                  <Show when={props.pronouns}>
+                    <span class={pronounsText()}>{props.pronouns}</span>
+                    <span class={infoText()}>·</span>
+                  </Show>
                   <Show
                     when={props.timestamp instanceof Date}
                     fallback={props.timestamp as JSX.Element}

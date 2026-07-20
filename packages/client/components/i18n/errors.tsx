@@ -38,14 +38,7 @@ export function useError() {
       (error as { type?: never } | undefined)?.type &&
       typeof (error as { type: never }).type === "string"
     ) {
-      const err = error as
-        | API.Error
-        | Exclude<
-            API.Authifier_Error,
-            | { type: "UnknownUser" }
-            | { type: "DatabaseError" }
-            | { type: "InternalError" }
-          >;
+      const err = error as API.Error;
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -211,14 +204,7 @@ export function TranslatedError(props: TranslatedErrorProps) {
       (clean as { type?: never } | undefined)?.type &&
       typeof (clean as { type: never }).type === "string"
     ) {
-      const err = clean as
-        | API.Error
-        | Exclude<
-            API.Authifier_Error,
-            | { type: "UnknownUser" }
-            | { type: "DatabaseError" }
-            | { type: "InternalError" }
-          >;
+      const err = clean as API.Error;
 
       return err;
     }
@@ -230,12 +216,7 @@ export function TranslatedError(props: TranslatedErrorProps) {
     <Switch fallback={errorString() as string}>
       <Match when={typeof errorString() !== "string"}>
         <Switch fallback={err(props.error)}>
-          <Match
-            when={
-              (errorString() as API.Error | API.Authifier_Error).type ===
-              "BlockedByShield"
-            }
-          >
+          <Match when={(errorString() as API.Error).type === "BlockedByShield"}>
             <Trans>
               This sign up is marked as spam. Please see{" "}
               <a

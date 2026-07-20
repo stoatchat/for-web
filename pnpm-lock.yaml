@@ -645,8 +645,8 @@ importers:
         specifier: ^1.9.6
         version: 1.9.6
       stoat-api:
-        specifier: 0.13.5
-        version: 0.13.5
+        specifier: 0.14.0
+        version: 0.14.0
       ulid:
         specifier: ^3.0.2
         version: 3.0.2
@@ -6943,8 +6943,8 @@ packages:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
     engines: {node: '>= 0.8'}
 
-  stoat-api@0.13.5:
-    resolution: {integrity: sha512-zyJiJsq9QdiwWAaG1lQ7peEKs/jL/G0fbYbC8VlEsBXMxVukHvDELiNMl2STvqJHHEPwSKRtV4AaaAitNHeEUg==}
+  stoat-api@0.14.0:
+    resolution: {integrity: sha512-Kg6PS8D6aKKhs6KALvdHe6ygtwCuiCyj9JDT/KDR0BRDzoP2W9LjAePYZZBoA9BITIeBU270ug/0qDpWMGYb/w==}
 
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
@@ -7174,6 +7174,7 @@ packages:
   tsconfck@3.0.2:
     resolution: {integrity: sha512-6lWtFjwuhS3XI4HsX4Zg0izOI3FU/AI9EGVlPEUMDIhvLPMD4wkiof0WCoDgW7qY+Dy198g4d9miAqUHWHFH6Q==}
     engines: {node: ^18 || >=20}
+    deprecated: unmaintained
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
@@ -14864,7 +14865,7 @@ snapshots:
 
   statuses@2.0.1: {}
 
-  stoat-api@0.13.5:
+  stoat-api@0.14.0:
     dependencies:
       json-with-bigint: 3.4.4
 
