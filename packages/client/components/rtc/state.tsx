@@ -460,7 +460,9 @@ class Voice {
               this.getEnabledScreenShareQualities()[
                 this.#settings.screenShareQuality || "low"
               ]?.resolution,
-            audio: true,
+            audio: {
+              restrictOwnAudio: true,
+            },
           },
         );
 
