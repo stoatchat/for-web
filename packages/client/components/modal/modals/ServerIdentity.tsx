@@ -25,7 +25,7 @@ export function ServerIdentityModal(
     avatar: createFormControl<string | File[] | null>(
       props.member.animatedAvatarURL,
     ),
-    pronouns: createFormControl<string>(props.member.pronouns),
+    pronouns: createFormControl<string>(props.member.pronouns ?? ""),
     nickname: createFormControl(props.member.nickname ?? ""),
   });
   /* eslint-enable solid/reactivity */
