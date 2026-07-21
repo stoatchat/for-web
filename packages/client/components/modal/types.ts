@@ -225,6 +225,11 @@ export type Modals =
       server: Server;
     }
   | {
+      type: "transfer_ownership";
+      channel: Channel;
+      user: User;
+    }
+  | {
       type: "invite";
       invite: PublicChannelInvite;
     }

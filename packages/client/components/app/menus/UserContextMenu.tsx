@@ -225,6 +225,17 @@ export function UserContextMenu(props: {
   }
 
   /**
+   * Transfer group ownership
+   */
+  function transferGroup() {
+    openModal({
+      type: "transfer_ownership",
+      channel: props.channel,
+      user: props.user,
+    });
+  }
+
+  /**
    * Whether the user can edit identity on this server
    */
   function canEditIdentity() {
@@ -295,6 +306,17 @@ export function UserContextMenu(props: {
       props.channel.owner?.id !== props.user.id &&
       (props.channel.havePermission("ManageChannel") ||
         props.channel.owner?.self)
+    );
+  }
+
+  /**
+   * Whether the user can transfer ownership of the current group
+   */
+  function canTransferGroup() {
+    return (
+      props.channel?.type === "Group" &&
+      props.channel.owner?.self &&
+      !props.user.self
     );
   }
 
@@ -473,6 +495,15 @@ export function UserContextMenu(props: {
             destructive
           >
             <Trans>Remove Member</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={canTransferGroup()}>
+          <ContextMenuButton
+            icon={MdPersonAddAlt}
+            onClick={transferGroup}
+            destructive
+          >
+            <Trans>Transfer Ownership</Trans>
           </ContextMenuButton>
         </Show>
         <Show when={canKick()}>
