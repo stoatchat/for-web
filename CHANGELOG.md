@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.13.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.1...stoat-for-web-v0.13.0) (2026-07-21)
+
+
+### Features
+
+* add pronouns ([#1340](https://github.com/stoatchat/for-web/issues/1340)) ([16cf0e2](https://github.com/stoatchat/for-web/commit/16cf0e275d21bced5fc14c8467bcd7475f91fe61))
+* pin message modal ([#1270](https://github.com/stoatchat/for-web/issues/1270)) ([c692b9d](https://github.com/stoatchat/for-web/commit/c692b9d69d81f8f75478e0594bffb8cdcfc7bbcd))
+
+
+### Bug Fixes
+
+* Hopefully fix translations so they can finally work again? ([#1353](https://github.com/stoatchat/for-web/issues/1353)) ([d2ece96](https://github.com/stoatchat/for-web/commit/d2ece968c5a1f6b48bd3e5a2382fe53a32d85fe2))
+* Remove draft log ([#1363](https://github.com/stoatchat/for-web/issues/1363)) ([d441c72](https://github.com/stoatchat/for-web/commit/d441c72e3f735f4e5a532ddd2d4464332a2ecd22))
+
 ## [0.12.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.0...stoat-for-web-v0.12.1) (2026-07-18)
 
 
