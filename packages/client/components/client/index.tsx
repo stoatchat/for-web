@@ -4,6 +4,8 @@ import {
   createContext,
   createEffect,
   onCleanup,
+  onMount,
+  Setter,
   useContext,
 } from "solid-js";
 
@@ -26,12 +28,16 @@ const clientContext = createContext(null! as ClientController);
 /**
  * Mount the modal controller
  */
-export function ClientContext(props: { children: JSXElement }) {
+export function ClientContext(props: {
+  children: JSXElement;
+  setCtx: Setter<ClientController | undefined>;
+}) {
   const { openModal } = useModals();
   const state = useState();
   const instance = useInstance();
 
   const controller = new ClientController(state, instance);
+  onMount(() => props.setCtx?.(controller));
   onCleanup(() => controller.dispose());
 
   let fetchedChangelog = false;
