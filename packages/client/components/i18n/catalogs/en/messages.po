@@ -457,11 +457,19 @@ msgstr "Are you sure you want to go to "
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr "Are you sure you want to go to <0>{0}</0>?"
 
+#: components/modal/modals/PinMessage.tsx
+msgid "Are you sure you want to pin this message?"
+msgstr "Are you sure you want to pin this message?"
+
 #. placeholder {0}: props.user?.displayName ?? props.user.username
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
 msgstr "Are you sure you want to remove {0} from {1}?"
+
+#: components/modal/modals/PinMessage.tsx
+msgid "Are you sure you want to unpin this message?"
+msgstr "Are you sure you want to unpin this message?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -611,6 +619,7 @@ msgstr "Can't find the perfect GIF? Head to Gifbox and upload your own for every
 #: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/RemoveMember.tsx
+#: components/modal/modals/PinMessage.tsx
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -2319,6 +2328,11 @@ msgstr "Pick a Screen to Share"
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
 msgstr "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
 
+#: components/modal/modals/PinMessage.tsx
+msgid "Pin"
+msgstr "Pin"
+
+#: components/modal/modals/PinMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Pin message"
 msgstr "Pin message"
@@ -2387,6 +2401,12 @@ msgstr "Profile Bio"
 #: components/modal/modals/ReportContent.tsx
 msgid "Promotes harm"
 msgstr "Promotes harm"
+
+#: components/ui/components/features/profiles/ProfilePronouns.tsx
+#: components/modal/modals/ServerIdentity.tsx
+#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
+msgid "Pronouns"
+msgstr "Pronouns"
 
 #: components/i18n/errors.tsx
 msgid "Provided email or password is wrong."
@@ -3243,6 +3263,11 @@ msgstr "Unmute Channel"
 msgid "Unmute Server"
 msgstr "Unmute Server"
 
+#: components/modal/modals/PinMessage.tsx
+msgid "Unpin"
+msgstr "Unpin"
+
+#: components/modal/modals/PinMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Unpin message"
 msgstr "Unpin message"
