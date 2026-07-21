@@ -1,14 +1,14 @@
 import { Trans } from "@lingui-solid/solid/macro";
+import { Show } from "solid-js";
 
-import { useApi, useClient, useClientLifecycle } from "@revolt/client";
+import { useApi, useClientLifecycle } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { useNavigate, useParams } from "@revolt/routing";
-import { Button, Row, iconSize } from "@revolt/ui";
+import { Button, iconSize, Row } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
-import { Show } from "solid-js";
 import { FlowTitle } from "./Flow";
 import { setFlowCheckEmail } from "./FlowCheck";
 import { Fields, Form } from "./Form";
@@ -18,12 +18,11 @@ import { Fields, Form } from "./Form";
  */
 export default function FlowCreate() {
   const api = useApi();
-  const getClient = useClient();
   const navigate = useNavigate();
   const { code } = useParams();
   const modals = useModals();
   const { login } = useClientLifecycle();
-  const instance = useInstance();
+  const { config } = useInstance();
 
   /**
    * Create an account
@@ -42,8 +41,7 @@ export default function FlowCreate() {
       ...(invite ? { invite } : {}),
     });
 
-    const client = getClient();
-    if (client.configuration && !client.configuration.features.email) {
+    if (!config.features.email) {
       await login(
         {
           email,
@@ -58,22 +56,14 @@ export default function FlowCreate() {
     }
   }
 
-  const isInviteOnly = () => {
-    const client = getClient();
-    if (client.configured()) {
-      return client.configuration?.features.invite_only;
-    }
-    return false;
-  };
-
   return (
     <>
       <FlowTitle subtitle={<Trans>Create an account</Trans>} emoji="wave">
         <Trans>Hello!</Trans>
       </FlowTitle>
-      <Form onSubmit={create} captcha={instance.hcaptcha_sitekey}>
+      <Form onSubmit={create} captcha={config.features.captcha.key}>
         <Fields fields={["email", "new-password"]} />
-        <Show when={isInviteOnly()}>
+        <Show when={config.features.invite_only}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>
         <Row justify>

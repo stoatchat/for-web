@@ -15,7 +15,7 @@ import { Fields, Form } from "./Form";
 export default function FlowResend() {
   const api = useApi();
   const navigate = useNavigate();
-  const instance = useInstance();
+  const { config } = useInstance();
 
   /**
    * Resend email verification
@@ -39,7 +39,7 @@ export default function FlowResend() {
       <FlowTitle>
         <Trans>Resend verification</Trans>
       </FlowTitle>
-      <Form onSubmit={resend} captcha={instance.hcaptcha_sitekey}>
+      <Form onSubmit={resend} captcha={config.features.captcha.key}>
         <Fields fields={["email"]} />
         <Button type="submit">
           <Trans>Resend</Trans>

@@ -1,61 +1,127 @@
+import { useLingui } from "@lingui-solid/solid/macro";
+import { useBeforeLeave, useNavigate, useParams } from "@solidjs/router";
+import {
+  createContext,
+  createEffect,
+  createSignal,
+  JSXElement,
+  Show,
+  useContext,
+} from "solid-js";
+import { Dynamic } from "solid-js/web";
+
 import { CONFIGURATION } from "@revolt/common";
-import { useParams } from "@solidjs/router";
-import { createContext, JSXElement, useContext } from "solid-js";
-import { API } from "stoat.js";
-import Instance from "./Instance";
+import { AppConfig, STOAT_HOST } from "@revolt/common/lib/env";
+import { LoadingScreen, useSnackbar } from "@revolt/ui";
+
+import Instance, { _newClient } from "./Instance";
+
+export const StoatOrigin = new URL(`https://${STOAT_HOST}`).origin;
+export const DefaultURL = new URL(`https://${CONFIGURATION.DEFAULT_HOST}`);
+export const DefaultHost = DefaultURL.host;
+const DefRoute = `/i/${DefaultHost}/`;
 
 const instanceContext = createContext<Instance>();
 
 export function InstanceContext(props: { children?: JSXElement }) {
   const params = useParams();
+  const snackbar = useSnackbar();
+  const nav = useNavigate();
+  const { t } = useLingui();
 
-  let apiUrl = CONFIGURATION.DEFAULT_API_URL as string;
-  let wsUrl = CONFIGURATION.DEFAULT_WS_URL as string;
-  let mediaUrl = CONFIGURATION.DEFAULT_MEDIA_URL as string;
-  let proxyUrl = CONFIGURATION.DEFAULT_PROXY_URL as string;
+  const [inst, setInst] = createSignal<Instance>();
 
-  if (params.hostname) {
-    // TODO: Find a way to get this other than guessing
-    apiUrl = `https://${params.hostname}/api`;
+  //Check Stoat instance
+  const host = [
+    // historically...
+    "api.revolt.chat",
+    "beta.revolt.chat",
+    "revolt.chat",
+    // ... and now:
+    "api.stoat.chat",
+    "beta.stoat.chat",
+  ].includes(params.host)
+    ? STOAT_HOST
+    : params.host;
 
-    const api = new API.API({
-      baseURL: apiUrl,
+  function onError(e: unknown) {
+    console.error(e);
+    if ((e as Error).message === "Failed to fetch") {
+      const hStr = `'${host}'`;
+      e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
+    }
+    snackbar.show({
+      message: t`Oops, something went wrong! ${e}`,
+      placement: "bottom",
+      closeable: true,
+      autoCloseDelay: 30000,
     });
-
-    api.get("/").then((config) => {
-      wsUrl = config.ws;
-      mediaUrl = config.features.autumn.url;
-      proxyUrl = config.features.january.url;
-    });
+    history.back();
   }
 
+  (async () => {
+    setInst(undefined);
+
+    //Redirect default instance
+    if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
+
+    try {
+      const appCfg: AppConfig = host
+        ? await (await fetch(`https://${host}/.well-known/stoat`)).json()
+        : { api: CONFIGURATION.DEFAULT_API_URL };
+
+      const cli = _newClient(appCfg.api);
+      let instSet = false;
+
+      createEffect(() => {
+        if (cli.configured() && !instSet) {
+          instSet = true;
+          setInst(new Instance(appCfg, cli, host, nav));
+        }
+      });
+    } catch (e) {
+      onError(e);
+    }
+  })();
+
   return (
-    <instanceContext.Provider
-      value={
-        new Instance(
-          apiUrl,
-          wsUrl,
-          mediaUrl,
-          proxyUrl,
-          CONFIGURATION.DEFAULT_GIFBOX_URL,
-          CONFIGURATION.HCAPTCHA_SITEKEY,
-          CONFIGURATION.MAX_EMOJI,
-          CONFIGURATION.ENABLE_VIDEO,
-          params.hostname,
-        )
-      }
+    <Show
+      when={inst()}
+      fallback={<LoadingScreen isStoat={host === STOAT_HOST} />}
     >
-      {props.children}
-    </instanceContext.Provider>
+      <Dynamic component={instanceContext.Provider} value={inst()}>
+        <Redirect />
+        {props.children}
+      </Dynamic>
+    </Show>
   );
 }
 
-export function useInstance() {
-  const instance = useContext(instanceContext);
+const DEF_MARK = "_defInst";
 
-  if (!instance) {
-    throw new Error("useInstance must be called inside InstanceProvider");
-  }
+function Redirect() {
+  const inst = useInstance(),
+    nav = useNavigate();
 
-  return instance;
+  useBeforeLeave((e) => {
+    if (typeof e.to !== "string") return;
+
+    if ((e.to + "/").startsWith(DefRoute)) {
+      //Redirect default instance
+      e.preventDefault();
+      nav(Instance.relPath(e.to), { state: DEF_MARK });
+    } else if (
+      inst.host &&
+      !e.to.startsWith("/i/") &&
+      e.options?.state !== DEF_MARK
+    ) {
+      //Redirect relative path to instance path
+      e.preventDefault();
+      nav(inst.href(e.to, true));
+    }
+  });
+
+  return <></>;
 }
+
+export const useInstance = () => useContext(instanceContext)!;

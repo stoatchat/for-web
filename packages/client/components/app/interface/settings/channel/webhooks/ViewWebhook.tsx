@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/solid-query";
 import { API, ChannelWebhook } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
@@ -18,7 +19,6 @@ import {
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
-import { useInstance } from "@revolt/instance";
 import { useSettingsNavigation } from "../../Settings";
 
 /**
@@ -121,7 +121,9 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
           icon={<MdContentCopy />}
           onClick={() =>
             navigator.clipboard.writeText(
-              `${instance.apiUrl}/webhooks/${props.webhook.id}/${props.webhook.token}`,
+              instance.href(
+                `/webhooks/${props.webhook.id}/${props.webhook.token}`,
+              ),
             )
           }
         >

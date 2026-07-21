@@ -69,14 +69,14 @@ export class Device {
 
     this.pMedia = matchMedia(Breakpoint.phone);
     this.tMedia = matchMedia(Breakpoint.tablet);
-    (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
+    (this.pMedia.onchange = this.tMedia.onchange = this.onLayout)();
 
     if (this.isPWA && navigator.virtualKeyboard) {
       navigator.virtualKeyboard.overlaysContent = true;
     }
   }
 
-  onLayout() {
+  onLayout = () => {
     this.setLayout(
       this.pMedia.matches
         ? "phone"
@@ -84,11 +84,11 @@ export class Device {
           ? "tablet"
           : "desktop",
     );
-  }
+  };
 
-  destroy() {
+  destroy = () => {
     this.pMedia.onchange = this.tMedia.onchange = null;
-  }
+  };
 }
 
 const deviceCtx = createContext<Device>(null! as Device);

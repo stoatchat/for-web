@@ -1,13 +1,13 @@
 import { Trans } from "@lingui-solid/solid/macro";
 
 import { useApi } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import { useNavigate } from "@revolt/routing";
 import { Button } from "@revolt/ui";
 
 import { FlowTitle } from "./Flow";
 import { setFlowCheckEmail } from "./FlowCheck";
 import { Fields, Form } from "./Form";
-import { useInstance } from "@revolt/instance";
 
 /**
  * Flow for sending password reset
@@ -15,7 +15,7 @@ import { useInstance } from "@revolt/instance";
 export default function FlowReset() {
   const api = useApi();
   const navigate = useNavigate();
-  const instance = useInstance();
+  const { config } = useInstance();
 
   /**
    * Send password reset
@@ -39,7 +39,7 @@ export default function FlowReset() {
       <FlowTitle>
         <Trans>Reset password</Trans>
       </FlowTitle>
-      <Form onSubmit={reset} captcha={instance.hcaptcha_sitekey}>
+      <Form onSubmit={reset} captcha={config.features.captcha.key}>
         <Fields fields={["email"]} />
         <Button type="submit">
           <Trans>Reset</Trans>

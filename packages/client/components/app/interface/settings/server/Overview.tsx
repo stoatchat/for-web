@@ -5,6 +5,7 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import {
   CircularProgress,
   Column,
@@ -14,7 +15,6 @@ import {
   Text,
 } from "@revolt/ui";
 
-import { useInstance } from "@revolt/instance";
 import { ServerSettingsProps } from "../ServerSettings";
 
 /**

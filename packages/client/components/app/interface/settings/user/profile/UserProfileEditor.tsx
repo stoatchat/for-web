@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/solid-query";
 import { API, User, UserProfile } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import {
   CategoryButton,
   CircularProgress,
@@ -17,7 +18,6 @@ import {
 
 import MdBadge from "@material-design-icons/svg/filled/badge.svg?component-solid";
 
-import { useInstance } from "@revolt/instance";
 import { useSettingsNavigation } from "../../Settings";
 
 interface Props {

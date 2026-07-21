@@ -38,6 +38,7 @@ export { FloatingSelect } from "./FloatingSelect";
 export { IconButton } from "./IconButton";
 export { List } from "./List";
 export { CircularProgress } from "./LoadingProgress";
+export { LoadingScreen } from "./LoadingScreen";
 export { MenuItem } from "./Menu";
 export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";

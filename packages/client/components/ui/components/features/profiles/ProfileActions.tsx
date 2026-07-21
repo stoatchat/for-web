@@ -31,7 +31,7 @@ export function ProfileActions(props: {
    * Open direct message channel
    */
   function openDm() {
-    props.user.openDM().then((channel) => navigate(`/channel/${channel.id}`));
+    props.user.openDM().then((channel) => navigate(channel.path));
     props.onClose();
   }
 

@@ -5,6 +5,7 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   Button,
@@ -16,7 +17,6 @@ import {
   Text,
 } from "@revolt/ui";
 
-import { useInstance } from "@revolt/instance";
 import { ChannelSettingsProps } from "../ChannelSettings";
 
 /**
@@ -78,16 +78,13 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
         body.append("file", editGroup.controls.icon.value[0]);
 
         const [key, value] = client().authenticationHeader;
-        const data: { id: string } = await fetch(
-          `${instance.mediaUrl}/icons`,
-          {
-            method: "POST",
-            body,
-            headers: {
-              [key]: value,
-            },
+        const data: { id: string } = await fetch(`${instance.mediaUrl}/icons`, {
+          method: "POST",
+          body,
+          headers: {
+            [key]: value,
           },
-        ).then((res) => res.json());
+        }).then((res) => res.json());
 
         changes.icon = data.id;
       }

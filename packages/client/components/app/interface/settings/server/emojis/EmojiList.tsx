@@ -30,7 +30,7 @@ export function EmojiList(props: { server: Server }) {
   const instance = useInstance();
 
   function isDisabled() {
-    return props.server.emojis.length >= instance.maxEmoji;
+    return props.server.emojis.length >= instance.globalLimits.server_emoji;
   }
 
   const editGroup = createFormGroup(
@@ -50,16 +50,13 @@ export function EmojiList(props: { server: Server }) {
     body.append("file", editGroup.controls.file.value![0]);
 
     const [key, value] = client().authenticationHeader;
-    const data: { id: string } = await fetch(
-      `${instance.mediaUrl}/emojis`,
-      {
-        method: "POST",
-        body,
-        headers: {
-          [key]: value,
-        },
+    const data: { id: string } = await fetch(`${instance.mediaUrl}/emojis`, {
+      method: "POST",
+      body,
+      headers: {
+        [key]: value,
       },
-    ).then((res) => res.json());
+    }).then((res) => res.json());
 
     await props.server.createEmoji(data.id, {
       name: editGroup.controls.name.value,
@@ -110,7 +107,8 @@ export function EmojiList(props: { server: Server }) {
                 <Switch
                   fallback={
                     <Trans>
-                      {instance.maxEmoji - props.server.emojis.length}{" "}
+                      {instance.globalLimits.server_emoji -
+                        props.server.emojis.length}{" "}
                       emoji slots remaining
                     </Trans>
                   }

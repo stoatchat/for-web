@@ -15,7 +15,7 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const state = useState();
   const navigate = useNavigate();
   const { t } = useLingui();
-  const { enableVideo } = useInstance();
+  const { limits } = useInstance();
 
   return (
     <Actions>
@@ -82,44 +82,44 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </IconButton>
       <IconButton
         size={props.size}
-        variant={enableVideo && voice.video() ? "filled" : "tonal"}
+        variant={limits().video && voice.video() ? "filled" : "tonal"}
         onPress={() => {
-          if (enableVideo) voice.toggleCamera();
+          if (limits().video) voice.toggleCamera();
         }}
         use:floating={{
           tooltip: {
             placement: "top",
-            content: enableVideo
+            content: limits().video
               ? voice.video()
                 ? t`Stop camera`
                 : t`Start camera`
               : t`Coming soon! 👀`,
           },
         }}
-        isDisabled={!enableVideo}
+        isDisabled={!limits().video}
       >
         <Symbol>camera_video</Symbol>
       </IconButton>
       <IconButton
         size={props.size}
-        variant={enableVideo && voice.screenshare() ? "filled" : "tonal"}
+        variant={limits().video && voice.screenshare() ? "filled" : "tonal"}
         onPress={() => {
-          if (enableVideo) voice.toggleScreenshare();
+          if (limits().video) voice.toggleScreenshare();
         }}
         use:floating={{
           tooltip: {
             placement: "top",
-            content: enableVideo
+            content: limits().video
               ? voice.screenshare()
                 ? t`Stop sharing`
                 : t`Share screen`
               : t`Coming soon! 👀`,
           },
         }}
-        isDisabled={!enableVideo}
+        isDisabled={!limits().video}
       >
         <Show
-          when={!enableVideo || voice.screenshare()}
+          when={!limits().video || voice.screenshare()}
           fallback={<Symbol>stop_screen_share</Symbol>}
         >
           <Symbol>screen_share</Symbol>

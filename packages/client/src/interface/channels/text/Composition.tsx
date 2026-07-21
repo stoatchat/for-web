@@ -17,7 +17,8 @@ import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION, debounce } from "@revolt/common";
+import { debounce } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -55,6 +56,7 @@ export function MessageComposition(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
+  const { limits } = useInstance();
   const { openModal } = useModals();
 
   const currentSlowmode = (): UserSlowmodes | undefined => {
@@ -139,16 +141,8 @@ export function MessageComposition(props: Props) {
   }
 
   const messageLength = () => draft().content?.length ?? 0;
-
-  const maxMessageLength = () => {
-    const cl = client();
-    return cl.configured()
-      ? (cl.configuration?.features.limits.default.message_length ?? 2000)
-      : 2000;
-  };
-
+  const maxMessageLength = () => limits().message_length;
   const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
-
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
 
   // Whether the send button should be active/clickable
@@ -293,11 +287,7 @@ export function MessageComposition(props: Props) {
   function onFiles(files: File[]) {
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
-
-    const maxSize = client().configured()
-      ? (client().configuration?.features.limits.default.file_upload_size_limits
-          .attachments ?? CONFIGURATION.MAX_FILE_SIZE)
-      : CONFIGURATION.MAX_FILE_SIZE;
+    const maxSize = limits().file_upload_size_limits.attachments;
 
     for (const file of files) {
       if (file.size > maxSize) {

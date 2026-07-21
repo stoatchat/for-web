@@ -22,8 +22,9 @@ import {
 import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
-import { SoundController, useClient, useSound } from "@revolt/client";
+import { SoundController, useSound } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { ModalController, useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -84,7 +85,8 @@ class Voice {
   private sound: SoundController;
 
   private openModal;
-  private getClient;
+  private config;
+  private limits;
   private screenShareTracks: Set<string>;
 
   constructor(
@@ -132,9 +134,10 @@ class Voice {
     this.showBar = showBar;
     this.#setShowBar = setShowBar;
 
+    const inst = useInstance();
+    this.config = inst.config;
+    this.limits = inst.limits;
     this.openModal = modals.openModal;
-
-    this.getClient = useClient();
 
     this.screenShareTracks = new Set();
   }
@@ -233,13 +236,11 @@ class Voice {
 
     // Gather latency
     const selected = await Promise.any(
-      this.getClient().configuration!.features.livekit.nodes.map(
-        async (node) => {
-          return fetch(node.public_url.replace("wss", "https")).then(() => {
-            return node.name;
-          });
-        },
-      ),
+      this.config.features.livekit.nodes.map(async (node) => {
+        return fetch(node.public_url.replace("wss", "https")).then(() => {
+          return node.name;
+        });
+      }),
     );
 
     if (!auth) {
@@ -360,54 +361,40 @@ class Voice {
       },
     };
 
-    if (this.getClient().configured()) {
-      // TODO: Use new user limits if the user is new - I don't think there's a way to do that now?
-      const limit =
-        this.getClient().configuration?.features.limits.default
-          .video_resolution;
+    const limit = this.limits().video_resolution;
 
-      // TODO: Add more resolutions to stream from if they're enabled. May tie into premium users in the future?
-      if (limit) {
-        if (
-          (limit[0] === 0 || limit[0] >= 1920) &&
-          (limit[1] === 0 || limit[1] >= 1080)
-        ) {
-          qualities.high = {
-            name: "high",
-            resolution: ScreenSharePresets.h1080fps30.resolution,
-            fullName: `1080p 30FPS`,
-            contentHint: "motion",
-          };
-          const originalResolution = ScreenSharePresets.original.resolution;
-          originalResolution.frameRate = 5;
-          originalResolution.aspectRatio = 0;
-          if (this.getClient().configured()) {
-            // TODO: Use new user limits if the user is new - I don't think there's a way to do that now?
-            const limit =
-              this.getClient().configuration?.features.limits.default
-                .video_resolution;
-            if (limit) {
-              originalResolution.width = limit[0];
-              originalResolution.height = limit[1];
-              // If both resolutions are limited, set aspect ratio
-              if (
-                originalResolution.height !== 0 &&
-                originalResolution.width !== 0
-              ) {
-                originalResolution.aspectRatio =
-                  originalResolution.width / originalResolution.height;
-              }
-            }
-          }
-          qualities.text = {
-            name: "text",
-            resolution: originalResolution,
-            fullName: `Source 5FPS`,
-            contentHint: "text",
-          };
-        }
+    // TODO: Add more resolutions to stream from if they're enabled. May tie into premium users in the future?
+    if (
+      (limit[0] === 0 || limit[0] >= 1920) &&
+      (limit[1] === 0 || limit[1] >= 1080)
+    ) {
+      qualities.high = {
+        name: "high",
+        resolution: ScreenSharePresets.h1080fps30.resolution,
+        fullName: `1080p 30FPS`,
+        contentHint: "motion",
+      };
+      const originalResolution = ScreenSharePresets.original.resolution;
+      originalResolution.frameRate = 5;
+      originalResolution.aspectRatio = 0;
+
+      const limit = this.limits().video_resolution;
+      originalResolution.width = limit[0];
+      originalResolution.height = limit[1];
+      // If both resolutions are limited, set aspect ratio
+      if (originalResolution.height !== 0 && originalResolution.width !== 0) {
+        originalResolution.aspectRatio =
+          originalResolution.width / originalResolution.height;
       }
+
+      qualities.text = {
+        name: "text",
+        resolution: originalResolution,
+        fullName: `Source 5FPS`,
+        contentHint: "text",
+      };
     }
+
     return qualities;
   }
 

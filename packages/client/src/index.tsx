@@ -25,6 +25,7 @@ import FlowVerify from "@revolt/auth/src/flows/FlowVerify";
 import { ClientContext, SoundContext, useClient } from "@revolt/client";
 import { DeviceContext } from "@revolt/common";
 import { I18nProvider } from "@revolt/i18n";
+import { InstanceContext } from "@revolt/instance";
 import { KeybindContext } from "@revolt/keybinds";
 import { ModalContext, ModalRenderer, useModals } from "@revolt/modal";
 import { VoiceContext } from "@revolt/rtc";
@@ -39,7 +40,6 @@ import {
 /* @refresh reload */
 import "@revolt/ui/styles";
 
-import { InstanceContext } from "@revolt/instance";
 import { AndroidNag } from "./AndroidNag";
 import AuthPage from "./Auth";
 import Interface from "./Interface";
@@ -117,96 +117,82 @@ function BotRedirect() {
 }
 
 function MountContext(props: { children?: JSX.Element }) {
-  const state = useState();
-
-  /**
-   * Tanstack Query client
-   */
   const client = new QueryClient();
 
-  /**
-   * Snackbar controller
-   */
-  const snackbarController = new SnackbarController();
-
   return (
-    <>
+    <StateContext>
       <KeybindContext>
         <ModalContext>
-          <ClientContext state={state}>
-            <I18nProvider>
-              <SoundContext>
-                <VoiceContext>
-                  <QueryClientProvider client={client}>
-                    <SnackbarProvider controller={snackbarController}>
-                      {props.children}
-                      <ModalRenderer />
-                      <FloatingManager />
-                      <AndroidNag />
-                    </SnackbarProvider>
-                  </QueryClientProvider>
-                </VoiceContext>
-              </SoundContext>
-            </I18nProvider>
+          <ClientContext>
+            <SoundContext>
+              <VoiceContext>
+                <QueryClientProvider client={client}>
+                  {props.children}
+                  <ModalRenderer />
+                  <FloatingManager />
+                  <AndroidNag />
+                </QueryClientProvider>
+              </VoiceContext>
+            </SoundContext>
             <SyncWorker />
           </ClientContext>
         </ModalContext>
       </KeybindContext>
       <LoadTheme />
-    </>
+    </StateContext>
   );
 }
 
-const routes = (
-  <>
-    <Route component={StateContext}>
-      <Route component={MountContext}>
-        <Route path="/login" component={AuthPage as never}>
-          <Route path="/delete/:token" component={FlowDeleteAccount} />
-          <Route path="/check" component={FlowCheck} />
-          <Route path="/create" component={FlowCreate} />
-          <Route path="/create/:code" component={FlowCreate} />
-          <Route path="/auth" component={FlowLogin} />
-          <Route path="/resend" component={FlowResend} />
-          <Route path="/reset" component={FlowReset} />
-          <Route path="/verify/:token" component={FlowVerify} />
-          <Route path="/reset/:token" component={FlowConfirmReset} />
-          <Route path="/*" component={FlowHome} />
-        </Route>
-        <Route path="/" component={Interface as never}>
-          <Route path="/pwa" component={PWARedirect} />
-          <Route path="/dev" component={DevelopmentPage} />
-          <Route path="/discover/*" component={Discover} />
-          <Route path="/settings" component={SettingsRedirect} />
-          <Route path="/invite/:code" component={InviteRedirect} />
-          <Route path="/bot/:code" component={BotRedirect} />
-          <Route path="/friends" component={Friends} />
-          <Route path="/server/:server/*">
-            <Route path="/channel/:channel/*" component={ChannelPage} />
-            <Route path="/*" component={ServerHome} />
-          </Route>
-          <Route path="/channel/:channel/*" component={ChannelPage} />
-          <Route path="/*" component={HomePage} />
-        </Route>
-      </Route>
+const routes = () => (
+  <Route component={MountContext}>
+    <Route path="/login" component={AuthPage as never}>
+      <Route path="/delete/:token" component={FlowDeleteAccount} />
+      <Route path="/check" component={FlowCheck} />
+      <Route path="/create" component={FlowCreate} />
+      <Route path="/create/:code" component={FlowCreate} />
+      <Route path="/auth" component={FlowLogin} />
+      <Route path="/resend" component={FlowResend} />
+      <Route path="/reset" component={FlowReset} />
+      <Route path="/verify/:token" component={FlowVerify} />
+      <Route path="/reset/:token" component={FlowConfirmReset} />
+      <Route path="/*" component={FlowHome} />
     </Route>
-  </>
+    <Route path="/" component={Interface as never}>
+      <Route path="/pwa" component={PWARedirect} />
+      <Route path="/dev" component={DevelopmentPage} />
+      <Route path="/discover/*" component={Discover} />
+      <Route path="/settings" component={SettingsRedirect} />
+      <Route path="/invite/:code" component={InviteRedirect} />
+      <Route path="/bot/:code" component={BotRedirect} />
+      <Route path="/friends" component={Friends} />
+      <Route path="/server/:server/*">
+        <Route path="/channel/:channel/*" component={ChannelPage} />
+        <Route path="/*" component={ServerHome} />
+      </Route>
+      <Route path="/channel/:channel/*" component={ChannelPage} />
+      <Route path="/*" component={HomePage} />
+    </Route>
+  </Route>
 );
 
-// TODO: update urls to instance-specific ones as needed
+const snackbarCtrl = new SnackbarController();
+
 render(
   () => (
     <DeviceContext>
-      <Router>
-        <Route path="/" component={InstanceContext}>
-          {routes}
-        </Route>
-        <Route path="/instance/:hostname" component={InstanceContext}>
-          {routes}
-        </Route>
-      </Router>
-
-      {/* <ReportBug /> */}
+      <I18nProvider>
+        <SnackbarProvider controller={snackbarCtrl}>
+          <Router>
+            {/* <Route path="/i/:host" component={InstanceContext}>
+            {routes()}
+          </Route> */}
+            <Route path="/" component={InstanceContext}>
+              {routes()}
+            </Route>
+          </Router>
+          {/* <ReportBug /> */}
+        </SnackbarProvider>
+      </I18nProvider>
     </DeviceContext>
   ),
   document.getElementById("root") as HTMLElement,
