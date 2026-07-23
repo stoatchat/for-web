@@ -461,6 +461,10 @@ class Voice {
                 this.#settings.screenShareQuality || "low"
               ]?.resolution,
             audio: {
+              autoGainControl: false,
+              echoCancellation: false,
+              noiseSuppression: false,
+              voiceIsolation: false,
               restrictOwnAudio: true,
             },
           },
