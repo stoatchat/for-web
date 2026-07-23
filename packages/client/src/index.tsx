@@ -183,9 +183,9 @@ render(
       <I18nProvider>
         <SnackbarProvider controller={snackbarCtrl}>
           <Router>
-            {/* <Route path="/i/:host" component={InstanceContext}>
-            {routes()}
-          </Route> */}
+            <Route path="/i/:host" component={InstanceContext}>
+              {routes()}
+            </Route>
             <Route path="/" component={InstanceContext}>
               {routes()}
             </Route>

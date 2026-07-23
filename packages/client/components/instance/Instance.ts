@@ -17,7 +17,6 @@ export default class Instance {
   readonly #nav;
 
   readonly apiUrl: string;
-  readonly wsUrl: string;
   readonly mediaUrl: string;
   readonly proxyUrl: string;
   readonly gifboxUrl: string;
@@ -41,11 +40,8 @@ export default class Instance {
 
     //Endpoints
     this.apiUrl = appCfg.api;
-    this.wsUrl = (isDef && CONFIGURATION.DEV_WS_URL) || apiCfg.ws;
-    this.mediaUrl =
-      (isDef && CONFIGURATION.DEV_MEDIA_URL) || apiCfg.features.autumn.url;
-    this.proxyUrl =
-      (isDef && CONFIGURATION.DEV_PROXY_URL) || apiCfg.features.january.url;
+    this.mediaUrl = apiCfg.features.autumn.url;
+    this.proxyUrl = apiCfg.features.january.url;
     //TODO Gifbox URL from backend
     this.gifboxUrl =
       (isDef && CONFIGURATION.DEV_GIFBOX_URL) || "https://api.gifbox.me";
@@ -101,10 +97,24 @@ export default class Instance {
 }
 
 export function _newClient(apiUrl: string) {
-  return new Client({
+  const cli = new Client({
     baseURL: apiUrl,
     autoReconnect: false,
     syncUnreads: true,
     debug: import.meta.env.DEV,
   });
+
+  //Init client with env overrides
+  cli.initConfig(() => {
+    if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
+      if (CONFIGURATION.DEV_WS_URL)
+        cli.configuration!.ws = CONFIGURATION.DEV_WS_URL;
+      if (CONFIGURATION.DEV_MEDIA_URL)
+        cli.configuration!.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
+      if (CONFIGURATION.DEV_PROXY_URL)
+        cli.configuration!.features.january.url = CONFIGURATION.DEV_PROXY_URL;
+    }
+  });
+
+  return cli;
 }

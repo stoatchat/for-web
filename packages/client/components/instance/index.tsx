@@ -2,7 +2,6 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import { useBeforeLeave, useNavigate, useParams } from "@solidjs/router";
 import {
   createContext,
-  createEffect,
   createSignal,
   JSXElement,
   Show,
@@ -63,7 +62,9 @@ export function InstanceContext(props: { children?: JSXElement }) {
     setInst(undefined);
 
     //Redirect default instance
-    if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
+    //TODO This redirects ALL instance paths to default until multi-instance is ready
+    // Replace with `if (host === DefaultHost)` when ready
+    if (host) return nav(Instance.relPath(), { replace: true });
 
     try {
       const appCfg: AppConfig = host
@@ -71,14 +72,8 @@ export function InstanceContext(props: { children?: JSXElement }) {
         : { api: CONFIGURATION.DEFAULT_API_URL };
 
       const cli = _newClient(appCfg.api);
-      let instSet = false;
-
-      createEffect(() => {
-        if (cli.configured() && !instSet) {
-          instSet = true;
-          setInst(new Instance(appCfg, cli, host, nav));
-        }
-      });
+      await cli.initConfig();
+      setInst(new Instance(appCfg, cli, host, nav));
     } catch (e) {
       onError(e);
     }
@@ -87,7 +82,9 @@ export function InstanceContext(props: { children?: JSXElement }) {
   return (
     <Show
       when={inst()}
-      fallback={<LoadingScreen isStoat={host === STOAT_HOST} />}
+      fallback={
+        <LoadingScreen isStoat={(host || DefaultHost) === STOAT_HOST} />
+      }
     >
       <Dynamic component={instanceContext.Provider} value={inst()}>
         <Redirect />
