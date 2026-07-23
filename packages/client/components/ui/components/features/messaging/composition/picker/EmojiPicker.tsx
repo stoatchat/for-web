@@ -22,6 +22,7 @@ import { Row } from "@revolt/ui/components/layout";
 
 import emojiMapping from "../../../../../emojiMapping.json";
 
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import {
   CompositionMediaPickerContext,
   compositionContent,
@@ -71,6 +72,7 @@ const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
 export function EmojiPicker() {
   const client = useClient();
   const { ordering, settings } = useState();
+  const { t } = useLingui();
 
   const [filter, setFilter] = createSignal("");
 
@@ -193,15 +195,7 @@ export function EmojiPicker() {
           </VirtualContainer>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            "flex-direction": "column",
-            flex: 1,
-            "min-width": 0,
-            "min-height": 0,
-          }}
-        >
+        <EmojiListColumn>
           <div
             ref={emojiScrollTargetElement}
             use:invisibleScrollable={{
@@ -222,7 +216,7 @@ export function EmojiPicker() {
             <Show when={hoveredItem()}>
               {(item) => (
                 <>
-                  <Row align gap="md" style={{ flex: 1, "min-width": 0 }}>
+                  <Row align gap="sm" style={{ flex: 1, "min-width": 0 }}>
                     <PreviewEmoji>
                       <Switch>
                         <Match when={item().t === 2}>
@@ -249,15 +243,15 @@ export function EmojiPicker() {
                       </PreviewName>
                       <Show when={item().t === 2}>
                         <PreviewFrom>
-                          from{" "}
+                          <Trans>from </Trans>
                           <strong>
                             {(() => {
                               const parent = (item() as Item & { t: 2 }).emoji
                                 .parent;
                               return parent.type === "Server"
                                 ? (client().servers.get(parent.id)?.name ??
-                                    "Unknown Server")
-                                : "Unknown Server";
+                                    t`Unknown Server`)
+                                : t`Unknown Server`;
                             })()}
                           </strong>
                         </PreviewFrom>
@@ -282,7 +276,7 @@ export function EmojiPicker() {
 
                       return (
                         <Avatar
-                          size={32}
+                          size={24}
                           src={server?.animatedIconURL}
                           fallback={server?.name ?? ""}
                         />
@@ -293,7 +287,7 @@ export function EmojiPicker() {
               )}
             </Show>
           </EmojiPreviewBar>
-        </div>
+        </EmojiListColumn>
       </Row>
     </Stack>
   );
@@ -365,20 +359,30 @@ const EmojiPreviewBar = styled("div", {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--gap-xs) var(--gap-md)",
     borderTop: "1px solid var(--colour-component-bg-3, rgba(255,255,255,0.06))",
-    minHeight: "52px",
+    minHeight: "36px",
     flexShrink: 0,
-    gap: "var(--gap-md)",
+    gap: "var(--gap-sm)",
+  },
+});
+
+const EmojiListColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minWidth: 0,
+    minHeight: 0,
   },
 });
 
 const PreviewEmoji = styled("div", {
   base: {
-    width: "32px",
-    height: "32px",
+    width: "24px",
+    height: "24px",
     flexShrink: 0,
-    "--emoji-size": "32px",
+    "--emoji-size": "24px",
 
     "& img": {
       width: "100%",
