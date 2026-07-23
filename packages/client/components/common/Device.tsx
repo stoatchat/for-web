@@ -12,6 +12,14 @@ import Breakpoint from "./Breakpoint";
 
 export type Layout = "desktop" | "tablet" | "phone";
 
+declare global {
+  interface Navigator {
+    virtualKeyboard?: {
+      overlaysContent: boolean;
+    };
+  }
+}
+
 /** Device type and compatibility info */
 export class Device {
   /** Layout type based on viewport size
@@ -40,6 +48,10 @@ export class Device {
     this.pMedia = matchMedia(Breakpoint.phone);
     this.tMedia = matchMedia(Breakpoint.tablet);
     (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
+
+    if (navigator.virtualKeyboard) {
+      navigator.virtualKeyboard.overlaysContent = true;
+    }
   }
 
   onLayout() {
