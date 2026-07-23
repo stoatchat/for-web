@@ -6,21 +6,28 @@ export interface AppConfig {
   api: string;
 }
 
+const DEFAULT_HOST =
+  (import.meta.env.DEV ? import.meta.env.VITE_DEV_HOST : undefined) ??
+  (import.meta.env.VITE_HOST as string) ??
+  STOAT_HOST;
+
+const DEFAULT_API_URL =
+  (import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : undefined) ??
+  (import.meta.env.VITE_API_URL as string) ??
+  STOAT_API;
+
+if (DEFAULT_API_URL !== STOAT_API && DEFAULT_HOST === STOAT_HOST)
+  throw "VITE_HOST required when VITE_API_URL is set!";
+
 export default {
   /**
    * Whether to emit additional debug information
    */
   DEBUG: import.meta.env.DEV || true,
   /** Default instance (without the protocol) */
-  DEFAULT_HOST:
-    (import.meta.env.DEV ? import.meta.env.VITE_DEV_HOST : undefined) ??
-    (import.meta.env.VITE_HOST as string) ??
-    STOAT_HOST,
+  DEFAULT_HOST,
   /** API URL of default instance */
-  DEFAULT_API_URL:
-    (import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : undefined) ??
-    (import.meta.env.VITE_API_URL as string) ??
-    STOAT_API,
+  DEFAULT_API_URL,
   /** WS server override for development */
   DEV_WS_URL: import.meta.env.VITE_DEV_WS_URL as string | undefined,
   /** Media server override for development */
