@@ -18,7 +18,7 @@ import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
 const isMacOS = navigator.platform.startsWith("Mac");
-const isNative = Boolean(window.native);
+const isNative = !!window.native;
 
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
