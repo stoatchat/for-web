@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.13.0...stoat-for-web-v0.13.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* Correct message preview color in Appearance menu & Add pronouns ([#1368](https://github.com/stoatchat/for-web/issues/1368)) ([11c851f](https://github.com/stoatchat/for-web/commit/11c851fc8c469540d31308d88c4410a255c7e6ae))
+* remove marginInlineStart(70px) when opened in a macOS browser ([#1367](https://github.com/stoatchat/for-web/issues/1367)) ([a0f0231](https://github.com/stoatchat/for-web/commit/a0f0231706bd499290a9e1ad3b903564b02ddec9))
+* Update livekit sdk to get restrictOwnAudio for screenshare ([#1360](https://github.com/stoatchat/for-web/issues/1360)) ([13c346a](https://github.com/stoatchat/for-web/commit/13c346a69970ecb218668ff86bd3264af9d5ae38))
+
 ## [0.13.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.1...stoat-for-web-v0.13.0) (2026-07-21)
 
 
