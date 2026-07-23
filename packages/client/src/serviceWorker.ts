@@ -46,10 +46,7 @@ self.addEventListener("push", (event) => {
     }
   }
 
-  //Redirect instance URL
-  const scope = self.registration.scope,
-    url = notification.url && new URL(notification.url);
-  notification.url = url ? `${scope}i/${url.host}${url.pathname}` : scope;
+  notification.url ||= self.registration.scope;
 
   event.waitUntil(
     self.registration.showNotification(notification.title || "Stoat", {
