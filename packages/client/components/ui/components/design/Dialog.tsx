@@ -118,7 +118,7 @@ export function Dialog(props: Props) {
  */
 Dialog.Scrim = (
   props: Omit<
-    Parameters<typeof Scrim>[0] & Parameters<typeof ScrimPad>[0],
+    Parameters<typeof Scrim>[0] & Parameters<typeof ScrimSurface>[0],
     "class"
   >,
 ) => {
@@ -130,7 +130,7 @@ Dialog.Scrim = (
 
   return (
     <Scrim {...remote} class="dialog_scrim">
-      <ScrimPad {...local} />
+      <ScrimSurface {...local} />
     </Scrim>
   );
 };
@@ -174,7 +174,7 @@ const Scrim = styled("div", {
   },
 });
 
-const ScrimPad = styled("div", {
+const ScrimSurface = styled("div", {
   base: {
     width: "100%",
     height: "100%",
