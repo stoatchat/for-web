@@ -35,16 +35,14 @@ export default class Instance {
   readonly limits: Accessor<UserLimits>;
 
   constructor(appCfg: AppConfig, cli: Client, host: string, nav: Navigator) {
-    const apiCfg = (this.client = cli).configuration!,
-      isDef = !host || host === DefaultHost;
+    const apiCfg = (this.client = cli).configuration!;
 
     //Endpoints
     this.apiUrl = appCfg.api;
     this.mediaUrl = apiCfg.features.autumn.url;
     this.proxyUrl = apiCfg.features.january.url;
     //TODO Gifbox URL from backend
-    this.gifboxUrl =
-      (isDef && CONFIGURATION.DEV_GIFBOX_URL) || "https://api.gifbox.me";
+    this.gifboxUrl = CONFIGURATION.DEV_GIFBOX_URL || "https://api.gifbox.me";
 
     //Features
     this.config = apiCfg;
@@ -105,14 +103,13 @@ export function _newClient(apiUrl: string) {
   });
 
   //Init client with env overrides
-  cli.initConfig(() => {
+  cli.initConfig((config) => {
     if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
-      if (CONFIGURATION.DEV_WS_URL)
-        cli.configuration!.ws = CONFIGURATION.DEV_WS_URL;
+      if (CONFIGURATION.DEV_WS_URL) config.ws = CONFIGURATION.DEV_WS_URL;
       if (CONFIGURATION.DEV_MEDIA_URL)
-        cli.configuration!.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
+        config.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
       if (CONFIGURATION.DEV_PROXY_URL)
-        cli.configuration!.features.january.url = CONFIGURATION.DEV_PROXY_URL;
+        config.features.january.url = CONFIGURATION.DEV_PROXY_URL;
     }
   });
 
