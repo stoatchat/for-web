@@ -12,7 +12,7 @@ import solidSvg from "vite-plugin-solid-svg";
 import codegenPlugin from "./codegen.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
-const pwaScope = process.env.PWA_SCOPE ?? base;
+const pwaScope = process.env.PWA_SCOPE || base;
 
 export default defineConfig({
   base,
