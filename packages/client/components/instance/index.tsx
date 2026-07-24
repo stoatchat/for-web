@@ -26,6 +26,8 @@ export const DefaultURL = new URL(`https://${CONFIGURATION.DEFAULT_HOST}`);
 export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
 
+const WordmarkPath = "/assets/web/wordmark.svg";
+
 const instanceContext = createContext<Instance>();
 
 /** Throw this as a lifecycle error to trigger the emergency user swap page.
@@ -60,6 +62,18 @@ export function InstanceContext(props: { children?: JSXElement }) {
         await cli.initConfig();
       } finally {
         inst = new Instance(appCfg, cli, host, nav);
+      }
+
+      const wordmark =
+        //TODO better way to get instance client path than checking isStoat
+        (host ? inst.origin + (inst.isStoat ? "/app" : "") : "") + WordmarkPath;
+
+      try {
+        inst.wordmark = await (await fetch(wordmark)).text();
+      } catch (e) {
+        console.error(e);
+        //Fallback to builtin
+        inst.wordmark = await (await fetch(WordmarkPath)).text();
       }
 
       setInst((i) => i ?? inst);
