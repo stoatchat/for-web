@@ -1,11 +1,10 @@
 import { createEffect, createMemo, Match, on, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
+import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
-import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
-
 
 import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
 import { useClient } from "@revolt/client";

@@ -2,6 +2,7 @@ import { mergeProps, splitProps } from "solid-js";
 
 import { CONFIGURATION } from "@revolt/common";
 
+import { RemoveTimeoutModal } from "@revolt/modal/modals/RemoveTimeout";
 import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
@@ -62,7 +63,6 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
-import { RemoveTimeoutModal } from "@revolt/modal/modals/RemoveTimeout";
 
 /**
  * Render the modal
