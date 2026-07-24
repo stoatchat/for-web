@@ -25,10 +25,10 @@ import MdMicOff from "@material-design-icons/svg/outlined/mic_off.svg?component-
 import MdPersonAddAlt from "@material-design-icons/svg/outlined/person_add_alt.svg?component-solid";
 import MdPersonRemove from "@material-design-icons/svg/outlined/person_remove.svg?component-solid";
 import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
+import MdTimerPlay from "@material-design-icons/svg/outlined/timer.svg?component-solid";
+import MdTimerOff from "@material-design-icons/svg/outlined/timer_off.svg?component-solid";
 import MdChecked from "@material-symbols/svg-400/outlined/check_box.svg?component-solid";
 import MdUnchecked from "@material-symbols/svg-400/outlined/check_box_outline_blank.svg?component-solid";
-import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
-import MdTimerPlay from "@material-symbols/svg-400/outlined/timer_play.svg?component-solid";
 
 import {
   ContextMenu,
