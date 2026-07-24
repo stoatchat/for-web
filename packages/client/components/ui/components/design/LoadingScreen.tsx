@@ -209,6 +209,7 @@ const Base = styled("div", {
     minHeight: 0,
     alignItems: "center",
     justifyContent: "center",
+    height: "100%",
   },
 });
 

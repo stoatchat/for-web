@@ -1,5 +1,5 @@
 import { Navigator } from "@solidjs/router";
-import { Accessor, createMemo } from "solid-js";
+import { Accessor, createMemo, createSignal } from "solid-js";
 
 import { CONFIGURATION } from "@revolt/common";
 import { AppConfig, STOAT_HOST } from "@revolt/common/lib/env";
@@ -21,10 +21,9 @@ export default class Instance {
   readonly proxyUrl: string;
   readonly gifboxUrl: string;
 
+  #cli;
+  #setCli;
   #firstInit = true;
-  /** Note: This is slightly risky- If you import with const braces, eg. `const { client } = useInstance()`,
-   * it won't be reactive. `useClient()` is preferred to avoid ambiguity. */
-  readonly client!: Client;
   readonly config;
 
   //Instead of these, use the reactive limits accessor below when possible
@@ -32,10 +31,13 @@ export default class Instance {
   readonly baseLimits;
 
   /** Current enforced limits based on user type */
-  readonly limits: Accessor<UserLimits>;
+  readonly limits!: Accessor<UserLimits>;
 
   constructor(appCfg: AppConfig, cli: Client, host: string, nav: Navigator) {
-    const apiCfg = (this.client = cli).configuration!;
+    const apiCfg = cli.configuration!;
+    const [getCli, setCli] = createSignal(cli);
+    this.#cli = getCli;
+    this.#setCli = setCli;
 
     //Endpoints
     this.apiUrl = appCfg.api;
@@ -48,7 +50,6 @@ export default class Instance {
     this.config = apiCfg;
     this.globalLimits = apiCfg.features.limits.global;
     this.baseLimits = apiCfg.features.limits.new_user;
-    this.limits = createMemo(() => this.client.limits ?? this.baseLimits);
 
     this.host = host || undefined;
     if (!host) host = DefaultHost;
@@ -58,6 +59,18 @@ export default class Instance {
     this.isStoat = host === STOAT_HOST;
     this.#base = this.isStoat ? "" : `/i/${host}`;
     this.#nav = nav;
+  }
+
+  /** Note: This is slightly risky- If you import with const braces, eg. `const { client } = useInstance()`,
+   * it won't be reactive. `useClient()` is preferred to avoid ambiguity. */
+  get client(): Client {
+    return this.#cli();
+  }
+
+  /** Initialize reactive vars; must be called in reactive scope */
+  _init() {
+    //@ts-expect-error set readonly
+    this.limits = createMemo(() => this.client.limits ?? this.baseLimits);
   }
 
   /** Prepend a relative path with instance base URL
@@ -89,8 +102,8 @@ export default class Instance {
     this.client.removeAllListeners();
     this.client.events.disconnect();
 
-    //@ts-expect-error replace client
-    return (this.client = _newClient(this.apiUrl));
+    this.#setCli(_newClient(this.apiUrl));
+    return this.client;
   }
 }
 

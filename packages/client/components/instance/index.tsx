@@ -2,6 +2,7 @@ import { useLingui } from "@lingui-solid/solid/macro";
 import { useBeforeLeave, useNavigate, useParams } from "@solidjs/router";
 import {
   createContext,
+  createMemo,
   createSignal,
   JSXElement,
   Show,
@@ -59,8 +60,6 @@ export function InstanceContext(props: { children?: JSXElement }) {
   }
 
   (async () => {
-    setInst(undefined);
-
     //Redirect default instance
     //TODO This redirects ALL instance paths to default until multi-instance is ready
     // Replace with `if (host === DefaultHost)` when ready
@@ -79,14 +78,21 @@ export function InstanceContext(props: { children?: JSXElement }) {
     }
   })();
 
+  //Finish init in reactive scope
+  const instInit = createMemo(() => {
+    const i = inst();
+    if (i) i._init();
+    return i;
+  });
+
   return (
     <Show
-      when={inst()}
+      when={instInit()}
       fallback={
         <LoadingScreen isStoat={(host || DefaultHost) === STOAT_HOST} />
       }
     >
-      <Dynamic component={instanceContext.Provider} value={inst()}>
+      <Dynamic component={instanceContext.Provider} value={instInit()}>
         <Redirect />
         {props.children}
       </Dynamic>
