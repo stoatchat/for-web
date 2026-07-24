@@ -34,6 +34,13 @@ export class Device {
    * Granular feature-detection is preferred when possible. */
   readonly isMobile: boolean;
 
+  /** If Stoat is running as a web app */
+  readonly isPWA =
+    //Safari
+    (window.navigator as never as { standalone: boolean }).standalone ||
+    //Other
+    window.matchMedia("(display-mode: standalone)").matches;
+
   private pMedia;
   private tMedia;
   private setLayout;
@@ -49,7 +56,7 @@ export class Device {
     this.tMedia = matchMedia(Breakpoint.tablet);
     (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
 
-    if (navigator.virtualKeyboard) {
+    if (this.isPWA && navigator.virtualKeyboard) {
       navigator.virtualKeyboard.overlaysContent = true;
     }
   }
