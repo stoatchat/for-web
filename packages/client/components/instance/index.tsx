@@ -21,6 +21,8 @@ export const DefaultURL = new URL(`https://${CONFIGURATION.DEFAULT_HOST}`);
 export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
 
+const WordmarkPath = "/assets/web/wordmark.svg";
+
 const instanceContext = createContext<Instance>();
 let appLoadedOnce = false;
 
@@ -61,7 +63,21 @@ export function InstanceContext(props: { children?: JSXElement }) {
 
       const cli = _newClient(appCfg.api);
       await cli.initConfig();
-      setInst(new Instance(appCfg, cli, host, nav));
+      const inst = new Instance(appCfg, cli, host, nav);
+
+      const wordmark =
+        //TODO better way to get instance client path than checking isStoat
+        (host ? inst.origin + (inst.isStoat ? "/app" : "") : "") + WordmarkPath;
+
+      try {
+        inst.wordmark = await (await fetch(wordmark)).text();
+      } catch (e) {
+        console.error(e);
+        //Fallback to builtin
+        inst.wordmark = await (await fetch(WordmarkPath)).text();
+      }
+
+      setInst(inst);
     } catch (e) {
       onError(e);
     }

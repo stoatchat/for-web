@@ -16,6 +16,7 @@ import {
   Header,
   iconSize,
   main,
+  Wordmark,
 } from "@revolt/ui";
 
 import MdAddCircle from "@material-design-icons/svg/filled/add_circle.svg?component-solid";
@@ -25,8 +26,6 @@ import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
 import MdPayments from "@material-design-icons/svg/filled/payments.svg?component-solid";
 import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
-
-import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
 import { HeaderIcon } from "./common/CommonHeader";
 

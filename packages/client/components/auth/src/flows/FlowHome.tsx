@@ -8,9 +8,7 @@ import { State, TransitionType } from "@revolt/client/Controller";
 import { useError } from "@revolt/i18n";
 import { Navigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { Button, CircularProgress, Column } from "@revolt/ui";
-
-import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
+import { Button, CircularProgress, Column, Wordmark } from "@revolt/ui";
 
 /**
  * Flow for logging into an account
