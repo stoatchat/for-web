@@ -1,12 +1,12 @@
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/77ef7a29d276c6d8303aece3444d61118ef71ac2.tar.gz";
-    sha256 = "0pm4l48jq8plzrrrisimahxqlcpx7qqq9c99hylmf7p3zlc3phsy";
+    url = "https://github.com/NixOS/nixpkgs/archive/110ffdee50af63b1f3adb714e0d5cc679999e108.tar.gz";
+    sha256 = "1x2z0wx0mph8l29fjchl8hdnsqvklv8md28qdijg6lscdr8x3n9n";
   }) {},
 
-  # Playwright v1.57.0
+  # Playwright v1.60.0
   unstablePkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/145b67bd0bd4e075f981c1c2b81155d9e2982de2.tar.gz";
-    sha256 = "152qwxacs6lw1dskn21985qly8ipjzwpsvicy7inzh3hhma603gg";
+    url = "https://github.com/NixOS/nixpkgs/archive/9e87430ac7e25a6ba9f5a593c300f4e114a00f57.tar.gz";
+    sha256 = "1zcfwvx89r4w2qgnlq1fqvp6zpzzq4xlc786z6i37454nj0s87rj";
   }) {},
 }:
 
