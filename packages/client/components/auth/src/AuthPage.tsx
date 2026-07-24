@@ -26,13 +26,6 @@ const Base = styled("div", {
     userSelect: "none",
     overflowY: "scroll",
 
-    color: "var(--md-sys-color-on-surface)",
-    background: "var(--md-sys-color-surface)",
-    // background: `var(--url)`,
-    // backgroundPosition: "center",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
-
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -40,6 +33,22 @@ const Base = styled("div", {
     mdDown: {
       padding: "30px 20px",
     },
+  },
+});
+
+const Root = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    paddingBottom: "env(keyboard-inset-height)",
+
+    color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface)",
+    // background: `var(--url)`,
+    // backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat",
+    // backgroundSize: "cover",
   },
 });
 
@@ -118,13 +127,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
 
   return (
-    <div
-      style={{
-        display: "flex",
-        "flex-direction": "column",
-        height: "100%",
-      }}
-    >
+    <Root>
       <Titlebar />
       <Base
         style={{ "--url": `url('${background}')` }}
@@ -175,6 +178,6 @@ export function AuthPage(props: { children: JSX.Element }) {
           </NavItems>
         </Nav>
       </Base>
-    </div>
+    </Root>
   );
 }
