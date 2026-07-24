@@ -45,6 +45,7 @@ export function UserProfileEditor(props: Props) {
     avatar: createFormControl<string | File[] | null>(
       props.user.animatedAvatarURL,
     ),
+    pronouns: createFormControl<string>(props.user.pronouns),
     banner: createFormControl<string | File[] | null>(null),
     bio: createFormControl(""),
   });
@@ -76,6 +77,7 @@ export function UserProfileEditor(props: Props) {
   function onReset() {
     editGroup.controls.displayName.setValue(props.user.displayName);
     editGroup.controls.avatar.setValue(props.user.animatedAvatarURL);
+    editGroup.controls.pronouns.setValue(props.user.pronouns || "");
 
     if (profile.data) {
       editGroup.controls.banner.setValue(
@@ -104,6 +106,14 @@ export function UserProfileEditor(props: Props) {
           editGroup.controls.avatar.value[0],
           CONFIGURATION.DEFAULT_MEDIA_URL,
         );
+      }
+    }
+
+    if (editGroup.controls.pronouns.isDirty) {
+      if (!editGroup.controls.pronouns.value) {
+        changes.remove?.push("Pronouns");
+      } else {
+        changes.pronouns = editGroup.controls.pronouns.value.trim();
       }
     }
 
@@ -172,6 +182,14 @@ export function UserProfileEditor(props: Props) {
           name="displayName"
           control={editGroup.controls.displayName}
           label={t`Display Name`}
+        />
+        <Form2.TextField
+          minlength={1}
+          maxlength={24}
+          counter
+          name="pronouns"
+          control={editGroup.controls.pronouns}
+          label={t`Pronouns`}
         />
 
         <Show when={!props.user.bot}>

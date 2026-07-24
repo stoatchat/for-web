@@ -25,6 +25,7 @@ export function ServerIdentityModal(
     avatar: createFormControl<string | File[] | null>(
       props.member.animatedAvatarURL,
     ),
+    pronouns: createFormControl<string>(props.member.pronouns ?? ""),
     nickname: createFormControl(props.member.nickname ?? ""),
   });
   /* eslint-enable solid/reactivity */
@@ -53,6 +54,14 @@ export function ServerIdentityModal(
             group.controls.avatar.value[0],
             CONFIGURATION.DEFAULT_MEDIA_URL,
           );
+        }
+      }
+
+      if (group.controls.pronouns.isDirty) {
+        if (!group.controls.pronouns.value) {
+          changes.remove?.push("Pronouns");
+        } else {
+          changes.pronouns = group.controls.pronouns.value;
         }
       }
 
@@ -100,6 +109,14 @@ export function ServerIdentityModal(
             label={t`Nickname`}
             control={group.controls.nickname}
             placeholder={props.member.user?.displayName}
+          />
+          <Form2.TextField
+            minlength={1}
+            maxlength={24}
+            counter
+            name="pronouns"
+            control={group.controls.pronouns}
+            label={t`Pronouns`}
           />
         </Column>
       </form>

@@ -5,11 +5,13 @@ import { ProfileBio } from "./ProfileBio";
 import { ProfileCard } from "./ProfileCard";
 import { ProfileJoined } from "./ProfileJoined";
 import { ProfileMutuals } from "./ProfileMutuals";
+import { ProfilePronouns } from "./ProfilePronouns";
 import { ProfileRoles } from "./ProfileRoles";
 import { ProfileStatus } from "./ProfileStatus";
 
 export const Profile = {
   Actions: ProfileActions,
+  Pronouns: ProfilePronouns,
   Badges: ProfileBadges,
   Banner: ProfileBanner,
   Bio: ProfileBio,

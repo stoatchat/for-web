@@ -140,6 +140,10 @@ export function Message(props: Props) {
    */
   const unreact = (emoji: string) => props.message.unreact(emoji);
 
+  // Derive pronouns member takes precedence over author
+  const pronouns = () =>
+    props.message.member?.pronouns ?? props.message.author?.pronouns;
+
   return (
     <MessageContext message={props.message} reactPicker={reactPicker}>
       <MessageContainer
@@ -174,6 +178,7 @@ export function Message(props: Props) {
             />
           </div>
         }
+        pronouns={pronouns()}
         contextMenu={
           props.editing
             ? undefined

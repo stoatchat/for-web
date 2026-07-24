@@ -18,10 +18,11 @@ import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
 const isMacOS = navigator.platform.startsWith("Mac");
+const isNative = !!window.native;
 
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
-    window.native ? window.desktopConfig.get().windowState.isMaximised : false,
+    isNative ? window.desktopConfig.get().windowState.isMaximised : false,
   );
   const { lifecycle } = useClientLifecycle();
 
@@ -43,7 +44,7 @@ export function Titlebar() {
     <Presence>
       <Show
         when={
-          (window.native && window.desktopConfig?.get().customFrame) ||
+          (isNative && window.desktopConfig?.get().customFrame) ||
           isDisconnected()
         }
       >
@@ -71,7 +72,7 @@ export function Titlebar() {
               </Show>
             </Title>
             <DragHandle
-              macos={isMacOS}
+              macos={isMacOS && isNative}
               style={{
                 "-webkit-user-select": "none",
                 "-webkit-app-region": "drag",
@@ -126,7 +127,7 @@ export function Titlebar() {
                 </div>
               </Show>
             </DragHandle>
-            <Show when={window.native && !isMacOS}>
+            <Show when={isNative && !isMacOS}>
               <Action onClick={window.native.minimise}>
                 <Ripple />
                 <MdMinimize {...symbolSize(20)} />

@@ -460,7 +460,13 @@ class Voice {
               this.getEnabledScreenShareQualities()[
                 this.#settings.screenShareQuality || "low"
               ]?.resolution,
-            audio: true,
+            audio: {
+              autoGainControl: false,
+              echoCancellation: false,
+              noiseSuppression: false,
+              voiceIsolation: false,
+              restrictOwnAudio: true,
+            },
           },
         );
 
