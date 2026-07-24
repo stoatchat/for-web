@@ -344,4 +344,8 @@ export type Modals =
         image?: string;
       }[];
       onCancel: () => void;
+    }
+  | {
+      type: "edit_bot_username";
+      bot: Bot;
     };
