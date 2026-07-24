@@ -9,6 +9,8 @@ packages:
 allowBuilds:
   "@swc/core": true
   esbuild: true
+minimumReleaseAgeExclude:
+  - stoat-api
 nodeLinker: isolated
 
 # Override prettier because some of the submodules have ancient prettiers required

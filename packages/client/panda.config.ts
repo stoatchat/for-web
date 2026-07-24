@@ -1,4 +1,12 @@
 import { defineConfig } from "@pandacss/dev";
+import Breakpoint from "./components/common/Breakpoint";
+
+const condExt: Record<string, string> = {};
+
+//Load breakpoint conditions
+for (const bp in Breakpoint) {
+  condExt[bp] = `@media ${Breakpoint[bp as keyof typeof Breakpoint]}`;
+}
 
 export default defineConfig({
   // Whether to use css reset
@@ -7,8 +15,7 @@ export default defineConfig({
   // Where to look for your css declarations
   include: ["./src/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
 
-  // Files to exclude
-  exclude: [],
+  conditions: { extend: condExt },
 
   // Useful for theme customization
   theme: {

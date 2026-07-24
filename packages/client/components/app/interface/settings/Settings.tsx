@@ -4,6 +4,7 @@ import {
   createContext,
   createMemo,
   createSignal,
+  Setter,
   untrack,
   useContext,
 } from "solid-js";
@@ -25,6 +26,8 @@ export interface SettingsProps {
    * Settings context
    */
   context: never;
+
+  contentRef: Setter<HTMLDivElement | undefined>;
 }
 
 /**
@@ -89,11 +92,16 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
         navigate,
       }}
     >
-      <MemoisedList context={props.context} list={props.list}>
+      <MemoisedList
+        context={props.context}
+        list={props.list}
+        onClose={props.onClose}
+      >
         {(list) => (
           <>
             <SettingsSidebar list={list} page={page} setPage={setPage} />
             <SettingsContent
+              ref={props.contentRef}
               page={page}
               list={list}
               title={props.title}
@@ -156,14 +164,14 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
  */
 function MemoisedList(props: {
   context: never;
-  list: (context: never) => SettingsList<unknown>;
+  onClose?: () => void;
+  list: (context: never, onClose?: () => void) => SettingsList<unknown>;
   children: (list: Accessor<SettingsList<unknown>>) => JSX.Element;
 }) {
   /**
    * Generate list of categories / links
    */
-  const list = createMemo(() => props.list(props.context));
-
+  const list = createMemo(() => props.list(props.context, props.onClose));
   return <>{props.children(list)}</>;
 }
 

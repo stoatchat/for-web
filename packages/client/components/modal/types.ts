@@ -128,6 +128,10 @@ export type Modals =
       message: Message;
     }
   | {
+      type: "pin_message";
+      message: Message;
+    }
+  | {
       type: "delete_server";
       server: Server;
     }
@@ -151,15 +155,6 @@ export type Modals =
   | {
       type: "emoji_preview";
       emoji: Emoji;
-    }
-  | {
-      /**
-       * @deprecated build proper error handling!
-       */
-      type: "error";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
     }
   | {
       type: "error2";
@@ -282,6 +277,7 @@ export type Modals =
       user: User;
       isPlaceholder?: boolean;
       placeholderProfile?: API.UserProfile;
+      member?: ServerMember;
     }
   | {
       type: "user_profile_roles";
@@ -290,6 +286,7 @@ export type Modals =
   | {
       type: "user_profile_mutual_friends";
       users: User[];
+      server?: Server;
     }
   | {
       type: "user_profile_mutual_groups";

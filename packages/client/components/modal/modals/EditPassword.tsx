@@ -2,7 +2,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
-import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
+import { Column, Dialog, DialogProps, Form2, useSnackbar } from "@revolt/ui";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -16,6 +16,8 @@ export function EditPasswordModal(
   const { t } = useLingui();
   const { showError } = useModals();
 
+  const snackbar = useSnackbar();
+
   const group = createFormGroup({
     password: createFormControl("", { required: true }),
     currentPassword: createFormControl("", { required: true }),
@@ -28,6 +30,7 @@ export function EditPasswordModal(
         group.controls.currentPassword.value,
       );
 
+      snackbar.show({ message: t`Password changed successfully.` });
       props.onClose();
     } catch (err) {
       showError(err);
