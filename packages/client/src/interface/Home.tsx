@@ -16,9 +16,8 @@ import {
   Header,
   main,
   Symbol,
+  Wordmark,
 } from "@revolt/ui";
-
-import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
 import { HeaderIcon } from "./common/CommonHeader";
 
