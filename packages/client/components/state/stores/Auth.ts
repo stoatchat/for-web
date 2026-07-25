@@ -1,5 +1,4 @@
-import { t } from "@lingui/core/macro";
-
+import { useLingui } from "@lingui-solid/solid/macro";
 import { CONFIGURATION } from "@revolt/common";
 import { User } from "stoat.js";
 
@@ -117,7 +116,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   getSession(unhold = false) {
     const data = unhold ? this.#read() : this.get();
     if (unhold && !data.session) {
-      data.session = data.saved.pop();
+      data.session = data.saved.shift();
       this.set(data);
     }
     return data.session;
@@ -143,12 +142,16 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    */
   addSession(newSes: Session) {
     const data = this.#read();
-    if (data.session)
+    if (data.session) {
+      const { t } = useLingui();
       throw t`Encountered a problem while saving previous session.`;
+    }
     data.session = newSes;
     for (const ses of data.saved)
-      if (ses.userId === newSes.userId)
+      if (ses.userId === newSes.userId) {
+        const { t } = useLingui();
         throw t`Whoops, you're already logged in as this user!`;
+      }
     this.set(data);
   }
 
@@ -158,7 +161,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    */
   removeSession(unhold = false) {
     const data = this.#read();
-    data.session = unhold ? data.saved.pop() : undefined;
+    data.session = unhold ? data.saved.shift() : undefined;
     this.set(data);
   }
 
@@ -168,7 +171,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   holdSession() {
     const data = this.#read();
     if (!data.session) return;
-    data.saved.push(data.session);
+    data.saved.unshift(data.session);
     data.session = undefined;
     this.set(data);
   }
@@ -181,12 +184,13 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
       saved = data.saved;
     for (let i = 0, l = saved.length; i < l; ++i)
       if (saved[i].userId === userId) {
-        if (data.session) saved.push(data.session);
+        const old = data.session;
         data.session = saved[i];
         saved.splice(i, 1);
-        this.set(data);
-        return;
+        if (old) saved.unshift(old);
+        return this.set(data);
       }
+    const { t } = useLingui();
     throw t`User session not found, try logging in again.`;
   }
 
@@ -194,23 +198,20 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * Cache username and avatar for account switcher
    */
   cacheUserInfo(user: User) {
-    const ses = this.get().session;
-    if (!ses) return;
-    this.set(
-      "session",
-      "cachedName",
-      `${user.displayName} (@${user.username}#${user.discriminator})`,
-    );
-    this.set("session", "cachedAvatar", user.avatarURL);
+    const data = this.#read();
+    for (const s of [data.session, ...data.saved])
+      if (s && s.userId === user.id) {
+        s.cachedName = `${user.displayName} (@${user.username}#${user.discriminator})`;
+        s.cachedAvatar = user.avatarURL;
+        return this.set(data);
+      }
   }
 
   /**
    * Mark current session as valid
    */
   markValid() {
-    const session = this.get().session;
-    if (session && !session.valid) {
-      this.set("session", "valid", true);
-    }
+    const ses = this.get().session;
+    if (ses && !ses.valid) this.set("session", "valid", true);
   }
 }
