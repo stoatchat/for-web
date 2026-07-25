@@ -1,4 +1,4 @@
-import { createQuery } from "@tanstack/solid-query";
+import { useQuery } from "@tanstack/solid-query";
 import { User } from "stoat.js";
 
 import { useClient } from ".";
@@ -10,7 +10,7 @@ import { useClient } from ".";
 export function createMfaResource() {
   const client = useClient();
 
-  return createQuery(() => ({
+  return useQuery(() => ({
     queryKey: ["mfa", client().user!.id],
     queryFn: () => client().account.mfa(),
     throwOnError: true,
@@ -23,7 +23,7 @@ export function createMfaResource() {
  * @returns User profile resource
  */
 export function createProfileResource(user: User) {
-  return createQuery(() => ({
+  return useQuery(() => ({
     queryKey: ["profile", user.id],
     queryFn: () => user!.fetchProfile(),
     throwOnError: true,
@@ -45,7 +45,7 @@ export function createOwnProfileResource() {
  */
 export function createOwnBotsResource() {
   const client = useClient();
-  return createQuery(() => ({
+  return useQuery(() => ({
     queryKey: ["bots", client().user!.id],
     queryFn: () => client().bots.fetchOwned(),
     throwOnError: true,
