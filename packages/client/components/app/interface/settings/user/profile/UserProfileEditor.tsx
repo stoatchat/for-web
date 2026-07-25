@@ -2,8 +2,8 @@ import { createFormControl, createFormGroup } from "solid-forms";
 import { Show, createEffect, createSignal, on } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { useQuery, useQueryClient } from "@tanstack/solid-query";
-import { API, User } from "stoat.js";
+import { useQueryClient } from "@tanstack/solid-query";
+import { API, User, UserProfile } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
@@ -22,20 +22,13 @@ import { useSettingsNavigation } from "../../Settings";
 
 interface Props {
   user: User;
+  profile?: UserProfile;
 }
 
 export function UserProfileEditor(props: Props) {
   const { t } = useLingui();
   const client = useClient();
   const queryClient = useQueryClient();
-
-  const profile = useQuery(() => ({
-    queryKey: ["profile", props.user.id],
-    queryFn: () => props.user.fetchProfile(),
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  }));
-
   const { navigate } = useSettingsNavigation();
 
   /* eslint-disable solid/reactivity */
@@ -51,16 +44,12 @@ export function UserProfileEditor(props: Props) {
   });
   /* eslint-enable solid/reactivity */
 
-  // unlike the other forms, this one does not react to
-  // further changes outside of our control because it's
-  // unlikely that the user is going to be doing this
-
   const [initialBio, setInitialBio] = createSignal<readonly [string]>();
 
   // once profile data is loaded, copy it into the form
   createEffect(
     on(
-      () => profile.data,
+      () => props.profile,
       (profileData) => {
         if (profileData) {
           editGroup.controls.banner.setValue(
@@ -79,12 +68,12 @@ export function UserProfileEditor(props: Props) {
     editGroup.controls.avatar.setValue(props.user.animatedAvatarURL);
     editGroup.controls.pronouns.setValue(props.user.pronouns || "");
 
-    if (profile.data) {
+    if (props.profile) {
       editGroup.controls.banner.setValue(
-        profile.data.animatedBannerURL || null,
+        props.profile.animatedBannerURL || null,
       );
-      editGroup.controls.bio.setValue(profile.data.content || "");
-      setInitialBio([profile.data.content || ""]);
+      editGroup.controls.bio.setValue(props.profile.content || "");
+      setInitialBio([props.profile.content || ""]);
     }
   }
 
@@ -147,11 +136,15 @@ export function UserProfileEditor(props: Props) {
 
     await props.user.edit(changes);
 
-    if (editGroup.controls.banner.isDirty && profile.data) {
+    if (
+      (editGroup.controls.banner.isDirty || editGroup.controls.bio.isDirty) &&
+      props.profile
+    ) {
       queryClient.setQueryData(["profile", props.user.id], {
-        ...profile.data,
+        ...props.profile,
         animatedBannerURL: newBannerUrl,
         bannerURL: newBannerUrl,
+        content: editGroup.controls.bio.value,
       });
     }
   }

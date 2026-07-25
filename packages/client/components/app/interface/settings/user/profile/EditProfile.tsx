@@ -63,7 +63,7 @@ export function EditProfile() {
         <Text class="title" size="large">
           <Trans>Edit Global Profile</Trans>
         </Text>
-        <UserProfileEditor user={client().user!} />
+        <UserProfileEditor user={client().user!} profile={profile.data} />
       </Column>
     </Column>
   );

@@ -41,7 +41,7 @@ export function ViewBot(props: { bot: Bot }) {
         bannerUrl={profile.data?.animatedBannerURL}
       />
 
-      <UserProfileEditor user={props.bot.user!} />
+      <UserProfileEditor user={props.bot.user!} profile={profile.data} />
       {/* <ErrorBoundary fallback={<>Failed to load profile</>}>
         <Suspense fallback={<>loading...</>}>{profile.data?.content}</Suspense>
       </ErrorBoundary> */}
