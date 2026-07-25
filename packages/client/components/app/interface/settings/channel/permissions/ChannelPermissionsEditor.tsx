@@ -436,9 +436,28 @@ export function ChannelPermissionsEditor(props: Props) {
         {(entry) => (
           <Show when={description(entry)}>
             <Show when={entry.heading}>
-              <span class={css({ marginTop: "var(--gap-md)" })}>
-                <Text class="label">{entry.heading}</Text>
-              </span>
+              <div
+                class={css({
+                  marginTop: "var(--gap-xl)",
+                  marginBottom: "var(--gap-md)",
+                  paddingBottom: "var(--gap-xs)",
+                  borderBottom: "1px solid var(--md-sys-color-surface-variant)",
+                  display: "flex",
+                  alignItems: "center",
+                })}
+              >
+                <span
+                  class={css({
+                    fontWeight: 700,
+                    fontSize: "1.125rem",
+                    color: "var(--md-sys-color-primary)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  })}
+                >
+                  {entry.heading}
+                </span>
+              </div>
             </Show>
 
             <Switch
@@ -521,10 +540,18 @@ const StickyPanel = styled("div", {
   base: {
     position: "sticky",
     width: "fit-content",
-    padding: "var(--gap-md)",
+    padding: "var(--gap-md) var(--gap-lg)",
     bottom: "var(--gap-lg)",
     borderRadius: "var(--borderRadius-xl)",
-    background: "var(--md-sys-color-surface)",
+    background:
+      "color-mix(in srgb, var(--md-sys-color-surface) 90%, transparent)",
+    backdropFilter: "blur(10px)",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+    border: "1px solid var(--md-sys-color-surface-variant)",
+    margin: "0 auto",
+    display: "flex",
+    justifyContent: "center",
+    zIndex: 10,
   },
 });
 
@@ -538,24 +565,57 @@ function ChannelPermissionToggle(props: {
 
   havePermission: boolean;
 }) {
+  const borderColor = () =>
+    props.value
+      ? "var(--switch-success, #008545)"
+      : "var(--md-sys-color-outline-variant)";
+  const bgColor = () =>
+    props.value
+      ? "color-mix(in srgb, var(--switch-success, #008545) 15%, transparent)"
+      : "var(--md-sys-color-surface-container)";
+
   return (
-    <Checkbox2
-      name={props.key}
-      checked={props.value}
-      onChange={(event) => props.onChange(event.currentTarget.checked)}
-      disabled={!props.havePermission}
+    <div
+      class={css({
+        padding: "var(--gap-md) var(--gap-lg)",
+        borderRadius: "var(--borderRadius-lg)",
+        marginBottom: "var(--gap-sm)",
+        transition: "all 0.2s ease",
+      })}
+      style={{
+        "background-color": bgColor(),
+        border: `1px solid ${borderColor()}`,
+        opacity: props.havePermission ? 1 : 0.5,
+      }}
     >
-      <div
-        class={css({
-          marginStart: "var(--gap-md)",
-          display: "flex",
-          flexDirection: "column",
-        })}
+      <Checkbox2
+        name={props.key}
+        checked={props.value}
+        onChange={(event) => props.onChange(event.currentTarget.checked)}
+        disabled={!props.havePermission}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
-      </div>
-    </Checkbox2>
+        <div
+          class={css({
+            marginStart: "var(--gap-md)",
+            display: "flex",
+            flexDirection: "column",
+          })}
+        >
+          <span class={css({ fontWeight: 600, fontSize: "1.125rem" })}>
+            {props.title}
+          </span>
+          <span
+            class={css({
+              color: "var(--md-sys-color-on-surface-variant)",
+              fontSize: "0.875rem",
+              lineHeight: 1.4,
+            })}
+          >
+            {props.description}
+          </span>
+        </div>
+      </Checkbox2>
+    </div>
   );
 }
 
@@ -569,28 +629,73 @@ function ChannelPermissionOverride(props: {
 
   havePermission: boolean;
 }) {
+  const borderColor = () => {
+    switch (props.value) {
+      case "allow":
+        return "var(--switch-success, #008545)";
+      case "deny":
+        return "var(--switch-error, #D22D39)";
+      default:
+        return "var(--md-sys-color-outline-variant)";
+    }
+  };
+
+  const bgColor = () => {
+    switch (props.value) {
+      case "allow":
+        return "color-mix(in srgb, var(--switch-success, #008545) 15%, transparent)";
+      case "deny":
+        return "color-mix(in srgb, var(--switch-error, #D22D39) 15%, transparent)";
+      default:
+        return "var(--md-sys-color-surface-container)";
+    }
+  };
+
   return (
     <div
       class={css({
-        gap: "var(--gap-md)",
         display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "var(--gap-md) var(--gap-lg)",
+        borderRadius: "var(--borderRadius-lg)",
+        marginBottom: "var(--gap-sm)",
+        transition: "all 0.2s ease",
       })}
+      style={{
+        "background-color": bgColor(),
+        border: `1px solid ${borderColor()}`,
+        opacity: props.havePermission ? 1 : 0.5,
+      }}
     >
       <div
         class={css({
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
+          marginRight: "var(--gap-lg)",
         })}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <span class={css({ fontWeight: 600, fontSize: "1.125rem" })}>
+          {props.title}
+        </span>
+        <span
+          class={css({
+            color: "var(--md-sys-color-on-surface-variant)",
+            fontSize: "0.875rem",
+            lineHeight: 1.4,
+          })}
+        >
+          {props.description}
+        </span>
       </div>
-      <OverrideSwitch
-        disabled={!props.havePermission}
-        value={props.value}
-        onChange={props.onChange}
-      />
+      <div class={css({ flexShrink: 0 })}>
+        <OverrideSwitch
+          disabled={!props.havePermission}
+          value={props.value}
+          onChange={props.onChange}
+        />
+      </div>
     </div>
   );
 }

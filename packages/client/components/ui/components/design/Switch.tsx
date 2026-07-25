@@ -74,14 +74,14 @@ const SwitchContainer = styled("div", {
     margin: "4px 0",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-md)",
-
+    border: "1px solid var(--md-sys-color-outline-variant)",
     // "&[aria-disabled]": {
     //   pointerEvents: "none",
     //   opacity: 0.6,
     // },
 
     transition: "var(--transitions-fast) all",
-    background: "var(--md-sys-color-primary-container)",
+    background: "var(--md-sys-color-surface-variant)",
   },
 });
 
@@ -90,14 +90,18 @@ const Override = styled("div", {
     // for <Ripple />:
     position: "relative",
 
-    padding: "4px",
+    padding: "6px",
     display: "flex",
     cursor: "pointer",
     alignItems: "center",
     transition: "var(--transitions-fast) all",
+    color: "var(--switch-fg, var(--md-sys-color-on-surface-variant))",
+    fill: "var(--switch-fg, var(--md-sys-color-on-surface-variant))",
+    background: "var(--switch-bg, transparent)",
 
     "&:hover": {
       // filter: "brightness(0.8)",
+      background: "var(--switch-bg-hover, color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent))",
     },
 
     "& svg": {
@@ -121,26 +125,27 @@ const Override = styled("div", {
       type: "allow",
       selected: "allow",
       css: {
-        // TODO
-        color: "green",
-        background: "green",
+        "--switch-fg": "var(--switch-on-success, #fff)",
+        "--switch-bg": "var(--switch-success, #008545)",
+        "--switch-bg-hover": "color-mix(in srgb, var(--switch-success, #008545), black 15%)",
       },
     },
     {
       type: "neutral",
       selected: "neutral",
       css: {
-        fill: "var(--md-sys-color-inverse-on-surface)",
-        background: "var(--md-sys-color-inverse-surface)",
+        "--switch-fg": "var(--md-sys-color-inverse-on-surface)",
+        "--switch-bg": "var(--md-sys-color-inverse-surface)",
+        "--switch-bg-hover": "color-mix(in srgb, var(--md-sys-color-inverse-surface), black 15%)",
       },
     },
     {
       type: "deny",
       selected: "deny",
       css: {
-        // TODO
-        color: "red",
-        background: "red",
+        "--switch-fg": "var(--switch-on-error, #fff)",
+        "--switch-bg": "var(--switch-error, #D22D39)",
+        "--switch-bg-hover": "color-mix(in srgb, var(--switch-error, #D22D39), black 15%)",
       },
     },
   ],
