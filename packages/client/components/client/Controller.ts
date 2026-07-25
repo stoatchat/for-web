@@ -276,7 +276,7 @@ class Lifecycle {
       case State.Error:
         if (transition.type === TransitionType.Dismiss) {
           if (this.permanentError === "InvalidSession")
-            this.#controller.state.auth.removeSession();
+            this.#controller.state.auth.removeSession(true);
           this.logout();
         }
         break;

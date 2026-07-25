@@ -111,10 +111,10 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
 
   /**
    * Get current session
-   * @param unhold Try to resume held session if true
+   * @param unhold Try to resume held session
    * @returns Session
    */
-  getSession(unhold: boolean = false) {
+  getSession(unhold = false) {
     const data = unhold ? this.#read() : this.get();
     if (unhold && !data.session) {
       data.session = data.saved.pop();
@@ -154,10 +154,11 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
 
   /**
    * Remove existing session
+   * @param unhold Try to resume held session
    */
-  removeSession() {
+  removeSession(unhold = false) {
     const data = this.#read();
-    data.session = data.saved.pop();
+    data.session = unhold ? data.saved.pop() : undefined;
     this.set(data);
   }
 
