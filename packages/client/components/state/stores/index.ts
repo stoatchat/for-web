@@ -43,7 +43,7 @@ export abstract class AbstractStore<T extends keyof Store, D> {
   /**
    * Marker used to determine whether this is a store
    */
-  private readonly _storeHint = true;
+  readonly _storeHint = true;
 
   /**
    * Reference to the current state

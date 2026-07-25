@@ -177,7 +177,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       // if ts is newer, hydrate the store with it
       this.set("revision", key, ts);
       this.#blockSync.add(key);
-      this.state.set(key, false, parsed);
+      this.state.set(key, this.global, parsed);
     } else if (ts !== this.ts(key)) {
       // if ts is old, trigger write to synchronise to remote, but only if the data has been updated
       if (
