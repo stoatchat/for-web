@@ -1,4 +1,4 @@
-import { createEffect, createMemo, Match, on, Show, Switch } from "solid-js";
+import { createMemo, Match, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
@@ -31,6 +31,11 @@ interface Props {
    * Scroll target element
    */
   scrollTargetElement: HTMLDivElement;
+
+  /**
+   * Whether the server is very large and should not display all member information
+   */
+  isLargeServer?: boolean;
 }
 
 /**
@@ -49,6 +54,7 @@ export function MemberSidebar(props: Props) {
         <ServerMemberSidebar
           channel={props.channel}
           scrollTargetElement={props.scrollTargetElement}
+          isLargeServer={props.isLargeServer}
         />
       </Match>
     </Switch>
@@ -56,37 +62,10 @@ export function MemberSidebar(props: Props) {
 }
 
 /**
- * Servers to not fetch all members for
- */
-const LARGE_SERVERS = [
-  "01F7ZSBSFHQ8TA81725KQCSDDP",
-  "01G3PKD1YJ2H484MDX6KP9WRBN",
-  // top servers on discover
-  "01K313D0VP0HPNG30DNZ4Q672H",
-  "01J31CCMTYKFPGCM13VRP3B289",
-  "01H2Y4Y97PW6584PHN1TAVN5WR",
-  "01HVKQBBQ3DQVVNK3M8DHXV30D",
-  "01GDS83RMZW89AV0BZG24NEXYC",
-  "01J5W0XERBBGK77BMDVPZJ20JW",
-];
-
-/**
  * Server Member Sidebar
  */
 export function ServerMemberSidebar(props: Props) {
   const client = useClient();
-
-  // todo: useQuery
-  createEffect(
-    on(
-      () => props.channel.serverId,
-      (serverId) =>
-        props.channel.server?.syncMembers(
-          LARGE_SERVERS.includes(serverId) ? true : false,
-          200,
-        ),
-    ),
-  );
 
   // Stage 1: Find roles and members
   const stage1 = createMemo(() => {
@@ -251,7 +230,7 @@ export function ServerMemberSidebar(props: Props) {
 
   return (
     <Container>
-      <Show when={!LARGE_SERVERS.includes(props.channel.serverId)}>
+      <Show when={!props.isLargeServer}>
         <MemberTitle bottomMargin="yes">
           <Row align>
             <UserStatus size="0.7em" status="Online" />
