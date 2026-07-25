@@ -48,8 +48,6 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
-const GLOBAL_DB_NAME = "localforage";
-
 /**
  * Global application state
  */
@@ -59,7 +57,7 @@ export class State {
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
   private readonly dbGlobal: LocalForage;
-  private db!: LocalForage;
+  private db?: LocalForage;
 
   appDrawer;
   setAppDrawer;
@@ -113,12 +111,12 @@ export class State {
    * Generate all store defaults / initial store
    * @returns Defaults object
    */
-  private defaults() {
+  private defaults(localOnly = false) {
     const defaults: Partial<Store> = {};
 
-    for (const store of this.iterStores()) {
-      defaults[store.getKey()] = store.default() as never;
-    }
+    for (const store of this.iterStores())
+      if (!localOnly || !store.global)
+        defaults[store.getKey()] = store.default() as never;
 
     return defaults;
   }
@@ -127,7 +125,7 @@ export class State {
    * Construct the global application state
    */
   constructor() {
-    this.dbGlobal = localforage.createInstance({ name: GLOBAL_DB_NAME });
+    this.dbGlobal = localforage.createInstance({});
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
@@ -146,6 +144,9 @@ export class State {
    * Write some data to the store and disk
    */
   private write = (key: string, global: boolean, ...args: unknown[]) => {
+    const db = this.db; //Cache in case it changes before timeout
+    if (!global && !db) return; //Read-only before init
+
     // pass the data to the store
     (this.setStore as (...args: unknown[]) => void)(key, ...args);
 
@@ -164,16 +165,14 @@ export class State {
         delete this.writeQueue[key];
 
         // write the entire key to storage
-        (global ? this.dbGlobal : this.db).setItem(
+        (global ? this.dbGlobal : db!).setItem(
           key,
           JSON.parse(
             JSON.stringify((this.store as Record<string, unknown>)[key]),
           ),
         );
 
-        if (import.meta.env.DEV) {
-          console.info("[store.save] Wrote state to disk.");
-        }
+        if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
       },
       IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
     ) as unknown as number;
@@ -204,37 +203,53 @@ export class State {
    */
   async hydrate(global = false) {
     if (!global) {
-      const ses = this.store.auth.session;
+      const ses = this.store.auth.session,
+        sesName = ses && `@${ses.userId}`;
+
+      //Reset defaults
+      if (this.db)
+        for (const [key, data] of Object.entries(this.defaults(true)))
+          this.setStore(key as keyof Store, data);
 
       //If session exists, use session store
-      this.db = ses
-        ? localforage.createInstance({
-            name: `@${ses.userId}`,
-          })
-        : this.dbGlobal;
+      this.db = ses && localforage.createInstance({ storeName: sesName });
 
-      //TODO Clear unused localforage instances w/ no session here
+      //Clear old sessions via some hackery
+      if (ses) {
+        const stores = (this.dbGlobal as { _dbInfo?: { db?: IDBDatabase } })
+          ._dbInfo?.db?.objectStoreNames;
+        if (stores) {
+          const sesNames = this.store.auth.saved.map((s) => `@${s.userId}`);
+          if (sesName) sesNames.push(sesName);
+          for (const key of stores)
+            if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
+              console.warn(`[store] Deleted unused db ${key}`);
+              await localforage.dropInstance({ storeName: key });
+            }
+        }
+      }
     }
 
     // load all data first
-    for (const store of this.iterStores())
-      if (store.global === global) {
-        const data = await (store.global ? this.dbGlobal : this.db).getItem(
-          store.getKey(),
-        );
+    if (global || this.db)
+      for (const store of this.iterStores())
+        if (store.global === global) {
+          const data = await (store.global ? this.dbGlobal : this.db!).getItem(
+            store.getKey(),
+          );
 
-        if (data) {
-          // validate the incoming data
-          const cleanData = store.clean(data);
+          if (data) {
+            // validate the incoming data
+            const cleanData = store.clean(data);
 
-          if (!equal(data, cleanData)) {
-            // write back to disk if it has changed
-            this.write(store.getKey(), store.global, cleanData);
-          } else {
-            this.setStore(store.getKey(), data);
+            if (!equal(data, cleanData)) {
+              // write back to disk if it has changed
+              this.write(store.getKey(), store.global, cleanData);
+            } else {
+              this.setStore(store.getKey(), data);
+            }
           }
         }
-      }
 
     // then run side-effects
     for (const store of this.iterStores())
