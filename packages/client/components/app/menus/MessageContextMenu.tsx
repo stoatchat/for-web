@@ -144,14 +144,14 @@ export function MessageContextMenu(props: {
    * Opens the file preview in a new tab
    */
   function openFile() {
-    window.open(props.file?.originalUrl, "_blank");
+    window.open(props.file?.previewUrl, "_blank");
   }
 
   /**
    * Copies the link to the original url of the file
    */
   function copyFileLink() {
-    navigator.clipboard.writeText(props.file?.originalUrl ?? "");
+    navigator.clipboard.writeText(props.file?.previewUrl ?? "");
   }
 
   function copyLink() {
