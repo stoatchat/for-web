@@ -15,6 +15,7 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { LoadingScreen } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { AbstractStore, Store } from "./stores";
@@ -48,6 +49,8 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
+const WriteQueue: Record<string, NodeJS.Timeout> = {};
+
 /**
  * Global application state
  */
@@ -55,7 +58,6 @@ export class State {
   // internal data management
   private store: Store;
   private setStore: SetStoreFunction<Store>;
-  private writeQueue: Record<string, number>;
   private readonly dbGlobal: LocalForage;
   private db?: LocalForage;
 
@@ -129,7 +131,6 @@ export class State {
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
-    this.writeQueue = {};
 
     const [ad, setAd] = createSignal<SlideDrawer>();
     this.appDrawer = ad;
@@ -154,15 +155,13 @@ export class State {
     this.sync.touchIfSyncable(key);
 
     // remove existing queued task if it exists
-    if (this.writeQueue[key]) {
-      clearTimeout(this.writeQueue[key]);
-    }
+    if (WriteQueue[key]) clearTimeout(WriteQueue[key]);
 
     // queue for writing to disk
-    this.writeQueue[key] = setTimeout(
+    WriteQueue[key] = setTimeout(
       () => {
         // remove from write queue
-        delete this.writeQueue[key];
+        delete WriteQueue[key];
 
         // write the entire key to storage
         (global ? this.dbGlobal : db!).setItem(
@@ -175,7 +174,7 @@ export class State {
         if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
       },
       IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
-    ) as unknown as number;
+    );
   };
 
   /**
@@ -199,35 +198,30 @@ export class State {
   }
 
   /**
-   * Hydrate the state from disk and run side-effects
+   * Hydrate the state from disk and run side-effects.
+   * Global should only run on init; Local runs whenever session changes
    */
   async hydrate(global = false) {
-    if (!global) {
-      const ses = this.store.auth.session,
-        sesName = ses && `@${ses.userId}`;
-
+    if (global) {
+      //Wait for write queue to finish
+      if (Object.keys(WriteQueue).length)
+        await new Promise<void>((res) => {
+          const tmr = setInterval(() => {
+            if (Object.keys(WriteQueue).length) return;
+            clearInterval(tmr);
+            res();
+          }, 50);
+        });
+    } else {
       //Reset defaults
       if (this.db)
         for (const [key, data] of Object.entries(this.defaults(true)))
           this.setStore(key as keyof Store, data);
 
       //If session exists, use session store
-      this.db = ses && localforage.createInstance({ storeName: sesName });
-
-      //Clear old sessions via some hackery
-      if (ses) {
-        const stores = (this.dbGlobal as { _dbInfo?: { db?: IDBDatabase } })
-          ._dbInfo?.db?.objectStoreNames;
-        if (stores) {
-          const sesNames = this.store.auth.saved.map((s) => `@${s.userId}`);
-          if (sesName) sesNames.push(sesName);
-          for (const key of stores)
-            if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
-              console.warn(`[store] Deleted unused db ${key}`);
-              await localforage.dropInstance({ storeName: key });
-            }
-        }
-      }
+      const ses = this.store.auth.session;
+      this.db =
+        ses && localforage.createInstance({ storeName: `@${ses.userId}` });
     }
 
     // load all data first
@@ -254,6 +248,23 @@ export class State {
     // then run side-effects
     for (const store of this.iterStores())
       if (store.global === global) store.hydrate();
+
+    //Clear old sessions via some hackery
+    if (global) {
+      const stores = (localforage as { _dbInfo?: { db?: IDBDatabase } })._dbInfo
+        ?.db?.objectStoreNames;
+      if (stores) {
+        const ses = this.store.auth.session,
+          sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
+            (s) => `@${s.userId}`,
+          );
+        for (const key of stores)
+          if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
+            console.warn(`[store] Deleted unused db ${key}`);
+            await localforage.dropInstance({ storeName: key });
+          }
+      }
+    }
   }
 }
 
@@ -273,7 +284,9 @@ export function StateContext(props: { children: JSX.Element }) {
 
   return (
     <stateContext.Provider value={stateLocal}>
-      <Show when={ready()}>{props.children}</Show>
+      <Show when={ready()} fallback={<LoadingScreen />}>
+        {props.children}
+      </Show>
     </stateContext.Provider>
   );
 }
