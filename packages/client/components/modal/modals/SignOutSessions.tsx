@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/solid-query";
 
 import { Dialog, DialogProps } from "@revolt/ui";
 
+import { useClient } from "@revolt/client";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -12,10 +13,15 @@ import { Modals } from "../types";
 export function SignOutSessionsModal(
   props: DialogProps & Modals & { type: "sign_out_sessions" },
 ) {
-  const { showError } = useModals();
+  const { showError, mfaFlow } = useModals();
+  const client = useClient();
 
   const signOutSessions = useMutation(() => ({
-    mutationFn: () => props.client.sessions.deleteAll(),
+    mutationFn: async () => {
+      const mfa = await client().account.mfa();
+      const ticket = await mfaFlow(mfa as never);
+      props.client.sessions.deleteAll(ticket!);
+    },
     onError: showError,
   }));
 
