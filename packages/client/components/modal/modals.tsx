@@ -2,7 +2,6 @@ import { mergeProps, splitProps } from "solid-js";
 
 import { CONFIGURATION } from "@revolt/common";
 
-import { RemoveTimeoutModal } from "@revolt/modal/modals/RemoveTimeout";
 import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
@@ -49,6 +48,7 @@ import { OnboardingModal } from "./modals/Onboarding";
 import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
 import { RemoveMemberModal } from "./modals/RemoveMember";
+import { RemoveTimeoutModal } from "./modals/RemoveTimeout";
 import { RenameSessionModal } from "./modals/RenameSession";
 import { ReportContentModal } from "./modals/ReportContent";
 import { ResetBotTokenModal } from "./modals/ResetBotToken";

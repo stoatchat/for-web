@@ -35,6 +35,7 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 import { UserSlowmodes } from "stoat.js/lib/events/v1";
+import { createTimer } from "@solid-primitives/timer";
 
 interface Props {
   /**
@@ -126,16 +127,17 @@ export function MessageComposition(props: Props) {
 
   const [now, setNow] = createSignal(Date.now());
 
-  createEffect(() => {
-    const until = member()?.timeout;
-    if (!until) return;
+  createTimer(
+    () => setNow(Date.now()),
+    () => {
+      const until = member()?.timeout;
+      if (!until) return false;
 
-    const remaining = until.getTime() - Date.now();
-    if (remaining <= 0) return;
-
-    const timer = setTimeout(() => setNow(Date.now()), remaining + 100);
-    onCleanup(() => clearTimeout(timer));
-  });
+      const remaining = until.getTime() - Date.now();
+      return remaining > 0 ? remaining + 100 : false;
+    },
+    setTimeout,
+  );
 
   const isTimedOut = createMemo(() => {
     const until = member()?.timeout;
