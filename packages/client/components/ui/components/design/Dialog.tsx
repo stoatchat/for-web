@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js";
-import { For, Show } from "solid-js";
+import { For, Show, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
@@ -43,7 +43,6 @@ export function Dialog(props: Props) {
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
-        class="dialog_scrim"
         style={{
           "--background": props.scrimBackground
             ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
@@ -53,10 +52,7 @@ export function Dialog(props: Props) {
         <Presence>
           <Show when={props.show}>
             <Motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, easing: [0.05, 0.7, 0.1, 1.0] }}
@@ -120,7 +116,26 @@ export function Dialog(props: Props) {
  *
  * @specification https://m3.material.io/components/dialogs
  */
-Dialog.Scrim = styled("div", {
+Dialog.Scrim = (
+  props: Omit<
+    Parameters<typeof Scrim>[0] & Parameters<typeof ScrimSurface>[0],
+    "class"
+  >,
+) => {
+  const [local, remote] = splitProps(props, [
+    "children",
+    "padding",
+    "overflow",
+  ]);
+
+  return (
+    <Scrim {...remote} class="dialog_scrim">
+      <ScrimSurface {...local} />
+    </Scrim>
+  );
+};
+
+const Scrim = styled("div", {
   base: {
     top: 0,
     left: 0,
@@ -128,14 +143,8 @@ Dialog.Scrim = styled("div", {
     bottom: 0,
     position: "fixed",
     zIndex: "998",
-
     maxHeight: "100%",
-
-    display: "grid",
-    userSelect: "none",
-    placeItems: "center",
-
-    pointerEvents: "all",
+    paddingBottom: "env(keyboard-inset-height)",
 
     animationName: "scrimFadeIn",
     animationDuration: "0.1s",
@@ -150,17 +159,6 @@ Dialog.Scrim = styled("div", {
         background: "transparent",
       },
     },
-    padding: {
-      true: {
-        padding: "80px",
-        _phone: { padding: "30px" },
-      },
-    },
-    overflow: {
-      true: {
-        overflowY: "auto",
-      },
-    },
     dark: {
       true: {
         "--background": "rgba(0, 0, 0, 0.9)",
@@ -172,9 +170,35 @@ Dialog.Scrim = styled("div", {
   },
   defaultVariants: {
     show: true,
+    dark: false,
+  },
+});
+
+const ScrimSurface = styled("div", {
+  base: {
+    width: "100%",
+    height: "100%",
+    display: "grid",
+    userSelect: "none",
+    placeItems: "center",
+    pointerEvents: "all",
+  },
+  variants: {
+    padding: {
+      true: {
+        padding: "80px",
+        _phone: { padding: "30px" },
+      },
+    },
+    overflow: {
+      true: {
+        overflowY: "auto",
+      },
+    },
+  },
+  defaultVariants: {
     padding: true,
     overflow: true,
-    dark: false,
   },
 });
 

@@ -12,6 +12,14 @@ import Breakpoint from "./Breakpoint";
 
 export type Layout = "desktop" | "tablet" | "phone";
 
+declare global {
+  interface Navigator {
+    virtualKeyboard?: {
+      overlaysContent: boolean;
+    };
+  }
+}
+
 /** Device type and compatibility info */
 export class Device {
   /** Layout type based on viewport size
@@ -25,6 +33,13 @@ export class Device {
    * **Warning:** Don't use unless absolutely necessary.
    * Granular feature-detection is preferred when possible. */
   readonly isMobile: boolean;
+
+  /** If Stoat is running as a web app */
+  readonly isPWA =
+    //Safari
+    (window.navigator as never as { standalone: boolean }).standalone ||
+    //Other
+    window.matchMedia("(display-mode: standalone)").matches;
 
   private pMedia;
   private tMedia;
@@ -40,6 +55,10 @@ export class Device {
     this.pMedia = matchMedia(Breakpoint.phone);
     this.tMedia = matchMedia(Breakpoint.tablet);
     (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
+
+    if (this.isPWA && navigator.virtualKeyboard) {
+      navigator.virtualKeyboard.overlaysContent = true;
+    }
   }
 
   onLayout() {
