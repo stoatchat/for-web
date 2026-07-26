@@ -37,6 +37,8 @@ export function ProfileBanner(props: {
     }, 2000);
   }
 
+  const pronouns = () => props.member?.pronouns ?? props.user.pronouns;
+
   return (
     <Banner
       style={{
@@ -59,7 +61,7 @@ export function ProfileBanner(props: {
           interactive={props.user.avatar && !!props.onClickAvatar}
           overlay={<UserStatus.Graphic status={props.user.presence} />}
         />
-        <UserShort>
+        <UserDetails>
           <Show
             when={
               (props.member?.displayName ?? props.user.displayName) !==
@@ -70,18 +72,23 @@ export function ProfileBanner(props: {
               {props.member?.displayName ?? props.user.displayName}
             </span>
           </Show>
-          <Tooltip
-            content={isCopied() ? t`Copied!` : t`Click to copy username`}
-            placement="top"
-          >
-            <Username onClick={onUsernameClick}>
-              {props.user.username}
-              <span class={css({ fontWeight: 200 })}>
-                #{props.user.discriminator}
-              </span>
-            </Username>
-          </Tooltip>
-        </UserShort>
+          <Row>
+            <UserDetails>
+              <Tooltip
+                content={isCopied() ? t`Copied!` : t`Click to copy username`}
+                placement="top"
+              >
+                <Username onClick={onUsernameClick}>
+                  {props.user.username}
+                  <LowEmphasis>#{props.user.discriminator}</LowEmphasis>
+                </Username>
+              </Tooltip>
+            </UserDetails>
+            <Pronouns>
+              <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
+            </Pronouns>
+          </Row>
+        </UserDetails>
       </Row>
     </Banner>
   );
@@ -125,11 +132,13 @@ const Banner = styled("div", {
   },
 });
 
-const UserShort = styled("div", {
+const UserDetails = styled("div", {
   base: {
     ...typography.raw(),
 
     display: "flex",
+    flexGrow: "1",
+    flexShrink: "0",
     lineHeight: "1em",
     gap: "var(--gap-xs)",
     flexDirection: "column",
@@ -141,5 +150,21 @@ const Username = styled("span", {
     _hover: {
       textDecoration: "underline",
     },
+  },
+});
+
+const LowEmphasis = styled("span", {
+  base: {
+    fontWeight: 200,
+  },
+});
+
+const Pronouns = styled("div", {
+  base: {
+    ...typography.raw(),
+    display: "flex",
+    lineHeight: "1em",
+    gap: "var(--gap-xs)",
+    flexDirection: "column-reverse",
   },
 });
