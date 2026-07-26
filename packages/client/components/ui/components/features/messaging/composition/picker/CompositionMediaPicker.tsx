@@ -192,7 +192,8 @@ const Base = styled("div", {
     width: "400px",
     height: "400px",
     maxWidth: "100%",
-    maxHeight: "calc(100% - 72px)",
+    maxHeight: "calc(100% - max(env(keyboard-inset-height), 72px))",
+    marginBottom: "env(keyboard-inset-height)",
   },
 });
 
