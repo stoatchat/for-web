@@ -10,6 +10,7 @@ import solidPlugin from "vite-plugin-solid";
 import solidSvg from "vite-plugin-solid-svg";
 
 import codegenPlugin from "./codegen.plugin";
+import { addFontPreload } from "./fontpreload.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
 const pwaScope = process.env.PWA_SCOPE || base;
@@ -26,6 +27,7 @@ export default defineConfig({
     solidSvg({
       defaultAsComponent: false,
     }),
+    addFontPreload(),
     VitePWA({
       srcDir: "src",
       registerType: "autoUpdate",
