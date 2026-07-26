@@ -881,11 +881,20 @@ export function Messages(props: Props) {
   createEffect(
     on(
       () => state.draft.editingMessageId,
-      (shouldSetEditingMessageId) =>
-        shouldSetEditingMessageId === true &&
-        state.draft.setEditingMessage(
-          messages().find((message) => message.author?.self),
-        ),
+      (shouldSetEditingMessageId) => {
+        if (shouldSetEditingMessageId === true) {
+          const chosenMessage = messages().find(
+            (message) => message.author?.self,
+          );
+          state.draft.setEditingMessage(chosenMessage);
+          if (chosenMessage) {
+            // Wait until the next render pass to allow the edit message ui to
+            // fill the messages screen. This prevents the message box from
+            // jumping up the height of the edit message ui.
+            setTimeout(() => caseJumpToMessage(chosenMessage?.id), 1);
+          }
+        }
+      },
     ),
   );
 

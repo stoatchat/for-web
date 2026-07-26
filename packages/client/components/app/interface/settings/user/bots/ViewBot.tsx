@@ -3,7 +3,13 @@ import { Bot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, iconSize, useSnackbar } from "@revolt/ui";
+import {
+  CategoryButton,
+  Column,
+  iconSize,
+  Symbol,
+  useSnackbar,
+} from "@revolt/ui";
 
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
@@ -35,7 +41,7 @@ export function ViewBot(props: { bot: Bot }) {
         bannerUrl={profile.data?.animatedBannerURL}
       />
 
-      <UserProfileEditor user={props.bot.user!} />
+      <UserProfileEditor user={props.bot.user!} profile={profile.data} />
       {/* <ErrorBoundary fallback={<>Failed to load profile</>}>
         <Suspense fallback={<>loading...</>}>{profile.data?.content}</Suspense>
       </ErrorBoundary> */}
@@ -50,6 +56,16 @@ export function ViewBot(props: { bot: Bot }) {
           onClick={() => openModal({ type: "reset_bot_token", bot: props.bot })}
         >
           <Trans>Reset Token</Trans>
+        </CategoryButton>
+        <CategoryButton
+          description={<Trans>Change this bot's username</Trans>}
+          icon={<Symbol size={22}>badge</Symbol>}
+          action="chevron"
+          onClick={() =>
+            openModal({ type: "edit_bot_username", bot: props.bot })
+          }
+        >
+          <Trans>Change Username</Trans>
         </CategoryButton>
         <CategoryButton
           description={

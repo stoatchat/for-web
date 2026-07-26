@@ -56,6 +56,21 @@ export function canIHasSidebar(ch: Channel) {
 }
 
 /**
+ * Servers to not fetch all members for
+ */
+const LARGE_SERVERS = [
+  "01F7ZSBSFHQ8TA81725KQCSDDP",
+  "01G3PKD1YJ2H484MDX6KP9WRBN",
+  // top servers on discover
+  "01K313D0VP0HPNG30DNZ4Q672H",
+  "01J31CCMTYKFPGCM13VRP3B289",
+  "01H2Y4Y97PW6584PHN1TAVN5WR",
+  "01HVKQBBQ3DQVVNK3M8DHXV30D",
+  "01GDS83RMZW89AV0BZG24NEXYC",
+  "01J5W0XERBBGK77BMDVPZJ20JW",
+];
+
+/**
  * Channel component
  */
 export function TextChannel(props: ChannelPageProps) {
@@ -160,6 +175,20 @@ export function TextChannel(props: ChannelPageProps) {
     ),
   );
 
+  // If this is a server text channel, sync the members
+  // todo: useQuery
+  createEffect(
+    on(
+      () => props.channel.serverId,
+      (serverId) =>
+        props.channel.type === "TextChannel" &&
+        props.channel.server?.syncMembers(
+          LARGE_SERVERS.includes(serverId) ? true : false,
+          200,
+        ),
+    ),
+  );
+
   return (
     <>
       <Header placement="primary">
@@ -241,6 +270,7 @@ export function TextChannel(props: ChannelPageProps) {
                 <MemberSidebar
                   channel={props.channel}
                   scrollTargetElement={sidebarScrollTargetElement}
+                  isLargeServer={LARGE_SERVERS.includes(props.channel.serverId)}
                 />
               }
             >

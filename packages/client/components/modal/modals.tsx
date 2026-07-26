@@ -29,6 +29,7 @@ import { DeleteChannelModal } from "./modals/DeleteChannel";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
+import { EditBotUsernameModal } from "./modals/EditBotUsername";
 import { EditCategoryModal } from "./modals/EditCategory";
 import { EditEmailModal } from "./modals/EditEmail";
 import { EditPasswordModal } from "./modals/EditPassword";
@@ -193,7 +194,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <RemoveMemberModal {...modalProps} />;
     case "pin_message":
       return <PinMessageModal {...modalProps} />;
-
+    case "edit_bot_username":
+      return <EditBotUsernameModal {...modalProps} />;
     case "screen_share_settings":
       return <ScreenShareSettingsModal {...modalProps} />;
     case "screen_share_picker":

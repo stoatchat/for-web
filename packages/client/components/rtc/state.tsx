@@ -605,7 +605,7 @@ class Voice {
       channel.isVoice &&
       (this.channel()?.id === channel.id ||
         channel.type === "TextChannel" ||
-        channel.voiceParticipants.size)
+        !!channel.voiceParticipants.size)
     );
   }
 

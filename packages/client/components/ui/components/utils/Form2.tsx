@@ -78,7 +78,7 @@ const FormTextEditor = (
         {...remote}
         onChange={(value) => {
           local.control.setValue(value);
-          local.control.markDirty(true);
+          local.control.markDirty(value !== remote.initialValue?.[0]);
         }}
         // todo: required={local.control.isRequired}
         // todo: disabled={local.control.isDisabled}

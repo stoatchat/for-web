@@ -352,4 +352,8 @@ export type Modals =
   | {
       type: "remove_timeout";
       member: ServerMember;
+    }
+  | {
+      type: "edit_bot_username";
+      bot: Bot;
     };
