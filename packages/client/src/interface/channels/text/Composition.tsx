@@ -1,14 +1,14 @@
 import { createCountdownFromNow } from "@solid-primitives/date";
 import {
-  For,
-  Match,
-  Show,
-  Switch,
   createEffect,
   createMemo,
   createSignal,
+  For,
+  Match,
   on,
   onCleanup,
+  Show,
+  Switch,
 } from "solid-js";
 
 import { useLingui } from "@lingui-solid/solid/macro";
@@ -18,7 +18,7 @@ import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { CONFIGURATION, debounce } from "@revolt/common";
-import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -26,16 +26,16 @@ import {
   FileCarousel,
   FileDropAnywhereCollector,
   FilePasteCollector,
+  humanFileSize,
   IconButton,
   MessageBox,
   MessageReplyPreview,
   Tooltip,
-  humanFileSize,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
-import { UserSlowmodes } from "stoat.js/lib/events/v1";
 import { createTimer } from "@solid-primitives/timer";
+import { UserSlowmodes } from "stoat.js/lib/events/v1";
 
 interface Props {
   /**
