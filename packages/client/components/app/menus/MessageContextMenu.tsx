@@ -117,7 +117,7 @@ export function MessageContextMenu(props: {
    */
   function openAdminPanel() {
     window.open(
-      `https://old-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
+      `https://admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
       "_blank",
     );
   }
