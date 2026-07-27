@@ -56,7 +56,7 @@ export function UserCard(
     <Show when={!isMobile}>
       <div
         use:invisibleScrollable={{ class: base() }}
-        onMouseDown={(e) => {
+        on:pointerdown={(e) => {
           e.preventDefault();
           e.stopImmediatePropagation();
         }}
