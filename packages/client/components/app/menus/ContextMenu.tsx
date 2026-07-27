@@ -37,7 +37,7 @@ export function ContextMenu(props: ComponentProps<typeof Base>) {
   return (
     <Base
       // prevent context menu closing itself before click event
-      onMouseDown={(e) => e.stopImmediatePropagation()}
+      onpointerdown={(e) => e.stopImmediatePropagation()}
       {...props}
     />
   );
@@ -184,7 +184,7 @@ export function ContextMenuSubMenu(
         ref={setAnchor}
         selected={isShowing()}
         actionIcon={MdChevronRight}
-        onMouseDown={(e) => {
+        onpointerdown={(e) => {
           e.stopImmediatePropagation();
         }}
         onClick={(e) => {
@@ -219,7 +219,7 @@ export function ContextMenuSubMenu(
                 setShow((show) => (show === true ? false : show))
               }
               // stop submenu from closing context menu
-              onMouseDown={(e) => e.stopImmediatePropagation()}
+              onpointerdown={(e) => e.stopImmediatePropagation()}
             >
               <div
                 onClick={(e) => {

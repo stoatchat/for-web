@@ -33,13 +33,19 @@ export function FloatingManager() {
   /**
    * Keep track of last mouse position at all times
    */
-  function onMouseMove({ clientX, clientY }: MouseEvent) {
+  function onMouseMove({ clientX, clientY }: PointerEvent) {
     mouseX = clientX;
     mouseY = clientY;
   }
 
-  onMount(() => document.addEventListener("mousemove", onMouseMove));
-  onCleanup(() => document.addEventListener("mousemove", onMouseMove));
+  onMount(() => {
+    document.addEventListener("pointermove", onMouseMove);
+    document.addEventListener("pointerdown", onMouseMove);
+  });
+  onCleanup(() => {
+    document.removeEventListener("pointermove", onMouseMove);
+    document.removeEventListener("pointerdown", onMouseMove);
+  });
 
   /**
    * Whether a floating element is visible
@@ -143,8 +149,8 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
   }
 
   if (props.config().contextMenu || props.config().userCard) {
-    onMount(() => document.addEventListener("mousedown", onMouseDown));
-    onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+    onMount(() => document.addEventListener("pointerdown", onMouseDown));
+    onCleanup(() => document.removeEventListener("pointerdown", onMouseDown));
   }
 
   /**
