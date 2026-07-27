@@ -201,8 +201,6 @@ export function NotificationsWorker() {
 
     sound.playSound("message");
 
-    console.info(`[notification] ${title} ${icon} ${body}`);
-
     const notification = new Notification(title!, {
       icon,
       // @ts-expect-error this does exist on some platforms

@@ -303,7 +303,7 @@ export function UserContextMenu(props: {
       {/* Voice controls */}
       <Show when={props.inVoice && !props.user.self && !props.isScreenshare}>
         <ContextMenuButton
-          onMouseDown={(e) => e.stopImmediatePropagation()}
+          onpointerdown={(e) => e.stopImmediatePropagation()}
           onClick={(e) => e.stopImmediatePropagation()}
         >
           <Text class="label">
@@ -341,7 +341,7 @@ export function UserContextMenu(props: {
       </Show>
       <Show when={props.isScreenshare && !props.user.self}>
         <ContextMenuButton
-          onMouseDown={(e) => e.stopImmediatePropagation()}
+          onpointerdown={(e) => e.stopImmediatePropagation()}
           onClick={(e) => e.stopImmediatePropagation()}
         >
           <Text class="label">

@@ -81,8 +81,8 @@ export function UserMenu(props: Props) {
     close();
   }
 
-  onMount(() => document.addEventListener("mousedown", onMouseDown));
-  onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+  onMount(() => document.addEventListener("pointerdown", onMouseDown));
+  onCleanup(() => document.removeEventListener("pointerdown", onMouseDown));
 
   createEffect(
     on(

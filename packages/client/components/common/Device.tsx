@@ -12,6 +12,14 @@ import Breakpoint from "./Breakpoint";
 
 export type Layout = "desktop" | "tablet" | "phone";
 
+declare global {
+  interface Navigator {
+    virtualKeyboard?: {
+      overlaysContent: boolean;
+    };
+  }
+}
+
 /** Device type and compatibility info */
 export class Device {
   /** Layout type based on viewport size
@@ -26,12 +34,34 @@ export class Device {
    * Granular feature-detection is preferred when possible. */
   readonly isMobile: boolean;
 
+  /** If Stoat is running as a web app */
+  readonly isPWA =
+    //Safari
+    (window.navigator as never as { standalone: boolean }).standalone ||
+    //Other
+    window.matchMedia("(display-mode: standalone)").matches;
+
+  /**
+   * Whether this device is an IOS Touch device. Relies on useragent.
+   *
+   * **Warning:** Don't use unless absolutely necessary.
+   * Granular feature-detection is preferred when possible.
+   */
+  readonly isIOSTouch = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
   private pMedia;
   private tMedia;
   private setLayout;
 
   constructor() {
     this.isMobile = isMobileBrowser();
+
+    if (this.isIOSTouch) {
+      // Load a long press event library to replace context menus on IOS touch
+      //@ts-expect-error There are no types for this library.
+      import("long-press-event");
+      document.getElementsByTagName("body")[0].dataset.longPressDelay = "1000";
+    }
 
     const [lo, setLo] = createSignal<Layout>("desktop");
     this.layout = lo;
@@ -40,6 +70,10 @@ export class Device {
     this.pMedia = matchMedia(Breakpoint.phone);
     this.tMedia = matchMedia(Breakpoint.tablet);
     (this.pMedia.onchange = this.tMedia.onchange = this.onLayout.bind(this))();
+
+    if (this.isPWA && navigator.virtualKeyboard) {
+      navigator.virtualKeyboard.overlaysContent = true;
+    }
   }
 
   onLayout() {
