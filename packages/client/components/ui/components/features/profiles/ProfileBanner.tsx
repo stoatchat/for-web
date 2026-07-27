@@ -5,7 +5,7 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useLingui } from "@lingui-solid/solid/macro";
-import { Tooltip } from "@revolt/ui";
+import { OverflowingText, Tooltip } from "@revolt/ui";
 import { Avatar, Ripple, UserStatus, typography } from "../../design";
 import { Row } from "../../layout";
 
@@ -73,7 +73,7 @@ export function ProfileBanner(props: {
             </span>
           </Show>
           <Row>
-            <UserDetails>
+            <UsernameContainer>
               <Tooltip
                 content={isCopied() ? t`Copied!` : t`Click to copy username`}
                 placement="top"
@@ -83,9 +83,11 @@ export function ProfileBanner(props: {
                   <LowEmphasis>#{props.user.discriminator}</LowEmphasis>
                 </Username>
               </Tooltip>
-            </UserDetails>
+            </UsernameContainer>
             <Pronouns>
-              <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
+              <OverflowingText>
+                <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
+              </OverflowingText>
             </Pronouns>
           </Row>
         </UserDetails>
@@ -137,11 +139,15 @@ const UserDetails = styled("div", {
     ...typography.raw(),
 
     display: "flex",
-    flexGrow: "1",
-    flexShrink: "0",
     lineHeight: "1em",
     gap: "var(--gap-xs)",
     flexDirection: "column",
+  },
+});
+
+const UsernameContainer = styled("div", {
+  base: {
+    flexShrink: 0,
   },
 });
 
@@ -162,7 +168,9 @@ const LowEmphasis = styled("span", {
 const Pronouns = styled("div", {
   base: {
     ...typography.raw(),
-    display: "flex",
+    flexShrink: 1,
+    flexGrow: 0,
+    minWidth: 0,
     lineHeight: "1em",
     gap: "var(--gap-xs)",
     flexDirection: "column-reverse",
