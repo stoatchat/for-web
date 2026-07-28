@@ -293,16 +293,13 @@ const infoText = cva({
         },
       },
     },
-  },
-});
-
-/**
- * Pronouns display — muted, same weight as timestamp
- */
-const pronounsText = cva({
-  base: {
-    color: "var(--md-sys-color-outline)",
-    ...typography.raw({ class: "body", size: "small" }),
+    shrink: {
+      true: {
+        flexGrow: 1,
+        flexBasis: 0,
+        maxWidth: "fit-content",
+      },
+    },
   },
 });
 
@@ -443,65 +440,65 @@ export function MessageContainer(props: Props) {
           <Show when={!props.tail && !props.compact}>
             <Row gap="sm" align>
               <OverflowingText>{props.username}</OverflowingText>
-              <NonBreakingText>
-                <div class={infoText()}>
-                  {props.info}
-                  <Show when={props.pronouns}>
-                    <span class={pronounsText()}>{props.pronouns}</span>
-                    <span class={infoText()}>·</span>
-                  </Show>
-                  <Show
-                    when={props.timestamp instanceof Date}
-                    fallback={props.timestamp as JSX.Element}
+              <NonBreakingText class={infoText()}>{props.info}</NonBreakingText>
+              <Show when={props.pronouns}>
+                <OverflowingText class={infoText({ shrink: true })}>
+                  <span>{props.pronouns}</span>
+                  <span>·</span>
+                </OverflowingText>
+              </Show>
+              <NonBreakingText class={infoText()}>
+                <Show
+                  when={props.timestamp instanceof Date}
+                  fallback={props.timestamp as JSX.Element}
+                >
+                  <span
+                    use:floating={{
+                      tooltip: {
+                        placement: "top",
+                        content: () => (
+                          <>
+                            {t`Sent`}{" "}
+                            <Time
+                              format="datetime"
+                              value={props.timestamp}
+                              referenceTime={props._referenceTime}
+                            />
+                          </>
+                        ),
+                        aria: "",
+                      },
+                    }}
                   >
-                    <span
-                      use:floating={{
-                        tooltip: {
-                          placement: "top",
-                          content: () => (
-                            <>
-                              {t`Sent`}{" "}
-                              <Time
-                                format="datetime"
-                                value={props.timestamp}
-                                referenceTime={props._referenceTime}
-                              />
-                            </>
-                          ),
-                          aria: "",
-                        },
-                      }}
-                    >
-                      <Time
-                        format="calendar"
-                        value={props.timestamp}
-                        referenceTime={props._referenceTime}
-                      />
-                    </span>
-                  </Show>
-                  <Show when={props.edited}>
-                    <span
-                      use:floating={{
-                        tooltip: {
-                          placement: "top",
-                          content: () => (
-                            <>
-                              {t`Edited`}{" "}
-                              <Time
-                                format="datetime"
-                                value={props.edited}
-                                referenceTime={props._referenceTime}
-                              />
-                            </>
-                          ),
-                          aria: "",
-                        },
-                      }}
-                    >
-                      (edited)
-                    </span>
-                  </Show>
-                </div>
+                    <Time
+                      format="calendar"
+                      value={props.timestamp}
+                      referenceTime={props._referenceTime}
+                    />
+                  </span>
+                </Show>
+                <Show when={props.edited}>
+                  <span
+                    use:floating={{
+                      tooltip: {
+                        placement: "top",
+                        content: () => (
+                          <>
+                            {t`Edited`}{" "}
+                            <Time
+                              format="datetime"
+                              value={props.edited}
+                              referenceTime={props._referenceTime}
+                            />
+                          </>
+                        ),
+                        aria: "",
+                      },
+                    }}
+                  >
+                    (edited)
+                  </span>
+                </Show>
               </NonBreakingText>
             </Row>
           </Show>

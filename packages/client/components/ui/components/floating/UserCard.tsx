@@ -46,8 +46,6 @@ export function UserCard(
     props.onClose();
   }
 
-  const pronouns = () => props.member?.pronouns ?? props.user.pronouns;
-
   onMount(() => {
     if (isMobile) openFull();
   });
@@ -75,7 +73,6 @@ export function UserCard(
             onClose={props.onClose}
             width={2}
           />
-          <Profile.Pronouns content={pronouns()} />
           <Profile.Roles member={props.member} />
           <Profile.Badges user={props.user} />
           <Profile.Status user={props.user} />
