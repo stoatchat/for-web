@@ -387,7 +387,7 @@ export function UserContextMenu(props: {
           <Trans>Profile</Trans>
         </ContextMenuButton>
       </Show>
-      <Show when={props.user.relationship === "Friend"}>
+      <Show when={props.user.relationship === "Friend" || props.user.bot}>
         <ContextMenuButton icon={MdChat} onClick={openDm}>
           <Trans>Message</Trans>
         </ContextMenuButton>
