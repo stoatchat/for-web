@@ -141,11 +141,13 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
   /**
    * Dismiss floating element when clicking elsewhere
    */
-  function onMouseDown() {
-    const currentlyShown = props.show();
-    if (!currentlyShown?.contextMenu && !currentlyShown?.userCard) return;
+  function onMouseDown(e: PointerEvent) {
+    if (!e.defaultPrevented) {
+      const currentlyShown = props.show();
+      if (!currentlyShown?.contextMenu && !currentlyShown?.userCard) return;
 
-    props.hide();
+      props.hide();
+    }
   }
 
   if (props.config().contextMenu || props.config().userCard) {

@@ -58,7 +58,6 @@ export function UserCard(
         use:invisibleScrollable={{ class: base() }}
         on:pointerdown={(e) => {
           e.preventDefault();
-          e.stopImmediatePropagation();
         }}
       >
         <Grid>
