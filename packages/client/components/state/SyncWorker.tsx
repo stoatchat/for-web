@@ -4,6 +4,7 @@ import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 
+import { State } from "@revolt/client/Controller";
 import { useState } from ".";
 
 /**
@@ -12,7 +13,7 @@ import { useState } from ".";
 export function SyncWorker() {
   const state = useState();
   const client = useClient();
-  const { isLoggedIn } = useClientLifecycle();
+  const { lifecycle } = useClientLifecycle();
 
   /**
    * Handle incoming events
@@ -27,9 +28,9 @@ export function SyncWorker() {
   // sync REMOTE->LOCAL settings
   createEffect(
     on(
-      () => isLoggedIn(),
-      (isLoggedIn) => {
-        if (isLoggedIn) {
+      () => lifecycle.state(),
+      (newState) => {
+        if (newState === State.Connected) {
           state.sync.initialSync(client());
 
           client().events.addListener("event", handleEvent);
@@ -42,9 +43,9 @@ export function SyncWorker() {
   // sync LOCAL->REMOTE settings
   createEffect(
     on(
-      [() => state.sync.shouldSync, isLoggedIn],
-      ([shouldSync, isLoggedIn]) =>
-        shouldSync && isLoggedIn && state.sync.save(client()),
+      [() => state.sync.shouldSync, lifecycle.state],
+      ([shouldSync, newState]) =>
+        shouldSync && newState === State.Connected && state.sync.save(client()),
     ),
   );
 
