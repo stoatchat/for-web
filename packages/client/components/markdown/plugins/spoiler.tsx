@@ -7,22 +7,22 @@ import { visit } from "unist-util-visit";
 
 const Spoiler = styled("span", {
   base: {
-    padding: "0 2px",
+    display: "inline-block",
+    padding: "0 6px",
     borderRadius: "var(--borderRadius-md)",
   },
   variants: {
     shown: {
       true: {
-        color: "var(--md-sys-color-inverse-on-surface)",
-        background: "var(--md-sys-color-inverse-surface)",
+        background: "var(--md-sys-color-inverse-on-surface)",
       },
       false: {
         cursor: "pointer",
         userSelect: "none",
         color: "transparent",
-        background: "#151515",
+        background: "var(--md-sys-color-on-secondary-fixed-variant)",
 
-        "> *": {
+        "& *": {
           opacity: 0,
           pointerEvents: "none",
         },
@@ -47,106 +47,95 @@ export function RenderSpoiler(props: {
   );
 }
 
+type ParentNode = {
+  type: "string";
+  children: (
+    | { type: "text"; value: string }
+    | { type: "paragraph" | "spoiler"; children: Node[] }
+  )[];
+};
+
 export const remarkSpoiler: Plugin = () => (tree) => {
-  visit(
-    tree,
-    "paragraph",
-    (
-      node: {
-        children: (
-          | { type: "text"; value: string }
-          | { type: "paragraph"; children: unknown[] }
-          | { type: "spoiler"; children: unknown[] }
-        )[];
-      },
-      _idx,
-      _parent,
-    ) => {
-      // Visitor state
-      let searchingForEnd = -1;
-      let spoilerContent: object[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tNodes = (tree as any).children;
+  let spillover: Node[] | null;
+  let spoilerStart = -1;
+  let spoilerText: string;
 
-      // Visit all children of paragraphs
-      for (let i = 0; i < node.children.length; i++) {
-        const child = node.children[i];
+  visit(tree, "paragraph", (node: ParentNode, tIdx) => {
+    // Visit all children of paragraphs
+    for (let i = 0, s, sl; i < node.children.length; ++i) {
+      const child = node.children[i];
 
-        // Find the next text element to start a spoiler from
-        if (child.type === "text") {
-          const components = child.value.split("||");
-          if (components.length === 1) continue; // no spoilers
+      // Find the next text element to start a spoiler from
+      if (child.type === "text") {
+        const spoilers = child.value.split("||");
+        if (spoilers.length === 1) continue; //No spoilers
+        node.children.splice(i, 1); //Delete this node
 
-          // Handle terminating spoiler tag
-          if (searchingForEnd !== -1) {
-            // Get all preceding elements
-            const elements = node.children.splice(
-              searchingForEnd,
-              i - searchingForEnd,
-            );
-
-            // Create a spoiler
-            node.children.splice(i, 0, {
-              type: "spoiler",
-              children: [
-                ...spoilerContent,
-                ...elements,
-                {
-                  type: "text",
-                  value: components.shift(),
-                },
-              ],
-            });
-
-            // Adjust our current index
-            i += elements.length + 1;
-
-            searchingForEnd = -1;
-            spoilerContent = [];
-          }
-
-          // Replace current child with next component
-          child.value = components.shift()!;
-
-          // Check how many spoilers we have to process
-          const spillOver = components.length % 2 === 1;
-          const innerElements = (components.length - (spillOver ? 1 : 0)) / 2;
-
-          // Convert inner elements into spoilers
-          if (innerElements) {
-            for (let j = 0; j < innerElements; j++) {
-              node.children.splice(
-                i + 1,
-                0,
+        //Parse spoiler start & end
+        for (s = 1, sl = spoilers.length; s < sl; ++s) {
+          if (spoilerStart !== -1) {
+            //End spoiler
+            const sText = spoilers[s - 1],
+              elements = node.children.splice(spoilerStart, i - spoilerStart),
+              inject = [
                 {
                   type: "spoiler",
                   children: [
-                    {
-                      type: "text",
-                      value: components.shift(),
-                    },
+                    ...(spoilerText!
+                      ? [{ type: "text", value: spoilerText }]
+                      : []),
+                    ...(spillover || []),
+                    ...elements,
+                    ...(sText && (spillover || i !== spoilerStart)
+                      ? [{ type: "text", value: spoilers[s - 1] }]
+                      : []),
                   ],
                 },
-                {
-                  type: "text",
-                  value: components.shift()!,
-                },
-              );
+                ...(spoilers[s] ? [{ type: "text", value: spoilers[s] }] : []),
+              ];
 
-              i += 2;
-            }
-          }
+            //Inject spoiler
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            node.children.splice(spoilerStart, 0, ...(inject as any));
+            i = spoilerStart + inject.length - 1;
 
-          // Update state if we are looking for the end of a spoiler
-          if (spillOver) {
-            searchingForEnd = i + 1;
-            spoilerContent.push({
-              type: "text",
-              value: components.pop(),
-            });
+            spoilerStart = -1;
+            spillover = null;
+          } else {
+            //Inject non-spoiler text
+            if (spoilers[s - 1])
+              node.children.splice(i++, 0, {
+                type: "text",
+                value: spoilers[s - 1],
+              });
+
+            //Start spoiler
+            spoilerStart = i;
+            spoilerText = spoilers[s];
           }
         }
       }
-    },
-  );
+    }
+
+    //Spillover to next parent node
+    if (spoilerStart !== -1) {
+      if (!spillover) spillover = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      spillover.push(...(node.children.splice(spoilerStart) as any));
+      spoilerStart = 0;
+    }
+
+    //Append excess spillover
+    if (spillover && tIdx === tNodes.length - 1) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (node.children as any[]).push(
+        ...(spoilerText! ? [{ type: "text", value: spoilerText! }] : []),
+        ...spillover,
+      );
+    }
+  });
 };
 
 export const spoilerHandler: Handler = (h, node) => {
