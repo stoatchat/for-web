@@ -360,7 +360,6 @@ const EmojiPreviewBar = styled("div", {
     alignItems: "center",
     justifyContent: "space-between",
     padding: "var(--gap-xs) var(--gap-md)",
-    borderTop: "1px solid var(--colour-component-bg-3, rgba(255,255,255,0.06))",
     minHeight: "36px",
     flexShrink: 0,
     gap: "var(--gap-sm)",
@@ -406,11 +405,11 @@ const PreviewFrom = styled("span", {
   base: {
     display: "block",
     fontSize: "0.75rem",
-    color: "var(--colour-foreground-muted, rgba(255,255,255,0.4))",
+    color: "var(--colour-foreground-muted)",
     marginTop: "1px",
 
     "& strong": {
-      color: "var(--colour-foreground-secondary, rgba(255,255,255,0.65))",
+      color: "var(--colour-foreground-secondary)",
       fontWeight: 500,
     },
   },
