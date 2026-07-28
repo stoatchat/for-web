@@ -7,6 +7,7 @@ import { useClient } from "@revolt/client";
 import { CONFIGURATION } from "@revolt/common";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
+import { Show } from "solid-js";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -79,7 +80,22 @@ export function ServerIdentityModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Change identity on {props.member.server!.name}</Trans>}
+      title={
+        <Show
+          when={props.member.user?.self}
+          fallback={
+            <Trans>
+              Change{" "}
+              {props.member.nickname ??
+                props.member.user?.displayName ??
+                props.member.user?.username}
+              's nickname
+            </Trans>
+          }
+        >
+          <Trans>Change identity on {props.member.server!.name}</Trans>
+        </Show>
+      }
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
@@ -95,12 +111,14 @@ export function ServerIdentityModal(
     >
       <form onSubmit={submit}>
         <Column>
-          <Form2.FileInput
-            control={group.controls.avatar}
-            accept="image/*"
-            label={t`Server Avatar`}
-            imageJustify={false}
-          />
+          <Show when={props.member.user?.self}>
+            <Form2.FileInput
+              control={group.controls.avatar}
+              accept="image/*"
+              label={t`Server Avatar`}
+              imageJustify={false}
+            />
+          </Show>
           <Form2.TextField
             minlength={1}
             maxlength={32}
@@ -110,14 +128,16 @@ export function ServerIdentityModal(
             control={group.controls.nickname}
             placeholder={props.member.user?.displayName}
           />
-          <Form2.TextField
-            minlength={1}
-            maxlength={24}
-            counter
-            name="pronouns"
-            control={group.controls.pronouns}
-            label={t`Pronouns`}
-          />
+          <Show when={props.member.user?.self}>
+            <Form2.TextField
+              minlength={1}
+              maxlength={24}
+              counter
+              name="pronouns"
+              control={group.controls.pronouns}
+              label={t`Pronouns`}
+            />
+          </Show>
         </Column>
       </form>
     </Dialog>
