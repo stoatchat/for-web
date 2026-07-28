@@ -232,7 +232,7 @@ class Voice {
     });
 
     // Gather latency
-    const selected = await Promise.race(
+    const selected = await Promise.any(
       this.getClient().configuration!.features.livekit.nodes.map(
         async (node) => {
           return fetch(node.public_url.replace("wss", "https")).then(() => {
