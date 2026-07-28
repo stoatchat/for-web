@@ -43,6 +43,17 @@ export function CategoryContextMenu(props: {
   }
 
   /**
+   * Create a new channel
+   */
+  function createChannel() {
+    openModal({
+      type: "create_channel",
+      server: props.server,
+      categoryId: props.category.id,
+    });
+  }
+
+  /**
    * Create a new category
    */
   function createCategory() {
@@ -95,19 +106,18 @@ export function CategoryContextMenu(props: {
       </Show>
 
       <Show when={props.server.havePermission("ManageChannel")}>
+        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+          <Trans>Create channel</Trans>
+        </ContextMenuButton>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
           <Trans>Create category</Trans>
         </ContextMenuButton>
-      </Show>
-      <Show when={props.server.havePermission("ManageChannel")}>
         <ContextMenuButton
           icon={<Symbol size={16}>edit</Symbol>}
           onClick={editCategoryName}
         >
           <Trans>Rename category</Trans>
         </ContextMenuButton>
-      </Show>
-      <Show when={props.server.havePermission("ManageChannel")}>
         <ContextMenuButton icon={MdDelete} onClick={deleteCategory} destructive>
           <Trans>Delete category</Trans>
         </ContextMenuButton>

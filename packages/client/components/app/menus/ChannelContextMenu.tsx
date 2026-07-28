@@ -47,12 +47,30 @@ export function ChannelContextMenu(props: { channel: Channel }) {
     });
   }
 
+  function getCategory(channel: Channel) {
+    const cats = channel.server!.orderedChannels;
+    let cat, ch;
+    for (cat of cats)
+      for (ch of cat.channels) if (ch.id === channel.id) return cat.id;
+  }
+
   /**
    * Create a new channel
    */
   function createChannel() {
     openModal({
       type: "create_channel",
+      server: props.channel.server!,
+      categoryId: getCategory(props.channel),
+    });
+  }
+
+  /**
+   * Create a new category
+   */
+  function createCategory() {
+    openModal({
+      type: "create_category",
       server: props.channel.server!,
     });
   }
@@ -133,6 +151,9 @@ export function ChannelContextMenu(props: { channel: Channel }) {
       <Show when={props.channel.server?.havePermission("ManageChannel")}>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
           <Trans>Create channel</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
+          <Trans>Create category</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={props.channel.havePermission("ManageChannel")}>
