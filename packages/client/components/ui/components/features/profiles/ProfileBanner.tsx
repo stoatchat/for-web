@@ -138,8 +138,9 @@ const UserDetails = styled("div", {
   base: {
     ...typography.raw(),
 
+    flexGrow: 1,
     display: "flex",
-    lineHeight: "1em",
+    lineHeight: "1rem",
     gap: "var(--gap-xs)",
     flexDirection: "column",
   },
@@ -168,11 +169,10 @@ const LowEmphasis = styled("span", {
 const Pronouns = styled("div", {
   base: {
     ...typography.raw(),
-    flexShrink: 1,
-    flexGrow: 0,
     minWidth: 0,
-    lineHeight: "1em",
+    flexGrow: 1,
+    lineHeight: "1rem",
     gap: "var(--gap-xs)",
-    flexDirection: "column-reverse",
+    textAlign: "right",
   },
 });
