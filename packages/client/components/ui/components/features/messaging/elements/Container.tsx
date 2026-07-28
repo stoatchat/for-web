@@ -444,12 +444,18 @@ export function MessageContainer(props: Props) {
             <Row gap="sm" align>
               <OverflowingText>{props.username}</OverflowingText>
               <NonBreakingText>
-                <div class={infoText()}>
-                  {props.info}
-                  <Show when={props.pronouns}>
+                <div class={infoText()}>{props.info}</div>
+              </NonBreakingText>
+              <Show when={props.pronouns}>
+                <OverflowingText style={{ "flex-shrink": 100000 }}>
+                  <div class={infoText()}>
                     <span class={pronounsText()}>{props.pronouns}</span>
                     <span class={infoText()}>·</span>
-                  </Show>
+                  </div>
+                </OverflowingText>
+              </Show>
+              <NonBreakingText>
+                <div class={infoText()}>
                   <Show
                     when={props.timestamp instanceof Date}
                     fallback={props.timestamp as JSX.Element}
