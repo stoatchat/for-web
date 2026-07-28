@@ -120,7 +120,7 @@ class Lifecycle {
     this.dispose();
   }
 
-  private dispose(logout = true) {
+  private dispose(logout = false) {
     if (logout) this.client.logout();
 
     this.client = this.#controller.instance.newClient();
@@ -172,7 +172,7 @@ class Lifecycle {
         this.#connectionFailures = 0;
         break;
       case State.Dispose:
-        this.dispose();
+        this.dispose(true);
         this.transition({
           type: TransitionType.Ready,
         });
@@ -211,7 +211,7 @@ class Lifecycle {
     console.debug("Received transition", transition.type);
 
     if (transition.type === TransitionType.DisposeOnly) {
-      this.dispose(false);
+      this.dispose();
       return;
     }
 
