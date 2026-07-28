@@ -119,8 +119,8 @@ class Lifecycle {
     this.dispose();
   }
 
-  private dispose() {
-    if (this.client) {
+  private dispose(logout = true) {
+    if (this.client && logout) {
       this.client.logout();
     }
 
@@ -242,7 +242,7 @@ class Lifecycle {
     console.debug("Received transition", transition.type);
 
     if (transition.type === TransitionType.DisposeOnly) {
-      this.dispose();
+      this.dispose(false);
       return;
     }
 
@@ -400,7 +400,9 @@ class Lifecycle {
       case ConnectionState.Disconnected:
         if (this.client.events.lastError) {
           if (this.client.events.lastError.type === "revolt") {
-            // if (this.client.events.lastError.data.type == 'InvalidSession') {
+            if (this.client.events.lastError.data.type == "InvalidSession") {
+              this.#controller.state.auth.removeSession();
+            }
 
             this.transition({
               type: TransitionType.PermanentFailure,
