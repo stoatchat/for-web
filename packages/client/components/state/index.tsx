@@ -61,7 +61,6 @@ export class State {
   // internal data management
   private store: Store;
   private setStore: SetStoreFunction<Store>;
-  private readonly dbGlobal: LocalForage;
   private db?: LocalForage;
 
   appDrawer;
@@ -131,7 +130,6 @@ export class State {
    * Construct the global application state
    */
   constructor() {
-    this.dbGlobal = localforage.createInstance({});
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
@@ -168,7 +166,7 @@ export class State {
         delete WriteQueue[key];
 
         // write the entire key to storage
-        (global ? this.dbGlobal : db!).setItem(
+        (global ? localforage : db!).setItem(
           key,
           JSON.parse(
             JSON.stringify((this.store as Record<string, unknown>)[key]),
@@ -232,7 +230,7 @@ export class State {
     if (global || this.db)
       for (const store of this.iterStores())
         if (store.global === global) {
-          const data = await (store.global ? this.dbGlobal : this.db!).getItem(
+          const data = await (store.global ? localforage : this.db!).getItem(
             store.getKey(),
           );
 
