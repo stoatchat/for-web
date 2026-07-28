@@ -143,14 +143,18 @@ export class State {
    * Write some data to the store and disk
    */
   private write = (key: string, global: boolean, ...args: unknown[]) => {
-    const db = this.db; //Cache in case it changes before timeout
-    if (!global && !db) return; //Read-only before init
+    const dbLocal = this.db; //Cache in case it changes before timeout
 
     // pass the data to the store
     (this.setStore as (...args: unknown[]) => void)(key, ...args);
 
     // touch the key if syncable
     this.sync.touchIfSyncable(key);
+
+    //Read-only before init
+    if (!global && !dbLocal) return;
+    const db = global ? localforage : dbLocal!;
+    key = (db.config().storeName || "") + "|" + key;
 
     // remove existing queued task if it exists
     if (WriteQueue[key]) clearTimeout(WriteQueue[key]);
@@ -162,7 +166,7 @@ export class State {
         delete WriteQueue[key];
 
         // write the entire key to storage
-        (global ? localforage : db!).setItem(
+        db.setItem(
           key,
           JSON.parse(
             JSON.stringify((this.store as Record<string, unknown>)[key]),
