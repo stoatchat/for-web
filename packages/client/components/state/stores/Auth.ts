@@ -198,7 +198,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * Cache username and avatar for account switcher
    */
   cacheUserInfo(user: User) {
-    const data = this.#read();
+    const data = JSON.parse(JSON.stringify(this.get()));
     for (const s of [data.session, ...data.saved])
       if (s && s.userId === user.id) {
         s.cachedName = `${user.displayName} (@${user.username}#${user.discriminator})`;
