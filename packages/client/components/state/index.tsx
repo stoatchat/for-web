@@ -153,17 +153,17 @@ export class State {
 
     //Read-only before init
     if (!global && !dbLocal) return;
-    const db = global ? localforage : dbLocal!;
-    key = (db.config().storeName || "") + "|" + key;
+    const db = global ? localforage : dbLocal!,
+      qKey = (db.config().storeName || "") + "|" + key;
 
     // remove existing queued task if it exists
-    if (WriteQueue[key]) clearTimeout(WriteQueue[key]);
+    if (WriteQueue[qKey]) clearTimeout(WriteQueue[qKey]);
 
     // queue for writing to disk
-    WriteQueue[key] = setTimeout(
+    WriteQueue[qKey] = setTimeout(
       () => {
         // remove from write queue
-        delete WriteQueue[key];
+        delete WriteQueue[qKey];
 
         // write the entire key to storage
         db.setItem(
