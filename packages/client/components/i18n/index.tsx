@@ -7,10 +7,7 @@ import { type LocaleOptions, Language, Languages } from "./Languages";
 import { messages as en } from "./catalogs/en/messages";
 import { initTime, loadTimeLocale } from "./dayjs";
 
-/**
- * Initialise i18n engine
- */
-export function initI18n() {
+export function I18nProvider(props: { children: JSX.Element }) {
   i18n.load({
     en,
   });
@@ -18,10 +15,6 @@ export function initI18n() {
   i18n.activate("en");
 
   initTime();
-}
-
-export function I18nProvider(props: { children: JSX.Element }) {
-  initI18n();
 
   return <LinguiProvider i18n={i18n}>{props.children}</LinguiProvider>;
 }
