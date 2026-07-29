@@ -4,11 +4,11 @@ import { Server } from "stoat.js";
 import { useUser } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
-import { ColouredText } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { ColouredText, Symbol } from "@revolt/ui";
 
 import { SettingsConfiguration } from ".";
 import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissionsEditor";
+import { AuditLog } from "./server/AuditLog";
 import Overview from "./server/Overview";
 import { ListServerBans } from "./server/bans/ListBans";
 import { EmojiList } from "./server/emojis/EmojiList";
@@ -73,6 +73,8 @@ const Config: SettingsConfiguration<Server> = {
         return <ListServerInvites server={server} />;
       case "bans":
         return <ListServerBans server={server} />;
+      case "audit":
+        return <AuditLog server={server} />;
 
       default:
         return null;
@@ -105,6 +107,16 @@ const Config: SettingsConfiguration<Server> = {
               hidden: !(server.ownerId === user()?.id),
               icon: <Symbol size={20}>public</Symbol>,
               title: <Trans>Discover</Trans>,
+            },
+            {
+              // TODO: Hide when user does not have ViewAuditLogs perm
+              id: "audit",
+              icon: (
+                <Symbol fill size={20}>
+                  assignment
+                </Symbol>
+              ),
+              title: <Trans>Audit Log</Trans>,
             },
           ],
         },
