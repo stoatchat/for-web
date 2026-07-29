@@ -187,8 +187,8 @@ export function ChannelPermissionsEditor(props: Props) {
       value: 2n ** 40n,
       title: t`View Audit Logs`,
       description: {
-        Server: t`View all historical changes of this server`
-      }
+        Server: t`View all historical changes of this server`,
+      },
     },
     {
       key: "ManagePermissions",
