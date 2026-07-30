@@ -190,6 +190,13 @@ const base = cva({
       },
       hide: {},
     },
+    iOSTouch: {
+      true: {
+        "-webkit-touch-callout": "none",
+        "-webkit-user-select": "none",
+        "user-select": "none",
+      },
+    },
   },
   defaultVariants: {
     isLink: false,
@@ -321,7 +328,7 @@ const CompactInfo = styled(Row, {
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
   const { message } = useMessage();
-  const { isMobile } = useDevice();
+  const { isMobile, isIOSTouch } = useDevice();
 
   return (
     <div
@@ -337,6 +344,7 @@ export function MessageContainer(props: Props) {
           highlight: props.highlight,
           sendStatus: props.sendStatus,
           isLink: props.isLink,
+          iOSTouch: isIOSTouch,
         })
       }
       use:floating={{ contextMenu: props.contextMenu }}
