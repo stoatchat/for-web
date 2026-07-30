@@ -1,6 +1,6 @@
 import { Match, Show, Switch, createMemo, createSignal } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import {
@@ -8,7 +8,7 @@ import {
   createOwnProfileResource,
 } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, Row, iconSize } from "@revolt/ui";
+import { CategoryButton, Column, Row, iconSize, useSnackbar } from "@revolt/ui";
 
 import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
 import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
@@ -118,6 +118,8 @@ function EditAccount() {
 function MultiFactorAuth() {
   const client = useClient();
   const mfa = createMfaResource();
+  const snackbar = useSnackbar();
+  const { t } = useLingui();
   const { openModal, mfaFlow, mfaEnableTOTP, showError } = useModals();
 
   /**
@@ -155,6 +157,10 @@ function MultiFactorAuth() {
    */
   async function setupAuthenticatorApp() {
     const ticket = await mfaFlow(mfa.data!);
+    if (!ticket) {
+      snackbar.show({ message: t`MFA setup canceled.` });
+      return;
+    }
     const secret = await ticket!.generateAuthenticatorSecret();
 
     let success;
@@ -167,6 +173,11 @@ function MultiFactorAuth() {
           success = true;
         }
       } catch (err) {
+        // If the modal was closed (ie. promise was rejected) quit the loop
+        if (err === "MFACancelled") {
+          snackbar.show({ message: t`MFA setup canceled.` });
+          return;
+        }
         showError(err);
       }
     }

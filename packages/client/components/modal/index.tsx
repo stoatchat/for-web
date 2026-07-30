@@ -165,12 +165,13 @@ export class ModalControllerExtended extends ModalController {
    * @param client Client
    */
   mfaEnableTOTP(secret: string, identifier: string) {
-    return new Promise((callback: (value?: string) => void) =>
+    return new Promise((resolve: (value?: string) => void, reject) =>
       this.openModal({
         type: "mfa_enable_totp",
         identifier,
         secret,
-        callback,
+        callback: resolve,
+        reject,
       }),
     );
   }
