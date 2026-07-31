@@ -83,6 +83,9 @@ export function EmojiList(props: { server: Server }) {
                 accept="image/*"
                 imageJustify={false}
                 allowRemoval={false}
+                // TODO: Replace this with limit
+                maxSize={500_000}
+                hideErrors={true}
               />
             </Column>
             <Column grow>
@@ -93,6 +96,10 @@ export function EmojiList(props: { server: Server }) {
                 name="name"
                 control={editGroup.controls.name}
                 label={t`Emoji Name`}
+                pattern="[a-z0-9_]{1,32}"
+                helper={t`Lowercase letters, numbers and underscores only.`}
+                helper-on-focus={true}
+                autocomplete="off"
               />
 
               <Row align>
