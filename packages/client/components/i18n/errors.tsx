@@ -4,9 +4,7 @@ import { API } from "stoat.js";
 
 const RE_BREAK = /\s*\n\s*/g;
 
-function cleanError(
-  error: unknown,
-): { type?: never } | { message?: never } | string | undefined {
+function cleanError(error: unknown) {
   // Attempt to parse the incoming error as JSON if it is a string,
   // as some errors (e.g on login) are sent to this function as a string,
   // which then causes the error message to be unlocalised and unhelpful.
@@ -15,11 +13,9 @@ function cleanError(
       return JSON.parse(error);
     } catch {
       // Ignore JSON parse errors
-      return error;
     }
   }
-
-  return error as { type?: never } | { message?: never } | undefined;
+  return error;
 }
 
 /**
@@ -30,15 +26,13 @@ export function useError() {
 
   return (error: unknown, context?: string) => {
     error = cleanError(error);
+    console.error(error);
 
     // TODO: HTTP errors
 
     // handle Revolt API errors
-    if (
-      (error as { type?: never } | undefined)?.type &&
-      typeof (error as { type: never }).type === "string"
-    ) {
-      const err = error as API.Error;
+    if (typeof (error as { type: never })?.type === "string") {
+      const err = error as API.Error | { type: "SocketError" };
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -98,7 +92,7 @@ export function useError() {
         case "InvalidCredentials":
           return t`Provided email or password is wrong.`;
         case "InvalidSession":
-          return t`Please log in again.`;
+          return t`You were logged out!`;
         case "InvalidUsername":
           return t`This username is not allowed.`;
         case "MissingPermission":
@@ -134,6 +128,8 @@ export function useError() {
           return t`This account is not activated! Please check your account's inbox and try again.`;
         case "TotpAlreadyEnabled":
           return t`Multi-factor authentication is already enabled for this account.`;
+        case "SocketError":
+          return t`The web socket was unable to connect to the backend.`;
         case "ContactSupport":
           switch (err.locale) {
             case "discover.bot_removal_approved":
@@ -190,10 +186,7 @@ export function useError() {
     }
 
     // pass-through pre-localised errors with new Error({ message: <> })
-    if (
-      (error as { message?: never } | undefined)?.message &&
-      typeof (error as { message: never }).message === "string"
-    ) {
+    if (typeof (error as { message: never })?.message === "string") {
       const message = (error as { message: string }).message.trim();
       if (message) return message;
     } else if (typeof error === "string") {

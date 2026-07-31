@@ -5,10 +5,11 @@ import { css } from "styled-system/css";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
+import { useError } from "@revolt/i18n";
 import { Navigate } from "@revolt/routing";
+import { useState } from "@revolt/state";
 import { Button, CircularProgress, Column } from "@revolt/ui";
 
-import { useState } from "@revolt/state";
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 
 /**
@@ -17,6 +18,7 @@ import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid
 export default function FlowHome() {
   const state = useState();
   const { lifecycle, isLoggedIn, isError } = useClientLifecycle();
+  const error = useError();
 
   return (
     <Switch
@@ -88,12 +90,7 @@ export default function FlowHome() {
         <CircularProgress />
       </Match>
       <Match when={isError()}>
-        <Show
-          when={lifecycle.permanentError === "InvalidSession"}
-          fallback={lifecycle.permanentError || "An unknown error occurred."}
-        >
-          <Trans>You were logged out!</Trans>
-        </Show>
+        {error(lifecycle.permanentError)}
         <Button
           variant="filled"
           onPress={() =>
