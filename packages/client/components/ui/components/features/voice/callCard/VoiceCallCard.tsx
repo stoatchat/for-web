@@ -5,7 +5,6 @@ import {
   Switch,
   createContext,
   createEffect,
-  createMemo,
   createSignal,
   onCleanup,
   onMount,
@@ -104,6 +103,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     const inf = info();
     if (!ref) return;
     const sty = ref.style;
+    resetEvents();
 
     //Set mode based on state
     if (voice.fullscreen()) {
@@ -114,19 +114,14 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
       setMode();
-    } else if (!voice.channel()) {
+    } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
       sty.transform = `translate(${innerWidth + 50}px, ${y}px)`;
       setMode();
     } else if (!mode()) setFloat("tr");
   });
 
-  const channel = createMemo(() => {
-    const inf = info();
-
-    resetEvents();
-    return inf?.channel;
-  });
+  const channel = () => info()?.channel;
 
   function setFloat(float: FloatType) {
     const sty = ref!.style,
@@ -177,7 +172,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
           fullscreen={voice.fullscreen()}
         >
           <Switch>
-            <Match when={mode()}>
+            <Match when={mode() && inCall()}>
               <VoiceCallCardPiP />
             </Match>
             <Match when={channel()}>
