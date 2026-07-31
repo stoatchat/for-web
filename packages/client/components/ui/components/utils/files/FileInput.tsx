@@ -61,12 +61,24 @@ export function FileInput(props: Props) {
    * Handle file selection
    */
   function onChange(e: Event & { currentTarget: HTMLInputElement }) {
-    console.info(e.currentTarget);
     if (e.currentTarget.files) {
       // NB. need to help out with the reactivity by
       //     first removing the array, and then setting
       //     the new one; otherwise no update! ¯\_(ツ)_/¯
       local.onFiles(null);
+
+      // If accept is an image, check all the files submitted if they match our accept values
+      if (local.accept === "image/*") {
+        for (const file of e.currentTarget.files) {
+          if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+            // If they were stubborn enough to disable our filter for files then just ignore the file.
+            // No need for feedback, they know what they did.
+            local.onFiles(null);
+            e.currentTarget.files = null;
+            return;
+          }
+        }
+      }
       local.onFiles([...e.currentTarget.files]);
     }
   }
