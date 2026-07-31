@@ -26,7 +26,7 @@ import {
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Row } from "../layout";
 
-import { FileInput } from "./files";
+import { FileInput, humanFileSize } from "./files";
 
 /**
  * Form wrapper for TextField
@@ -178,9 +178,10 @@ const FormFileInput = (
             local.maxSize &&
             files[0].size > local.maxSize
           ) {
-            const maxKB = Math.round(local.maxSize / 1024);
             local.control.setErrors({
-              error: new Error(t`File must be smaller than ${maxKB}KiB`),
+              error: new Error(
+                t`File must be smaller than ${humanFileSize(local.maxSize)}`,
+              ),
             });
             local.control.markTouched(true);
             return;

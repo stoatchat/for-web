@@ -83,8 +83,8 @@ export function EmojiList(props: { server: Server }) {
                 accept="image/*"
                 imageJustify={false}
                 allowRemoval={false}
-                // TODO: Replace this with config param
-                maxSize={500 * 1024}
+                // TODO: Replace this with limit
+                maxSize={500_000}
                 hideErrors={true}
               />
             </Column>
