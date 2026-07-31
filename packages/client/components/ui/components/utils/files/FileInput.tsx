@@ -3,10 +3,11 @@ import { Match, Show, Switch, splitProps } from "solid-js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
+import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 
 import { Button, Ripple } from "../../design";
 import { Row } from "../../layout";
+import { Symbol } from "../Symbol";
 
 interface Props {
   /**
@@ -48,7 +49,12 @@ interface Props {
  * Form element for collecting files
  */
 export function FileInput(props: Props) {
-  const [local, remote] = splitProps(props, ["file", "onFiles", "multiple"]);
+  const [local, remote] = splitProps(props, [
+    "file",
+    "onFiles",
+    "multiple",
+    "accept",
+  ]);
   let inputRef: HTMLInputElement | undefined;
 
   /**
@@ -103,7 +109,7 @@ export function FileInput(props: Props) {
         </>
       }
     >
-      <Match when={props.accept === "image/*"}>
+      <Match when={local.accept === "image/*"}>
         <input
           type="file"
           ref={inputRef}
@@ -111,6 +117,7 @@ export function FileInput(props: Props) {
             display: "none",
           })}
           onChange={onChange}
+          accept={ALLOWED_IMAGE_TYPES.join(",")}
           {...remote}
         />
         <Row align justify={props.imageJustify ?? true} gap="lg">
@@ -133,7 +140,7 @@ export function FileInput(props: Props) {
               onPress={onClear}
               isDisabled={!props.file}
             >
-              <MdClose />
+              <Symbol>close</Symbol>
             </Button>
           </Show>
         </Row>

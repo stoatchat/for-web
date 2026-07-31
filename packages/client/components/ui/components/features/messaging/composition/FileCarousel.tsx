@@ -4,7 +4,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { CONFIGURATION } from "@revolt/common";
-import { ALLOWED_IMAGE_TYPES } from "@revolt/state/stores/Draft";
+import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 import { Ripple, typography } from "@revolt/ui/components/design";
 import { OverflowingText, iconSize } from "@revolt/ui/components/utils";
 
