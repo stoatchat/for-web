@@ -33,6 +33,8 @@ export { SyncWorker } from "./SyncWorker";
 
 export type { Sounds, TypeSounds } from "./stores/Sounds";
 
+export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
+
 /**
  * Introduce some delay before writing state to disk
  */

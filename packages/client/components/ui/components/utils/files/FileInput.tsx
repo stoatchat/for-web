@@ -3,10 +3,11 @@ import { Match, Show, Switch, splitProps } from "solid-js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
+import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 
 import { Button, Ripple } from "../../design";
 import { Row } from "../../layout";
+import { Symbol } from "../Symbol";
 
 interface Props {
   /**
@@ -48,19 +49,36 @@ interface Props {
  * Form element for collecting files
  */
 export function FileInput(props: Props) {
-  const [local, remote] = splitProps(props, ["file", "onFiles", "multiple"]);
+  const [local, remote] = splitProps(props, [
+    "file",
+    "onFiles",
+    "multiple",
+    "accept",
+  ]);
   let inputRef: HTMLInputElement | undefined;
 
   /**
    * Handle file selection
    */
   function onChange(e: Event & { currentTarget: HTMLInputElement }) {
-    console.info(e.currentTarget);
     if (e.currentTarget.files) {
       // NB. need to help out with the reactivity by
       //     first removing the array, and then setting
       //     the new one; otherwise no update! ¯\_(ツ)_/¯
       local.onFiles(null);
+
+      // If accept is an image, check all the files submitted if they match our accept values
+      if (local.accept === "image/*") {
+        for (const file of e.currentTarget.files) {
+          if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+            // If they were stubborn enough to disable our filter for files then just ignore the file.
+            // No need for feedback, they know what they did.
+            local.onFiles(null);
+            e.currentTarget.files = null;
+            return;
+          }
+        }
+      }
       local.onFiles([...e.currentTarget.files]);
     }
   }
@@ -103,7 +121,7 @@ export function FileInput(props: Props) {
         </>
       }
     >
-      <Match when={props.accept === "image/*"}>
+      <Match when={local.accept === "image/*"}>
         <input
           type="file"
           ref={inputRef}
@@ -111,6 +129,7 @@ export function FileInput(props: Props) {
             display: "none",
           })}
           onChange={onChange}
+          accept={ALLOWED_IMAGE_TYPES.join(",")}
           {...remote}
         />
         <Row align justify={props.imageJustify ?? true} gap="lg">
@@ -133,7 +152,7 @@ export function FileInput(props: Props) {
               onPress={onClear}
               isDisabled={!props.file}
             >
-              <MdClose />
+              <Symbol>close</Symbol>
             </Button>
           </Show>
         </Row>
