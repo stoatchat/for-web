@@ -6,6 +6,7 @@ import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
+import { useNavigate } from "@solidjs/router";
 
 import Instance from "../instance/Instance";
 import { killServiceWorkerSubscription } from "./NotificationsController";
@@ -49,7 +50,7 @@ export type Transition =
     }
   | {
       type: TransitionType.PermanentFailure;
-      error: string;
+      error: unknown;
     }
   | {
       type:
@@ -90,11 +91,13 @@ class Lifecycle {
   private client: Client;
 
   #connectionFailures = 0;
-  #permanentError: string | undefined;
+  #permanentError: unknown | undefined;
   #retryTimeout: number | undefined;
+  #nav;
 
   constructor(controller: ClientController) {
     this.#controller = controller;
+    this.#nav = useNavigate();
 
     this.onState = this.onState.bind(this);
     this.onReady = this.onReady.bind(this);
@@ -203,6 +206,8 @@ class Lifecycle {
           }, retryIn * 1e3) as never;
         }
         break;
+      case State.Error:
+        this.#nav("/login");
     }
   }
 
@@ -356,18 +361,17 @@ class Lifecycle {
   }
 
   private onState(state: ConnectionState) {
-    switch (state) {
-      case ConnectionState.Disconnected:
-        if (this.client.events.lastError) {
-          if (this.client.events.lastError.type === "revolt") {
-            this.showError(this.client.events.lastError.data.type);
-            break;
-          }
-        }
-        this.transition({
-          type: TransitionType.TemporaryFailure,
-        });
-        break;
+    if (state === ConnectionState.Disconnected) {
+      if (this.client.events.lastError) {
+        const revolt = this.client.events.lastError.type === "revolt";
+        if (revolt || !this.loadedOnce())
+          return this.showError(
+            revolt
+              ? this.client.events.lastError.data
+              : { type: "SocketError" },
+          );
+      }
+      this.transition({ type: TransitionType.TemporaryFailure });
     }
   }
 
@@ -375,11 +379,11 @@ class Lifecycle {
    * Get the permanent error
    */
   get permanentError() {
-    return this.#permanentError!;
+    return this.#permanentError;
   }
 
   /** Redirect to client error page */
-  showError(e: string) {
+  showError(e: unknown) {
     this.transition({
       type: TransitionType.PermanentFailure,
       error: e,
