@@ -11,6 +11,7 @@ import { useState } from "@revolt/state";
 import { Avatar, iconSize } from "@revolt/ui";
 import { Invite } from "@revolt/ui/components/features/messaging/elements/Invite";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { getChannelIcon } from "@revolt/common";
 
 import MdChat from "@material-design-icons/svg/outlined/chat.svg?component-solid";
 import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
@@ -131,7 +132,7 @@ export function RenderAnchor(
                 disabled={localProps.disabled}
                 href={internalUrl()}
               >
-                <Symbol>tag</Symbol>
+                <Symbol>{getChannelIcon(channel(), "mention")}</Symbol>
                 {channel()!.name}
                 {params.exactMessage && (
                   <>

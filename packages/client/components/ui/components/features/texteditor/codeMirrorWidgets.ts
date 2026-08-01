@@ -16,6 +16,7 @@ import {
 } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { userInformation } from "@revolt/markdown/users";
 import { useSmartParams } from "@revolt/routing";
+import { getChannelIcon } from "@revolt/common";
 
 import { parseUnicodeEmoji } from "@revolt/markdown/plugins/unicodeEmoji";
 import { isInCodeBlock } from "./codeMirrorCommon";
@@ -231,7 +232,7 @@ class ChannelMentionWidget extends WidgetType {
     mention.contentEditable = "false";
 
     const icon = document.createElement("span");
-    icon.innerText = "tag";
+    icon.innerText = getChannelIcon(this.channel, "mention");
     icon.classList.add("material-symbols-outlined");
     mention.appendChild(icon);
 

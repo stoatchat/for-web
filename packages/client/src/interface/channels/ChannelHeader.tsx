@@ -22,6 +22,7 @@ import {
   UserStatus,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { getChannelIcon } from "@revolt/common";
 
 import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
@@ -78,7 +79,7 @@ export function ChannelHeader(props: Props) {
           }
         >
           <HeaderIcon>
-            <Symbol>grid_3x3</Symbol>
+            <Symbol>{getChannelIcon(props.channel)}</Symbol>
           </HeaderIcon>
           <NonBreakingText
             class={
