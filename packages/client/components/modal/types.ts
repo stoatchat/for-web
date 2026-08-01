@@ -186,6 +186,7 @@ export type Modals =
       identifier: string;
       secret: string;
       callback: (code?: string) => void;
+      reject?: (reason?: string) => void;
     }
   | ({
       type: "mfa_flow";
