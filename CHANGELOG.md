@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.14.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.14.0...stoat-for-web-v0.14.1) (2026-08-01)
+
+
+### Bug Fixes
+
+* Add file size validation and emoji name validation ([#1423](https://github.com/stoatchat/for-web/issues/1423)) ([8310119](https://github.com/stoatchat/for-web/commit/8310119cf928c6960024142b80905ee29b7ff2f6))
+* Add image type filter to image inputs, export type from draft ([#1422](https://github.com/stoatchat/for-web/issues/1422)) ([9322cd2](https://github.com/stoatchat/for-web/commit/9322cd21204efd11f92405487203e3151dffa256))
+* Add no cache to the index.html to force cache busting ([#1416](https://github.com/stoatchat/for-web/issues/1416)) ([951676c](https://github.com/stoatchat/for-web/commit/951676ca18a61fa9b966adbc6913d582912ade1f))
+* Enable MFA modal is now cancelable ([#1417](https://github.com/stoatchat/for-web/issues/1417)) ([0f41f87](https://github.com/stoatchat/for-web/commit/0f41f871ab53ec779b0e75582303c9f69777eac4))
+* HTML formatting ([#1427](https://github.com/stoatchat/for-web/issues/1427)) ([7a60989](https://github.com/stoatchat/for-web/commit/7a60989767c643c772371b3d64d3af808db76b76))
+* Make messages non-selectable on ios to enable context menus ([#1418](https://github.com/stoatchat/for-web/issues/1418)) ([025346d](https://github.com/stoatchat/for-web/commit/025346dfb891d1bfc2de22c0090563ef447ecfc5))
+* Make the mute icon not red when streaming your own stream ([#1420](https://github.com/stoatchat/for-web/issues/1420)) ([995cc2f](https://github.com/stoatchat/for-web/commit/995cc2fdabfd18dc395fdb4c571406d9363fa402))
+* **messaging:** show edited indicator in compact mode ([#1424](https://github.com/stoatchat/for-web/issues/1424)) ([3dfd9c0](https://github.com/stoatchat/for-web/commit/3dfd9c0313e50865ea81cb61481104dc7b355f8a)), closes [#1337](https://github.com/stoatchat/for-web/issues/1337)
+* Pip will no longer error when exiting call ([#1421](https://github.com/stoatchat/for-web/issues/1421)) ([0c8473f](https://github.com/stoatchat/for-web/commit/0c8473f536429ac16ab538cf0d9c730c7222d661))
+* Sometimes I18n provider would load before activate ([#1413](https://github.com/stoatchat/for-web/issues/1413)) ([cb49651](https://github.com/stoatchat/for-web/commit/cb4965162c17266688fec5d9931705bb5bec552b))
+* wrong text colour on the emoji info thingy ([#1411](https://github.com/stoatchat/for-web/issues/1411)) ([c7d39d1](https://github.com/stoatchat/for-web/commit/c7d39d1feacf2eeaeddfd5a0ff95e69d7aa8d9c0))
+
 ## [0.14.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.13.1...stoat-for-web-v0.14.0) (2026-07-28)
 
 
