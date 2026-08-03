@@ -6,57 +6,47 @@ export interface AppConfig {
   api: string;
 }
 
+const getEnv = (name: string, devOnly?: boolean) =>
+  !devOnly || import.meta.env.DEV
+    ? (import.meta.env[name] as string)
+    : undefined;
+
 const DEFAULT_HOST =
-  (import.meta.env.DEV ? import.meta.env.VITE_DEV_HOST : undefined) ??
-  (import.meta.env.VITE_HOST as string) ??
-  STOAT_HOST;
+  getEnv("VITE_DEV_HOST", true) || getEnv("VITE_HOST") || STOAT_HOST;
 
 const DEFAULT_API_URL =
-  (import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : undefined) ??
-  (import.meta.env.VITE_API_URL as string) ??
-  STOAT_API;
+  getEnv("VITE_DEV_API_URL", true) || getEnv("VITE_API_URL") || STOAT_API;
 
 if (DEFAULT_API_URL !== STOAT_API && DEFAULT_HOST === STOAT_HOST)
   throw "VITE_HOST required when VITE_API_URL is set!";
 
 export default {
-  /**
-   * Whether to emit additional debug information
-   */
-  DEBUG: import.meta.env.DEV || true,
   /** Default instance (without the protocol) */
   DEFAULT_HOST,
   /** API URL of default instance */
   DEFAULT_API_URL,
   /** WS server override for development */
-  DEV_WS_URL: import.meta.env.VITE_DEV_WS_URL as string | undefined,
+  DEV_WS_URL: getEnv("VITE_DEV_WS_URL"),
   /** Media server override for development */
-  DEV_MEDIA_URL: import.meta.env.VITE_DEV_MEDIA_URL as string | undefined,
+  DEV_MEDIA_URL: getEnv("VITE_DEV_MEDIA_URL"),
   /** Proxy server override for development */
-  DEV_PROXY_URL: import.meta.env.VITE_DEV_PROXY_URL as string | undefined,
+  DEV_PROXY_URL: getEnv("VITE_DEV_PROXY_URL"),
   /** Gifbox server override for development */
-  DEV_GIFBOX_URL: import.meta.env.VITE_DEV_GIFBOX_URL as string | undefined,
+  DEV_GIFBOX_URL: getEnv("VITE_DEV_GIFBOX_URL"),
   /**
    * RNNoise worklet CDN host location. Defaults to blank, which uses the url provided by the livekit-rnnoise-processor package.
    */
-  RNNOISE_WORKLET_CDN_URL:
-    (import.meta.env.VITE_RNNOISE_WORKLET_CDN_URL as string) ?? "",
+  RNNOISE_WORKLET_CDN_URL: getEnv("VITE_RNNOISE_WORKLET_CDN_URL"),
   /**
    * Session ID to set during development.
    */
-  DEVELOPMENT_SESSION_ID: import.meta.env.DEV
-    ? (import.meta.env.VITE_SESSION_ID as string)
-    : undefined,
+  DEVELOPMENT_SESSION_ID: getEnv("VITE_SESSION_ID", true),
   /**
    * Token to set during development.
    */
-  DEVELOPMENT_TOKEN: import.meta.env.DEV
-    ? (import.meta.env.VITE_TOKEN as string)
-    : undefined,
+  DEVELOPMENT_TOKEN: getEnv("VITE_TOKEN", true),
   /**
    * User ID to set during development.
    */
-  DEVELOPMENT_USER_ID: import.meta.env.DEV
-    ? (import.meta.env.VITE_USER_ID as string)
-    : undefined,
+  DEVELOPMENT_USER_ID: getEnv("VITE_USER_ID", true),
 };
