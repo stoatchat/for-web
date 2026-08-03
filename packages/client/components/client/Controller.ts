@@ -280,7 +280,9 @@ class Lifecycle {
         break;
       case State.Error:
         if (transition.type === TransitionType.Dismiss) {
-          if (this.permanentError === "InvalidSession")
+          if (
+            (this.permanentError as { type: string })?.type === "InvalidSession"
+          )
             this.#controller.state.auth.removeSession(true);
           this.logout();
         }
@@ -462,7 +464,7 @@ export default class ClientController {
 
   loginCached(unhold = false, cached = unhold) {
     const session = this.state.auth.getSession(unhold);
-    if (!session) return;
+    if (!session) return this.initUserState();
     this.lifecycle.transition({
       type: cached ? TransitionType.LoginCached : TransitionType.LoginUncached,
       session,
