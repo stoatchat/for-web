@@ -6,6 +6,7 @@ import { decodeTime } from "ulid";
 
 import CONFIGURATION from "@revolt/common/lib/env";
 import type { Session, TypeAuth } from "@revolt/state/stores/Auth";
+import type { TypeHosts } from "@revolt/state/stores/Hosts";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -46,6 +47,7 @@ const scope = new URL(self.registration.scope),
 let waitDB: Promise<void> | null,
   waitUnread: Promise<void> | null,
   session: Session,
+  apiUrl: string,
   cache: TypeCache;
 
 self.addEventListener("install", () => self.skipWaiting());
@@ -119,12 +121,9 @@ async function fetchUnreads() {
     try {
       const time = Date.now();
       if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
-        const res = await fetch(
-          CONFIGURATION.DEFAULT_API_URL + "/sync/unreads",
-          {
-            headers: { "x-session-token": session.token },
-          },
-        );
+        const res = await fetch(apiUrl + "/sync/unreads", {
+          headers: { "x-session-token": session.token },
+        });
         if (!res.ok) throw "HTTP Error " + res.status;
 
         //Save to DB
@@ -148,6 +147,12 @@ async function loadDB() {
       if (auth.session) auth.saved.push(auth.session);
       session = auth.saved.find((s) => s.userId === userId)!;
       if (!session) throw `Session for @${userId} not found`;
+
+      //Get API for session
+      apiUrl =
+        (session.host &&
+          ((await db.getItem("host")) as TypeHosts)[session.host]?.api) ??
+        CONFIGURATION.DEFAULT_API_URL;
 
       //Load cache
       cache = (await db.getItem("cache")) || ({} as TypeCache);
