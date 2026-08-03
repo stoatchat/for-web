@@ -203,15 +203,6 @@ export class ModalControllerExtended extends ModalController {
   }
 
   /**
-   * Write text to the clipboard
-   * @param text Text to write
-   * @deprecated use navigator clipboard directly
-   */
-  writeText(text: string) {
-    navigator.clipboard.writeText(text);
-  }
-
-  /**
    * Safely open external or internal link
    * @param href Raw URL
    * @param trusted Whether we trust this link

@@ -5,7 +5,7 @@ import { useApi, useClientLifecycle } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { useNavigate, useParams } from "@revolt/routing";
-import { Button, iconSize, Row } from "@revolt/ui";
+import { Button, Column, iconSize, Row } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
@@ -66,6 +66,14 @@ export default function FlowCreate() {
         <Show when={config.features.invite_only}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>
+        <Column align>
+          <Button
+            variant="text"
+            onPress={() => modals.openModal({ type: "login_advanced" })}
+          >
+            <Trans>Advanced</Trans>
+          </Button>
+        </Column>
         <Row justify>
           <a href="..">
             <Button variant="text">

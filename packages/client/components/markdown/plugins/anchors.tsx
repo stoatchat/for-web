@@ -114,6 +114,9 @@ export function RenderAnchor(
       params.host ||= DefaultHost;
       const remote = params.host !== (instance.host || DefaultHost);
 
+      //TODO: Fetch more info about remote link from the remote instance
+      //But need a way to cache the results
+
       if (params.exactChannel) {
         const channel = () => client().channels.get(params.channelId!);
         const internalUrl = () => {
