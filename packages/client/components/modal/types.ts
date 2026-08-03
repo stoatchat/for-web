@@ -387,6 +387,9 @@ export type Modals =
       maxSize: number | undefined;
     }
   | {
+      type: "login_advanced";
+    }
+  | {
       type: "swap_user";
     }
   | {
