@@ -3,7 +3,7 @@ import { useMediaDeviceSelect } from "solid-livekit-components";
 
 import { Trans } from "@lingui-solid/solid/macro";
 
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useState } from "@revolt/state";
 import {
   CategoryButton,
@@ -18,12 +18,14 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
  * Input options
  */
 export function VoiceInputOptions() {
+  const { limits } = useInstance();
+
   return (
     <Column>
       <CategoryButton.Group>
         <SelectInput kind="audioinput" />
         <SelectInput kind="audiooutput" />
-        <Show when={CONFIGURATION.ENABLE_VIDEO}>
+        <Show when={limits().video}>
           <SelectInput kind="videoinput" />
         </Show>
       </CategoryButton.Group>

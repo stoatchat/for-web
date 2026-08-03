@@ -4,7 +4,7 @@ import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { styled } from "styled-system/jsx";
 
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { Dialog, DialogProps } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -36,6 +36,7 @@ export function CreateInviteModal(
 ) {
   const { showError } = useModals();
   const [link, setLink] = createSignal("...");
+  const instance = useInstance();
 
   const fetchInvite = useMutation(() => ({
     mutationFn: () =>
@@ -43,9 +44,9 @@ export function CreateInviteModal(
         .createInvite()
         .then(({ _id }) =>
           setLink(
-            CONFIGURATION.IS_STOAT
+            instance.isStoat
               ? `https://stt.gg/${_id}`
-              : `${window.location.protocol}//${window.location.host}/invite/${_id}`,
+              : instance.href(`/invite/${_id}`),
           ),
         ),
     onError: showError,

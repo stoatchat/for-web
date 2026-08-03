@@ -4,10 +4,11 @@ import { detect } from "detect-browser";
 import { API, Client, ConnectionState } from "stoat.js";
 import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
-import { CONFIGURATION } from "@revolt/common";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
+
+import Instance from "../instance/Instance";
 import { killServiceWorkerSubscription } from "./NotificationsController";
 
 export enum State {
@@ -119,48 +120,16 @@ class Lifecycle {
     this.dispose();
   }
 
-  private dispose(logout = true) {
-    if (this.client && logout) {
-      this.client.logout();
-    }
+  private dispose(logout = false) {
+    if (logout) this.client.logout();
 
-    this.client = new Client({
-      baseURL: CONFIGURATION.DEFAULT_API_URL,
-      autoReconnect: false,
-      syncUnreads: true,
-      debug: import.meta.env.DEV,
-      channelIsMuted: (channel) =>
-        this.#controller.state.notifications.isMuted(channel),
-      channelExclusiveMuted: (channel) =>
-        this.#controller.state.notifications.isChannelMuted(channel),
-    });
+    this.client = this.#controller.instance.newClient();
 
-    this.client.configuration = {
-      revolt: String(),
-      app: String(),
-      build: {} as never,
-      features: {
-        autumn: {
-          enabled: true,
-          url: CONFIGURATION.DEFAULT_MEDIA_URL,
-        },
-        january: {
-          enabled: true,
-          url: CONFIGURATION.DEFAULT_PROXY_URL,
-        },
-        captcha: {} as never,
-        email: true,
-        invite_only: false,
-        livekit: {
-          enabled: false,
-          nodes: [],
-        },
-        legal_links: {} as never,
-        limits: {} as never,
-      },
-      vapid: String(),
-      ws: CONFIGURATION.DEFAULT_WS_URL,
-    };
+    this.client.options.channelIsMuted = (ch) =>
+      this.#controller.state.notifications.isMuted(ch);
+
+    this.client.options.channelExclusiveMuted = (ch) =>
+      this.#controller.state.notifications.isChannelMuted(ch);
 
     this.client.events.on("state", this.onState);
     this.client.on("ready", this.onReady);
@@ -203,7 +172,7 @@ class Lifecycle {
         this.#connectionFailures = 0;
         break;
       case State.Dispose:
-        this.dispose();
+        this.dispose(true);
         this.transition({
           type: TransitionType.Ready,
         });
@@ -242,7 +211,7 @@ class Lifecycle {
     console.debug("Received transition", transition.type);
 
     if (transition.type === TransitionType.DisposeOnly) {
-      this.dispose(false);
+      this.dispose();
       return;
     }
 
@@ -448,18 +417,19 @@ export default class ClientController {
    */
   readonly state: ApplicationState;
 
-  /**
-   * A memo to prevent isLoggedIn from bouncing when reconnecting
-   */
-  private isLoggedInState: Accessor<boolean>;
+  isLoggedIn: Accessor<boolean>;
+
+  /** Stoat instance the client belongs to. Also accessible via `useInstance()` */
+  readonly instance: Instance;
 
   /**
    * Construct new client controller
    */
-  constructor(state: ApplicationState) {
+  constructor(state: ApplicationState, instance: Instance) {
     this.state = state;
+    this.instance = instance;
     this.api = new API.API({
-      baseURL: CONFIGURATION.DEFAULT_API_URL,
+      baseURL: instance.apiUrl,
     });
 
     this.lifecycle = new Lifecycle(this);
@@ -467,10 +437,10 @@ export default class ClientController {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.selectUsername = this.selectUsername.bind(this);
-    this.isLoggedIn = this.isLoggedIn.bind(this);
     this.isError = this.isError.bind(this);
 
-    this.isLoggedInState = createMemo(() =>
+    //A memo to prevent isLoggedIn from bouncing when reconnecting
+    this.isLoggedIn = createMemo(() =>
       [
         State.Connecting,
         State.Connected,
@@ -480,25 +450,20 @@ export default class ClientController {
       ].includes(this.lifecycle.state()),
     );
 
-    const session = state.auth.getSession();
-    if (session) {
-      this.lifecycle.transition({
-        type: TransitionType.LoginCached,
-        session,
-      });
-    }
-  }
-
-  getCurrentClient() {
-    return this.lifecycle.client;
-  }
-
-  isLoggedIn() {
-    return this.isLoggedInState();
+    this.loginCached();
   }
 
   isError() {
     return this.lifecycle.state() === State.Error;
+  }
+
+  loginCached() {
+    const session = this.state.auth.getSession();
+    if (!session) return;
+    this.lifecycle.transition({
+      type: TransitionType.LoginCached,
+      session,
+    });
   }
 
   /**
@@ -588,7 +553,7 @@ export default class ClientController {
   }
 
   async selectUsername(username: string) {
-    await this.lifecycle.client.api.post("/onboard/complete", {
+    await this.instance.client.api.post("/onboard/complete", {
       username,
     });
 
@@ -599,7 +564,7 @@ export default class ClientController {
 
   logout() {
     this.state.settings.resetNotificationsState();
-    killServiceWorkerSubscription(this.getCurrentClient(), true);
+    killServiceWorkerSubscription(this.instance.client, true);
     this.state.auth.removeSession();
     this.lifecycle.transition({
       type: TransitionType.Logout,

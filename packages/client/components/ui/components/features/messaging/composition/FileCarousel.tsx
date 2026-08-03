@@ -3,7 +3,7 @@ import { For, Match, Show, Switch } from "solid-js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 import { Ripple, typography } from "@revolt/ui/components/design";
 import { OverflowingText, iconSize } from "@revolt/ui/components/utils";
@@ -58,6 +58,8 @@ export function determineFileSize(size: number) {
  * File carousel
  */
 export function FileCarousel(props: Props) {
+  const { limits } = useInstance();
+
   return (
     <Show when={props.files.length}>
       <Container>
@@ -76,11 +78,11 @@ export function FileCarousel(props: Props) {
 
               return (
                 <>
-                  <Show when={index() === CONFIGURATION.MAX_ATTACHMENTS}>
+                  <Show when={index() === limits().message_attachments}>
                     <Divider />
                   </Show>
 
-                  <Entry ignored={index() >= CONFIGURATION.MAX_ATTACHMENTS}>
+                  <Entry ignored={index() >= limits().message_attachments}>
                     <PreviewBox
                       onClick={onClick}
                       image={ALLOWED_IMAGE_TYPES.includes(file().file.type)}

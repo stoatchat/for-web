@@ -15,6 +15,7 @@
 - [Components]()
   - [Client]()
     - [Session Lifecycle](./components/client/session-lifecycle.md)
+    - [User Limits](./components/client/user-limits.md)
   - [@revolt/i18n]()
     - [Using Lingui](./components/i18n/using-lingui.md)
     - [Using Dayjs](./components/i18n/using-dayjs.md)

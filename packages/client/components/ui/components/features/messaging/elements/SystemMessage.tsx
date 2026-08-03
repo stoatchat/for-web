@@ -16,6 +16,7 @@ import {
 import { styled } from "styled-system/jsx";
 
 import { useTime } from "@revolt/i18n";
+import { useInstance } from "@revolt/instance";
 import { time } from "@revolt/markdown/elements";
 import { RenderAnchor } from "@revolt/markdown/plugins/anchors";
 import { UserMention } from "@revolt/markdown/plugins/mentions";
@@ -43,6 +44,7 @@ interface Props {
  * System Message
  */
 export function SystemMessage(props: Props) {
+  const instance = useInstance();
   const params = useSmartParams();
   const dayjs = useTime();
 
@@ -172,11 +174,10 @@ export function SystemMessage(props: Props) {
             />{" "}
             pinned{" "}
             <RenderAnchor
-              href={
-                location.origin +
+              href={instance.href(
                 (params().serverId ? `/server/${params().serverId}` : "") +
-                `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`
-              }
+                  `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`,
+              )}
             />
           </Trans>
         </Match>
@@ -187,11 +188,10 @@ export function SystemMessage(props: Props) {
             />{" "}
             unpinned{" "}
             <RenderAnchor
-              href={
-                location.origin +
+              href={instance.href(
                 (params().serverId ? `/server/${params().serverId}` : "") +
-                `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`
-              }
+                  `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`,
+              )}
             />
           </Trans>
         </Match>
