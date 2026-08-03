@@ -41,6 +41,7 @@ declare global {
         ) => void,
       ): void;
       screenPickerCallback(idx: number, audio: boolean): void;
+      isWayland?(): boolean;
     };
 
     desktopConfig: {
