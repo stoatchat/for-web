@@ -1,6 +1,6 @@
 import { mergeProps, splitProps } from "solid-js";
 
-import { CONFIGURATION } from "@revolt/common";
+import { IS_DEV } from "@revolt/client";
 
 import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
@@ -69,7 +69,7 @@ import { UserProfileRolesModal } from "./modals/UserProfileRoles";
 /* eslint-disable solid/reactivity */
 /* eslint-disable solid/components-return-once */
 export function RenderModal(props: ActiveModal & { onClose: () => void }) {
-  if (CONFIGURATION.DEBUG) {
+  if (IS_DEV) {
     console.info(
       "components/modal — modal renderer created for type:",
       props.props.type,
