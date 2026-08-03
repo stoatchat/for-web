@@ -6,6 +6,7 @@ import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
 import { AddMembersToGroupModal } from "./modals/AddMembersToGroup";
+import { AdvancedLoginModal } from "./modals/AdvancedLoginModal";
 import { BanMemberModal } from "./modals/BanMember";
 import { BanNonMemberModal } from "./modals/BanNonMember";
 import { ChangelogModal } from "./modals/Changelog";
@@ -201,6 +202,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ScreenSharePickerModal {...modalProps} />;
     case "swap_user":
       return <SwapUserModal {...modalProps} />;
+    case "login_advanced":
+      return <AdvancedLoginModal {...modalProps} />;
 
     default:
       console.error(

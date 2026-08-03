@@ -229,7 +229,10 @@ export class State {
       //If session exists, use session store
       const ses = this.store.auth.session;
       this.db =
-        ses && localforage.createInstance({ storeName: `@${ses.userId}` });
+        ses &&
+        localforage.createInstance({
+          storeName: `${ses.host ?? ""}@${ses.userId}`,
+        });
     }
 
     // load all data first
@@ -268,7 +271,7 @@ export class State {
       if (stores) {
         const ses = this.store.auth.session,
           sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
-            (s) => `@${s.userId}`,
+            (s) => `${s.host ?? ""}@${s.userId}`,
           );
         for (const key of stores)
           if (

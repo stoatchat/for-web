@@ -52,9 +52,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
 
   (async () => {
     //Redirect default instance
-    //TODO This redirects ALL instance paths to default until multi-instance is ready
-    // Replace with `if (host === DefaultHost)` when ready
-    if (host) return nav(Instance.relPath(), { replace: true });
+    if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
 
     try {
       const appCfg: AppConfig = host
