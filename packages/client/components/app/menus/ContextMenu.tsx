@@ -2,9 +2,9 @@ import { useFloating } from "solid-floating-ui";
 import {
   Component,
   ComponentProps,
+  createSignal,
   JSX,
   Show,
-  createSignal,
   splitProps,
 } from "solid-js";
 import { Portal } from "solid-js/web";
@@ -13,7 +13,7 @@ import { Motion, Presence } from "solid-motionone";
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
 import { styled } from "styled-system/jsx";
 
-import { Text, iconSize, symbolSize } from "@revolt/ui";
+import { iconSize, symbolSize, Text } from "@revolt/ui";
 
 import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
 
@@ -119,10 +119,10 @@ export const ContextMenuItem = styled("a", {
 
 type ButtonProps = ComponentProps<typeof ContextMenuItem> & {
   icon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  symbol?: Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  symbol?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
   destructive?: boolean;
   actionIcon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  actionSymbol?: Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  actionSymbol?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
 };
 
 export function ContextMenuButton(props: ButtonProps) {
@@ -139,12 +139,16 @@ export function ContextMenuButton(props: ButtonProps) {
       {typeof local.icon === "function"
         ? local.icon?.(iconSize(16))
         : local.icon}
-      {local.symbol?.(symbolSize(16))}
+      {typeof local.symbol === "function"
+        ? local.symbol(symbolSize(16))
+        : local.symbol}
       <Text>{local.children}</Text>
       {typeof local.actionIcon === "function"
         ? local.actionIcon?.(iconSize(20))
         : local.actionIcon}
-      {local.actionSymbol?.(symbolSize(20))}
+      {typeof local.actionSymbol === "function"
+        ? local.actionSymbol(symbolSize(20))
+        : local.actionSymbol}
     </ContextMenuItem>
   );
 }
