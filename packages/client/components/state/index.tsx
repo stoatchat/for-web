@@ -22,6 +22,7 @@ import { AbstractStore, Store } from "./stores";
 import { Auth, TypeAuth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
 import { Experiments } from "./stores/Experiments";
+import { Hosts } from "./stores/Hosts";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
 import { LinkSafety } from "./stores/LinkSafety";
@@ -85,6 +86,7 @@ export class State {
 
   // define all stores
   auth = new Auth(this);
+  host = new Hosts(this);
   draft = new Draft(this);
   experiments = new Experiments(this);
   keybinds = new Keybinds(this);
@@ -266,7 +268,10 @@ export class State {
       //If session exists, use session store
       const ses = this.store.auth.session;
       this.db =
-        ses && localforage.createInstance({ storeName: `@${ses.userId}` });
+        ses &&
+        localforage.createInstance({
+          storeName: `${ses.host ?? ""}@${ses.userId}`,
+        });
     }
 
     // load all data first
@@ -302,7 +307,7 @@ export class State {
     if (storeKeys) {
       const ses = this.store.auth.session,
         sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
-          (s) => `@${s.userId}`,
+          (s) => `${s.host ?? ""}@${s.userId}`,
         );
       for (const key of storeKeys)
         if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
