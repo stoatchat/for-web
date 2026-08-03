@@ -66,13 +66,4 @@ COPY --from=builder /build/packages/client/dist ./dist
 
 EXPOSE 5000
 
-# Runtime env vars (overridden by Helm chart / docker run)
-ENV VITE_HOST=""
-ENV VITE_API_URL=""
-ENV VITE_DEV_WS_URL=""
-ENV VITE_DEV_MEDIA_URL=""
-ENV VITE_DEV_PROXY_URL=""
-ENV VITE_DEV_GIFBOX_URL=""
-ENV VITE_RNNOISE_WORKLET_CDN_URL=""
-
 CMD ["npm", "start"]
