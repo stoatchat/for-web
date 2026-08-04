@@ -10,7 +10,14 @@ import {
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox2, Row, Text, Switch as UiSwitch } from "@revolt/ui";
+import {
+  Button,
+  Checkbox2,
+  Row,
+  Text,
+  Switch as UiSwitch,
+  typography,
+} from "@revolt/ui";
 
 type Props =
   | { type: "server_default"; context: Server }
@@ -431,12 +438,23 @@ export function ChannelPermissionsEditor(props: Props) {
   }
 
   return (
-    <div class={css({ display: "flex", flexDirection: "column" })}>
+    <div
+      class={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--gap-lg)",
+      })}
+    >
       <For each={Permissions}>
         {(entry) => (
           <Show when={description(entry)}>
             <Show when={entry.heading}>
-              <span class={css({ marginTop: "var(--gap-md)" })}>
+              <span
+                class={css({
+                  marginTop: "var(--gap-lg)",
+                  marginBottom: "var(--gap-sm)",
+                })}
+              >
                 <Text class="label">{entry.heading}</Text>
               </span>
             </Show>
@@ -528,6 +546,13 @@ const StickyPanel = styled("div", {
   },
 });
 
+const PermissionDescription = styled("span", {
+  base: {
+    ...typography.raw({ class: "label", size: "large" }),
+    color: "var(--md-sys-color-on-surface-variant)",
+  },
+});
+
 function ChannelPermissionToggle(props: {
   key: string;
   title: string;
@@ -552,8 +577,10 @@ function ChannelPermissionToggle(props: {
           flexDirection: "column",
         })}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="title" size="medium">
+          {props.title}
+        </Text>
+        <PermissionDescription>{props.description}</PermissionDescription>
       </div>
     </Checkbox2>
   );
@@ -583,8 +610,10 @@ function ChannelPermissionOverride(props: {
           flexDirection: "column",
         })}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="title" size="medium">
+          {props.title}
+        </Text>
+        <PermissionDescription>{props.description}</PermissionDescription>
       </div>
       <UiSwitch.Override
         disabled={!props.havePermission}
