@@ -40,10 +40,10 @@ for (const file of files) {
 
   for (const [placeholder, value] of Object.entries(REPLACEMENTS)) {
     if (data.includes(placeholder)) {
-      if (value === undefined) {
-        data = data.replaceAll('"' + placeholder + '"', "void 0");
-      } else {
+      if (value) {
         data = data.replaceAll(placeholder, value);
+      } else {
+        data = data.replaceAll(`"${placeholder}"`, "void 0");
       }
       modified = true;
     }
