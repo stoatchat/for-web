@@ -94,12 +94,14 @@ export function ServerRoleOverview(props: { context: Server }) {
                   icon={
                     <RoleIcon
                       style={{
-                        background:
-                          entry.item.colour ??
-                          "var(--md-sys-color-outline-variant)",
+                        background: entry.item.colour || "transparent",
+                        border: entry.item.colour
+                          ? undefined
+                          : "2px dashed var(--md-sys-color-on-surface-variant)",
                       }}
                     />
                   }
+                  iconBackground={!!entry.item.colour}
                   action="chevron"
                   onClick={() => navigate(`roles/${entry.item.id}`)}
                 >
