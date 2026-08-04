@@ -1,4 +1,5 @@
 import { Accessor, JSX, Setter, Show } from "solid-js";
+import { Motion, Presence } from "solid-motionone";
 
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -20,9 +21,12 @@ export function SettingsContent(props: {
   title: (ctx: SettingsList<never>, key: string) => string;
   page: Accessor<string | undefined>;
   ref: Setter<HTMLDivElement | undefined>;
-  actionsRef: Setter<HTMLDivElement | undefined>;
+  action: Accessor<(() => JSX.Element) | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
+  const reduceMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return (
     <div ref={props.ref} use:scrollable={{ class: base }}>
@@ -53,7 +57,33 @@ export function SettingsContent(props: {
             </IconButton>
           </CloseAction>
         </Show>
-        <FloatingActions ref={props.actionsRef} />
+        <FloatingActions>
+          <Presence>
+            <Show when={props.action()} keyed>
+              {(renderAction) => (
+                <Motion.div
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: {
+                      duration: reduceMotion ? 0 : 0.2,
+                      easing: [0.3, 0, 0.8, 0.15],
+                    },
+                  }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.3,
+                    easing: [0.05, 0.7, 0.1, 1],
+                  }}
+                  style={{ "transform-origin": "center" }}
+                >
+                  {renderAction()}
+                </Motion.div>
+              )}
+            </Show>
+          </Presence>
+        </FloatingActions>
       </ActionRail>
     </div>
   );

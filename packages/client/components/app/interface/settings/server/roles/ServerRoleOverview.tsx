@@ -1,5 +1,4 @@
-import { Show } from "solid-js";
-import { Portal } from "solid-js/web";
+import { onCleanup, onMount, Show } from "solid-js";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
@@ -28,7 +27,7 @@ import { useSettingsNavigation } from "../../Settings";
  * Menu to see all roles
  */
 export function ServerRoleOverview(props: { context: Server }) {
-  const { actions, navigate } = useSettingsNavigation();
+  const { navigate, registerAction } = useSettingsNavigation();
   const { openModal, showError } = useModals();
 
   const change = useMutation(() => ({
@@ -45,6 +44,20 @@ export function ServerRoleOverview(props: { context: Server }) {
       },
     });
   }
+
+  let unregisterAction: (() => void) | undefined;
+
+  onMount(() => {
+    unregisterAction = registerAction(() => (
+      <mdui-fab variant="primary" onClick={createRole}>
+        <Symbol slot="icon" size={24}>
+          add
+        </Symbol>
+      </mdui-fab>
+    ));
+  });
+
+  onCleanup(() => unregisterAction?.());
 
   return (
     <Column gap="lg">
@@ -119,15 +132,6 @@ export function ServerRoleOverview(props: { context: Server }) {
           </ItemContainer>
         </div>
       </Column>
-      <Show when={actions()}>
-        <Portal mount={actions()!}>
-          <mdui-fab variant="primary" onClick={createRole}>
-            <Symbol slot="icon" size={24}>
-              add
-            </Symbol>
-          </mdui-fab>
-        </Portal>
-      </Show>
     </Column>
   );
 }
