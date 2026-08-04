@@ -53,7 +53,9 @@ export function ChannelPermissionsOverview(props: { context: Channel }) {
       <CategoryButton
         icon={<Symbol size={20}>public</Symbol>}
         action="chevron"
-        description={<Trans>Permissions available without any role</Trans>}
+        description={
+          <Trans>Permissions available when no role overrides apply</Trans>
+        }
         onClick={() => navigate("permissions/default")}
       >
         <Trans>Everyone</Trans>
