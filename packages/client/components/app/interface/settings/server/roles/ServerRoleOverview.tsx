@@ -1,7 +1,9 @@
 import { Show } from "solid-js";
+import { Portal } from "solid-js/web";
 
 import { Trans } from "@lingui-solid/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
+import "mdui/components/fab.js";
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -26,7 +28,7 @@ import { useSettingsNavigation } from "../../Settings";
  * Menu to see all roles
  */
 export function ServerRoleOverview(props: { context: Server }) {
-  const { navigate } = useSettingsNavigation();
+  const { actions, navigate } = useSettingsNavigation();
   const { openModal, showError } = useModals();
 
   const change = useMutation(() => ({
@@ -47,16 +49,6 @@ export function ServerRoleOverview(props: { context: Server }) {
   return (
     <Column gap="lg">
       <Column gap="sm">
-        <CategoryButton
-          icon={<Symbol size={20}>add</Symbol>}
-          action="chevron"
-          onClick={createRole}
-        >
-          <Trans>New Role</Trans>
-        </CategoryButton>
-      </Column>
-
-      <Column gap="sm">
         <Text class="label">
           <Trans>Server Roles</Trans>
           <Show when={change.isPending}>
@@ -64,7 +56,12 @@ export function ServerRoleOverview(props: { context: Server }) {
             <Trans>(changes are being saved…)</Trans>
           </Show>
         </Text>
-        <div class={css({ marginTop: "var(--gap-sm)" })}>
+        <div
+          class={css({
+            marginTop: "var(--gap-sm)",
+            _tablet: { paddingBlockEnd: "80px" },
+          })}
+        >
           <Draggable
             dragHandles
             items={props.context.orderedRoles}
@@ -122,6 +119,15 @@ export function ServerRoleOverview(props: { context: Server }) {
           </ItemContainer>
         </div>
       </Column>
+      <Show when={actions()}>
+        <Portal mount={actions()!}>
+          <mdui-fab variant="primary" onClick={createRole}>
+            <Symbol slot="icon" size={24}>
+              add
+            </Symbol>
+          </mdui-fab>
+        </Portal>
+      </Show>
     </Column>
   );
 }

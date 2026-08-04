@@ -41,6 +41,7 @@ export type SettingsTransition = "normal" | "to-child" | "to-parent";
 const SettingsNavigationContext = createContext<{
   page: Accessor<string | undefined>;
   navigate: (path: string | SettingsEntry) => void;
+  actions: Accessor<HTMLDivElement | undefined>;
 }>();
 
 /**
@@ -53,6 +54,7 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
   );
   const [transition, setTransition] =
     createSignal<SettingsTransition>("normal");
+  const [actions, setActions] = createSignal<HTMLDivElement>();
 
   /**
    * Navigate to a certain page
@@ -90,6 +92,7 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
       value={{
         page,
         navigate,
+        actions,
       }}
     >
       <MemoisedList
@@ -102,6 +105,7 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
             <SettingsSidebar list={list} page={page} setPage={setPage} />
             <SettingsContent
               ref={props.contentRef}
+              actionsRef={setActions}
               page={page}
               list={list}
               title={props.title}

@@ -20,6 +20,7 @@ export function SettingsContent(props: {
   title: (ctx: SettingsList<never>, key: string) => string;
   page: Accessor<string | undefined>;
   ref: Setter<HTMLDivElement | undefined>;
+  actionsRef: Setter<HTMLDivElement | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
 
@@ -44,13 +45,16 @@ export function SettingsContent(props: {
           </InnerColumn>
         </InnerContent>
       </Show>
-      <Show when={props.onClose}>
-        <CloseAction class="close">
-          <IconButton variant="tonal" onPress={props.onClose}>
-            <MdClose />
-          </IconButton>
-        </CloseAction>
-      </Show>
+      <ActionRail>
+        <Show when={props.onClose}>
+          <CloseAction class="close">
+            <IconButton variant="tonal" onPress={props.onClose}>
+              <MdClose />
+            </IconButton>
+          </CloseAction>
+        </Show>
+        <FloatingActions ref={props.actionsRef} />
+      </ActionRail>
     </div>
   );
 }
@@ -73,6 +77,11 @@ const base = css({
 
   _phone: {
     borderRadius: 0,
+  },
+
+  _tablet: {
+    // prevent the fixed action rail from scroll with this element instead of the viewport
+    willChange: "auto !important",
   },
 });
 
@@ -109,16 +118,57 @@ const InnerColumn = styled("div", {
 });
 
 /**
+ * Viewport-height rail for settings controls
+ */
+const ActionRail = styled("div", {
+  base: {
+    height: "100vh",
+    minWidth: "56px",
+    padding: "80px 8px calc(var(--gap-xl) + env(safe-area-inset-bottom))",
+
+    zIndex: 2,
+    flexGrow: 1,
+    flexShrink: 0,
+    alignSelf: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    position: "sticky",
+    top: 0,
+
+    _tablet: {
+      position: "fixed",
+      insetInlineEnd: 0,
+      height: "100dvh",
+      padding: "12px",
+      paddingBlockEnd: "calc(12px + env(safe-area-inset-bottom))",
+      alignItems: "flex-end",
+      justifyContent: "flex-end",
+      pointerEvents: "none",
+
+      "& > *": {
+        pointerEvents: "auto",
+      },
+    },
+  },
+});
+
+/**
+ * Bottom-end anchor for actions belonging to the current settings page
+ */
+const FloatingActions = styled("div", {
+  base: {
+    height: "fit-content",
+  },
+});
+
+/**
  * Positioning for close button
  */
 const CloseAction = styled("div", {
   base: {
-    flexGrow: 1,
-    flexShrink: 0,
-    padding: "80px 8px",
     visibility: "visible",
-    position: "sticky",
-    top: 0,
 
     "&:after": {
       content: '"ESC"',
