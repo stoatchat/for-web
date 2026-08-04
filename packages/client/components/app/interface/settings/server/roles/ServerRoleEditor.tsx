@@ -281,19 +281,14 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
               <For each={colourPreviews()}>
                 {(preview) => (
                   <PreviewSurface
+                    role="group"
+                    aria-label={preview.label}
                     style={{
                       background: preview.colours["surface-container-lowest"],
                       color: preview.colours["on-surface"],
                       "border-color": preview.colours["outline-variant"],
                     }}
                   >
-                    <PreviewMode
-                      style={{
-                        color: preview.colours["on-surface-variant"],
-                      }}
-                    >
-                      {preview.label}
-                    </PreviewMode>
                     <PreviewMessage>
                       <PreviewAvatar
                         style={{
@@ -413,7 +408,7 @@ const RoleColourControls = styled("div", {
     width: "100%",
     display: "flex",
     flexWrap: "wrap",
-    alignItems: "flex-start",
+    alignItems: "stretch",
     gap: "var(--gap-lg)",
   },
 });
@@ -431,8 +426,8 @@ const ColourPreview = styled("div", {
     width: "220px",
     maxWidth: "100%",
     flex: "0 1 220px",
-    display: "flex",
-    flexDirection: "column",
+    display: "grid",
+    gridTemplateRows: "auto repeat(2, minmax(0, 1fr))",
     gap: "var(--gap-md)",
   },
 });
@@ -443,17 +438,10 @@ const PreviewSurface = styled("div", {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    gap: "var(--gap-sm)",
     padding: "var(--gap-md)",
+    paddingInline: "var(--gap-l)",
     border: "1px solid",
     borderRadius: "var(--borderRadius-md)",
-  },
-});
-
-const PreviewMode = styled("span", {
-  base: {
-    alignSelf: "flex-end",
-    ...typography.raw({ class: "label", size: "small" }),
   },
 });
 
