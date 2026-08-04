@@ -22,6 +22,7 @@ import {
   Radio2,
   Text,
   TextField,
+  typography,
 } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Row } from "../layout";
@@ -194,6 +195,11 @@ const FormFileInput = (
         required={local.control.isRequired}
         disabled={local.control.isDisabled}
       />
+      <Show when={local.maxSize}>
+        <span class={typography({ class: "label", size: "small" })}>
+          (max. {humanFileSize(local.maxSize!)})
+        </span>
+      </Show>
       <Show
         when={
           !local.hideErrors && local.control.isTouched && !local.control.isValid

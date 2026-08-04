@@ -106,7 +106,14 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Text class="label">
             <Trans>Channel Info</Trans>
           </Text>
-          <Form2.FileInput control={editGroup.controls.icon} accept="image/*" />
+          <Form2.FileInput
+            control={editGroup.controls.icon}
+            accept="image/*"
+            maxSize={
+              client().configuration?.features.limits.default
+                .file_upload_size_limits["icons"] ?? 2.5e6
+            }
+          />
           <Form2.TextField
             minlength={1}
             maxlength={32}
