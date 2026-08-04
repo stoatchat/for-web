@@ -10,14 +10,8 @@ import {
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import {
-  Button,
-  Checkbox2,
-  Row,
-  Text,
-  Switch as UiSwitch,
-  typography,
-} from "@revolt/ui";
+import { Button, Checkbox2, Row, Text, Switch as UiSwitch } from "@revolt/ui";
+import { typography } from "@revolt/ui/components/design/Text";
 
 type Props =
   | { type: "server_default"; context: Server }
