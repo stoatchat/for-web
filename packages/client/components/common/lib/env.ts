@@ -6,6 +6,10 @@ export interface AppConfig {
   api: string;
 }
 
+/**
+ * Fetch env var by name, optionally only when in dev mode.
+ * Also prevents compiler from optimizing out injected strings in Docker
+ */
 const getEnv = (name: string, devOnly?: boolean) =>
   !devOnly || import.meta.env.DEV
     ? (import.meta.env[name] as string)
