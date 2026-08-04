@@ -10,7 +10,7 @@ import {
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox2, OverrideSwitch, Row, Text } from "@revolt/ui";
+import { Button, Checkbox2, Row, Text, Switch as UiSwitch } from "@revolt/ui";
 
 type Props =
   | { type: "server_default"; context: Server }
@@ -586,7 +586,7 @@ function ChannelPermissionOverride(props: {
         <Text size="large">{props.title}</Text>
         <Text>{props.description}</Text>
       </div>
-      <OverrideSwitch
+      <UiSwitch.Override
         disabled={!props.havePermission}
         value={props.value}
         onChange={props.onChange}
