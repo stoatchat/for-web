@@ -22,6 +22,7 @@ export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
 
 const instanceContext = createContext<Instance>();
+let appLoadedOnce = false;
 
 export function InstanceContext(props: { children?: JSXElement }) {
   const params = useParams();
@@ -47,7 +48,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
   function onError(e: unknown) {
     console.error(e);
     if ((e as Error).message === "Failed to fetch") {
-      const hStr = `'${host}'`;
+      const hStr = `'${host || DefaultHost}'`;
       e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
     }
     snackbar.show({
@@ -56,7 +57,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
       closeable: true,
       autoCloseDelay: 30000,
     });
-    history.back();
+    if (appLoadedOnce) nav(-1);
   }
 
   (async () => {
@@ -76,6 +77,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
     } catch (e) {
       onError(e);
     }
+    appLoadedOnce = true;
   })();
 
   //Finish init in reactive scope
