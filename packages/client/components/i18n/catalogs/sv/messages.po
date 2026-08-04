@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-18 11:44+0000\n"
-"Last-Translator: PonPonTheDreambunny <ponponthedreambunny@gmail.com>\n"
-"Language-Team: Swedish <https://translate.stoat.chat/projects/revolt/revolt-for-web/sv/>\n"
+"PO-Revision-Date: 2026-08-05 00:34+0000\n"
+"Last-Translator: Kristoffer Grundström <swedishsailfishosuser@tutanota.com>\n"
+"Language-Team: Swedish <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,36 +17,37 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr "[Igår kl] LT"
+msgstr "[Igår vid] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr "[Idag kl] LT"
+msgstr "[Idag vid] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr "[Imorgon kl] LT"
+msgstr "[Imorgon vid] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[I] dddd[s kl.] LT"
+msgstr "[Senaste] dddd [vid] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [kl] LT"
+msgstr "dddd [vid] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr "(ändringar sparas ...)"
+msgstr "(ändringarna sparas...)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, plural, one {# blockerat meddelande} other {# blockerade meddelanden}}"
+msgstr ""
+"{0, flertal, ett {# blockerat meddelande} andra {# blockerade meddelanden}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -53,7 +55,7 @@ msgstr "{0, plural, one {# blockerat meddelande} other {# blockerade meddelanden
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Släpp en fil} other {Släpp # filer}}"
+msgstr "{0, flertal, ett {Släpp en fil} andra {Släpp # filer}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -64,22 +66,24 @@ msgstr "{0} och {1} skriver…"
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel description"
-msgstr "{0} ändrade kanalbeskrivningen"
+msgstr "{0} ändrade beskrivningen av kanalen"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr "{0} ändrade kanalikonen"
+msgstr "{0} ändrade kanalens ikon"
 
 #. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr "{0, plural, one {# plats} other {# platser}} för emojis kvar"
+msgstr "{0}, emoji-platser återstår"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "{0, plural, one {# fil} other {# filer}} överskred den maximala filstorleken {maxSizeFormatted} och laddades inte upp."
+msgstr ""
+"{0} filer överskred den maximala filstorleken {maxSizeFormatted} och de "
+"laddades inte upp."
 
 #. placeholder {0}: users()[0]!.username
 #: components/ui/components/features/messaging/composition/TypingIndicator.tsx
@@ -100,7 +104,7 @@ msgstr "{0} lämnade"
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0} gjorde {1} till ny ägare av gruppen"
+msgstr "{0} gjorde {1} till den nya ägaren av gruppen"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -110,7 +114,7 @@ msgstr "{0} fäste ett meddelande"
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr "{0} ändrade namn på kanalen"
+msgstr "{0} bytte namn på kanalen"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -126,7 +130,7 @@ msgstr "{0} lades till av {1}"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr "{0} har bannlysts"
+msgstr "{0} bannlystes"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
@@ -154,16 +158,16 @@ msgstr "Roller för {0}"
 #: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 msgid "{h} hours"
-msgstr ""
+msgstr "{h} timmar"
 
 #: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 msgid "{m} minutes"
-msgstr ""
+msgstr "{m} minuter"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "{sec} seconds"
-msgstr ""
+msgstr "{sec} sekunder"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
@@ -179,7 +183,7 @@ msgstr "{usernames} reagerade"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
-msgstr "<0/> har lagts till av <1/>"
+msgstr "<0/> har lagts till utav <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been banned from the server"
@@ -191,7 +195,7 @@ msgstr "<0/> har sparkats ut från servern"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr "<0/> har tagits bort av <1/>"
+msgstr "<0/> har tagits bort utav <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
@@ -211,11 +215,11 @@ msgstr "<0/> fäste <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
-msgstr "<0/> startade ett samtal"
+msgstr "<0/> påbörjade ett samtal"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call that lasted "
-msgstr "<0/> startade ett samtal som varade "
+msgstr "<0/> påbörjade ett samtal som varade "
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> transferred group ownership to <1/>"
@@ -574,7 +578,6 @@ msgstr ""
 msgid "Browser Echo Cancellation"
 msgstr "Ekoannullering i webbläsaren"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #~ msgid "Browser Noise Supression"
 #~ msgstr ""
 
@@ -719,7 +722,6 @@ msgstr ""
 msgid "Change your profile per-server"
 msgstr "Ändra din profil per server"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -1133,7 +1135,6 @@ msgstr "Standard"
 msgid "Default Permissions"
 msgstr "Standardbehörigheter"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #~ msgid "Defean"
 #~ msgstr ""
 
@@ -1703,7 +1704,6 @@ msgstr "Inaktiv"
 msgid "Illegal hacking or cracking"
 msgstr "Olaglig hacking eller cracking"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Image by @fakurian"
 #~ msgstr ""
 
@@ -2461,7 +2461,6 @@ msgstr "Reagera på meddelande med emoji"
 msgid "Read Message History"
 msgstr "Läsa meddelandehistorik"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Read More"
 #~ msgstr ""
 
@@ -3403,11 +3402,9 @@ msgstr "Användare kommer att bli ombedda att bekräfta sin ålder innan de öpp
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr "Användare kommer inte längre att bli ombedda att bekräfta sin ålder innan de går med i den här kanalen.<0/> Se till att innehållet är lämpligt för alla åldrar."
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default speaker"
 #~ msgstr ""
 
