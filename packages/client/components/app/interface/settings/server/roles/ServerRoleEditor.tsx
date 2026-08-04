@@ -1,4 +1,4 @@
-import { For, Show, createMemo, createSignal } from "solid-js";
+import { For, createMemo, createSignal } from "solid-js";
 
 import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
@@ -11,7 +11,6 @@ import { useModals } from "@revolt/modal";
 import {
   Button,
   CategoryButton,
-  CircularProgress,
   Column,
   Form2,
   IconButton,
@@ -97,7 +96,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
   return (
     <Column>
-      <form onSubmit={submit}>
+      <form onSubmit={(event) => event.preventDefault()}>
         <Column gap="lg">
           <Form2.TextField
             minlength={1}
@@ -210,18 +209,6 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
               Display this role above others
             </Form2.Checkbox>
           </Column>
-
-          <Column>
-            <Row>
-              <Form2.Reset group={editGroup} onReset={onReset} />
-              <Form2.Submit group={editGroup} requireDirty>
-                <Trans>Save</Trans>
-              </Form2.Submit>
-              <Show when={editGroup.isPending}>
-                <CircularProgress />
-              </Show>
-            </Row>
-          </Column>
         </Column>
       </form>
       <Divider />
@@ -229,6 +216,14 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         type="server_role"
         context={props.context}
         roleId={props.roleId}
+        saveLabel={t`Save`}
+        additionalActions={{
+          isDirty: () => editGroup.isDirty,
+          isPending: () => editGroup.isPending,
+          canSave: () => Form2.canSubmit(editGroup),
+          save: () => submit(new Event("submit")),
+          reset: () => Form2.reset(editGroup, onReset),
+        }}
       />
       <Column>
         <CategoryButton

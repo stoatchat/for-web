@@ -497,7 +497,7 @@ function useSubmitHandler(
       control.markTouched(true);
     }
 
-    if (!canSubmit(group)) return;
+    if (!canSubmit(group)) return false;
 
     group.markPending(true);
 
@@ -505,12 +505,14 @@ function useSubmitHandler(
       await handler();
       resetGeneric(group, true);
       onReset?.();
+      return true;
     } catch (err) {
       group.setErrors({
         error: err,
       });
 
       resetGeneric(group, false);
+      return false;
     } finally {
       group.markPending(false);
     }
@@ -529,5 +531,9 @@ export const Form2 = {
   Reset: FormResetButton,
   Submit: FormSubmitButton,
   canSubmit,
+  reset: (group: IFormGroup, onReset?: () => void) => {
+    resetGeneric(group, true);
+    onReset?.();
+  },
   useSubmitHandler,
 };

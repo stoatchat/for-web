@@ -59,6 +59,7 @@ export function Symbol(rawProps: Props & HTMLStyledProps<"span">) {
         fontSize: local.fontSize ?? "inherit",
         fontWeight: `${local.weight} !important`,
         fontOpticalSizing: local.opticalSize === "auto" ? "auto" : undefined,
+        userSelect: "none",
       },
       cssProps,
     );
