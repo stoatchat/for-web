@@ -4,9 +4,9 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
+import { MFATicket } from "stoat.js";
 import { useModals } from "..";
 import { Modals } from "../types";
-import { MFATicket } from "stoat.js";
 
 /**
  * Change account email address
