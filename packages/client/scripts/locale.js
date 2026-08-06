@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 import { readdirSync } from "node:fs";
 
 console.log(
