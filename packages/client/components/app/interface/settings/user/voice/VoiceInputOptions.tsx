@@ -113,6 +113,19 @@ function VolumeSliders() {
   return (
     <Column>
       <Text class="label">
+        <Trans>Input Volume</Trans>
+      </Text>
+      <Slider
+        min={0}
+        max={3}
+        step={0.1}
+        value={state.voice.inputVolume}
+        onInput={(event) =>
+          (state.voice.inputVolume = event.currentTarget.value)
+        }
+        labelFormatter={(label) => (label * 100).toFixed(0) + "%"}
+      />
+      <Text class="label">
         <Trans>Output Volume</Trans>
       </Text>
       <Slider
