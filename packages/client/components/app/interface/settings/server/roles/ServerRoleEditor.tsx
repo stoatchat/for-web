@@ -6,6 +6,7 @@ import { API, Server, ServerRole } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
+import { useError } from "@revolt/i18n";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
@@ -35,6 +36,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const { openModal } = useModals();
   const { navigate } = useSettingsNavigation();
   const instance = useInstance();
+  const err = useError();
 
   const role = createMemo(
     () =>
@@ -212,6 +214,9 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
           </Column>
 
           <Column>
+            <Show when={editGroup.errors?.error}>
+              {err(editGroup.errors!.error)}
+            </Show>
             <Row>
               <Form2.Reset group={editGroup} onReset={onReset} />
               <Form2.Submit group={editGroup} requireDirty>

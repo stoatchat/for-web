@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/solid-query";
 import { API, User, UserProfile } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useError } from "@revolt/i18n";
 import { useInstance } from "@revolt/instance";
 import {
   CategoryButton,
@@ -31,6 +32,7 @@ export function UserProfileEditor(props: Props) {
   const queryClient = useQueryClient();
   const instance = useInstance();
   const { navigate } = useSettingsNavigation();
+  const err = useError();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -216,6 +218,9 @@ export function UserProfileEditor(props: Props) {
           placeholder={t`Something cool about me...`}
         />
 
+        <Show when={editGroup.errors?.error}>
+          {err(editGroup.errors!.error)}
+        </Show>
         <Row>
           <Form2.Reset group={editGroup} onReset={onReset} />
           <Form2.Submit group={editGroup} requireDirty>

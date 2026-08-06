@@ -5,6 +5,7 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useError } from "@revolt/i18n";
 import { useInstance } from "@revolt/instance";
 import {
   CircularProgress,
@@ -24,6 +25,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
   const { t } = useLingui();
   const client = useClient();
   const instance = useInstance();
+  const err = useError();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -322,6 +324,9 @@ export default function ServerOverview(props: ServerSettingsProps) {
               </For>
             </Form2.Select>
           </Column>
+          <Show when={editGroup.errors?.error}>
+            {err(editGroup.errors!.error)}
+          </Show>
           <Row>
             <Form2.Reset group={editGroup} onReset={onReset} />
             <Form2.Submit group={editGroup} requireDirty>
