@@ -105,9 +105,7 @@ export class VoiceProcessor implements TrackProcessor<
       this.highpassNode.frequency.value = 50;
       this.highpassNode.Q.value = Math.SQRT1_2;
 
-      this.noiseSuppressionNode = new RNNoiseNode(this.audioContext!, {
-        debugLogs: true,
-      });
+      this.noiseSuppressionNode = new RNNoiseNode(this.audioContext!);
       this.highpassNode.connect(this.noiseSuppressionNode);
 
       // Create a new dynamics compressor
