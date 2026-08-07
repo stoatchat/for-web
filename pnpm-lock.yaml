@@ -25,16 +25,16 @@ importers:
         version: 5.5.6(eslint-config-prettier@10.1.8(eslint@9.26.0(jiti@2.5.1)))(eslint@9.26.0(jiti@2.5.1))(prettier@3.8.1)
       eslint-plugin-solid:
         specifier: ^0.14.5
-        version: 0.14.5(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
+        version: 0.14.5(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
       prettier-plugin-organize-imports:
         specifier: ^4.3.0
-        version: 4.3.0(prettier@3.8.1)(typescript@5.8.3)
+        version: 4.3.0(prettier@3.8.1)(typescript@5.9.3)
       typescript-eslint:
         specifier: ^8.54.0
-        version: 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
+        version: 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
 
   packages/client:
     dependencies:
@@ -136,7 +136,7 @@ importers:
         version: 1.2.2
       '@lingui-solid/solid':
         specifier: ^5.1.4
-        version: 5.1.4(@lingui-solid/babel-plugin-lingui-macro@packages+js-lingui-solid+packages+babel-plugin-lingui-macro)(@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0))(babel-plugin-macros@3.1.0)(solid-js@1.9.6)
+        version: 5.1.4(@lingui-solid/babel-plugin-lingui-macro@packages+js-lingui-solid+packages+babel-plugin-lingui-macro)(@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0))(babel-plugin-macros@3.1.0)(solid-js@1.9.6)
       '@livekit/components-core':
         specifier: ^0.12.14
         version: 0.12.14(livekit-client@2.20.2(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
@@ -398,22 +398,22 @@ importers:
         version: link:../js-lingui-solid/packages/babel-plugin-lingui-macro
       '@lingui-solid/vite-plugin':
         specifier: ^5.1.3
-        version: 5.1.3(typescript@5.8.3)(vite@5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0))
+        version: 5.1.3(typescript@5.9.3)(vite@5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0))
       '@lingui/cli':
         specifier: ^5.3.1
-        version: 5.3.1(typescript@5.8.3)
+        version: 5.3.1(typescript@5.9.3)
       '@lingui/conf':
         specifier: ^5.3.1
-        version: 5.3.1(typescript@5.8.3)
+        version: 5.3.1(typescript@5.9.3)
       '@lingui/core':
         specifier: ^5.3.1
-        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
+        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
       '@lingui/macro':
         specifier: ^5.3.1
-        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
+        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
       '@pandacss/dev':
         specifier: ^0.46.1
-        version: 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+        version: 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       '@playwright/test':
         specifier: ^1.60.0
         version: 1.60.0
@@ -454,8 +454,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: ^5.9.3
+        version: 5.9.3
       vite:
         specifier: ^5.4.19
         version: 5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0)
@@ -479,7 +479,7 @@ importers:
     dependencies:
       '@lingui/conf':
         specifier: '*'
-        version: 5.3.1(typescript@5.8.3)
+        version: 5.3.1(typescript@5.9.3)
     devDependencies:
       '@babel/core':
         specifier: ^7.21.0
@@ -510,7 +510,7 @@ importers:
         version: 0.8.0-beta.0
       unbuild:
         specifier: 2.0.0
-        version: 2.0.0(typescript@5.8.3)
+        version: 2.0.0(typescript@5.9.3)
 
   packages/js-lingui-solid/packages/babel-plugin-lingui-macro:
     dependencies:
@@ -525,10 +525,10 @@ importers:
         version: 7.28.2
       '@lingui/conf':
         specifier: ^5.1.2
-        version: 5.3.1(typescript@5.8.3)
+        version: 5.3.1(typescript@5.9.3)
       '@lingui/core':
         specifier: ^5.1.2
-        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
+        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
       '@lingui/message-utils':
         specifier: ^5.1.2
         version: 5.3.1
@@ -544,10 +544,10 @@ importers:
         version: 7.28.3
       '@lingui/macro':
         specifier: ^5.1.2
-        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
+        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
       '@lingui/react':
         specifier: ^5.1.2
-        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
+        version: 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
       '@types/babel-plugin-macros':
         specifier: ^2.8.5
         version: 2.8.5
@@ -559,7 +559,7 @@ importers:
         version: 6.0.1
       unbuild:
         specifier: 2.0.0
-        version: 2.0.0(typescript@5.8.3)
+        version: 2.0.0(typescript@5.9.3)
 
   packages/js-lingui-solid/packages/jest-mocks: {}
 
@@ -7236,6 +7236,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.9.3:
+    resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
@@ -9528,19 +9533,19 @@ snapshots:
       '@lezer/highlight': 1.2.2
       '@lezer/lr': 1.4.2
 
-  '@lingui-solid/solid@5.1.4(@lingui-solid/babel-plugin-lingui-macro@packages+js-lingui-solid+packages+babel-plugin-lingui-macro)(@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0))(babel-plugin-macros@3.1.0)(solid-js@1.9.6)':
+  '@lingui-solid/solid@5.1.4(@lingui-solid/babel-plugin-lingui-macro@packages+js-lingui-solid+packages+babel-plugin-lingui-macro)(@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0))(babel-plugin-macros@3.1.0)(solid-js@1.9.6)':
     dependencies:
       '@babel/runtime': 7.27.1
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
       solid-js: 1.9.6
     optionalDependencies:
       '@lingui-solid/babel-plugin-lingui-macro': link:packages/js-lingui-solid/packages/babel-plugin-lingui-macro
       babel-plugin-macros: 3.1.0
 
-  '@lingui-solid/vite-plugin@5.1.3(typescript@5.8.3)(vite@5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0))':
+  '@lingui-solid/vite-plugin@5.1.3(typescript@5.9.3)(vite@5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0))':
     dependencies:
-      '@lingui/cli': 5.1.2(typescript@5.8.3)
-      '@lingui/conf': 5.1.2(typescript@5.8.3)
+      '@lingui/cli': 5.1.2(typescript@5.9.3)
+      '@lingui/conf': 5.1.2(typescript@5.9.3)
       vite: 5.4.19(@types/node@24.7.1)(lightningcss@1.25.1)(terser@5.48.0)
     transitivePeerDependencies:
       - supports-color
@@ -9548,13 +9553,13 @@ snapshots:
 
   '@lingui/babel-plugin-extract-messages@5.3.1': {}
 
-  '@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)':
+  '@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.27.1
       '@babel/runtime': 7.28.3
       '@babel/types': 7.28.2
-      '@lingui/conf': 5.3.1(typescript@5.8.3)
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
+      '@lingui/conf': 5.3.1(typescript@5.9.3)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
       '@lingui/message-utils': 5.3.1
     optionalDependencies:
       babel-plugin-macros: 3.1.0
@@ -9562,7 +9567,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@lingui/cli@5.1.2(typescript@5.8.3)':
+  '@lingui/cli@5.1.2(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.27.1
       '@babel/generator': 7.27.1
@@ -9570,10 +9575,10 @@ snapshots:
       '@babel/runtime': 7.28.3
       '@babel/types': 7.28.2
       '@lingui/babel-plugin-extract-messages': 5.3.1
-      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)
-      '@lingui/conf': 5.3.1(typescript@5.8.3)
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
-      '@lingui/format-po': 5.3.1(typescript@5.8.3)
+      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)
+      '@lingui/conf': 5.3.1(typescript@5.9.3)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
+      '@lingui/format-po': 5.3.1(typescript@5.9.3)
       '@lingui/message-utils': 5.3.1
       babel-plugin-macros: 3.1.0
       chalk: 4.1.2
@@ -9598,7 +9603,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@lingui/cli@5.3.1(typescript@5.8.3)':
+  '@lingui/cli@5.3.1(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.27.1
       '@babel/generator': 7.27.1
@@ -9606,10 +9611,10 @@ snapshots:
       '@babel/runtime': 7.27.1
       '@babel/types': 7.27.1
       '@lingui/babel-plugin-extract-messages': 5.3.1
-      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)
-      '@lingui/conf': 5.3.1(typescript@5.8.3)
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
-      '@lingui/format-po': 5.3.1(typescript@5.8.3)
+      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)
+      '@lingui/conf': 5.3.1(typescript@5.9.3)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
+      '@lingui/format-po': 5.3.1(typescript@5.9.3)
       '@lingui/message-utils': 5.3.1
       babel-plugin-macros: 3.1.0
       chalk: 4.1.2
@@ -9633,51 +9638,51 @@ snapshots:
       - supports-color
       - typescript
 
-  '@lingui/conf@5.1.2(typescript@5.8.3)':
+  '@lingui/conf@5.1.2(typescript@5.9.3)':
     dependencies:
       '@babel/runtime': 7.28.3
       chalk: 4.1.2
-      cosmiconfig: 8.3.6(typescript@5.8.3)
+      cosmiconfig: 8.3.6(typescript@5.9.3)
       jest-validate: 29.7.0
       jiti: 1.21.7
       lodash.get: 4.4.2
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/conf@5.3.1(typescript@5.8.3)':
+  '@lingui/conf@5.3.1(typescript@5.9.3)':
     dependencies:
       '@babel/runtime': 7.27.1
       chalk: 4.1.2
-      cosmiconfig: 8.3.6(typescript@5.8.3)
+      cosmiconfig: 8.3.6(typescript@5.9.3)
       jest-validate: 29.7.0
       jiti: 1.21.7
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)':
+  '@lingui/core@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)':
     dependencies:
       '@babel/runtime': 7.27.1
       '@lingui/message-utils': 5.3.1
       unraw: 3.0.0
     optionalDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)
+      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)
       babel-plugin-macros: 3.1.0
 
-  '@lingui/format-po@5.3.1(typescript@5.8.3)':
+  '@lingui/format-po@5.3.1(typescript@5.9.3)':
     dependencies:
-      '@lingui/conf': 5.3.1(typescript@5.8.3)
+      '@lingui/conf': 5.3.1(typescript@5.9.3)
       '@lingui/message-utils': 5.3.1
       date-fns: 3.6.0
       pofile: 1.1.4
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/macro@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)':
+  '@lingui/macro@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)':
     dependencies:
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
-      '@lingui/react': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
+      '@lingui/react': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)
     optionalDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)
+      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)
       babel-plugin-macros: 3.1.0
     transitivePeerDependencies:
       - react
@@ -9687,13 +9692,13 @@ snapshots:
       '@messageformat/parser': 5.1.1
       js-sha256: 0.10.1
 
-  '@lingui/react@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)(react@18.3.1)':
+  '@lingui/react@5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.28.3
-      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3))(babel-plugin-macros@3.1.0)
+      '@lingui/core': 5.3.1(@lingui/babel-plugin-lingui-macro@5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3))(babel-plugin-macros@3.1.0)
       react: 18.3.1
     optionalDependencies:
-      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.8.3)
+      '@lingui/babel-plugin-lingui-macro': 5.3.1(babel-plugin-macros@3.1.0)(typescript@5.9.3)
       babel-plugin-macros: 3.1.0
 
   '@lit-labs/ssr-dom-shim@1.3.0': {}
@@ -9858,13 +9863,13 @@ snapshots:
       postcss-selector-parser: 6.1.1
       ts-pattern: 5.0.8
 
-  '@pandacss/dev@0.46.1(jsdom@25.0.1)(typescript@5.8.3)':
+  '@pandacss/dev@0.46.1(jsdom@25.0.1)(typescript@5.9.3)':
     dependencies:
       '@clack/prompts': 0.7.0
       '@pandacss/config': 0.46.1
       '@pandacss/logger': 0.46.1
-      '@pandacss/node': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
-      '@pandacss/postcss': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+      '@pandacss/node': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
+      '@pandacss/postcss': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       '@pandacss/preset-panda': 0.46.1
       '@pandacss/shared': 0.46.1
       '@pandacss/token-dictionary': 0.46.1
@@ -9874,10 +9879,10 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/extractor@0.46.1(jsdom@25.0.1)(typescript@5.8.3)':
+  '@pandacss/extractor@0.46.1(jsdom@25.0.1)(typescript@5.9.3)':
     dependencies:
       '@pandacss/shared': 0.46.1
-      ts-evaluator: 1.2.0(jsdom@25.0.1)(typescript@5.8.3)
+      ts-evaluator: 1.2.0(jsdom@25.0.1)(typescript@5.9.3)
       ts-morph: 21.0.1
     transitivePeerDependencies:
       - jsdom
@@ -9904,14 +9909,14 @@ snapshots:
       '@pandacss/types': 0.46.1
       kleur: 4.1.5
 
-  '@pandacss/node@0.46.1(jsdom@25.0.1)(typescript@5.8.3)':
+  '@pandacss/node@0.46.1(jsdom@25.0.1)(typescript@5.9.3)':
     dependencies:
       '@pandacss/config': 0.46.1
       '@pandacss/core': 0.46.1
-      '@pandacss/extractor': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+      '@pandacss/extractor': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       '@pandacss/generator': 0.46.1
       '@pandacss/logger': 0.46.1
-      '@pandacss/parser': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+      '@pandacss/parser': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       '@pandacss/shared': 0.46.1
       '@pandacss/token-dictionary': 0.46.1
       '@pandacss/types': 0.46.1
@@ -9934,16 +9939,16 @@ snapshots:
       prettier: 3.8.1
       ts-morph: 21.0.1
       ts-pattern: 5.0.8
-      tsconfck: 3.0.2(typescript@5.8.3)
+      tsconfck: 3.0.2(typescript@5.9.3)
     transitivePeerDependencies:
       - jsdom
       - typescript
 
-  '@pandacss/parser@0.46.1(jsdom@25.0.1)(typescript@5.8.3)':
+  '@pandacss/parser@0.46.1(jsdom@25.0.1)(typescript@5.9.3)':
     dependencies:
       '@pandacss/config': 0.46.1
       '@pandacss/core': 0.46.1
-      '@pandacss/extractor': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+      '@pandacss/extractor': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       '@pandacss/logger': 0.46.1
       '@pandacss/shared': 0.46.1
       '@pandacss/types': 0.46.1
@@ -9955,9 +9960,9 @@ snapshots:
       - jsdom
       - typescript
 
-  '@pandacss/postcss@0.46.1(jsdom@25.0.1)(typescript@5.8.3)':
+  '@pandacss/postcss@0.46.1(jsdom@25.0.1)(typescript@5.9.3)':
     dependencies:
-      '@pandacss/node': 0.46.1(jsdom@25.0.1)(typescript@5.8.3)
+      '@pandacss/node': 0.46.1(jsdom@25.0.1)(typescript@5.9.3)
       postcss: 8.4.47
     transitivePeerDependencies:
       - jsdom
@@ -10796,10 +10801,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
+      '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
       '@typescript-eslint/scope-manager': 8.54.0
       '@typescript-eslint/type-utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
       '@typescript-eslint/utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
@@ -10809,6 +10814,22 @@ snapshots:
       natural-compare: 1.4.0
       ts-api-utils: 2.4.0(typescript@5.8.3)
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/eslint-plugin@8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/regexpp': 4.12.2
+      '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.54.0
+      '@typescript-eslint/type-utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 8.54.0
+      eslint: 9.26.0(jiti@2.5.1)
+      ignore: 7.0.5
+      natural-compare: 1.4.0
+      ts-api-utils: 2.4.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10837,12 +10858,33 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/scope-manager': 8.54.0
+      '@typescript-eslint/types': 8.54.0
+      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 8.54.0
+      debug: 4.4.3
+      eslint: 9.26.0(jiti@2.5.1)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/project-service@8.54.0(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.54.0(typescript@5.8.3)
       '@typescript-eslint/types': 8.54.0
       debug: 4.4.3
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/project-service@8.54.0(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/tsconfig-utils': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.54.0
+      debug: 4.4.3
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10865,6 +10907,10 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
+  '@typescript-eslint/tsconfig-utils@8.54.0(typescript@5.9.3)':
+    dependencies:
+      typescript: 5.9.3
+
   '@typescript-eslint/type-utils@6.21.0(eslint@8.57.1)(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.8.3)
@@ -10886,6 +10932,18 @@ snapshots:
       eslint: 9.26.0(jiti@2.5.1)
       ts-api-utils: 2.4.0(typescript@5.8.3)
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/type-utils@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/types': 8.54.0
+      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      debug: 4.4.3
+      eslint: 9.26.0(jiti@2.5.1)
+      ts-api-utils: 2.4.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10924,6 +10982,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/typescript-estree@8.32.0(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/types': 8.32.0
+      '@typescript-eslint/visitor-keys': 8.32.0
+      debug: 4.4.3
+      fast-glob: 3.3.3
+      is-glob: 4.0.3
+      minimatch: 9.0.5
+      semver: 7.7.2
+      ts-api-utils: 2.1.0(typescript@5.9.3)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/typescript-estree@8.54.0(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/project-service': 8.54.0(typescript@5.8.3)
@@ -10936,6 +11008,21 @@ snapshots:
       tinyglobby: 0.2.15
       ts-api-utils: 2.4.0(typescript@5.8.3)
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/typescript-estree@8.54.0(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/project-service': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/tsconfig-utils': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.54.0
+      '@typescript-eslint/visitor-keys': 8.54.0
+      debug: 4.4.3
+      minimatch: 9.0.5
+      semver: 7.7.4
+      tinyglobby: 0.2.15
+      ts-api-utils: 2.4.0(typescript@5.9.3)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10964,6 +11051,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/utils@8.32.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(jiti@2.5.1))
+      '@typescript-eslint/scope-manager': 8.32.0
+      '@typescript-eslint/types': 8.32.0
+      '@typescript-eslint/typescript-estree': 8.32.0(typescript@5.9.3)
+      eslint: 9.26.0(jiti@2.5.1)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/utils@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.26.0(jiti@2.5.1))
@@ -10972,6 +11070,17 @@ snapshots:
       '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.8.3)
       eslint: 9.26.0(jiti@2.5.1)
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/utils@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.9.1(eslint@9.26.0(jiti@2.5.1))
+      '@typescript-eslint/scope-manager': 8.54.0
+      '@typescript-eslint/types': 8.54.0
+      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
+      eslint: 9.26.0(jiti@2.5.1)
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11456,14 +11565,14 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  cosmiconfig@8.3.6(typescript@5.8.3):
+  cosmiconfig@8.3.6(typescript@5.9.3):
     dependencies:
       import-fresh: 3.3.1
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
-      typescript: 5.8.3
+      typescript: 5.9.3
 
   crelt@1.0.6: {}
 
@@ -12019,6 +12128,19 @@ snapshots:
       known-css-properties: 0.30.0
       style-to-object: 1.0.8
       typescript: 5.8.3
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-plugin-solid@0.14.5(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3):
+    dependencies:
+      '@typescript-eslint/utils': 8.32.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      eslint: 9.26.0(jiti@2.5.1)
+      estraverse: 5.3.0
+      is-html: 2.0.0
+      kebab-case: 1.0.2
+      known-css-properties: 0.30.0
+      style-to-object: 1.0.8
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
@@ -13610,7 +13732,7 @@ snapshots:
 
   mkdirp@3.0.1: {}
 
-  mkdist@1.6.0(typescript@5.8.3):
+  mkdist@1.6.0(typescript@5.9.3):
     dependencies:
       autoprefixer: 10.4.21(postcss@8.5.3)
       citty: 0.1.6
@@ -13626,7 +13748,7 @@ snapshots:
       semver: 7.7.2
       tinyglobby: 0.2.13
     optionalDependencies:
-      typescript: 5.8.3
+      typescript: 5.9.3
 
   mlly@1.7.4:
     dependencies:
@@ -14092,10 +14214,10 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier-plugin-organize-imports@4.3.0(prettier@3.8.1)(typescript@5.8.3):
+  prettier-plugin-organize-imports@4.3.0(prettier@3.8.1)(typescript@5.9.3):
     dependencies:
       prettier: 3.8.1
-      typescript: 5.8.3
+      typescript: 5.9.3
 
   prettier@3.8.1: {}
 
@@ -14439,11 +14561,11 @@ snapshots:
       glob: 11.0.2
       package-json-from-dist: 1.0.1
 
-  rollup-plugin-dts@6.2.3(rollup@3.29.5)(typescript@5.8.3):
+  rollup-plugin-dts@6.2.3(rollup@3.29.5)(typescript@5.9.3):
     dependencies:
       magic-string: 0.30.17
       rollup: 3.29.5
-      typescript: 5.8.3
+      typescript: 5.9.3
     optionalDependencies:
       '@babel/code-frame': 7.27.1
 
@@ -14992,16 +15114,24 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
+  ts-api-utils@2.1.0(typescript@5.9.3):
+    dependencies:
+      typescript: 5.9.3
+
   ts-api-utils@2.4.0(typescript@5.8.3):
     dependencies:
       typescript: 5.8.3
 
-  ts-evaluator@1.2.0(jsdom@25.0.1)(typescript@5.8.3):
+  ts-api-utils@2.4.0(typescript@5.9.3):
+    dependencies:
+      typescript: 5.9.3
+
+  ts-evaluator@1.2.0(jsdom@25.0.1)(typescript@5.9.3):
     dependencies:
       ansi-colors: 4.1.3
       crosspath: 2.0.0
       object-path: 0.11.8
-      typescript: 5.8.3
+      typescript: 5.9.3
     optionalDependencies:
       jsdom: 25.0.1
 
@@ -15014,9 +15144,9 @@ snapshots:
 
   ts-pattern@5.0.8: {}
 
-  tsconfck@3.0.2(typescript@5.8.3):
+  tsconfck@3.0.2(typescript@5.9.3):
     optionalDependencies:
-      typescript: 5.8.3
+      typescript: 5.9.3
 
   tslib@1.14.1: {}
 
@@ -15122,7 +15252,7 @@ snapshots:
 
   typescript-eslint@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
       '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
       '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.8.3)
       '@typescript-eslint/utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.8.3)
@@ -15131,9 +15261,22 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  typescript-eslint@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3))(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.54.0(eslint@9.26.0(jiti@2.5.1))(typescript@5.9.3)
+      eslint: 9.26.0(jiti@2.5.1)
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   typescript@5.3.3: {}
 
   typescript@5.8.3: {}
+
+  typescript@5.9.3: {}
 
   uc.micro@2.1.0: {}
 
@@ -15148,7 +15291,7 @@ snapshots:
       has-symbols: 1.1.0
       which-boxed-primitive: 1.1.1
 
-  unbuild@2.0.0(typescript@5.8.3):
+  unbuild@2.0.0(typescript@5.9.3):
     dependencies:
       '@rollup/plugin-alias': 5.1.1(rollup@3.29.5)
       '@rollup/plugin-commonjs': 25.0.8(rollup@3.29.5)
@@ -15165,17 +15308,17 @@ snapshots:
       hookable: 5.5.3
       jiti: 1.21.7
       magic-string: 0.30.17
-      mkdist: 1.6.0(typescript@5.8.3)
+      mkdist: 1.6.0(typescript@5.9.3)
       mlly: 1.7.4
       pathe: 1.1.2
       pkg-types: 1.3.1
       pretty-bytes: 6.1.1
       rollup: 3.29.5
-      rollup-plugin-dts: 6.2.3(rollup@3.29.5)(typescript@5.8.3)
+      rollup-plugin-dts: 6.2.3(rollup@3.29.5)(typescript@5.9.3)
       scule: 1.3.0
       untyped: 1.5.2
     optionalDependencies:
-      typescript: 5.8.3
+      typescript: 5.9.3
     transitivePeerDependencies:
       - sass
       - supports-color
