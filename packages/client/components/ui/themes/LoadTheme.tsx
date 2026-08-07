@@ -21,6 +21,15 @@ export function LoadTheme() {
   const state = useState();
   const { lifecycle } = useClientLifecycle();
 
+  const bannerShown = createMemo(() =>
+    [
+      State.Connecting,
+      State.Disconnected,
+      State.Reconnecting,
+      State.Offline,
+    ].includes(lifecycle.state()),
+  );
+
   const getCssProps = createMemo(() => {
     const activeTheme = state.theme.activeTheme;
 
@@ -28,7 +37,7 @@ export function LoadTheme() {
     FONTS[state.theme.interfaceFont].load();
     MONOSPACE_FONTS[state.theme.monospaceFont].load();
 
-    const cssProps = {
+    return {
       // create unset variables to indicate where colours need replacing
       ...Object.keys(legacyThemeUnsetShim().colours).reduce(
         (d, k) => ({
@@ -46,31 +55,26 @@ export function LoadTheme() {
       // mount --mdui-color triplet variables
       ...createMduiColourTriplets(activeTheme, "--mdui-color-"),
     };
+  });
 
+  //Update CSS props on body
+  createEffect(() => {
+    const cssProps = getCssProps();
     for (const [key, value] of Object.entries(cssProps))
       document.body.style.setProperty(key, value);
-
-    return cssProps;
   });
 
   //Set PWA theme color
   createEffect(() => {
-    const dShown =
+    const drawerShown =
       state.appDrawer()?.state === SlideState.SHOWN ||
       state.diagDrawer()?.state === SlideState.SHOWN;
 
-    const banner = [
-      State.Connecting,
-      State.Disconnected,
-      State.Reconnecting,
-      State.Offline,
-    ].includes(lifecycle.state());
-
     const color =
       getCssProps()[
-        banner
+        bannerShown()
           ? "--md-sys-color-primary-container"
-          : dShown
+          : drawerShown
             ? "--md-sys-color-surface-container-low"
             : "--md-sys-color-surface-container-high"
       ];
