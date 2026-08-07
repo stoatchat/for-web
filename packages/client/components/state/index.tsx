@@ -54,7 +54,7 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
-  _timers: (() => void)[] = [];
+  _timers = new Map<() => void, 1>();
 
   appDrawer;
   setAppDrawer;
@@ -215,13 +215,12 @@ export class State {
 
   /** Add an interval timer that runs once per minute, but is cleaned up on logout */
   perMinute(func: () => void) {
-    this._timers.push(func);
+    this._timers.set(func, 1);
   }
 
   /** Remove a timer added with `setPerMinute` */
   clearPerMinute(func: () => void) {
-    const i = this._timers.indexOf(func);
-    if (i !== -1) this._timers.splice(i, 1);
+    this._timers.delete(func);
   }
 }
 
@@ -241,7 +240,7 @@ export function StateContext(props: { children: JSX.Element }) {
   onMount(() => {
     state.hydrate().then(() => setReady(true));
     tmr = setInterval(() => {
-      for (const fn of state._timers) fn();
+      for (const fn of state._timers.keys()) fn();
     }, 6e4);
   });
   onCleanup(() => clearInterval(tmr));
