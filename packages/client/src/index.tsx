@@ -3,7 +3,7 @@
  */
 import "./sentry";
 
-import { createSignal, JSX, onMount } from "solid-js";
+import { JSX, onMount } from "solid-js";
 import { render } from "solid-js/web";
 
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
@@ -22,12 +22,7 @@ import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
 import FlowReset from "@revolt/auth/src/flows/FlowReset";
 import FlowVerify from "@revolt/auth/src/flows/FlowVerify";
-import {
-  ClientContext,
-  ClientController,
-  SoundContext,
-  useClient,
-} from "@revolt/client";
+import { ClientContext, SoundContext, useClient } from "@revolt/client";
 import { DeviceContext } from "@revolt/common";
 import { I18nProvider } from "@revolt/i18n";
 import { InstanceContext } from "@revolt/instance";
@@ -122,14 +117,14 @@ function BotRedirect() {
 }
 
 function MountContext(props: { children?: JSX.Element }) {
-  const [cliCtx, setCliCtx] = createSignal<ClientController>();
   const client = new QueryClient();
 
   return (
     <StateContext>
       <KeybindContext>
         <ModalContext>
-          <ClientContext setCtx={setCliCtx}>
+          <ClientContext>
+            <LoadTheme />
             <SoundContext>
               <VoiceContext>
                 <QueryClientProvider client={client}>
@@ -144,7 +139,6 @@ function MountContext(props: { children?: JSX.Element }) {
           </ClientContext>
         </ModalContext>
       </KeybindContext>
-      <LoadTheme cliCtx={cliCtx()} />
     </StateContext>
   );
 }

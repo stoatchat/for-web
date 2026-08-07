@@ -1,6 +1,7 @@
 import { createEffect, createMemo } from "solid-js";
 
-import ClientController, { State } from "@revolt/client/Controller";
+import { useClientLifecycle } from "@revolt/client";
+import { State } from "@revolt/client/Controller";
 import { useState } from "@revolt/state";
 
 import {
@@ -16,8 +17,9 @@ import { legacyThemeUnsetShim } from "./legacyThemeGeneratorCode";
 /**
  * Component for loading theme variables into root
  */
-export function LoadTheme(props: { cliCtx?: ClientController }) {
+export function LoadTheme() {
   const state = useState();
+  const { lifecycle } = useClientLifecycle();
 
   const getCssProps = createMemo(() => {
     const activeTheme = state.theme.activeTheme;
@@ -58,14 +60,12 @@ export function LoadTheme(props: { cliCtx?: ClientController }) {
         state.appDrawer()?.state === SlideState.SHOWN ||
         state.diagDrawer()?.state === SlideState.SHOWN;
 
-    const banner =
-      props.cliCtx &&
-      [
-        State.Connecting,
-        State.Disconnected,
-        State.Reconnecting,
-        State.Offline,
-      ].includes(props.cliCtx.lifecycle.state());
+    const banner = [
+      State.Connecting,
+      State.Disconnected,
+      State.Reconnecting,
+      State.Offline,
+    ].includes(lifecycle.state());
 
     for (const meta of document.head.querySelectorAll("meta[name=theme-color]"))
       (meta as HTMLMetaElement).content =
