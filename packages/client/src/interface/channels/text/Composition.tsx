@@ -19,6 +19,7 @@ import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { useDurationFormat } from "@revolt/i18n/durations";
 import { useInstance } from "@revolt/instance";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
@@ -36,7 +37,6 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
-import { useDurationFormat } from "@revolt/i18n/durations";
 
 interface Props {
   /**

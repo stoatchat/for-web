@@ -5,9 +5,9 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useDurationFormat } from "@revolt/i18n/durations";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
-import { useDurationFormat } from "@revolt/i18n/durations";
 import {
   Button,
   CircularProgress,
