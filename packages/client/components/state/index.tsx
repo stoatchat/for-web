@@ -49,7 +49,7 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
-const WriteQueue: Record<string, NodeJS.Timeout> = {};
+const WriteQueue = new Map<string, NodeJS.Timeout>();
 
 /**
  * Global application state
@@ -157,25 +157,28 @@ export class State {
       qKey = (db.config().storeName || "") + "|" + key;
 
     // remove existing queued task if it exists
-    if (WriteQueue[qKey]) clearTimeout(WriteQueue[qKey]);
+    clearTimeout(WriteQueue.get(qKey));
 
     // queue for writing to disk
-    WriteQueue[qKey] = setTimeout(
-      () => {
-        // remove from write queue
-        delete WriteQueue[qKey];
+    WriteQueue.set(
+      qKey,
+      setTimeout(
+        () => {
+          // remove from write queue
+          WriteQueue.delete(qKey);
 
-        // write the entire key to storage
-        db.setItem(
-          key,
-          JSON.parse(
-            JSON.stringify((this.store as Record<string, unknown>)[key]),
-          ),
-        );
+          // write the entire key to storage
+          db.setItem(
+            key,
+            JSON.parse(
+              JSON.stringify((this.store as Record<string, unknown>)[key]),
+            ),
+          );
 
-        if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
-      },
-      IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
+          if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
+        },
+        IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
+      ),
     );
   };
 
@@ -206,10 +209,10 @@ export class State {
   async hydrate(global = false) {
     if (global) {
       //Wait for write queue to finish
-      if (Object.keys(WriteQueue).length)
+      if (WriteQueue.size)
         await new Promise<void>((res) => {
           const tmr = setInterval(() => {
-            if (Object.keys(WriteQueue).length) return;
+            if (WriteQueue.size) return;
             clearInterval(tmr);
             res();
           }, 50);
@@ -279,13 +282,13 @@ const stateContext = createContext<State>(null! as State);
  * Mount state context
  */
 export function StateContext(props: { children: JSX.Element }) {
-  const stateLocal = new State();
+  const state = new State();
   const [ready, setReady] = createSignal(false);
 
-  onMount(() => stateLocal.hydrate(true).then(() => setReady(true)));
+  onMount(() => state.hydrate(true).then(() => setReady(true)));
 
   return (
-    <stateContext.Provider value={stateLocal}>
+    <stateContext.Provider value={state}>
       <Show when={ready()} fallback={<LoadingScreen />}>
         {props.children}
       </Show>
