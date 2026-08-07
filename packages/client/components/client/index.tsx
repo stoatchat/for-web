@@ -28,7 +28,10 @@ const clientContext = createContext(null! as ClientController);
 /**
  * Mount the modal controller
  */
-export function ClientContext(props: { children: JSXElement }) {
+export function ClientContext(props: {
+  children: JSXElement;
+  preLoad: JSXElement;
+}) {
   const { openModal } = useModals();
   const state = useState();
   const instance = useInstance();
@@ -73,6 +76,7 @@ export function ClientContext(props: { children: JSXElement }) {
       <Show when={ready()} fallback={<LoadingScreen />}>
         {props.children}
       </Show>
+      {props.preLoad}
     </clientContext.Provider>
   );
 }
