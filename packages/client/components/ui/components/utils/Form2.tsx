@@ -20,10 +20,10 @@ import {
   Checkbox,
   FloatingSelect,
   Radio2,
+  Slider,
   Text,
   TextField,
   typography,
-  Slider,
 } from "../design";
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Column, Row } from "../layout";
