@@ -11,6 +11,7 @@ import {
   MenuItem,
   Text,
 } from "@revolt/ui";
+import { useDurationFormat } from "@revolt/i18n/durations";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -23,6 +24,7 @@ export function BanMemberModal(
 ) {
   const { t } = useLingui();
   const { showError } = useModals();
+  const duration = useDurationFormat();
 
   const group = createFormGroup({
     reason: createFormControl(""),
@@ -84,21 +86,11 @@ export function BanMemberModal(
             <MenuItem value="0">
               <Trans>Don't delete messages</Trans>
             </MenuItem>
-            <MenuItem value="3600">
-              <Trans>1 hour</Trans>
-            </MenuItem>
-            <MenuItem value="21600">
-              <Trans>6 hours</Trans>
-            </MenuItem>
-            <MenuItem value="86400">
-              <Trans>1 day</Trans>
-            </MenuItem>
-            <MenuItem value="259200">
-              <Trans>3 days</Trans>
-            </MenuItem>
-            <MenuItem value="604800">
-              <Trans>7 days</Trans>
-            </MenuItem>
+            <MenuItem value="3600">{duration({ hours: 1 })}</MenuItem>
+            <MenuItem value="21600">{duration({ hours: 6 })}</MenuItem>
+            <MenuItem value="86400">{duration({ days: 1 })}</MenuItem>
+            <MenuItem value="259200">{duration({ days: 3 })}</MenuItem>
+            <MenuItem value="604800">{duration({ days: 7 })}</MenuItem>
           </Form2.Select>
         </Column>
       </form>
