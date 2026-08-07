@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 
 import { type Dayjs } from "dayjs";
 import type { Handler } from "mdast-util-to-hast";
@@ -6,10 +6,13 @@ import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
 import { dayjs, timeLocale } from "@revolt/i18n/dayjs";
+import { useState } from "@revolt/state";
 
 import { time as Time } from "../elements";
 
 export function RenderTimestamp(props: { format: string; date: Dayjs }) {
+  const state = useState();
+
   /**
    * Format a time string
    */
@@ -34,13 +37,9 @@ export function RenderTimestamp(props: { format: string; date: Dayjs }) {
   const [value, setValue] = createSignal(format());
   const update = () => setValue(format());
 
-  createEffect(() => {
-    // Update every second if we are rendering relative time
-    if (props.format === "R") {
-      const interval = setInterval(update, 1000);
-      return () => clearInterval(interval);
-    }
-  });
+  // Update every minute if rendering relative time
+  onMount(() => props.format === "R" && state.perMinute(update));
+  onCleanup(() => props.format === "R" && state.clearPerMinute(update));
 
   return (
     <time

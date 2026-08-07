@@ -76,13 +76,11 @@ export class NotificationOptions extends AbstractStore<
   constructor(state: State) {
     super(state, "notifications");
 
-    // memory leak? -- maybe this should be a global util somewhere
-    // todo: refactor
     const [now, setNow] = createSignal<number>(+new Date());
     this.#now = now;
 
     // update every minute
-    setInterval(() => setNow(+new Date()), 6e3);
+    state.perMinute(() => setNow(+new Date()));
   }
 
   /**

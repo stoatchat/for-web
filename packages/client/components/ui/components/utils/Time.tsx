@@ -1,6 +1,7 @@
-import { type JSX, createSignal, onCleanup } from "solid-js";
+import { type JSX, createSignal, onCleanup, onMount } from "solid-js";
 
 import { useTime } from "@revolt/i18n";
+import { useState } from "@revolt/state";
 
 interface Props {
   value: number | Date | string | JSX.Element;
@@ -65,16 +66,13 @@ export function formatTime(
 
 export function Time(props: Props) {
   const dayjs = useTime();
+  const state = useState();
   const [time, setTime] = createSignal(formatTime(dayjs, props));
 
-  const timer = setInterval(() => {
-    const value = formatTime(dayjs, props);
-    if (value !== time()) {
-      setTime(value);
-    }
-  }, 1000);
+  const timer = () => setTime(formatTime(dayjs, props));
 
-  onCleanup(() => clearInterval(timer));
+  onMount(() => state.perMinute(timer));
+  onCleanup(() => state.clearPerMinute(timer));
 
   return (
     <time

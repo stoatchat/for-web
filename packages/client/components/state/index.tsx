@@ -3,6 +3,7 @@ import {
   Show,
   createContext,
   createSignal,
+  onCleanup,
   onMount,
   useContext,
 } from "solid-js";
@@ -53,6 +54,7 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
+  _timers: (() => void)[] = [];
 
   appDrawer;
   setAppDrawer;
@@ -210,6 +212,17 @@ export class State {
       store.hydrate();
     }
   }
+
+  /** Add an interval timer that runs once per minute, but is cleaned up on logout */
+  perMinute(func: () => void) {
+    this._timers.push(func);
+  }
+
+  /** Remove a timer added with `setPerMinute` */
+  clearPerMinute(func: () => void) {
+    const i = this._timers.indexOf(func);
+    if (i !== -1) this._timers.splice(i, 1);
+  }
 }
 
 /**
@@ -221,13 +234,20 @@ const stateContext = createContext<State>(null! as State);
  * Mount state context
  */
 export function StateContext(props: { children: JSX.Element }) {
-  const stateLocal = new State();
+  const state = new State();
   const [ready, setReady] = createSignal(false);
+  let tmr: NodeJS.Timeout;
 
-  onMount(() => stateLocal.hydrate().then(() => setReady(true)));
+  onMount(() => {
+    state.hydrate().then(() => setReady(true));
+    tmr = setInterval(() => {
+      for (const fn of state._timers) fn();
+    }, 6e4);
+  });
+  onCleanup(() => clearInterval(tmr));
 
   return (
-    <stateContext.Provider value={stateLocal}>
+    <stateContext.Provider value={state}>
       <Show when={ready()}>{props.children}</Show>
     </stateContext.Provider>
   );
