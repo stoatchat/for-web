@@ -33,10 +33,6 @@ export function LoadTheme() {
   const getCssProps = createMemo(() => {
     const activeTheme = state.theme.activeTheme;
 
-    // load fonts
-    FONTS[state.theme.interfaceFont].load();
-    MONOSPACE_FONTS[state.theme.monospaceFont].load();
-
     return {
       // create unset variables to indicate where colours need replacing
       ...Object.keys(legacyThemeUnsetShim().colours).reduce(
@@ -57,8 +53,11 @@ export function LoadTheme() {
     };
   });
 
-  //Update CSS props on body
+  //Load fonts & update CSS props on body
   createEffect(() => {
+    FONTS[state.theme.interfaceFont].load();
+    MONOSPACE_FONTS[state.theme.monospaceFont].load();
+
     const cssProps = getCssProps();
     for (const [key, value] of Object.entries(cssProps))
       document.body.style.setProperty(key, value);
