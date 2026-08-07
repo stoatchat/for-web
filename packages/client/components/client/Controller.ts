@@ -6,6 +6,7 @@ import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
+import { useSnackbar } from "@revolt/ui";
 import { useNavigate } from "@solidjs/router";
 
 import Instance from "../instance/Instance";
@@ -454,6 +455,22 @@ export default class ClientController {
         State.Reconnecting,
       ].includes(this.lifecycle.state()),
     );
+
+    //User switch request
+    if (location.hash.startsWith("#uid=")) {
+      try {
+        this.state.auth.swapSession(location.hash.slice(5));
+        location.hash = "";
+      } catch (e) {
+        useSnackbar().show({
+          message: `${e}`,
+          placement: "bottom",
+          closeable: true,
+          autoCloseDelay: 30000,
+        });
+      }
+      this.state.auth.holdSession();
+    }
 
     this.loginCached(false, true);
   }

@@ -84,7 +84,8 @@ export default class Instance {
    * @param path Defaults to `location.pathname` (non-reactive,
    * try `useLocation().pathname` if you need reactivity)
    */
-  static relPath = (path = location.pathname) => path.replace(R_RelPath, "");
+  static relPath = (path = location.pathname) =>
+    path.replace(R_RelPath, "") || "/";
 
   /** Switch to a new instance and redirect the client */
   switchTo = (host: string) =>
