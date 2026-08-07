@@ -1,7 +1,10 @@
 import {
+  Accessor,
   JSX,
   Show,
   createContext,
+  createEffect,
+  createMemo,
   createSignal,
   onMount,
   useContext,
@@ -60,7 +63,16 @@ export class State {
   setDiagDrawer;
 
   /** A reactive Date() that updates once per minute */
-  datePerMinute = createDateNow(6e4)[0];
+  datePerMinute: Accessor<Date> = createDateNow(6e4)[0];
+
+  /** A reactive Date() that updates only when the day changes */
+  datePerDay: Accessor<Date> = (() => {
+    const poll = createDateNow(1000)[0];
+    const [get, set] = createSignal();
+    createEffect(() => set(poll().getDay()));
+    const date = createMemo(() => (get(), new Date()));
+    return date;
+  })();
 
   // define all stores
   auth = new Auth(this);

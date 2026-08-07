@@ -11,7 +11,7 @@ import { useState } from "@revolt/state";
 import { time as Time } from "../elements";
 
 export function RenderTimestamp(props: { format: string; date: Dayjs }) {
-  const { datePerMinute } = useState();
+  const { datePerDay } = useState();
 
   /**
    * Format a time string
@@ -36,10 +36,10 @@ export function RenderTimestamp(props: { format: string; date: Dayjs }) {
   // Signal for current value
   const [value, setValue] = createSignal(format());
 
-  // Update every minute if rendering relative time
+  // Update if relative time & day changes
   onMount(() => {
     if (props.format === "R")
-      createEffect(on(datePerMinute, () => setValue(format())));
+      createEffect(on(datePerDay, () => setValue(format())));
   });
 
   return (

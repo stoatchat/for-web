@@ -37,14 +37,10 @@ export function formatTime(
       case "calendar":
         return dayjs(options.value).calendar(options.referenceTime);
       case "datetime":
-        return `${formatTime(
-          dayjs,
-          {
-            format: "date",
-            value: options.value,
-          },
-          date,
-        )} ${formatTime(dayjs, { format: "time", value: options.value }, date)}`;
+        return `${formatTime(dayjs, {
+          format: "date",
+          value: options.value,
+        })} ${formatTime(dayjs, { format: "time", value: options.value })}`;
       case "date":
       case "dateNormal":
         return dayjs(options.value).format("DD/MM/YYYY");
@@ -71,10 +67,16 @@ export function formatTime(
 
 export function Time(props: Props) {
   const dayjs = useTime();
-  const { datePerMinute } = useState();
+  const { datePerDay } = useState();
 
-  //Auto-updating time format
-  const time = createMemo(() => formatTime(dayjs, props, datePerMinute()));
+  const time = createMemo(() =>
+    formatTime(
+      dayjs,
+      props,
+      //Reactively update time only if relative date (param unused for other formats)
+      props.format === "relative" ? datePerDay() : undefined,
+    ),
+  );
 
   return (
     <time
