@@ -55,10 +55,9 @@ export function LoadTheme() {
 
   //Set PWA theme color
   createEffect(() => {
-    const cssProps = getCssProps(),
-      dShown =
-        state.appDrawer()?.state === SlideState.SHOWN ||
-        state.diagDrawer()?.state === SlideState.SHOWN;
+    const dShown =
+      state.appDrawer()?.state === SlideState.SHOWN ||
+      state.diagDrawer()?.state === SlideState.SHOWN;
 
     const banner = [
       State.Connecting,
@@ -67,15 +66,17 @@ export function LoadTheme() {
       State.Offline,
     ].includes(lifecycle.state());
 
+    const color =
+      getCssProps()[
+        banner
+          ? "--md-sys-color-primary-container"
+          : dShown
+            ? "--md-sys-color-surface-container-low"
+            : "--md-sys-color-surface-container-high"
+      ];
+
     for (const meta of document.head.querySelectorAll("meta[name=theme-color]"))
-      (meta as HTMLMetaElement).content =
-        cssProps[
-          banner
-            ? "--md-sys-color-primary-container"
-            : dShown
-              ? "--md-sys-color-surface-container-low"
-              : "--md-sys-color-surface-container-high"
-        ];
+      (meta as HTMLMetaElement).content = color;
   });
 
   return <Masks />;
