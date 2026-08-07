@@ -130,6 +130,14 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   }
 
   /**
+   * Get all sessions, including current and saved
+   */
+  getSessions() {
+    const data = this.get();
+    return [...(data.session ? [data.session] : []), ...data.saved];
+  }
+
+  /**
    * True if there are multiple saved sessions
    */
   hasMultiSession() {
@@ -191,7 +199,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
         return this.set(data);
       }
     const { t } = useLingui();
-    throw t`User session not found, try logging in again.`;
+    throw t`User session not found. Try switching users or logging in again.`;
   }
 
   /**
