@@ -3,12 +3,12 @@ import {
   Show,
   createContext,
   createSignal,
-  onCleanup,
   onMount,
   useContext,
 } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
+import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
@@ -31,10 +31,9 @@ import { Sync } from "./stores/Sync";
 import { Theme } from "./stores/Theme";
 import { Voice } from "./stores/Voice";
 
+export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
 export type { Sounds, TypeSounds } from "./stores/Sounds";
 export { SyncWorker } from "./SyncWorker";
-
-export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
 
 /**
  * Introduce some delay before writing state to disk
@@ -54,12 +53,14 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
-  _timers = new Map<() => void, 1>();
 
   appDrawer;
   setAppDrawer;
   diagDrawer;
   setDiagDrawer;
+
+  /** A reactive Date() that updates once per minute */
+  datePerMinute = createDateNow(6e4)[0];
 
   // define all stores
   auth = new Auth(this);
@@ -212,16 +213,6 @@ export class State {
       store.hydrate();
     }
   }
-
-  /** Add an interval timer that runs once per minute, but is cleaned up on logout */
-  perMinute(func: () => void) {
-    this._timers.set(func, 1);
-  }
-
-  /** Remove a timer added with `setPerMinute` */
-  clearPerMinute(func: () => void) {
-    this._timers.delete(func);
-  }
 }
 
 /**
@@ -233,20 +224,13 @@ const stateContext = createContext<State>(null! as State);
  * Mount state context
  */
 export function StateContext(props: { children: JSX.Element }) {
-  const state = new State();
+  const stateLocal = new State();
   const [ready, setReady] = createSignal(false);
-  let tmr: NodeJS.Timeout;
 
-  onMount(() => {
-    state.hydrate().then(() => setReady(true));
-    tmr = setInterval(() => {
-      for (const fn of state._timers.keys()) fn();
-    }, 6e4);
-  });
-  onCleanup(() => clearInterval(tmr));
+  onMount(() => stateLocal.hydrate().then(() => setReady(true)));
 
   return (
-    <stateContext.Provider value={state}>
+    <stateContext.Provider value={stateLocal}>
       <Show when={ready()}>{props.children}</Show>
     </stateContext.Provider>
   );

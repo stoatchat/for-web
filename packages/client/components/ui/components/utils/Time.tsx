@@ -1,4 +1,4 @@
-import { type JSX, createSignal, onCleanup, onMount } from "solid-js";
+import { type JSX, createMemo } from "solid-js";
 
 import { useTime } from "@revolt/i18n";
 import { useState } from "@revolt/state";
@@ -26,6 +26,7 @@ interface Props {
 export function formatTime(
   dayjs: ReturnType<typeof useTime>,
   options: Props,
+  date?: Date,
 ): JSX.Element | string | undefined | null {
   if (
     options.value instanceof Date ||
@@ -36,10 +37,14 @@ export function formatTime(
       case "calendar":
         return dayjs(options.value).calendar(options.referenceTime);
       case "datetime":
-        return `${formatTime(dayjs, {
-          format: "date",
-          value: options.value,
-        })} ${formatTime(dayjs, { format: "time", value: options.value })}`;
+        return `${formatTime(
+          dayjs,
+          {
+            format: "date",
+            value: options.value,
+          },
+          date,
+        )} ${formatTime(dayjs, { format: "time", value: options.value }, date)}`;
       case "date":
       case "dateNormal":
         return dayjs(options.value).format("DD/MM/YYYY");
@@ -49,7 +54,7 @@ export function formatTime(
         return dayjs(options.value).format("YYYY-MM-DD");
       case "relative":
         return dayjs(options.value).from(
-          options.referenceTime ?? Date.now(),
+          options.referenceTime ?? date?.getTime() ?? Date.now(),
           options.hideSuffix,
         );
       case "time12":
@@ -66,13 +71,10 @@ export function formatTime(
 
 export function Time(props: Props) {
   const dayjs = useTime();
-  const state = useState();
-  const [time, setTime] = createSignal(formatTime(dayjs, props));
+  const { datePerMinute } = useState();
 
-  const timer = () => setTime(formatTime(dayjs, props));
-
-  onMount(() => state.perMinute(timer));
-  onCleanup(() => state.clearPerMinute(timer));
+  //Auto-updating time format
+  const time = createMemo(() => formatTime(dayjs, props, datePerMinute()));
 
   return (
     <time

@@ -1,10 +1,9 @@
-import { Accessor, createSignal } from "solid-js";
+import { Accessor, createMemo } from "solid-js";
 
 import { Channel, Server } from "stoat.js";
 
-import { State } from "..";
-
 import { AbstractStore } from ".";
+import { State } from "..";
 
 /**
  * Possible notification states
@@ -66,8 +65,6 @@ export class NotificationOptions extends AbstractStore<
   "notifications",
   TypeNotificationOptions
 > {
-  private activeNotifications: Record<string, Notification> = {};
-
   #now: Accessor<number>;
 
   /**
@@ -76,11 +73,8 @@ export class NotificationOptions extends AbstractStore<
   constructor(state: State) {
     super(state, "notifications");
 
-    const [now, setNow] = createSignal<number>(+new Date());
-    this.#now = now;
-
     // update every minute
-    state.perMinute(() => setNow(+new Date()));
+    this.#now = createMemo(() => +state.datePerMinute());
   }
 
   /**
