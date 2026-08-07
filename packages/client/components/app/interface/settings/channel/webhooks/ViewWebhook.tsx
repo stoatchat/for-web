@@ -97,10 +97,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
             accept="image/*"
             label={t`Webhook Icon`}
             imageJustify={false}
-            maxSize={
-              client().configuration?.features.limits.default
-                .file_upload_size_limits["icons"] ?? 4e6
-            }
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
           <Form2.TextField
             name="name"
