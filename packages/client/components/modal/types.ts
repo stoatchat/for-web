@@ -10,6 +10,7 @@ import {
   Message,
   MFA,
   MFATicket,
+  ProtocolV1,
   PublicBot,
   PublicChannelInvite,
   Server,
@@ -19,7 +20,6 @@ import {
   User,
   VideoEmbed,
 } from "stoat.js";
-import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
