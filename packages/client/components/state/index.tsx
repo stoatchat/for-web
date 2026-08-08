@@ -15,6 +15,7 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { Composer } from "@revolt/app/interface/channels/text/Composition";
 import { LoadingScreen } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
@@ -65,6 +66,8 @@ export class State {
   setAppDrawer;
   diagDrawer;
   setDiagDrawer;
+  composer;
+  setComposer;
 
   /** A reactive Date() that updates once per minute */
   datePerMinute: Accessor<Date> = createDateNow(6e4)[0];
@@ -140,6 +143,10 @@ export class State {
     const [dd, setDd] = createSignal<SlideDrawer>();
     this.diagDrawer = dd;
     this.setDiagDrawer = setDd;
+
+    const [co, setCo] = createSignal<Composer>();
+    this.composer = co;
+    this.setComposer = setCo;
   }
 
   /**

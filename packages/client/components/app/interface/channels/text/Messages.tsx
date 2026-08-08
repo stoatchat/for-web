@@ -36,6 +36,7 @@ import {
   ListView2Update,
 } from "@revolt/ui/components/utils/ListView2";
 
+import { MessageComposition } from "./Composition";
 import { CompositionInfo } from "./CompositionInfo";
 import { Message } from "./Message";
 import { useMessageCache } from "./MessageCache";
@@ -127,6 +128,9 @@ export function Messages(props: Props) {
    * Whether the current fetch has failed
    */
   const [failure, setFailure] = createSignal(false);
+
+  /** Contextual info shown at bottom of screen */
+  const [infoText, setInfoText] = createSignal<string>();
 
   /**
    * Collect messages during fetches
@@ -968,6 +972,7 @@ export function Messages(props: Props) {
           </Show>
           <CompositionInfo
             channel={props.channel}
+            infoText={infoText()}
             scrollRef={
               listRef()?.parentElement?.parentElement?.parentElement
                 ?.parentElement
@@ -975,6 +980,11 @@ export function Messages(props: Props) {
           />
         </div>
       </AnchorToEnd>
+      <MessageComposition
+        channel={props.channel}
+        setInfoText={setInfoText}
+        onMessageSend={jumpToBottom}
+      />
     </>
   );
 }

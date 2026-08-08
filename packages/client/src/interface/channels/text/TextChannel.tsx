@@ -31,7 +31,6 @@ import { ChannelHeader } from "../ChannelHeader";
 import { ChannelPageProps } from "../ChannelPage";
 
 import { Channel } from "stoat.js";
-import { MessageComposition } from "./Composition";
 import { MemberSidebar } from "./MemberSidebar";
 import { TextSearchSidebar } from "./TextSearchSidebar";
 
@@ -232,11 +231,6 @@ export function TextChannel(props: ChannelPageProps) {
             clearHighlightedMessage={() => navigate(".")}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
             atEnd={[atEnd, setEnd]}
-          />
-
-          <MessageComposition
-            channel={props.channel}
-            onMessageSend={() => jumpToBottomRef?.()}
           />
         </main>
         <Show
