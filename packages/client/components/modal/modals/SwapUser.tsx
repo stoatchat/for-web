@@ -6,6 +6,7 @@ import { useClientLifecycle } from "@revolt/client";
 import { useState } from "@revolt/state";
 import { Avatar, Dialog, DialogProps, MenuButton } from "@revolt/ui";
 
+import { useModals } from "..";
 import { Modals } from "../types";
 
 export function SwapUserModal(
@@ -13,6 +14,7 @@ export function SwapUserModal(
 ) {
   const { auth } = useState();
   const { swapAccount } = useClientLifecycle();
+  const { closeAll } = useModals();
 
   return (
     <Dialog
@@ -31,7 +33,7 @@ export function SwapUserModal(
               </Show>
             }
             onClick={() => {
-              props.onClose();
+              closeAll();
               swapAccount(ses.userId);
             }}
           >
