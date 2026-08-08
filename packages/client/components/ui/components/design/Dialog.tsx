@@ -3,6 +3,8 @@ import { For, Show, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
+import { scrollableStyles } from "@revolt/ui/directives";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Button } from "./Button";
@@ -25,6 +27,7 @@ type Props = DialogProps & {
   children: JSX.Element;
   actions?: DialogAction[];
   isDisabled?: boolean;
+  noScroll?: boolean;
 
   scrimBackground?: string;
 
@@ -43,6 +46,7 @@ export function Dialog(props: Props) {
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
+        noScroll={props.noScroll}
         style={{
           "--scrim": "rgba(from var(--md-sys-color-scrim) r g b / 0.32)",
           "--background": props.scrimBackground
@@ -76,7 +80,11 @@ export function Dialog(props: Props) {
                     {props.title}
                   </Title>
                 </Show>
-                <Content class={typography()}>{props.children}</Content>
+                <Content
+                  class={typography() + (props.noScroll ? scrollContent : "")}
+                >
+                  {props.children}
+                </Content>
                 <Show when={props.actions}>
                   <Actions>
                     <For each={props.actions}>
@@ -127,6 +135,7 @@ Dialog.Scrim = (
     "children",
     "padding",
     "overflow",
+    "noScroll",
   ]);
 
   return (
@@ -198,6 +207,21 @@ const ScrimSurface = styled("div", {
         overflowY: "auto",
       },
     },
+    noScroll: {
+      true: {
+        alignItems: "stretch",
+        "& > *": {
+          minHeight: 0,
+          display: "flex",
+          alignItems: "center",
+          width: "min(500px, 100%)",
+        },
+        "& > * > *": {
+          maxHeight: "100%",
+          width: "100%",
+        },
+      },
+    },
   },
   defaultVariants: {
     padding: true,
@@ -244,6 +268,8 @@ const Title = styled("span", {
     withIcon: false,
   },
 });
+
+const scrollContent = " " + css({ minHeight: 0 }) + " " + scrollableStyles();
 
 const Content = styled("div", {
   base: {
