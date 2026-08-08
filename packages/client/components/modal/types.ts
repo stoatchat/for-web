@@ -185,7 +185,7 @@ export type Modals =
       type: "mfa_enable_totp";
       identifier: string;
       secret: string;
-      callback: (code?: string) => void;
+      callback: (code?: string) => Promise<void>;
       reject?: (reason?: string) => void;
     }
   | ({
