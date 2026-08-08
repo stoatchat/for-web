@@ -7,6 +7,45 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
+const shares: File[] = [];
+let shareLock: Promise<void> | null, shareRes: () => void;
+
+self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+  if (url.origin !== location.origin) return;
+
+  //Intercept share intent
+  if (url.pathname === "/_share") {
+    if (event.request.method === "POST")
+      event.respondWith(
+        (async () => {
+          const files = (await event.request.formData()).getAll(
+            "files",
+          ) as File[];
+
+          if (!shareLock) {
+            shareLock = new Promise((res) => (shareRes = res));
+            event.waitUntil(shareLock);
+          }
+          shares.push(...files);
+          return Response.redirect("/#share", 303);
+        })(),
+      );
+    else if (event.request.method === "PATCH") {
+      event.respondWith(Response.json(shares.map((f) => f.name)));
+    } else if (event.request.method === "GET") {
+      const share = shares.shift();
+      if (shareLock && !shares.length) {
+        shareLock = null;
+        shareRes();
+      }
+      event.respondWith(
+        new Response(share?.stream(), { status: share ? 200 : 400 }),
+      );
+    }
+  }
+});
+
 cleanupOutdatedCaches();
 
 // Generate list using mise scripts:locale
