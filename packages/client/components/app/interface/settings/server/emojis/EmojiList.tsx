@@ -81,8 +81,7 @@ export function EmojiList(props: { server: Server }) {
                 accept="image/*"
                 imageJustify={false}
                 allowRemoval={false}
-                // TODO: Replace this with limit
-                maxSize={500_000}
+                maxSize={instance.limits().file_upload_size_limits["emojis"]}
                 hideErrors={true}
               />
             </Column>

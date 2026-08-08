@@ -160,6 +160,7 @@ export function UserProfileEditor(props: Props) {
           accept="image/*"
           label={t`Avatar`}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["avatars"]}
         />
         <Form2.FileInput
           control={editGroup.controls.banner}
@@ -168,6 +169,7 @@ export function UserProfileEditor(props: Props) {
           imageAspect="232/100"
           imageRounded={false}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["background"]}
         />
         <Form2.TextField
           minlength={2}

@@ -19,6 +19,7 @@
   - [@revolt/i18n]()
     - [Using Lingui](./components/i18n/using-lingui.md)
     - [Using Dayjs](./components/i18n/using-dayjs.md)
+    - [Using Durations](./components/i18n/using-durations.md)
     - [Translating Errors](./components/i18n/translating-errors.md)
   - [@revolt/modal]()
     - [General Guidelines](./components/modal/guidelines.md)

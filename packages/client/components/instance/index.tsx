@@ -11,7 +11,7 @@ import {
 import { Dynamic } from "solid-js/web";
 
 import { CONFIGURATION } from "@revolt/common";
-import { AppConfig, STOAT_HOST } from "@revolt/common/lib/env";
+import { AppConfig, normalizeHost, STOAT_HOST } from "@revolt/common/lib/env";
 import { LoadingScreen, useSnackbar } from "@revolt/ui";
 
 import Instance, { _newClient } from "./Instance";
@@ -22,6 +22,7 @@ export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
 
 const instanceContext = createContext<Instance>();
+let appLoadedOnce = false;
 
 export function InstanceContext(props: { children?: JSXElement }) {
   const params = useParams();
@@ -32,22 +33,12 @@ export function InstanceContext(props: { children?: JSXElement }) {
   const [inst, setInst] = createSignal<Instance>();
 
   //Check Stoat instance
-  const host = [
-    // historically...
-    "api.revolt.chat",
-    "beta.revolt.chat",
-    "revolt.chat",
-    // ... and now:
-    "api.stoat.chat",
-    "beta.stoat.chat",
-  ].includes(params.host)
-    ? STOAT_HOST
-    : params.host;
+  const host = normalizeHost(params.host);
 
   function onError(e: unknown) {
     console.error(e);
     if ((e as Error).message === "Failed to fetch") {
-      const hStr = `'${host}'`;
+      const hStr = `'${host || DefaultHost}'`;
       e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
     }
     snackbar.show({
@@ -56,7 +47,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
       closeable: true,
       autoCloseDelay: 30000,
     });
-    history.back();
+    if (appLoadedOnce) nav(-1);
   }
 
   (async () => {
@@ -76,6 +67,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
     } catch (e) {
       onError(e);
     }
+    appLoadedOnce = true;
   })();
 
   //Finish init in reactive scope

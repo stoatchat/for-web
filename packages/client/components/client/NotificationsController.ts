@@ -163,15 +163,7 @@ async function setUpServiceWorkerSubscription(client: Client) {
 
 function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
   const intArray = new Uint8Array(buffer);
-  // Todo: Upon upgrading the target of this repo, use Uint8Array.prototype.toBase64() instead of this.
-  const binaryString = [...intArray.values()]
-    .map((byte) => String.fromCodePoint(byte))
-    .join("");
-  const base64String = btoa(binaryString);
-  return base64String
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  return intArray.toBase64({ alphabet: "base64url" });
 }
 
 /** Exported for the client controller. Don't use this unless you have to. */

@@ -124,6 +124,7 @@ function MountContext(props: { children?: JSX.Element }) {
       <KeybindContext>
         <ModalContext>
           <ClientContext>
+            <LoadTheme />
             <SoundContext>
               <VoiceContext>
                 <QueryClientProvider client={client}>
@@ -138,7 +139,6 @@ function MountContext(props: { children?: JSX.Element }) {
           </ClientContext>
         </ModalContext>
       </KeybindContext>
-      <LoadTheme />
     </StateContext>
   );
 }
