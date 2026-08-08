@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useDurationFormat } from "@revolt/i18n/durations";
 import {

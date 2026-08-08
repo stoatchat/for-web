@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { For, Match, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 

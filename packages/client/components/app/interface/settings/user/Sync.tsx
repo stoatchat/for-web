@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { CategoryButton, Checkbox, Column, Time, iconSize } from "@revolt/ui";
 

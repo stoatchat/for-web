@@ -1,7 +1,7 @@
 import { BiRegularListUl } from "solid-icons/bi";
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";

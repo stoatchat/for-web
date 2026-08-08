@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { ulid } from "ulid";
 
 import { Dialog, DialogProps, Form2 } from "@revolt/ui";

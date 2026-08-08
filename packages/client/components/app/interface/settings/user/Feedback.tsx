@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { PublicChannelInvite } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

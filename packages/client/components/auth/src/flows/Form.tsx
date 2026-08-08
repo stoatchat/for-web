@@ -1,7 +1,7 @@
 import HCaptcha, { HCaptchaFunctions } from "solid-hcaptcha";
 import { createSignal, For, JSX, Show } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 
 import { Checkbox, Column, iconSize, Text, TextField } from "@revolt/ui";
 import { styled } from "styled-system/jsx";

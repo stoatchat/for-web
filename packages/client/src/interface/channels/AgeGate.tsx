@@ -1,6 +1,6 @@
 import { JSXElement, Match, Suspense, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
 import { styled } from "styled-system/jsx";
 

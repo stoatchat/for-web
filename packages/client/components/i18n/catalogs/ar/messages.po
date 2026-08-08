@@ -71,7 +71,7 @@ msgstr "{0} غير وصف القناة"
 msgid "{0} changed the channel icon"
 msgstr "{0} غير شعار القناة"
 
-#. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
+#. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
 msgstr "{0} رموز تعبيرية متبقية"
@@ -152,18 +152,16 @@ msgid "{0}'s roles"
 msgstr "رتب {0}"
 
 #: src/interface/channels/text/Composition.tsx
-#: src/interface/channels/text/Composition.tsx
-msgid "{h} hours"
-msgstr ""
+#~ msgid "{h} hours"
+#~ msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
-#: src/interface/channels/text/Composition.tsx
-msgid "{m} minutes"
-msgstr ""
+#~ msgid "{m} minutes"
+#~ msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
-msgid "{sec} seconds"
-msgstr ""
+#~ msgid "{sec} seconds"
+#~ msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
@@ -243,78 +241,76 @@ msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed
 msgstr "<0>كن حذرا!</0><1/>هذا ليس نفس الرابط الذي تم عرضه:"
 
 #: components/modal/modals/BanMember.tsx
-msgid "1 day"
-msgstr ""
+#~ msgid "1 day"
+#~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "1 hour"
-msgstr ""
+#~ msgid "1 hour"
+#~ msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
-#: src/interface/channels/text/Composition.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "1 minute"
-msgstr ""
+#~ msgid "1 minute"
+#~ msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "شخص واحد تفاعل"
 
 #: src/interface/channels/text/Composition.tsx
-msgid "1 second"
-msgstr ""
+#~ msgid "1 second"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "10 minutes"
-msgstr ""
+#~ msgid "10 minutes"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "10 seconds"
-msgstr ""
+#~ msgid "10 seconds"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr "12 ساعة"
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "2 hours"
-msgstr ""
+#~ msgid "2 hours"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
 msgstr "24 ساعة"
 
 #: components/modal/modals/BanMember.tsx
-msgid "3 days"
-msgstr ""
+#~ msgid "3 days"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "30 minutes"
-msgstr ""
+#~ msgid "30 minutes"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "30 seconds"
-msgstr ""
+#~ msgid "30 seconds"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "5 minutes"
-msgstr ""
+#~ msgid "5 minutes"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "5 seconds"
-msgstr ""
+#~ msgid "5 seconds"
+#~ msgstr ""
 
 #: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-msgid "6 hours"
-msgstr ""
+#~ msgid "6 hours"
+#~ msgstr ""
 
 #: components/modal/modals/BanMember.tsx
-msgid "7 days"
-msgstr ""
+#~ msgid "7 days"
+#~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
@@ -324,7 +320,6 @@ msgstr "يمكن الوصول إلى القنوات على هذا السيرفر
 msgid "Able to access this channel"
 msgstr "يمكن الوصول إلى هذه القناة"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
 msgstr "يمكن التحدث في مكالمة صوتية"
@@ -345,13 +340,13 @@ msgstr "قبول طلب الصداقة"
 msgid "Acknowledge"
 msgstr "إدراك"
 
-#: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddBot.tsx
+#: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add"
 msgstr "إضافة"
 
-#: src/interface/Friends.tsx
 #: components/modal/modals/AddFriend.tsx
+#: src/interface/Friends.tsx
 msgid "Add a new friend"
 msgstr "إضافة صديق جديد"
 
@@ -359,8 +354,8 @@ msgstr "إضافة صديق جديد"
 msgid "Add friend"
 msgstr "إرسال طلب صداقة"
 
-#: src/interface/channels/ChannelHeader.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
+#: src/interface/channels/ChannelHeader.tsx
 msgid "Add friends to group"
 msgstr "إضافة اصدقاء للمجموعة"
 
@@ -376,10 +371,10 @@ msgstr "إضافة نص الحالة"
 msgid "Admin"
 msgstr "مسؤول"
 
-#: components/app/menus/UserContextMenu.tsx
-#: components/app/menus/ServerContextMenu.tsx
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/UserContextMenu.tsx
 msgid "Admin Panel"
 msgstr "لوحة المسؤول"
 
@@ -387,8 +382,8 @@ msgstr "لوحة المسؤول"
 msgid "Advanced"
 msgstr "متقدم"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
+#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Affects all roles and users"
 msgstr "يؤثر على جميع الرتب والمستخدمين"
 
@@ -398,11 +393,10 @@ msgstr "كل"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
 msgstr "كل الرسائل"
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "All Systems Operational"
 msgstr ""
 
@@ -435,8 +429,8 @@ msgstr "حدث خطأ."
 msgid "An internal error occurred. ({0})"
 msgstr "حدث خطأ داخلي. ({0})"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Appearance"
 msgstr "المظهر"
 
@@ -481,9 +475,8 @@ msgstr "تعيين الرتب"
 msgid "Audio disabled by browser"
 msgstr ""
 
-#: components/modal/modals/MFAFlow.tsx
-#: components/modal/modals/MFAFlow.tsx
 #: components/app/interface/settings/user/Account.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Authenticator App"
 msgstr "تطبيق المصادقة الثنائية"
 
@@ -495,13 +488,12 @@ msgstr ""
 msgid "Avatar"
 msgstr "الصورة الرمزية"
 
-#: src/interface/channels/AgeGate.tsx
-#: src/interface/channels/AgeGate.tsx
-#: components/modal/modals/MFAFlow.tsx
-#: components/auth/src/flows/FlowLogin.tsx
-#: components/auth/src/flows/FlowCreate.tsx
-#: components/auth/src/flows/FlowCheck.tsx
 #: components/app/interface/settings/user/_AccountCard.tsx
+#: components/auth/src/flows/FlowCheck.tsx
+#: components/auth/src/flows/FlowCreate.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: src/interface/channels/AgeGate.tsx
 msgid "Back"
 msgstr "عودة"
 
@@ -509,8 +501,8 @@ msgstr "عودة"
 msgid "Badges"
 msgstr "الشارات"
 
-#: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
+#: components/modal/modals/BanNonMember.tsx
 msgid "Ban"
 msgstr "أُحظر"
 
@@ -582,9 +574,9 @@ msgstr "إلغاء صدى المتصفح"
 msgid "Bug Tracker"
 msgstr "متعقب الأخطاء"
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Busy"
 msgstr "مشغول"
 
@@ -601,7 +593,6 @@ msgid "Bypass Slowmode"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
 msgstr ""
 
@@ -609,33 +600,32 @@ msgstr ""
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
 
-#: components/modal/modals/SignOutSessions.tsx
-#: components/modal/modals/ServerIdentity.tsx
-#: components/modal/modals/ScreenShareSettings.tsx
-#: components/modal/modals/ScreenSharePicker.tsx
-#: components/modal/modals/ResetBotToken.tsx
-#: components/modal/modals/ReportContent.tsx
-#: components/modal/modals/RenameSession.tsx
-#: components/modal/modals/RemoveMember.tsx
-#: components/modal/modals/PinMessage.tsx
-#: components/modal/modals/Onboarding.tsx
-#: components/modal/modals/MFAFlow.tsx
-#: components/modal/modals/MFAFlow.tsx
-#: components/modal/modals/MFAEnableTOTP.tsx
-#: components/modal/modals/LeaveServer.tsx
-#: components/modal/modals/KickMember.tsx
-#: components/modal/modals/Invite.tsx
-#: components/modal/modals/EditCategory.tsx
-#: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteMessage.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteCategory.tsx
-#: components/modal/modals/DeleteBot.tsx
-#: components/modal/modals/BanNonMember.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/modal/modals/AddBot.tsx
 #: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/AddBot.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/DeleteBot.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteMessage.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/EditCategory.tsx
+#: components/modal/modals/Invite.tsx
+#: components/modal/modals/KickMember.tsx
+#: components/modal/modals/LeaveServer.tsx
+#: components/modal/modals/MFAEnableTOTP.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/Onboarding.tsx
+#: components/modal/modals/PinMessage.tsx
+#: components/modal/modals/RemoveMember.tsx
+#: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/ReportContent.tsx
+#: components/modal/modals/ResetBotToken.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/SignOutSessions.tsx
 msgid "Cancel"
 msgstr "ألغ"
 
@@ -655,9 +645,9 @@ msgstr "لا يمكن حذف الحساب حتى يتم حذف الخوادم أ
 msgid "Cannot edit this message."
 msgstr "لا يمكن تعديل هذه الرسالة."
 
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditBotUsername.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditUsername.tsx
 msgid "Change"
 msgstr "تعديل"
 
@@ -731,8 +721,8 @@ msgstr "وصف القناة"
 msgid "Channel Info"
 msgstr "معلومات القناة"
 
-#: components/modal/modals/CreateChannel.tsx
 #: components/app/interface/settings/channel/Overview.tsx
+#: components/modal/modals/CreateChannel.tsx
 msgid "Channel Name"
 msgstr "اسم القناة"
 
@@ -788,31 +778,31 @@ msgstr "اظغط لرؤية الحاجب"
 msgid "Client Settings"
 msgstr "إعدادات التطبيق"
 
-#: components/modal/modals/UserProfileRoles.tsx
-#: components/modal/modals/UserProfileMutualGroups.tsx
-#: components/modal/modals/UserProfileMutualFriends.tsx
-#: components/modal/modals/ServerInfo.tsx
-#: components/modal/modals/PolicyChange.tsx
-#: components/modal/modals/LinkWarning.tsx
-#: components/modal/modals/JoinServer.tsx
-#: components/modal/modals/EmojiPreview.tsx
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EditPassword.tsx
-#: components/modal/modals/EditEmail.tsx
-#: components/modal/modals/EditBotUsername.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/CustomStatus.tsx
-#: components/modal/modals/CreateWebhook.tsx
-#: components/modal/modals/CreateServer.tsx
-#: components/modal/modals/CreateRole.tsx
-#: components/modal/modals/CreateGroup.tsx
-#: components/modal/modals/CreateChannel.tsx
-#: components/modal/modals/CreateCategory.tsx
-#: components/modal/modals/CreateBot.tsx
-#: components/modal/modals/ChannelInfo.tsx
-#: components/modal/modals/Changelog.tsx
-#: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/AddFriend.tsx
+#: components/modal/modals/AddMembersToGroup.tsx
+#: components/modal/modals/Changelog.tsx
+#: components/modal/modals/ChannelInfo.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/CreateCategory.tsx
+#: components/modal/modals/CreateChannel.tsx
+#: components/modal/modals/CreateGroup.tsx
+#: components/modal/modals/CreateRole.tsx
+#: components/modal/modals/CreateServer.tsx
+#: components/modal/modals/CreateWebhook.tsx
+#: components/modal/modals/CustomStatus.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/EditBotUsername.tsx
+#: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EmojiPreview.tsx
+#: components/modal/modals/JoinServer.tsx
+#: components/modal/modals/LinkWarning.tsx
+#: components/modal/modals/PolicyChange.tsx
+#: components/modal/modals/ServerInfo.tsx
+#: components/modal/modals/UserProfileMutualFriends.tsx
+#: components/modal/modals/UserProfileMutualGroups.tsx
+#: components/modal/modals/UserProfileRoles.tsx
 msgid "Close"
 msgstr "أغلق"
 
@@ -830,7 +820,6 @@ msgid "Code"
 msgstr "رمز"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
 msgstr ""
 
@@ -842,8 +831,8 @@ msgstr "قم بإعداد طريقة للعودة إلى حسابك في حال 
 msgid "Configure one-time password authentication"
 msgstr "قم بإعداد المصادقة بكلمة مرور لمرة واحدة"
 
-#: components/modal/modals/MFAFlow.tsx
 #: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Confirm"
 msgstr "تأكيد"
 
@@ -855,7 +844,6 @@ msgstr "تأكيد الأمر"
 msgid "Connect"
 msgstr "الإتصال"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
 msgstr "اتصل بقناة صوتية"
@@ -872,8 +860,8 @@ msgstr "اتصال"
 msgid "Content breaks one or more laws"
 msgstr "يخالف المحتوى قانونًا واحدًا أو أكثر"
 
-#: components/modal/modals/MFAEnableTOTP.tsx
 #: components/modal/modals/LinkWarning.tsx
+#: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Continue"
 msgstr "استمرار"
 
@@ -917,8 +905,8 @@ msgstr "انسخ المعرّف"
 msgid "Copy Invite URL"
 msgstr "نسخ رابط الدعوة"
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/MessageContextMenu.tsx
 msgid "Copy link"
 msgstr "انسخ الرابط"
 
@@ -942,8 +930,8 @@ msgstr "نسخ معرف الرتبة"
 msgid "Copy server ID"
 msgstr "انسخ معرّف السيرفر"
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/DraftMessageContextMenu.tsx
+#: components/app/menus/MessageContextMenu.tsx
 msgid "Copy text"
 msgstr "انسخ النص"
 
@@ -951,8 +939,8 @@ msgstr "انسخ النص"
 msgid "Copy Token"
 msgstr "نسخ التوكن"
 
-#: src/interface/navigation/servers/UserMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Copy user ID"
 msgstr "انسخ معرّف المستخدم"
 
@@ -964,14 +952,18 @@ msgstr "نسخ رابط الوبهوك"
 msgid "Could not find what you requested."
 msgstr "لم يتم العثور على طلبك."
 
-#: components/modal/modals/CreateWebhook.tsx
-#: components/modal/modals/CreateServer.tsx
-#: components/modal/modals/CreateRole.tsx
-#: components/modal/modals/CreateGroup.tsx
-#: components/modal/modals/CreateChannel.tsx
-#: components/modal/modals/CreateCategory.tsx
-#: components/modal/modals/CreateBot.tsx
+#: components/instance/index.tsx
+msgid "Couldn't fetch Stoat configuration from {hStr}."
+msgstr ""
+
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/CreateCategory.tsx
+#: components/modal/modals/CreateChannel.tsx
+#: components/modal/modals/CreateGroup.tsx
+#: components/modal/modals/CreateRole.tsx
+#: components/modal/modals/CreateServer.tsx
+#: components/modal/modals/CreateWebhook.tsx
 msgid "Create"
 msgstr "أنشئ"
 
@@ -994,8 +986,8 @@ msgstr "إنشاء بوت جديد"
 msgid "Create a new category"
 msgstr "قم بإنشاء فئة جديدة"
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #: components/modal/modals/CreateGroup.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Create a new group"
 msgstr "قم بإنشاء مجموعة جديدة"
 
@@ -1016,8 +1008,6 @@ msgid "Create and edit server roles"
 msgstr "انشئ وعدل رتب السيرفر"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
 msgstr "انشاء و تعديل روابط الوبهوك"
 
@@ -1025,22 +1015,22 @@ msgstr "انشاء و تعديل روابط الوبهوك"
 msgid "Create Bot"
 msgstr "قم بإنشاء بوت"
 
-#: components/app/menus/ServerSidebarContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerSidebarContextMenu.tsx
 msgid "Create category"
 msgstr "إنشاء فئة"
 
-#: components/modal/modals/CreateChannel.tsx
-#: components/app/menus/ServerSidebarContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/modal/modals/CreateChannel.tsx
 msgid "Create channel"
 msgstr "إنشاء قناة"
 
-#: components/app/menus/ServerContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerContextMenu.tsx
 msgid "Create invite"
 msgstr "إنشاء دعوة"
 
@@ -1052,8 +1042,8 @@ msgstr "إنشاء دعوة"
 msgid "Create invites for others to use"
 msgstr "قم بإنشاء دعوات ليستعملها الاخرين"
 
-#: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
+#: components/modal/modals/CreateRole.tsx
 msgid "Create Role"
 msgstr "إنشاء رتبة"
 
@@ -1073,9 +1063,9 @@ msgstr "انشاء وبهوك"
 msgid "Created <0/>"
 msgstr "تم انشاء <0/>"
 
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditUsername.tsx
 msgid "Current Password"
 msgstr "كلمة السر الحالية"
 
@@ -1108,12 +1098,11 @@ msgstr "خطأ في قاعدة البيانات, الرجاء الاتصال ب�
 msgid "Date format"
 msgstr ""
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/interface/settings/user/notifications/Sounds.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Deafen"
 msgstr ""
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
 msgstr "تعطيل الاستماع و المحادحثة للأفراد ذوي الرتبة المنخفضة في المكالمات الصوتية"
@@ -1126,10 +1115,10 @@ msgstr "منع الأعضاء من الاستماع"
 msgid "Default"
 msgstr "إفتراضي"
 
-#: components/app/interface/settings/ServerSettings.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #: components/app/interface/settings/ChannelSettings.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
+#: components/app/interface/settings/ServerSettings.tsx
 msgid "Default Permissions"
 msgstr "المستأذنات الافتراضية"
 
@@ -1137,27 +1126,27 @@ msgstr "المستأذنات الافتراضية"
 #~ msgid "Defean"
 #~ msgstr ""
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Degraded Performance"
 msgstr ""
 
-#: components/modal/modals/EmojiPreview.tsx
-#: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteMessage.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteBot.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteMessage.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/EmojiPreview.tsx
 msgid "Delete"
 msgstr "احذف"
 
-#. placeholder {0}: props.server.name
-#. placeholder {0}: props.role.name
+#. placeholder {0}: props.bot.user!.displayName
 #. placeholder {0}: props.channel.name
-#: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteChannel.tsx
+#. placeholder {0}: props.role.name
 #: components/modal/modals/DeleteBot.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteServer.tsx
 msgid "Delete {0}?"
 msgstr "حذف {0}؟"
 
@@ -1166,8 +1155,6 @@ msgid "Delete Account"
 msgstr "حذف الحساب"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
 msgstr "حذف و تثبيت الرسائل المرسلة من قبل الأفراد الأخرى"
 
@@ -1175,8 +1162,8 @@ msgstr "حذف و تثبيت الرسائل المرسلة من قبل الأف�
 msgid "Delete Bot"
 msgstr "حذف البوت"
 
-#: components/modal/modals/DeleteCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
+#: components/modal/modals/DeleteCategory.tsx
 msgid "Delete category"
 msgstr "حذف الفئة"
 
@@ -1192,9 +1179,9 @@ msgstr "حذف القنات"
 msgid "Delete Invite"
 msgstr "حذف الدعوة"
 
-#: components/modal/modals/DeleteMessage.tsx
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/DraftMessageContextMenu.tsx
+#: components/app/menus/MessageContextMenu.tsx
+#: components/modal/modals/DeleteMessage.tsx
 msgid "Delete message"
 msgstr "احذف الرسالة"
 
@@ -1231,11 +1218,8 @@ msgstr "تعطيل الحساب"
 msgid "Disable one-time password authenticator"
 msgstr "تعطيل موثق كلمة السر"
 
+#: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
-#: components/app/interface/settings/server/Overview.tsx
-#: components/app/interface/settings/server/Overview.tsx
-#: components/app/interface/settings/server/Overview.tsx
-#: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
 msgstr "معطل"
 
@@ -1351,13 +1335,11 @@ msgstr "تعديل الأدوار"
 msgid "Edit the server's information and settings"
 msgstr "تعديل معلومات و خيارات السيرفر"
 
-#: components/app/menus/UserContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/UserContextMenu.tsx
 msgid "Edit your identity"
 msgstr "عدل هويتك"
 
-#: components/ui/components/features/messaging/elements/Container.tsx
-#: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "معدل"
@@ -1366,9 +1348,9 @@ msgstr "معدل"
 msgid "Effective <0/> (<1/>)"
 msgstr "فعال <0/> (<1/>)"
 
-#: components/modal/modals/EditEmail.tsx
-#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditEmail.tsx
 msgid "Email"
 msgstr "البريد الإلكتروني"
 
@@ -1420,8 +1402,8 @@ msgstr ""
 msgid "Enter a new name for this session"
 msgstr "أكتب إسم جديد لهذه الحصة"
 
-#: components/modal/modals/EditPassword.tsx
 #: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
 msgid "Enter a new password."
 msgstr "أدخل كلمة مرور جديدة."
 
@@ -1437,9 +1419,9 @@ msgstr "ادخل الرمز"
 msgid "Enter your current password."
 msgstr "أدخل كلمة السر الحالية."
 
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditUsername.tsx
 msgid "Enter your current password..."
 msgstr "أكتب كلمة السر الحالية..."
 
@@ -1483,8 +1465,8 @@ msgstr "خطأ في الإرسال"
 msgid "Failed to verify!"
 msgstr "فشل توثيق حسابك!"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Feedback.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Feedback"
 msgstr "رأيك"
 
@@ -1501,10 +1483,10 @@ msgstr "ابحث عن مجتمع يحوي هواياتك أو اهتماماتك
 msgid "Find your com<0/>munity,<1/>connect with the world."
 msgstr "قم بإيجاد مجمت<0/>معك،<1/> إتصل بالعالم."
 
-#: src/interface/navigation/servers/UserMenu.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Focus"
 msgstr "مركز"
 
@@ -1586,16 +1568,15 @@ msgstr "عبر عن رأيك في Stoat"
 msgid "Give us some detail"
 msgstr "أخبرنا عن التفاصيل"
 
-#: components/modal/modals/ScreenShareSettings.tsx
 #: components/modal/modals/ScreenSharePicker.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
 msgid "Go"
 msgstr ""
 
-#: components/auth/src/flows/FlowVerify.tsx
-#: components/auth/src/flows/FlowVerify.tsx
-#: components/auth/src/flows/FlowReset.tsx
-#: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
+#: components/auth/src/flows/FlowResend.tsx
+#: components/auth/src/flows/FlowReset.tsx
+#: components/auth/src/flows/FlowVerify.tsx
 msgid "Go back to login"
 msgstr "العودة لتسجيل الدخول"
 
@@ -1603,8 +1584,8 @@ msgstr "العودة لتسجيل الدخول"
 msgid "Go to account settings to edit your username"
 msgstr "إذهب إلى إعدادات الحساب لتعديل إسم المستخدم الخاص بك"
 
-#: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "Go to the Stoat Lounge"
 msgstr "إذهب إلى Stoat Lounge"
 
@@ -1645,7 +1626,6 @@ msgstr "التحرش أو التنمر الإلكتروني"
 msgid "Hardware Acceleration"
 msgstr "تقنية تسريع الأجهزة"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Hear other people and see their video"
 msgstr "إستمع إلى الآخرين و شاهد فيديوهاتهم"
@@ -1692,10 +1672,10 @@ msgstr "أنا أتفهم العواقب"
 msgid "ID copied to clipboard"
 msgstr ""
 
-#: src/interface/navigation/servers/UserMenu.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Idle"
 msgstr "خامل"
 
@@ -1713,6 +1693,10 @@ msgstr "إنتحال شخصية"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
+msgstr ""
+
+#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
+msgid "Input Volume"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
@@ -1735,8 +1719,8 @@ msgstr "قم بدعوة جميع أصدقائك، وبعض البوتات الر
 msgid "Invite Bot"
 msgstr "دعوة البوت"
 
-#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
+#: components/auth/src/flows/Form.tsx
 msgid "Invite Code"
 msgstr "رمز الدعوة"
 
@@ -1768,8 +1752,8 @@ msgstr "شارة النكتة في غير موضعها 2"
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr "المعيار الدولي ISO (سنة-شهر-يوم)"
 
-#: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/Invite.tsx
+#: components/modal/modals/JoinServer.tsx
 msgid "Join"
 msgstr "انضمام"
 
@@ -1780,18 +1764,18 @@ msgstr "انضم الى سيرفر"
 #~ msgid "Join call"
 #~ msgstr ""
 
-#: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "Join the Stoat Lounge"
 msgstr "انضم الى Stoat Lounge"
 
-#: src/interface/channels/ChannelHeader.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
+#: src/interface/channels/ChannelHeader.tsx
 msgid "Join the voice channel"
 msgstr "انضم الى قناة صوتية"
 
-#: components/ui/components/features/profiles/ProfileJoined.tsx
 #: components/ui/components/features/messaging/elements/Invite.tsx
+#: components/ui/components/features/profiles/ProfileJoined.tsx
 msgid "Joined"
 msgstr "انضم"
 
@@ -1827,8 +1811,8 @@ msgstr "طرد عضو"
 msgid "Kick Members"
 msgstr "طرد الأعضاء"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sync.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Language"
 msgstr "اللغة"
 
@@ -1852,15 +1836,15 @@ msgstr ""
 msgid "Learn more about how to create bots on Stoat."
 msgstr "اعرف المزيد عن كيفية إنشاء البوتات على Stoat."
 
-#: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/LeaveServer.tsx
 msgid "Leave"
 msgstr "غادر"
 
-#. placeholder {0}: props.server.name
 #. placeholder {0}: props.channel.name
-#: components/modal/modals/LeaveServer.tsx
+#. placeholder {0}: props.server.name
 #: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/LeaveServer.tsx
 msgid "Leave {0}?"
 msgstr "مغادرة {0}؟"
 
@@ -1897,8 +1881,8 @@ msgstr "تحميل الملف ({0})"
 msgid "Log In"
 msgstr "تسجيل دخول"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Sessions.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Log Out"
 msgstr "تسجيل خروج"
 
@@ -1922,7 +1906,7 @@ msgstr "يقوم بتسجيل خروجك من جميع الاجهزة ما عد�
 msgid "Lowercase letters, numbers and underscores only."
 msgstr ""
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Major Outage"
 msgstr ""
 
@@ -1967,13 +1951,12 @@ msgid "Mark as mature"
 msgstr "تفعيل وضع البالغين فقط"
 
 #: components/app/interface/settings/channel/Overview.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 msgid "Mark as Mature"
 msgstr "للبالغين فقط"
 
-#: components/app/menus/ServerContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerContextMenu.tsx
 msgid "Mark as read"
 msgstr "حدده كمقروء"
 
@@ -1989,8 +1972,8 @@ msgstr "تفعيل وضع البالغين للقناة؟"
 msgid "Masquerade"
 msgstr "التَّنَكُّر"
 
-#: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/ServerSettings.tsx
 msgid "Members"
 msgstr "الأعضاء"
 
@@ -2025,7 +2008,6 @@ msgstr "المنشنات"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mentions Only"
 msgstr "عند ذكري فقط"
 
@@ -2033,9 +2015,8 @@ msgstr "عند ذكري فقط"
 msgid "Message"
 msgstr "راسِل"
 
-#. placeholder {0}: props.channel.recipient?.username
 #. placeholder {0}: props.channel.name
-#: src/interface/channels/text/Composition.tsx
+#. placeholder {0}: props.channel.recipient?.username
 #: src/interface/channels/text/Composition.tsx
 msgid "Message {0}"
 msgstr "مراسلة {0}"
@@ -2069,7 +2050,6 @@ msgid "Messaging"
 msgstr "المراسلة"
 
 #: components/app/interface/settings/user/Account.tsx
-#: components/app/interface/settings/user/Account.tsx
 msgid "MFA setup canceled."
 msgstr ""
 
@@ -2077,7 +2057,6 @@ msgstr ""
 msgid "Minimise to Tray"
 msgstr "تصغير البرنامج"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Missing permission"
 msgstr "صلاحية غير موجودة"
@@ -2099,7 +2078,6 @@ msgid "Move Members"
 msgstr "تحريك الأعضاء"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
 msgstr "نقل الاعضاء بين القنوات الصوتية"
 
@@ -2107,9 +2085,9 @@ msgstr "نقل الاعضاء بين القنوات الصوتية"
 msgid "Multi-factor authentication is already enabled for this account."
 msgstr "المصادقة المتعددة العوامل مفعلة مسبقا."
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
-#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/user/notifications/Sounds.tsx
+#: components/app/menus/UserContextMenu.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Mute"
 msgstr "كتم"
 
@@ -2117,7 +2095,6 @@ msgstr "كتم"
 msgid "Mute Channel"
 msgstr "كتم قناة"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
 msgstr "كتم صوت الأعضاء ذوي الرتب الأدنى في المكالمة الصوتية"
@@ -2138,9 +2115,9 @@ msgstr "كتم سيرفر"
 msgid "Muted"
 msgstr "مكتوم"
 
-#: src/interface/navigation/servers/ServerList.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted until <0/>"
 msgstr "مكتوم لحد <0/>"
 
@@ -2160,8 +2137,8 @@ msgstr "حسابي"
 msgid "My Bots"
 msgstr "البوتّات الخاصة بي"
 
-#: components/modal/modals/RenameSession.tsx
 #: components/modal/modals/CreateCategory.tsx
+#: components/modal/modals/RenameSession.tsx
 msgid "Name"
 msgstr "الاسم"
 
@@ -2178,8 +2155,12 @@ msgstr "جديد"
 msgid "New messages since {0}"
 msgstr "رسائل جديدة منذ {0}"
 
-#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditCategory.tsx
+msgid "New name"
+msgstr ""
+
 #: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
 msgid "New Password"
 msgstr "كلمة مرور جديدة"
 
@@ -2209,7 +2190,6 @@ msgstr "لا احد هنا في الوقت الحالي!"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
 msgstr "لا شيء"
 
@@ -2221,9 +2201,9 @@ msgstr "طبيعي"
 msgid "Not of minimum age to use the platform"
 msgstr "غير مستوف للحد الادنى العمري لهذه المنصة"
 
+#: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#: components/app/interface/settings/UserSettings.tsx
 msgid "Notifications"
 msgstr "الإشعارات"
 
@@ -2239,16 +2219,16 @@ msgstr "التواصل الرسمي"
 msgid "Official Server"
 msgstr "سيرفر رسمي"
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Offline"
 msgstr "غير متصل"
 
-#: components/modal/modals/SignedOut.tsx
-#: components/modal/modals/Error2.tsx
-#: components/modal/modals/CreateInvite.tsx
 #: components/auth/src/flows/FlowHome.tsx
+#: components/modal/modals/CreateInvite.tsx
+#: components/modal/modals/Error2.tsx
+#: components/modal/modals/SignedOut.tsx
 msgid "OK"
 msgstr "تأكيد"
 
@@ -2260,11 +2240,11 @@ msgstr "الأقدم"
 msgid "On"
 msgstr "مفعل"
 
-#: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteBot.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteServer.tsx
 msgid "Once it's deleted, there's no going back."
 msgstr "لا يمكن التراجع عن الحذف."
 
@@ -2272,21 +2252,25 @@ msgstr "لا يمكن التراجع عن الحذف."
 msgid "One of the first 1000 users!"
 msgstr "احد اول ١٠٠٠ مستخدم!"
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Ongoing Maintenance"
 msgstr ""
 
-#: src/interface/Friends.tsx
-#: src/interface/navigation/servers/UserMenu.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: components/ui/components/features/profiles/ProfileStatus.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/Friends.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Online"
 msgstr "متصل"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Only mentions will notify you"
 msgstr "سيصل اشعار للمنشنات فقط"
+
+#: components/instance/index.tsx
+msgid "Oops, something went wrong! {e}"
+msgstr ""
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2321,8 +2305,8 @@ msgstr "اخرى"
 msgid "Output Volume"
 msgstr "صوت السماعة"
 
-#: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/ChannelSettings.tsx
+#: components/app/interface/settings/ServerSettings.tsx
 msgid "Overview"
 msgstr "نظرة عامة"
 
@@ -2330,14 +2314,13 @@ msgstr "نظرة عامة"
 msgid "Pardon User"
 msgstr "العفو عن مستخدم"
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Partial Outage"
 msgstr ""
 
-#: components/modal/modals/MFAFlow.tsx
-#: components/modal/modals/MFAFlow.tsx
-#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Password"
 msgstr "كلمة المرور"
 
@@ -2365,8 +2348,8 @@ msgstr "اختر اسم مستخدم ليتمكن الآخرون من العثو
 msgid "Pin"
 msgstr ""
 
-#: components/modal/modals/PinMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
+#: components/modal/modals/PinMessage.tsx
 msgid "Pin message"
 msgstr "تثبيت رسالة"
 
@@ -2422,8 +2405,8 @@ msgstr "سياسة الخصوصية"
 msgid "Private Channel"
 msgstr "قناة خاصة"
 
-#: components/app/menus/UserContextMenu.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/menus/UserContextMenu.tsx
 msgid "Profile"
 msgstr "الملف الشخصي"
 
@@ -2435,8 +2418,8 @@ msgstr "وصف الملف الشخصي"
 msgid "Promotes harm"
 msgstr "يدعم السلوك الضار"
 
-#: components/modal/modals/ServerIdentity.tsx
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
+#: components/modal/modals/ServerIdentity.tsx
 msgid "Pronouns"
 msgstr ""
 
@@ -2448,8 +2431,8 @@ msgstr "البريد الإلكتروني أو كلمة المرور المدخ�
 msgid "Raid or spam attack"
 msgstr "هجوم أو رسائل مزعجة (سبام)"
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/menus/MessageContextMenu.tsx
 msgid "React"
 msgstr "تفاعل"
 
@@ -2473,9 +2456,9 @@ msgstr "قراءة الرسائل المرسلة سابقا في القناة"
 msgid "Read past messages sent in channels"
 msgstr "قراءة الرسائل المرسلة سابقا في القنوات"
 
-#: components/modal/modals/BanNonMember.tsx
-#: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/server/bans/ListBans.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/modal/modals/BanNonMember.tsx
 msgid "Reason"
 msgstr "السبب"
 
@@ -2499,7 +2482,6 @@ msgstr ""
 msgid "Reconnecting"
 msgstr "جار اعادة الاتصال"
 
-#: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 msgid "Recovery Code"
 msgstr "رمز الاسترجاع"
@@ -2528,6 +2510,14 @@ msgstr "رفض طلب الصداقة"
 msgid "Relevance"
 msgstr "الصلة"
 
+#: components/markdown/plugins/anchors.tsx
+msgid "Remote Channel"
+msgstr ""
+
+#: components/markdown/plugins/anchors.tsx
+msgid "Remote Server"
+msgstr ""
+
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove"
 msgstr ""
@@ -2548,8 +2538,8 @@ msgstr "إزالة الصور الرمزية"
 msgid "Remove friend"
 msgstr "إزالة الصديق"
 
-#: components/modal/modals/RemoveMember.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: components/modal/modals/RemoveMember.tsx
 msgid "Remove Member"
 msgstr ""
 
@@ -2561,15 +2551,14 @@ msgstr "حذف الصور الشخصية للاعضاء الاخرين"
 msgid "Remove reaction"
 msgstr "حذف التفاعل"
 
-#: components/modal/modals/RenameSession.tsx
+#: components/app/interface/settings/user/Sessions.tsx
 #: components/modal/modals/EditCategory.tsx
-#: components/app/interface/settings/user/Sessions.tsx
-#: components/app/interface/settings/user/Sessions.tsx
+#: components/modal/modals/RenameSession.tsx
 msgid "Rename"
 msgstr "اعادة تسمية"
 
-#: components/modal/modals/EditCategory.tsx
 #: components/app/menus/CategoryContextMenu.tsx
+#: components/modal/modals/EditCategory.tsx
 msgid "Rename category"
 msgstr "إعادة تسمية الفآت"
 
@@ -2589,8 +2578,8 @@ msgstr "ردّ"
 msgid "Replying to"
 msgstr "الرد على"
 
-#: components/modal/modals/ServerInfo.tsx
 #: components/modal/modals/ReportContent.tsx
+#: components/modal/modals/ServerInfo.tsx
 msgid "Report"
 msgstr "بلّغ"
 
@@ -2610,16 +2599,16 @@ msgstr "أبلغ عن مستخدم"
 msgid "Resend"
 msgstr "اعادة ارسال"
 
-#: components/auth/src/flows/FlowResend.tsx
 #: components/auth/src/flows/FlowLogin.tsx
+#: components/auth/src/flows/FlowResend.tsx
 msgid "Resend verification"
 msgstr "إعادة إرسال رسالة التحقق"
 
-#: components/ui/components/utils/Form2.tsx
-#: components/modal/modals/ResetBotToken.tsx
-#: components/modal/modals/MFARecovery.tsx
-#: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
+#: components/auth/src/flows/FlowReset.tsx
+#: components/modal/modals/MFARecovery.tsx
+#: components/modal/modals/ResetBotToken.tsx
+#: components/ui/components/utils/Form2.tsx
 msgid "Reset"
 msgstr "إعادة التعيين"
 
@@ -2628,9 +2617,9 @@ msgstr "إعادة التعيين"
 msgid "Reset {0}'s token?"
 msgstr "اعادة تعيين رمز {0}؟"
 
-#: components/auth/src/flows/FlowReset.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowConfirmReset.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/auth/src/flows/FlowReset.tsx
 msgid "Reset password"
 msgstr "أعد تعيين كلمة السر"
 
@@ -2669,23 +2658,23 @@ msgstr "مراجعة التغييرات في سياسة الاستخدام"
 msgid "Role Icon"
 msgstr ""
 
-#: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
+#: components/modal/modals/CreateRole.tsx
 msgid "Role Name"
 msgstr "اسم الرتبة"
 
-#: components/ui/components/features/profiles/ProfileRoles.tsx
 #: components/app/interface/settings/ServerSettings.tsx
+#: components/ui/components/features/profiles/ProfileRoles.tsx
 msgid "Roles"
 msgstr "الرُتب"
 
-#: components/modal/modals/ServerIdentity.tsx
-#: components/modal/modals/CustomStatus.tsx
-#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
-#: components/app/interface/settings/server/Overview.tsx
-#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
+#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
+#: components/modal/modals/CustomStatus.tsx
+#: components/modal/modals/ServerIdentity.tsx
 msgid "Save"
 msgstr "احفظ"
 
@@ -2697,9 +2686,8 @@ msgstr "حفظ الملف"
 msgid "Save to your notes"
 msgstr "الحفظ في ملاحظاتك"
 
-#: src/interface/navigation/channels/HomeSidebar.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/channels/ChannelHeader.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Saved Notes"
 msgstr "الملاحظات المحفوظة"
 
@@ -2707,8 +2695,8 @@ msgstr "الملاحظات المحفوظة"
 msgid "Scams or fraud"
 msgstr "الاحتيال أو الغش"
 
-#: components/modal/modals/ScreenShareSettings.tsx
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
 msgid "Screen Share Settings"
 msgstr ""
 
@@ -2724,8 +2712,8 @@ msgstr ""
 msgid "Search for groups..."
 msgstr "البحث عن مجموعات..."
 
-#: components/modal/modals/CreateGroup.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
+#: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
 msgstr "البحث عن مستخدمين..."
 
@@ -2781,7 +2769,6 @@ msgid "Send Messages"
 msgstr "إرسال الرسائل"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
 msgstr "ارسال رسائل في القناة"
 
@@ -2797,8 +2784,6 @@ msgstr "ارسال طلب صداقة"
 msgid "Sending..."
 msgstr "جار الارسال..."
 
-#: components/ui/components/features/messaging/elements/Container.tsx
-#: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Sent"
 msgstr "تم الارسال"
@@ -2840,8 +2825,8 @@ msgstr "ايقونة السيرفر"
 msgid "Server Identities"
 msgstr "هويات السيرفر"
 
-#: components/modal/modals/CreateServer.tsx
 #: components/app/interface/settings/server/Overview.tsx
+#: components/modal/modals/CreateServer.tsx
 msgid "Server Name"
 msgstr "اسم السيرفر"
 
@@ -2873,12 +2858,11 @@ msgstr "اعداد رموز الاسترجاع"
 msgid "Several people are typing…"
 msgstr "العديد من الأشخاص يكتبون…"
 
-#: components/modal/modals/ScreenShareSettings.tsx
 #: components/modal/modals/ScreenSharePicker.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
 msgid "Share audio"
 msgstr ""
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
 msgstr "تفعيل الكاميرا أو الشاشة في المكالمة الصوتية"
@@ -3160,7 +3144,7 @@ msgstr "هذه المجموعة كبيرة جدا، يمكنها أن تحتوي
 msgid "This has already been sent."
 msgstr "تم إرسال هذا بالفعل‫."
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "This is taking longer than usual."
 msgstr ""
 
@@ -3240,7 +3224,7 @@ msgstr "تقليدي (يوم/شهر/عام)"
 msgid "Trending GIFs"
 msgstr "صور GIF مشهورة حاليا"
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Troubleshooting"
 msgstr ""
 
@@ -3253,18 +3237,17 @@ msgstr "فك الحظر"
 msgid "Uncaught Stoat error: {0}"
 msgstr "خطأ Staot غير مراقب: {0}"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/interface/settings/user/notifications/Sounds.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Undeafen"
 msgstr ""
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "Unknown"
 msgstr ""
 
-#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
-#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 #: components/markdown/plugins/anchors.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "Unknown Server"
 msgstr "سيرفر غير معرف"
 
@@ -3280,8 +3263,8 @@ msgstr "إلغاء علامة مخصص للبالغين"
 msgid "Unmark this channel as mature?"
 msgstr "هل تريد إلغاء علامة البالغين لهذه القناة؟"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/interface/settings/user/notifications/Sounds.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Unmute"
 msgstr ""
 
@@ -3297,8 +3280,8 @@ msgstr "إلغاء كتم السيرفر"
 msgid "Unpin"
 msgstr ""
 
-#: components/modal/modals/PinMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
+#: components/modal/modals/PinMessage.tsx
 msgid "Unpin message"
 msgstr "إلغاء تثبيت الرسالة"
 
@@ -3320,7 +3303,6 @@ msgid "Upload Files"
 msgstr "رفع الملفات"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
-#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Upload to Gifbox"
 msgstr ""
 
@@ -3340,8 +3322,8 @@ msgstr "المستخدم"
 msgid "User Banned"
 msgstr "تم حظر المستخدم"
 
-#: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/BanMember.tsx
+#: components/modal/modals/BanNonMember.tsx
 msgid "User broke a certain rule…"
 msgstr "قام المستخد بخرق قانون معين…"
 
@@ -3377,13 +3359,13 @@ msgstr "إعدادات المستخدم"
 msgid "User's profile has inappropriate content"
 msgstr "تحتوي صفحة تعريف المستخدم على محتوى غير لائق"
 
-#: components/modal/modals/Onboarding.tsx
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EditBotUsername.tsx
-#: components/modal/modals/CreateBot.tsx
-#: components/modal/modals/AddFriend.tsx
-#: components/auth/src/flows/Form.tsx
 #: components/app/interface/settings/user/Account.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/AddFriend.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/EditBotUsername.tsx
+#: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/Onboarding.tsx
 msgid "Username"
 msgstr "‌اسم المستخدم"
 
@@ -3419,8 +3401,8 @@ msgstr "تم التحقق منه"
 msgid "Verifying your account…"
 msgstr "جار التحقق من حسابك…"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/user/Native.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Version:"
 msgstr "إصدار:"
 
@@ -3451,7 +3433,7 @@ msgstr "رأية الرسائل المثبتة"
 msgid "View Recovery Codes"
 msgstr "عرض رموز الاسترجاع"
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "View status page"
 msgstr ""
 
@@ -3459,8 +3441,8 @@ msgstr ""
 msgid "Viewing older messages"
 msgstr "ما معروض هو رسائل قديمة"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Voice"
 msgstr "صوت"
 
@@ -3500,8 +3482,8 @@ msgstr "Webhook"
 msgid "Webhook Icon"
 msgstr "أيقونة Webhook"
 
-#: components/modal/modals/CreateWebhook.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
+#: components/modal/modals/CreateWebhook.tsx
 msgid "Webhook Name"
 msgstr "إسم Webhook"
 
@@ -3545,10 +3527,10 @@ msgstr "هل تريد إنشاء سيرفر جديد أو الإنضمام إل�
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
 msgstr "أنت توافق على أن البوت الخاص بك يخضع لسياسة الاستخدام المقبول."
 
-#. placeholder {0}: props.user?.username
 #. placeholder {0}: props.member.user?.username
-#: components/modal/modals/BanNonMember.tsx
+#. placeholder {0}: props.user?.username
 #: components/modal/modals/BanMember.tsx
+#: components/modal/modals/BanNonMember.tsx
 msgid "You are about to ban {0}"
 msgstr "أنت على وشك حظر {0}"
 
@@ -3572,10 +3554,8 @@ msgstr "بإمكانك أيضا الضغط على أيقونة الترس في �
 msgid "You can re-open it later, but it will disappear on both sides."
 msgstr "يمكنك فتحها لاحقاً ولكنها ستختفي من كِلا الطرفين."
 
-#: src/interface/Home.tsx
-#: src/interface/Home.tsx
 #: components/app/interface/settings/user/Feedback.tsx
-#: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "يمكنك الإبلاغ عن أية مشاكل ومناقشة التحسينات معنا مباشرةً هنا."
 
@@ -3639,7 +3619,7 @@ msgstr "تم طردك بسبب كتابتك لكلمة السر الخاطئة �
 msgid "You have this user blocked."
 msgstr "قمت بحضر هذا المستخدم."
 
-#: src/LoadingScreen.tsx
+#: components/ui/components/design/LoadingScreen.tsx
 msgid "You may be experiencing connection issues."
 msgstr ""
 
@@ -3659,8 +3639,8 @@ msgstr "لن تتحصل على أية إشعارات"
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
 msgstr "لن يكن لك القدرة أن تستخدم حسابك إلا إذا اتصلت بالدعم لكن بياناتك لن تحذف."
 
-#: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/LeaveServer.tsx
 msgid "You won't be able to rejoin unless you are re-invited."
 msgstr "لن تتمكن من الانضمام مجدداً ما لم تتم دعوتك مرة أُخرى."
 
@@ -3668,8 +3648,8 @@ msgstr "لن تتمكن من الانضمام مجدداً ما لم تتم دع
 msgid "You're already part of this group."
 msgstr "أنت بالفعل متواجد في هذه المجموعة."
 
-#: components/modal/modals/Invite.tsx
 #: components/i18n/errors.tsx
+#: components/modal/modals/Invite.tsx
 msgid "You're already part of this server."
 msgstr "أنت بالفعل موجود في هذا السيرفر."
 

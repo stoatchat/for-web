@@ -1,4 +1,4 @@
-import { lingui as linguiSolidPlugin } from "@lingui-solid/vite-plugin";
+import { lingui as linguiSolidPlugin } from "@lingui/vite-plugin";
 import devtools from "@solid-devtools/transform";
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";

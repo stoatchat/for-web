@@ -1,7 +1,7 @@
 import type { JSX } from "solid-js";
 
-import { I18nProvider as LinguiProvider } from "@lingui-solid/solid";
 import { i18n } from "@lingui/core";
+import { I18nProvider as LinguiProvider } from "@lingui/solid";
 
 import { type LocaleOptions, Language, Languages } from "./Languages";
 import { messages as en } from "./catalogs/en/messages";

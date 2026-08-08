@@ -1,4 +1,4 @@
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { useBeforeLeave, useNavigate, useParams } from "@solidjs/router";
 import {
   createContext,

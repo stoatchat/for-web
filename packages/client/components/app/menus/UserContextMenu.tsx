@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
 import { type JSX, Match, Show, Switch } from "solid-js";
 import type { Channel, Message, ServerMember, User } from "stoat.js";

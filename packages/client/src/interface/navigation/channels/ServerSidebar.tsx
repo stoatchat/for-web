@@ -9,7 +9,7 @@ import {
   createMemo,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
