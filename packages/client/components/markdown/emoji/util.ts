@@ -36,9 +36,11 @@ export function injectEmojiSize(
   const content = props.content ?? "";
 
   // inject emoji size information
+  // (there is no first child when content renders to nothing,
+  //  such as a message containing only link reference definitions)
   const properties = (
     hastNode as { children?: { properties: Record<string, string> }[] }
-  ).children?.[0].properties;
+  ).children?.[0]?.properties;
 
   // inject custom property
   if (properties) {
