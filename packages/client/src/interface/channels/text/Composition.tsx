@@ -13,7 +13,6 @@ import {
 
 import { useLingui } from "@lingui-solid/solid/macro";
 import { Channel } from "stoat.js";
-import { UserSlowmodes } from "stoat.js/lib/events/v1";
 
 import { styled } from "styled-system/jsx";
 
@@ -61,10 +60,6 @@ export function MessageComposition(props: Props) {
   const { openModal } = useModals();
   const durationFormat = useDurationFormat();
 
-  const currentSlowmode = (): UserSlowmodes | undefined => {
-    return client().userSlowmodes.get(props.channel.id);
-  };
-
   const isSlowmodeExempt = (): boolean => {
     return props.channel.havePermission("BypassSlowmode");
   };
@@ -72,7 +67,7 @@ export function MessageComposition(props: Props) {
   const slowmodeCountdown = createMemo(() => {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
 
-    const entry = currentSlowmode();
+    const entry = props.channel.userSlowmode();
     if (!entry) return;
 
     const receivedAt = entry.receivedAt ?? Date.now();
@@ -147,7 +142,7 @@ export function MessageComposition(props: Props) {
 
     const tooLong = messageLength() > maxMessageLength();
 
-    const isSlowmode = currentSlowmode();
+    const isSlowmode = props.channel.userSlowmode();
 
     return (
       !tooLong &&
@@ -242,7 +237,7 @@ export function MessageComposition(props: Props) {
   async function sendMessage(useContent?: unknown) {
     if (!canSend() && typeof useContent !== "string") {
       return;
-    } else if (currentSlowmode()) {
+    } else if (props.channel.userSlowmode()) {
       return;
     }
     stopTyping();
