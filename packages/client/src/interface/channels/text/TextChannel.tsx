@@ -184,7 +184,6 @@ export function TextChannel(props: ChannelPageProps) {
         props.channel.type === "TextChannel" &&
         props.channel.server?.syncMembers(
           LARGE_SERVERS.includes(serverId) ? true : false,
-          200,
         ),
     ),
   );
