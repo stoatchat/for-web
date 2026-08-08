@@ -15,8 +15,23 @@ const getEnv = (name: string, devOnly?: boolean) =>
     ? (import.meta.env[name] as string)
     : undefined;
 
-const DEFAULT_HOST =
-  getEnv("VITE_DEV_HOST", true) || getEnv("VITE_HOST") || STOAT_HOST;
+/** If host is Stoat, normalize to STOAT_HOST, else return host */
+export const normalizeHost = (host: string) =>
+  [
+    // historically...
+    "api.revolt.chat",
+    "beta.revolt.chat",
+    "revolt.chat",
+    // ... and now:
+    "api.stoat.chat",
+    "beta.stoat.chat",
+  ].includes(host)
+    ? STOAT_HOST
+    : host;
+
+const DEFAULT_HOST = normalizeHost(
+  getEnv("VITE_DEV_HOST", true) || getEnv("VITE_HOST") || STOAT_HOST,
+);
 
 const DEFAULT_API_URL =
   getEnv("VITE_DEV_API_URL", true) || getEnv("VITE_API_URL") || STOAT_API;
