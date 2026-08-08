@@ -76,14 +76,6 @@ export function Symbol(rawProps: Props & HTMLStyledProps<"span">) {
     <styled.span
       class={`material-symbols-${local.type ?? "outlined"} ${memoClassName()}`}
       style={{
-        display: "flex",
-        "align-items": "center",
-        "justify-content": "center",
-        width: local.size ? `${local.size}px` : undefined,
-        height: local.size ? `${local.size}px` : undefined,
-        "flex-grow": 0,
-        "flex-shrink": 0,
-        "line-height": "1",
         "font-variation-settings": memoFontVarSettings(),
         "font-size": local.size ? `${local.size}px` : undefined,
       }}

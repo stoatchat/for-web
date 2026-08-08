@@ -8,6 +8,7 @@ import { useModals } from "@revolt/modal";
 import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Slider, Symbol, Text } from "@revolt/ui";
+import { styled } from "styled-system/jsx";
 
 import {
   ContextMenu,
@@ -306,9 +307,11 @@ export function UserContextMenu(props: {
         </ContextMenuButton>
         <ContextMenuButton
           symbol={
-            <Symbol size={16} fill={state.voice.getUserMuted(props.user.id)}>
-              mic_off
-            </Symbol>
+            <IconSlot>
+              <Symbol size={16} fill={state.voice.getUserMuted(props.user.id)}>
+                mic_off
+              </Symbol>
+            </IconSlot>
           }
           onClick={() =>
             state.voice.setUserMuted(
@@ -317,11 +320,11 @@ export function UserContextMenu(props: {
             )
           }
           actionSymbol={
-            state.voice.getUserMuted(props.user.id) ? (
-              <Symbol size={16}>check_box</Symbol>
-            ) : (
-              <Symbol size={16}>check_box_outline_blank</Symbol>
-            )
+            <IconSlot>
+              state.voice.getUserMuted(props.user.id) ? (
+              <Symbol size={16}>check_box</Symbol>) : (
+              <Symbol size={16}>check_box_outline_blank</Symbol>)
+            </IconSlot>
           }
         >
           <Trans>Mute</Trans>
@@ -352,12 +355,14 @@ export function UserContextMenu(props: {
         </ContextMenuButton>
         <ContextMenuButton
           symbol={
-            <Symbol
-              size={16}
-              fill={state.voice.getScreenShareMuted(props.user.id)}
-            >
-              mic_off
-            </Symbol>
+            <IconSlot>
+              <Symbol
+                size={16}
+                fill={state.voice.getScreenShareMuted(props.user.id)}
+              >
+                mic_off
+              </Symbol>
+            </IconSlot>
           }
           onClick={() =>
             state.voice.setScreenShareMuted(
@@ -366,11 +371,11 @@ export function UserContextMenu(props: {
             )
           }
           actionSymbol={
-            state.voice.getScreenShareMuted(props.user.id) ? (
-              <Symbol size={16}>check_box</Symbol>
-            ) : (
-              <Symbol size={16}>check_box_outline_blank</Symbol>
-            )
+            <IconSlot>
+              state.voice.getScreenShareMuted(props.user.id) ? (
+              <Symbol size={16}>check_box</Symbol>) : (
+              <Symbol size={16}>check_box_outline_blank</Symbol>)
+            </IconSlot>
           }
         >
           <Trans>Mute Screen Share</Trans>
@@ -382,7 +387,11 @@ export function UserContextMenu(props: {
       {/* Quick actions: Profile, Message, Mention */}
       <Show when={!isProfileOpen()}>
         <ContextMenuButton
-          symbol={<Symbol size={16}>account_circle</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>account_circle</Symbol>
+            </IconSlot>
+          }
           onClick={openProfile}
         >
           <Trans>Profile</Trans>
@@ -390,7 +399,11 @@ export function UserContextMenu(props: {
       </Show>
       <Show when={props.user.relationship === "Friend" || props.user.bot}>
         <ContextMenuButton
-          symbol={<Symbol size={16}>chat</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>chat</Symbol>
+            </IconSlot>
+          }
           onClick={openDm}
         >
           <Trans>Message</Trans>
@@ -398,7 +411,11 @@ export function UserContextMenu(props: {
       </Show>
       <Show when={props.channel?.type === "TextChannel"}>
         <ContextMenuButton
-          symbol={<Symbol size={16}>alternate_email</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>alternate_email</Symbol>
+            </IconSlot>
+          }
           onClick={mention}
         >
           <Trans>Mention</Trans>
@@ -409,7 +426,11 @@ export function UserContextMenu(props: {
       <Show when={props.channel?.type === "DirectMessage"}>
         <ContextMenuDivider />
         <ContextMenuButton
-          symbol={<Symbol size={16}>close</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>close</Symbol>
+            </IconSlot>
+          }
           onClick={closeDm}
           destructive
         >
@@ -423,7 +444,11 @@ export function UserContextMenu(props: {
         <ContextMenuDivider />
         <Show when={canEditIdentity()}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>face</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>face</Symbol>
+              </IconSlot>
+            }
             onClick={editIdentity}
           >
             <Switch fallback={<Trans>Edit identity</Trans>}>
@@ -435,7 +460,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={canEditRoles()}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>assignment_ind</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>assignment_ind</Symbol>
+              </IconSlot>
+            }
             onClick={editRoles}
           >
             <Trans>Edit roles</Trans>
@@ -456,7 +485,11 @@ export function UserContextMenu(props: {
         <ContextMenuDivider />
         <Show when={props.user.relationship === "None"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>person_add_alt</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>person_add_alt</Symbol>
+              </IconSlot>
+            }
             onClick={addFriend}
           >
             <Trans>Add friend</Trans>
@@ -464,13 +497,21 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={props.user.relationship === "Incoming"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>person_add_alt</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>person_add_alt</Symbol>
+              </IconSlot>
+            }
             onClick={addFriend}
           >
             <Trans>Accept friend request</Trans>
           </ContextMenuButton>
           <ContextMenuButton
-            symbol={<Symbol size={16}>cancel</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>cancel</Symbol>
+              </IconSlot>
+            }
             onClick={removeFriend}
             destructive
           >
@@ -479,7 +520,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={props.user.relationship === "Outgoing"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>cancel</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>cancel</Symbol>
+              </IconSlot>
+            }
             onClick={removeFriend}
             destructive
           >
@@ -499,7 +544,11 @@ export function UserContextMenu(props: {
         <ContextMenuDivider />
         <Show when={canRemoveMemberFromGroup()}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>person_remove</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>person_remove</Symbol>
+              </IconSlot>
+            }
             onClick={removeMember}
             destructive
           >
@@ -508,7 +557,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={canKick()}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>person_remove</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>person_remove</Symbol>
+              </IconSlot>
+            }
             onClick={kickMember}
             destructive
           >
@@ -517,7 +570,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={canBan()}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>do_not_disturb_on</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>do_not_disturb_on</Symbol>
+              </IconSlot>
+            }
             onClick={banMember}
             destructive
           >
@@ -528,7 +585,11 @@ export function UserContextMenu(props: {
       <Show when={canBanNonMember()}>
         <ContextMenuDivider />
         <ContextMenuButton
-          symbol={<Symbol size={16}>do_not_disturb_on</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>do_not_disturb_on</Symbol>
+            </IconSlot>
+          }
           onClick={banUser}
           destructive
         >
@@ -541,7 +602,11 @@ export function UserContextMenu(props: {
         <ContextMenuDivider />
         <Show when={props.user.relationship === "Friend"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>person_remove</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>person_remove</Symbol>
+              </IconSlot>
+            }
             onClick={removeFriend}
             destructive
           >
@@ -550,7 +615,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={props.user.relationship !== "Blocked"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>block</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>block</Symbol>
+              </IconSlot>
+            }
             onClick={blockUser}
             destructive
           >
@@ -559,7 +628,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={props.user.relationship === "Blocked"}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>add_circle_outline</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>add_circle_outline</Symbol>
+              </IconSlot>
+            }
             onClick={unblockUser}
           >
             <Trans>Unblock user</Trans>
@@ -567,7 +640,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={!props.user.privileged}>
           <ContextMenuButton
-            symbol={<Symbol size={16}>report</Symbol>}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>report</Symbol>
+              </IconSlot>
+            }
             onClick={reportUser}
             destructive
           >
@@ -587,7 +664,11 @@ export function UserContextMenu(props: {
       </Show>
       <Show when={state.settings.getValue("advanced:admin_panel")}>
         <ContextMenuButton
-          symbol={<Symbol size={16}>admin_panel_settings</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>admin_panel_settings</Symbol>
+            </IconSlot>
+          }
           onClick={openAdminPanel}
         >
           <Trans>Admin Panel</Trans>
@@ -595,7 +676,11 @@ export function UserContextMenu(props: {
       </Show>
       <Show when={state.settings.getValue("advanced:copy_id")}>
         <ContextMenuButton
-          symbol={<Symbol size={16}>badge</Symbol>}
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>badge</Symbol>
+            </IconSlot>
+          }
           onClick={copyId}
         >
           <Trans>Copy user ID</Trans>
@@ -645,3 +730,14 @@ export function floatingUserMenusFromMessage(message: Message) {
     ? floatingUserMenus(message.author!, message.member, message)
     : {}; // TODO: webhook menu
 }
+
+const IconSlot = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "16px",
+    height: "16px",
+    flexShrink: 0,
+  },
+});
