@@ -374,4 +374,7 @@ export type Modals =
     }
   | {
       type: "swap_user";
+    }
+  | {
+      type: "share_to";
     };

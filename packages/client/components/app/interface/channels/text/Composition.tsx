@@ -5,6 +5,7 @@ import {
   For,
   on,
   onCleanup,
+  Setter,
   Show,
 } from "solid-js";
 
@@ -41,6 +42,13 @@ interface Props {
    * Notify parent component when a message is sent
    */
   onMessageSend?: () => void;
+
+  setInfoText: Setter<string | undefined>;
+}
+
+/** Externally accessible methods */
+export interface Composer {
+  onFiles: (files: File[], shares?: Channel[]) => void;
 }
 
 /**
@@ -77,6 +85,8 @@ export function MessageComposition(props: Props) {
   const maxMessageLength = () => limits().message_length;
   const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
+
+  let shareDests: Channel[] | undefined;
 
   // Can the user upload files here?
   const canUploadFiles = createMemo(() => {
@@ -187,11 +197,11 @@ export function MessageComposition(props: Props) {
    * @param useContent Content to send
    */
   async function sendMessage(useContent?: unknown) {
-    if (!canSend() && typeof useContent !== "string") {
+    if (
+      (!canSend() && typeof useContent !== "string") ||
+      props.channel.userSlowmode()
+    )
       return;
-    } else if (props.channel.userSlowmode()) {
-      return;
-    }
     stopTyping();
     props.onMessageSend?.();
 
@@ -206,9 +216,17 @@ export function MessageComposition(props: Props) {
           ...currentDraft,
           content: useContent,
         });
-        return state.draft.sendDraft(client(), props.channel);
+      } else {
+        return props.channel.sendMessage(useContent);
       }
-      return props.channel.sendMessage(useContent);
+    } else if (shareDests) {
+      const currentDraft = JSON.parse(JSON.stringify(draft()));
+      for (const chan of shareDests) {
+        //TODO Only upload attachments once, get the URLs, and send those to the other users
+        state.draft.setDraft(chan.id, currentDraft);
+        state.draft.sendDraft(client(), chan);
+      }
+      return props.setInfoText((shareDests = undefined));
     }
 
     state.draft.sendDraft(client(), props.channel);
@@ -226,50 +244,43 @@ export function MessageComposition(props: Props) {
    * Handle files being added to the draft.
    * @param files List of files
    */
-  function onFiles(files: File[]) {
+  function onFiles(files: File[], shares?: Channel[]) {
     if (!canUploadFiles()) return;
-
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
     const maxSize = limits().file_upload_size_limits.attachments;
 
     for (const file of files) {
-      if (file.size > maxSize) {
-        console.log("File too large:", file);
-        rejectedFiles.push(file);
-      } else {
-        validFiles.push(file);
-      }
+      if (file.size > maxSize) rejectedFiles.push(file);
+      else validFiles.push(file);
     }
 
     if (rejectedFiles.length > 0) {
       const maxSizeFormatted = humanFileSize(maxSize);
-
+      let error;
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];
         const fileSize = humanFileSize(file.size);
-        const error = new Error(
+        error = new Error(
           t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`,
         );
         error.name = "File too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       } else {
-        const error = new Error(
+        error = new Error(
           t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`,
         );
         error.name = "Files too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       }
+      openModal({ type: "error2", error });
     }
 
     for (const file of validFiles) {
       state.draft.addFile(props.channel.id, file);
+    }
+
+    if (validFiles.length && shares?.length) {
+      props.setInfoText(t`Sharing to ${shares.length} users.`);
+      shareDests = shares;
     }
   }
 
@@ -293,8 +304,7 @@ export function MessageComposition(props: Props) {
       input.remove();
 
       // Skip execution if no files specified
-      if (!files) return;
-      onFiles([...files]);
+      if (files) onFiles([...files]);
     });
 
     // iOS requires us to append the file input
@@ -309,6 +319,8 @@ export function MessageComposition(props: Props) {
    */
   function removeFile(fileId: string) {
     state.draft.removeFile(props.channel.id, fileId);
+    if (shareDests && !draft().files?.length)
+      props.setInfoText((shareDests = undefined));
   }
 
   /**
@@ -328,6 +340,8 @@ export function MessageComposition(props: Props) {
   }
 
   const searchSpace = useSearchSpace(() => props.channel, client);
+
+  state.setComposer({ onFiles });
 
   return (
     <>
@@ -377,7 +391,7 @@ export function MessageComposition(props: Props) {
       <MessageBox
         initialValue={initialValue()}
         nodeReplacement={nodeReplacement()}
-        onSendMessage={() => sendMessage()}
+        onSendMessage={sendMessage}
         onTyping={delayedStopTyping}
         onEditLastMessage={() => state.draft.setEditingMessage(true)}
         content={draft()?.content ?? ""}
