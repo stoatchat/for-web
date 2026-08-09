@@ -48,7 +48,6 @@ export default defineConfig({
         categories: ["communication", "chat", "messaging"],
         start_url: base,
         scope: pwaScope,
-        orientation: "any",
         display_override: ["window-controls-overlay"],
         display: "standalone",
         background_color: "#101823",

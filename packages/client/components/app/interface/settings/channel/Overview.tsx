@@ -5,6 +5,7 @@ import { Trans, useLingui } from "@lingui-solid/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useDurationFormat } from "@revolt/i18n/durations";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
@@ -27,6 +28,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
   const client = useClient();
   const { openModal } = useModals();
   const instance = useInstance();
+  const duration = useDurationFormat();
 
   /* eslint-disable solid/reactivity */
   // we want to take the initial value only
@@ -109,10 +111,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Form2.FileInput
             control={editGroup.controls.icon}
             accept="image/*"
-            maxSize={
-              client().configuration?.features.limits.default
-                .file_upload_size_limits["icons"] ?? 2.5e6
-            }
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
           <Form2.TextField
             minlength={1}
@@ -140,36 +139,16 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
               <MenuItem value="0">
                 <Trans>Slowmode off</Trans>
               </MenuItem>
-              <MenuItem value="5">
-                <Trans>5 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="10">
-                <Trans>10 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="30">
-                <Trans>30 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="60">
-                <Trans>1 minute</Trans>
-              </MenuItem>
-              <MenuItem value="300">
-                <Trans>5 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="600">
-                <Trans>10 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="1800">
-                <Trans>30 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="3600">
-                <Trans>1 hour</Trans>
-              </MenuItem>
-              <MenuItem value="7200">
-                <Trans>2 hours</Trans>
-              </MenuItem>
-              <MenuItem value="21600">
-                <Trans>6 hours</Trans>
-              </MenuItem>
+              <MenuItem value="5">{duration({ seconds: 5 })}</MenuItem>
+              <MenuItem value="10">{duration({ seconds: 10 })}</MenuItem>
+              <MenuItem value="30">{duration({ seconds: 30 })}</MenuItem>
+              <MenuItem value="60">{duration({ minutes: 1 })}</MenuItem>
+              <MenuItem value="300">{duration({ minutes: 5 })}</MenuItem>
+              <MenuItem value="600">{duration({ minutes: 10 })}</MenuItem>
+              <MenuItem value="1800">{duration({ minutes: 30 })}</MenuItem>
+              <MenuItem value="3600">{duration({ hours: 1 })}</MenuItem>
+              <MenuItem value="7200">{duration({ hours: 2 })}</MenuItem>
+              <MenuItem value="21600">{duration({ hours: 6 })}</MenuItem>
             </Form2.Select>
           </Show>
           <Row>

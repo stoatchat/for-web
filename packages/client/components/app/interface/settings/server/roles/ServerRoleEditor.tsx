@@ -204,6 +204,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             accept="image/*"
             label={t`Role Icon`}
             imageJustify={false}
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
 
           <Column>

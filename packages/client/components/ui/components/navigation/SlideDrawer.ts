@@ -28,7 +28,7 @@ type TrackTouch = {
   vOfs?: number;
 };
 
-export enum SlideState {
+export const enum SlideState {
   HIDDEN = 1,
   SHOWN,
   HIDING,
