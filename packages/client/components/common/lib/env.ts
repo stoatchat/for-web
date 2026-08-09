@@ -1,5 +1,5 @@
 export const STOAT_HOST = "stoat.chat";
-export const STOAT_API = "https://api.stoat.chat";
+const STOAT_API = "https://api.stoat.chat";
 
 /** App `stoat.json` endpoint format */
 export interface AppConfig {
@@ -29,6 +29,15 @@ export const normalizeHost = (host: string) =>
     ? STOAT_HOST
     : host;
 
+export const isStoatOfficialAPI = (api: string) =>
+  [
+    "https://api.revolt.chat",
+    "https://api.stoat.chat",
+    "https://stoat.chat/api",
+    "https://beta.stoat.chat/api",
+    "canary-api.stoat.chat",
+  ].includes(api);
+
 const DEFAULT_HOST = normalizeHost(
   getEnv("VITE_DEV_HOST", true) || getEnv("VITE_HOST") || STOAT_HOST,
 );
@@ -36,8 +45,8 @@ const DEFAULT_HOST = normalizeHost(
 const DEFAULT_API_URL =
   getEnv("VITE_DEV_API_URL", true) || getEnv("VITE_API_URL") || STOAT_API;
 
-if (DEFAULT_API_URL !== STOAT_API && DEFAULT_HOST === STOAT_HOST)
-  throw "VITE_HOST required when VITE_API_URL is set!";
+if (!isStoatOfficialAPI(DEFAULT_API_URL) && DEFAULT_HOST === STOAT_HOST)
+  console.error("VITE_HOST required when VITE_API_URL is set!");
 
 export default {
   /** Default instance (without the protocol) */
