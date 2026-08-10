@@ -1,4 +1,3 @@
-import extractor from "@lingui/babel-plugin-extract-messages";
 import { LinguiConfig } from "@lingui/conf";
 import { formatter } from "@lingui/format-po";
 import { defineConfig } from "@lingui/solid/config";
@@ -18,7 +17,6 @@ export default defineConfig({
   runtimeConfigModule: {
     Trans: ["@lingui/solid", "Trans"],
     useLingui: ["@lingui/solid", "useLingui"],
-    extractors: [extractor],
   },
   format: formatter({
     origins: true,

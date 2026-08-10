@@ -22,8 +22,12 @@ export default defineConfig({
     devtools(),
     codegenPlugin(),
     babelMacrosPlugin(),
+    solidPlugin({
+      babel: {
+        plugins: ["@lingui/babel-plugin-lingui-macro"],
+      },
+    }),
     linguiSolidPlugin(),
-    solidPlugin(),
     solidSvg({
       defaultAsComponent: false,
     }),
