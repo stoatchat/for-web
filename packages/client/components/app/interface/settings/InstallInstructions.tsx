@@ -1,6 +1,6 @@
 import { createEffect, createSignal, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { useDevice } from "@revolt/common";
