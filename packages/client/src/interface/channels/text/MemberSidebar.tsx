@@ -1,13 +1,13 @@
 import { createMemo, Match, Show, Switch } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
-import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
 import { useClient } from "@revolt/client";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { TextWithEmoji } from "@revolt/markdown";
 import { userInformation } from "@revolt/markdown/users";
 import {
@@ -16,6 +16,7 @@ import {
   MenuButton,
   OverflowingText,
   Row,
+  Symbol,
   Tooltip,
   typography,
   Username,
@@ -382,13 +383,6 @@ const NameStatusStack = styled("div", {
   },
 });
 
-/**
- * Whether a member is currently timed out
- */
-function isInTimeout(member?: ServerMember): boolean {
-  return !!member?.timeout && member.timeout.getTime() > Date.now();
-}
-
 function Member(props: {
   user?: User;
   member?: ServerMember;
@@ -402,7 +396,12 @@ function Member(props: {
   const user = () =>
     userInformation((props.user ?? props.member?.user)!, props.member);
 
-  const timedOut = () => isInTimeout(props.member);
+  const timedOut = createIsTimedOut(() => props.member?.timeout);
+
+  const moderationPerms = props.member?.server?.member?.hasPermission(
+    props.member.server! ?? props.group!,
+    "TimeoutMembers",
+  );
 
   const status = () =>
     (props.user ?? props.member?.user)?.statusMessage((s) =>
@@ -433,7 +432,11 @@ function Member(props: {
           (props.user ?? props.member?.user)?.online ? "active" : "muted"
         }
         icon={
-          <div style={{ opacity: timedOut() ? 0.5 : 1 }}>
+          <div
+            style={{
+              opacity: timedOut() && moderationPerms ? 0.5 : 1,
+            }}
+          >
             <Avatar
               src={user().avatar}
               size={32}
@@ -451,12 +454,12 @@ function Member(props: {
           <OverflowingText>
             <Row align gap="xs">
               <Username username={user().username} colour={user().colour!} />
-              <Show when={timedOut()}>
+              <Show when={timedOut() && moderationPerms}>
                 <Tooltip
                   content={t`Timed out until ${props.member!.timeout!.toLocaleString()}`}
                   placement="top"
                 >
-                  <MdTimerOff width={14} height={14} />
+                  <Symbol size={14}>timer_off</Symbol>
                 </Tooltip>
               </Show>
             </Row>

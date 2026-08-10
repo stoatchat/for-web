@@ -18,9 +18,10 @@ import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { useDurationFormat } from "@revolt/i18n/durations";
 import { useInstance } from "@revolt/instance";
-import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -114,26 +115,9 @@ export function MessageComposition(props: Props) {
     return durationFormat({ seconds: sec, minutes: m, hours: h });
   });
 
-  const member = () => props.channel.server?.member;
-
-  const [now, setNow] = createSignal(Date.now());
-
-  createTimer(
-    () => setNow(Date.now()),
-    () => {
-      const until = member()?.timeout;
-      if (!until) return false;
-
-      const remaining = until.getTime() - Date.now();
-      return remaining > 0 ? remaining + 100 : false;
-    },
-    setTimeout,
+  const isTimedOut = createIsTimedOut(
+    () => props.channel.server?.member?.timeout,
   );
-
-  const isTimedOut = createMemo(() => {
-    const until = member()?.timeout;
-    return !!until && until.getTime() > now();
-  });
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
