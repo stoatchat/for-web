@@ -23,6 +23,7 @@ export function ProfileActions(props: {
 
   user: User;
   member?: ServerMember;
+  onClose: () => void;
 }) {
   const navigate = useNavigate();
   const client = useClient();
@@ -41,7 +42,8 @@ export function ProfileActions(props: {
    * Open direct message channel
    */
   function openDm() {
-    props.user.openDM().then((channel) => navigate(channel.url));
+    props.user.openDM().then((channel) => navigate(channel.path));
+    props.onClose();
   }
 
   /**
@@ -53,6 +55,7 @@ export function ProfileActions(props: {
         ? { type: "server_identity", member: props.member }
         : { type: "settings", config: "user" },
     );
+    if (!props.member) props.onClose();
   }
 
   return (
@@ -109,7 +112,11 @@ export function ProfileActions(props: {
       <IconButton
         use:floating={{
           contextMenu: () => (
-            <UserContextMenu user={props.user} member={props.member} />
+            <UserContextMenu
+              user={props.user}
+              member={props.member}
+              onClose={props.onClose}
+            />
           ),
           contextMenuHandler: "click",
         }}

@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import type { API } from "stoat.js";
 import { Channel, Server } from "stoat.js";
 
@@ -40,6 +40,17 @@ export function CategoryContextMenu(props: {
     props.category.channels
       .filter((channel) => channel.unread)
       .forEach((channel) => channel.ack());
+  }
+
+  /**
+   * Create a new channel
+   */
+  function createChannel() {
+    openModal({
+      type: "create_channel",
+      server: props.server,
+      categoryId: props.category.id,
+    });
   }
 
   /**
@@ -95,19 +106,18 @@ export function CategoryContextMenu(props: {
       </Show>
 
       <Show when={props.server.havePermission("ManageChannel")}>
+        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+          <Trans>Create channel</Trans>
+        </ContextMenuButton>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
           <Trans>Create category</Trans>
         </ContextMenuButton>
-      </Show>
-      <Show when={props.server.havePermission("ManageChannel")}>
         <ContextMenuButton
           icon={<Symbol size={16}>edit</Symbol>}
           onClick={editCategoryName}
         >
           <Trans>Rename category</Trans>
         </ContextMenuButton>
-      </Show>
-      <Show when={props.server.havePermission("ManageChannel")}>
         <ContextMenuButton icon={MdDelete} onClick={deleteCategory} destructive>
           <Trans>Delete category</Trans>
         </ContextMenuButton>

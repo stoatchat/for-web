@@ -1,9 +1,12 @@
+import { useInstance } from "@revolt/instance";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
 const RE_CHANNEL = /<#([A-z0-9]{26})>/g;
 
 export const remarkChannels: Plugin = () => (tree) => {
+  const instance = useInstance();
+
   visit(
     tree,
     "text",
@@ -19,7 +22,7 @@ export const remarkChannels: Plugin = () => (tree) => {
         if (index % 2) {
           return {
             type: "link",
-            url: `${location.origin}/channel/${value}`,
+            url: instance.href(`/channel/${value}`),
           };
         }
 

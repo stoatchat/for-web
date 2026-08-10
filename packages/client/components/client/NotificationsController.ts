@@ -1,4 +1,4 @@
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 
 import { Client } from "stoat.js";
 
@@ -136,7 +136,9 @@ async function setUpServiceWorkerSubscription(client: Client) {
     throw "Client not configured";
   }
 
-  const registration = await navigator.serviceWorker.getRegistration();
+  const registration = await navigator.serviceWorker.getRegistration(
+    import.meta.env.BASE_URL ?? undefined,
+  );
   if (!registration) {
     throw "Failed to get service worker";
   }
@@ -161,28 +163,25 @@ async function setUpServiceWorkerSubscription(client: Client) {
 
 function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
   const intArray = new Uint8Array(buffer);
-  // Todo: Upon upgrading the target of this repo, use Uint8Array.prototype.toBase64() instead of this.
-  const binaryString = [...intArray.values()]
-    .map((byte) => String.fromCodePoint(byte))
-    .join("");
-  const base64String = btoa(binaryString);
-  return base64String
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  return intArray.toBase64({ alphabet: "base64url" });
 }
 
 /** Exported for the client controller. Don't use this unless you have to. */
-export async function killServiceWorkerSubscription(client: Client) {
+export async function killServiceWorkerSubscription(
+  client: Client,
+  loggingOut?: boolean,
+) {
   if (IS_DEV) {
     console.log("Skipping killing push worker in dev.");
     return;
   }
 
-  const registration = await navigator.serviceWorker.getRegistration();
+  const registration = await navigator.serviceWorker.getRegistration(
+    import.meta.env.BASE_URL ?? undefined,
+  );
   if (!registration) return;
   const subscription = await registration.pushManager.getSubscription();
   if (await subscription?.unsubscribe()) {
-    await client.api.post("/push/unsubscribe");
+    if (!loggingOut) await client.api.post("/push/unsubscribe");
   }
 }

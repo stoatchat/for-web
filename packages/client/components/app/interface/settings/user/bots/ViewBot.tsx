@@ -1,9 +1,16 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Bot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, iconSize, useSnackbar } from "@revolt/ui";
+import {
+  CategoryButton,
+  Column,
+  iconSize,
+  Symbol,
+  useSnackbar,
+} from "@revolt/ui";
 
 import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
@@ -23,6 +30,7 @@ export function ViewBot(props: { bot: Bot }) {
   // `bot` will never change, so we don't care about reactivity here
   // eslint-disable-next-line solid/reactivity
   const profile = createProfileResource(props.bot.user!);
+  const instance = useInstance();
   const { openModal } = useModals();
   const snackbar = useSnackbar();
   const { t } = useLingui();
@@ -35,7 +43,7 @@ export function ViewBot(props: { bot: Bot }) {
         bannerUrl={profile.data?.animatedBannerURL}
       />
 
-      <UserProfileEditor user={props.bot.user!} />
+      <UserProfileEditor user={props.bot.user!} profile={profile.data} />
       {/* <ErrorBoundary fallback={<>Failed to load profile</>}>
         <Suspense fallback={<>loading...</>}>{profile.data?.content}</Suspense>
       </ErrorBoundary> */}
@@ -50,6 +58,16 @@ export function ViewBot(props: { bot: Bot }) {
           onClick={() => openModal({ type: "reset_bot_token", bot: props.bot })}
         >
           <Trans>Reset Token</Trans>
+        </CategoryButton>
+        <CategoryButton
+          description={<Trans>Change this bot's username</Trans>}
+          icon={<Symbol size={22}>badge</Symbol>}
+          action="chevron"
+          onClick={() =>
+            openModal({ type: "edit_bot_username", bot: props.bot })
+          }
+        >
+          <Trans>Change Username</Trans>
         </CategoryButton>
         <CategoryButton
           description={
@@ -82,9 +100,8 @@ export function ViewBot(props: { bot: Bot }) {
           action="copy"
           onClick={() => {
             navigator.clipboard.writeText(
-              new URL(`/bot/${props.bot.id}`, window.origin).toString(),
+              instance.href(`/bot/${props.bot.id}`),
             );
-
             snackbar.show({
               message: t`Invite URL copied to clipboard`,
               placement: "bottom",

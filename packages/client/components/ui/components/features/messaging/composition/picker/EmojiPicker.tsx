@@ -2,6 +2,7 @@ import {
   Match,
   Show,
   Switch,
+  createEffect,
   createMemo,
   createSignal,
   useContext,
@@ -21,6 +22,7 @@ import { Row } from "@revolt/ui/components/layout";
 
 import emojiMapping from "../../../../../emojiMapping.json";
 
+import { Trans, useLingui } from "@lingui/solid/macro";
 import {
   CompositionMediaPickerContext,
   compositionContent,
@@ -63,11 +65,14 @@ type Item =
       text: string;
     };
 
-const COLUMNS = 10;
+const COLUMNS = 9;
+
+const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
 
 export function EmojiPicker() {
   const client = useClient();
-  const state = useState();
+  const { ordering, settings } = useState();
+  const { t } = useLingui();
 
   const [filter, setFilter] = createSignal("");
 
@@ -79,7 +84,7 @@ export function EmojiPicker() {
 
     if (filterText) {
       return [
-        ...state.ordering
+        ...ordering
           .orderedServers(client())
           .flatMap((server) =>
             server.emojis
@@ -94,7 +99,7 @@ export function EmojiPicker() {
 
     const items: Item[] = [];
 
-    for (const server of state.ordering.orderedServers(client())) {
+    for (const server of ordering.orderedServers(client())) {
       const emojis = server.emojis;
 
       if (emojis.length === 0) continue;
@@ -137,11 +142,17 @@ export function EmojiPicker() {
     return items;
   });
 
+  createEffect(() => {
+    if (hoveredItem() !== null) return;
+    const first = items().find((item) => item.t === 2 || item.t === 4) ?? null;
+    setHoveredItem(first);
+  });
+
   return (
     <Stack>
       <TextField
         autoFocus
-        variant="filled"
+        variant="outlined"
         placeholder="Search for emojis..."
         value={filter()}
         onMouseDown={(e) => {
@@ -151,7 +162,7 @@ export function EmojiPicker() {
         }}
         onInput={(e) => setFilter(e.currentTarget.value)}
       />
-      <Row class={compositionContent()}>
+      <Row gap={"none"} class={compositionContent()}>
         <div
           ref={serverScrollTargetElement}
           use:invisibleScrollable={{
@@ -159,32 +170,124 @@ export function EmojiPicker() {
           }}
         >
           <VirtualContainer
-            items={[1, 2, 3]}
+            items={ordering
+              .orderedServers(client())
+              .filter((s) => s.emojis.length > 0)}
             scrollTarget={serverScrollTargetElement}
             itemSize={{ height: 40 }}
           >
-            {ServerItem}
+            {(props) => (
+              <ServerItem
+                style={props.style}
+                tabIndex={props.tabIndex}
+                item={props.item}
+                onClick={() => {
+                  const idx = items().findIndex(
+                    (item) => item.t === 0 && item.server.id === props.item.id,
+                  );
+                  if (idx !== -1 && emojiScrollTargetElement) {
+                    emojiScrollTargetElement.scrollTop =
+                      Math.floor(idx / COLUMNS) * 40;
+                  }
+                }}
+              />
+            )}
           </VirtualContainer>
         </div>
-        <div
-          ref={emojiScrollTargetElement}
-          use:invisibleScrollable={{
-            class: scrollContainer({ component: "emoji" }),
-          }}
-        >
-          <VirtualContainer
-            items={items()}
-            scrollTarget={emojiScrollTargetElement}
-            itemSize={{ height: 40, width: 40 }}
-            crossAxisCount={(measurements) =>
-              Math.floor(
-                measurements.container.cross / measurements.itemSize.cross,
-              )
-            }
+
+        <EmojiListColumn>
+          <div
+            ref={emojiScrollTargetElement}
+            use:invisibleScrollable={{
+              class: scrollContainer({ component: "emoji" }),
+            }}
           >
-            {EmojiItem}
-          </VirtualContainer>
-        </div>
+            <VirtualContainer
+              items={items()}
+              scrollTarget={emojiScrollTargetElement}
+              itemSize={{ height: 40, width: 40 }}
+              crossAxisCount={() => COLUMNS}
+            >
+              {EmojiItem}
+            </VirtualContainer>
+          </div>
+
+          <EmojiPreviewBar>
+            <Show when={hoveredItem()}>
+              {(item) => (
+                <>
+                  <Row align gap="sm" style={{ flex: 1, "min-width": 0 }}>
+                    <PreviewEmoji>
+                      <Switch>
+                        <Match when={item().t === 2}>
+                          <img src={(item() as Item & { t: 2 }).emoji.url} />
+                        </Match>
+                        <Match when={item().t === 4}>
+                          <UnicodeEmoji
+                            emoji={(item() as Item & { t: 4 }).text}
+                            pack={settings.getValue("appearance:unicode_emoji")}
+                          />
+                        </Match>
+                      </Switch>
+                    </PreviewEmoji>
+                    <div>
+                      <PreviewName>
+                        <Switch>
+                          <Match when={item().t === 2}>
+                            :{(item() as Item & { t: 2 }).emoji.name}:
+                          </Match>
+                          <Match when={item().t === 4}>
+                            :{(item() as Item & { t: 4 }).name}:
+                          </Match>
+                        </Switch>
+                      </PreviewName>
+                      <Show when={item().t === 2}>
+                        <PreviewFrom>
+                          <Trans>from </Trans>
+                          <strong>
+                            {(() => {
+                              const parent = (item() as Item & { t: 2 }).emoji
+                                .parent;
+                              return parent.type === "Server"
+                                ? (client().servers.get(parent.id)?.name ??
+                                    t`Unknown Server`)
+                                : t`Unknown Server`;
+                            })()}
+                          </strong>
+                        </PreviewFrom>
+                      </Show>
+                    </div>
+                  </Row>
+
+                  {/* Extracted Server Avatar logic */}
+                  <Show
+                    when={
+                      item().t === 2 &&
+                      (item() as Item & { t: 2 }).emoji.parent.type === "Server"
+                    }
+                  >
+                    {(() => {
+                      const parent = (item() as Item & { t: 2 }).emoji.parent;
+
+                      const server =
+                        parent.type === "Server"
+                          ? client().servers.get(parent.id)
+                          : null;
+
+                      return (
+                        <Avatar
+                          size={24}
+                          src={server?.animatedIconURL}
+                          fallback={server?.name ?? ""}
+                        />
+                      );
+                    })()}
+                  </Show>
+                </>
+              )}
+            </Show>
+          </EmojiPreviewBar>
+        </EmojiListColumn>
       </Row>
     </Stack>
   );
@@ -195,6 +298,7 @@ const Stack = styled("div", {
     minHeight: 0,
     display: "flex",
     flexDirection: "column",
+    gap: "var(--gap-md)",
   },
 });
 
@@ -203,9 +307,11 @@ const scrollContainer = cva({
   variants: {
     component: {
       serverRail: {
-        display: "none",
-        // flexShrink: 0,
-        // width: "40px",
+        display: "flex",
+        flexDirection: "column",
+        flexShrink: 0,
+        width: "40px",
+        gap: "var(--gap-sm)",
       },
       emoji: {
         flexGrow: 1,
@@ -217,20 +323,95 @@ const scrollContainer = cva({
 const ServerItem = (props: {
   style: unknown;
   tabIndex: number;
-  item: number;
+  item: Server;
+  onClick: (e: MouseEvent) => void;
 }) => (
   <ServerOption
     style={props.style as never}
     tabIndex={props.tabIndex}
     role="listitem"
+    onMouseDown={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    }}
+    onClick={props.onClick}
   >
-    {props.item}
+    <Avatar
+      size={32}
+      src={props.item.animatedIconURL}
+      fallback={props.item.name}
+    />
   </ServerOption>
 );
 
 const ServerOption = styled("div", {
   base: {
     width: "100%",
+    cursor: "pointer",
+    display: "flex",
+    justifyContent: "center",
+  },
+});
+
+const EmojiPreviewBar = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "var(--gap-xs) var(--gap-md)",
+    minHeight: "36px",
+    flexShrink: 0,
+    gap: "var(--gap-sm)",
+  },
+});
+
+const EmojiListColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minWidth: 0,
+    minHeight: 0,
+  },
+});
+
+const PreviewEmoji = styled("div", {
+  base: {
+    width: "24px",
+    height: "24px",
+    flexShrink: 0,
+    "--emoji-size": "24px",
+
+    "& img": {
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+    },
+  },
+});
+
+const PreviewName = styled("span", {
+  base: {
+    display: "block",
+    fontSize: "0.875rem",
+    fontWeight: 600,
+    color: "var(--colour-foreground)",
+    lineHeight: 1.2,
+  },
+});
+
+const PreviewFrom = styled("span", {
+  base: {
+    display: "block",
+    fontSize: "0.75rem",
+    color: "var(--colour-foreground-muted)",
+    marginTop: "1px",
+
+    "& strong": {
+      color: "var(--colour-foreground-secondary)",
+      fontWeight: 500,
+    },
   },
 });
 
@@ -254,6 +435,10 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
             `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${props.item.text}`,
           );
         }
+      }}
+      onMouseEnter={() => {
+        if (props.item.t === 2 || props.item.t === 4)
+          setHoveredItem(props.item);
       }}
     >
       <Switch>
@@ -298,10 +483,13 @@ const EmojiOption = styled("div", {
     {
       type: [0, 3],
       css: {
+        position: "absolute",
+        left: 0,
+        width: "100% !important",
         display: "flex",
         alignItems: "center",
         paddingInline: "var(--gap-md)",
-        width: `calc(40px * ${COLUMNS}) !important`,
+        zIndex: 1,
       },
     },
     {
@@ -314,7 +502,6 @@ const EmojiOption = styled("div", {
         borderRadius: "var(--borderRadius-sm)",
 
         "--emoji-size": "100%",
-
         "& img": {
           width: "100%",
           height: "100%",

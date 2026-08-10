@@ -11,13 +11,15 @@ import {
   onCleanup,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION, debounce } from "@revolt/common";
+import { debounce } from "@revolt/common";
+import { useDurationFormat } from "@revolt/i18n/durations";
+import { useInstance } from "@revolt/instance";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
@@ -34,7 +36,6 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
-import { UserSlowmodes } from "stoat.js/lib/events/v1";
 
 interface Props {
   /**
@@ -55,27 +56,29 @@ export function MessageComposition(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
+  const { limits } = useInstance();
   const { openModal } = useModals();
-
-  const currentSlowmode = (): UserSlowmodes | undefined => {
-    return client().userSlowmodes.get(props.channel.id);
-  };
-  const countdownForEntry = createMemo(() => {
-    const entry = currentSlowmode();
-    if (!entry) return;
-    const receivedAt = entry.receivedAt ?? Date.now();
-    const targetTs = receivedAt + entry.retry_after * 1000;
-    return createCountdownFromNow(targetTs);
-  });
+  const durationFormat = useDurationFormat();
 
   const isSlowmodeExempt = (): boolean => {
     return props.channel.havePermission("BypassSlowmode");
   };
 
-  const cooldownRemaining = createMemo(() => {
+  const slowmodeCountdown = createMemo(() => {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
 
-    const cd = countdownForEntry();
+    const entry = props.channel.userSlowmode();
+    if (!entry) return;
+
+    const receivedAt = entry.receivedAt ?? Date.now();
+    // Add 100 ms here so the countdown has a bit to render
+    const targetTs = receivedAt + 100 + entry.retry_after * 1000;
+    return createCountdownFromNow(targetTs);
+  });
+
+  const cooldownRemaining = createMemo(() => {
+    const cd = slowmodeCountdown();
+
     if (!cd) return 0;
 
     const [store] = cd;
@@ -89,17 +92,16 @@ export function MessageComposition(props: Props) {
   });
 
   const slowmodeText = createMemo(() => {
-    const s = cooldownRemaining();
-    if (!s) return "";
+    const cd = slowmodeCountdown();
 
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
+    if (!cd) return "";
 
-    if (h > 0) {
-      return `${h}:${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
-    }
-    return `${m}:${sec.toString().padStart(2, "0")}`;
+    const [store] = cd;
+
+    return durationFormat(
+      { seconds: store.seconds, minutes: store.minutes, hours: store.hours },
+      { style: "digital" },
+    );
   });
 
   const slowmodeWaitTime = createMemo(() => {
@@ -109,16 +111,7 @@ export function MessageComposition(props: Props) {
     const m = Math.floor((s % 3600) / 60);
     const sec = s % 60;
 
-    if (h > 0 && m === 0 && sec === 0)
-      return h === 1 ? t`1 hour` : t`${h} hours`;
-    if (m > 0 && sec === 0 && h === 0)
-      return m === 1 ? t`1 minute` : t`${m} minutes`;
-
-    const parts = [];
-    if (h > 0) parts.push(h === 1 ? t`1 hour` : t`${h} hours`);
-    if (m > 0) parts.push(m === 1 ? t`1 minute` : t`${m} minutes`);
-    if (sec > 0) parts.push(sec === 1 ? t`1 second` : t`${sec} seconds`);
-    return parts.join(" ");
+    return durationFormat({ seconds: sec, minutes: m, hours: h });
   });
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
@@ -138,16 +131,8 @@ export function MessageComposition(props: Props) {
   }
 
   const messageLength = () => draft().content?.length ?? 0;
-
-  const maxMessageLength = () => {
-    const cl = client();
-    return cl.configured()
-      ? (cl.configuration?.features.limits.default.message_length ?? 2000)
-      : 2000;
-  };
-
+  const maxMessageLength = () => limits().message_length;
   const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
-
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
 
   // Whether the send button should be active/clickable
@@ -157,7 +142,7 @@ export function MessageComposition(props: Props) {
 
     const tooLong = messageLength() > maxMessageLength();
 
-    const isSlowmode = currentSlowmode();
+    const isSlowmode = props.channel.userSlowmode();
 
     return (
       !tooLong &&
@@ -252,7 +237,7 @@ export function MessageComposition(props: Props) {
   async function sendMessage(useContent?: unknown) {
     if (!canSend() && typeof useContent !== "string") {
       return;
-    } else if (currentSlowmode()) {
+    } else if (props.channel.userSlowmode()) {
       return;
     }
     stopTyping();
@@ -292,11 +277,7 @@ export function MessageComposition(props: Props) {
   function onFiles(files: File[]) {
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
-
-    const maxSize = client().configured()
-      ? (client().configuration?.features.limits.default.file_upload_size_limits
-          .attachments ?? CONFIGURATION.MAX_FILE_SIZE)
-      : CONFIGURATION.MAX_FILE_SIZE;
+    const maxSize = limits().file_upload_size_limits.attachments;
 
     for (const file of files) {
       if (file.size > maxSize) {
@@ -378,6 +359,24 @@ export function MessageComposition(props: Props) {
 
   return (
     <>
+      <Show when={props.channel.slowmode}>
+        <SlowmodeContainer>
+          <Tooltip
+            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
+            placement="top"
+          >
+            <SlowmodeRow>
+              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
+              <SlowmodeText>
+                <Switch fallback={t`Slowmode is enabled.`}>
+                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
+                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
+                </Switch>
+              </SlowmodeText>
+            </SlowmodeRow>
+          </Tooltip>
+        </SlowmodeContainer>
+      </Show>
       <Show when={state.draft.hasAdditionalElements(props.channel.id)}>
         <Keybind
           keybind={KeybindAction.CHAT_REMOVE_COMPOSITION_ELEMENT}
@@ -419,24 +418,6 @@ export function MessageComposition(props: Props) {
           );
         }}
       </For>
-      <Show when={props.channel.slowmode}>
-        <SlowmodeContainer>
-          <Tooltip
-            content={t`Members can send one message every ${slowmodeWaitTime()}.`}
-            placement="top"
-          >
-            <SlowmodeRow>
-              <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
-              <SlowmodeText>
-                <Switch fallback={t`Slowmode is enabled.`}>
-                  <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
-                  <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
-                </Switch>
-              </SlowmodeText>
-            </SlowmodeRow>
-          </Tooltip>
-        </SlowmodeContainer>
-      </Show>
       <MessageBox
         initialValue={initialValue()}
         nodeReplacement={nodeReplacement()}
@@ -446,15 +427,16 @@ export function MessageComposition(props: Props) {
         content={draft()?.content ?? ""}
         setContent={setContent}
         actionsStart={
-          <Switch fallback={<MessageBox.InlineIcon size="short" />}>
-            <Match when={props.channel.havePermission("UploadFiles")}>
-              <MessageBox.InlineIcon size="wide">
-                <IconButton onPress={addFile}>
-                  <Symbol>add</Symbol>
-                </IconButton>
-              </MessageBox.InlineIcon>
-            </Match>
-          </Switch>
+          <Show
+            when={props.channel.havePermission("UploadFiles")}
+            fallback={<MessageBox.InlineIcon size="short" />}
+          >
+            <MessageBox.InlineIcon>
+              <IconButton onPress={addFile}>
+                <Symbol>add</Symbol>
+              </IconButton>
+            </MessageBox.InlineIcon>
+          </Show>
         }
         actionsEnd={
           <MessageBox.ActionContainer column>
@@ -475,17 +457,18 @@ export function MessageComposition(props: Props) {
               >
                 {(triggerProps) => (
                   <>
-                    <MessageBox.InlineIcon size="normal">
-                      <IconButton onPress={triggerProps.onClickGif}>
-                        <Symbol>gif</Symbol>
-                      </IconButton>
-                    </MessageBox.InlineIcon>
-                    <MessageBox.InlineIcon size="normal">
+                    <Show when={!canSend()}>
+                      <MessageBox.InlineIcon>
+                        <IconButton onPress={triggerProps.onClickGif}>
+                          <Symbol>gif</Symbol>
+                        </IconButton>
+                      </MessageBox.InlineIcon>
+                    </Show>
+                    <MessageBox.InlineIcon>
                       <IconButton onPress={triggerProps.onClickEmoji}>
-                        <Symbol>emoticon</Symbol>
+                        <Symbol>mood</Symbol>
                       </IconButton>
                     </MessageBox.InlineIcon>
-
                     <div ref={triggerProps.ref} />
                   </>
                 )}

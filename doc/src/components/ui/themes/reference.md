@@ -8,7 +8,17 @@ The following Material colour roles are accessible through the CSS variables `va
 
 ![M3 Colour Roles](./material-colour-roles.png)
 
-TODO: extension with online,idle,focus,busy,invisible
+## Brand presence colour roles
+
+The following brand presence colour roles are accessible through the CSS variables `var(--brand-presence-*)`:
+
+| Status | CSS-Variable | Hex-Code |
+| :--- | :--- | :--- |
+| **Online** | `var(--brand-presence-online)` | <span style="color:#3ABF7E;font-weight:bold;">#3ABF7E</span> |
+| **Idle** | `var(--brand-presence-idle)` | <span style="color:#F39F00;font-weight:bold;">#F39F00</span> |
+| **Busy** | `var(--brand-presence-busy)` | <span style="color:#F84848;font-weight:bold;">#F84848</span> |
+| **Focus** | `var(--brand-presence-focus)` | <span style="color:#4799F0;font-weight:bold;">#4799F0</span> |
+| **Invisible** | `var(--brand-presence-invisible)` | <span style="color:#A5A5A5;font-weight:bold;">#A5A5A5</span> |
 
 ## Roundness
 

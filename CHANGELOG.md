@@ -1,5 +1,223 @@
 # Changelog
 
+## [0.14.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.14.0...stoat-for-web-v0.14.1) (2026-08-01)
+
+
+### Bug Fixes
+
+* Add file size validation and emoji name validation ([#1423](https://github.com/stoatchat/for-web/issues/1423)) ([8310119](https://github.com/stoatchat/for-web/commit/8310119cf928c6960024142b80905ee29b7ff2f6))
+* Add image type filter to image inputs, export type from draft ([#1422](https://github.com/stoatchat/for-web/issues/1422)) ([9322cd2](https://github.com/stoatchat/for-web/commit/9322cd21204efd11f92405487203e3151dffa256))
+* Add no cache to the index.html to force cache busting ([#1416](https://github.com/stoatchat/for-web/issues/1416)) ([951676c](https://github.com/stoatchat/for-web/commit/951676ca18a61fa9b966adbc6913d582912ade1f))
+* Enable MFA modal is now cancelable ([#1417](https://github.com/stoatchat/for-web/issues/1417)) ([0f41f87](https://github.com/stoatchat/for-web/commit/0f41f871ab53ec779b0e75582303c9f69777eac4))
+* HTML formatting ([#1427](https://github.com/stoatchat/for-web/issues/1427)) ([7a60989](https://github.com/stoatchat/for-web/commit/7a60989767c643c772371b3d64d3af808db76b76))
+* Make messages non-selectable on ios to enable context menus ([#1418](https://github.com/stoatchat/for-web/issues/1418)) ([025346d](https://github.com/stoatchat/for-web/commit/025346dfb891d1bfc2de22c0090563ef447ecfc5))
+* Make the mute icon not red when streaming your own stream ([#1420](https://github.com/stoatchat/for-web/issues/1420)) ([995cc2f](https://github.com/stoatchat/for-web/commit/995cc2fdabfd18dc395fdb4c571406d9363fa402))
+* **messaging:** show edited indicator in compact mode ([#1424](https://github.com/stoatchat/for-web/issues/1424)) ([3dfd9c0](https://github.com/stoatchat/for-web/commit/3dfd9c0313e50865ea81cb61481104dc7b355f8a)), closes [#1337](https://github.com/stoatchat/for-web/issues/1337)
+* Pip will no longer error when exiting call ([#1421](https://github.com/stoatchat/for-web/issues/1421)) ([0c8473f](https://github.com/stoatchat/for-web/commit/0c8473f536429ac16ab538cf0d9c730c7222d661))
+* Sometimes I18n provider would load before activate ([#1413](https://github.com/stoatchat/for-web/issues/1413)) ([cb49651](https://github.com/stoatchat/for-web/commit/cb4965162c17266688fec5d9931705bb5bec552b))
+* wrong text colour on the emoji info thingy ([#1411](https://github.com/stoatchat/for-web/issues/1411)) ([c7d39d1](https://github.com/stoatchat/for-web/commit/c7d39d1feacf2eeaeddfd5a0ff95e69d7aa8d9c0))
+
+## [0.14.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.13.1...stoat-for-web-v0.14.0) (2026-07-28)
+
+
+### Features
+
+* Add create channel/category opts to respective context menus ([#1076](https://github.com/stoatchat/for-web/issues/1076)) ([8992d07](https://github.com/stoatchat/for-web/commit/8992d079c39099666fb5c073146b3d7a18ee25d2))
+* add emoji name and where it is from at the bottom of emoji picker ([#1289](https://github.com/stoatchat/for-web/issues/1289)) ([54b6631](https://github.com/stoatchat/for-web/commit/54b6631bc95d5e4025f7083aeb5079a5c46fec03))
+* edit bot username from bot management ui ([#1386](https://github.com/stoatchat/for-web/issues/1386)) ([99e7c6b](https://github.com/stoatchat/for-web/commit/99e7c6b7784ab5471d5c6b3cff569a3ab10cd6c2))
+
+
+### Bug Fixes
+
+* ability to send DM's to bots ([#1409](https://github.com/stoatchat/for-web/issues/1409)) ([0004174](https://github.com/stoatchat/for-web/commit/0004174e79cb71621992fd96f2f674eb59db9d0d))
+* cache material symbols to prevent them from breaking on bad conn ([#1303](https://github.com/stoatchat/for-web/issues/1303)) ([d17b1ea](https://github.com/stoatchat/for-web/commit/d17b1ea35696303461b379dde77ea965310e7f95))
+* Don't error out if one of your livekit nodes is down ([#1403](https://github.com/stoatchat/for-web/issues/1403)) ([270c53d](https://github.com/stoatchat/for-web/commit/270c53d96f564070e00cb464c072f8c11208415b))
+* Fix bio reactivity in profile editing for users and bots ([#1387](https://github.com/stoatchat/for-web/issues/1387)) ([d078535](https://github.com/stoatchat/for-web/commit/d0785351e700882c0ea5c94e40b73ee6757d38f7))
+* Fix fullscreen logic in voice calls to allow context menus ([#1398](https://github.com/stoatchat/for-web/issues/1398)) ([71b35e4](https://github.com/stoatchat/for-web/commit/71b35e4e09eca502d982ebfba2d58d9e98e4ca4f))
+* Fix keyboard flicker via VirtualKeyboard API ([#1375](https://github.com/stoatchat/for-web/issues/1375)) ([22affad](https://github.com/stoatchat/for-web/commit/22affad09afa45da86eb76b733c87db6c5c2252c))
+* hide avatar and pronoun fields in edit identity modal if not self ([#1408](https://github.com/stoatchat/for-web/issues/1408)) ([45de132](https://github.com/stoatchat/for-web/commit/45de1326c6831dd54e53e7a34311fad8a53324e2))
+* IOS context menus work now ([#1400](https://github.com/stoatchat/for-web/issues/1400)) ([e03b5d7](https://github.com/stoatchat/for-web/commit/e03b5d7558ac0a960c6aed96eacb25a4277c886a))
+* Jump ui to last message when pressing up to edit last message ([#1390](https://github.com/stoatchat/for-web/issues/1390)) ([60ecb51](https://github.com/stoatchat/for-web/commit/60ecb515d1e035de20292209a21b3625f014987a))
+* Links in spoilers & multi-line spoilers ([#1056](https://github.com/stoatchat/for-web/issues/1056)) ([581c89b](https://github.com/stoatchat/for-web/commit/581c89b1d9c55bda1a3759978c78a25e72890854))
+* Make copy file link and open file use preview url ([#1389](https://github.com/stoatchat/for-web/issues/1389)) ([57cbfe5](https://github.com/stoatchat/for-web/commit/57cbfe5e20711b4a45837f28dff4e2ce2baf4368))
+* Minify PandaCSS & Switch to Terser ([#1406](https://github.com/stoatchat/for-web/issues/1406)) ([38ab7e0](https://github.com/stoatchat/for-web/commit/38ab7e07450fc12b317f0dcd76c1be73666f170f))
+* Move server list syncing to TextChannel to fix unable to @ members ([#1392](https://github.com/stoatchat/for-web/issues/1392)) ([ffafe8e](https://github.com/stoatchat/for-web/commit/ffafe8ee40e4321c51270d6f11800d56e073f7a1))
+* No longer logs out in dev sometimes ([#1407](https://github.com/stoatchat/for-web/issues/1407)) ([0b5b95e](https://github.com/stoatchat/for-web/commit/0b5b95e439f4a238e253e7b13c5c964f46064e88))
+* Partially fix autocomplete, still broken for some plugins ([#1396](https://github.com/stoatchat/for-web/issues/1396)) ([0cfe9f1](https://github.com/stoatchat/for-web/commit/0cfe9f1ff9ae5ea0660de2aea78a21e97a412d34))
+* PWA scope is set to "" in non-production builds ([#1376](https://github.com/stoatchat/for-web/issues/1376)) ([fc30735](https://github.com/stoatchat/for-web/commit/fc3073575dc66fe3303a910c15e8c4c1cd02eab1))
+* Remove console log for notifications, they work fine now ([#1399](https://github.com/stoatchat/for-web/issues/1399)) ([300699b](https://github.com/stoatchat/for-web/commit/300699b766a0d0a521fb356a7a1f8a76fe9dfd0b))
+* Update pronouns UI to be a little more gooder ([#1405](https://github.com/stoatchat/for-web/issues/1405)) ([7bde584](https://github.com/stoatchat/for-web/commit/7bde584261b7c659598aa833295ee15d8ca43935))
+* Update stoat.js and send MFA ticket to session delete ([#1388](https://github.com/stoatchat/for-web/issues/1388)) ([42a9292](https://github.com/stoatchat/for-web/commit/42a929290a4e000e1fca9dc3c4baf87bac79e729))
+* Use admin.stoatinternal.com for admin links ([#1394](https://github.com/stoatchat/for-web/issues/1394)) ([3821f29](https://github.com/stoatchat/for-web/commit/3821f299414c828316fb39673290f69edae4bd95))
+* User profile is clickable again ([#1401](https://github.com/stoatchat/for-web/issues/1401)) ([7ff8816](https://github.com/stoatchat/for-web/commit/7ff88162ad4d32e6c670c4d6f8dac3138f685aa6))
+* You can click user card buttons again ([#1404](https://github.com/stoatchat/for-web/issues/1404)) ([56f5d7b](https://github.com/stoatchat/for-web/commit/56f5d7b8b607c12fd912260b7da0ab27fcd68117))
+
+## [0.13.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.13.0...stoat-for-web-v0.13.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* Correct message preview color in Appearance menu & Add pronouns ([#1368](https://github.com/stoatchat/for-web/issues/1368)) ([11c851f](https://github.com/stoatchat/for-web/commit/11c851fc8c469540d31308d88c4410a255c7e6ae))
+* remove marginInlineStart(70px) when opened in a macOS browser ([#1367](https://github.com/stoatchat/for-web/issues/1367)) ([a0f0231](https://github.com/stoatchat/for-web/commit/a0f0231706bd499290a9e1ad3b903564b02ddec9))
+* Update livekit sdk to get restrictOwnAudio for screenshare ([#1360](https://github.com/stoatchat/for-web/issues/1360)) ([13c346a](https://github.com/stoatchat/for-web/commit/13c346a69970ecb218668ff86bd3264af9d5ae38))
+
+## [0.13.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.1...stoat-for-web-v0.13.0) (2026-07-21)
+
+
+### Features
+
+* add pronouns ([#1340](https://github.com/stoatchat/for-web/issues/1340)) ([16cf0e2](https://github.com/stoatchat/for-web/commit/16cf0e275d21bced5fc14c8467bcd7475f91fe61))
+* pin message modal ([#1270](https://github.com/stoatchat/for-web/issues/1270)) ([c692b9d](https://github.com/stoatchat/for-web/commit/c692b9d69d81f8f75478e0594bffb8cdcfc7bbcd))
+
+
+### Bug Fixes
+
+* Hopefully fix translations so they can finally work again? ([#1353](https://github.com/stoatchat/for-web/issues/1353)) ([d2ece96](https://github.com/stoatchat/for-web/commit/d2ece968c5a1f6b48bd3e5a2382fe53a32d85fe2))
+* Remove draft log ([#1363](https://github.com/stoatchat/for-web/issues/1363)) ([d441c72](https://github.com/stoatchat/for-web/commit/d441c72e3f735f4e5a532ddd2d4464332a2ecd22))
+
+## [0.12.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.12.0...stoat-for-web-v0.12.1) (2026-07-18)
+
+
+### Bug Fixes
+
+* Add pwa_scope variable to dockerfile ([#1351](https://github.com/stoatchat/for-web/issues/1351)) ([3db55f3](https://github.com/stoatchat/for-web/commit/3db55f36da32ca996fa418e7770920ce8265be49))
+
+## [0.12.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.11.0...stoat-for-web-v0.12.0) (2026-07-17)
+
+
+### Features
+
+* Add a latency checker for all available livekit nodes and choose ([64bdbbb](https://github.com/stoatchat/for-web/commit/64bdbbbac47046fd0dead3391d526bd5b7c91820))
+
+
+### Bug Fixes
+
+* Add a latency checker for all available livekit nodes and choose ([#1345](https://github.com/stoatchat/for-web/issues/1345)) ([64bdbbb](https://github.com/stoatchat/for-web/commit/64bdbbbac47046fd0dead3391d526bd5b7c91820))
+
+## [0.11.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.10.0...stoat-for-web-v0.11.0) (2026-07-15)
+
+
+### Features
+
+* add legal links to the settings page ([#1288](https://github.com/stoatchat/for-web/issues/1288)) ([19866fc](https://github.com/stoatchat/for-web/commit/19866fc3209828dbe2a66121ae3a6679eca3d673))
+* helpful loading screen ([#1327](https://github.com/stoatchat/for-web/issues/1327)) ([a9dde04](https://github.com/stoatchat/for-web/commit/a9dde041d6b4d1d77443571a72cf5631c0eda58f))
+* Show an icon when users are in voice, video, or screenshare ([#1324](https://github.com/stoatchat/for-web/issues/1324)) ([9d5028c](https://github.com/stoatchat/for-web/commit/9d5028cc5290b8868a952aa0fd7967a4a42bf3e9))
+* show the message that is being deleted ([#1320](https://github.com/stoatchat/for-web/issues/1320)) ([fa1a99f](https://github.com/stoatchat/for-web/commit/fa1a99fbc857df5b8d3c46f8b679eb590f044ec8))
+
+
+### Bug Fixes
+
+* Allow overwriting pwa scope for production ([#1343](https://github.com/stoatchat/for-web/issues/1343)) ([551f07e](https://github.com/stoatchat/for-web/commit/551f07ef425bfd230ec2efbc1aae1576fbfd7431))
+* clicking message on profiles and context menu should work now ([#1334](https://github.com/stoatchat/for-web/issues/1334)) ([45134ba](https://github.com/stoatchat/for-web/commit/45134ba647080fba774a3efcc98498197c96ea39))
+* Make gifbox videos embed correctly ([#1329](https://github.com/stoatchat/for-web/issues/1329)) ([035a385](https://github.com/stoatchat/for-web/commit/035a38563cf67ad8af3824a1d32437ea7031f431))
+* user could report priviledged accounts ([#1319](https://github.com/stoatchat/for-web/issues/1319)) ([9405255](https://github.com/stoatchat/for-web/commit/94052551cc5507a288069fae6ec551ed47a52d24))
+
+## [0.10.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.9.1...stoat-for-web-v0.10.0) (2026-06-30)
+
+
+### Features
+
+* add ability to copy links from messages ([#1161](https://github.com/stoatchat/for-web/issues/1161)) ([ff8f37d](https://github.com/stoatchat/for-web/commit/ff8f37d735b2cbcd2cd4757e10b49f312e6a851f))
+* Add TranslatedError and use it in register error ([#1317](https://github.com/stoatchat/for-web/issues/1317)) ([dc17de0](https://github.com/stoatchat/for-web/commit/dc17de083bceb954bb798c45b9cf0b3a7b43f5ee))
+* android nag screen ([#1276](https://github.com/stoatchat/for-web/issues/1276)) ([96f48f6](https://github.com/stoatchat/for-web/commit/96f48f68f5228d2b384d86e2f5d99c6ddf236a05))
+* implement server sidebar in EmojiPicker ([#1250](https://github.com/stoatchat/for-web/issues/1250)) ([c51bbc3](https://github.com/stoatchat/for-web/commit/c51bbc331b03fb717d6b533328970a370de1bc8a))
+* make gif picker ready for the box ([#1295](https://github.com/stoatchat/for-web/issues/1295)) ([fb7fe04](https://github.com/stoatchat/for-web/commit/fb7fe040c3cc1b9c44b6990ca2d4c10370f73275))
+* Mobile UI for web ([#835](https://github.com/stoatchat/for-web/issues/835)) ([5765187](https://github.com/stoatchat/for-web/commit/57651874172fc31ce713c761d03465072ab530f1))
+
+
+### Bug Fixes
+
+* Add a confirmation snackbar for when changing your password ([#1306](https://github.com/stoatchat/for-web/issues/1306)) ([df89f31](https://github.com/stoatchat/for-web/commit/df89f319f83f739958f444f22e246bab2fea3a79))
+* Add lingui extract to dockerfile ([#1291](https://github.com/stoatchat/for-web/issues/1291)) ([54ac572](https://github.com/stoatchat/for-web/commit/54ac572278a4c7c8dde9e0619d2cd653dccdb895))
+* collected messages array staying on preemt breaking chat ([#1310](https://github.com/stoatchat/for-web/issues/1310)) ([6c24e46](https://github.com/stoatchat/for-web/commit/6c24e46d0d0d8ad855dff0ab5486b3c09e899d98))
+* defean typo ([#1285](https://github.com/stoatchat/for-web/issues/1285)) ([a52c2a9](https://github.com/stoatchat/for-web/commit/a52c2a94a2fe2cfd19463657386699e0b40cd58f))
+* double divider in user context menu for bots ([#1260](https://github.com/stoatchat/for-web/issues/1260)) ([e7df477](https://github.com/stoatchat/for-web/commit/e7df4777cd0bffd7b8069a02d11ba1c2802accfd))
+* Enable PWA for dev build for testing ([2b50b0d](https://github.com/stoatchat/for-web/commit/2b50b0d58c83099d4b6868bb1c14d675e059bdb8))
+* Make collected messages only collect if channel matches ([#1294](https://github.com/stoatchat/for-web/issues/1294)) ([cef4c0f](https://github.com/stoatchat/for-web/commit/cef4c0fe3374d5228d52f15bdb4d7c85040fb08b))
+* Make dockerfile copy packages before installing ([#1284](https://github.com/stoatchat/for-web/issues/1284)) ([7f9d285](https://github.com/stoatchat/for-web/commit/7f9d285fede2b73e5cd6158d02e603ca290901e1))
+* make feedback links and language contribute links work ([#1304](https://github.com/stoatchat/for-web/issues/1304)) ([dce8941](https://github.com/stoatchat/for-web/commit/dce89411f9c9732d592b525f0f09f272df8f4cd4))
+* Make the message box fetch messages on reconnect ([#1305](https://github.com/stoatchat/for-web/issues/1305)) ([558ebd1](https://github.com/stoatchat/for-web/commit/558ebd14bd5d851f82bf099b4d3bbc81908c24a1))
+* Messages should now show up if you send a message viewing history ([#1286](https://github.com/stoatchat/for-web/issues/1286)) ([30e0306](https://github.com/stoatchat/for-web/commit/30e03068f4dada6eaffb75d43bf51dfd73c6292b))
+* More efficient CSS breakpoints & adjusted breakpoints to match Material specs ([#1273](https://github.com/stoatchat/for-web/issues/1273)) ([9e73700](https://github.com/stoatchat/for-web/commit/9e737009d583b20bb17cada96d1fbf831ca416e8))
+* play GIFs inline on iOS instead of forcing fullscreen ([#1290](https://github.com/stoatchat/for-web/issues/1290)) ([ac87ebb](https://github.com/stoatchat/for-web/commit/ac87ebb2eaf954ba50866937afe303fc4b5625c0))
+* Profile modal not opening on mobile & not always closing ([#1311](https://github.com/stoatchat/for-web/issues/1311)) ([fbe11c9](https://github.com/stoatchat/for-web/commit/fbe11c96d8f7bf615eb805921ff8270e06334117))
+* Profile modal not opening on mobile w/ touch & not closing when pressing Message or Edit Profile ([fbe11c9](https://github.com/stoatchat/for-web/commit/fbe11c96d8f7bf615eb805921ff8270e06334117))
+* slowmode timer goes to 0 now, and shows up above replies ([#1282](https://github.com/stoatchat/for-web/issues/1282)) ([312d6e6](https://github.com/stoatchat/for-web/commit/312d6e6ebebd9beb353ae5ff0eed0b3f803be58e))
+* stop system messages from being reportable ([#1262](https://github.com/stoatchat/for-web/issues/1262)) ([5c3da83](https://github.com/stoatchat/for-web/commit/5c3da83d460400cc608afcc2bb5a898348bd2c37))
+* use correct length check for mutual groups ([#1254](https://github.com/stoatchat/for-web/issues/1254)) ([d42da62](https://github.com/stoatchat/for-web/commit/d42da62ff91030e96f0b7b6ab125adb1cf616779))
+* use correct query in groups length ([d42da62](https://github.com/stoatchat/for-web/commit/d42da62ff91030e96f0b7b6ab125adb1cf616779))
+* use override switch for server wide role permissions ([#1313](https://github.com/stoatchat/for-web/issues/1313)) ([8432dca](https://github.com/stoatchat/for-web/commit/8432dca1de12adbda7fb177a9639704a45fa848f))
+* use u200B instead of uF800 ([#1268](https://github.com/stoatchat/for-web/issues/1268)) ([684a46c](https://github.com/stoatchat/for-web/commit/684a46c9ecd83f388e29f984dc49f952e6e20de8))
+
+## [0.9.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.9.0...stoat-for-web-v0.9.1) (2026-06-20)
+
+
+### Bug Fixes
+
+* Add base path to service worker registration check ([#1279](https://github.com/stoatchat/for-web/issues/1279)) ([c3f91f9](https://github.com/stoatchat/for-web/commit/c3f91f9779888efc24e94c27c652bfaa3c2f2723))
+* Pass atEnd as a signal to fix acks when clicking on a channel ([#1281](https://github.com/stoatchat/for-web/issues/1281)) ([0f3d024](https://github.com/stoatchat/for-web/commit/0f3d024e49c91099fca29fe3a4a4ad8f85c47799))
+
+## [0.9.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.8.0...stoat-for-web-v0.9.0) (2026-06-19)
+
+
+### Features
+
+* add gif providers regex to detect gif providers ([#1243](https://github.com/stoatchat/for-web/issues/1243)) ([26b248e](https://github.com/stoatchat/for-web/commit/26b248e0ea3f8a886e5e3071aa97929fa555b7c3))
+* add NFKC normalization to autocomplete ([#1267](https://github.com/stoatchat/for-web/issues/1267)) ([79dc800](https://github.com/stoatchat/for-web/commit/79dc800e8c5f06d6e5b655c36028088b664e1995))
+* add toggle for password field visibility ([#1252](https://github.com/stoatchat/for-web/issues/1252)) ([57dbb08](https://github.com/stoatchat/for-web/commit/57dbb087eb1f4df4c877d003fcc6d5ccff07ae6a))
+* add toggle for password visibility ([57dbb08](https://github.com/stoatchat/for-web/commit/57dbb087eb1f4df4c877d003fcc6d5ccff07ae6a))
+
+
+### Bug Fixes
+
+* add missing onSuccess to DeleteRole.tsx ([#1248](https://github.com/stoatchat/for-web/issues/1248)) ([89e8705](https://github.com/stoatchat/for-web/commit/89e87057f652ee1270dd6fa27e0440b4e1fb1797))
+* call logout request on logout ([#1197](https://github.com/stoatchat/for-web/issues/1197)) ([21c64ce](https://github.com/stoatchat/for-web/commit/21c64cedbeb52857f5c467e488a9dd7215edb52e))
+* Force touch keyboard to resize content window on mobile ([#1253](https://github.com/stoatchat/for-web/issues/1253)) ([c399afd](https://github.com/stoatchat/for-web/commit/c399afdd9ee63d4efb22d8fd91e7f163cb394a0d))
+* Persist 'member' prop from preview card to full profile view ([#1216](https://github.com/stoatchat/for-web/issues/1216)) ([54bb75b](https://github.com/stoatchat/for-web/commit/54bb75bd19a8f9672b3a624c1f74eac54350644d))
+* prevent all invites from disappearing on deletion ([#1249](https://github.com/stoatchat/for-web/issues/1249)) ([9915ab0](https://github.com/stoatchat/for-web/commit/9915ab0f5cba647410667d289293a2a0dc2f1ecf))
+* use `mise assets` for prod release ([#1278](https://github.com/stoatchat/for-web/issues/1278)) ([90f0fe8](https://github.com/stoatchat/for-web/commit/90f0fe8f73000fd50d55e4882d1cd46b1f9c79e3))
+
+## [0.8.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.7.0...stoat-for-web-v0.8.0) (2026-06-16)
+
+
+### Features
+
+* Add push notifications to the service worker of the PWA ([#882](https://github.com/stoatchat/for-web/issues/882)) ([d5abc61](https://github.com/stoatchat/for-web/commit/d5abc61575b5b23a492fae2d323de5a734e6e2f0))
+* add role icons to member sidebar ([#1194](https://github.com/stoatchat/for-web/issues/1194)) ([2f0c50a](https://github.com/stoatchat/for-web/commit/2f0c50af7dee26bb2e2ead39f51633ac184f3123))
+* add screenshare audio with muting capabilities ([#1055](https://github.com/stoatchat/for-web/issues/1055)) ([f44c42f](https://github.com/stoatchat/for-web/commit/f44c42f6f7c7b3ba14147bcd08dd786831c6fb7e))
+* Add sounds ([#1206](https://github.com/stoatchat/for-web/issues/1206)) ([5b51f05](https://github.com/stoatchat/for-web/commit/5b51f05d9f51e6d2c530e9f0ca40cd60eb5d1599))
+* Device resize hooks (prep for Mobile/Tablet UI) ([#1196](https://github.com/stoatchat/for-web/issues/1196)) ([ffc1e4e](https://github.com/stoatchat/for-web/commit/ffc1e4eec9a3551fc535455343b3ef0d96374ea7))
+* slowmode in text channels ([#1166](https://github.com/stoatchat/for-web/issues/1166)) ([291950b](https://github.com/stoatchat/for-web/commit/291950b61b3e63f58e13686cd1cbe3c6cfccd233))
+* Video device option in voice settings ([#1086](https://github.com/stoatchat/for-web/issues/1086)) ([45b7a96](https://github.com/stoatchat/for-web/commit/45b7a9613e4741ba828280756daff54c1f93cbc2))
+* Voice Call Button in header ([#1025](https://github.com/stoatchat/for-web/issues/1025)) ([5c91d55](https://github.com/stoatchat/for-web/commit/5c91d550a64e0b717de155becf28f265e987f73c))
+
+
+### Bug Fixes
+
+* Add button action timeout to solve click-through issue on touch devices ([#1092](https://github.com/stoatchat/for-web/issues/1092)) ([3faddcc](https://github.com/stoatchat/for-web/commit/3faddcce38d721e168357c8b46dae73b6e8ff656))
+* Config fixes for TSConfig root dir & VSCode search ignores ([#1195](https://github.com/stoatchat/for-web/issues/1195)) ([fbd65f5](https://github.com/stoatchat/for-web/commit/fbd65f566d94f1234ee8cdc0350aa64e71b2e8d9))
+* Don't show video option if video is off ([#1219](https://github.com/stoatchat/for-web/issues/1219)) ([f979a22](https://github.com/stoatchat/for-web/commit/f979a222b9729626431a6c75962c6003a78b81d1))
+* Failing build due to TS possible null error ([#1247](https://github.com/stoatchat/for-web/issues/1247)) ([0acdff6](https://github.com/stoatchat/for-web/commit/0acdff680aebcbf902be55137ce4424c60957bac))
+* Fix regression for member side bar caching ([#1220](https://github.com/stoatchat/for-web/issues/1220)) ([ad6e0e2](https://github.com/stoatchat/for-web/commit/ad6e0e2e5a86809818ea700b769e148d954cd7b2))
+* Make dialogs appear above User Card & User Profile, modals consistently auto-dismiss User Card ([#1029](https://github.com/stoatchat/for-web/issues/1029)) ([29b053c](https://github.com/stoatchat/for-web/commit/29b053cd4da0416015383d23f91a8d341c6697b6))
+* message replies with attachments ([#1265](https://github.com/stoatchat/for-web/issues/1265)) ([e81ad16](https://github.com/stoatchat/for-web/commit/e81ad167b6547428fc0da831b9d7e707fb8b115d))
+* monospace and interface font not being saved ([#1036](https://github.com/stoatchat/for-web/issues/1036)) ([967d727](https://github.com/stoatchat/for-web/commit/967d72766ef7ee24296b3ab4b3b8e4b151d6b732))
+* Mute users when they deafen ([#1210](https://github.com/stoatchat/for-web/issues/1210)) ([1abb9e3](https://github.com/stoatchat/for-web/commit/1abb9e3f67732d058e7281aad3b5a0c85e026280))
+* Off-center loading progress wheel is now nice n centered ([#1200](https://github.com/stoatchat/for-web/issues/1200)) ([e76cb3b](https://github.com/stoatchat/for-web/commit/e76cb3baf8a4c0a0ba47ca81a7ea5e3d9b8a91c6))
+* prevent edited message from saving with the same content ([#1221](https://github.com/stoatchat/for-web/issues/1221)) ([d50a97c](https://github.com/stoatchat/for-web/commit/d50a97c3ede7ecf46886978033eb5e94cc763c78))
+* **profile:** avatar toggle closes status menu properly ([#1126](https://github.com/stoatchat/for-web/issues/1126)) ([09e6d16](https://github.com/stoatchat/for-web/commit/09e6d16f700488c245a4edfb4344e486b41b94de))
+* role icons not removing when pressing save ([#1192](https://github.com/stoatchat/for-web/issues/1192)) ([e36b909](https://github.com/stoatchat/for-web/commit/e36b9092fd50696a543f6293a2a5953ae8244805))
+* Spacing around emoji/link/markdown in reply preview ([#1022](https://github.com/stoatchat/for-web/issues/1022)) ([8ca71f2](https://github.com/stoatchat/for-web/commit/8ca71f2a6c5d8faf0531fe337594408b7ce91879))
+* Strip HTML from error strings ([#1059](https://github.com/stoatchat/for-web/issues/1059)) ([308f411](https://github.com/stoatchat/for-web/commit/308f411a4bbcfd0f4f70b4c80ac755ffc7d5c521))
+* Update resize observer implementation in VoiceCallCard ([#1218](https://github.com/stoatchat/for-web/issues/1218)) ([3f36e8a](https://github.com/stoatchat/for-web/commit/3f36e8ad351185e819ed0e779422770c639d6fc4))
+* Use a much more acceptable sound for message notifications ([#1259](https://github.com/stoatchat/for-web/issues/1259)) ([4bf46dc](https://github.com/stoatchat/for-web/commit/4bf46dcf7bd1cff16dbc3a65729ab822d474ad0b))
+* Use correct formatter, remove bad line from tsconfig.json ([829edf2](https://github.com/stoatchat/for-web/commit/829edf29558c4b6f24195df75a9d2b454616935b))
+
+
+### Reverts
+
+* "chore(deps): update dependency @lezer/highlight to v1.2.3" ([#1242](https://github.com/stoatchat/for-web/issues/1242)) ([4bbc06c](https://github.com/stoatchat/for-web/commit/4bbc06c5e2e37c38caee5275c0dee3bd64a05966))
+
 ## [0.7.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.6.0...stoat-for-web-v0.7.0) (2026-05-21)
 
 

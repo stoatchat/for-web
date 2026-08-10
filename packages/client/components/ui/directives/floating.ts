@@ -1,3 +1,4 @@
+import { useDevice } from "@revolt/common";
 import {
   type Accessor,
   type JSX,
@@ -48,6 +49,8 @@ export function unregisterFloatingElement(element: HTMLElement) {
 export function floating(element: HTMLElement, accessor: Accessor<Props>) {
   const config = accessor();
   if (!config) return;
+
+  const { isIOSTouch } = useDevice();
 
   const [show, setShow] = createSignal<Props | undefined>();
   // DEBUG: createEffect(() => console.info("show:", show()));
@@ -117,7 +120,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
   /**
    * Handle context menu click
    */
-  function onContextMenu(event: MouseEvent) {
+  function onContextMenu(event: Event) {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
@@ -125,11 +128,14 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     trigger("contextMenu");
   }
 
+  let isTouching = false,
+    tTmr: NodeJS.Timeout | undefined;
+
   /**
    * Handle mouse entering
    */
   function onMouseEnter() {
-    trigger("tooltip", true);
+    if (!isTouching) trigger("tooltip", true);
   }
 
   /**
@@ -137,6 +143,15 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
    */
   function onMouseLeave() {
     trigger("tooltip", false);
+  }
+
+  function onTouch() {
+    isTouching = true;
+    clearTimeout(tTmr);
+    tTmr = setTimeout(() => {
+      isTouching = false;
+      tTmr = undefined;
+    }, 100);
   }
 
   createEffect(
@@ -166,10 +181,14 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
 
           element.addEventListener("mouseenter", onMouseEnter);
           element.addEventListener("mouseleave", onMouseLeave);
+          element.addEventListener("touchstart", onTouch);
+          element.addEventListener("touchend", onTouch);
 
           onCleanup(() => {
             element.removeEventListener("mouseenter", onMouseEnter);
             element.removeEventListener("mouseleave", onMouseLeave);
+            element.addEventListener("touchstart", onTouch);
+            element.addEventListener("touchend", onTouch);
           });
         }
       },
@@ -181,14 +200,23 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
       () => accessor().contextMenu,
       (contextMenu) => {
         if (contextMenu) {
-          element.addEventListener(
-            accessor().contextMenuHandler ?? "contextmenu",
-            onContextMenu,
-          );
-
-          // TODO: iOS events for touch
+          if (
+            (accessor().contextMenuHandler ?? "contextmenu") ===
+              "contextmenu" &&
+            isIOSTouch
+          ) {
+            element.addEventListener("long-press", onContextMenu);
+          } else {
+            element.addEventListener(
+              accessor().contextMenuHandler ?? "contextmenu",
+              onContextMenu,
+            );
+          }
 
           onCleanup(() => {
+            if (isIOSTouch) {
+              element.removeEventListener("long-press", onContextMenu);
+            }
             element.removeEventListener(
               config.contextMenuHandler ?? "contextmenu",
               onContextMenu,

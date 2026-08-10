@@ -1,7 +1,7 @@
 import { BiLogosGithub } from "solid-icons/bi";
 import { JSX } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
@@ -26,13 +26,6 @@ const Base = styled("div", {
     userSelect: "none",
     overflowY: "scroll",
 
-    color: "var(--md-sys-color-on-surface)",
-    background: "var(--md-sys-color-surface)",
-    // background: `var(--url)`,
-    // backgroundPosition: "center",
-    // backgroundRepeat: "no-repeat",
-    // backgroundSize: "cover",
-
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -40,6 +33,22 @@ const Base = styled("div", {
     mdDown: {
       padding: "30px 20px",
     },
+  },
+});
+
+const Root = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    paddingBottom: "env(keyboard-inset-height)",
+
+    color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface)",
+    // background: `var(--url)`,
+    // backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat",
+    // backgroundSize: "cover",
   },
 });
 
@@ -71,15 +80,14 @@ const NavItems = styled("div", {
   },
   variants: {
     variant: {
-      default: {},
+      default: {
+        "& > *": {
+          textAlign: "center",
+        },
+      },
       stack: {
         md: {
           flexDirection: "column",
-        },
-      },
-      hide: {
-        md: {
-          display: "none",
         },
       },
     },
@@ -119,13 +127,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
 
   return (
-    <div
-      style={{
-        display: "flex",
-        "flex-direction": "column",
-        height: "100%",
-      }}
-    >
+    <Root>
       <Titlebar />
       <Base
         style={{ "--url": `url('${background}')` }}
@@ -174,15 +176,8 @@ export function AuthPage(props: { children: JSX.Element }) {
               </a>
             </NavItems>
           </NavItems>
-          <NavItems variant="hide">
-            <Trans>Image by {"@fakurian"}</Trans>
-            <Bullet />
-            <a href="https://unsplash.com/" target="_blank" rel="noreferrer">
-              unsplash.com
-            </a>
-          </NavItems>
         </Nav>
       </Base>
-    </div>
+    </Root>
   );
 }

@@ -2,6 +2,7 @@ import {
   Accessor,
   batch,
   createContext,
+  createEffect,
   createSignal,
   JSX,
   Setter,
@@ -14,19 +15,20 @@ import {
 } from "solid-livekit-components";
 
 import {
+  LocalTrackPublication,
   Room,
   ScreenSharePresets,
   Track,
   VideoResolution,
 } from "livekit-client";
-import { DenoiseTrackProcessor } from "livekit-rnnoise-processor";
 import { Channel } from "stoat.js";
 
-import { SoundController, useClient, useSound } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { SoundController, useSound } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import { ModalController, useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
+  NoiseSuppresionState,
   ScreenShareQualityName,
   Voice as VoiceSettings,
 } from "@revolt/state/stores/Voice";
@@ -34,6 +36,7 @@ import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callC
 
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
+import { VoiceProcessor } from "./VoiceProcessor";
 
 type State =
   | "READY"
@@ -84,8 +87,10 @@ class Voice {
   private sound: SoundController;
 
   private openModal;
-  private getClient;
+  private config;
+  private limits;
   private screenShareTracks: Set<string>;
+  private voiceProcessor?: VoiceProcessor;
 
   constructor(
     voiceSettings: VoiceSettings,
@@ -132,11 +137,64 @@ class Voice {
     this.showBar = showBar;
     this.#setShowBar = setShowBar;
 
+    const inst = useInstance();
+    this.config = inst.config;
+    this.limits = inst.limits;
     this.openModal = modals.openModal;
 
-    this.getClient = useClient();
-
     this.screenShareTracks = new Set();
+
+    // Setup settings listeners
+    this.settingsListeners();
+  }
+
+  // Dynamically set echo cancellation and gain control when the settings are changed
+  // These functions are needed to maintain reactivity. Don't ask me why but if you make them not functions it breaks.
+  private settingsListeners() {
+    const getSettings = () => this.#settings;
+
+    const setEchoCancellation = (echoCancellation: boolean) => {
+      const track = this.getMicrophoneTrack()?.audioTrack;
+      if (track) {
+        track.constraints.echoCancellation = echoCancellation;
+      }
+    };
+
+    const setAutoGainControl = (autoGainControl: boolean) => {
+      const track = this.getMicrophoneTrack()?.audioTrack;
+      if (track) {
+        track.constraints.autoGainControl = autoGainControl;
+      }
+    };
+
+    const setNoiseSuppression = (noiseSuppression: NoiseSuppresionState) => {
+      const track = this.getMicrophoneTrack()?.audioTrack;
+      if (track) {
+        if (noiseSuppression === "browser") {
+          track.constraints.noiseSuppression = true;
+          //@ts-expect-error voiceIsolation is not yet standard, but it supported by livekit and most chromium based browsers, including electron.
+          track.constraints.voiceIsolation = true;
+        } else {
+          track.constraints.noiseSuppression = false;
+          //@ts-expect-error voiceIsolation is not yet standard, but it supported by livekit and most chromium based browsers, including electron.
+          track.constraints.voiceIsolation = false;
+        }
+      }
+    };
+
+    const restartTrack = () => {
+      const track = this.getMicrophoneTrack()?.audioTrack;
+      if (track) {
+        track.restartTrack();
+      }
+    };
+
+    createEffect(() => {
+      setEchoCancellation(getSettings().echoCancellation ?? true);
+      setAutoGainControl(getSettings().autoGainControl ?? true);
+      setNoiseSuppression(getSettings().noiseSupression ?? "browser");
+      restartTrack();
+    });
   }
 
   async connect(channel: Channel, auth?: { url: string; token: string }) {
@@ -148,6 +206,7 @@ class Voice {
         echoCancellation: this.#settings.echoCancellation,
         noiseSuppression: this.#settings.noiseSupression === "browser",
         autoGainControl: this.#settings.autoGainControl,
+        voiceIsolation: this.#settings.noiseSupression === "browser",
       },
       audioOutput: {
         deviceId: this.#settings.preferredAudioOutputDevice,
@@ -180,13 +239,6 @@ class Voice {
           .setMicrophoneEnabled(this.#settings.micOn)
           .then((track) => {
             this.#settings.micOn = track != null;
-            if (this.#settings.noiseSupression === "enhanced") {
-              track?.audioTrack?.setProcessor(
-                new DenoiseTrackProcessor({
-                  workletCDNURL: CONFIGURATION.RNNOISE_WORKLET_CDN_URL,
-                }),
-              );
-            }
           });
       for (const p of room.remoteParticipants.values()) {
         const screenShareTrack = p.getTrackPublication(
@@ -200,6 +252,16 @@ class Voice {
     });
 
     room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
+
+    room.addListener("localTrackPublished", (pub) => {
+      if (pub.audioTrack && pub.audioTrack.source === Track.Source.Microphone) {
+        if (!pub.audioTrack.getProcessor()) {
+          pub.audioTrack?.setProcessor(
+            (this.voiceProcessor = new VoiceProcessor(this.#settings)),
+          );
+        }
+      }
+    });
 
     room.addListener("participantConnected", () => {
       this.sound.playSound("userJoinVoice");
@@ -231,8 +293,17 @@ class Voice {
       }
     });
 
+    // Gather latency
+    const selected = await Promise.any(
+      this.config.features.livekit.nodes.map(async (node) => {
+        return fetch(node.public_url.replace("wss", "https")).then(() => {
+          return node.name;
+        });
+      }),
+    );
+
     if (!auth) {
-      auth = await channel.joinCall("worldwide");
+      auth = await channel.joinCall(selected);
     }
 
     await room.connect(auth.url, auth.token, {
@@ -349,54 +420,40 @@ class Voice {
       },
     };
 
-    if (this.getClient().configured()) {
-      // TODO: Use new user limits if the user is new - I don't think there's a way to do that now?
-      const limit =
-        this.getClient().configuration?.features.limits.default
-          .video_resolution;
+    const limit = this.limits().video_resolution;
 
-      // TODO: Add more resolutions to stream from if they're enabled. May tie into premium users in the future?
-      if (limit) {
-        if (
-          (limit[0] === 0 || limit[0] >= 1920) &&
-          (limit[1] === 0 || limit[1] >= 1080)
-        ) {
-          qualities.high = {
-            name: "high",
-            resolution: ScreenSharePresets.h1080fps30.resolution,
-            fullName: `1080p 30FPS`,
-            contentHint: "motion",
-          };
-          const originalResolution = ScreenSharePresets.original.resolution;
-          originalResolution.frameRate = 5;
-          originalResolution.aspectRatio = 0;
-          if (this.getClient().configured()) {
-            // TODO: Use new user limits if the user is new - I don't think there's a way to do that now?
-            const limit =
-              this.getClient().configuration?.features.limits.default
-                .video_resolution;
-            if (limit) {
-              originalResolution.width = limit[0];
-              originalResolution.height = limit[1];
-              // If both resolutions are limited, set aspect ratio
-              if (
-                originalResolution.height !== 0 &&
-                originalResolution.width !== 0
-              ) {
-                originalResolution.aspectRatio =
-                  originalResolution.width / originalResolution.height;
-              }
-            }
-          }
-          qualities.text = {
-            name: "text",
-            resolution: originalResolution,
-            fullName: `Source 5FPS`,
-            contentHint: "text",
-          };
-        }
+    // TODO: Add more resolutions to stream from if they're enabled. May tie into premium users in the future?
+    if (
+      (limit[0] === 0 || limit[0] >= 1920) &&
+      (limit[1] === 0 || limit[1] >= 1080)
+    ) {
+      qualities.high = {
+        name: "high",
+        resolution: ScreenSharePresets.h1080fps30.resolution,
+        fullName: `1080p 30FPS`,
+        contentHint: "motion",
+      };
+      const originalResolution = ScreenSharePresets.original.resolution;
+      originalResolution.frameRate = 5;
+      originalResolution.aspectRatio = 0;
+
+      const limit = this.limits().video_resolution;
+      originalResolution.width = limit[0];
+      originalResolution.height = limit[1];
+      // If both resolutions are limited, set aspect ratio
+      if (originalResolution.height !== 0 && originalResolution.width !== 0) {
+        originalResolution.aspectRatio =
+          originalResolution.width / originalResolution.height;
       }
+
+      qualities.text = {
+        name: "text",
+        resolution: originalResolution,
+        fullName: `Source 5FPS`,
+        contentHint: "text",
+      };
     }
+
     return qualities;
   }
 
@@ -449,7 +506,13 @@ class Voice {
               this.getEnabledScreenShareQualities()[
                 this.#settings.screenShareQuality || "low"
               ]?.resolution,
-            audio: true,
+            audio: {
+              autoGainControl: false,
+              echoCancellation: false,
+              noiseSuppression: false,
+              voiceIsolation: false,
+              restrictOwnAudio: true,
+            },
           },
         );
 
@@ -588,8 +651,15 @@ class Voice {
       channel.isVoice &&
       (this.channel()?.id === channel.id ||
         channel.type === "TextChannel" ||
-        channel.voiceParticipants.size)
+        !!channel.voiceParticipants.size)
     );
+  }
+
+  getMicrophoneTrack(): LocalTrackPublication | undefined {
+    const track = this.room()?.localParticipant.getTrackPublication(
+      Track.Source.Microphone,
+    );
+    return track;
   }
 
   get listenPermission() {

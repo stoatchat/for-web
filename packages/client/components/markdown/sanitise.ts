@@ -7,12 +7,12 @@ const RE_RECURSIVE =
 /**
  * Regex for matching multi-line blockquotes
  */
-const RE_BLOCKQUOTE = /^([^\S\r\n]*>[^\n]+\n?)+/gm;
+const RE_BLOCKQUOTE = /^(?:[^\S\r\n]*>[^\n]+\n?)+/gm;
 
 /**
  * Regex for matching HTML tags
  */
-const RE_HTML_TAGS = /^(<\/?[a-zA-Z0-9]+>)(.*$)/gm;
+const RE_HTML_TAGS = /^(?:<\/?[a-zA-Z0-9]+>)(?:.*$)/gm;
 
 /**
  * Regex for matching empty lines
@@ -28,7 +28,9 @@ const RE_PLUS = /^\s*\+(?:$|[^+])/gm;
  * Regex for matching non-breaking spaces in code blocks
  */
 const RE_CODEBLOCK_EMPTY_LINE_FIX =
-  /(?<=`{3}[\s\S]*)\n\uF800\n(?=[\s\S]*`{3})/gm;
+  /(?<=`{3}[\s\S]*)\n\u200B\n(?=[\s\S]*`{3})/gm;
+
+const RE_SPOILER_URL = /(https?:\/\/[\w_.~!*''();:@&=+$,/?#[%-]+)\|\|/;
 
 /**
  * Sanitise Markdown input before rendering
@@ -44,17 +46,17 @@ export function sanitise(content: string) {
       // Append empty character if string starts with html tag
       // This is to avoid inconsistencies in rendering Markdown inside/after HTML tags
       // https://github.com/revoltchat/revite/issues/733
-      .replace(RE_HTML_TAGS, (match) => `\uF800${match}`)
+      .replace(RE_HTML_TAGS, "\u200B$&")
 
       // Append empty character if line starts with a plus
       // which would usually open a new list but we want
       // to avoid that behaviour in our case.
-      .replace(RE_PLUS, (match) => `\uF800${match}`)
+      .replace(RE_PLUS, "\u200B$&")
 
       // Replace empty lines with non-breaking space
       // because remark renderer is collapsing empty
       // or otherwise whitespace-only lines of text
-      .replace(RE_EMPTY_LINE, "\n\uF800\n")
+      .replace(RE_EMPTY_LINE, "\n\u200B\n")
 
       // Reverts previous empty line operation specifically for codeblocks.
       // Hacky solution, I know, but so far I haven't found a more elegant
@@ -62,12 +64,15 @@ export function sanitise(content: string) {
       .replace(RE_CODEBLOCK_EMPTY_LINE_FIX, "")
 
       // Ensure empty line after blockquotes for correct rendering
-      .replace(RE_BLOCKQUOTE, (match) => `${match}\n`)
+      .replace(RE_BLOCKQUOTE, "$&\n")
+
+      // Prevent spoilers from breaking on links at end
+      .replace(RE_SPOILER_URL, "$1 ||")
   );
 }
 
 /**
- * Replace \uF800 with break elements
+ * Replace \u200B with break elements
  */
 export function remarkInsertBreaks() {
   return (tree: import("hast").Root) => {
@@ -80,7 +85,7 @@ export function remarkInsertBreaks() {
       element: Record<string, unknown> & { children: unknown[] },
     ): unknown {
       if (element.type === "text") {
-        if (element.value === "\uF800") {
+        if (element.value === "\u200B") {
           return {
             type: "element",
             tagName: "br",

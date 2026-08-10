@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -99,7 +99,7 @@ export function AppearanceMenu() {
         </Row> */}
 
         <Show when={state.theme.preset === "you"}>
-          <Row align justify>
+          <Row align justify wrap>
             <IconButton
               ref={setPickerRef}
               variant="filled"
@@ -169,6 +169,8 @@ export function AppearanceMenu() {
           </div> */}
           </Row>
 
+          {/* TODO: Cursed on mobile; may need to be replaced
+          with FloatingSelect / similar on small screens */}
           <Row justify="stretch">
             <Button
               size="xs"
@@ -304,6 +306,7 @@ export function AppearanceMenu() {
               }
               timestamp={new Date()}
               username={user()?.displayName}
+              pronouns={user()?.pronouns}
               isLink="hide"
             >
               Sphinx of black quartz, judge my vow
@@ -438,7 +441,7 @@ const Preview = styled("div", {
     height: "126px",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-lg)",
-    background: "var(--md-sys-color-surface-container-highest)",
+    background: "var(--md-sys-color-surface-container-lowest)",
   },
 });
 

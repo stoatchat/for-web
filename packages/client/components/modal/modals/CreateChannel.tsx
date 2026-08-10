@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useNavigate } from "@revolt/routing";
 import { Column, Dialog, DialogProps, Form2, Radio2 } from "@revolt/ui";
@@ -30,10 +30,25 @@ export function CreateChannelModal(
         name: group.controls.name.value,
       });
 
+      //Reorder categories
+      const newChId = channel.id,
+        catId = props.categoryId;
+      if (catId && catId !== "default") {
+        let ch, chIds;
+        props.server.edit({
+          categories: props.server.orderedChannels.map((cat) => {
+            chIds = [];
+            for (ch of cat.channels) if (ch.id !== newChId) chIds.push(ch.id);
+            if (cat.id === catId) chIds.push(newChId);
+            return { ...cat, channels: chIds };
+          }),
+        });
+      }
+
       if (props.cb) {
         props.cb(channel);
       } else {
-        navigate(`/server/${props.server.id}/channel/${channel.id}`);
+        navigate(`/server/${props.server.id}/channel/${newChId}`);
       }
 
       props.onClose();

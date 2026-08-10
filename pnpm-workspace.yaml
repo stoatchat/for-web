@@ -2,13 +2,11 @@ packages:
   - packages/client
   - packages/stoat.js
   - packages/solid-livekit-components
-  - packages/solid-dnd-directive
-  - packages/js-lingui-solid/packages/jest-mocks
-  - packages/js-lingui-solid/packages/babel-plugin-extract-messages
-  - packages/js-lingui-solid/packages/babel-plugin-lingui-macro
 allowBuilds:
   "@swc/core": true
   esbuild: true
+minimumReleaseAgeExclude:
+  - stoat-api
 nodeLinker: isolated
 
 # Override prettier because some of the submodules have ancient prettiers required

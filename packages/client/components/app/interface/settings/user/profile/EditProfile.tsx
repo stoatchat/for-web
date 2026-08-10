@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import { createOwnProfileResource } from "@revolt/client/resources";
@@ -63,7 +63,7 @@ export function EditProfile() {
         <Text class="title" size="large">
           <Trans>Edit Global Profile</Trans>
         </Text>
-        <UserProfileEditor user={client().user!} />
+        <UserProfileEditor user={client().user!} profile={profile.data} />
       </Column>
     </Column>
   );

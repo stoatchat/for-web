@@ -1,15 +1,21 @@
 import {
+  Accessor,
   JSX,
   Show,
   createContext,
+  createEffect,
+  createMemo,
   createSignal,
   onMount,
   useContext,
 } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
+import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
+
+import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
@@ -28,9 +34,9 @@ import { Sync } from "./stores/Sync";
 import { Theme } from "./stores/Theme";
 import { Voice } from "./stores/Voice";
 
-export { SyncWorker } from "./SyncWorker";
-
+export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
 export type { Sounds, TypeSounds } from "./stores/Sounds";
+export { SyncWorker } from "./SyncWorker";
 
 /**
  * Introduce some delay before writing state to disk
@@ -50,6 +56,23 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private writeQueue: Record<string, number>;
+
+  appDrawer;
+  setAppDrawer;
+  diagDrawer;
+  setDiagDrawer;
+
+  /** A reactive Date() that updates once per minute */
+  datePerMinute: Accessor<Date> = createDateNow(6e4)[0];
+
+  /** A reactive Date() that updates only when the day changes */
+  datePerDay: Accessor<Date> = (() => {
+    const poll = createDateNow(1000)[0];
+    const [get, set] = createSignal();
+    createEffect(() => set(poll().getDay()));
+    const date = createMemo(() => (get(), new Date()));
+    return date;
+  })();
 
   // define all stores
   auth = new Auth(this);
@@ -101,10 +124,17 @@ export class State {
    */
   constructor() {
     const [store, setStore] = createStore(this.defaults() as Store);
-
     this.store = store as never;
     this.setStore = setStore;
     this.writeQueue = {};
+
+    const [ad, setAd] = createSignal<SlideDrawer>();
+    this.appDrawer = ad;
+    this.setAppDrawer = setAd;
+
+    const [dd, setDd] = createSignal<SlideDrawer>();
+    this.diagDrawer = dd;
+    this.setDiagDrawer = setDd;
   }
 
   /**

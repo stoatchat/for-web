@@ -1,6 +1,6 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { Server, ServerInvite } from "stoat.js";
 
@@ -37,7 +37,7 @@ export function ListServerInvites(props: { server: Server }) {
       await invite.delete();
       client.setQueryData(
         ["invites", props.server.id],
-        query.data!.filter((entry) => entry.id !== entry.id),
+        query.data!.filter((entry) => entry.id !== invite.id),
       );
     } catch (error) {
       showError(error);

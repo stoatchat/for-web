@@ -1,6 +1,7 @@
-import { type JSX, createSignal, onCleanup } from "solid-js";
+import { type JSX, createMemo } from "solid-js";
 
 import { useTime } from "@revolt/i18n";
+import { useState } from "@revolt/state";
 
 interface Props {
   value: number | Date | string | JSX.Element;
@@ -25,6 +26,7 @@ interface Props {
 export function formatTime(
   dayjs: ReturnType<typeof useTime>,
   options: Props,
+  date?: Date,
 ): JSX.Element | string | undefined | null {
   if (
     options.value instanceof Date ||
@@ -48,7 +50,7 @@ export function formatTime(
         return dayjs(options.value).format("YYYY-MM-DD");
       case "relative":
         return dayjs(options.value).from(
-          options.referenceTime ?? Date.now(),
+          options.referenceTime ?? date?.getTime() ?? Date.now(),
           options.hideSuffix,
         );
       case "time12":
@@ -65,16 +67,16 @@ export function formatTime(
 
 export function Time(props: Props) {
   const dayjs = useTime();
-  const [time, setTime] = createSignal(formatTime(dayjs, props));
+  const { datePerDay } = useState();
 
-  const timer = setInterval(() => {
-    const value = formatTime(dayjs, props);
-    if (value !== time()) {
-      setTime(value);
-    }
-  }, 1000);
-
-  onCleanup(() => clearInterval(timer));
+  const time = createMemo(() =>
+    formatTime(
+      dayjs,
+      props,
+      //Reactively update time only if relative date (param unused for other formats)
+      props.format === "relative" ? datePerDay() : undefined,
+    ),
+  );
 
   return (
     <time

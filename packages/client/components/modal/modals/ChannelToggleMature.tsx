@@ -1,6 +1,6 @@
 import { Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 
 import { Dialog, DialogProps } from "@revolt/ui";

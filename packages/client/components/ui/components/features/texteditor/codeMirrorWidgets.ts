@@ -9,7 +9,6 @@ import {
 } from "@codemirror/view";
 import { Channel, ServerMember, ServerRole, User } from "stoat.js";
 
-import { useClient } from "@revolt/client";
 import {
   RE_UNICODE_EMOJI,
   unicodeEmojiUrl,
@@ -17,11 +16,12 @@ import {
 import { userInformation } from "@revolt/markdown/users";
 import { useSmartParams } from "@revolt/routing";
 
+import { useInstance } from "@revolt/instance";
 import { parseUnicodeEmoji } from "@revolt/markdown/plugins/unicodeEmoji";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
 export function codeMirrorWidgets() {
-  const getClient = useClient();
+  const instance = useInstance();
   const params = useSmartParams();
 
   const widgetMatcher = new MatchDecorator({
@@ -41,7 +41,6 @@ export function codeMirrorWidgets() {
         return null;
       }
 
-      const client = getClient();
       const { serverId } = params();
 
       let widget: WidgetType = null!;
@@ -51,28 +50,26 @@ export function codeMirrorWidgets() {
 
         widget = new EmojiWidget(unicodeEmojiUrl(pack, str));
       } else if (emojiId) {
-        widget = new EmojiWidget(
-          `${client?.configuration?.features.autumn.url}/emojis/${emojiId}`,
-        );
+        widget = new EmojiWidget(`${instance.mediaUrl}/emojis/${emojiId}`);
       } else if (userId) {
         const member = serverId
-          ? getClient().serverMembers.getByKey({
+          ? instance.client.serverMembers.getByKey({
               server: serverId,
               user: userId,
             })
           : undefined;
 
-        const user = getClient().users.get(userId);
+        const user = instance.client.users.get(userId);
 
         widget = new UserMentionWidget(user, member);
       } else if (channelId) {
-        const channel = getClient().channels.get(channelId);
+        const channel = instance.client.channels.get(channelId);
 
         if (channel) {
           widget = new ChannelMentionWidget(channel);
         }
       } else if (roleId) {
-        const role = getClient().servers.get(serverId!)?.roles.get(roleId);
+        const role = instance.client.servers.get(serverId!)?.roles.get(roleId);
 
         if (role) {
           widget = new RoleMentionWidget(role);

@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import dayjs from "dayjs";
 import { Channel } from "stoat.js";
 

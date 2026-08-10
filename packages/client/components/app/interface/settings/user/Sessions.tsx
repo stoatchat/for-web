@@ -15,7 +15,7 @@ import {
   onMount,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Session } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -129,7 +129,8 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
  * List other logged in sessions
  */
 function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
-  const { openModal } = useModals();
+  const { openModal, mfaFlow } = useModals();
+  const client = useClient();
 
   return (
     <Show when={props.otherSessions().length}>
@@ -161,7 +162,13 @@ function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
                 <CategoryButton
                   icon="blank"
                   action="chevron"
-                  onClick={() => session.delete()}
+                  onClick={() => {
+                    (async () => {
+                      const mfa = await client().account.mfa();
+                      const ticket = await mfaFlow(mfa as never);
+                      session.delete(ticket!);
+                    })();
+                  }}
                 >
                   <Trans>Log Out</Trans>
                 </CategoryButton>

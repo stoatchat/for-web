@@ -54,20 +54,6 @@ mise check
 
 Finally, navigate to http://local.revolt.chat:5173.
 
-### Pulling in Stoat's brand assets
-
-If you want to pull in Stoat brand assets after pulling, run the following:
-
-```bash
-mise assets
-```
-
-You can switch back to the fallback assets by running deinit and continuing as normal:
-
-```bash
-mise assets:fallback
-```
-
 ### Using the official backend
 
 By default, the client connects to a backend running on the same host (localhost).
@@ -77,10 +63,6 @@ If you want the client to connect to the official hosted backend instead, open t
 ```env
 # connect to local Stoat instance
 #VITE_API_URL=http://localhost:14702
-#VITE_WS_URL=ws://localhost:14703
-#VITE_MEDIA_URL=http://localhost:14704
-#VITE_PROXY_URL=http://localhost:14705
-
 ```
 
 When these variables are not set, the client automatically falls back to the official backend. (See https://github.com/stoatchat/for-web/blob/main/packages/client/components/common/lib/env.ts)

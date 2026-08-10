@@ -1,9 +1,12 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+import { For, Show, createMemo, createSignal } from "solid-js";
+
+import { Trans, useLingui } from "@lingui/solid/macro";
+import { createFormControl, createFormGroup } from "solid-forms";
+import { API, Server, ServerRole } from "stoat.js";
+import { styled } from "styled-system/jsx";
+
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   Button,
@@ -15,10 +18,11 @@ import {
   Row,
   Text,
 } from "@revolt/ui";
-import { createFormControl, createFormGroup } from "solid-forms";
-import { For, Show, createMemo, createSignal } from "solid-js";
-import { API, Server, ServerRole } from "stoat.js";
-import { styled } from "styled-system/jsx";
+
+import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
+import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
+import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
@@ -30,6 +34,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const client = useClient();
   const { openModal } = useModals();
   const { navigate } = useSettingsNavigation();
+  const instance = useInstance();
 
   const role = createMemo(
     () =>
@@ -65,7 +70,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         changes.icon = await client().uploadFile(
           "icons",
           editGroup.controls.icon.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
       }
     }
@@ -103,12 +108,13 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             label={t`Role Name`}
           />
           <Column>
-            <Row align>
+            <Row>
               <IconButton
                 ref={setPickerRef}
                 variant="filled"
                 shape="square"
                 size="lg"
+                style={{ height: "auto", width: "95px" }}
                 onPress={() => pickerRef()?.click()}
               >
                 <MDPalette />
@@ -132,7 +138,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
                 }}
               />
               <Column gap="lg">
-                <Row justify>
+                <Row justify wrap>
                   <For
                     each={[
                       "#7B68EE",
@@ -160,7 +166,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
                   </For>
                 </Row>
 
-                <Row justify>
+                <Row justify wrap>
                   <For
                     each={[
                       "#594CAD",
@@ -196,6 +202,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             accept="image/*"
             label={t`Role Icon`}
             imageJustify={false}
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
 
           <Column>

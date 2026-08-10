@@ -4,7 +4,7 @@ import { KeybindAction } from "./keybindActions";
  * Sequences are a set of keys that must be pressed at the same time
  */
 export const DEFAULT_SEQUENCES: Record<KeybindAction, (string | RegExp)[]> = {
-  [KeybindAction.NAVIGATION_CHANNEL_UP]: ["Alt", "ArrowDown"],
+  [KeybindAction.NAVIGATION_CHANNEL_UP]: ["Alt", "ArrowUp"],
   [KeybindAction.NAVIGATION_CHANNEL_DOWN]: ["Alt", "ArrowDown"],
   [KeybindAction.NAVIGATION_SERVER_UP]: ["Control", "Alt", "ArrowUp"],
   [KeybindAction.NAVIGATION_SERVER_DOWN]: ["Control", "Alt", "ArrowDown"],
