@@ -227,6 +227,9 @@ export class State {
       const ses = this.store.auth.session;
       this.db =
         ses && localforage.createInstance({ storeName: `@${ses.userId}` });
+
+      //Try to enable persistent storage
+      if (ses) navigator.storage?.persist().catch(() => {});
     }
 
     // load all data first
