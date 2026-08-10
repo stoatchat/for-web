@@ -26,7 +26,7 @@ const Config: SettingsConfiguration<Server> = {
     const { t } = useLingui();
 
     if (key.startsWith("roles/")) {
-      if (key === "roles/default") return t`Default Permissions`;
+      if (key === "roles/default") return t`Everyone`;
 
       return ctx.context.roles.get(key.substring(6))?.name ?? "";
     }
