@@ -9,7 +9,7 @@ import {
   onMount,
 } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import type { API } from "stoat.js";
 
 import {

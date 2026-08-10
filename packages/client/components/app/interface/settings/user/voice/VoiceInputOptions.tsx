@@ -1,7 +1,7 @@
 import { createMemo, Show } from "solid-js";
 import { useMediaDeviceSelect } from "solid-livekit-components";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useInstance } from "@revolt/instance";
 import { useState } from "@revolt/state";

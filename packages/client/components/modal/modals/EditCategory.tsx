@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { t } from "@lingui/core/macro";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";

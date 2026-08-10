@@ -1,6 +1,6 @@
 import { JSX, Show, splitProps } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
 
 import { MessageContextMenu, useMessage } from "@revolt/app";
