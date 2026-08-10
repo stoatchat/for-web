@@ -1,4 +1,4 @@
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { CONFIGURATION } from "@revolt/common";
 import { User } from "stoat.js";
 
