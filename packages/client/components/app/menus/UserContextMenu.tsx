@@ -4,10 +4,10 @@ import { useModals } from "@revolt/modal";
 import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Slider, Symbol, Text } from "@revolt/ui";
-import { styled } from "styled-system/jsx";
 import { useNavigate } from "@solidjs/router";
 import { type JSX, Match, Show, Switch } from "solid-js";
 import type { Channel, Message, ServerMember, User } from "stoat.js";
+import { styled } from "styled-system/jsx";
 
 import {
   ContextMenu,
