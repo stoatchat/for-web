@@ -29,7 +29,7 @@ export const normalizeHost = (host: string) =>
     ? STOAT_HOST
     : host;
 
-export const isStoatOfficialAPI = (api: string) =>
+const isStoatOfficialAPI = (api: string) =>
   [
     "https://api.revolt.chat",
     "https://api.stoat.chat",
