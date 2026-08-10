@@ -19,8 +19,7 @@ jobs:
     name: Build Docker Image
     strategy:
       matrix:
-        # os: ${{ case(github.event_name != 'pull_request', '[ubuntu-latest, ubuntu-24.04-arm]', '[ubuntu-latest]') }}
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+        os: ${{ case(github.event_name != 'pull_request', '[ubuntu-latest, ubuntu-24.04-arm]', '[ubuntu-latest]') }}
     runs-on: ${{ matrix.os }}
 
     permissions:
