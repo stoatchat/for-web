@@ -20,8 +20,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
+        exclude:
+          - os: ${{ github.event_name == 'pull_request' && 'ubuntu-24.04-arm' || '' }}
     runs-on: ${{ matrix.os }}
-    if: matrix.os == 'ubuntu-latest' || github.event_name != 'pull_request'
     permissions:
       contents: read
       packages: write
