@@ -463,8 +463,8 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1))
       vite-plugin-inspect:
-        specifier: ^0.8.9
-        version: 0.8.9(rollup@2.80.0)(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1))
+        specifier: ^0.10.0
+        version: 0.10.6(rollup@2.80.0)(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1))
       vite-plugin-pwa:
         specifier: ^1.3.0
         version: 1.3.0(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1))(workbox-build@7.1.1(@types/babel__core@7.20.5))(workbox-window@7.3.0)
@@ -4348,10 +4348,6 @@ packages:
     resolution: {integrity: sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==}
     engines: {node: '>= 0.8'}
 
-  fs-extra@11.3.0:
-    resolution: {integrity: sha512-Z4XaCL6dUDHfP/jT25jJKMmtxvuwbkrD1vNSMFlo9lNLY2c5FHYSQgHPRZUjAB26TpDEoW9HCOgplrdbaPV/ew==}
-    engines: {node: '>=14.14'}
-
   fs-extra@11.3.2:
     resolution: {integrity: sha512-Xr9F6z6up6Ws+NjzMCZc6WXg2YFRlrLP9NQDO3VQrWrfiojdhS56TzueT88ze0uBdCTwEIhQ3ptnmKeWGFAe0A==}
     engines: {node: '>=14.14'}
@@ -5527,10 +5523,6 @@ packages:
     resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
     engines: {node: '>=8.6'}
 
-  picomatch@4.0.2:
-    resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
-    engines: {node: '>=12'}
-
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
@@ -6622,12 +6614,12 @@ packages:
     peerDependencies:
       vite: '>=2'
 
-  vite-plugin-inspect@0.8.9:
-    resolution: {integrity: sha512-22/8qn+LYonzibb1VeFZmISdVao5kC22jmEKm24vfFE8siEn47EpVcCLYMv6iKOYMJfjSvSJfueOwcFCkUnV3A==}
+  vite-plugin-inspect@0.10.6:
+    resolution: {integrity: sha512-R3pwljjBbjFM2sZvy6Zvynnm51oaEwLYyYPk9Wp2lF97w/YMBq+KtTJXpCA17IO2pImX0bWA6WB05kuqRnkuyQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': '*'
-      vite: ^3.1.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.1
+      vite: ^6.0.0
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
@@ -7820,7 +7812,7 @@ snapshots:
       '@babel/parser': 7.28.3
       '@babel/template': 7.27.2
       '@babel/types': 7.28.2
-      debug: 4.4.1
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -9201,9 +9193,9 @@ snapshots:
 
   '@rollup/pluginutils@5.1.4(rollup@2.80.0)':
     dependencies:
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
       estree-walker: 2.0.2
-      picomatch: 4.0.2
+      picomatch: 4.0.4
     optionalDependencies:
       rollup: 2.80.0
 
@@ -11479,12 +11471,6 @@ snapshots:
 
   fresh@2.0.0: {}
 
-  fs-extra@11.3.0:
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.1.0
-      universalify: 2.0.1
-
   fs-extra@11.3.2:
     dependencies:
       graceful-fs: 4.2.11
@@ -12859,8 +12845,6 @@ snapshots:
 
   picomatch@2.3.2: {}
 
-  picomatch@4.0.2: {}
-
   picomatch@4.0.3: {}
 
   picomatch@4.0.4: {}
@@ -14144,13 +14128,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-inspect@0.8.9(rollup@2.80.0)(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1)):
+  vite-plugin-inspect@0.10.6(rollup@2.80.0)(vite@6.4.3(@types/node@24.7.1)(jiti@2.7.0)(lightningcss@1.31.1)(terser@5.49.2)(yaml@2.7.1)):
     dependencies:
       '@antfu/utils': 0.7.10
       '@rollup/pluginutils': 5.1.4(rollup@2.80.0)
-      debug: 4.4.0
+      debug: 4.4.3
       error-stack-parser-es: 0.1.5
-      fs-extra: 11.3.0
+      fs-extra: 11.3.2
       open: 10.1.2
       perfect-debounce: 1.0.0
       picocolors: 1.1.1
