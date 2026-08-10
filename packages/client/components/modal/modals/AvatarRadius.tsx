@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useState } from "@revolt/state";
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 import { createFormControl, createFormGroup } from "solid-forms";
