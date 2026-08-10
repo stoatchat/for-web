@@ -1,6 +1,6 @@
 import { createMemo, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import MdTimerOff from "@material-symbols/svg-400/outlined/timer_off.svg?component-solid";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
@@ -381,6 +381,7 @@ const NameStatusStack = styled("div", {
     justifyContent: "center",
   },
 });
+
 /**
  * Whether a member is currently timed out
  */
@@ -395,6 +396,9 @@ function Member(props: {
 }) {
   const { t } = useLingui();
 
+  /**
+   * Create user information
+   */
   const user = () =>
     userInformation((props.user ?? props.member?.user)!, props.member);
 
@@ -418,6 +422,7 @@ function Member(props: {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        (props.user ?? props.member?.user)?.bot,
         undefined,
         props.group,
       )}

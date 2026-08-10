@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useState } from "@revolt/state";
 import { Button, Text } from "@revolt/ui";
 import { Show, createSignal } from "solid-js";

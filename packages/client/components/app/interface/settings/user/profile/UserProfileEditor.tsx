@@ -1,12 +1,12 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { Show, createEffect, createSignal, on } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQueryClient } from "@tanstack/solid-query";
 import { API, User, UserProfile } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import {
   CategoryButton,
   CircularProgress,
@@ -29,6 +29,7 @@ export function UserProfileEditor(props: Props) {
   const { t } = useLingui();
   const client = useClient();
   const queryClient = useQueryClient();
+  const instance = useInstance();
   const { navigate } = useSettingsNavigation();
 
   /* eslint-disable solid/reactivity */
@@ -93,7 +94,7 @@ export function UserProfileEditor(props: Props) {
         changes.avatar = await client().uploadFile(
           "avatars",
           editGroup.controls.avatar.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
       }
     }
@@ -125,10 +126,10 @@ export function UserProfileEditor(props: Props) {
         changes.profile.background = await client().uploadFile(
           "backgrounds",
           editGroup.controls.banner.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
 
-        newBannerUrl = `${CONFIGURATION.DEFAULT_MEDIA_URL}/backgrounds/${changes.profile.background}`;
+        newBannerUrl = `${instance.mediaUrl}/backgrounds/${changes.profile.background}`;
       } else {
         newBannerUrl = editGroup.controls.banner.value;
       }
@@ -159,6 +160,7 @@ export function UserProfileEditor(props: Props) {
           accept="image/*"
           label={t`Avatar`}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["avatars"]}
         />
         <Form2.FileInput
           control={editGroup.controls.banner}
@@ -167,6 +169,7 @@ export function UserProfileEditor(props: Props) {
           imageAspect="232/100"
           imageRounded={false}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["background"]}
         />
         <Form2.TextField
           minlength={2}

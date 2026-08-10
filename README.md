@@ -63,10 +63,6 @@ If you want the client to connect to the official hosted backend instead, open t
 ```env
 # connect to local Stoat instance
 #VITE_API_URL=http://localhost:14702
-#VITE_WS_URL=ws://localhost:14703
-#VITE_MEDIA_URL=http://localhost:14704
-#VITE_PROXY_URL=http://localhost:14705
-
 ```
 
 When these variables are not set, the client automatically falls back to the official backend. (See https://github.com/stoatchat/for-web/blob/main/packages/client/components/common/lib/env.ts)

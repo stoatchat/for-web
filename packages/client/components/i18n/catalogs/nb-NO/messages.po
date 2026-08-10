@@ -657,12 +657,22 @@ msgstr "Kan ikke redigere denne meldingen."
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditBotUsername.tsx
 msgid "Change"
 msgstr "Endre"
+
+#. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
+#: components/modal/modals/ServerIdentity.tsx
+msgid "Change {0}'s nickname"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
 msgstr "Endre avatar"
+
+#: components/modal/modals/EditBotUsername.tsx
+msgid "Change bot username"
+msgstr ""
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
@@ -693,9 +703,17 @@ msgstr "Endre egen avatar"
 msgid "Change own nickname"
 msgstr "Endre eget kallenavn"
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change this bot's username"
+msgstr ""
+
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
 msgstr "Endre brukernavn"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change Username"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
@@ -781,6 +799,7 @@ msgstr "Klientinnstillinger"
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/CustomStatus.tsx
 #: components/modal/modals/CreateWebhook.tsx
@@ -1007,6 +1026,7 @@ msgid "Create Bot"
 msgstr "Opprett bot"
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Create category"
 msgstr "Opprett kategori"
@@ -1014,6 +1034,7 @@ msgstr "Opprett kategori"
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Create channel"
 msgstr "Opprett kanal"
 
@@ -1333,6 +1354,7 @@ msgstr "Rediger identiteten din"
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Redigert"
 
@@ -1462,6 +1484,11 @@ msgstr "Kunne ikke bekrefte!"
 msgid "Feedback"
 msgstr "Tilbakemelding"
 
+#. placeholder {0}: humanFileSize(local.maxSize)
+#: components/ui/components/utils/Form2.tsx
+msgid "File must be smaller than {0}"
+msgstr ""
+
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
 msgstr "Finn et fellesskap basert på dine hobbyer eller interesser."
@@ -1506,6 +1533,10 @@ msgstr "I 8 timer"
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
 msgstr "Venner"
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "from "
+msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
@@ -1883,6 +1914,10 @@ msgstr "Logg inn"
 msgid "Logs you out of all sessions except this device."
 msgstr "Logger deg ut av alle økter utenom denne."
 
+#: components/app/interface/settings/server/emojis/EmojiList.tsx
+msgid "Lowercase letters, numbers and underscores only."
+msgstr ""
+
 #: src/LoadingScreen.tsx
 msgid "Major Outage"
 msgstr ""
@@ -2028,6 +2063,11 @@ msgstr "Melding var sendt på en annen platform"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Messaging"
 msgstr "Meldingssending"
+
+#: components/app/interface/settings/user/Account.tsx
+#: components/app/interface/settings/user/Account.tsx
+msgid "MFA setup canceled."
+msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
@@ -2391,7 +2431,6 @@ msgstr "Profilbiografi"
 msgid "Promotes harm"
 msgstr "Promoterer skade"
 
-#: components/ui/components/features/profiles/ProfilePronouns.tsx
 #: components/modal/modals/ServerIdentity.tsx
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Pronouns"
@@ -3219,6 +3258,8 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
 msgstr "Ukjent Sørver"
@@ -3334,6 +3375,7 @@ msgstr "Brukeren sin profil har upassende innhold"
 
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/CreateBot.tsx
 #: components/modal/modals/AddFriend.tsx
 #: components/auth/src/flows/Form.tsx

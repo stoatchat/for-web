@@ -1,17 +1,11 @@
-import {
-  BiRegularListUl,
-  BiSolidCloud,
-  BiSolidInfoCircle,
-  BiSolidTrash,
-} from "solid-icons/bi";
-
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { ColouredText } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { SettingsConfiguration } from ".";
 import ChannelOverview from "./channel/Overview";
@@ -35,7 +29,7 @@ const Config: SettingsConfiguration<Channel> = {
     }
 
     if (key.startsWith("permissions/")) {
-      if (key === "permissions/default") return t`Default Permissions`;
+      if (key === "permissions/default") return t`Everyone`;
 
       return ctx.context.server?.roles.get(key.substring(12))?.name ?? "";
     }
@@ -111,7 +105,7 @@ const Config: SettingsConfiguration<Channel> = {
           entries: [
             {
               id: "overview",
-              icon: <BiSolidInfoCircle size={20} />,
+              icon: <Symbol size={20}>info</Symbol>,
               title: <Trans>Overview</Trans>,
             },
             {
@@ -119,7 +113,7 @@ const Config: SettingsConfiguration<Channel> = {
                 channel.type === "SavedMessages" ||
                 !channel.havePermission("ManagePermissions"),
               id: "permissions",
-              icon: <BiRegularListUl size={20} />,
+              icon: <Symbol size={20}>page_info</Symbol>,
               title: <Trans>Permissions</Trans>,
             },
             {
@@ -127,7 +121,7 @@ const Config: SettingsConfiguration<Channel> = {
                 !channel.havePermission("ManageWebhooks") &&
                 import.meta.env.DEV,
               id: "webhooks",
-              icon: <BiSolidCloud size={20} />,
+              icon: <Symbol size={20}>webhook</Symbol>,
               title: <Trans>Webhooks</Trans>,
             },
           ],
@@ -139,7 +133,9 @@ const Config: SettingsConfiguration<Channel> = {
           entries: [
             {
               icon: (
-                <BiSolidTrash size={20} color="var(--md-sys-color-error)" />
+                <Symbol size={20} color="var(--md-sys-color-error)">
+                  delete
+                </Symbol>
               ),
               title: (
                 <ColouredText colour="var(--md-sys-color-error)">

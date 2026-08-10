@@ -24,8 +24,6 @@ RUN pnpm install --frozen-lockfile
 # Build sub-dependencies (stoat.js, livekit-components, lingui plugins, panda css etc)
 RUN pnpm --filter stoat.js build && \
   pnpm --filter solid-livekit-components build && \
-  pnpm --filter @lingui-solid/babel-plugin-lingui-macro build && \
-  pnpm --filter @lingui-solid/babel-plugin-extract-messages build && \
   pnpm --filter client exec lingui compile --typescript && \
   pnpm --filter client exec node scripts/copyAssets.mjs && \
   pnpm --filter client exec panda codegen
@@ -35,13 +33,12 @@ RUN pnpm --filter client exec lingui compile --typescript
 
 # Build the client with placeholder env vars for runtime injection 
 # these are replaced by inject.js at container run startup
+ENV VITE_HOST=__VITE_HOST__
 ENV VITE_API_URL=__VITE_API_URL__
-ENV VITE_WS_URL=__VITE_WS_URL__
-ENV VITE_MEDIA_URL=__VITE_MEDIA_URL__
-ENV VITE_PROXY_URL=__VITE_PROXY_URL__
-ENV VITE_HCAPTCHA_SITEKEY=__VITE_HCAPTCHA_SITEKEY__
-ENV VITE_CFG_ENABLE_VIDEO=__VITE_CFG_ENABLE_VIDEO__
-ENV VITE_GIFBOX_URL=__VITE_GIFBOX_URL__
+ENV VITE_DEV_WS_URL=__VITE_WS_URL__
+ENV VITE_DEV_MEDIA_URL=__VITE_MEDIA_URL__
+ENV VITE_DEV_PROXY_URL=__VITE_PROXY_URL__
+ENV VITE_DEV_GIFBOX_URL=__VITE_GIFBOX_URL__
 ENV VITE_RNNOISE_WORKLET_CDN_URL=__VITE_RNNOISE_WORKLET_CDN_URL__
 
 ARG BASE_PATH=/
@@ -66,15 +63,5 @@ RUN npm install --omit=dev
 COPY --from=builder /build/packages/client/dist ./dist
 
 EXPOSE 5000
-
-# Runtime env vars (overridden by Helm chart / docker run)
-ENV VITE_API_URL=""
-ENV VITE_WS_URL=""
-ENV VITE_MEDIA_URL=""
-ENV VITE_PROXY_URL=""
-ENV VITE_HCAPTCHA_SITEKEY=""
-ENV VITE_CFG_ENABLE_VIDEO=""
-ENV VITE_GIFBOX_URL=""
-ENV VITE_RNNOISE_WORKLET_CDN_URL=""
 
 CMD ["npm", "start"]

@@ -15,7 +15,6 @@ export function UserProfileModal(
     queryKey: ["profile", props.user.id],
     queryFn: () => props.user.fetchProfile(),
   }));
-  const pronouns = () => props.member?.pronouns ?? props.user.pronouns;
 
   return (
     <Dialog
@@ -51,7 +50,6 @@ export function UserProfileModal(
           onClose={props.onClose}
           width={3}
         />
-        <Profile.Pronouns content={pronouns()} />
         <Profile.Roles member={props.member} />
         <Profile.Status user={props.user} />
         <Profile.Badges user={props.user} />

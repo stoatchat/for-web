@@ -1,7 +1,7 @@
 import { BiLogosGithub } from "solid-icons/bi";
 import { JSX } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";

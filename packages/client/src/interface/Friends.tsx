@@ -9,7 +9,7 @@ import {
   splitProps,
 } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import type { User } from "stoat.js";
 import { styled } from "styled-system/jsx";

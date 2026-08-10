@@ -1,7 +1,7 @@
 import { BiRegularBlock } from "solid-icons/bi";
 import { Accessor, JSX, Match, Show, Switch, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Row } from "@revolt/ui";

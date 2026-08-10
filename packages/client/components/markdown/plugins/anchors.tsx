@@ -1,10 +1,12 @@
-import { JSX, Match, Show, Switch, splitProps } from "solid-js";
+import { JSX, Show, splitProps } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
 
 import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
+import { STOAT_HOST } from "@revolt/common/lib/env";
+import { DefaultHost, useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
 import { useState } from "@revolt/state";
@@ -15,8 +17,6 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import MdChat from "@material-design-icons/svg/outlined/chat.svg?component-solid";
 import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
 import MdPeople from "@material-design-icons/svg/outlined/people.svg?component-solid";
-// import { determineLink } from "../../../lib/links";
-// import { modalController } from "../../../controllers/modals/ModalController";
 
 const link = cva({
   base: {
@@ -45,16 +45,17 @@ const internalLink = cva({
   },
 });
 
-function inAppScope(link: URL): boolean {
+function inAppScope(link: URL, root: string): boolean {
   return (
     [
-      location.origin,
+      root,
+      "https://stoat.chat",
+      "https://beta.stoat.chat",
       "https://old.stoat.chat",
       "https://revolt.chat",
       "https://app.revolt.chat",
-      "https://stoat.chat",
     ].includes(link.origin) &&
-    /\/(app|home|pwa|dev|invite|bot|friends|server|channel)\/?/.test(
+    /\/(i|app|home|pwa|dev|invite|bot|friends|server|channel)\/?/.test(
       link.pathname,
     )
   );
@@ -72,9 +73,12 @@ export function RenderAnchor(
     "disabled",
   ]);
 
-  // Handle case where there is no link
+  const instance = useInstance();
+
+  // Handle empty link
   if (!localProps.href) return <span>{remoteProps.children}</span>;
 
+  // Test internal link
   try {
     let url = new URL(localProps.href);
 
@@ -91,33 +95,36 @@ export function RenderAnchor(
     // Remap discover links to native links
     if (url.origin === "https://rvlt.gg" || url.origin === "https://stt.gg") {
       if (/^\/[\w\d]+$/.test(url.pathname)) {
-        url = new URL(`/invite${url.pathname}`, location.origin);
+        url = new URL(`/invite${url.pathname}`, instance.origin);
       } else if (url.pathname.startsWith("/discover")) {
-        url = new URL(url.pathname, location.origin);
+        url = new URL(url.pathname, instance.origin);
       }
     }
 
     // Determine whether it's in our scope
-    if (inAppScope(url)) {
-      const client = useClient();
-      const params = paramsFromPathname(url.pathname);
+    if (inAppScope(url, instance.origin)) {
+      const client = useClient(),
+        params = paramsFromPathname(url.pathname);
+
+      params.host ||= STOAT_HOST;
+      const remote = params.host !== (instance.host || DefaultHost);
 
       if (params.exactChannel) {
         const channel = () => client().channels.get(params.channelId!);
-
         const internalUrl = () =>
           new URL(
-            (channel()!.serverId
-              ? `/server/${channel()!.serverId}/channel/${channel()!.id}`
-              : `/channel/${channel()!.id}`) +
+            `/i/${params.host}` +
+              (channel()?.serverId ? `/server/${channel()!.serverId}` : "") +
+              `/channel/${params.channelId}` +
               (params.exactMessage && params.messageId
                 ? `/${params.messageId}`
                 : ""),
             location.origin,
-          ).toString();
+          ).href;
 
         return (
-          <Switch
+          <Show
+            when={remote || channel()}
             fallback={
               <span class={internalLink()}>
                 <Symbol>tag</Symbol>
@@ -125,31 +132,33 @@ export function RenderAnchor(
               </span>
             }
           >
-            <Match when={channel()}>
-              <LinkComponent
-                class={internalLink()}
-                disabled={localProps.disabled}
-                href={internalUrl()}
-              >
-                <Symbol>tag</Symbol>
-                {channel()!.name}
-                {params.exactMessage && (
-                  <>
-                    <MdChevronRight {...iconSize("1em")} />
-                    <MdChat {...iconSize("1em")} />
-                  </>
-                )}
-              </LinkComponent>
-            </Match>
-          </Switch>
+            <LinkComponent
+              class={internalLink()}
+              disabled={props.disabled}
+              href={internalUrl()}
+            >
+              <Symbol>tag</Symbol>
+              {remote ? <Trans>Remote Channel</Trans> : channel()!.name}
+              {params.exactMessage && (
+                <>
+                  <MdChevronRight {...iconSize("1em")} />
+                  <MdChat {...iconSize("1em")} />
+                </>
+              )}
+            </LinkComponent>
+          </Show>
         );
       } else if (params.exactServer) {
         const server = () => client().servers.get(params.serverId!);
         const internalUrl = () =>
-          new URL(`/server/${server()!.id}`, location.origin).toString();
+          new URL(
+            `/i/${params.host}/server/${params.serverId}`,
+            location.origin,
+          ).href;
 
         return (
-          <Switch
+          <Show
+            when={remote || server()}
             fallback={
               <span class={internalLink()}>
                 <MdPeople {...iconSize("1em")} />
@@ -157,16 +166,24 @@ export function RenderAnchor(
               </span>
             }
           >
-            <Match when={server()}>
-              <LinkComponent
-                class={internalLink()}
-                disabled={localProps.disabled}
-                href={internalUrl()}
-              >
-                <Avatar size={16} src={server()?.iconURL} /> {server()?.name}
-              </LinkComponent>
-            </Match>
-          </Switch>
+            <LinkComponent
+              class={internalLink()}
+              disabled={props.disabled}
+              href={internalUrl()}
+            >
+              {remote ? (
+                <>
+                  <MdPeople {...iconSize("1em")} />
+                  <Trans>Remote Server</Trans>
+                </>
+              ) : (
+                <>
+                  <Avatar size={16} src={server()!.iconURL} />
+                  {server()!.name}
+                </>
+              )}
+            </LinkComponent>
+          </Show>
         );
       } else if (
         params.inviteId &&
@@ -191,7 +208,7 @@ export function RenderAnchor(
       }
     }
 
-    // ... all other links:
+    // All other links
     const state = useState();
     const { openModal } = useModals();
 

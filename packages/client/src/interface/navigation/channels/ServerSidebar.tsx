@@ -9,7 +9,7 @@ import {
   createMemo,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -112,7 +112,7 @@ export const ServerSidebar = (props: Props) => {
   // TODO: issue warning if nothing is found somehow? warnings can be nicer than flat out not working
   // TODO: we want it to feel smooth when navigating through channels, so we'll want to select channels immediately but not actually navigate until we're done moving through them
   /** Navigates to the channel offset from the current one, wrapping around if needed */
-  const _navigateChannel = (byOffset: number) => {
+  const navigateChannel = (byOffset: number) => {
     if (props.channelId == null) return;
 
     const channels = visibleChannels();
@@ -131,13 +131,11 @@ export const ServerSidebar = (props: Props) => {
     }
   };
 
-  // todo: I think these cause the infinite hang bug:
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
 
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
-
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
-  //   navigateChannel(1),
-  // );
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
+    navigateChannel(1),
+  );
 
   createKeybind(KeybindAction.CHAT_MARK_SERVER_AS_READ, () => {
     if (props.server.unread) {

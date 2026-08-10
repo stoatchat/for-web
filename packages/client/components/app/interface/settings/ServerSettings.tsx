@@ -1,20 +1,11 @@
-import {
-  BiSolidEnvelope,
-  BiSolidFlagAlt,
-  BiSolidGroup,
-  BiSolidHappyBeaming,
-  BiSolidInfoCircle,
-  BiSolidTrash,
-  BiSolidUserX,
-} from "solid-icons/bi";
-
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 
 import { useUser } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { ColouredText } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { SettingsConfiguration } from ".";
 import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissionsEditor";
@@ -35,7 +26,7 @@ const Config: SettingsConfiguration<Server> = {
     const { t } = useLingui();
 
     if (key.startsWith("roles/")) {
-      if (key === "roles/default") return t`Default Permissions`;
+      if (key === "roles/default") return t`Everyone`;
 
       return ctx.context.roles.get(key.substring(6))?.name ?? "";
     }
@@ -103,7 +94,7 @@ const Config: SettingsConfiguration<Server> = {
           entries: [
             {
               id: "overview",
-              icon: <BiSolidInfoCircle size={20} />,
+              icon: <Symbol size={20}>info</Symbol>,
               title: <Trans>Overview</Trans>,
             },
           ],
@@ -114,7 +105,7 @@ const Config: SettingsConfiguration<Server> = {
           entries: [
             {
               id: "emojis",
-              icon: <BiSolidHappyBeaming size={20} />,
+              icon: <Symbol size={20}>mood</Symbol>,
               title: <Trans>Emojis</Trans>,
             },
           ],
@@ -128,7 +119,7 @@ const Config: SettingsConfiguration<Server> = {
             {
               hidden: true,
               id: "members",
-              icon: <BiSolidGroup size={20} />,
+              icon: <Symbol size={20}>group</Symbol>,
               title: <Trans>Members</Trans>,
             },
             {
@@ -137,19 +128,19 @@ const Config: SettingsConfiguration<Server> = {
                 server.havePermission("ManagePermissions")
               ),
               id: "roles",
-              icon: <BiSolidFlagAlt size={20} />,
+              icon: <Symbol size={20}>flag</Symbol>,
               title: <Trans>Roles</Trans>,
             },
             {
               hidden: !server.havePermission("ManageServer"),
               id: "invites",
-              icon: <BiSolidEnvelope size={20} />,
+              icon: <Symbol size={20}>link</Symbol>,
               title: <Trans>Invites</Trans>,
             },
             {
               hidden: !server.havePermission("BanMembers"),
               id: "bans",
-              icon: <BiSolidUserX size={20} />,
+              icon: <Symbol size={20}>gavel</Symbol>,
               title: <Trans>Bans</Trans>,
             },
           ],
@@ -159,7 +150,9 @@ const Config: SettingsConfiguration<Server> = {
           entries: [
             {
               icon: (
-                <BiSolidTrash size={20} color="var(--md-sys-color-error)" />
+                <Symbol size={20} color="var(--md-sys-color-error)">
+                  delete
+                </Symbol>
               ),
               title: (
                 <ColouredText colour="var(--md-sys-color-error)">

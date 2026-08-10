@@ -11,14 +11,16 @@ import {
   Switch,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION, debounce } from "@revolt/common";
-import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
+import { debounce } from "@revolt/common";
+import { useDurationFormat } from "@revolt/i18n/durations";
+import { useInstance } from "@revolt/instance";
+import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -34,8 +36,6 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
-import { createTimer } from "@solid-primitives/timer";
-import { UserSlowmodes } from "stoat.js/lib/events/v1";
 
 interface Props {
   /**
@@ -56,28 +56,29 @@ export function MessageComposition(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
+  const { limits } = useInstance();
   const { openModal } = useModals();
+  const durationFormat = useDurationFormat();
 
-  const currentSlowmode = (): UserSlowmodes | undefined => {
-    return client().userSlowmodes.get(props.channel.id);
+  const isSlowmodeExempt = (): boolean => {
+    return props.channel.havePermission("BypassSlowmode");
   };
-  const countdownForEntry = createMemo(() => {
-    const entry = currentSlowmode();
+
+  const slowmodeCountdown = createMemo(() => {
+    if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
+
+    const entry = props.channel.userSlowmode();
     if (!entry) return;
+
     const receivedAt = entry.receivedAt ?? Date.now();
     // Add 100 ms here so the countdown has a bit to render
     const targetTs = receivedAt + 100 + entry.retry_after * 1000;
     return createCountdownFromNow(targetTs);
   });
 
-  const isSlowmodeExempt = (): boolean => {
-    return props.channel.havePermission("BypassSlowmode");
-  };
-
   const cooldownRemaining = createMemo(() => {
-    if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
+    const cd = slowmodeCountdown();
 
-    const cd = countdownForEntry();
     if (!cd) return 0;
 
     const [store] = cd;
@@ -91,17 +92,16 @@ export function MessageComposition(props: Props) {
   });
 
   const slowmodeText = createMemo(() => {
-    const s = cooldownRemaining();
-    if (!s) return "";
+    const cd = slowmodeCountdown();
 
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
+    if (!cd) return "";
 
-    if (h > 0) {
-      return `${h}:${m.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
-    }
-    return `${m}:${sec.toString().padStart(2, "0")}`;
+    const [store] = cd;
+
+    return durationFormat(
+      { seconds: store.seconds, minutes: store.minutes, hours: store.hours },
+      { style: "digital" },
+    );
   });
 
   const slowmodeWaitTime = createMemo(() => {
@@ -111,16 +111,7 @@ export function MessageComposition(props: Props) {
     const m = Math.floor((s % 3600) / 60);
     const sec = s % 60;
 
-    if (h > 0 && m === 0 && sec === 0)
-      return h === 1 ? t`1 hour` : t`${h} hours`;
-    if (m > 0 && sec === 0 && h === 0)
-      return m === 1 ? t`1 minute` : t`${m} minutes`;
-
-    const parts = [];
-    if (h > 0) parts.push(h === 1 ? t`1 hour` : t`${h} hours`);
-    if (m > 0) parts.push(m === 1 ? t`1 minute` : t`${m} minutes`);
-    if (sec > 0) parts.push(sec === 1 ? t`1 second` : t`${sec} seconds`);
-    return parts.join(" ");
+    return durationFormat({ seconds: sec, minutes: m, hours: h });
   });
 
   const member = () => props.channel.server?.member;
@@ -161,24 +152,18 @@ export function MessageComposition(props: Props) {
   }
 
   const messageLength = () => draft().content?.length ?? 0;
-
-  const maxMessageLength = () => {
-    const cl = client();
-    return cl.configured()
-      ? (cl.configuration?.features.limits.default.message_length ?? 2000)
-      : 2000;
-  };
-
+  const maxMessageLength = () => limits().message_length;
   const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
-
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
 
   // Whether the send button should be active/clickable
   const canSend = createMemo(() => {
     const draftContent = draft()?.content ?? "";
     const draftFiles = draft()?.files ?? [];
+
     const tooLong = messageLength() > maxMessageLength();
-    const isSlowmode = currentSlowmode();
+
+    const isSlowmode = props.channel.userSlowmode();
 
     return (
       !tooLong &&
@@ -274,7 +259,7 @@ export function MessageComposition(props: Props) {
   async function sendMessage(useContent?: unknown) {
     if (!canSend() && typeof useContent !== "string") {
       return;
-    } else if (currentSlowmode()) {
+    } else if (props.channel.userSlowmode()) {
       return;
     }
     stopTyping();
@@ -314,11 +299,7 @@ export function MessageComposition(props: Props) {
   function onFiles(files: File[]) {
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
-
-    const maxSize = client().configured()
-      ? (client().configuration?.features.limits.default.file_upload_size_limits
-          .attachments ?? CONFIGURATION.MAX_FILE_SIZE)
-      : CONFIGURATION.MAX_FILE_SIZE;
+    const maxSize = limits().file_upload_size_limits.attachments;
 
     for (const file of files) {
       if (file.size > maxSize) {
@@ -507,7 +488,7 @@ export function MessageComposition(props: Props) {
                     </Show>
                     <MessageBox.InlineIcon>
                       <IconButton onPress={triggerProps.onClickEmoji}>
-                        <Symbol>emoticon</Symbol>
+                        <Symbol>mood</Symbol>
                       </IconButton>
                     </MessageBox.InlineIcon>
                     <div ref={triggerProps.ref} />

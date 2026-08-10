@@ -60,7 +60,7 @@ export function ParticipantTile(props: TileProps) {
   });
 
   const isScreenShareAudioUserMuted = () =>
-    state.voice.getScreenShareMuted(user().user!.id)
+    !user().user!.self && state.voice.getScreenShareMuted(user().user!.id)
       ? "by-user"
       : isScreenShareAudioMuted() || false;
 

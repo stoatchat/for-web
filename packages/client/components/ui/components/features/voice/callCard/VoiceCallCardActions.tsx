@@ -1,10 +1,10 @@
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { Button, IconButton } from "@revolt/ui/components/design";
@@ -15,8 +15,7 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const state = useState();
   const navigate = useNavigate();
   const { t } = useLingui();
-
-  const enableVideo = CONFIGURATION.ENABLE_VIDEO;
+  const { limits } = useInstance();
 
   return (
     <Actions>
@@ -83,44 +82,44 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </IconButton>
       <IconButton
         size={props.size}
-        variant={enableVideo && voice.video() ? "filled" : "tonal"}
+        variant={limits().video && voice.video() ? "filled" : "tonal"}
         onPress={() => {
-          if (enableVideo) voice.toggleCamera();
+          if (limits().video) voice.toggleCamera();
         }}
         use:floating={{
           tooltip: {
             placement: "top",
-            content: enableVideo
+            content: limits().video
               ? voice.video()
                 ? t`Stop camera`
                 : t`Start camera`
               : t`Coming soon! 👀`,
           },
         }}
-        isDisabled={!enableVideo}
+        isDisabled={!limits().video}
       >
         <Symbol>camera_video</Symbol>
       </IconButton>
       <IconButton
         size={props.size}
-        variant={enableVideo && voice.screenshare() ? "filled" : "tonal"}
+        variant={limits().video && voice.screenshare() ? "filled" : "tonal"}
         onPress={() => {
-          if (enableVideo) voice.toggleScreenshare();
+          if (limits().video) voice.toggleScreenshare();
         }}
         use:floating={{
           tooltip: {
             placement: "top",
-            content: enableVideo
+            content: limits().video
               ? voice.screenshare()
                 ? t`Stop sharing`
                 : t`Share screen`
               : t`Coming soon! 👀`,
           },
         }}
-        isDisabled={!enableVideo}
+        isDisabled={!limits().video}
       >
         <Show
-          when={!enableVideo || voice.screenshare()}
+          when={!limits().video || voice.screenshare()}
           fallback={<Symbol>stop_screen_share</Symbol>}
         >
           <Symbol>screen_share</Symbol>

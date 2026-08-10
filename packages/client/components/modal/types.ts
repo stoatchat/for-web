@@ -10,6 +10,7 @@ import {
   Message,
   MFA,
   MFATicket,
+  ProtocolV1,
   PublicBot,
   PublicChannelInvite,
   Server,
@@ -19,7 +20,6 @@ import {
   User,
   VideoEmbed,
 } from "stoat.js";
-import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
@@ -74,6 +74,7 @@ export type Modals =
   | {
       type: "create_channel";
       server: Server;
+      categoryId?: string;
       cb?: (channel: Channel) => void;
     }
   | {
@@ -184,7 +185,8 @@ export type Modals =
       type: "mfa_enable_totp";
       identifier: string;
       secret: string;
-      callback: (code?: string) => void;
+      callback: (code?: string) => Promise<void>;
+      reject?: (reason?: string) => void;
     }
   | ({
       type: "mfa_flow";

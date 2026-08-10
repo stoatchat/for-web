@@ -659,12 +659,22 @@ msgstr "Cannot edit this message."
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditBotUsername.tsx
 msgid "Change"
 msgstr "Change"
+
+#. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
+#: components/modal/modals/ServerIdentity.tsx
+msgid "Change {0}'s nickname"
+msgstr "Change {0}'s nickname"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
 msgstr "Change Avatar"
+
+#: components/modal/modals/EditBotUsername.tsx
+msgid "Change bot username"
+msgstr "Change bot username"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
@@ -695,9 +705,17 @@ msgstr "Change own avatar"
 msgid "Change own nickname"
 msgstr "Change own nickname"
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change this bot's username"
+msgstr "Change this bot's username"
+
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
 msgstr "Change username"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change Username"
+msgstr "Change Username"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
@@ -783,6 +801,7 @@ msgstr "Client Settings"
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/CustomStatus.tsx
 #: components/modal/modals/CreateWebhook.tsx
@@ -1010,6 +1029,7 @@ msgid "Create Bot"
 msgstr "Create Bot"
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Create category"
 msgstr "Create category"
@@ -1017,6 +1037,7 @@ msgstr "Create category"
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Create channel"
 msgstr "Create channel"
 
@@ -1341,6 +1362,7 @@ msgstr "Edit your identity"
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Edited"
 
@@ -1470,6 +1492,11 @@ msgstr "Failed to verify!"
 msgid "Feedback"
 msgstr "Feedback"
 
+#. placeholder {0}: humanFileSize(local.maxSize)
+#: components/ui/components/utils/Form2.tsx
+msgid "File must be smaller than {0}"
+msgstr "File must be smaller than {0}"
+
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
 msgstr "Find a community based on your hobbies or interests."
@@ -1514,6 +1541,10 @@ msgstr "For 8 hours"
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
 msgstr "Friends"
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "from "
+msgstr "from "
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
@@ -1894,6 +1925,10 @@ msgstr "Login"
 msgid "Logs you out of all sessions except this device."
 msgstr "Logs you out of all sessions except this device."
 
+#: components/app/interface/settings/server/emojis/EmojiList.tsx
+msgid "Lowercase letters, numbers and underscores only."
+msgstr "Lowercase letters, numbers and underscores only."
+
 #: src/LoadingScreen.tsx
 msgid "Major Outage"
 msgstr "Major Outage"
@@ -2039,6 +2074,11 @@ msgstr "Message was sent on another platform"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Messaging"
 msgstr "Messaging"
+
+#: components/app/interface/settings/user/Account.tsx
+#: components/app/interface/settings/user/Account.tsx
+msgid "MFA setup canceled."
+msgstr "MFA setup canceled."
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
@@ -2402,7 +2442,6 @@ msgstr "Profile Bio"
 msgid "Promotes harm"
 msgstr "Promotes harm"
 
-#: components/ui/components/features/profiles/ProfilePronouns.tsx
 #: components/modal/modals/ServerIdentity.tsx
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Pronouns"
@@ -3234,6 +3273,8 @@ msgstr "Undeafen"
 msgid "Unknown"
 msgstr "Unknown"
 
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
 msgstr "Unknown Server"
@@ -3349,6 +3390,7 @@ msgstr "User's profile has inappropriate content"
 
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/CreateBot.tsx
 #: components/modal/modals/AddFriend.tsx
 #: components/auth/src/flows/Form.tsx

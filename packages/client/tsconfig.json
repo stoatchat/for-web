@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "preserve",
@@ -18,6 +18,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@test": ["test"],
       "@revolt/app": ["components/app"],
@@ -28,6 +29,8 @@
       "@revolt/client/*": ["components/client/*"],
       "@revolt/common": ["components/common"],
       "@revolt/common/*": ["components/common/*"],
+      "@revolt/instance": ["components/instance"],
+      "@revolt/instance/*": ["components/instance/*"],
       "@revolt/i18n": ["components/i18n"],
       "@revolt/i18n/*": ["components/i18n/*"],
       "@revolt/keybinds": ["components/keybinds"],

@@ -659,12 +659,22 @@ msgstr ""
 
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditBotUsername.tsx
 msgid "Change"
 msgstr "වෙනස් කරන්න"
+
+#. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
+#: components/modal/modals/ServerIdentity.tsx
+msgid "Change {0}'s nickname"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
 msgstr "පැතිකඩ පින්තූරය වෙනස් කරන්න"
+
+#: components/modal/modals/EditBotUsername.tsx
+msgid "Change bot username"
+msgstr ""
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
@@ -695,8 +705,16 @@ msgstr ""
 msgid "Change own nickname"
 msgstr ""
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change this bot's username"
+msgstr ""
+
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
+msgstr ""
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Change Username"
 msgstr ""
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
@@ -783,6 +801,7 @@ msgstr "අනුග්‍රාහක සැකසුම්"
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/CustomStatus.tsx
 #: components/modal/modals/CreateWebhook.tsx
@@ -1010,6 +1029,7 @@ msgid "Create Bot"
 msgstr ""
 
 #: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Create category"
 msgstr "ප්‍රවර්ගය සාදන්න"
@@ -1017,6 +1037,7 @@ msgstr "ප්‍රවර්ගය සාදන්න"
 #: components/modal/modals/CreateChannel.tsx
 #: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Create channel"
 msgstr "නාලිකාව සාදන්න"
 
@@ -1341,6 +1362,7 @@ msgstr "ඔබගේ අනන්‍යතාවය සංස්කරණය ක
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr ""
 
@@ -1470,6 +1492,11 @@ msgstr "සත්‍යාපනයට නොහැකි විය!"
 msgid "Feedback"
 msgstr "ප්‍රතිපෝෂණය"
 
+#. placeholder {0}: humanFileSize(local.maxSize)
+#: components/ui/components/utils/Form2.tsx
+msgid "File must be smaller than {0}"
+msgstr ""
+
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
 msgstr "ඔබේ විනෝදාංශ හෝ රුචිකත්වයන් මත පදනම්ව ප්‍රජාවක් සොයා ගන්න."
@@ -1514,6 +1541,10 @@ msgstr ""
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
 msgstr "යහළුවන්"
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "from "
+msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
@@ -1894,6 +1925,10 @@ msgstr "පිවිසෙන්න"
 msgid "Logs you out of all sessions except this device."
 msgstr ""
 
+#: components/app/interface/settings/server/emojis/EmojiList.tsx
+msgid "Lowercase letters, numbers and underscores only."
+msgstr ""
+
 #: src/LoadingScreen.tsx
 msgid "Major Outage"
 msgstr ""
@@ -2039,6 +2074,11 @@ msgstr "පණිවිඩය වෙනත් වේදිකාවක් තු
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Messaging"
 msgstr "පණිවිඩ යැවීම"
+
+#: components/app/interface/settings/user/Account.tsx
+#: components/app/interface/settings/user/Account.tsx
+msgid "MFA setup canceled."
+msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
@@ -2402,7 +2442,6 @@ msgstr ""
 msgid "Promotes harm"
 msgstr ""
 
-#: components/ui/components/features/profiles/ProfilePronouns.tsx
 #: components/modal/modals/ServerIdentity.tsx
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Pronouns"
@@ -3234,6 +3273,8 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 #: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
 msgstr ""
@@ -3349,6 +3390,7 @@ msgstr ""
 
 #: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/CreateBot.tsx
 #: components/modal/modals/AddFriend.tsx
 #: components/auth/src/flows/Form.tsx

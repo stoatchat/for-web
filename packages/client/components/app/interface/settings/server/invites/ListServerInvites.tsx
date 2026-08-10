@@ -1,6 +1,6 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { Server, ServerInvite } from "stoat.js";
 

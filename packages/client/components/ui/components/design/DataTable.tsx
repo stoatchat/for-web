@@ -7,7 +7,7 @@ import {
   on,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import MdChevronLeft from "@material-design-icons/svg/outlined/chevron_left.svg?component-solid";

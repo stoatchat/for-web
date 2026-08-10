@@ -1,7 +1,8 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Bot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
@@ -29,6 +30,7 @@ export function ViewBot(props: { bot: Bot }) {
   // `bot` will never change, so we don't care about reactivity here
   // eslint-disable-next-line solid/reactivity
   const profile = createProfileResource(props.bot.user!);
+  const instance = useInstance();
   const { openModal } = useModals();
   const snackbar = useSnackbar();
   const { t } = useLingui();
@@ -98,9 +100,8 @@ export function ViewBot(props: { bot: Bot }) {
           action="copy"
           onClick={() => {
             navigator.clipboard.writeText(
-              new URL(`/bot/${props.bot.id}`, window.origin).toString(),
+              instance.href(`/bot/${props.bot.id}`),
             );
-
             snackbar.show({
               message: t`Invite URL copied to clipboard`,
               placement: "bottom",

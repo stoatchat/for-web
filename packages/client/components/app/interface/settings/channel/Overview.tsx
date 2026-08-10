@@ -1,11 +1,12 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import type { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useDurationFormat } from "@revolt/i18n/durations";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   Button,
@@ -26,6 +27,8 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
   const { t } = useLingui();
   const client = useClient();
   const { openModal } = useModals();
+  const instance = useInstance();
+  const duration = useDurationFormat();
 
   /* eslint-disable solid/reactivity */
   // we want to take the initial value only
@@ -77,16 +80,13 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
         body.append("file", editGroup.controls.icon.value[0]);
 
         const [key, value] = client().authenticationHeader;
-        const data: { id: string } = await fetch(
-          `${CONFIGURATION.DEFAULT_MEDIA_URL}/icons`,
-          {
-            method: "POST",
-            body,
-            headers: {
-              [key]: value,
-            },
+        const data: { id: string } = await fetch(`${instance.mediaUrl}/icons`, {
+          method: "POST",
+          body,
+          headers: {
+            [key]: value,
           },
-        ).then((res) => res.json());
+        }).then((res) => res.json());
 
         changes.icon = data.id;
       }
@@ -108,7 +108,11 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Text class="label">
             <Trans>Channel Info</Trans>
           </Text>
-          <Form2.FileInput control={editGroup.controls.icon} accept="image/*" />
+          <Form2.FileInput
+            control={editGroup.controls.icon}
+            accept="image/*"
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
+          />
           <Form2.TextField
             minlength={1}
             maxlength={32}
@@ -135,36 +139,16 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
               <MenuItem value="0">
                 <Trans>Slowmode off</Trans>
               </MenuItem>
-              <MenuItem value="5">
-                <Trans>5 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="10">
-                <Trans>10 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="30">
-                <Trans>30 seconds</Trans>
-              </MenuItem>
-              <MenuItem value="60">
-                <Trans>1 minute</Trans>
-              </MenuItem>
-              <MenuItem value="300">
-                <Trans>5 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="600">
-                <Trans>10 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="1800">
-                <Trans>30 minutes</Trans>
-              </MenuItem>
-              <MenuItem value="3600">
-                <Trans>1 hour</Trans>
-              </MenuItem>
-              <MenuItem value="7200">
-                <Trans>2 hours</Trans>
-              </MenuItem>
-              <MenuItem value="21600">
-                <Trans>6 hours</Trans>
-              </MenuItem>
+              <MenuItem value="5">{duration({ seconds: 5 })}</MenuItem>
+              <MenuItem value="10">{duration({ seconds: 10 })}</MenuItem>
+              <MenuItem value="30">{duration({ seconds: 30 })}</MenuItem>
+              <MenuItem value="60">{duration({ minutes: 1 })}</MenuItem>
+              <MenuItem value="300">{duration({ minutes: 5 })}</MenuItem>
+              <MenuItem value="600">{duration({ minutes: 10 })}</MenuItem>
+              <MenuItem value="1800">{duration({ minutes: 30 })}</MenuItem>
+              <MenuItem value="3600">{duration({ hours: 1 })}</MenuItem>
+              <MenuItem value="7200">{duration({ hours: 2 })}</MenuItem>
+              <MenuItem value="21600">{duration({ hours: 6 })}</MenuItem>
             </Form2.Select>
           </Show>
           <Row>
