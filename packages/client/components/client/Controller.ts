@@ -1,8 +1,7 @@
+import { detect } from "detect-browser";
 import { Accessor, Setter, createMemo, createSignal } from "solid-js";
 
-import { detect } from "detect-browser";
-import { API, Client, ConnectionState } from "stoat.js";
-import { ProtocolV1 } from "stoat.js/lib/events/v1";
+import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";

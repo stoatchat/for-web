@@ -1,6 +1,6 @@
 import { For, Show, createMemo, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 import { API, Server, ServerRole } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -324,6 +324,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             accept="image/*"
             label={t`Role Icon`}
             imageJustify={false}
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
 
           <Column>

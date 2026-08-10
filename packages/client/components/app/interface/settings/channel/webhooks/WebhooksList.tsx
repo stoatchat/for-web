@@ -1,7 +1,7 @@
 import { BiSolidCloud } from "solid-icons/bi";
 import { For, Match, Show, Switch, createMemo, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";

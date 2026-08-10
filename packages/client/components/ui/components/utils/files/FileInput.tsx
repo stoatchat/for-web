@@ -4,7 +4,6 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
-
 import { Button, Ripple } from "../../design";
 import { Row } from "../../layout";
 import { Symbol } from "../Symbol";
@@ -145,6 +144,7 @@ export function FileInput(props: Props) {
               <img src={imageSrc()} />
             </Show>
           </ImagePreview>
+
           <Show when={props.allowRemoval !== false}>
             <Button
               size="icon"

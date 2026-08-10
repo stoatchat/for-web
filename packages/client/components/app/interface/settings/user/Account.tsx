@@ -1,6 +1,6 @@
 import { Match, Show, Switch, createMemo, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import {
@@ -163,23 +163,23 @@ function MultiFactorAuth() {
     }
     const secret = await ticket!.generateAuthenticatorSecret();
 
-    let success;
-    while (!success) {
-      try {
-        const code = await mfaEnableTOTP(secret, client().user!.username);
+    try {
+      const enabled = await mfaEnableTOTP(
+        secret,
+        client().user!.username,
+        (code) => mfa.data!.enableAuthenticator(code),
+      );
 
-        if (code) {
-          await mfa.data!.enableAuthenticator(code);
-          success = true;
-        }
-      } catch (err) {
-        // If the modal was closed (ie. promise was rejected) quit the loop
-        if (err === "MFACancelled") {
-          snackbar.show({ message: t`MFA setup canceled.` });
-          return;
-        }
-        showError(err);
+      if (!enabled) {
+        snackbar.show({ message: t`MFA setup canceled.` });
       }
+    } catch (err) {
+      if (err === "MFACancelled") {
+        snackbar.show({ message: t`MFA setup canceled.` });
+        return;
+      }
+
+      showError(err);
     }
   }
 

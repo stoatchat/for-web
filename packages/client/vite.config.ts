@@ -1,4 +1,4 @@
-import { lingui as linguiSolidPlugin } from "@lingui-solid/vite-plugin";
+import { lingui as linguiSolidPlugin } from "@lingui/vite-plugin";
 import devtools from "@solid-devtools/transform";
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";
@@ -22,8 +22,12 @@ export default defineConfig({
     devtools(),
     codegenPlugin(),
     babelMacrosPlugin(),
+    solidPlugin({
+      babel: {
+        plugins: ["@lingui/babel-plugin-lingui-macro"],
+      },
+    }),
     linguiSolidPlugin(),
-    solidPlugin(),
     solidSvg({
       defaultAsComponent: false,
     }),
@@ -48,7 +52,6 @@ export default defineConfig({
         categories: ["communication", "chat", "messaging"],
         start_url: base,
         scope: pwaScope,
-        orientation: "any",
         display_override: ["window-controls-overlay"],
         display: "standalone",
         background_color: "#101823",

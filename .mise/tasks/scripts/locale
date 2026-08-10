@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Generate locale list for service worker"
+set -e
+
+pnpm --filter client exec node scripts/locale.js

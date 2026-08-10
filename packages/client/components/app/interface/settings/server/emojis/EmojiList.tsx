@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { For, Match, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
@@ -81,8 +81,7 @@ export function EmojiList(props: { server: Server }) {
                 accept="image/*"
                 imageJustify={false}
                 allowRemoval={false}
-                // TODO: Replace this with limit
-                maxSize={500_000}
+                maxSize={instance.limits().file_upload_size_limits["emojis"]}
                 hideErrors={true}
               />
             </Column>
