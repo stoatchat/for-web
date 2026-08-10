@@ -1,4 +1,4 @@
-import { JSX, createMemo, splitProps } from "solid-js";
+import { createMemo, JSX, splitProps } from "solid-js";
 
 import { css } from "styled-system/css";
 import { splitCssProps, styled } from "styled-system/jsx";
