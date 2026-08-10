@@ -1,6 +1,6 @@
 import { Match, Show, Switch, createSignal, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useApi, useClientLifecycle } from "@revolt/client";
 import { useModals } from "@revolt/modal";

@@ -1,6 +1,6 @@
 import { For, Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

@@ -1,6 +1,6 @@
 import { Match, Show, Switch, createMemo, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import {

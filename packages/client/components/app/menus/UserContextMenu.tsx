@@ -1,14 +1,13 @@
-import { Trans } from "@lingui-solid/solid/macro";
-import { useNavigate } from "@solidjs/router";
-import { type JSX, Match, Show, Switch } from "solid-js";
-import type { Channel, Message, ServerMember, User } from "stoat.js";
-
+import { Trans } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Slider, Symbol, Text } from "@revolt/ui";
 import { styled } from "styled-system/jsx";
+import { useNavigate } from "@solidjs/router";
+import { type JSX, Match, Show, Switch } from "solid-js";
+import type { Channel, Message, ServerMember, User } from "stoat.js";
 
 import {
   ContextMenu,
@@ -700,6 +699,7 @@ export function UserContextMenu(props: {
 export function floatingUserMenus(
   user: User,
   member?: ServerMember,
+  bot?: { owner: string },
   contextMessage?: Message,
   contextGroup?: Channel,
 ): JSX.Directives["floating"] & object {
@@ -707,6 +707,7 @@ export function floatingUserMenus(
     userCard: {
       user,
       member,
+      bot,
       // we could use message to display masquerade info in user card
     },
     /**
@@ -727,7 +728,12 @@ export function floatingUserMenus(
 
 export function floatingUserMenusFromMessage(message: Message) {
   return message.author
-    ? floatingUserMenus(message.author!, message.member, message)
+    ? floatingUserMenus(
+        message.author!,
+        message.member,
+        message.author!.bot,
+        message,
+      )
     : {}; // TODO: webhook menu
 }
 

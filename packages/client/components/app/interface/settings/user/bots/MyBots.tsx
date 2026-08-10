@@ -1,6 +1,6 @@
 import { ErrorBoundary, For, Suspense } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import { createOwnBotsResource } from "@revolt/client/resources";

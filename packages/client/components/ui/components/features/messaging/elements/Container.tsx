@@ -1,6 +1,6 @@
 import { JSX, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 

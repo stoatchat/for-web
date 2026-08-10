@@ -11,7 +11,7 @@ import {
   useContext,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { Message as MessageInterface } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";

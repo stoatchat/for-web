@@ -1,6 +1,5 @@
-import { JSX, onMount, Show } from "solid-js";
-
 import { useQuery } from "@tanstack/solid-query";
+import { JSX, onMount, Show } from "solid-js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -78,6 +77,9 @@ export function UserCard(
           <Profile.Status user={props.user} />
           <Profile.Joined user={props.user} member={props.member} />
           <Profile.Bio content={query.data?.content} onClick={openFull} />
+          <Show when={props.bot}>
+            <Profile.Owner bot={props.bot!} />
+          </Show>
         </Grid>
       </div>
     </Show>

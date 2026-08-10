@@ -1,6 +1,6 @@
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { PublicChannelInvite } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";

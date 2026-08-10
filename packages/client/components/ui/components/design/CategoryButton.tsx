@@ -47,6 +47,7 @@ export interface Props {
   readonly action?: Action | Action[];
 
   readonly roundedIcon?: boolean;
+  readonly iconBackground?: boolean;
 
   readonly variant?: "filled" | "tonal" | "tertiary" | "tertiaryAlt";
 
@@ -75,7 +76,12 @@ export function CategoryButton(props: Props) {
       <Ripple />
 
       <Show when={props.icon !== "blank"}>
-        <IconWrapper rounded={props.roundedIcon}>{props.icon}</IconWrapper>
+        <IconWrapper
+          rounded={props.roundedIcon}
+          transparent={props.iconBackground === false}
+        >
+          {props.icon}
+        </IconWrapper>
       </Show>
 
       <Show when={props.icon === "blank"}>
@@ -223,6 +229,11 @@ const IconWrapper = styled("div", {
       },
       false: {
         borderRadius: "var(--borderRadius-md)",
+      },
+    },
+    transparent: {
+      true: {
+        background: "transparent",
       },
     },
   },

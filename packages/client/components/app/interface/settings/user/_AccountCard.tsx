@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import { Avatar, OverflowingText, Ripple, typography } from "@revolt/ui";

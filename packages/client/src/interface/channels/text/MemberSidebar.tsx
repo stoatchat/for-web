@@ -1,6 +1,6 @@
 import { createMemo, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -418,6 +418,7 @@ function Member(props: {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        (props.user ?? props.member?.user)?.bot,
         undefined,
         props.group,
       )}

@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
