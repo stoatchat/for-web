@@ -1,4 +1,4 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { createFormControl, createFormGroup } from "solid-forms";
 
