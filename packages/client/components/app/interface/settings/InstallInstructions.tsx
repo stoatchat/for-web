@@ -37,14 +37,13 @@ const Steps = styled("ol", {
  * Installation Instructions Page
  */
 export default function InstallInstructions() {
-  const { pwaPrompt, pwaInstalled } = useDevice();
+  const { pwaPrompt, pwaInstalled, isFirefox, isIOSTouch } = useDevice();
 
   const [result, setResult] = createSignal<"accepted" | "dismissed">();
-  const isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 
-  createEffect(() => {
-    pwaPrompt()?.userChoice?.then((choice) => setResult(choice.outcome));
-  });
+  createEffect(() =>
+    pwaPrompt()?.userChoice?.then((choice) => setResult(choice.outcome)),
+  );
 
   return (
     <Container>
@@ -101,23 +100,25 @@ export default function InstallInstructions() {
           </h1>
         </Show>
 
-        <h2>
-          <Trans>Android</Trans>
-        </h2>
-        <Steps>
-          <li>
-            <Trans>Open this page in Chrome</Trans>
-          </li>
-          <li>
-            <Trans>Press the</Trans> ⋮ <Trans>button</Trans>
-          </li>
-          <li>
-            <Trans>Tap "Install app" or "Add to Home screen"</Trans>
-          </li>
-          <li>
-            <Trans>Follow the prompts</Trans>
-          </li>
-        </Steps>
+        <Show when={!isIOSTouch}>
+          <h2>
+            <Trans>Android</Trans>
+          </h2>
+          <Steps>
+            <li>
+              <Trans>Open this page in Chrome</Trans>
+            </li>
+            <li>
+              <Trans>Press the</Trans> ⋮ <Trans>button</Trans>
+            </li>
+            <li>
+              <Trans>Tap "Install app" or "Add to Home screen"</Trans>
+            </li>
+            <li>
+              <Trans>Follow the prompts</Trans>
+            </li>
+          </Steps>
+        </Show>
 
         <h2>
           <Trans>iOS / iPadOS</Trans>
