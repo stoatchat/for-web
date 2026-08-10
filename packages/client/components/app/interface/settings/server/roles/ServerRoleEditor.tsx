@@ -71,33 +71,13 @@ const ROLE_COLOUR_VALUES: ReadonlySet<string> = new Set(
   ROLE_COLOUR_PALETTE.flat(),
 );
 
-/**
- * Role editor
- */
-export function ServerRoleEditor(props: { context: Server; roleId: string }) {
+function RoleColourPicker(props: {
+  colour: string | null;
+  roleName: string;
+  onChange: (colour: string | null) => void;
+}) {
   const { t } = useLingui();
-  const client = useClient();
-  const { openModal } = useModals();
-  const { navigate } = useSettingsNavigation();
-  const instance = useInstance();
   const state = useState();
-
-  const role = createMemo(
-    () =>
-      props.context.orderedRoles.find(
-        (r) => r.id == props.roleId,
-      ) as ServerRole,
-  );
-
-  /* eslint-disable solid/reactivity */
-  const editGroup = createFormGroup({
-    name: createFormControl(role()?.name || ""),
-    icon: createFormControl<string | File[] | null>(role()?.icon?.originalUrl),
-    colour: createFormControl(role()?.colour || null),
-    hoist: createFormControl(role()?.hoist == true),
-  });
-  /* eslint-enable solid/reactivity */
-
   const [pickerRef, setPickerRef] = createSignal<HTMLInputElement>();
 
   const colourPreviews = createMemo(() => {
@@ -121,18 +101,162 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
     ];
   });
 
-  function selectColour(colour: string | null) {
-    editGroup.controls.colour.setValue(colour);
-    editGroup.controls.colour.markDirty(true);
-  }
-
   function isSelectedColour(colour: string) {
-    return editGroup.controls.colour.value?.toLowerCase() === colour;
+    return props.colour?.toLowerCase() === colour;
   }
 
   function isCustomColour() {
-    const colour = editGroup.controls.colour.value?.toLowerCase();
+    const colour = props.colour?.toLowerCase();
     return !!colour && !ROLE_COLOUR_VALUES.has(colour);
+  }
+
+  return (
+    <RoleColourControls>
+      <ColourSelector gap="md">
+        <Text class="label">
+          <Trans>Role Colour</Trans>
+        </Text>
+
+        <ColourPalette>
+          <For each={ROLE_COLOUR_PALETTE}>
+            {(row) => (
+              <For each={row}>
+                {(colour) => (
+                  <ColourSwatch
+                    type="button"
+                    selected={isSelectedColour(colour)}
+                    aria-label={t`Set role colour to ${colour}`}
+                    aria-pressed={isSelectedColour(colour)}
+                    style={{ background: colour }}
+                    onClick={() => props.onChange(colour)}
+                  >
+                    <Ripple />
+                  </ColourSwatch>
+                )}
+              </For>
+            )}
+          </For>
+        </ColourPalette>
+
+        <ColourActions>
+          <Button
+            size="sm"
+            variant={isCustomColour() ? "tonal" : "outlined"}
+            onPress={() => pickerRef()?.click()}
+          >
+            <ColourActionContent>
+              <Show
+                when={isCustomColour()}
+                fallback={
+                  <Symbol size={20} marginRight="var(--gap-sm)">
+                    palette
+                  </Symbol>
+                }
+              >
+                <CustomColourIndicator
+                  style={{ background: props.colour ?? "transparent" }}
+                />
+              </Show>{" "}
+              <Trans>Custom colour</Trans>
+            </ColourActionContent>
+          </Button>
+          <input
+            ref={setPickerRef}
+            type="color"
+            value={props.colour ?? "#ffffff"}
+            onInput={(event) => props.onChange(event.currentTarget.value)}
+            style={{
+              position: "absolute",
+              opacity: 0,
+              width: "0px",
+              height: "0px",
+              padding: 0,
+              border: "none",
+            }}
+          />
+          <Button
+            size="sm"
+            variant={props.colour === null ? "tonal" : "outlined"}
+            onPress={() => props.onChange(null)}
+          >
+            <ColourActionContent>
+              <NoColourIndicator /> <Trans>Default</Trans>
+            </ColourActionContent>
+          </Button>
+        </ColourActions>
+      </ColourSelector>
+
+      <ColourPreview>
+        <Text class="label">
+          <Trans>Preview</Trans>
+        </Text>
+        <For each={colourPreviews()}>
+          {(preview) => (
+            <PreviewSurface
+              role="group"
+              aria-label={preview.label}
+              style={{
+                background: preview.colours["surface-container-lowest"],
+                color: preview.colours["on-surface"],
+                "border-color": preview.colours["outline-variant"],
+              }}
+            >
+              <PreviewMessage>
+                <PreviewAvatar
+                  style={{
+                    background: preview.colours["surface-container-highest"],
+                  }}
+                />
+                <PreviewMessageContent>
+                  <PreviewUsername>
+                    <ColouredText
+                      colour={props.colour ?? preview.colours["on-surface"]}
+                    >
+                      {props.roleName.trim() || t`Role Name`}
+                    </ColouredText>
+                  </PreviewUsername>
+                  <PreviewBody>
+                    <Trans>Stoat rocks!</Trans>
+                  </PreviewBody>
+                </PreviewMessageContent>
+              </PreviewMessage>
+            </PreviewSurface>
+          )}
+        </For>
+      </ColourPreview>
+    </RoleColourControls>
+  );
+}
+
+/**
+ * Role editor
+ */
+export function ServerRoleEditor(props: { context: Server; roleId: string }) {
+  const { t } = useLingui();
+  const client = useClient();
+  const { openModal } = useModals();
+  const { navigate } = useSettingsNavigation();
+  const instance = useInstance();
+
+  const role = createMemo(
+    () =>
+      props.context.orderedRoles.find(
+        (r) => r.id == props.roleId,
+      ) as ServerRole,
+  );
+
+  /* eslint-disable solid/reactivity */
+  const editGroup = createFormGroup({
+    name: createFormControl(role()?.name || ""),
+    icon: createFormControl<string | File[] | null>(role()?.icon?.originalUrl),
+    colour: createFormControl(role()?.colour || null),
+    hoist: createFormControl(role()?.hoist == true),
+  });
+  /* eslint-enable solid/reactivity */
+
+  function selectColour(colour: string | null) {
+    editGroup.controls.colour.setValue(colour);
+    editGroup.controls.colour.markDirty(true);
   }
 
   async function onSubmit() {
@@ -192,132 +316,11 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             control={editGroup.controls.name}
             label={t`Role Name`}
           />
-          <RoleColourControls>
-            <ColourSelector gap="md">
-              <Text class="label">
-                <Trans>Role Colour</Trans>
-              </Text>
-
-              <ColourPalette>
-                <For each={ROLE_COLOUR_PALETTE}>
-                  {(row) => (
-                    <For each={row}>
-                      {(colour) => (
-                        <ColourSwatch
-                          type="button"
-                          selected={isSelectedColour(colour)}
-                          aria-label={t`Set role colour to ${colour}`}
-                          aria-pressed={isSelectedColour(colour)}
-                          style={{ background: colour }}
-                          onClick={() => selectColour(colour)}
-                        >
-                          <Ripple />
-                        </ColourSwatch>
-                      )}
-                    </For>
-                  )}
-                </For>
-              </ColourPalette>
-
-              <ColourActions>
-                <Button
-                  size="sm"
-                  variant={isCustomColour() ? "tonal" : "outlined"}
-                  onPress={() => pickerRef()?.click()}
-                >
-                  <ColourActionContent>
-                    <Show
-                      when={isCustomColour()}
-                      fallback={
-                        <Symbol size={20} marginRight="var(--gap-sm)">
-                          palette
-                        </Symbol>
-                      }
-                    >
-                      <CustomColourIndicator
-                        style={{
-                          background:
-                            editGroup.controls.colour.value ?? "transparent",
-                        }}
-                      />
-                    </Show>{" "}
-                    <Trans>Custom colour</Trans>
-                  </ColourActionContent>
-                </Button>
-                <input
-                  ref={setPickerRef}
-                  type="color"
-                  value={editGroup.controls.colour.value ?? "#ffffff"}
-                  onInput={(event) => selectColour(event.currentTarget.value)}
-                  style={{
-                    position: "absolute",
-                    opacity: 0,
-                    width: "0px",
-                    height: "0px",
-                    padding: 0,
-                    border: "none",
-                  }}
-                />
-                <Button
-                  size="sm"
-                  variant={
-                    editGroup.controls.colour.value === null
-                      ? "tonal"
-                      : "outlined"
-                  }
-                  onPress={() => selectColour(null)}
-                >
-                  <ColourActionContent>
-                    <NoColourIndicator /> <Trans>Default</Trans>
-                  </ColourActionContent>
-                </Button>
-              </ColourActions>
-            </ColourSelector>
-
-            <ColourPreview>
-              <Text class="label">
-                <Trans>Preview</Trans>
-              </Text>
-              <For each={colourPreviews()}>
-                {(preview) => (
-                  <PreviewSurface
-                    role="group"
-                    aria-label={preview.label}
-                    style={{
-                      background: preview.colours["surface-container-lowest"],
-                      color: preview.colours["on-surface"],
-                      "border-color": preview.colours["outline-variant"],
-                    }}
-                  >
-                    <PreviewMessage>
-                      <PreviewAvatar
-                        style={{
-                          background:
-                            preview.colours["surface-container-highest"],
-                        }}
-                      />
-                      <PreviewMessageContent>
-                        <PreviewUsername>
-                          <ColouredText
-                            colour={
-                              editGroup.controls.colour.value ??
-                              preview.colours["on-surface"]
-                            }
-                          >
-                            {editGroup.controls.name.value.trim() ||
-                              t`Role Name`}
-                          </ColouredText>
-                        </PreviewUsername>
-                        <PreviewBody>
-                          <Trans>Stoat rocks!</Trans>
-                        </PreviewBody>
-                      </PreviewMessageContent>
-                    </PreviewMessage>
-                  </PreviewSurface>
-                )}
-              </For>
-            </ColourPreview>
-          </RoleColourControls>
+          <RoleColourPicker
+            colour={editGroup.controls.colour.value}
+            roleName={editGroup.controls.name.value}
+            onChange={selectColour}
+          />
 
           <Form2.FileInput
             control={editGroup.controls.icon}
