@@ -431,7 +431,13 @@ export function ChannelPermissionsEditor(props: Props) {
   }
 
   return (
-    <div class={css({ display: "flex", flexDirection: "column" })}>
+    <div
+      class={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--gap-md)",
+      })}
+    >
       <For each={Permissions}>
         {(entry) => (
           <Show when={description(entry)}>
@@ -550,10 +556,22 @@ function ChannelPermissionToggle(props: {
           marginStart: "var(--gap-md)",
           display: "flex",
           flexDirection: "column",
+          gap: "2px",
+          minWidth: 0,
+          paddingBlock: "var(--gap-sm)",
         })}
       >
         <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="body" size="small">
+          <span
+            class={css({
+              color: "var(--md-sys-color-outline)",
+              lineHeight: 1.2,
+            })}
+          >
+            {props.description}
+          </span>
+        </Text>
       </div>
     </Checkbox2>
   );
@@ -574,6 +592,7 @@ function ChannelPermissionOverride(props: {
       class={css({
         gap: "var(--gap-md)",
         display: "flex",
+        paddingBlock: "var(--gap-sm)",
       })}
     >
       <div
@@ -581,10 +600,21 @@ function ChannelPermissionOverride(props: {
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
+          gap: "2px",
+          minWidth: 0,
         })}
       >
         <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="body" size="small">
+          <span
+            class={css({
+              color: "var(--md-sys-color-outline)",
+              lineHeight: 1.2,
+            })}
+          >
+            {props.description}
+          </span>
+        </Text>
       </div>
       <OverrideSwitch
         disabled={!props.havePermission}
