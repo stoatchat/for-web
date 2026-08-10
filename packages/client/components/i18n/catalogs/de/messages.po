@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-10 16:03+0000\n"
-"Last-Translator: Lars E <larsebbeke@gmail.com>\n"
+"PO-Revision-Date: 2026-08-10 22:07+0000\n"
+"Last-Translator: xsty <xstyyy@proton.me>\n"
 "Language-Team: German <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/de/>\n"
 "Language: de\n"
@@ -451,7 +451,7 @@ msgstr "Möchtest du das wirklich löschen?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr "Sind Sie sicher, dass Sie zu {0} gehen möchten? "
+msgstr "Bist du sicher, dass du zu {0} gehen möchtest? "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
@@ -464,11 +464,11 @@ msgstr "Diese Nachricht wirklich anpinnen?"
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr ""
+msgstr "Bist du sicher, dass du {0} von {1} entfernen willst?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
-msgstr ""
+msgstr "Bist du sicher, dass du diese Nachricht entpinnen möchtest?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -490,7 +490,7 @@ msgstr "Authentifizierungs-App"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Automatic Gain Control"
-msgstr ""
+msgstr "Automatische Verstärkerung"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -831,7 +831,7 @@ msgstr "Code"
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
-msgstr ""
+msgstr "Kommt bald! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
@@ -1137,7 +1137,7 @@ msgstr "Standardberechtigungen"
 
 #: src/LoadingScreen.tsx
 msgid "Degraded Performance"
-msgstr ""
+msgstr "Verminderte Leistung"
 
 #: components/modal/modals/EmojiPreview.tsx
 #: components/modal/modals/DeleteServer.tsx
@@ -1198,7 +1198,7 @@ msgstr "Nachricht löschen"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Delete Message History"
-msgstr ""
+msgstr "Lösche Nachrichtenverlauf"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
@@ -1263,7 +1263,7 @@ msgstr "Bitte nicht stören"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Don't ask me again"
-msgstr ""
+msgstr "Frag mich nicht nochmal"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
@@ -1274,7 +1274,7 @@ msgstr "Frag mich nicht nochmal wegen "
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
-msgstr ""
+msgstr "Lösche keine Nachrichten"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1282,7 +1282,7 @@ msgstr "Andere Nutzer nicht benachrichtigen, dass du gegangen bist"
 
 #: src/AndroidNag.tsx
 msgid "Don't show this again"
-msgstr ""
+msgstr "Zeige das nicht wieder"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
@@ -1408,11 +1408,11 @@ msgstr "Anruf beenden"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Enhanced"
-msgstr ""
+msgstr "Verbessert"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Enhanced (RNNoise)"
-msgstr ""
+msgstr "Verbessert (RNNoise)"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
@@ -1464,10 +1464,14 @@ msgstr "Extreme Gewalt, Verstümmelung oder Tierquälerei"
 #: components/client/NotificationsController.ts
 msgid "Failed to enable notifications. Stoat does not have notification permission."
 msgstr ""
+"Aktivieren von Benachrichtigungen fehlgeschlagen. Stoat hat keine "
+"Benachrichtigungsberechtigung."
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable push notifications. Please try again later."
 msgstr ""
+"Aktivieren von Pushbenachrichtigungen ist fehlgeschlagen. Bitte versuche es "
+"nochmal später."
 
 #: components/i18n/errors.tsx
 msgid "Failed to process the image you provided."
@@ -1489,7 +1493,7 @@ msgstr "Rückmeldung"
 #. placeholder {0}: humanFileSize(local.maxSize)
 #: components/ui/components/utils/Form2.tsx
 msgid "File must be smaller than {0}"
-msgstr ""
+msgstr "Datei muss kleiner als {0} sein."
 
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
@@ -1566,11 +1570,13 @@ msgstr "Aktive Wiederherstellungscodes"
 
 #: src/AndroidNag.tsx
 msgid "Get it on Google Play"
-msgstr ""
+msgstr "Jetzt bei"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
 msgstr ""
+"Gifbox ist unsere eigene GIF-Plattform, damit du hier auf Stoat weiter GIFs "
+"teilen kannst."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
@@ -1587,7 +1593,7 @@ msgstr "Gib uns zusätzliche Details"
 #: components/modal/modals/ScreenShareSettings.tsx
 #: components/modal/modals/ScreenSharePicker.tsx
 msgid "Go"
-msgstr ""
+msgstr "Los"
 
 #: components/auth/src/flows/FlowVerify.tsx
 #: components/auth/src/flows/FlowVerify.tsx
@@ -1615,7 +1621,7 @@ msgstr "Gut"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Got a better GIF? Share it with everyone on Gifbox."
-msgstr ""
+msgstr "Hast du ein besseres GIF? Teile es mit jeden über Gifbox."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Got it"
@@ -1633,7 +1639,7 @@ msgstr "Gruppenname"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Guidelines"
-msgstr ""
+msgstr "Richtlinien"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Harassment or cyberbullying"
@@ -1667,7 +1673,7 @@ msgstr "Hier ist dein neuer Einladungscode: <0>{0}</0>"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Hide Others"
-msgstr ""
+msgstr "Andere verstecken"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
@@ -1688,7 +1694,7 @@ msgstr "Ich verstehe die Konsequenzen"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "ID copied to clipboard"
-msgstr ""
+msgstr "ID zur Zwischenablage kopiert"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -1711,6 +1717,8 @@ msgstr "Identitätsmissbrauch / Nachahmung"
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
 msgstr ""
+"Installiere in der Zwischenzeit Stoat auf Google Play für eine schneller und "
+"Flüssigere Erfahrung auf Android."
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Instead of closing, Stoat will hide in your tray."
@@ -1743,7 +1751,7 @@ msgstr "Andere einladen"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite URL copied to clipboard"
-msgstr ""
+msgstr "Einladungslink in die Zwischenablage kopiert"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -1917,7 +1925,7 @@ msgstr "Meldet dich aus allen Sitzungen außerhalb dieses Geräts ab."
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Lowercase letters, numbers and underscores only."
-msgstr ""
+msgstr "Nur Kleinbuchstaben, Zahlen und Unterstriche."
 
 #: src/LoadingScreen.tsx
 msgid "Major Outage"
@@ -1994,7 +2002,7 @@ msgstr "Mitglieder"
 #. placeholder {0}: slowmodeWaitTime()
 #: src/interface/channels/text/Composition.tsx
 msgid "Members can send one message every {0}."
-msgstr ""
+msgstr "Mitglieder können jede {0} eine Nachricht schicken."
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mention"
@@ -2068,7 +2076,7 @@ msgstr "Nachrichten"
 #: components/app/interface/settings/user/Account.tsx
 #: components/app/interface/settings/user/Account.tsx
 msgid "MFA setup canceled."
-msgstr ""
+msgstr "MFA-Einrichtung abgebrochen."
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Minimise to Tray"
@@ -2125,7 +2133,7 @@ msgstr "Mitglieder stummschalten"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mute Screen Share"
-msgstr ""
+msgstr "Übertragung stummen"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
@@ -2194,7 +2202,7 @@ msgstr "Spitzname"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "No GIFs found"
-msgstr ""
+msgstr "Keine GIFs gefunden"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
@@ -2271,7 +2279,7 @@ msgstr "Einer der ersten 1000 Nutzer!"
 
 #: src/LoadingScreen.tsx
 msgid "Ongoing Maintenance"
-msgstr ""
+msgstr "Laufende Wartung"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
@@ -2329,7 +2337,7 @@ msgstr "Ban aufheben"
 
 #: src/LoadingScreen.tsx
 msgid "Partial Outage"
-msgstr ""
+msgstr "Teilweisiger Ausfall"
 
 #: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -2340,7 +2348,7 @@ msgstr "Passwort"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Passwort erfolgreich geändert."
 
 #: src/interface/Friends.tsx
 msgid "Pending"
@@ -2360,7 +2368,7 @@ msgstr "Wähle einen Benutzernamen, unter dem du gefunden werden möchtest. Der 
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin"
-msgstr ""
+msgstr "Anpinnen"
 
 #: components/modal/modals/PinMessage.tsx
 #: components/app/menus/MessageContextMenu.tsx
@@ -2405,7 +2413,7 @@ msgstr "Wähle bitte einen Grund aus"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Powered by RNNoise"
-msgstr ""
+msgstr "Unterstützt von RNNoise"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Privacy"
@@ -2485,11 +2493,11 @@ msgstr "Erhalte Benachrichtigungen während die App im Hintergrund offen ist."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the tab is open."
-msgstr ""
+msgstr "Erhalte Benachrichtigungen während der Tab offen ist."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive push notifications while the app is closed."
-msgstr ""
+msgstr "Erhalte Pushbenachrichtigungen während die App geschlossen ist."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Reconnecting"
@@ -2648,7 +2656,7 @@ msgstr "Erneut senden"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Return to voice channel"
-msgstr ""
+msgstr "Zurück zum Sprachkanal"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Revenge or underage pornography"
@@ -2663,7 +2671,7 @@ msgstr "Richtlinienänderungen überprüfen"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Icon"
-msgstr ""
+msgstr "Rollensymbol"
 
 #: components/modal/modals/CreateRole.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
@@ -2706,11 +2714,11 @@ msgstr "Betrug"
 #: components/modal/modals/ScreenShareSettings.tsx
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Screen Share Settings"
-msgstr ""
+msgstr "Übertragungseinstellungen"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Screen Share Volume"
-msgstr ""
+msgstr "Übertragungslautstärke"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
@@ -2746,11 +2754,11 @@ msgstr ""
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Select screen share quality"
-msgstr ""
+msgstr "Wähle Übertragungsqualität"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select video input"
-msgstr ""
+msgstr "Wähle Videoeingabe"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Select your language"
