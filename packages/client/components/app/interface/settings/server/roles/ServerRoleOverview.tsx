@@ -2,7 +2,6 @@ import { onCleanup, onMount, Show } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
-import "mdui/components/fab.js";
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -12,6 +11,7 @@ import {
   CategoryButton,
   Column,
   Draggable,
+  Fab,
   Row,
   Text,
 } from "@revolt/ui";
@@ -49,11 +49,11 @@ export function ServerRoleOverview(props: { context: Server }) {
 
   onMount(() => {
     unregisterAction = registerAction(() => (
-      <mdui-fab variant="primary" onClick={createRole}>
+      <Fab variant="primary" onClick={createRole}>
         <Symbol slot="icon" size={24}>
           add
         </Symbol>
-      </mdui-fab>
+      </Fab>
     ));
   });
 
