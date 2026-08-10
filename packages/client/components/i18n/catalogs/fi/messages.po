@@ -71,7 +71,7 @@ msgstr "{0} muutti kanavan kuvauksen"
 msgid "{0} changed the channel icon"
 msgstr "{0} muutti kanavan kuvakkeen"
 
-#. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
+#. placeholder {0}: CONFIGURATION.MAX_EMOJI - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
 msgstr "{0} emojipaikkaa jäljellä"
@@ -152,16 +152,18 @@ msgid "{0}'s roles"
 msgstr "{0}n roolit"
 
 #: src/interface/channels/text/Composition.tsx
-#~ msgid "{h} hours"
-#~ msgstr ""
+#: src/interface/channels/text/Composition.tsx
+msgid "{h} hours"
+msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
-#~ msgid "{m} minutes"
-#~ msgstr ""
+#: src/interface/channels/text/Composition.tsx
+msgid "{m} minutes"
+msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
-#~ msgid "{sec} seconds"
-#~ msgstr ""
+msgid "{sec} seconds"
+msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
@@ -241,76 +243,78 @@ msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed
 msgstr "<0>Ole varovainen!</0>Tämä ei ole sama linkki mikä oli esillä:"
 
 #: components/modal/modals/BanMember.tsx
-#~ msgid "1 day"
-#~ msgstr ""
+msgid "1 day"
+msgstr ""
 
+#: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "1 hour"
-#~ msgstr ""
+msgid "1 hour"
+msgstr ""
 
 #: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/Composition.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "1 minute"
-#~ msgstr ""
+msgid "1 minute"
+msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
 msgstr "1 käyttäjä reagoi"
 
 #: src/interface/channels/text/Composition.tsx
-#~ msgid "1 second"
-#~ msgstr ""
+msgid "1 second"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "10 minutes"
-#~ msgstr ""
+msgid "10 minutes"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "10 seconds"
-#~ msgstr ""
+msgid "10 seconds"
+msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr "12 tuntia"
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "2 hours"
-#~ msgstr ""
+msgid "2 hours"
+msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
 msgstr "24 tuntia"
 
 #: components/modal/modals/BanMember.tsx
-#~ msgid "3 days"
-#~ msgstr ""
+msgid "3 days"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "30 minutes"
-#~ msgstr ""
+msgid "30 minutes"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "30 seconds"
-#~ msgstr ""
+msgid "30 seconds"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "5 minutes"
-#~ msgstr ""
+msgid "5 minutes"
+msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "5 seconds"
-#~ msgstr ""
+msgid "5 seconds"
+msgstr ""
 
 #: components/modal/modals/BanMember.tsx
 #: components/app/interface/settings/channel/Overview.tsx
-#~ msgid "6 hours"
-#~ msgstr ""
+msgid "6 hours"
+msgstr ""
 
 #: components/modal/modals/BanMember.tsx
-#~ msgid "7 days"
-#~ msgstr ""
+msgid "7 days"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
@@ -320,6 +324,7 @@ msgstr "Pääsee kanaviin tällä palvelimella"
 msgid "Able to access this channel"
 msgstr "Pääsee tälle kanavalle"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
 msgstr "Pystyy puhumaan puhekanavilla"
@@ -340,13 +345,13 @@ msgstr "Hyväksy kaveripyyntö"
 msgid "Acknowledge"
 msgstr "Hyväksy"
 
-#: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
+#: components/modal/modals/AddBot.tsx
 msgid "Add"
 msgstr "Lisää"
 
-#: components/modal/modals/AddFriend.tsx
 #: src/interface/Friends.tsx
+#: components/modal/modals/AddFriend.tsx
 msgid "Add a new friend"
 msgstr "Lisää uusi kaveri"
 
@@ -354,8 +359,8 @@ msgstr "Lisää uusi kaveri"
 msgid "Add friend"
 msgstr "Lisää kaveri"
 
-#: components/modal/modals/AddMembersToGroup.tsx
 #: src/interface/channels/ChannelHeader.tsx
+#: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add friends to group"
 msgstr "Lisää kavereita ryhmään"
 
@@ -371,10 +376,10 @@ msgstr "Lisää statusteksti"
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: components/app/menus/ChannelContextMenu.tsx
-#: components/app/menus/MessageContextMenu.tsx
-#: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
 msgid "Admin Panel"
 msgstr "Ylläpitopaneeli"
 
@@ -382,8 +387,8 @@ msgstr "Ylläpitopaneeli"
 msgid "Advanced"
 msgstr "Edistynyt"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Affects all roles and users"
 msgstr "Vaikuttaa kaikkiin rooleihin ja käyttäjiin"
 
@@ -393,10 +398,11 @@ msgstr "Kaikki"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "All Messages"
 msgstr "Kaikki viestit"
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "All Systems Operational"
 msgstr ""
 
@@ -429,8 +435,8 @@ msgstr "Tapahtui virhe."
 msgid "An internal error occurred. ({0})"
 msgstr "Sisäinen virhe tapahtui. ({0})"
 
-#: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/user/Sync.tsx
 msgid "Appearance"
 msgstr "Ulkoasu"
 
@@ -475,8 +481,9 @@ msgstr "Roolien asettaminen"
 msgid "Audio disabled by browser"
 msgstr ""
 
-#: components/app/interface/settings/user/Account.tsx
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/app/interface/settings/user/Account.tsx
 msgid "Authenticator App"
 msgstr "Valtuutussovellus"
 
@@ -488,12 +495,13 @@ msgstr ""
 msgid "Avatar"
 msgstr "Kuva"
 
-#: components/app/interface/settings/user/_AccountCard.tsx
-#: components/auth/src/flows/FlowCheck.tsx
-#: components/auth/src/flows/FlowCreate.tsx
-#: components/auth/src/flows/FlowLogin.tsx
-#: components/modal/modals/MFAFlow.tsx
 #: src/interface/channels/AgeGate.tsx
+#: src/interface/channels/AgeGate.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/auth/src/flows/FlowCreate.tsx
+#: components/auth/src/flows/FlowCheck.tsx
+#: components/app/interface/settings/user/_AccountCard.tsx
 msgid "Back"
 msgstr "Takaisin"
 
@@ -501,8 +509,8 @@ msgstr "Takaisin"
 msgid "Badges"
 msgstr "Merkit"
 
-#: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/BanMember.tsx
 msgid "Ban"
 msgstr "Banni"
 
@@ -574,9 +582,9 @@ msgstr "Selaimen kaiun poisto"
 msgid "Bug Tracker"
 msgstr "Bugiseuranta"
 
-#: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Busy"
 msgstr "Kiireinen"
 
@@ -593,6 +601,7 @@ msgid "Bypass Slowmode"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
 msgstr ""
 
@@ -600,32 +609,33 @@ msgstr ""
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
-#: components/modal/modals/AddBot.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/modal/modals/BanNonMember.tsx
-#: components/modal/modals/DeleteBot.tsx
-#: components/modal/modals/DeleteCategory.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteMessage.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/EditCategory.tsx
-#: components/modal/modals/Invite.tsx
-#: components/modal/modals/KickMember.tsx
-#: components/modal/modals/LeaveServer.tsx
-#: components/modal/modals/MFAEnableTOTP.tsx
-#: components/modal/modals/MFAFlow.tsx
-#: components/modal/modals/Onboarding.tsx
-#: components/modal/modals/PinMessage.tsx
-#: components/modal/modals/RemoveMember.tsx
-#: components/modal/modals/RenameSession.tsx
-#: components/modal/modals/ReportContent.tsx
-#: components/modal/modals/ResetBotToken.tsx
-#: components/modal/modals/ScreenSharePicker.tsx
-#: components/modal/modals/ScreenShareSettings.tsx
-#: components/modal/modals/ServerIdentity.tsx
 #: components/modal/modals/SignOutSessions.tsx
+#: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
+#: components/modal/modals/ResetBotToken.tsx
+#: components/modal/modals/ReportContent.tsx
+#: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/RemoveMember.tsx
+#: components/modal/modals/PinMessage.tsx
+#: components/modal/modals/Onboarding.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAEnableTOTP.tsx
+#: components/modal/modals/LeaveServer.tsx
+#: components/modal/modals/KickMember.tsx
+#: components/modal/modals/Invite.tsx
+#: components/modal/modals/EditCategory.tsx
+#: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteMessage.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteBot.tsx
+#: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/modal/modals/AddBot.tsx
+#: components/auth/src/flows/FlowLogin.tsx
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -645,9 +655,9 @@ msgstr "Tiliä ei voi poistaa ellei palvelimia poisteta tai siirretä"
 msgid "Cannot edit this message."
 msgstr "Viestiä ei voi muokata."
 
-#: components/modal/modals/EditBotUsername.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditBotUsername.tsx
 msgid "Change"
 msgstr "Muuta"
 
@@ -721,8 +731,8 @@ msgstr "Kanavan kuvaus"
 msgid "Channel Info"
 msgstr "Kanavan tiedot"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #: components/modal/modals/CreateChannel.tsx
+#: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Name"
 msgstr "Kanavan nimi"
 
@@ -778,31 +788,31 @@ msgstr "Klikkaa näyttääksesi spoilerin"
 msgid "Client Settings"
 msgstr "Sovelluksen asetukset"
 
-#: components/modal/modals/AddFriend.tsx
-#: components/modal/modals/AddMembersToGroup.tsx
-#: components/modal/modals/Changelog.tsx
-#: components/modal/modals/ChannelInfo.tsx
-#: components/modal/modals/CreateBot.tsx
-#: components/modal/modals/CreateCategory.tsx
-#: components/modal/modals/CreateChannel.tsx
-#: components/modal/modals/CreateGroup.tsx
-#: components/modal/modals/CreateRole.tsx
-#: components/modal/modals/CreateServer.tsx
-#: components/modal/modals/CreateWebhook.tsx
-#: components/modal/modals/CustomStatus.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/EditBotUsername.tsx
-#: components/modal/modals/EditEmail.tsx
-#: components/modal/modals/EditPassword.tsx
-#: components/modal/modals/EditUsername.tsx
-#: components/modal/modals/EmojiPreview.tsx
-#: components/modal/modals/JoinServer.tsx
-#: components/modal/modals/LinkWarning.tsx
-#: components/modal/modals/PolicyChange.tsx
-#: components/modal/modals/ServerInfo.tsx
-#: components/modal/modals/UserProfileMutualFriends.tsx
-#: components/modal/modals/UserProfileMutualGroups.tsx
 #: components/modal/modals/UserProfileRoles.tsx
+#: components/modal/modals/UserProfileMutualGroups.tsx
+#: components/modal/modals/UserProfileMutualFriends.tsx
+#: components/modal/modals/ServerInfo.tsx
+#: components/modal/modals/PolicyChange.tsx
+#: components/modal/modals/LinkWarning.tsx
+#: components/modal/modals/JoinServer.tsx
+#: components/modal/modals/EmojiPreview.tsx
+#: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditEmail.tsx
+#: components/modal/modals/EditBotUsername.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/CustomStatus.tsx
+#: components/modal/modals/CreateWebhook.tsx
+#: components/modal/modals/CreateServer.tsx
+#: components/modal/modals/CreateRole.tsx
+#: components/modal/modals/CreateGroup.tsx
+#: components/modal/modals/CreateChannel.tsx
+#: components/modal/modals/CreateCategory.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/ChannelInfo.tsx
+#: components/modal/modals/Changelog.tsx
+#: components/modal/modals/AddMembersToGroup.tsx
+#: components/modal/modals/AddFriend.tsx
 msgid "Close"
 msgstr "Sulje"
 
@@ -820,6 +830,7 @@ msgid "Code"
 msgstr "Koodi"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
 msgstr ""
 
@@ -831,8 +842,8 @@ msgstr "Aseta tapa päästä takaisin tilillesi, jos kaksivaiheinen tunnistautum
 msgid "Configure one-time password authentication"
 msgstr "Kertakäyttöisellä salasanalla tunnistautumisen asetukset"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/FlowLogin.tsx
 msgid "Confirm"
 msgstr "Vahvista"
 
@@ -844,6 +855,7 @@ msgstr "Vahvista toimenpide"
 msgid "Connect"
 msgstr "Yhdistäminen"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
 msgstr "Voi yhdistää puhekanavalle"
@@ -860,8 +872,8 @@ msgstr "Yhdistää"
 msgid "Content breaks one or more laws"
 msgstr "Sisältö rikkoo yhtä tai useampaa lakia"
 
-#: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/MFAEnableTOTP.tsx
+#: components/modal/modals/LinkWarning.tsx
 msgid "Continue"
 msgstr "Jatka"
 
@@ -905,8 +917,8 @@ msgstr "Kopioi tunniste"
 msgid "Copy Invite URL"
 msgstr "Kopioi kutsun URL"
 
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
 msgid "Copy link"
 msgstr "Kopioi linkki"
 
@@ -930,8 +942,8 @@ msgstr "Kopioi roolin ID"
 msgid "Copy server ID"
 msgstr "Kopioi palvelimen tunniste"
 
-#: components/app/menus/DraftMessageContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Copy text"
 msgstr "Kopioi teksti"
 
@@ -939,8 +951,8 @@ msgstr "Kopioi teksti"
 msgid "Copy Token"
 msgstr "Kopioi Token"
 
-#: components/app/menus/UserContextMenu.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
+#: components/app/menus/UserContextMenu.tsx
 msgid "Copy user ID"
 msgstr "Kopioi käyttäjän tunniste"
 
@@ -952,18 +964,14 @@ msgstr "Kopioi webhookin URL"
 msgid "Could not find what you requested."
 msgstr "Etsittyä tietoa ei löytynyt."
 
-#: components/instance/index.tsx
-msgid "Couldn't fetch Stoat configuration from {hStr}."
-msgstr ""
-
-#: components/app/interface/settings/server/emojis/EmojiList.tsx
-#: components/modal/modals/CreateBot.tsx
-#: components/modal/modals/CreateCategory.tsx
-#: components/modal/modals/CreateChannel.tsx
-#: components/modal/modals/CreateGroup.tsx
-#: components/modal/modals/CreateRole.tsx
-#: components/modal/modals/CreateServer.tsx
 #: components/modal/modals/CreateWebhook.tsx
+#: components/modal/modals/CreateServer.tsx
+#: components/modal/modals/CreateRole.tsx
+#: components/modal/modals/CreateGroup.tsx
+#: components/modal/modals/CreateChannel.tsx
+#: components/modal/modals/CreateCategory.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Create"
 msgstr "Luo"
 
@@ -986,8 +994,8 @@ msgstr "Luo uusi botti"
 msgid "Create a new category"
 msgstr "Luo uusi kategoria"
 
-#: components/modal/modals/CreateGroup.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
+#: components/modal/modals/CreateGroup.tsx
 msgid "Create a new group"
 msgstr "Luo uusi ryhmä"
 
@@ -1008,6 +1016,8 @@ msgid "Create and edit server roles"
 msgstr "Voi luoda ja muokata palvelimen rooleja"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
 msgstr "Voi luoda ja muokata webhookeja"
 
@@ -1015,22 +1025,22 @@ msgstr "Voi luoda ja muokata webhookeja"
 msgid "Create Bot"
 msgstr "Luo botti"
 
-#: components/app/menus/CategoryContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Create category"
 msgstr "Luo luokka"
 
-#: components/app/menus/CategoryContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
-#: components/app/menus/ServerSidebarContextMenu.tsx
 #: components/modal/modals/CreateChannel.tsx
+#: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Create channel"
 msgstr "Luo kanava"
 
-#: components/app/interface/settings/server/invites/ListServerInvites.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create invite"
 msgstr "Luo kutsu"
 
@@ -1042,8 +1052,8 @@ msgstr "Luo kutsu"
 msgid "Create invites for others to use"
 msgstr "Voi luoda kutsuja muiden käytettäviksi"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/modal/modals/CreateRole.tsx
+#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Create Role"
 msgstr "Luo rooli"
 
@@ -1063,9 +1073,9 @@ msgstr "Luo webhook"
 msgid "Created <0/>"
 msgstr "Luotiin <0/>"
 
-#: components/modal/modals/EditEmail.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditEmail.tsx
 msgid "Current Password"
 msgstr "Nykyinen salasana"
 
@@ -1098,11 +1108,12 @@ msgstr "Tietokantavirhe, ota yhteyttä tukeen. ({0})"
 msgid "Date format"
 msgstr ""
 
-#: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Deafen"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
 msgstr "Voi kuurouttaa alemman tason käyttäjiä äänipuheluissa"
@@ -1115,10 +1126,10 @@ msgstr "Jäsenien kuurouttaminen"
 msgid "Default"
 msgstr "Oletus"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
+#: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/ChannelSettings.tsx
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/ServerSettings.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Default Permissions"
 msgstr "Oletusarvoiset valtuudet"
 
@@ -1126,27 +1137,27 @@ msgstr "Oletusarvoiset valtuudet"
 #~ msgid "Defean"
 #~ msgstr ""
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Degraded Performance"
 msgstr ""
 
-#: components/modal/modals/DeleteBot.tsx
-#: components/modal/modals/DeleteCategory.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteMessage.tsx
-#: components/modal/modals/DeleteRole.tsx
-#: components/modal/modals/DeleteServer.tsx
 #: components/modal/modals/EmojiPreview.tsx
+#: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteMessage.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteBot.tsx
 msgid "Delete"
 msgstr "Poista"
 
-#. placeholder {0}: props.bot.user!.displayName
-#. placeholder {0}: props.channel.name
+#. placeholder {0}: props.server.name
 #. placeholder {0}: props.role.name
-#: components/modal/modals/DeleteBot.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteRole.tsx
+#. placeholder {0}: props.channel.name
 #: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteBot.tsx
 msgid "Delete {0}?"
 msgstr "Poista {0}?"
 
@@ -1155,6 +1166,8 @@ msgid "Delete Account"
 msgstr "Poista tili"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
 msgstr "Voi poistaa ja kiinnittää muiden käyttäjien lähettämiä viestejä"
 
@@ -1162,8 +1175,8 @@ msgstr "Voi poistaa ja kiinnittää muiden käyttäjien lähettämiä viestejä"
 msgid "Delete Bot"
 msgstr "Poista botti"
 
-#: components/app/menus/CategoryContextMenu.tsx
 #: components/modal/modals/DeleteCategory.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Delete category"
 msgstr "Poista kategoria"
 
@@ -1179,9 +1192,9 @@ msgstr "Poista kanava"
 msgid "Delete Invite"
 msgstr "Poista kutsu"
 
-#: components/app/menus/DraftMessageContextMenu.tsx
-#: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/DeleteMessage.tsx
+#: components/app/menus/MessageContextMenu.tsx
+#: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Delete message"
 msgstr "Poista viesti"
 
@@ -1218,8 +1231,11 @@ msgstr "Poista tili käytöstä"
 msgid "Disable one-time password authenticator"
 msgstr "Poista kertakäyttöisen salasanan tunnisteväline käytöstä"
 
-#: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/Overview.tsx
+#: components/app/interface/settings/server/Overview.tsx
 msgid "Disabled"
 msgstr "Poistettu käytöstä"
 
@@ -1335,11 +1351,13 @@ msgstr "Muokkaa rooleja"
 msgid "Edit the server's information and settings"
 msgstr "Voi muokata palvelimen tietoja ja asetuksia"
 
-#: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: components/app/menus/ServerContextMenu.tsx
 msgid "Edit your identity"
 msgstr "Muokkaa tunnistettasi"
 
+#: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Muokattu"
@@ -1348,9 +1366,9 @@ msgstr "Muokattu"
 msgid "Effective <0/> (<1/>)"
 msgstr ""
 
-#: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditEmail.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/app/interface/settings/user/Account.tsx
 msgid "Email"
 msgstr "Sähköpostiosoite"
 
@@ -1402,8 +1420,8 @@ msgstr ""
 msgid "Enter a new name for this session"
 msgstr "Anna tälle istunnolle uusi nimi"
 
-#: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
 msgid "Enter a new password."
 msgstr "Anna uusi salasana."
 
@@ -1419,9 +1437,9 @@ msgstr "Syötä koodi"
 msgid "Enter your current password."
 msgstr "Syötä nykyinen salasanasi."
 
-#: components/modal/modals/EditEmail.tsx
-#: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditPassword.tsx
+#: components/modal/modals/EditEmail.tsx
 msgid "Enter your current password..."
 msgstr "Syötä nykyinen salasanasi..."
 
@@ -1465,8 +1483,8 @@ msgstr "Lähettäminen epäonnistui"
 msgid "Failed to verify!"
 msgstr "Vahistus epäonnistui!"
 
-#: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "Feedback"
 msgstr "Palaute"
 
@@ -1483,10 +1501,10 @@ msgstr "Löydä harrastuksiisi tai kiinnostuksen kohteisiisi pohjautuva yhteisö
 msgid "Find your com<0/>munity,<1/>connect with the world."
 msgstr ""
 
-#: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Focus"
 msgstr "Keskity"
 
@@ -1568,15 +1586,16 @@ msgstr "Anna Stoatista palautetta"
 msgid "Give us some detail"
 msgstr "Anna meille tarkempaa tietoa"
 
-#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 msgid "Go"
 msgstr ""
 
-#: components/auth/src/flows/FlowConfirmReset.tsx
-#: components/auth/src/flows/FlowResend.tsx
-#: components/auth/src/flows/FlowReset.tsx
 #: components/auth/src/flows/FlowVerify.tsx
+#: components/auth/src/flows/FlowVerify.tsx
+#: components/auth/src/flows/FlowReset.tsx
+#: components/auth/src/flows/FlowResend.tsx
+#: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Go back to login"
 msgstr "Palaa kirjautumiseen"
 
@@ -1584,8 +1603,8 @@ msgstr "Palaa kirjautumiseen"
 msgid "Go to account settings to edit your username"
 msgstr "Mene omiin tiliasetuksiin vaihtamaan käyttäjänimesi"
 
-#: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "Go to the Stoat Lounge"
 msgstr "Mene Stoatin Loungeen"
 
@@ -1626,6 +1645,7 @@ msgstr "Häirintä tai nettikiusaaminen"
 msgid "Hardware Acceleration"
 msgstr "Laitteistokiihdytys"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Hear other people and see their video"
 msgstr "Voi kuulla muita käyttäjiä ja nähdä heidän videokuvansa"
@@ -1672,10 +1692,10 @@ msgstr "Ymmärrän seuraamukset"
 msgid "ID copied to clipboard"
 msgstr ""
 
-#: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Idle"
 msgstr "Toimeton"
 
@@ -1693,10 +1713,6 @@ msgstr ""
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
-msgstr ""
-
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
-msgid "Input Volume"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
@@ -1719,8 +1735,8 @@ msgstr "Kutsu kaikki ystäväsi, muutama botti, ja aloita juhlat."
 msgid "Invite Bot"
 msgstr "Kutsu Botti"
 
-#: components/app/interface/settings/server/invites/ListServerInvites.tsx
 #: components/auth/src/flows/Form.tsx
+#: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Invite Code"
 msgstr "Kutsukoodi"
 
@@ -1752,8 +1768,8 @@ msgstr "asiakuulumaton vitsi merkki 2"
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr "ISO-Standardi (YYYY-MM-DD)"
 
-#: components/modal/modals/Invite.tsx
 #: components/modal/modals/JoinServer.tsx
+#: components/modal/modals/Invite.tsx
 msgid "Join"
 msgstr "Liity"
 
@@ -1764,18 +1780,18 @@ msgstr "Liity palvelimelle"
 #~ msgid "Join call"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "Join the Stoat Lounge"
 msgstr "Liity Stoat Loungeen"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 #: src/interface/channels/ChannelHeader.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Join the voice channel"
 msgstr "Liity puhekanavalle"
 
-#: components/ui/components/features/messaging/elements/Invite.tsx
 #: components/ui/components/features/profiles/ProfileJoined.tsx
+#: components/ui/components/features/messaging/elements/Invite.tsx
 msgid "Joined"
 msgstr "Liittyi"
 
@@ -1811,8 +1827,8 @@ msgstr "Erota Jäsen"
 msgid "Kick Members"
 msgstr "Jäsenien erottaminen"
 
-#: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/user/Sync.tsx
 msgid "Language"
 msgstr "Kieli"
 
@@ -1836,15 +1852,15 @@ msgstr ""
 msgid "Learn more about how to create bots on Stoat."
 msgstr "Lue lisää bottien luomisesta Stoatissa."
 
-#: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
+#: components/modal/modals/DeleteChannel.tsx
 msgid "Leave"
 msgstr "Poistu"
 
-#. placeholder {0}: props.channel.name
 #. placeholder {0}: props.server.name
-#: components/modal/modals/DeleteChannel.tsx
+#. placeholder {0}: props.channel.name
 #: components/modal/modals/LeaveServer.tsx
+#: components/modal/modals/DeleteChannel.tsx
 msgid "Leave {0}?"
 msgstr "Jätä {0}?"
 
@@ -1881,8 +1897,8 @@ msgstr "Lataa tiedosto ({0})"
 msgid "Log In"
 msgstr "Kirjaudu sisään"
 
-#: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/user/Sessions.tsx
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
@@ -1906,7 +1922,7 @@ msgstr "Kirjaa sinut ulos kaikista muista istunnoista paitsi tästä laitteesta.
 msgid "Lowercase letters, numbers and underscores only."
 msgstr ""
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Major Outage"
 msgstr ""
 
@@ -1951,12 +1967,13 @@ msgid "Mark as mature"
 msgstr "Merkitse aikuisille tarkoitetuksi"
 
 #: components/app/interface/settings/channel/Overview.tsx
+#: components/app/interface/settings/channel/Overview.tsx
 msgid "Mark as Mature"
 msgstr ""
 
-#: components/app/menus/CategoryContextMenu.tsx
-#: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Mark as read"
 msgstr "Merkitse luetuksi"
 
@@ -1972,8 +1989,8 @@ msgstr "Merkkaa tämä kanava vain aikuisille tarkoitetuksi?"
 msgid "Masquerade"
 msgstr "Naamio"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Members"
 msgstr "Jäsenet"
 
@@ -2008,6 +2025,7 @@ msgstr "Maininnat"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mentions Only"
 msgstr "Vain maininnat"
 
@@ -2015,8 +2033,9 @@ msgstr "Vain maininnat"
 msgid "Message"
 msgstr "Viesti"
 
-#. placeholder {0}: props.channel.name
 #. placeholder {0}: props.channel.recipient?.username
+#. placeholder {0}: props.channel.name
+#: src/interface/channels/text/Composition.tsx
 #: src/interface/channels/text/Composition.tsx
 msgid "Message {0}"
 msgstr "Viesti {0}"
@@ -2050,6 +2069,7 @@ msgid "Messaging"
 msgstr "Viestintä"
 
 #: components/app/interface/settings/user/Account.tsx
+#: components/app/interface/settings/user/Account.tsx
 msgid "MFA setup canceled."
 msgstr ""
 
@@ -2057,6 +2077,7 @@ msgstr ""
 msgid "Minimise to Tray"
 msgstr ""
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Missing permission"
 msgstr "Puuttuva käyttöoikeus"
@@ -2078,6 +2099,7 @@ msgid "Move Members"
 msgstr "Jäsenien siirtäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Move members between voice channels"
 msgstr "Voi siirtää jäseniä äänikanavien välillä"
 
@@ -2085,9 +2107,9 @@ msgstr "Voi siirtää jäseniä äänikanavien välillä"
 msgid "Multi-factor authentication is already enabled for this account."
 msgstr "Monivaiheinen todennus on käytössä jo tälle tilille."
 
-#: components/app/interface/settings/user/notifications/Sounds.tsx
-#: components/app/menus/UserContextMenu.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/menus/UserContextMenu.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Mute"
 msgstr "Mykistä"
 
@@ -2095,6 +2117,7 @@ msgstr "Mykistä"
 msgid "Mute Channel"
 msgstr "Mykistä kanava"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
 msgstr "Voi mykistää alemman tason käyttäjiä äänipuhelussa"
@@ -2115,9 +2138,9 @@ msgstr "Mykistä palvelin"
 msgid "Muted"
 msgstr "Mykistetty"
 
+#: src/interface/navigation/servers/ServerList.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
-#: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted until <0/>"
 msgstr "Mykistetty <0/> asti"
 
@@ -2137,8 +2160,8 @@ msgstr "Minun tilini"
 msgid "My Bots"
 msgstr "Omat bottini"
 
-#: components/modal/modals/CreateCategory.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/CreateCategory.tsx
 msgid "Name"
 msgstr "Nimi"
 
@@ -2155,12 +2178,8 @@ msgstr "UUSI"
 msgid "New messages since {0}"
 msgstr "Uusia viestejä alkaen {0}"
 
-#: components/modal/modals/EditCategory.tsx
-msgid "New name"
-msgstr ""
-
-#: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
 msgid "New Password"
 msgstr "Uusi salasana"
 
@@ -2190,6 +2209,7 @@ msgstr "Ketään ei ole täällä tällä hetkellä!"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
 msgstr "Ei mitään"
 
@@ -2201,9 +2221,9 @@ msgstr "Normaali"
 msgid "Not of minimum age to use the platform"
 msgstr "Ei tarpeeksi ikää käyttääkseen alustaa"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Notifications"
 msgstr "Ilmoitukset"
 
@@ -2219,16 +2239,16 @@ msgstr "Virallinen viestintä"
 msgid "Official Server"
 msgstr "Virallinen Palvelin"
 
-#: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Offline"
 msgstr "Ei paikalla"
 
-#: components/auth/src/flows/FlowHome.tsx
-#: components/modal/modals/CreateInvite.tsx
-#: components/modal/modals/Error2.tsx
 #: components/modal/modals/SignedOut.tsx
+#: components/modal/modals/Error2.tsx
+#: components/modal/modals/CreateInvite.tsx
+#: components/auth/src/flows/FlowHome.tsx
 msgid "OK"
 msgstr "OK"
 
@@ -2240,11 +2260,11 @@ msgstr "Vanhin"
 msgid "On"
 msgstr "Päällä"
 
-#: components/modal/modals/DeleteBot.tsx
-#: components/modal/modals/DeleteCategory.tsx
-#: components/modal/modals/DeleteChannel.tsx
-#: components/modal/modals/DeleteRole.tsx
 #: components/modal/modals/DeleteServer.tsx
+#: components/modal/modals/DeleteRole.tsx
+#: components/modal/modals/DeleteChannel.tsx
+#: components/modal/modals/DeleteCategory.tsx
+#: components/modal/modals/DeleteBot.tsx
 msgid "Once it's deleted, there's no going back."
 msgstr "Kun se on poistettu, ei ole paluuta."
 
@@ -2252,25 +2272,21 @@ msgstr "Kun se on poistettu, ei ole paluuta."
 msgid "One of the first 1000 users!"
 msgstr "Yksi ensimmäisistä 1000 käyttäjästä!"
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Ongoing Maintenance"
 msgstr ""
 
-#: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx
 #: src/interface/Friends.tsx
-#: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: components/ui/components/features/profiles/ProfileStatus.tsx
 msgid "Online"
 msgstr "Paikalla"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Only mentions will notify you"
 msgstr "Vain maininnat ilmoittavat sinulle"
-
-#: components/instance/index.tsx
-msgid "Oops, something went wrong! {e}"
-msgstr ""
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2305,8 +2321,8 @@ msgstr "Muu"
 msgid "Output Volume"
 msgstr "Lähteen äänenvoimakkuus"
 
-#: components/app/interface/settings/ChannelSettings.tsx
 #: components/app/interface/settings/ServerSettings.tsx
+#: components/app/interface/settings/ChannelSettings.tsx
 msgid "Overview"
 msgstr "Yleiskatsaus"
 
@@ -2314,13 +2330,14 @@ msgstr "Yleiskatsaus"
 msgid "Pardon User"
 msgstr "Armahda käyttäjä"
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Partial Outage"
 msgstr ""
 
-#: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/app/interface/settings/user/Account.tsx
 msgid "Password"
 msgstr "Salasana"
 
@@ -2348,8 +2365,8 @@ msgstr "Valitse käyttäjätunnus, jolla haluat ihmisten löytävän sinut. Tät
 msgid "Pin"
 msgstr ""
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/PinMessage.tsx
+#: components/app/menus/MessageContextMenu.tsx
 msgid "Pin message"
 msgstr "Kiinnitä viesti"
 
@@ -2405,8 +2422,8 @@ msgstr "Tietosuojakäytäntö"
 msgid "Private Channel"
 msgstr "Yksityinen kanava"
 
-#: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: components/app/interface/settings/UserSettings.tsx
 msgid "Profile"
 msgstr "Profiili"
 
@@ -2418,8 +2435,8 @@ msgstr "Profiilin kuvaus"
 msgid "Promotes harm"
 msgstr "Edistää haittaa"
 
-#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 #: components/modal/modals/ServerIdentity.tsx
+#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Pronouns"
 msgstr ""
 
@@ -2431,8 +2448,8 @@ msgstr "Annettu sähköposti tai salasana on väärä."
 msgid "Raid or spam attack"
 msgstr ""
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/menus/MessageContextMenu.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React"
 msgstr "Reagointi"
 
@@ -2456,9 +2473,9 @@ msgstr "Voi lukea kanavalla aiemmin lähetettyjä viestejä"
 msgid "Read past messages sent in channels"
 msgstr "Voi lukea kaikilla kanavilla aiemmin lähetettyjä viestejä"
 
-#: components/app/interface/settings/server/bans/ListBans.tsx
-#: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/BanMember.tsx
+#: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Reason"
 msgstr "Syy"
 
@@ -2482,6 +2499,7 @@ msgstr ""
 msgid "Reconnecting"
 msgstr "Yhdistetään uudelleen"
 
+#: components/modal/modals/MFAFlow.tsx
 #: components/modal/modals/MFAFlow.tsx
 msgid "Recovery Code"
 msgstr "Palautuskoodi"
@@ -2510,14 +2528,6 @@ msgstr "Hylkää kaveripyyntö"
 msgid "Relevance"
 msgstr "Relevanssi"
 
-#: components/markdown/plugins/anchors.tsx
-msgid "Remote Channel"
-msgstr ""
-
-#: components/markdown/plugins/anchors.tsx
-msgid "Remote Server"
-msgstr ""
-
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove"
 msgstr ""
@@ -2538,8 +2548,8 @@ msgstr "Profiilikuvien poistaminen"
 msgid "Remove friend"
 msgstr "Poista kaveri"
 
-#: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveMember.tsx
+#: components/app/menus/UserContextMenu.tsx
 msgid "Remove Member"
 msgstr ""
 
@@ -2551,14 +2561,15 @@ msgstr "Voi poistaa muiden käyttäjien profiilikuvia"
 msgid "Remove reaction"
 msgstr "Poista reaktio"
 
-#: components/app/interface/settings/user/Sessions.tsx
-#: components/modal/modals/EditCategory.tsx
 #: components/modal/modals/RenameSession.tsx
+#: components/modal/modals/EditCategory.tsx
+#: components/app/interface/settings/user/Sessions.tsx
+#: components/app/interface/settings/user/Sessions.tsx
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
-#: components/app/menus/CategoryContextMenu.tsx
 #: components/modal/modals/EditCategory.tsx
+#: components/app/menus/CategoryContextMenu.tsx
 msgid "Rename category"
 msgstr "Nimeä kategoria uudelleen"
 
@@ -2578,8 +2589,8 @@ msgstr "Vastaa"
 msgid "Replying to"
 msgstr "Vastataan käyttäjälle"
 
-#: components/modal/modals/ReportContent.tsx
 #: components/modal/modals/ServerInfo.tsx
+#: components/modal/modals/ReportContent.tsx
 msgid "Report"
 msgstr "Ilmoita"
 
@@ -2599,16 +2610,16 @@ msgstr "Ilmoita käyttäjä"
 msgid "Resend"
 msgstr "Lähetä uudelleen"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowResend.tsx
+#: components/auth/src/flows/FlowLogin.tsx
 msgid "Resend verification"
 msgstr "Lähetä vahvistus uudelleen"
 
-#: components/auth/src/flows/FlowConfirmReset.tsx
-#: components/auth/src/flows/FlowReset.tsx
-#: components/modal/modals/MFARecovery.tsx
-#: components/modal/modals/ResetBotToken.tsx
 #: components/ui/components/utils/Form2.tsx
+#: components/modal/modals/ResetBotToken.tsx
+#: components/modal/modals/MFARecovery.tsx
+#: components/auth/src/flows/FlowReset.tsx
+#: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Reset"
 msgstr "Nollaa"
 
@@ -2617,9 +2628,9 @@ msgstr "Nollaa"
 msgid "Reset {0}'s token?"
 msgstr ""
 
-#: components/auth/src/flows/FlowConfirmReset.tsx
-#: components/auth/src/flows/FlowLogin.tsx
 #: components/auth/src/flows/FlowReset.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Reset password"
 msgstr "Nollaa salasana"
 
@@ -2658,23 +2669,23 @@ msgstr "Tarkista käytäntömuutokset"
 msgid "Role Icon"
 msgstr ""
 
-#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/modal/modals/CreateRole.tsx
+#: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Name"
 msgstr "Roolin nimi"
 
-#: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
+#: components/app/interface/settings/ServerSettings.tsx
 msgid "Roles"
 msgstr "Roolit"
 
-#: components/app/interface/settings/channel/Overview.tsx
-#: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
+#: components/modal/modals/ServerIdentity.tsx
+#: components/modal/modals/CustomStatus.tsx
+#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
-#: components/app/interface/settings/user/profile/UserProfileEditor.tsx
-#: components/modal/modals/CustomStatus.tsx
-#: components/modal/modals/ServerIdentity.tsx
+#: components/app/interface/settings/channel/Overview.tsx
+#: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Save"
 msgstr "Tallenna"
 
@@ -2686,8 +2697,9 @@ msgstr "Tallenna tiedosto"
 msgid "Save to your notes"
 msgstr "Tallenna muistiinpanoihisi"
 
-#: src/interface/channels/ChannelHeader.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/channels/ChannelHeader.tsx
 msgid "Saved Notes"
 msgstr "Tallennetut muistiinpanot"
 
@@ -2695,8 +2707,8 @@ msgstr "Tallennetut muistiinpanot"
 msgid "Scams or fraud"
 msgstr "Huijaukset tai petokset"
 
-#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
+#: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Screen Share Settings"
 msgstr ""
 
@@ -2712,8 +2724,8 @@ msgstr ""
 msgid "Search for groups..."
 msgstr "Etsi ryhmiä..."
 
-#: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/CreateGroup.tsx
+#: components/modal/modals/AddMembersToGroup.tsx
 msgid "Search for users..."
 msgstr "Etsi käyttäjiä..."
 
@@ -2769,6 +2781,7 @@ msgid "Send Messages"
 msgstr "Viestien lähettäminen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
 msgstr "Voi lähettää viestejä kanavalla"
 
@@ -2784,6 +2797,8 @@ msgstr "Lähetä pyyntö"
 msgid "Sending..."
 msgstr "Lähetetään..."
 
+#: components/ui/components/features/messaging/elements/Container.tsx
+#: components/ui/components/features/messaging/elements/Container.tsx
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Sent"
 msgstr "Lähetetty"
@@ -2825,8 +2840,8 @@ msgstr "Palvelimen kuvake"
 msgid "Server Identities"
 msgstr "Palvelimen identiteetit"
 
-#: components/app/interface/settings/server/Overview.tsx
 #: components/modal/modals/CreateServer.tsx
+#: components/app/interface/settings/server/Overview.tsx
 msgid "Server Name"
 msgstr "Palvelimen nimi"
 
@@ -2858,11 +2873,12 @@ msgstr "Määritä palautuskoodit"
 msgid "Several people are typing…"
 msgstr "Useat ihmiset kirjoittavat…"
 
-#: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
+#: components/modal/modals/ScreenSharePicker.tsx
 msgid "Share audio"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
 msgstr "Voi jakaa kameran tai näytön puhelussa"
@@ -3144,7 +3160,7 @@ msgstr "Tämä ryhmä on liian suuri, sinulla voi olla enintään {0} käyttäj�
 msgid "This has already been sent."
 msgstr "Tämä on jo lähetetty."
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "This is taking longer than usual."
 msgstr ""
 
@@ -3224,7 +3240,7 @@ msgstr "Traditionaalinen (PP/KK/VVVV)"
 msgid "Trending GIFs"
 msgstr "Trendaavat GIFit"
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Troubleshooting"
 msgstr ""
 
@@ -3237,17 +3253,18 @@ msgstr "Poista käyttäjän esto"
 msgid "Uncaught Stoat error: {0}"
 msgstr "Käsittelemätön Stoat virhe: {0}"
 
-#: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Undeafen"
 msgstr ""
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "Unknown"
 msgstr ""
 
-#: components/markdown/plugins/anchors.tsx
 #: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/markdown/plugins/anchors.tsx
 msgid "Unknown Server"
 msgstr "Tuntematon Palvelin"
 
@@ -3263,8 +3280,8 @@ msgstr "Poista Aikuisille Suunnattu -merkintä"
 msgid "Unmark this channel as mature?"
 msgstr "Poista aikuisille suunnattu -merkintä?"
 
-#: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Unmute"
 msgstr ""
 
@@ -3280,8 +3297,8 @@ msgstr "Poista palvelimen mykistys"
 msgid "Unpin"
 msgstr ""
 
-#: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/PinMessage.tsx
+#: components/app/menus/MessageContextMenu.tsx
 msgid "Unpin message"
 msgstr "Irrota viesti"
 
@@ -3303,6 +3320,7 @@ msgid "Upload Files"
 msgstr "Tiedostojen lähettäminen"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Upload to Gifbox"
 msgstr ""
 
@@ -3322,8 +3340,8 @@ msgstr "Käyttäjä"
 msgid "User Banned"
 msgstr "Käyttäjä bannattu"
 
-#: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/BanMember.tsx
 msgid "User broke a certain rule…"
 msgstr "Käyttäjä rikkoi sääntöjä…"
 
@@ -3359,13 +3377,13 @@ msgstr "Käyttäjäasetukset"
 msgid "User's profile has inappropriate content"
 msgstr "Käyttäjän profiili sisältää asiatonta sisältöä"
 
-#: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx
-#: components/modal/modals/AddFriend.tsx
-#: components/modal/modals/CreateBot.tsx
-#: components/modal/modals/EditBotUsername.tsx
-#: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/Onboarding.tsx
+#: components/modal/modals/EditUsername.tsx
+#: components/modal/modals/EditBotUsername.tsx
+#: components/modal/modals/CreateBot.tsx
+#: components/modal/modals/AddFriend.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/app/interface/settings/user/Account.tsx
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
@@ -3401,8 +3419,8 @@ msgstr "Vahvistettu"
 msgid "Verifying your account…"
 msgstr "Vahvistetaan tiliäsi…"
 
-#: components/app/interface/settings/user/Native.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/user/Native.tsx
 msgid "Version:"
 msgstr "Versio:"
 
@@ -3433,7 +3451,7 @@ msgstr "Näytä kiinnitetyt viestit"
 msgid "View Recovery Codes"
 msgstr "Näytä palautuskoodit"
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "View status page"
 msgstr ""
 
@@ -3441,8 +3459,8 @@ msgstr ""
 msgid "Viewing older messages"
 msgstr "Katselet vanhempia viestejä"
 
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/UserSettings.tsx
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Voice"
 msgstr "Ääni"
 
@@ -3482,8 +3500,8 @@ msgstr "Webhook"
 msgid "Webhook Icon"
 msgstr "Webhookin kuvake"
 
-#: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 #: components/modal/modals/CreateWebhook.tsx
+#: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 msgid "Webhook Name"
 msgstr "Webhookin nimi"
 
@@ -3527,10 +3545,10 @@ msgstr "Haluatko luoda uuden palvelimen vai liittyä olemassa olevalle palvelime
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
 msgstr "Hyväksyt, että bottisi noudattaa Stoatin Hyväksyttävän Käytöksen Sääntöjä."
 
-#. placeholder {0}: props.member.user?.username
 #. placeholder {0}: props.user?.username
-#: components/modal/modals/BanMember.tsx
+#. placeholder {0}: props.member.user?.username
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/BanMember.tsx
 msgid "You are about to ban {0}"
 msgstr "Aiot bannata {0}n"
 
@@ -3554,8 +3572,10 @@ msgstr "Voit myös painaa hammaspyöräkuvaketta alavasemmalla."
 msgid "You can re-open it later, but it will disappear on both sides."
 msgstr "Voit avata sen myöhemmin uudelleen, mutta se katoaa molemmin puolin."
 
-#: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
+#: src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
+#: components/app/interface/settings/user/Feedback.tsx
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "Voit ilmoittaa ongelmia ja keskustella kanssamme parannuksista täällä."
 
@@ -3619,7 +3639,7 @@ msgstr "Sinut on lukittu ulos, koska syötit väärän salasanan liian monta ker
 msgid "You have this user blocked."
 msgstr "Tämä käyttäjä on estetty."
 
-#: components/ui/components/design/LoadingScreen.tsx
+#: src/LoadingScreen.tsx
 msgid "You may be experiencing connection issues."
 msgstr ""
 
@@ -3639,8 +3659,8 @@ msgstr "Et saa mitään ilmoituksia"
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
 msgstr "Et voi käyttää tiliäsi ellet ota yhteyttä tukeen - emme kuitenkaan poista tietojasi."
 
-#: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
+#: components/modal/modals/DeleteChannel.tsx
 msgid "You won't be able to rejoin unless you are re-invited."
 msgstr "Et voi liittyä uudelleen, ellet saa uutta kutsua."
 
@@ -3648,8 +3668,8 @@ msgstr "Et voi liittyä uudelleen, ellet saa uutta kutsua."
 msgid "You're already part of this group."
 msgstr "Olet jo osa tätä ryhmää."
 
-#: components/i18n/errors.tsx
 #: components/modal/modals/Invite.tsx
+#: components/i18n/errors.tsx
 msgid "You're already part of this server."
 msgstr "Olet jo tämän palvelimen jäsen."
 
