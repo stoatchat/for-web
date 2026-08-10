@@ -398,9 +398,11 @@ function Member(props: {
 
   const timedOut = createIsTimedOut(() => props.member?.timeout);
 
-  const moderationPerms = props.member?.server?.member?.hasPermission(
-    props.member.server! ?? props.group!,
-    "TimeoutMembers",
+  const moderationPerms = createMemo(() =>
+    props.member?.server?.member?.hasPermission(
+      props.member!.server! ?? props.group!,
+      "TimeoutMembers",
+    ),
   );
 
   const status = () =>
@@ -434,7 +436,7 @@ function Member(props: {
         icon={
           <div
             style={{
-              opacity: timedOut() && moderationPerms ? 0.5 : 1,
+              opacity: timedOut() && moderationPerms() ? 0.5 : 1,
             }}
           >
             <Avatar
