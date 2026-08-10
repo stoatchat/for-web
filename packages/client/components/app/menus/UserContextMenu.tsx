@@ -594,7 +594,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={canTimeout() && !isInTimeout(props.member!)}>
           <ContextMenuButton
-            icon={MdTimerOff}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>timer</Symbol>
+              </IconSlot>
+            }
             onClick={timeoutMember}
             destructive
           >
@@ -603,7 +607,11 @@ export function UserContextMenu(props: {
         </Show>
         <Show when={canTimeout() && isInTimeout(props.member!)}>
           <ContextMenuButton
-            icon={MdTimerPlay}
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>timer_off</Symbol>
+              </IconSlot>
+            }
             onClick={removeTimeout}
             destructive
           >
