@@ -46,8 +46,8 @@ import {
   floatingUserMenusFromMessage,
 } from "../../../menus/UserContextMenu";
 
-import { EditMessage } from "./EditMessage";
 import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
+import { EditMessage } from "./EditMessage";
 
 /**
  * Regex for matching URLs
