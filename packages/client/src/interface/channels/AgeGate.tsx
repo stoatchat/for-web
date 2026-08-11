@@ -1,4 +1,4 @@
-import { JSXElement, Match, Suspense, Switch } from "solid-js";
+import { createSignal, JSXElement, Match, Suspense, Switch } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
@@ -6,7 +6,7 @@ import { styled } from "styled-system/jsx";
 
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import { Button, Checkbox, CircularProgress, Text, iconSize } from "@revolt/ui";
+import { Button, Checkbox, CircularProgress, iconSize, Text } from "@revolt/ui";
 
 import MdWarning from "@material-design-icons/svg/round/warning.svg?component-solid";
 
@@ -27,10 +27,9 @@ export function AgeGate(props: {
 }) {
   const state = useState();
 
-  const confirmed = () =>
-    state.layout.getSectionState(LAYOUT_SECTIONS.MATURE, false);
+  const [confirmed, setConfirm] = createSignal(false);
   const allowed = () =>
-    state.layout.getSectionState(props.contentId + "-nsfw", false);
+    state.layout.getSectionState(LAYOUT_SECTIONS.MATURE, false);
 
   const geoQuery = useQuery(() => ({
     queryKey: ["geoblock"],
@@ -78,7 +77,7 @@ export function AgeGate(props: {
             </Button>
           </Base>
         </Match>
-        <Match when={props.enabled && (!confirmed() || !allowed())}>
+        <Match when={props.enabled && !allowed()}>
           <Base>
             <MdWarning {...iconSize("8em")} />
             <Text class="headline" size="large">
@@ -90,15 +89,7 @@ export function AgeGate(props: {
             </Text>
 
             <Confirmation>
-              <Checkbox
-                checked={state.layout.getSectionState(
-                  LAYOUT_SECTIONS.MATURE,
-                  false,
-                )}
-                onChange={() =>
-                  state.layout.toggleSectionState(LAYOUT_SECTIONS.MATURE, false)
-                }
-              />
+              <Checkbox onChange={() => setConfirm((v) => !v)} />
               <Text class="body" size="large">
                 <Trans>I confirm that I am at least 18 years old.</Trans>
               </Text>
@@ -112,7 +103,7 @@ export function AgeGate(props: {
                 variant="filled"
                 onPress={() =>
                   confirmed() &&
-                  state.layout.setSectionState(props.contentId + "-nsfw", true)
+                  state.layout.setSectionState(LAYOUT_SECTIONS.MATURE, true)
                 }
               >
                 <Trans>Enter Channel</Trans>
