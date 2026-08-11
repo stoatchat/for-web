@@ -180,11 +180,13 @@ export function TextChannel(props: ChannelPageProps) {
   createEffect(
     on(
       () => props.channel.serverId,
-      (serverId) =>
+      (serverId, prevServerId) =>
+        // This effect tracks channel, not serverId, therefore we must ensure the old serverId
+        // is not the same as the current serverId
+        prevServerId !== serverId &&
         props.channel.type === "TextChannel" &&
         props.channel.server?.syncMembers(
           LARGE_SERVERS.includes(serverId) ? true : false,
-          200,
         ),
     ),
   );

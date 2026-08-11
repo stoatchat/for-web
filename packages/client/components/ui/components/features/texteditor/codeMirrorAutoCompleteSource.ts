@@ -69,15 +69,21 @@ export function codeMirrorAutoCompleteSource(
       // avoiding using `instanceof`, presumed slow
       const user = ((entry as { user: User })?.user ?? entry) as User;
 
+      // Only hit the store once to reduce watchers.
+      // If you need to access anything on the member more than once define a const here.
+      const displayName = entry.displayName;
+      const userName = user.username;
+      const id = entry.id;
+
       return {
         type: "user",
-        label: ("@" + entry.displayName).normalize("NFKC"),
-        displayLabel: entry.displayName,
+        label: ("@" + displayName).normalize("NFKC"),
+        displayLabel: displayName,
         detail:
-          entry.displayName !== user.username
-            ? `${user.username}#${user.discriminator}`
+          displayName !== userName
+            ? `${userName}#${user.discriminator}`
             : undefined,
-        apply: `<@${typeof entry.id === "string" ? entry.id : entry.id.user}> `,
+        apply: `<@${typeof id === "string" ? id : id.user}> `,
         url: entry.animatedAvatarURL,
       };
     }),
