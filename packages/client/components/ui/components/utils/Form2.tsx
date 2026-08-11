@@ -10,7 +10,7 @@ import {
   splitProps,
 } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -503,7 +503,7 @@ function useSubmitHandler(
       control.markTouched(true);
     }
 
-    if (!canSubmit(group)) return;
+    if (!canSubmit(group)) return false;
 
     group.markPending(true);
 
@@ -511,12 +511,14 @@ function useSubmitHandler(
       await handler();
       resetGeneric(group, true);
       onReset?.();
+      return true;
     } catch (err) {
       group.setErrors({
         error: err,
       });
 
       resetGeneric(group, false);
+      return false;
     } finally {
       group.markPending(false);
     }
@@ -535,5 +537,9 @@ export const Form2 = {
   Reset: FormResetButton,
   Submit: FormSubmitButton,
   canSubmit,
+  reset: (group: IFormGroup, onReset?: () => void) => {
+    resetGeneric(group, true);
+    onReset?.();
+  },
   useSubmitHandler,
 };

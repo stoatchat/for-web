@@ -17,8 +17,12 @@ env:
 jobs:
   build:
     name: Build Docker Image
-    runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+        exclude:
+          - os: ${{ github.event_name == 'pull_request' && 'ubuntu-24.04-arm' || '' }}
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
       packages: write
@@ -58,6 +62,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max

@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Show } from "solid-js";
 
 import { useNotifications } from "@revolt/client";

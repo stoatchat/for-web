@@ -1,6 +1,6 @@
 import { createMemo, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -67,50 +67,52 @@ export function MemberSidebar(props: Props) {
 export function ServerMemberSidebar(props: Props) {
   const client = useClient();
 
-  // Stage 1: Find roles and members
-  const stage1 = createMemo(() => {
+  type MemberRoleElement =
+    | { t: 0; name: string; count: number; icon?: string | null }
+    | { t: 1; member: ServerMember; icon?: never; isOnline: boolean };
+
+  const elements = createMemo(() => {
     const hoistedRoles = props.channel.server!.orderedRoles.filter(
       (role) => role.hoist,
     );
 
-    const members = client().serverMembers.filter(
-      (member) => member.id.server === props.channel.serverId,
-    );
+    const restricted = props.channel.potentiallyRestrictedChannel;
+    const byRole: Map<string, { member: ServerMember; displayName: string }[]> =
+      new Map();
+    byRole.set("default", []);
+    byRole.set("offline", []);
+    hoistedRoles.forEach((role) => byRole.set(role.id, []));
 
-    return [members, hoistedRoles] as const;
-  });
-
-  // Stage 2: Filter members by permissions (if necessary)
-  const stage2 = createMemo(() => {
-    const [members] = stage1();
-    if (props.channel.potentiallyRestrictedChannel) {
-      return members.filter((member) =>
-        member.hasPermission(props.channel, "ViewChannel"),
-      );
-    } else {
-      return members;
-    }
-  });
-
-  // Stage 3: Categorise each member entry into role lists
-  const stage3 = createMemo(() => {
-    const [, hoistedRoles] = stage1();
-    const members = stage2();
-
-    const byRole: Record<string, ServerMember[]> = { default: [], offline: [] };
-    hoistedRoles.forEach((role) => (byRole[role.id] = []));
-
-    for (const member of members) {
-      if (!member.user?.online) {
-        byRole["offline"].push(member);
+    for (const member of client().serverMembers.values()) {
+      if (member.id.server !== props.channel.serverId) {
+        continue;
+      }
+      // If the channel is restricted, check for permission
+      if (restricted && !member.hasPermission(props.channel, "ViewChannel")) {
         continue;
       }
 
-      if (member.roles.length) {
+      // Only hit the store once to reduce watchers.
+      // If you need to access anything on the member in a loop define a const here.
+      const memberRoles = member.roles;
+      const memberName = member.nickname ?? member.user?.displayName ?? "";
+
+      if (!member.user?.online) {
+        byRole.get("offline")!.push({
+          member,
+          displayName: memberName,
+        });
+        continue;
+      }
+
+      if (memberRoles.length) {
         let assigned;
         for (const hoistedRole of hoistedRoles) {
-          if (member.roles.includes(hoistedRole.id)) {
-            byRole[hoistedRole.id].push(member);
+          if (memberRoles.includes(hoistedRole.id)) {
+            byRole.get(hoistedRole.id)!.push({
+              member,
+              displayName: memberName,
+            });
             assigned = true;
             break;
           }
@@ -119,99 +121,48 @@ export function ServerMemberSidebar(props: Props) {
         if (assigned) continue;
       }
 
-      byRole["default"].push(member);
+      byRole.get("default")!.push({
+        member,
+        displayName: memberName,
+      });
     }
 
-    return [
-      ...hoistedRoles.map((role) => ({
-        role,
-        members: byRole[role.id],
-      })),
-      {
-        role: {
-          id: "default",
-          name: "Online",
-          icon: undefined,
-        },
-        members: byRole["default"],
-      },
-      {
-        role: {
-          id: "offline",
-          name: "Offline",
-          icon: undefined,
-        },
-        members: byRole["offline"],
-      },
-    ].filter((entry) => entry.members.length);
-  });
+    const roles: { id: string; name: string; icon?: string }[] = [];
 
-  // Stage 4: Perform sorting on role lists
-  const roles = createMemo(() => {
-    const roles = stage3();
-
-    return roles.map((entry) => ({
-      ...entry,
-      members: [...entry.members].sort(
-        (a, b) =>
-          (a.nickname ?? a.user?.displayName)?.localeCompare(
-            b.nickname ?? b.user?.displayName ?? "",
-          ) || 0,
-      ),
-    }));
-  });
-
-  type MemberRoleElement =
-    | { t: 0; name: string; count: number; icon?: string | null }
-    | { t: 1; member: ServerMember; icon?: never };
-
-  // Stage 5: Flatten into a single list with caching
-  const objectCache = new Map<string, MemberRoleElement>();
-
-  const elements = createMemo(() => {
     const elements: MemberRoleElement[] = [];
 
-    // Create elements
-    for (const role of roles()) {
-      const roleElement = objectCache.get(role.role.name + role.members.length);
-      if (roleElement) {
-        elements.push(roleElement);
-      } else {
-        elements.push({
-          t: 0,
-          name: role.role.name,
-          icon: role.role.icon?.previewUrl,
-          count: role.members.length,
-        });
-      }
-
-      for (const member of role.members) {
-        const memberElement = objectCache.get(
-          `${member.id.server}-${member.id.user}`,
-        );
-        if (memberElement) {
-          elements.push(memberElement);
-        } else {
-          elements.push({
-            t: 1,
-            member,
-          });
-        }
-      }
+    for (const role of hoistedRoles) {
+      roles.push({
+        id: role.id,
+        name: role.name,
+        icon: role.icon?.previewUrl,
+      });
     }
+    roles.push({ id: "default", name: "Online" });
+    roles.push({ id: "offline", name: "Offline" });
 
-    // Flush cache
-    objectCache.clear();
+    for (const role of roles) {
+      const roleMembers = byRole
+        .get(role.id)!
+        .sort((a, b) => a.displayName?.localeCompare(b.displayName) || 0);
 
-    // Populate cache
-    for (const element of elements) {
-      if (element.t === 0) {
-        objectCache.set(element.name + element.count, element);
-      } else {
-        objectCache.set(
-          `${element.member.id.server}-${element.member.id.user}`,
-          element,
-        );
+      if (!roleMembers?.length) {
+        continue;
+      }
+
+      elements.push({
+        t: 0,
+        name: role.name,
+        icon: role.icon,
+        count: roleMembers.length,
+      });
+
+      for (const member of roleMembers) {
+        elements.push({
+          t: 1,
+          member: member.member,
+          isOnline: role.id !== "offline",
+        });
       }
     }
 
@@ -219,13 +170,7 @@ export function ServerMemberSidebar(props: Props) {
   });
 
   const onlineMembers = createMemo(
-    () =>
-      client().serverMembers.filter(
-        (member) =>
-          (member.id.server === props.channel.serverId &&
-            member.user?.online) ||
-          false,
-      ).length,
+    () => elements().filter((ele) => ele.t === 1 && ele.isOnline).length,
   );
 
   return (
@@ -418,6 +363,7 @@ function Member(props: {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        (props.user ?? props.member?.user)?.bot,
         undefined,
         props.group,
       )}

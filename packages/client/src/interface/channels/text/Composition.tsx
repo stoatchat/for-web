@@ -11,7 +11,7 @@ import {
   onCleanup,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { styled } from "styled-system/jsx";

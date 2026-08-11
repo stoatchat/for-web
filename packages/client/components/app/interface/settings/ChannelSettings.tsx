@@ -1,4 +1,4 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
@@ -29,7 +29,7 @@ const Config: SettingsConfiguration<Channel> = {
     }
 
     if (key.startsWith("permissions/")) {
-      if (key === "permissions/default") return t`Default Permissions`;
+      if (key === "permissions/default") return t`Everyone`;
 
       return ctx.context.server?.roles.get(key.substring(12))?.name ?? "";
     }

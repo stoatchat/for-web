@@ -1,6 +1,6 @@
 import { Match, Suspense, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
 import { useMutation, useQuery } from "@tanstack/solid-query";
 import { PublicChannelInvite, ServerPublicInvite } from "stoat.js";

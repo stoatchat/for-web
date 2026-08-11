@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { Show, createEffect, createSignal, on } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQueryClient } from "@tanstack/solid-query";
 import { API, User, UserProfile } from "stoat.js";
 

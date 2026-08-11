@@ -1,6 +1,6 @@
 import { For, Match, Show, Switch, createSignal } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import {
   API,
   Channel,
@@ -10,14 +10,25 @@ import {
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox2, OverrideSwitch, Row, Text } from "@revolt/ui";
+import { Button, Checkbox2, Text, Switch as UiSwitch } from "@revolt/ui";
+import { typography } from "@revolt/ui/components/design/Text";
 
-type Props =
+type Props = (
   | { type: "server_default"; context: Server }
   | { type: "server_role"; context: Server; roleId: string }
   | { type: "channel_default"; context: Channel }
   | { type: "channel_role"; context: Channel; roleId: string }
-  | { type: "group"; context: Channel };
+  | { type: "group"; context: Channel }
+) & {
+  additionalActions?: {
+    isDirty: () => boolean;
+    isPending: () => boolean;
+    canSave: () => boolean;
+    save: () => Promise<boolean>;
+    reset: () => void;
+  };
+  saveLabel?: string;
+};
 
 type Context = API.Channel["channel_type"] | "Server";
 
@@ -68,6 +79,7 @@ export function ChannelPermissionsEditor(props: Props) {
    * Current edited values
    */
   const [value, setValue] = createSignal(currentValue());
+  const [isPending, setPending] = createSignal(false);
 
   /**
    * Whether there is a pending save
@@ -79,43 +91,69 @@ export function ChannelPermissionsEditor(props: Props) {
     return a1 !== b1 || a2 !== b2;
   }
 
+  function hasChanges() {
+    return unsavedChanges() || !!props.additionalActions?.isDirty();
+  }
+
+  function savePending() {
+    return isPending() || !!props.additionalActions?.isPending();
+  }
+
   /**
    * Reset to the current value
    */
-  function reset() {
+  function resetPermissions() {
     setValue(currentValue());
+  }
+
+  function reset() {
+    resetPermissions();
+    props.additionalActions?.reset();
   }
 
   /**
    * Commit changes
    * @todo mutator
    */
-  function save() {
+  function savePermissions() {
     switch (props.type) {
       case "server_default":
-        props.context.setPermissions(undefined, Number(value()[0]));
-        break;
+        return props.context.setPermissions(undefined, Number(value()[0]));
       case "server_role":
-        props.context.setPermissions(props.roleId, {
+        return props.context.setPermissions(props.roleId, {
           allow: Number(value()[0]),
           deny: Number(value()[1]),
         });
-        break;
       case "channel_default":
-        props.context.setPermissions(undefined, {
+        return props.context.setPermissions(undefined, {
           allow: Number(value()[0]),
           deny: Number(value()[1]),
         });
-        break;
       case "channel_role":
-        props.context.setPermissions(props.roleId, {
+        return props.context.setPermissions(props.roleId, {
           allow: Number(value()[0]),
           deny: Number(value()[1]),
         });
-        break;
       case "group":
-        props.context.setPermissions(undefined, Number(value()[0]));
-        break;
+        return props.context.setPermissions(undefined, Number(value()[0]));
+    }
+  }
+
+  async function save() {
+    if (savePending()) return;
+
+    setPending(true);
+    try {
+      if (
+        props.additionalActions?.isDirty() &&
+        !(await props.additionalActions.save())
+      ) {
+        return;
+      }
+
+      if (unsavedChanges()) await savePermissions();
+    } finally {
+      setPending(false);
     }
   }
 
@@ -431,12 +469,23 @@ export function ChannelPermissionsEditor(props: Props) {
   }
 
   return (
-    <div class={css({ display: "flex", flexDirection: "column" })}>
+    <div
+      class={css({
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--gap-lg)",
+      })}
+    >
       <For each={Permissions}>
         {(entry) => (
           <Show when={description(entry)}>
             <Show when={entry.heading}>
-              <span class={css({ marginTop: "var(--gap-md)" })}>
+              <span
+                class={css({
+                  marginTop: "var(--gap-lg)",
+                  marginBottom: "var(--gap-sm)",
+                })}
+              >
                 <Text class="label">{entry.heading}</Text>
               </span>
             </Show>
@@ -495,23 +544,30 @@ export function ChannelPermissionsEditor(props: Props) {
       </For>
 
       <StickyPanel>
-        <Row>
+        <ActionRow>
           <Button
-            isDisabled={!unsavedChanges()}
+            isDisabled={!hasChanges() || savePending()}
             variant="text"
-            size={unsavedChanges() ? "md" : "sm"}
+            size="sm"
             onPress={reset}
           >
             Reset
           </Button>
           <Button
-            isDisabled={!unsavedChanges()}
-            size={unsavedChanges() ? "md" : "sm"}
+            isDisabled={
+              !hasChanges() ||
+              savePending() ||
+              (props.additionalActions?.isDirty() &&
+                !props.additionalActions.canSave())
+            }
+            size="sm"
             onPress={save}
           >
-            Save permissions
+            {savePending()
+              ? t`Saving…`
+              : (props.saveLabel ?? t`Save permissions`)}
           </Button>
-        </Row>
+        </ActionRow>
       </StickyPanel>
     </div>
   );
@@ -520,11 +576,27 @@ export function ChannelPermissionsEditor(props: Props) {
 const StickyPanel = styled("div", {
   base: {
     position: "sticky",
-    width: "fit-content",
+    width: "100%",
     padding: "var(--gap-md)",
     bottom: "var(--gap-lg)",
     borderRadius: "var(--borderRadius-xl)",
-    background: "var(--md-sys-color-surface)",
+    background: "var(--md-sys-color-surface-container)",
+  },
+});
+
+const ActionRow = styled("div", {
+  base: {
+    width: "100%",
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "var(--gap-md)",
+  },
+});
+
+const PermissionDescription = styled("span", {
+  base: {
+    ...typography.raw({ class: "label", size: "large" }),
+    color: "var(--md-sys-color-on-surface-variant)",
   },
 });
 
@@ -552,8 +624,10 @@ function ChannelPermissionToggle(props: {
           flexDirection: "column",
         })}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="title" size="medium">
+          {props.title}
+        </Text>
+        <PermissionDescription>{props.description}</PermissionDescription>
       </div>
     </Checkbox2>
   );
@@ -583,10 +657,12 @@ function ChannelPermissionOverride(props: {
           flexDirection: "column",
         })}
       >
-        <Text size="large">{props.title}</Text>
-        <Text>{props.description}</Text>
+        <Text class="title" size="medium">
+          {props.title}
+        </Text>
+        <PermissionDescription>{props.description}</PermissionDescription>
       </div>
-      <OverrideSwitch
+      <UiSwitch.Override
         disabled={!props.havePermission}
         value={props.value}
         onChange={props.onChange}

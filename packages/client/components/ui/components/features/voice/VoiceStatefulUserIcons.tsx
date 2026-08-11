@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 
 import { useState } from "@revolt/state";
 

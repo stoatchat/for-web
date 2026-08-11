@@ -12,7 +12,7 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

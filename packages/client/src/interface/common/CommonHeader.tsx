@@ -4,7 +4,7 @@ import { JSX, Match, Switch } from "solid-js";
 
 import MdArrowBack from "@material-design-icons/svg/outlined/arrow_back.svg?component-solid";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 
 import { useState } from "@revolt/state";

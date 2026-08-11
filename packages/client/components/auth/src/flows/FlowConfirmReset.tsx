@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useApi } from "@revolt/client";
 import { useNavigate, useParams } from "@revolt/routing";

@@ -1,4 +1,4 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import { useState } from "@revolt/state";

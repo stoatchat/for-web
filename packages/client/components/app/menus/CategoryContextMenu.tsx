@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import type { API } from "stoat.js";
 import { Channel, Server } from "stoat.js";
 

@@ -22,7 +22,7 @@ import { Row } from "@revolt/ui/components/layout";
 
 import emojiMapping from "../../../../../emojiMapping.json";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import {
   CompositionMediaPickerContext,
   compositionContent,

@@ -349,6 +349,7 @@ const editor = css({
     padding: "0.5px 4px",
 
     color: "#c9d1d9",
+    caretColor: "currentColor",
     background: "#0d1117",
   },
 

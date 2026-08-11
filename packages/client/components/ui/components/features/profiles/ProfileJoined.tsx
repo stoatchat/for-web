@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { ServerMember, User } from "stoat.js";
 
 import { timeLocale, useTime } from "@revolt/i18n";

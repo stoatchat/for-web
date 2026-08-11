@@ -1,4 +1,4 @@
-import { Plural } from "@lingui-solid/solid/macro";
+import { Plural } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { iconSize } from "@revolt/ui/components/utils";

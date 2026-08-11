@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useNavigate } from "@revolt/routing";
 import { Button, Row, iconSize } from "@revolt/ui";

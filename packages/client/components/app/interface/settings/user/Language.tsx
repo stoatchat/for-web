@@ -1,4 +1,4 @@
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { Language, Languages, browserPreferredLanguage } from "@revolt/i18n";
 import type { LanguageEntry } from "@revolt/i18n/Languages";
