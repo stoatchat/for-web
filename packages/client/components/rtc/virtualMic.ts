@@ -21,7 +21,7 @@ export function setupVirtualMic() {
       if (opts && !opts.audio) return stream;
       const id = await getVirtmic();
 
-      console.log("Virt mic acquired:", id);
+      console.debug("Virt mic acquired:", id);
 
       if (id) {
         const audio = await navigator.mediaDevices.getUserMedia({
