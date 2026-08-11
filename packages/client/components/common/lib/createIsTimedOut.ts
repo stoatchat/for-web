@@ -1,4 +1,11 @@
-import { Accessor, createEffect, createMemo, createSignal, on, onCleanup } from "solid-js";
+import {
+  Accessor,
+  createEffect,
+  createMemo,
+  createSignal,
+  on,
+  onCleanup,
+} from "solid-js";
 
 /**
  * Reactively tracks whether a given `timeout` (a Date in the future) has
