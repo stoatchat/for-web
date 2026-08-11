@@ -13,6 +13,7 @@ interface Props<T> {
   items: Item<T>[];
   disabled?: boolean;
   dragHandles?: boolean;
+  scroller?: HTMLElement;
   children: (item: {
     item: T;
     dragDisabled: Accessor<boolean>;
@@ -55,9 +56,7 @@ export function Draggable<T>(props: Props<T>) {
     props.dragHandles || false,
   );
 
-  const [containerItems, setContainerItems] = createSignal<ContainerItem<T>[]>(
-    [],
-  );
+  const [containerItems, _setItems] = createSignal<ContainerItem<T>[]>([]);
 
   createEffect(() => setDragDisabled(props.dragHandles || false));
 
@@ -84,6 +83,19 @@ export function Draggable<T>(props: Props<T>) {
       props.onChange(
         newContainerItems.map((containerItems) => containerItems.id),
       );
+    }
+  }
+
+  function setContainerItems(items: ContainerItem<T>[]) {
+    const scr = props.scroller,
+      pos = scr && {
+        left: scr.scrollLeft,
+        top: scr.scrollTop,
+      };
+    _setItems(items);
+    if (scr) {
+      scr.scrollTo(pos);
+      setTimeout(() => scr.scrollTo(pos), 1);
     }
   }
 
