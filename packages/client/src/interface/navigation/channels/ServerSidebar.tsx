@@ -29,16 +29,11 @@ import {
   OverflowingText,
   Row,
   Tooltip,
-  iconSize,
-  symbolSize,
   typography,
 } from "@revolt/ui";
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
-import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
 
@@ -275,7 +270,9 @@ function ServerInfo(
           variant={props.server.banner ? "_header" : "standard"}
           onPress={props.openServerSettings}
         >
-          <MdSettings {...symbolSize(24)} />
+          <Symbol fill weight={350}>
+            settings
+          </Symbol>
         </IconButton>
       </Show>
     </Row>
@@ -359,7 +356,9 @@ function Category(
             {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
           >
             {props.category.title}
-            <MdChevronRight {...iconSize(12)} />
+            <Symbol size={12} weight={300}>
+              chevron_right
+            </Symbol>
           </CategoryBase>
         </div>
       </Show>
@@ -431,14 +430,14 @@ const CategoryBase = styled("div", {
       "--color": "var(--md-sys-color-on-surface-variant)",
     },
 
-    "& svg": {
+    "& span": {
       transition: "var(--transitions-fast) transform",
     },
   },
   variants: {
     open: {
       true: {
-        "& svg": {
+        "& span": {
           transform: "rotateZ(90deg)",
         },
       },
@@ -498,19 +497,15 @@ function Entry(
         attention={attentionState()}
         icon={
           <>
-            <Switch fallback={<Symbol>grid_3x3</Symbol>}>
-              <Match when={props.channel.isVoice}>
-                <Symbol
-                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                >
-                  headset_mic
-                </Symbol>
-              </Match>
-            </Switch>
+            <Icon
+              channel={props.channel}
+              symbol={props.channel.isVoice ? "headset_mic" : "grid_3x3"}
+              color={inCall() ? "var(--md-sys-color-primary)" : undefined}
+            />
             <Show when={props.channel.icon}>
               <ChannelIcon
                 src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
+                css={{ marginEnd: ".2em" }}
               />
             </Show>
           </>
@@ -566,6 +561,49 @@ function Entry(
     </Column>
   );
 }
+
+function Icon(props: { channel: Channel; symbol: string; color?: string }) {
+  return (
+    <Show
+      when={props.channel.mature}
+      fallback={<Symbol color={props.color}>{props.symbol}</Symbol>}
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <mask id="m">
+          <rect x="0" y="0" width="24" height="24" fill="#fff" />
+          <text {...warnProps} stroke="#000" stroke-width="3" color="#000">
+            warning
+          </text>
+        </mask>
+        <text
+          class={"material-symbols-outlined"}
+          style={{
+            "font-variation-settings": '"FILL" 0, "wght" 400, "GRAD" 0',
+            color: props.color,
+          }}
+          x="0"
+          y="24"
+          mask="url(#m)"
+        >
+          {props.symbol}
+        </text>
+        <text {...warnProps} color={props.color}>
+          warning
+        </text>
+      </svg>
+    </Show>
+  );
+}
+
+const warnProps = {
+  class: "material-symbols-rounded",
+  style: {
+    "font-variation-settings": '"FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24',
+    "font-size": "10px",
+  },
+  x: 13,
+  y: 10,
+};
 
 /**
  * Channel icon styling
