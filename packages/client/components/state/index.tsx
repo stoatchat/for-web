@@ -59,6 +59,7 @@ export class State {
   private store: Store;
   private setStore: SetStoreFunction<Store>;
   private db?: LocalForage;
+  private dbGlobal: LocalForage;
 
   appDrawer;
   setAppDrawer;
@@ -126,6 +127,8 @@ export class State {
    * Construct the global application state
    */
   constructor() {
+    this.dbGlobal = localforage.createInstance({ storeName: "global" });
+
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
@@ -153,7 +156,7 @@ export class State {
 
     //Read-only before init
     if (!global && !dbLocal) return;
-    const db = global ? localforage : dbLocal!,
+    const db = global ? this.dbGlobal : dbLocal!,
       qKey = (db.config().storeName || "") + "|" + key;
 
     // remove existing queued task if it exists
@@ -168,12 +171,12 @@ export class State {
           WriteQueue.delete(qKey);
 
           // write the entire key to storage
-          db.setItem(
-            key,
-            JSON.parse(
-              JSON.stringify((this.store as Record<string, unknown>)[key]),
-            ),
+          const dataStr = JSON.stringify(
+            (this.store as Record<string, unknown>)[key],
           );
+          db.setItem(key, JSON.parse(dataStr));
+          //Backup for auth
+          if (key === "auth") localStorage.setItem(key, dataStr);
 
           if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
         },
@@ -233,20 +236,24 @@ export class State {
     if (global || this.db)
       for (const store of this.iterStores())
         if (store.global === global) {
-          const data = await (store.global ? localforage : this.db!).getItem(
-            store.getKey(),
+          const key = store.getKey();
+          let data = await (store.global ? this.dbGlobal : this.db!).getItem(
+            key,
           );
+
+          //Load auth from backup
+          if (!data && key === "auth") {
+            const authBack = localStorage.getItem(key);
+            if (authBack) data = JSON.parse(authBack);
+          }
 
           if (data) {
             // validate the incoming data
             const cleanData = store.clean(data);
-
-            if (!equal(data, cleanData)) {
-              // write back to disk if it has changed
-              this.write(store.getKey(), store.global, cleanData);
-            } else {
-              this.setStore(store.getKey(), data);
-            }
+            // write back to disk if it has changed
+            if (!equal(data, cleanData))
+              this.write(key, store.global, cleanData);
+            else this.setStore(key, data);
           }
         }
 
@@ -256,15 +263,18 @@ export class State {
 
     //Clear old sessions via some hackery
     if (global) {
-      const stores = (localforage as { _dbInfo?: { db?: IDBDatabase } })._dbInfo
-        ?.db?.objectStoreNames;
+      const stores = (this.dbGlobal as { _dbInfo?: { db?: IDBDatabase } })
+        ._dbInfo?.db?.objectStoreNames;
       if (stores) {
         const ses = this.store.auth.session,
           sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
             (s) => `@${s.userId}`,
           );
         for (const key of stores)
-          if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
+          if (
+            key === "keyvaluepairs" ||
+            (key.indexOf("@") !== -1 && !sesNames.includes(key))
+          ) {
             console.warn(`[store] Deleted unused db ${key}`);
             await localforage.dropInstance({ storeName: key });
           }
