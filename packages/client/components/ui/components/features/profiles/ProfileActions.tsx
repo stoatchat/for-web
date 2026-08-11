@@ -1,11 +1,12 @@
 import { Show, createResource } from "solid-js";
 
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
-import { ServerMember, User, PublicBot } from "stoat.js";
+import { PublicBot, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { useClient } from "@revolt/client";
 import { UserContextMenu } from "@revolt/app";
+import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
 import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
@@ -88,7 +89,7 @@ export function ProfileActions(props: {
             })
           }
         >
-          Add Bot
+          <Trans>Add Bot</Trans>
         </Button>
       </Show>
 
