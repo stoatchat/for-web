@@ -1,9 +1,11 @@
-import { Trans, useLingui } from "@lingui/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import { Avatar, Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 
+import { useDurationFormat } from "@revolt/i18n/durations";
+import { css } from "styled-system/css";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -22,19 +24,20 @@ export function TimeoutMemberModal(
   props: DialogProps & Modals & { type: "timeout_member" },
 ) {
   const { showError } = useModals();
-  const { t } = useLingui();
 
   const form = createFormGroup({
     duration: createFormControl<string>("60"),
   });
 
+  const duration = useDurationFormat();
+
   const labels: Record<DurationKey, string> = {
-    "60": t`60 secs`,
-    "300": t`5 mins`,
-    "600": t`10 mins`,
-    "3600": t`1 hour`,
-    "86400": t`1 day`,
-    "604800": t`1 week`,
+    "60": duration({ minutes: 1 }, { style: "short" }),
+    "300": duration({ minutes: 5 }, { style: "short" }),
+    "600": duration({ minutes: 10 }, { style: "short" }),
+    "3600": duration({ hours: 1 }, { style: "short" }),
+    "86400": duration({ days: 1 }, { style: "short" }),
+    "604800": duration({ weeks: 1 }, { style: "short" }),
   };
 
   const timeout = useMutation(() => ({
@@ -83,7 +86,7 @@ export function TimeoutMemberModal(
             buttonDefinitions={DURATION_SECONDS.map((key) => ({
               value: key,
               children: (
-                <span style={{ "white-space": "nowrap", "font-size": "0.9em" }}>
+                <span class={css({ whiteSpace: "nowrap", fontSize: "0.9em" })}>
                   {labels[key as DurationKey]}
                 </span>
               ),
