@@ -19,10 +19,6 @@ const RE_SHORTCODE = /^:[\w\-+]+:$/u;
 
 for (const group of ordering) {
   for (const emote of group.emoji) {
-    emote.base = (emote.base as number[]).filter(
-      (codePoint) => codePoint !== 65039,
-    );
-
     const emoji = String.fromCodePoint(...emote.base);
     const emojiDef = [emoji];
 
