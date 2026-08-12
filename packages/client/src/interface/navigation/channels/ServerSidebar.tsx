@@ -13,7 +13,7 @@ import { useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { useDevice } from "@revolt/common";
+import { getChannelIcon, useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
@@ -499,7 +499,7 @@ function Entry(
           <>
             <Icon
               channel={props.channel}
-              symbol={props.channel.isVoice ? "headset_mic" : "grid_3x3"}
+              symbol={getChannelIcon(props.channel)}
               color={inCall() ? "var(--md-sys-color-primary)" : undefined}
             />
             <Show when={props.channel.icon}>
