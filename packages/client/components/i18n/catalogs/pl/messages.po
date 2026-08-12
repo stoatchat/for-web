@@ -3,14 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-26 18:29+0000\n"
-"Last-Translator: J 7 <julian77777@proton.me>\n"
-"Language-Team: Polish <https://translate.stoat.chat/projects/revolt/revolt-for-web/pl/>\n"
+"PO-Revision-Date: 2026-08-07 03:27+0000\n"
+"Last-Translator: Revez <polw619@gmail.com>\n"
+"Language-Team: Polish <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -457,17 +459,17 @@ msgstr "Czy na pewno chcesz przejść do "
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to pin this message?"
-msgstr ""
+msgstr "Czy na pewno chcesz przypiąć tę wiadomość?"
 
 #. placeholder {0}: props.user?.displayName ?? props.user.username
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr ""
+msgstr "Czy na pewno chcesz wyrzucić {0} z {1}?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
-msgstr ""
+msgstr "Czy na pewno chcesz odpiąć tę wiadomość?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -574,7 +576,6 @@ msgstr ""
 msgid "Browser Echo Cancellation"
 msgstr "Przeglądarkowe tłumienie echa"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #~ msgid "Browser Noise Supression"
 #~ msgstr ""
 
@@ -598,16 +599,18 @@ msgstr "Tworząc ten serwer, akceptujesz <0>Zasady Dozwolonego Użytku</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
-msgstr ""
+msgstr "Pomiń tryb spowolnienia"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
-msgstr ""
+msgstr "Pozwala wysyłać wiadomości bez ograniczeń trybu powolnego"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
+"Nie możesz znaleźć idealnego GIFa? Wejdź na stronę Gifbox i prześlij plik, z "
+"którego będą mogli korzystać wszyscy."
 
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/ServerIdentity.tsx
@@ -664,7 +667,7 @@ msgstr "Zmień"
 #. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change {0}'s nickname"
-msgstr ""
+msgstr "Zmień nazwę użytkownika {0}"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
@@ -672,7 +675,7 @@ msgstr "Zmiana awataru"
 
 #: components/modal/modals/EditBotUsername.tsx
 msgid "Change bot username"
-msgstr ""
+msgstr "Zmień nazwę bota"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
@@ -719,7 +722,6 @@ msgstr ""
 msgid "Change your profile per-server"
 msgstr "Zarządzaj profilami serwerowymi"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -774,7 +776,7 @@ msgstr "Kliknij na elementy poniżej, aby dowiedzieć się więcej o różnych z
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
-msgstr ""
+msgstr "Kliknij, aby skopiować nazwę użytkownika"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -879,7 +881,7 @@ msgstr "Kontynuuj"
 
 #: src/AndroidNag.tsx
 msgid "Continue in browser"
-msgstr ""
+msgstr "Kontynuuj w przeglądarce"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
@@ -895,7 +897,7 @@ msgstr "Rozmowy"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
-msgstr ""
+msgstr "Skopiowano!"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
@@ -907,7 +909,7 @@ msgstr "Skopiuj ID kanału"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy file link"
-msgstr ""
+msgstr "Skopiuj link do pliku"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -932,7 +934,7 @@ msgstr "Skopiuj ID wiadomości"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message link"
-msgstr ""
+msgstr "Skopiuj link wiadomości"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
@@ -1106,12 +1108,12 @@ msgstr "Błąd bazy danych, skontaktuj się ze wsparciem technicznym. ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
-msgstr ""
+msgstr "Format daty"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Deafen"
-msgstr ""
+msgstr "Wyłącz dźwięk"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -1133,7 +1135,6 @@ msgstr "Domyślne"
 msgid "Default Permissions"
 msgstr "Domyślne Uprawnienia"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #~ msgid "Defean"
 #~ msgstr ""
 
@@ -1200,7 +1201,7 @@ msgstr "Usuń wiadomość"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Delete Message History"
-msgstr ""
+msgstr "Usuń historię wiadomości"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
@@ -1265,7 +1266,7 @@ msgstr "Nie przeszkadzać"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Don't ask me again"
-msgstr ""
+msgstr "Nie pytaj mnie ponownie"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
@@ -1276,7 +1277,7 @@ msgstr "Nie pytaj mnie ponownie o "
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
-msgstr ""
+msgstr "Nie usuwaj wiadomości"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1398,7 +1399,7 @@ msgstr "Włącz powiadomienia na pulpicie"
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Enable Push Notifications"
-msgstr ""
+msgstr "Włącz powiadomienia Push"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
@@ -1406,7 +1407,7 @@ msgstr "Włącz efekt przezroczystości szkła/rozmycia (obciążające dla star
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
-msgstr ""
+msgstr "Zakończ rozmowę"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Enhanced"
@@ -1466,10 +1467,12 @@ msgstr "Ekstremalna przemoc, gore lub znęcanie się nad zwierzętami"
 #: components/client/NotificationsController.ts
 msgid "Failed to enable notifications. Stoat does not have notification permission."
 msgstr ""
+"Nie udało się włączyć powiadomień. Stoat nie ma uprawnień do wysyłania "
+"powiadomień."
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable push notifications. Please try again later."
-msgstr ""
+msgstr "Nie udało się włączyć powiadomień push. Spróbuj ponownie później."
 
 #: components/i18n/errors.tsx
 msgid "Failed to process the image you provided."
@@ -1491,7 +1494,7 @@ msgstr "Opinia"
 #. placeholder {0}: humanFileSize(local.maxSize)
 #: components/ui/components/utils/Form2.tsx
 msgid "File must be smaller than {0}"
-msgstr ""
+msgstr "Plik musi być mniejszy niż {0}"
 
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
@@ -1703,7 +1706,6 @@ msgstr "Zaraz wracam"
 msgid "Illegal hacking or cracking"
 msgstr "Nielegalne hakowanie lub łamanie zabezpieczeń"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Image by @fakurian"
 #~ msgstr ""
 
@@ -2461,7 +2463,6 @@ msgstr "Reagowanie na wiadomości za pomocą emoji"
 msgid "Read Message History"
 msgstr "Czytanie historii wiadomości"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Read More"
 #~ msgstr ""
 
@@ -3403,11 +3404,9 @@ msgstr "Użytkownicy zostaną poproszeni o potwierdzenie wieku przed otwarciem t
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr "Użytkownicy nie będą poproszeni o potwierdzenie wieku przed dołączeniem do tego kanału.<0/> Proszę się upewnić, czy zawartość jest odpowiednia dla wszystkich grup wiekowych."
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default speaker"
 #~ msgstr ""
 
