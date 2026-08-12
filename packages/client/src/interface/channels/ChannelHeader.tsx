@@ -6,7 +6,7 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { useDevice } from "@revolt/common";
+import { getChannelIcon, useDevice } from "@revolt/common";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { useVoice } from "@revolt/rtc";
@@ -24,7 +24,6 @@ import {
 } from "@revolt/ui";
 
 import { HeaderIcon } from "../common/CommonHeader";
-
 import { canIHasSidebar, SidebarState } from "./text/TextChannel";
 
 interface Props {
@@ -73,7 +72,7 @@ export function ChannelHeader(props: Props) {
           }
         >
           <HeaderIcon>
-            <Symbol>grid_3x3</Symbol>
+            <Symbol>{getChannelIcon(props.channel)}</Symbol>
           </HeaderIcon>
           <NonBreakingText
             class={
