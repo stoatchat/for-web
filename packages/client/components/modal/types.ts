@@ -97,6 +97,7 @@ export type Modals =
   | {
       type: "create_invite";
       channel: Channel;
+      id?: string;
     }
   | {
       type: "create_server";

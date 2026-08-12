@@ -2,7 +2,8 @@ import { For, Match, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
-import { Server, ServerInvite } from "stoat.js";
+import { Channel, Server, ServerInvite } from "stoat.js";
+import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";
 import {
@@ -12,10 +13,9 @@ import {
   Column,
   DataTable,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
-
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
 /**
  * List and invalidate server invites
@@ -29,8 +29,10 @@ export function ListServerInvites(props: { server: Server }) {
     queryFn: () => props.server.fetchInvites() as Promise<ServerInvite[]>,
   }));
 
-  const serverDoesntHaveChannels = () =>
-    !props.server.defaultChannel || props.server.channels.length == 0;
+  const defaultChannel = () =>
+    (props.server.defaultChannel || props.server.channels[0]) as
+      | Channel
+      | undefined;
 
   async function deleteInvite(invite: ServerInvite) {
     try {
@@ -45,14 +47,8 @@ export function ListServerInvites(props: { server: Server }) {
   }
 
   async function createInvite() {
-    const defaultChannel =
-      props.server.defaultChannel || props.server.channels[0] || null;
-    if (defaultChannel) {
-      openModal({
-        type: "create_invite",
-        channel: defaultChannel,
-      });
-    }
+    const channel = defaultChannel();
+    if (channel) openModal({ type: "create_invite", channel });
   }
 
   return (
@@ -60,9 +56,9 @@ export function ListServerInvites(props: { server: Server }) {
       <Button
         group="standard"
         onPress={createInvite}
-        isDisabled={serverDoesntHaveChannels()}
+        isDisabled={!defaultChannel()}
         use:floating={{
-          tooltip: serverDoesntHaveChannels()
+          tooltip: !defaultChannel()
             ? {
                 content: t`Create a channel before inviting others!`,
                 placement: "bottom",
@@ -108,11 +104,26 @@ export function ListServerInvites(props: { server: Server }) {
                         </Column>
                       </Row>
                     </DataTable.Cell>
-                    <DataTable.Cell>{item.id}</DataTable.Cell>
+                    <DataTable.Cell>
+                      <Link
+                        href="#"
+                        onClick={() => {
+                          const channel = item.channel || defaultChannel();
+                          if (channel)
+                            openModal({
+                              type: "create_invite",
+                              channel,
+                              id: item.id,
+                            });
+                        }}
+                      >
+                        {item.id}
+                      </Link>
+                    </DataTable.Cell>
                     <DataTable.Cell width="40px">
                       <Button
                         size="icon"
-                        variant="filled"
+                        variant="_error"
                         use:floating={{
                           tooltip: {
                             placement: "bottom",
@@ -121,7 +132,7 @@ export function ListServerInvites(props: { server: Server }) {
                         }}
                         onPress={() => deleteInvite(item)}
                       >
-                        <MdDelete />
+                        <Symbol>delete</Symbol>
                       </Button>
                     </DataTable.Cell>
                   </DataTable.Row>
@@ -134,3 +145,11 @@ export function ListServerInvites(props: { server: Server }) {
     </Column>
   );
 }
+
+const Link = styled("a", {
+  base: {
+    color: "var(--md-sys-color-primary)",
+    cursor: "pointer",
+    "&:hover": { textDecoration: "underline" },
+  },
+});

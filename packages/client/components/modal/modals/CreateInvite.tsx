@@ -38,27 +38,33 @@ export function CreateInviteModal(
   const [link, setLink] = createSignal("...");
   const instance = useInstance();
 
+  const setId = (id: string) =>
+    setLink(
+      instance.isStoat
+        ? `https://stt.gg/${id}`
+        : instance.href(`/invite/${id}`),
+    );
+
   const fetchInvite = useMutation(() => ({
     mutationFn: () =>
-      props.channel
-        .createInvite()
-        .then(({ _id }) =>
-          setLink(
-            instance.isStoat
-              ? `https://stt.gg/${_id}`
-              : instance.href(`/invite/${_id}`),
-          ),
-        ),
+      props.channel.createInvite().then(({ _id }) => setId(_id)),
     onError: showError,
   }));
 
-  onMount(() => fetchInvite.mutate());
+  onMount(() => {
+    if (props.id) setId(props.id);
+    else fetchInvite.mutate();
+  });
 
   return (
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Create Invite</Trans>}
+      title={
+        <Show when={props.id} fallback={<Trans>Create Invite</Trans>}>
+          <Trans>View Invite</Trans>
+        </Show>
+      }
       actions={[
         { text: <Trans>OK</Trans> },
         {
@@ -75,9 +81,8 @@ export function CreateInviteModal(
         fallback={<Trans>Generating invite…</Trans>}
       >
         <Invite>
-          <Trans>
-            Here is your new invite code: <code>{link()}</code>
-          </Trans>
+          <Trans>Here is your invite code:</Trans>
+          <code>{link()}</code>
         </Invite>
       </Show>
     </Dialog>
