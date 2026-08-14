@@ -84,7 +84,11 @@ export function UserProfileEditor(props: Props) {
     };
 
     if (editGroup.controls.displayName.isDirty) {
-      changes.display_name = editGroup.controls.displayName.value.trim();
+      if (!editGroup.controls.displayName.value) {
+        changes.remove!.push("DisplayName");
+      } else {
+        changes.display_name = editGroup.controls.displayName.value.trim();
+      }
     }
 
     if (editGroup.controls.avatar.isDirty) {
