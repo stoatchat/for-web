@@ -3,6 +3,7 @@ import { Trans } from "@lingui/solid/macro";
 import { Markdown } from "@revolt/markdown";
 import { Dialog, DialogProps } from "@revolt/ui";
 
+import { css } from "styled-system/css";
 import { Modals } from "../types";
 
 export function ChannelInfoModal(
@@ -15,7 +16,9 @@ export function ChannelInfoModal(
       title={`#${props.channel.name}`}
       actions={[{ text: <Trans>Close</Trans> }]}
     >
-      <Markdown content={props.channel.description!} />
+      <div class={css({ userSelect: "text" })}>
+        <Markdown content={props.channel.description!} />
+      </div>
     </Dialog>
   );
 }
