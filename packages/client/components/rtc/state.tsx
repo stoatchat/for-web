@@ -548,11 +548,17 @@ class Voice {
                 width:
                   quality.resolution.width === 0
                     ? undefined
-                    : { max: quality.resolution.width },
+                    : {
+                        ideal: quality.resolution.width,
+                        max: quality.resolution.width,
+                      },
                 height:
                   quality.resolution.width === 0
                     ? undefined
-                    : { max: quality.resolution.height },
+                    : {
+                        ideal: quality.resolution.width,
+                        max: quality.resolution.height,
+                      },
               });
               localTrack.videoTrack.mediaStreamTrack.contentHint =
                 quality.contentHint;
