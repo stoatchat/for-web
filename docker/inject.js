@@ -14,14 +14,13 @@ const OUT_DIR = "dist_injected";
 // At build time, Vite replaces import.meta.env.VITE_X with the literal string value.
 // We build with placeholder values like "__VITE_API_URL__" so they appear in the output.
 const REPLACEMENTS = {
-  __VITE_API_URL__: process.env.VITE_API_URL || "",
-  __VITE_WS_URL__: process.env.VITE_WS_URL || "",
-  __VITE_MEDIA_URL__: process.env.VITE_MEDIA_URL || "",
-  __VITE_PROXY_URL__: process.env.VITE_PROXY_URL || "",
-  __VITE_HCAPTCHA_SITEKEY__: process.env.VITE_HCAPTCHA_SITEKEY || "",
-  __VITE_CFG_ENABLE_VIDEO__: process.env.VITE_CFG_ENABLE_VIDEO || "",
-  __VITE_GIFBOX_URL__: process.env.VITE_GIFBOX_URL || "",
-  __VITE_RNNOISE_WORKLET_CDN_URL__: process.env.VITE_RNNOISE_WORKLET_CDN_URL || "",
+  __VITE_HOST__: process.env.VITE_HOST,
+  __VITE_API_URL__: process.env.VITE_API_URL,
+  __VITE_WS_URL__: process.env.VITE_DEV_WS_URL,
+  __VITE_MEDIA_URL__: process.env.VITE_DEV_MEDIA_URL,
+  __VITE_PROXY_URL__: process.env.VITE_DEV_PROXY_URL,
+  __VITE_GIFBOX_URL__: process.env.VITE_DEV_GIFBOX_URL,
+  __VITE_RNNOISE_WORKLET_CDN_URL__: process.env.VITE_RNNOISE_WORKLET_CDN_URL,
 };
 
 console.log("Preparing injected build...");
@@ -41,7 +40,11 @@ for (const file of files) {
 
   for (const [placeholder, value] of Object.entries(REPLACEMENTS)) {
     if (data.includes(placeholder)) {
-      data = data.replaceAll(placeholder, value);
+      if (value) {
+        data = data.replaceAll(placeholder, value);
+      } else {
+        data = data.replaceAll(`"${placeholder}"`, "void 0");
+      }
       modified = true;
     }
   }

@@ -143,6 +143,7 @@ export const typography = cva({
       class: "body",
       size: "large",
       css: {
+        overflowWrap: "anywhere",
         lineHeight: "1.5rem",
         fontSize: "1rem",
         letterSpacing: "0.009375rem",
@@ -153,6 +154,7 @@ export const typography = cva({
       class: "body",
       size: "medium",
       css: {
+        overflowWrap: "anywhere",
         lineHeight: "1.25rem",
         fontSize: "0.875rem",
         letterSpacing: "0.015625rem",
@@ -163,6 +165,7 @@ export const typography = cva({
       class: "body",
       size: "small",
       css: {
+        overflowWrap: "anywhere",
         lineHeight: "1rem",
         fontSize: "0.75rem",
         letterSpacing: "0.025rem",

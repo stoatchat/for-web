@@ -4,8 +4,6 @@
  * Missing from Material 3 specification:
  * - App bars
  * - Button groups
- * - Extended FAB
- * - FAB
  * - FAB menu
  * - Split button
  * - Cards
@@ -34,10 +32,12 @@ export { type CategorySelectOption, CategoryButton } from "./CategoryButton";
 export { Checkbox } from "./Checkbox";
 export { DataTable } from "./DataTable";
 export { type DialogProps, Dialog } from "./Dialog";
+export { Fab } from "./Fab";
 export { FloatingSelect } from "./FloatingSelect";
 export { IconButton } from "./IconButton";
 export { List } from "./List";
 export { CircularProgress } from "./LoadingProgress";
+export { LoadingScreen } from "./LoadingScreen";
 export { MenuItem } from "./Menu";
 export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";

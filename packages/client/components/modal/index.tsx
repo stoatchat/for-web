@@ -61,11 +61,11 @@ export class ModalController {
    * @param props Modal parameters
    */
   openModal(props: Modals) {
-    const id = Math.random().toString();
+    //Unique ID from clock that can't run backwards
+    const id = performance.now().toString();
     this.setModals((modals) => [
       ...modals,
       {
-        // just need something unique
         id,
         show: true,
         props,
@@ -162,15 +162,30 @@ export class ModalControllerExtended extends ModalController {
 
   /**
    * Open TOTP secret modal
-   * @param client Client
+   *
+   * The modal stays open until the code is accepted or the user backs out, so
+   * a rejected code can be reported without the dialog closing underneath it.
+   * @param secret Secret to display
+   * @param identifier Account identifier shown in the authenticator app
+   * @param enable Called with the entered code, should throw if it is rejected
+   * @returns Whether the authenticator was enabled
    */
-  mfaEnableTOTP(secret: string, identifier: string) {
-    return new Promise((callback: (value?: string) => void) =>
+  mfaEnableTOTP(
+    secret: string,
+    identifier: string,
+    enable: (code: string) => Promise<void>,
+  ) {
+    return new Promise((resolve: (value: boolean) => void, reject) =>
       this.openModal({
         type: "mfa_enable_totp",
         identifier,
         secret,
-        callback,
+        async callback(code) {
+          if (!code) return resolve(false);
+          await enable(code);
+          resolve(true);
+        },
+        reject,
       }),
     );
   }

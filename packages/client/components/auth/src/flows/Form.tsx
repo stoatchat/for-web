@@ -1,13 +1,13 @@
 import HCaptcha, { HCaptchaFunctions } from "solid-hcaptcha";
 import { createSignal, For, JSX, Show } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 
-import { useError } from "@revolt/i18n";
 import { Checkbox, Column, iconSize, Text, TextField } from "@revolt/ui";
 import { styled } from "styled-system/jsx";
 
 import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
+import { TranslatedError } from "@revolt/i18n/errors";
 
 const ErrorContainer = styled("span", {
   base: {
@@ -15,6 +15,10 @@ const ErrorContainer = styled("span", {
     display: "flex",
     alignItems: "center",
     gap: "0.25em",
+
+    "& a": {
+      color: "var(--md-sys-color-primary)",
+    },
   },
 });
 
@@ -45,6 +49,10 @@ const useFieldConfiguration = () => {
     password: {
       minLength: 8,
       type: "password" as const,
+      "toggle-password": true,
+      showPasswordIcon: "visibility",
+      hidePasswordIcon: "visibility_off",
+      autocomplete: "current-password",
       name: () => t`Password`,
       placeholder: () => t`Enter your current password.`,
     },
@@ -52,6 +60,9 @@ const useFieldConfiguration = () => {
       minLength: 8,
       type: "password" as const,
       autocomplete: "new-password",
+      "toggle-password": true,
+      showPasswordIcon: "visibility",
+      hidePasswordIcon: "visibility_off",
       name: () => t`New Password`,
       placeholder: () => t`Enter a new password.`,
     },
@@ -103,7 +114,7 @@ export function Fields(props: FieldProps) {
           field = { field: field };
         }
         return (
-          <label>
+          <>
             {field.field === "log-out" ? (
               <Checkbox name={field.field}>
                 {fieldConfiguration[field.field].name()}
@@ -119,7 +130,7 @@ export function Fields(props: FieldProps) {
                 value={field.value}
               />
             )}
-          </label>
+          </>
         );
       }}
     </For>
@@ -148,7 +159,6 @@ interface Props {
  */
 export function Form(props: Props) {
   const [error, setError] = createSignal();
-  const err = useError();
   let hcaptcha: HCaptchaFunctions | undefined;
 
   /**
@@ -186,7 +196,7 @@ export function Form(props: Props) {
               style={{ "flex-shrink": 0 }}
             />
             <Text class="label" size="small">
-              {err(error())}
+              <TranslatedError error={error()} />
             </Text>
           </ErrorContainer>
         </Show>

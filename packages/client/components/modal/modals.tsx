@@ -1,6 +1,6 @@
 import { mergeProps, splitProps } from "solid-js";
 
-import { CONFIGURATION } from "@revolt/common";
+import { IS_DEV } from "@revolt/client";
 
 import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
@@ -28,6 +28,7 @@ import { DeleteChannelModal } from "./modals/DeleteChannel";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
+import { EditBotUsernameModal } from "./modals/EditBotUsername";
 import { EditCategoryModal } from "./modals/EditCategory";
 import { EditEmailModal } from "./modals/EditEmail";
 import { EditPasswordModal } from "./modals/EditPassword";
@@ -44,6 +45,7 @@ import { MFAEnableTOTPModal } from "./modals/MFAEnableTOTP";
 import { MFAFlowModal } from "./modals/MFAFlow";
 import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
+import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
 import { RemoveMemberModal } from "./modals/RemoveMember";
 import { RenameSessionModal } from "./modals/RenameSession";
@@ -67,7 +69,7 @@ import { UserProfileRolesModal } from "./modals/UserProfileRoles";
 /* eslint-disable solid/reactivity */
 /* eslint-disable solid/components-return-once */
 export function RenderModal(props: ActiveModal & { onClose: () => void }) {
-  if (CONFIGURATION.DEBUG) {
+  if (IS_DEV) {
     console.info(
       "components/modal — modal renderer created for type:",
       props.props.type,
@@ -188,7 +190,10 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <EditCategoryModal {...modalProps} />;
     case "remove_member":
       return <RemoveMemberModal {...modalProps} />;
-
+    case "pin_message":
+      return <PinMessageModal {...modalProps} />;
+    case "edit_bot_username":
+      return <EditBotUsernameModal {...modalProps} />;
     case "screen_share_settings":
       return <ScreenShareSettingsModal {...modalProps} />;
     case "screen_share_picker":

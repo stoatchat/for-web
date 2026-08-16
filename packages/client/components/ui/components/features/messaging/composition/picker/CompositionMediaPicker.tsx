@@ -3,7 +3,6 @@ import {
   Accessor,
   JSX,
   Match,
-  Ref,
   Setter,
   Show,
   Switch,
@@ -25,17 +24,18 @@ import { Row } from "@revolt/ui/components/layout";
 import { EmojiPicker } from "./EmojiPicker";
 import { GifPicker } from "./GifPicker";
 
+export type MediaPickerProps = {
+  ref: Setter<HTMLElement | undefined>;
+  onClickGif: (_: unknown, ref?: HTMLDivElement) => void;
+  onClickEmoji: (_: unknown, ref?: HTMLDivElement) => void;
+};
+
 interface Props {
   /**
    * User card trigger area
-   * @param triggerProps Props that need to be applied to the trigger area
+   * @param trigProps Props that need to be applied to the trigger area
    */
-  children: (triggerProps: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ref: Ref<any>;
-    onClickGif: () => void;
-    onClickEmoji: () => void;
-  }) => JSX.Element;
+  children: (trigProps: MediaPickerProps) => JSX.Element;
 
   /**
    * Send a message
@@ -55,19 +55,34 @@ export const CompositionMediaPickerContext = createContext(
 export function CompositionMediaPicker(props: Props) {
   const [anchor, setAnchor] = createSignal<HTMLElement>();
   const [show, setShow] = createSignal<"gif" | "emoji">();
+  let altRef: HTMLDivElement | undefined;
 
   return (
-    <CompositionMediaPickerContext.Provider value={props}>
+    <CompositionMediaPickerContext.Provider
+      value={{
+        ...props,
+        // close the picker once a GIF is sent
+        // (technically any message, but what else are you gonna be sending out the gif picker)
+        onMessage: (content) => {
+          props.onMessage(content);
+          setShow(undefined);
+        },
+      }}
+    >
       {props.children({
         ref: setAnchor,
-        onClickGif: () =>
-          setShow((current) => (current === "gif" ? undefined : "gif")),
-        onClickEmoji: () =>
-          setShow((current) => (current === "emoji" ? undefined : "emoji")),
+        onClickGif: (_, ref) => {
+          altRef = ref;
+          setShow((current) => (current === "gif" ? undefined : "gif"));
+        },
+        onClickEmoji: (_, ref) => {
+          altRef = ref;
+          setShow((current) => (current === "emoji" ? undefined : "emoji"));
+        },
       })}
-      <Portal mount={document.getElementById("floating")!}>
-        <Presence>
-          <Show when={show()}>
+      <Presence>
+        <Show when={show()}>
+          <Portal mount={document.getElementById("floating")!}>
             <Motion
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -75,16 +90,16 @@ export function CompositionMediaPicker(props: Props) {
               transition={{ duration: 0.2, easing: [0.87, 0, 0.13, 1] }}
             >
               <Picker
-                anchor={anchor}
+                anchor={() => altRef || anchor()}
                 show={show}
                 setShow={setShow}
                 onMessage={props.onMessage}
                 onTextReplacement={props.onTextReplacement}
               />
             </Motion>
-          </Show>
-        </Presence>
-      </Portal>
+          </Portal>
+        </Show>
+      </Presence>
     </CompositionMediaPickerContext.Provider>
   );
 }
@@ -97,27 +112,46 @@ function Picker(
   },
 ) {
   const [floating, setFloating] = createSignal<HTMLDivElement>();
+  const [fixed, setFixed] = createSignal(false);
 
   const position = useFloating(() => props.anchor(), floating, {
     placement: "top-end",
     middleware: [offset(5), flip(), shift()],
   });
 
-  function onMouseDown() {
-    props.setShow();
+  function onMouseDown(e: MouseEvent) {
+    if (!floating()?.contains(e.target as Node)) props.setShow();
   }
+  function onResize() {
+    const el = floating();
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
 
-  onMount(() => document.addEventListener("mousedown", onMouseDown));
-  onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+    //Prevent overflow off-screen
+    if (rect.right > innerWidth || rect.bottom > innerHeight) setFixed(true);
+  }
+  onMount(() => {
+    addEventListener("mousedown", onMouseDown);
+    addEventListener("resize", onResize);
+    setTimeout(onResize, 1);
+  });
+  onCleanup(() => {
+    removeEventListener("mousedown", onMouseDown);
+    removeEventListener("resize", onResize);
+  });
 
   return (
     <Base
       ref={setFloating}
-      style={{
-        position: position.strategy,
-        top: `${position.y ?? 0}px`,
-        left: `${position.x ?? 0}px`,
-      }}
+      style={
+        fixed()
+          ? { position: "absolute", bottom: 0, right: 0 }
+          : {
+              position: position.strategy,
+              top: `${position.y ?? 0}px`,
+              left: `${position.x ?? 0}px`,
+            }
+      }
     >
       <Container>
         <Row justify class="CompositionButton">
@@ -157,7 +191,9 @@ const Base = styled("div", {
   base: {
     width: "400px",
     height: "400px",
-    // paddingInlineEnd: "5px",
+    maxWidth: "100%",
+    maxHeight: "calc(100% - max(env(keyboard-inset-height), 72px))",
+    marginBottom: "env(keyboard-inset-height)",
   },
 });
 

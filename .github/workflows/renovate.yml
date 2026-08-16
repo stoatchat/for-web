@@ -16,8 +16,10 @@ jobs:
           app-id: ${{ secrets.GH_STOAT_RELEASE_APP_ID }}
           private-key: ${{ secrets.GH_STOAT_RELEASE_APP_PRIVATE_KEY }}
 
-      - name: Checkout
-        uses: actions/checkout@v6.0.2
+      - name: Setup Mise
+        uses: immich-app/devtools/actions/use-mise@7b8610a904d57da241e4ddba17fa62b62b15aed4 # use-mise-action-v2.0.2
+        with:
+          github_token: ${{ steps.app-token.outputs.token }}
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14

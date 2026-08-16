@@ -1,6 +1,7 @@
-import { Accessor, JSX, Show } from "solid-js";
+import { Accessor, JSX, Setter, Show } from "solid-js";
+import { Motion, Presence } from "solid-motionone";
 
-import { css, cva } from "styled-system/css";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Breadcrumbs, IconButton, Text } from "@revolt/ui";
@@ -19,39 +20,71 @@ export function SettingsContent(props: {
   list: Accessor<SettingsList<unknown>>;
   title: (ctx: SettingsList<never>, key: string) => string;
   page: Accessor<string | undefined>;
+  ref: Setter<HTMLDivElement | undefined>;
+  action: Accessor<(() => JSX.Element) | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
+  const reduceMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return (
-    <div
-      use:scrollable={{
-        class: base(),
-      }}
-    >
+    <div ref={props.ref} use:scrollable={{ class: base }}>
       <Show when={props.page()}>
-        <InnerContent>
+        <InnerContent class="settings_cont">
           <InnerColumn>
-            <Text class="title" size="large">
-              <Breadcrumbs
-                elements={props.page()!.split("/")}
-                renderElement={(key) =>
-                  props.title(props.list() as SettingsList<never>, key)
-                }
-                navigate={(keys) => navigate(keys.join("/"))}
-              />
-            </Text>
+            <Show when={props.page() !== "account"}>
+              <Text class="title" size="large">
+                <Breadcrumbs
+                  elements={props.page()!.split("/")}
+                  renderElement={(key) =>
+                    props.title(props.list() as SettingsList<never>, key)
+                  }
+                  navigate={(keys) => navigate(keys.join("/"))}
+                />
+              </Text>
+            </Show>
             {props.children}
             <div class={css({ minHeight: "80px" })} />
           </InnerColumn>
         </InnerContent>
       </Show>
-      <Show when={props.onClose}>
-        <CloseAction>
-          <IconButton variant="tonal" onPress={props.onClose}>
-            <MdClose />
-          </IconButton>
-        </CloseAction>
-      </Show>
+      <ActionRail>
+        <Show when={props.onClose}>
+          <CloseAction class="close">
+            <IconButton variant="tonal" onPress={props.onClose}>
+              <MdClose />
+            </IconButton>
+          </CloseAction>
+        </Show>
+        <FloatingActions>
+          <Presence>
+            <Show when={props.action()} keyed>
+              {(renderAction) => (
+                <Motion.div
+                  initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: {
+                      duration: reduceMotion ? 0 : 0.2,
+                      easing: [0.3, 0, 0.8, 0.15],
+                    },
+                  }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.3,
+                    easing: [0.05, 0.7, 0.1, 1],
+                  }}
+                  style={{ "transform-origin": "center" }}
+                >
+                  {renderAction()}
+                </Motion.div>
+              )}
+            </Show>
+          </Presence>
+        </FloatingActions>
+      </ActionRail>
     </div>
   );
 }
@@ -59,19 +92,26 @@ export function SettingsContent(props: {
 /**
  * Base styles
  */
-const base = cva({
-  base: {
-    minWidth: 0,
-    flex: "1 1 800px",
-    flexDirection: "row",
-    display: "flex",
-    background: "var(--md-sys-color-surface-container-low)",
-    borderStartStartRadius: "30px",
-    borderEndStartRadius: "30px",
+const base = css({
+  minWidth: 0,
+  flex: "1 1 800px",
+  flexDirection: "row",
+  display: "flex",
+  background: "var(--md-sys-color-surface-container-low)",
+  borderStartStartRadius: "30px",
+  borderEndStartRadius: "30px",
 
-    "& > a": {
-      textDecoration: "none",
-    },
+  "& > a": {
+    textDecoration: "none",
+  },
+
+  _phone: {
+    borderRadius: 0,
+  },
+
+  _tablet: {
+    // prevent the fixed action rail from scroll with this element instead of the viewport
+    willChange: "auto !important",
   },
 });
 
@@ -88,6 +128,9 @@ const InnerContent = styled("div", {
     padding: "80px 32px",
     justifyContent: "stretch",
     zIndex: 1,
+
+    _tablet: { padding: "12px" },
+    _phone: { height: "100vh" },
   },
 });
 
@@ -105,26 +148,71 @@ const InnerColumn = styled("div", {
 });
 
 /**
+ * Viewport-height rail for settings controls
+ */
+const ActionRail = styled("div", {
+  base: {
+    height: "100vh",
+    minWidth: "56px",
+    padding: "80px 8px calc(var(--gap-xl) + env(safe-area-inset-bottom))",
+
+    zIndex: 2,
+    flexGrow: 1,
+    flexShrink: 0,
+    alignSelf: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    position: "sticky",
+    top: 0,
+
+    _tablet: {
+      position: "fixed",
+      insetInlineEnd: 0,
+      height: "100dvh",
+      padding: "12px",
+      paddingBlockEnd: "calc(12px + env(safe-area-inset-bottom))",
+      alignItems: "flex-end",
+      justifyContent: "flex-end",
+      pointerEvents: "none",
+
+      "& > *": {
+        pointerEvents: "auto",
+      },
+    },
+  },
+});
+
+/**
+ * Bottom-end anchor for actions belonging to the current settings page
+ */
+const FloatingActions = styled("div", {
+  base: {
+    height: "fit-content",
+  },
+});
+
+/**
  * Positioning for close button
  */
 const CloseAction = styled("div", {
   base: {
-    flexGrow: 1,
-    flexShrink: 0,
-    padding: "80px 8px",
     visibility: "visible",
-    position: "sticky",
-    top: 0,
 
     "&:after": {
       content: '"ESC"',
       marginTop: "4px",
       display: "flex",
       justifyContent: "center",
-      width: "36px",
+      width: "40px",
       fontWeight: 600,
       color: "var(--md-sys-color-on-surface)",
       fontSize: "0.75rem",
+    },
+
+    _tablet: {
+      display: "none",
     },
   },
 });

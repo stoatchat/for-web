@@ -3,16 +3,16 @@ import {
   Accessor,
   createContext,
   createEffect,
-  on,
   onCleanup,
   useContext,
 } from "solid-js";
 
 import type { Client, User } from "stoat.js";
 
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
-import { State } from "@revolt/state";
+import { useState } from "@revolt/state";
 
 import ClientController from "./Controller";
 
@@ -26,55 +26,44 @@ const clientContext = createContext(null! as ClientController);
 /**
  * Mount the modal controller
  */
-export function ClientContext(props: { state: State; children: JSXElement }) {
+export function ClientContext(props: { children: JSXElement }) {
   const { openModal } = useModals();
+  const state = useState();
+  const instance = useInstance();
 
-  // eslint-disable-next-line solid/reactivity
-  const controller = new ClientController(props.state);
+  const controller = new ClientController(state, instance);
   onCleanup(() => controller.dispose());
 
   let fetchedChangelog = false;
-  createEffect(
-    on(
-      () => controller.isLoggedIn(),
-      (loggedIn) => {
-        if (!loggedIn || fetchedChangelog) return;
-        fetchedChangelog = true;
+  createEffect(() => {
+    if (!controller.isLoggedIn() || fetchedChangelog) return;
+    fetchedChangelog = true;
 
-        fetchLatestChangelog().then((changelog) => {
-          if (!changelog) return;
-          if (props.state["release-notes"].lastSeenId === changelog.id) return;
+    fetchLatestChangelog().then((changelog) => {
+      if (!changelog) return;
+      if (state["release-notes"].lastSeenId === changelog.id) return;
 
-          props.state["release-notes"].markSeen(
-            changelog.id,
-            changelog.published_at,
-          );
+      state["release-notes"].markSeen(changelog.id, changelog.published_at);
 
-          openModal({
-            type: "changelog",
-            changelog,
-          });
-        });
-      },
-    ),
-  );
+      openModal({
+        type: "changelog",
+        changelog,
+      });
+    });
+  });
 
-  createEffect(
-    on(
-      () => controller.lifecycle.policyAttentionRequired(),
-      (attentionRequired) => {
-        if (typeof attentionRequired !== "undefined") {
-          const [changes, acknowledge] = attentionRequired;
+  createEffect(() => {
+    const policy = controller.lifecycle.policyAttentionRequired();
+    if (policy) {
+      const [changes, acknowledge] = policy;
 
-          openModal({
-            type: "policy_change",
-            changes,
-            acknowledge,
-          });
-        }
-      },
-    ),
-  );
+      openModal({
+        type: "policy_change",
+        changes,
+        acknowledge,
+      });
+    }
+  });
 
   return (
     <clientContext.Provider value={controller}>
@@ -88,26 +77,16 @@ export function ClientContext(props: { state: State; children: JSXElement }) {
  * @returns Lifecycle information
  */
 export function useClientLifecycle() {
-  const { login, logout, selectUsername, lifecycle, isLoggedIn, isError } =
-    useContext(clientContext);
-
-  return {
-    login,
-    logout,
-    selectUsername,
-    lifecycle,
-    isLoggedIn,
-    isError,
-  };
+  return useContext(clientContext);
 }
 
 /**
- * Get the currently active client if one is available
+ * Get the currently active client
  * @returns Client
  */
 export function useClient(): Accessor<Client> {
-  const controller = useContext(clientContext);
-  return () => controller.getCurrentClient()!;
+  const instance = useInstance();
+  return () => instance.client;
 }
 
 /**
@@ -115,8 +94,8 @@ export function useClient(): Accessor<Client> {
  * @returns User
  */
 export function useUser(): Accessor<User | undefined> {
-  const controller = useContext(clientContext);
-  return () => controller.getCurrentClient()!.user;
+  const instance = useInstance();
+  return () => instance.client.user;
 }
 
 /**

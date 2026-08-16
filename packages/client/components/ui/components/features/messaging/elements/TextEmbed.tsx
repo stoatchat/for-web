@@ -34,6 +34,7 @@ const SiteInformation = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     gap: "var(--gap-md)",
   },
 });
@@ -153,6 +154,7 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
               >
                 <video
                   controls
+                  playsinline
                   preload="metadata"
                   src={(props.embed as WebsiteEmbed).video!.proxiedURL}
                 />

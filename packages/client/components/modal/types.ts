@@ -10,6 +10,7 @@ import {
   Message,
   MFA,
   MFATicket,
+  ProtocolV1,
   PublicBot,
   PublicChannelInvite,
   Server,
@@ -19,7 +20,6 @@ import {
   User,
   VideoEmbed,
 } from "stoat.js";
-import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
@@ -74,6 +74,7 @@ export type Modals =
   | {
       type: "create_channel";
       server: Server;
+      categoryId?: string;
       cb?: (channel: Channel) => void;
     }
   | {
@@ -128,6 +129,10 @@ export type Modals =
       message: Message;
     }
   | {
+      type: "pin_message";
+      message: Message;
+    }
+  | {
       type: "delete_server";
       server: Server;
     }
@@ -151,15 +156,6 @@ export type Modals =
   | {
       type: "emoji_preview";
       emoji: Emoji;
-    }
-  | {
-      /**
-       * @deprecated build proper error handling!
-       */
-      type: "error";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
     }
   | {
       type: "error2";
@@ -189,7 +185,8 @@ export type Modals =
       type: "mfa_enable_totp";
       identifier: string;
       secret: string;
-      callback: (code?: string) => void;
+      callback: (code?: string) => Promise<void>;
+      reject?: (reason?: string) => void;
     }
   | ({
       type: "mfa_flow";
@@ -282,6 +279,7 @@ export type Modals =
       user: User;
       isPlaceholder?: boolean;
       placeholderProfile?: API.UserProfile;
+      member?: ServerMember;
     }
   | {
       type: "user_profile_roles";
@@ -290,6 +288,7 @@ export type Modals =
   | {
       type: "user_profile_mutual_friends";
       users: User[];
+      server?: Server;
     }
   | {
       type: "user_profile_mutual_groups";
@@ -347,4 +346,8 @@ export type Modals =
         image?: string;
       }[];
       onCancel: () => void;
+    }
+  | {
+      type: "edit_bot_username";
+      bot: Bot;
     };

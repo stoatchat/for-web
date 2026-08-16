@@ -13,7 +13,7 @@ type Props = Omit<
     JSX.DirectiveAttributes &
     Pick<
       JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-      "role" | "tabIndex" | "aria-selected"
+      "role" | "tabIndex" | "aria-selected" | "style"
     >,
   "onClick" | "disabled"
 >;
@@ -28,6 +28,7 @@ export function IconButton(props: Props) {
     "aria-selected",
     "tabIndex",
     "role",
+    "style",
   ]);
 
   const [style, rest] = splitProps(propsRest, [

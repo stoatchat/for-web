@@ -23,15 +23,16 @@ const RE_SERVER = /\/server\/([A-Z0-9]{26})/;
 const RE_CHANNEL = /\/channel\/([A-Z0-9]{26})/;
 const RE_MESSAGE_ID = /\/channel\/[A-Z0-9]{26}\/([A-Z0-9]{26})/;
 const RE_BOT_ID = /\/bot\/([A-Z0-9]{26})/;
+const RE_HOST = /^\/i\/([\w:.]+)\//;
 
-const RE_INVITE_EXACT = /^\/invite\/([\w\d]+)$/;
-const RE_BOT_ID_EXACT = /^\/bot\/[A-Z0-9]{26}$/;
+const RE_INVITE_EXACT = /^(?:\/i\/[\w:.]+)?\/invite\/([\w\d]+)$/;
+const RE_BOT_ID_EXACT = /^(?:\/i\/[\w:.]+)?\/bot\/[A-Z0-9]{26}$/;
 
-const RE_SERVER_EXACT = /^\/server\/([A-Z0-9]{26})$/;
+const RE_SERVER_EXACT = /^(?:\/i\/[\w:.]+)?\/server\/([A-Z0-9]{26})$/;
 const RE_CHANNEL_EXACT =
-  /^(?:\/server\/[A-Z0-9]{26})?\/channel\/([A-Z0-9]{26})(?:\/[A-Z0-9]{26})?$/;
+  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z0-9]{26})?\/channel\/([A-Z0-9]{26})(?:\/[A-Z0-9]{26})?$/;
 const RE_MESSAGE_ID_EXACT =
-  /^(?:\/server\/[A-Z0-9]{26})?\/channel\/[A-Z0-9]{26}\/([A-Z0-9]{26})$/;
+  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z0-9]{26})?\/channel\/[A-Z0-9]{26}\/([A-Z0-9]{26})$/;
 
 /**
  * Route parameters available globally
@@ -81,6 +82,9 @@ type GlobalParams = {
    * Exact match for bot?
    */
   exactBot: boolean;
+
+  /** Instance hostname */
+  host?: string;
 };
 
 /**
@@ -98,33 +102,27 @@ export function paramsFromPathname(pathname: string): GlobalParams {
 
   // Check for invite ID
   const invite = pathname.match(RE_INVITE_EXACT);
-  if (invite) {
-    params.inviteId = invite[1];
-  }
+  if (invite) params.inviteId = invite[1];
 
   // Check for server ID
   const server = pathname.match(RE_SERVER);
-  if (server) {
-    params.serverId = server[1];
-  }
+  if (server) params.serverId = server[1];
 
   // Check for channel ID
   const channel = pathname.match(RE_CHANNEL);
-  if (channel) {
-    params.channelId = channel[1];
-  }
+  if (channel) params.channelId = channel[1];
 
   // Check for message ID
   const message = pathname.match(RE_MESSAGE_ID);
-  if (message) {
-    params.messageId = message[1];
-  }
+  if (message) params.messageId = message[1];
 
   // Check for bot ID
   const bot = pathname.match(RE_BOT_ID);
-  if (bot) {
-    params.botId = bot[1];
-  }
+  if (bot) params.botId = bot[1];
+
+  // Check for instance host
+  const host = pathname.match(RE_HOST);
+  if (host) params.host = host[1];
 
   return params;
 }

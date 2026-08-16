@@ -3,6 +3,7 @@ import {
   createContext,
   createEffect,
   onCleanup,
+  untrack,
   useContext,
 } from "solid-js";
 
@@ -129,12 +130,18 @@ export function KeybindContext(props: { children: JSXElement }) {
     activeKeys.delete(event.key);
   }
 
+  function onFocusDropped(_: FocusEvent) {
+    activeKeys.clear();
+  }
+
   document.body.addEventListener("keydown", onKeyDown);
   document.body.addEventListener("keyup", onKeyUp);
+  window.addEventListener("blur", onFocusDropped);
 
   onCleanup(() => {
     document.body.removeEventListener("keydown", onKeyDown);
     document.body.removeEventListener("keyup", onKeyUp);
+    window.removeEventListener("blur", onFocusDropped);
   });
 
   return (
@@ -147,7 +154,7 @@ export function KeybindContext(props: { children: JSXElement }) {
           createEffect(() => {
             const _ = [...activeKeys]; // track dependency
             if (isFired(keybind)) {
-              callback();
+              untrack(callback);
             }
           });
         },

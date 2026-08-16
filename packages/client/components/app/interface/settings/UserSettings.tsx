@@ -1,11 +1,11 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
@@ -30,7 +30,7 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
-import { AccountCard } from "./user/_AccountCard";
+import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
 import { AppearanceMenu } from "./user/appearance";
@@ -111,14 +111,16 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * Generate list of categories / entries for client settings
    * @returns List
    */
-  list() {
+  list(_, onClose) {
     const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
+    const { limits, config } = useInstance();
 
     return {
       context: null!,
       prepend: (
         <Column gap="s">
+          <BackCard onClose={onClose} />
           <AccountCard />
           <div />
         </Column>
@@ -148,6 +150,53 @@ const Config: SettingsConfiguration<{ server: Server }> = {
                 {window.native.versions.chrome()}
               </span>
             </Text>
+          </Show>
+          <Show when={config.features.legal_links}>
+            {(links) => (
+              <Text class="label">
+                <span
+                  class={css({
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.5em",
+                    opacity: "0.5",
+                    "& a": {
+                      color: "inherit",
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    },
+                  })}
+                >
+                  <Show when={links().terms_of_service}>
+                    <a
+                      href={links().terms_of_service}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Terms</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().privacy_policy}>
+                    <a
+                      href={links().privacy_policy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Privacy</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().guidelines}>
+                    <a
+                      href={links().guidelines}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Guidelines</Trans>
+                    </a>
+                  </Show>
+                </span>
+              </Text>
+            )}
           </Show>
         </Column>
       ),
@@ -212,7 +261,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             {
               id: "voice",
               icon: <MdMic {...iconSize(20)} />,
-              title: CONFIGURATION.ENABLE_VIDEO ? (
+              title: limits().video ? (
                 <Trans>Voice & Video</Trans>
               ) : (
                 <Trans>Voice</Trans>

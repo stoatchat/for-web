@@ -1,10 +1,12 @@
-import { Show } from "solid-js";
+import { Show, createResource } from "solid-js";
 
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
-import { ServerMember, User } from "stoat.js";
+import { PublicBot, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { UserContextMenu } from "@revolt/app";
+import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
 import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
@@ -22,15 +24,27 @@ export function ProfileActions(props: {
 
   user: User;
   member?: ServerMember;
+  onClose: () => void;
 }) {
   const navigate = useNavigate();
+  const client = useClient();
   const { openModal } = useModals();
+
+  const [publicBot] = createResource(
+    () => props.user.bot && props.user.id,
+    (id) =>
+      client()
+        .bots.fetchPublic(id)
+        .then((b) => (b instanceof PublicBot ? b : new PublicBot(client(), b)))
+        .catch(() => {}),
+  );
 
   /**
    * Open direct message channel
    */
   function openDm() {
-    props.user.openDM().then((channel) => navigate(channel.url));
+    props.user.openDM().then((channel) => navigate(channel.path));
+    props.onClose();
   }
 
   /**
@@ -42,6 +56,7 @@ export function ProfileActions(props: {
         ? { type: "server_identity", member: props.member }
         : { type: "settings", config: "user" },
     );
+    if (!props.member) props.onClose();
   }
 
   return (
@@ -65,6 +80,18 @@ export function ProfileActions(props: {
       <Show when={props.user.relationship === "Friend"}>
         <Button onPress={openDm}>Message</Button>
       </Show>
+      <Show when={publicBot()}>
+        <Button
+          onPress={() =>
+            openModal({
+              type: "add_bot",
+              invite: publicBot()!,
+            })
+          }
+        >
+          <Trans>Add Bot</Trans>
+        </Button>
+      </Show>
 
       <Show
         when={
@@ -86,7 +113,11 @@ export function ProfileActions(props: {
       <IconButton
         use:floating={{
           contextMenu: () => (
-            <UserContextMenu user={props.user} member={props.member} />
+            <UserContextMenu
+              user={props.user}
+              member={props.member}
+              onClose={props.onClose}
+            />
           ),
           contextMenuHandler: "click",
         }}

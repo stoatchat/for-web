@@ -1,4 +1,4 @@
-import { lingui as linguiSolidPlugin } from "@lingui-solid/vite-plugin";
+import { lingui as linguiSolidPlugin } from "@lingui/vite-plugin";
 import devtools from "@solid-devtools/transform";
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";
@@ -10,8 +10,10 @@ import solidPlugin from "vite-plugin-solid";
 import solidSvg from "vite-plugin-solid-svg";
 
 import codegenPlugin from "./codegen.plugin";
+import { addFontPreload } from "./fontpreload.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
+const pwaScope = process.env.PWA_SCOPE || base;
 
 export default defineConfig({
   base,
@@ -20,18 +22,28 @@ export default defineConfig({
     devtools(),
     codegenPlugin(),
     babelMacrosPlugin(),
+    solidPlugin({
+      babel: {
+        plugins: ["@lingui/babel-plugin-lingui-macro"],
+      },
+    }),
     linguiSolidPlugin(),
-    solidPlugin(),
     solidSvg({
       defaultAsComponent: false,
     }),
+    addFontPreload(),
     VitePWA({
       srcDir: "src",
       registerType: "autoUpdate",
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 4000000,
+        maximumFileSizeToCacheInBytes: 8000000,
+        globPatterns: ["**/*.{js,css,html}", "**/material-symbols-*.woff2"],
+      },
+      devOptions: {
+        enabled: true,
+        type: "module",
       },
       manifest: {
         name: "Stoat",
@@ -39,7 +51,7 @@ export default defineConfig({
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
         start_url: base,
-        orientation: "portrait",
+        scope: pwaScope,
         display_override: ["window-controls-overlay"],
         display: "standalone",
         background_color: "#101823",

@@ -9,10 +9,11 @@ import {
   createMemo,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
@@ -37,7 +38,6 @@ import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
-
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
@@ -91,6 +91,7 @@ type OrderingEvent =
  */
 export const ServerSidebar = (props: Props) => {
   const navigate = useNavigate();
+  const { isMobile } = useDevice();
 
   // Users can manage certain parts of the server individually, regardless of their ManageServer Permission
   const canManageServer = () =>
@@ -111,10 +112,8 @@ export const ServerSidebar = (props: Props) => {
   // TODO: issue warning if nothing is found somehow? warnings can be nicer than flat out not working
   // TODO: we want it to feel smooth when navigating through channels, so we'll want to select channels immediately but not actually navigate until we're done moving through them
   /** Navigates to the channel offset from the current one, wrapping around if needed */
-  const _navigateChannel = (byOffset: number) => {
-    if (props.channelId == null) {
-      return;
-    }
+  const navigateChannel = (byOffset: number) => {
+    if (props.channelId == null) return;
 
     const channels = visibleChannels();
 
@@ -132,13 +131,11 @@ export const ServerSidebar = (props: Props) => {
     }
   };
 
-  // todo: I think these cause the infinite hang bug:
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
 
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_UP, () => navigateChannel(-1));
-
-  // createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
-  //   navigateChannel(1),
-  // );
+  createKeybind(KeybindAction.NAVIGATION_CHANNEL_DOWN, () =>
+    navigateChannel(1),
+  );
 
   createKeybind(KeybindAction.CHAT_MARK_SERVER_AS_READ, () => {
     if (props.server.unread) {
@@ -192,7 +189,10 @@ export const ServerSidebar = (props: Props) => {
   }
 
   return (
-    <SidebarBase use:floating={props.menuGenerator(props.server)}>
+    <SidebarBase
+      class="channel_bar server"
+      use:floating={props.menuGenerator(props.server)}
+    >
       <Switch
         fallback={
           <Header placement="secondary">
@@ -224,13 +224,15 @@ export const ServerSidebar = (props: Props) => {
       </Switch>
       <div
         use:invisibleScrollable
-        style={{ "flex-grow": 1 }}
+        style={{ "flex-grow": 1, "margin-bottom": "var(--gap-md)" }}
         use:floating={props.menuGenerator(props.server)}
       >
         <Draggable
           dragHandles
           type="category"
-          disabled={noOrdering()}
+          //TODO - No channel ordering on mobile due to usability issue
+          //Consider adding a way to enable reordering with dragHandles in server settings
+          disabled={isMobile || noOrdering()}
           items={props.server.orderedChannels}
           onChange={(ids) => handleOrdering({ type: "categories", ids })}
         >
@@ -333,6 +335,7 @@ function Category(
 ) {
   const state = useState();
   const isOpen = () => state.layout.getSectionState(props.category.id, true);
+  const { isMobile } = useDevice();
 
   const channels = createMemo(() =>
     props.category.channels.filter(
@@ -372,7 +375,9 @@ function Category(
             moved: channelIds.length !== current.length,
           });
         }}
-        disabled={props.noOrdering() || !isOpen()}
+        //TODO - No channel ordering on mobile due to usability issue
+        //Consider adding a way to enable reordering with dragHandles in server settings
+        disabled={isMobile || props.noOrdering() || !isOpen()}
         minimumDropAreaHeight="32px"
       >
         {(entry) => (
@@ -450,6 +455,7 @@ function Entry(
   const state = useState();
   const voice = useVoice();
   const { openModal } = useModals();
+  const { isMobile } = useDevice();
 
   const canEditChannel = createMemo(() =>
     (["ManageChannel", "ManagePermissions", "ManageWebhooks"] as const).some(
@@ -483,83 +489,81 @@ function Entry(
   );
 
   return (
-    <a href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}>
-      <Column gap="sm">
-        <MenuButton
-          use:floating={props.menuGenerator(props.channel)}
-          size="normal"
-          alert={alertState()}
-          attention={attentionState()}
-          icon={
-            <>
-              <Switch fallback={<Symbol>grid_3x3</Symbol>}>
-                <Match when={props.channel.isVoice}>
-                  <Symbol
-                    color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                  >
-                    headset_mic
-                  </Symbol>
-                </Match>
-              </Switch>
-              <Show when={props.channel.icon}>
-                <ChannelIcon
-                  src={props.channel.iconURL}
-                  css={{ marginEnd: "0.2em" }}
-                />
-              </Show>
-            </>
-          }
-          actions={
-            <>
-              <Show when={canInvite()}>
-                <a
-                  use:floating={{
-                    tooltip: { placement: "top", content: "Create Invite" },
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openModal({
-                      type: "create_invite",
-                      channel: props.channel,
-                    });
-                  }}
+    <Column gap="sm">
+      <MenuButton
+        href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}
+        use:floating={props.menuGenerator(props.channel)}
+        size="normal"
+        alert={alertState()}
+        attention={attentionState()}
+        icon={
+          <>
+            <Switch fallback={<Symbol>grid_3x3</Symbol>}>
+              <Match when={props.channel.isVoice}>
+                <Symbol
+                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
                 >
-                  <Symbol size={16} fill>
-                    person_add
-                  </Symbol>
-                </a>
-              </Show>
+                  headset_mic
+                </Symbol>
+              </Match>
+            </Switch>
+            <Show when={props.channel.icon}>
+              <ChannelIcon
+                src={props.channel.iconURL}
+                css={{ marginEnd: "0.2em" }}
+              />
+            </Show>
+          </>
+        }
+        actions={
+          <Show when={!isMobile}>
+            <Show when={canInvite()}>
+              <a
+                use:floating={{
+                  tooltip: { placement: "top", content: "Create Invite" },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  openModal({
+                    type: "create_invite",
+                    channel: props.channel,
+                  });
+                }}
+              >
+                <Symbol size={16} fill>
+                  person_add
+                </Symbol>
+              </a>
+            </Show>
+            <Show when={canEditChannel()}>
+              <a
+                use:floating={{
+                  tooltip: { placement: "top", content: "Edit Channel" },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  openModal({
+                    type: "settings",
+                    config: "channel",
+                    context: props.channel,
+                  });
+                }}
+              >
+                <Symbol size={16} fill>
+                  settings
+                </Symbol>
+              </a>
+            </Show>
+          </Show>
+        }
+      >
+        <OverflowingText>
+          <TextWithEmoji content={props.channel.name!} />
+        </OverflowingText>
+      </MenuButton>
 
-              <Show when={canEditChannel()}>
-                <a
-                  use:floating={{
-                    tooltip: { placement: "top", content: "Edit Channel" },
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openModal({
-                      type: "settings",
-                      config: "channel",
-                      context: props.channel,
-                    });
-                  }}
-                >
-                  <Symbol size={16} fill>
-                    settings
-                  </Symbol>
-                </a>
-              </Show>
-            </>
-          }
-        >
-          <OverflowingText>
-            <TextWithEmoji content={props.channel.name!} />
-          </OverflowingText>
-        </MenuButton>
-
-        <VoiceChannelPreview channel={props.channel} />
-      </Column>
-    </a>
+      <VoiceChannelPreview channel={props.channel} />
+    </Column>
   );
 }
 

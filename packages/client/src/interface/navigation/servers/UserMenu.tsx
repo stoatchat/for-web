@@ -12,7 +12,7 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -81,8 +81,8 @@ export function UserMenu(props: Props) {
     close();
   }
 
-  onMount(() => document.addEventListener("mousedown", onMouseDown));
-  onCleanup(() => document.removeEventListener("mousedown", onMouseDown));
+  onMount(() => document.addEventListener("pointerdown", onMouseDown));
+  onCleanup(() => document.removeEventListener("pointerdown", onMouseDown));
 
   createEffect(
     on(

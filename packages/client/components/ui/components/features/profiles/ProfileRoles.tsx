@@ -1,6 +1,6 @@
 import { For, Show, createMemo } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { ServerMember } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

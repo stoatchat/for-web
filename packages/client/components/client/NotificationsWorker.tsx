@@ -1,6 +1,6 @@
 import { createEffect, onCleanup, onMount } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import {
   ChannelEditSystemMessage,
   ChannelOwnershipChangeSystemMessage,
@@ -200,8 +200,6 @@ export function NotificationsWorker() {
       return;
 
     sound.playSound("message");
-
-    console.info(`[notification] ${title} ${icon} ${body}`);
 
     const notification = new Notification(title!, {
       icon,

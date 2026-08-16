@@ -31,6 +31,7 @@ import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/
 import { ChannelHeader } from "../ChannelHeader";
 import { ChannelPageProps } from "../ChannelPage";
 
+import { Channel } from "stoat.js";
 import { MessageComposition } from "./Composition";
 import { MemberSidebar } from "./MemberSidebar";
 import { TextSearchSidebar } from "./TextSearchSidebar";
@@ -49,6 +50,25 @@ export type SidebarState =
   | {
       state: "default";
     };
+
+export function canIHasSidebar(ch: Channel) {
+  return !["SavedMessages", "DirectMessage"].includes(ch.type);
+}
+
+/**
+ * Servers to not fetch all members for
+ */
+const LARGE_SERVERS = [
+  "01F7ZSBSFHQ8TA81725KQCSDDP",
+  "01G3PKD1YJ2H484MDX6KP9WRBN",
+  // top servers on discover
+  "01K313D0VP0HPNG30DNZ4Q672H",
+  "01J31CCMTYKFPGCM13VRP3B289",
+  "01H2Y4Y97PW6584PHN1TAVN5WR",
+  "01HVKQBBQ3DQVVNK3M8DHXV30D",
+  "01GDS83RMZW89AV0BZG24NEXYC",
+  "01J5W0XERBBGK77BMDVPZJ20JW",
+];
 
 /**
  * Channel component
@@ -76,8 +96,7 @@ export function TextChannel(props: ChannelPageProps) {
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
-  // Get a reference to the message list's "end status"
-  let atEndRef: (() => boolean) | undefined;
+  const [atEnd, setEnd] = createSignal(true);
 
   // Store last unread message id
   createEffect(
@@ -96,7 +115,7 @@ export function TextChannel(props: ChannelPageProps) {
   createEffect(
     on(
       // must be at the end of the conversation
-      () => props.channel.unread && (atEndRef ? atEndRef() : true),
+      () => props.channel.unread && atEnd(),
       (unread) => {
         if (unread) {
           if (document.hasFocus()) {
@@ -116,7 +135,7 @@ export function TextChannel(props: ChannelPageProps) {
 
   // Mark as read on re-focus
   function onFocus() {
-    if (props.channel.unread && (atEndRef ? atEndRef() : true)) {
+    if (props.channel.unread && atEnd()) {
       props.channel.ack();
     }
   }
@@ -153,6 +172,22 @@ export function TextChannel(props: ChannelPageProps) {
     on(
       () => props.channel.id,
       () => setSidebarState({ state: "default" }),
+    ),
+  );
+
+  // If this is a server text channel, sync the members
+  // todo: useQuery
+  createEffect(
+    on(
+      () => props.channel.serverId,
+      (serverId, prevServerId) =>
+        // This effect tracks channel, not serverId, therefore we must ensure the old serverId
+        // is not the same as the current serverId
+        prevServerId !== serverId &&
+        props.channel.type === "TextChannel" &&
+        props.channel.server?.syncMembers(
+          LARGE_SERVERS.includes(serverId) ? true : false,
+        ),
     ),
   );
 
@@ -202,8 +237,8 @@ export function TextChannel(props: ChannelPageProps) {
             }
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
-            atEndRef={(ref) => (atEndRef = ref)}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+            atEnd={[atEnd, setEnd]}
           />
 
           <MessageComposition
@@ -217,7 +252,7 @@ export function TextChannel(props: ChannelPageProps) {
               LAYOUT_SECTIONS.MEMBER_SIDEBAR,
               true,
             ) &&
-              props.channel.type !== "SavedMessages") ||
+              canIHasSidebar(props.channel)) ||
             sidebarState().state !== "default"
           }
         >
@@ -237,6 +272,7 @@ export function TextChannel(props: ChannelPageProps) {
                 <MemberSidebar
                   channel={props.channel}
                   scrollTargetElement={sidebarScrollTargetElement}
+                  isLargeServer={LARGE_SERVERS.includes(props.channel.serverId)}
                 />
               }
             >

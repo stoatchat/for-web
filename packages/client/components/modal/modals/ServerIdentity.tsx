@@ -1,10 +1,11 @@
 import { createFormControl, createFormGroup } from "solid-forms";
+import { Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -19,12 +20,14 @@ export function ServerIdentityModal(
   const { t } = useLingui();
   const client = useClient();
   const { showError } = useModals();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   const group = createFormGroup({
     avatar: createFormControl<string | File[] | null>(
       props.member.animatedAvatarURL,
     ),
+    pronouns: createFormControl<string>(props.member.pronouns ?? ""),
     nickname: createFormControl(props.member.nickname ?? ""),
   });
   /* eslint-enable solid/reactivity */
@@ -51,8 +54,16 @@ export function ServerIdentityModal(
           changes.avatar = await client().uploadFile(
             "avatars",
             group.controls.avatar.value[0],
-            CONFIGURATION.DEFAULT_MEDIA_URL,
+            instance.mediaUrl,
           );
+        }
+      }
+
+      if (group.controls.pronouns.isDirty) {
+        if (!group.controls.pronouns.value) {
+          changes.remove?.push("Pronouns");
+        } else {
+          changes.pronouns = group.controls.pronouns.value;
         }
       }
 
@@ -70,7 +81,22 @@ export function ServerIdentityModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Change identity on {props.member.server!.name}</Trans>}
+      title={
+        <Show
+          when={props.member.user?.self}
+          fallback={
+            <Trans>
+              Change{" "}
+              {props.member.nickname ??
+                props.member.user?.displayName ??
+                props.member.user?.username}
+              's nickname
+            </Trans>
+          }
+        >
+          <Trans>Change identity on {props.member.server!.name}</Trans>
+        </Show>
+      }
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
@@ -86,12 +112,15 @@ export function ServerIdentityModal(
     >
       <form onSubmit={submit}>
         <Column>
-          <Form2.FileInput
-            control={group.controls.avatar}
-            accept="image/*"
-            label={t`Server Avatar`}
-            imageJustify={false}
-          />
+          <Show when={props.member.user?.self}>
+            <Form2.FileInput
+              control={group.controls.avatar}
+              accept="image/*"
+              label={t`Server Avatar`}
+              imageJustify={false}
+              maxSize={instance.limits().file_upload_size_limits["avatars"]}
+            />
+          </Show>
           <Form2.TextField
             minlength={1}
             maxlength={32}
@@ -101,6 +130,16 @@ export function ServerIdentityModal(
             control={group.controls.nickname}
             placeholder={props.member.user?.displayName}
           />
+          <Show when={props.member.user?.self}>
+            <Form2.TextField
+              minlength={1}
+              maxlength={24}
+              counter
+              name="pronouns"
+              control={group.controls.pronouns}
+              label={t`Pronouns`}
+            />
+          </Show>
         </Column>
       </form>
     </Dialog>

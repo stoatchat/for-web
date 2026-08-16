@@ -1,15 +1,17 @@
 import { JSX, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
-import { Message } from "stoat.js";
+import { useLingui } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useMessage } from "@revolt/app";
+import { useDevice } from "@revolt/common";
 import { Ripple, typography } from "@revolt/ui/components/design";
 import { Column, Row } from "@revolt/ui/components/layout";
 import {
   NonBreakingText,
   OverflowingText,
+  Symbol,
   Time,
 } from "@revolt/ui/components/utils";
 
@@ -35,12 +37,15 @@ interface CommonProps {
 }
 
 type Props = CommonProps & {
-  message?: Message;
-
   /**
    * Avatar URL
    */
   avatar: JSX.Element;
+
+  /**
+   * Pronouns
+   */
+  pronouns?: string;
 
   /**
    * Username element
@@ -101,6 +106,8 @@ type Props = CommonProps & {
    * Component to render message context menu
    */
   contextMenu?: () => JSX.Element;
+
+  ref?: HTMLDivElement;
 
   /**
    * Additional match cases for the inline-start information element
@@ -184,6 +191,13 @@ const base = cva({
       },
       hide: {},
     },
+    iOSTouch: {
+      true: {
+        "-webkit-touch-callout": "none",
+        "-webkit-user-select": "none",
+        "user-select": "none",
+      },
+    },
   },
   defaultVariants: {
     isLink: false,
@@ -236,6 +250,7 @@ const Body = styled("div", {
     editing: {
       true: {
         flexGrow: 1,
+        overflow: "visible",
       },
     },
   },
@@ -286,6 +301,13 @@ const infoText = cva({
         },
       },
     },
+    shrink: {
+      true: {
+        flexGrow: 1,
+        flexBasis: 0,
+        maxWidth: "fit-content",
+      },
+    },
   },
 });
 
@@ -306,10 +328,13 @@ const CompactInfo = styled(Row, {
  */
 export function MessageContainer(props: Props) {
   const { t } = useLingui();
+  const { message } = useMessage();
+  const { isMobile, isIOSTouch } = useDevice();
 
   return (
     <div
-      id={props.message?.id}
+      id={message?.id}
+      ref={props.ref}
       onMouseEnter={() => props.onHover && props.onHover(true)}
       onMouseLeave={() => props.onHover && props.onHover(false)}
       class={
@@ -320,14 +345,20 @@ export function MessageContainer(props: Props) {
           highlight: props.highlight,
           sendStatus: props.sendStatus,
           isLink: props.isLink,
+          iOSTouch: isIOSTouch,
         })
       }
       use:floating={{ contextMenu: props.contextMenu }}
     >
       <Show
-        when={props.message && props.isLink !== true && props.isLink !== "hide"}
+        when={
+          !isMobile &&
+          message &&
+          props.isLink !== true &&
+          props.isLink !== "hide"
+        }
       >
-        <MessageToolbar message={props.message} />
+        <MessageToolbar />
       </Show>
 
       <Show when={props.isLink}>
@@ -346,16 +377,29 @@ export function MessageContainer(props: Props) {
                   use:floating={{
                     tooltip: {
                       placement: "top",
-                      content: (
-                        <>
-                          {t`Sent`}{" "}
-                          <Time
-                            format="datetime"
-                            value={props.timestamp}
-                            referenceTime={props._referenceTime}
-                          />
-                        </>
-                      ) as string, // ignore aria requirement
+                      content: () => (
+                        <Column>
+                          <span>
+                            {t`Sent`}{" "}
+                            <Time
+                              format="datetime"
+                              value={props.timestamp}
+                              referenceTime={props._referenceTime}
+                            />
+                          </span>
+                          <Show when={props.edited}>
+                            <span>
+                              {t`Edited`}{" "}
+                              <Time
+                                format="datetime"
+                                value={props.edited}
+                                referenceTime={props._referenceTime}
+                              />
+                            </span>
+                          </Show>
+                        </Column>
+                      ),
+                      aria: "",
                     },
                   }}
                 >
@@ -367,6 +411,9 @@ export function MessageContainer(props: Props) {
                 </div>
                 {props.username}
                 {props.info}
+                <Show when={props.edited}>
+                  <Symbol size={16}>edit</Symbol>
+                </Show>
               </CompactInfo>
             </Match>
             <Match when={props.tail}>
@@ -375,7 +422,7 @@ export function MessageContainer(props: Props) {
                 use:floating={{
                   tooltip: {
                     placement: "top",
-                    content: (
+                    content: () => (
                       <Column>
                         <span>
                           {t`Sent`}{" "}
@@ -396,7 +443,8 @@ export function MessageContainer(props: Props) {
                           </span>
                         </Show>
                       </Column>
-                    ) as string, // ignore aria requirement
+                    ),
+                    aria: "",
                   },
                 }}
               >
@@ -416,58 +464,65 @@ export function MessageContainer(props: Props) {
           <Show when={!props.tail && !props.compact}>
             <Row gap="sm" align>
               <OverflowingText>{props.username}</OverflowingText>
-              <NonBreakingText>
-                <div class={infoText()}>
-                  {props.info}
-                  <Switch fallback={props.timestamp as string}>
-                    <Match when={props.timestamp instanceof Date}>
-                      <span
-                        use:floating={{
-                          tooltip: {
-                            placement: "top",
-                            content: (
-                              <>
-                                {t`Sent`}{" "}
-                                <Time
-                                  format="datetime"
-                                  value={props.timestamp}
-                                  referenceTime={props._referenceTime}
-                                />
-                              </>
-                            ) as string, // ignore aria requirement
-                          },
-                        }}
-                      >
-                        <Time
-                          format="calendar"
-                          value={props.timestamp}
-                          referenceTime={props._referenceTime}
-                        />
-                      </span>
-                    </Match>
-                  </Switch>
-                  <Show when={props.edited}>
-                    <span
-                      use:floating={{
-                        tooltip: {
-                          placement: "top",
-                          content: (
-                            <>
-                              {t`Edited`}{" "}
-                              <Time
-                                format="datetime"
-                                value={props.edited}
-                                referenceTime={props._referenceTime}
-                              />
-                            </>
-                          ) as string, // ignore aria requirement
-                        },
-                      }}
-                    >
-                      (edited)
-                    </span>
-                  </Show>
-                </div>
+              <NonBreakingText class={infoText()}>{props.info}</NonBreakingText>
+              <Show when={props.pronouns}>
+                <OverflowingText class={infoText({ shrink: true })}>
+                  <span>{props.pronouns}</span>
+                  <span>·</span>
+                </OverflowingText>
+              </Show>
+              <NonBreakingText class={infoText()}>
+                <Show
+                  when={props.timestamp instanceof Date}
+                  fallback={props.timestamp as JSX.Element}
+                >
+                  <span
+                    use:floating={{
+                      tooltip: {
+                        placement: "top",
+                        content: () => (
+                          <>
+                            {t`Sent`}{" "}
+                            <Time
+                              format="datetime"
+                              value={props.timestamp}
+                              referenceTime={props._referenceTime}
+                            />
+                          </>
+                        ),
+                        aria: "",
+                      },
+                    }}
+                  >
+                    <Time
+                      format="calendar"
+                      value={props.timestamp}
+                      referenceTime={props._referenceTime}
+                    />
+                  </span>
+                </Show>
+                <Show when={props.edited}>
+                  <span
+                    use:floating={{
+                      tooltip: {
+                        placement: "top",
+                        content: () => (
+                          <>
+                            {t`Edited`}{" "}
+                            <Time
+                              format="datetime"
+                              value={props.edited}
+                              referenceTime={props._referenceTime}
+                            />
+                          </>
+                        ),
+                        aria: "",
+                      },
+                    }}
+                  >
+                    (edited)
+                  </span>
+                </Show>
               </NonBreakingText>
             </Row>
           </Show>

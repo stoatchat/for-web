@@ -1,5 +1,26 @@
-import { useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
+import { createMemo, Match, Switch } from "solid-js";
 import { API } from "stoat.js";
+
+const RE_BREAK = /\s*\n\s*/g;
+
+function cleanError(
+  error: unknown,
+): { type?: never } | { message?: never } | string | undefined {
+  // Attempt to parse the incoming error as JSON if it is a string,
+  // as some errors (e.g on login) are sent to this function as a string,
+  // which then causes the error message to be unlocalised and unhelpful.
+  if (typeof error === "string") {
+    try {
+      return JSON.parse(error);
+    } catch {
+      // Ignore JSON parse errors
+      return error;
+    }
+  }
+
+  return error as { type?: never } | { message?: never } | undefined;
+}
 
 /**
  * Translate any error
@@ -8,32 +29,16 @@ export function useError() {
   const { t } = useLingui();
 
   return (error: unknown) => {
-    // TODO: HTTP errors
+    error = cleanError(error);
 
-    // Attempt to parse the incoming error as JSON if it is a string,
-    // as some errors (e.g on login) are sent to this function as a string,
-    // which then causes the error message to be unlocalised and unhelpful.
-    if (typeof error === "string") {
-      try {
-        error = JSON.parse(error);
-      } catch {
-        // Ignore JSON parse errors
-      }
-    }
+    // TODO: HTTP errors
 
     // handle Revolt API errors
     if (
       (error as { type?: never } | undefined)?.type &&
       typeof (error as { type: never }).type === "string"
     ) {
-      const err = error as
-        | API.Error
-        | Exclude<
-            API.Authifier_Error,
-            | { type: "UnknownUser" }
-            | { type: "DatabaseError" }
-            | { type: "InternalError" }
-          >;
+      const err = error as API.Error;
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -170,10 +175,61 @@ export function useError() {
     ) {
       const message = (error as { message: string }).message.trim();
       if (message) return message;
+    } else if (typeof error === "string") {
+      //Strip HTML from string
+      const p = document.createElement("html");
+      p.innerHTML = error;
+      p.querySelector("head")?.remove();
+      p.querySelector("[role=contentinfo]")?.remove();
+      error = p.textContent!.trim().replace(RE_BREAK, ". ");
     }
 
     return t`Something went wrong! ${error}`;
     // revert to `Try again later.` later
     // need to capture envelopes properly
   };
+}
+
+type TranslatedErrorProps = {
+  error: unknown;
+};
+
+export function TranslatedError(props: TranslatedErrorProps) {
+  const err = useError();
+
+  const errorString = createMemo(() => {
+    const clean = cleanError(props.error);
+
+    if (
+      (clean as { type?: never } | undefined)?.type &&
+      typeof (clean as { type: never }).type === "string"
+    ) {
+      const err = clean as API.Error;
+
+      return err;
+    }
+
+    return err(props.error);
+  });
+
+  return (
+    <Switch fallback={errorString() as string}>
+      <Match when={typeof errorString() !== "string"}>
+        <Switch fallback={err(props.error)}>
+          <Match when={(errorString() as API.Error).type === "BlockedByShield"}>
+            <Trans>
+              This sign up is marked as spam. Please see{" "}
+              <a
+                href="https://support.stoat.chat/kb/safety/blocked-for-spam"
+                target="_blank"
+                rel="noreferrer"
+              >
+                this support article.
+              </a>
+            </Trans>
+          </Match>
+        </Switch>
+      </Match>
+    </Switch>
+  );
 }
