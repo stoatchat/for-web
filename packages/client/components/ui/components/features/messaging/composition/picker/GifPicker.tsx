@@ -84,11 +84,6 @@ export function GifPicker() {
           variant="outlined"
           placeholder="Search for GIFs..."
           value={filter()}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-          }}
           onChange={(e) => setFilter(e.currentTarget.value)}
         />
       </SearchArea>
