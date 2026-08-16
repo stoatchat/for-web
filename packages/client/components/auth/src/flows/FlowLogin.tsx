@@ -1,6 +1,6 @@
 import { Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";

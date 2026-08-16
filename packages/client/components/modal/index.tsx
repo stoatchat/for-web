@@ -162,15 +162,29 @@ export class ModalControllerExtended extends ModalController {
 
   /**
    * Open TOTP secret modal
-   * @param client Client
+   *
+   * The modal stays open until the code is accepted or the user backs out, so
+   * a rejected code can be reported without the dialog closing underneath it.
+   * @param secret Secret to display
+   * @param identifier Account identifier shown in the authenticator app
+   * @param enable Called with the entered code, should throw if it is rejected
+   * @returns Whether the authenticator was enabled
    */
-  mfaEnableTOTP(secret: string, identifier: string) {
-    return new Promise((resolve: (value?: string) => void, reject) =>
+  mfaEnableTOTP(
+    secret: string,
+    identifier: string,
+    enable: (code: string) => Promise<void>,
+  ) {
+    return new Promise((resolve: (value: boolean) => void, reject) =>
       this.openModal({
         type: "mfa_enable_totp",
         identifier,
         secret,
-        callback: resolve,
+        async callback(code) {
+          if (!code) return resolve(false);
+          await enable(code);
+          resolve(true);
+        },
         reject,
       }),
     );

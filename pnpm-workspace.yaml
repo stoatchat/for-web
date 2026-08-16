@@ -2,10 +2,6 @@ packages:
   - packages/client
   - packages/stoat.js
   - packages/solid-livekit-components
-  - packages/solid-dnd-directive
-  - packages/js-lingui-solid/packages/jest-mocks
-  - packages/js-lingui-solid/packages/babel-plugin-extract-messages
-  - packages/js-lingui-solid/packages/babel-plugin-lingui-macro
 allowBuilds:
   "@swc/core": true
   esbuild: true
@@ -15,6 +11,9 @@ nodeLinker: isolated
 
 # Override prettier because some of the submodules have ancient prettiers required
 # Having multiple prettiers makes the vscode extension unpredictable
+# Override solid-js because somewhere from 1.9.6 -> 1.9.14 breaks reactivity
+# across dependencies.
 overrides:
   "prettier": "^3.8.1"
+  "solid-js": "1.9.14"
 strictPeerDependencies: false

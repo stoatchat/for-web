@@ -1,6 +1,6 @@
 import { For, Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import dayjs from "dayjs";
 import { Server } from "stoat.js";
 

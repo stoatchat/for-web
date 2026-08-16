@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { Show } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { useInstance } from "@revolt/instance";

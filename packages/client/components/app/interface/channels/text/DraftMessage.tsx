@@ -1,6 +1,6 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import type { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

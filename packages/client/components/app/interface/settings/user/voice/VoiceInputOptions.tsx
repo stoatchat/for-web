@@ -1,9 +1,10 @@
 import { createMemo, Show } from "solid-js";
 import { useMediaDeviceSelect } from "solid-livekit-components";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useInstance } from "@revolt/instance";
+import { stoatSinkName } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import {
   CategoryButton,
@@ -69,8 +70,11 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
   const activeId = createMemo(() => state.voice[setKey()] ?? "default");
 
   const devOpts = createMemo(() => {
-    const devs = media().devices(),
-      opts: { [k in string]: CategorySelectOption } = {};
+    const opts: { [k in string]: CategorySelectOption } = {};
+    const devs = media()
+      .devices()
+      // Filter out the virtual sink
+      .filter((dev) => dev.label !== stoatSinkName);
 
     //Ensure default is at top
     let d = devs.find((d) => d.deviceId === "default");

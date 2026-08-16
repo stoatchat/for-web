@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.15.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.14.1...stoat-for-web-v0.15.0) (2026-08-12)
+
+
+### Features
+
+* "add bot" on ProfileActions ([#1261](https://github.com/stoatchat/for-web/issues/1261)) ([2df4d1a](https://github.com/stoatchat/for-web/commit/2df4d1acf9da831a811ac538e085462500bea6f0))
+* Add a virtual mic for linux wayland screen sharing ([#1438](https://github.com/stoatchat/for-web/issues/1438)) ([973cd4b](https://github.com/stoatchat/for-web/commit/973cd4b90d43880f5be154c041c21aa0e74a3daf))
+* Add duration strings for easy translations  ([#1452](https://github.com/stoatchat/for-web/issues/1452)) ([df747ce](https://github.com/stoatchat/for-web/commit/df747cefaac771326fd24657f9f44685816bdfde))
+* Add voice input slider, add voice processor and update livekit-rnnoise-processor ([#1338](https://github.com/stoatchat/for-web/issues/1338)) ([55152e0](https://github.com/stoatchat/for-web/commit/55152e0217a56f08dec54a9f456bead8888c8b45))
+* Instance context to enable routes and reactivity w/ consistent interface ([#1315](https://github.com/stoatchat/for-web/issues/1315)) ([1c6dd0d](https://github.com/stoatchat/for-web/commit/1c6dd0d5d2fbbf4a97f8eccc6d2ec4af3523d134))
+* overhaul role management ui ([#1444](https://github.com/stoatchat/for-web/issues/1444)) ([65add39](https://github.com/stoatchat/for-web/commit/65add39c377277104aa506e293dece1bfede5577))
+* show bot owner on profile cards when applicable ([#1016](https://github.com/stoatchat/for-web/issues/1016)) ([ecfb740](https://github.com/stoatchat/for-web/commit/ecfb740bbb9884985971588d69c2d66b94cd9a17))
+* show file size limits where applicable ([#884](https://github.com/stoatchat/for-web/issues/884)) ([0bb5166](https://github.com/stoatchat/for-web/commit/0bb51665e97e4ab52898a3912f96d6ca12c2e606))
+* update icons to symbols in more places ([#1445](https://github.com/stoatchat/for-web/issues/1445)) ([54f7270](https://github.com/stoatchat/for-web/commit/54f727095ec4a90ce988b408f1b0d9b5baf70b5b))
+
+
+### Bug Fixes
+
+* add MFA verification flow to email change modal ([#1432](https://github.com/stoatchat/for-web/issues/1432)) ([3ce44a7](https://github.com/stoatchat/for-web/commit/3ce44a7a144a81aec8836011ed358ed74e823939))
+* client locks up when using channel/server up and down keybinds ([#1469](https://github.com/stoatchat/for-web/issues/1469)) ([207b883](https://github.com/stoatchat/for-web/commit/207b883a5b3eef277c7cf634212cb78b99045bbd))
+* cursor not visible in texteditor2 code blocks ([#1473](https://github.com/stoatchat/for-web/issues/1473)) ([cedd69e](https://github.com/stoatchat/for-web/commit/cedd69e3751b4e12722a1d23e3768c7f7f84d915))
+* cursor not visible in texteditor2 codeblocks ([cedd69e](https://github.com/stoatchat/for-web/commit/cedd69e3751b4e12722a1d23e3768c7f7f84d915))
+* don't crash rendering messages that produce no markdown outpu ([e8761fd](https://github.com/stoatchat/for-web/commit/e8761fdb479c2fdab1f402a50c9e0c9cfb836ccd)), closes [#459](https://github.com/stoatchat/for-web/issues/459)
+* don't crash rendering messages that produce no markdown output ([#1459](https://github.com/stoatchat/for-web/issues/1459)) ([e8761fd](https://github.com/stoatchat/for-web/commit/e8761fdb479c2fdab1f402a50c9e0c9cfb836ccd))
+* don't reopen the authenticator setup modal over its own error ([#1463](https://github.com/stoatchat/for-web/issues/1463)) ([4e6988a](https://github.com/stoatchat/for-web/commit/4e6988a3ab5478edacdae86e152b317b68aec5b6))
+* Downgrade VITE_HOST exception to error, use an api check ([#1471](https://github.com/stoatchat/for-web/issues/1471)) ([aec1f2f](https://github.com/stoatchat/for-web/commit/aec1f2f85ff5ce0d5234ebcc1d8846e6af860c09))
+* Fix memory leak w/ new timer system in State ([#1460](https://github.com/stoatchat/for-web/issues/1460)) ([e6b0a1c](https://github.com/stoatchat/for-web/commit/e6b0a1cea1e87e2e953bf43d28a219c3c1ca64f0))
+* **instance:** Docker build injection fail ([#1442](https://github.com/stoatchat/for-web/issues/1442)) ([84194ea](https://github.com/stoatchat/for-web/commit/84194eae4c1497d8337acfa356495237b3fb93a5))
+* **instance:** Don't jump back to New Tab page on first-load backend connect error ([#1443](https://github.com/stoatchat/for-web/issues/1443)) ([7844284](https://github.com/stoatchat/for-web/commit/784428494190da6f197c08e237e7f3a14e5d6ab0))
+* **instance:** Stoat host check bug ([#1462](https://github.com/stoatchat/for-web/issues/1462)) ([f2d4199](https://github.com/stoatchat/for-web/commit/f2d41996bb9162df72a91fe4516bb21005127528))
+* keybind input queue not clearing when focus is dropped ([#1484](https://github.com/stoatchat/for-web/issues/1484)) ([dd1cd5a](https://github.com/stoatchat/for-web/commit/dd1cd5a716bc42607c209195e0994dfe4862f102))
+* PWA mobile rotation-lock fix & system bar theme color ([#1364](https://github.com/stoatchat/for-web/issues/1364)) ([1bc31a6](https://github.com/stoatchat/for-web/commit/1bc31a6560a4add112f6cdad0b11bc8d1b597799))
+* Remove the lingui submodule ([#1476](https://github.com/stoatchat/for-web/issues/1476)) ([2da772c](https://github.com/stoatchat/for-web/commit/2da772c65d398834c57e1c02d1ff7a6759ed1031))
+* Remove the lingui submodule because i forgor ([2da772c](https://github.com/stoatchat/for-web/commit/2da772c65d398834c57e1c02d1ff7a6759ed1031))
+* Update service worker precache with new locales ([#1451](https://github.com/stoatchat/for-web/issues/1451)) ([4636634](https://github.com/stoatchat/for-web/commit/46366344b2b0d625c78f94ddecc6a8488a317d73))
+* wrong order of cards in UserCard ([#1480](https://github.com/stoatchat/for-web/issues/1480)) ([fbca76c](https://github.com/stoatchat/for-web/commit/fbca76ca75de8998e7732b82411bd5f5f06bff7a))
+
 ## [0.14.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.14.0...stoat-for-web-v0.14.1) (2026-08-01)
 
 

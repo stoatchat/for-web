@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 
 import { useClient } from "@revolt/client";
@@ -118,10 +118,7 @@ export function ServerIdentityModal(
               accept="image/*"
               label={t`Server Avatar`}
               imageJustify={false}
-              maxSize={
-                client().configuration?.features.limits.default
-                  .file_upload_size_limits["avatars"] ?? 4e6
-              }
+              maxSize={instance.limits().file_upload_size_limits["avatars"]}
             />
           </Show>
           <Form2.TextField
