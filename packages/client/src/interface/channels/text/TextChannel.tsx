@@ -16,6 +16,7 @@ import { DraftMessages, Messages } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useNavigate, useSmartParams } from "@revolt/routing";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -76,6 +77,7 @@ const LARGE_SERVERS = [
 export function TextChannel(props: ChannelPageProps) {
   const state = useState();
   const client = useClient();
+  const voice = useVoice();
 
   // Last unread message id
   const [lastId, setLastId] = createSignal<string>();
@@ -92,6 +94,29 @@ export function TextChannel(props: ChannelPageProps) {
 
   const canConnect = () =>
     props.channel.isVoice && props.channel.havePermission("Connect");
+
+  // Opening a voice channel is already the intent to join it, so connect right
+  // away instead of making the user click the call card as well.
+  //
+  // Two cases are deliberately left out:
+  //  - DMs and groups, which are voice capable but must never start ringing
+  //    someone just because their conversation was opened;
+  //  - any channel opened while already in a call, since that would drop the
+  //    current call; switching stays a manual action on the call card.
+  createEffect(
+    on(
+      () => props.channel.id,
+      () => {
+        if (
+          props.channel.type === "TextChannel" &&
+          canConnect() &&
+          voice.state() === "READY"
+        ) {
+          voice.connect(props.channel);
+        }
+      },
+    ),
+  );
 
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
