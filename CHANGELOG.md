@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.15.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.0...stoat-for-web-v0.15.1) (2026-08-17)
+
+
+### Bug Fixes
+
+* allow selecting channel description in ChannelInfoModal ([#1496](https://github.com/stoatchat/for-web/issues/1496)) ([9b09d43](https://github.com/stoatchat/for-web/commit/9b09d43517e6fbcbd8e22408e5a1262209a1c4fe))
+* Always ensure the stream starts as below 720p ([#1497](https://github.com/stoatchat/for-web/issues/1497)) ([f30e7cd](https://github.com/stoatchat/for-web/commit/f30e7cd7b42b4e6a9465ec500f5a6b759e110ecb))
+* emoji/gif picker search input cannot regain focus ([#1502](https://github.com/stoatchat/for-web/issues/1502)) ([52932fe](https://github.com/stoatchat/for-web/commit/52932fe27be6a4082a72a966c73340b35e74c9f6))
+* icons showing up incorrectly ([#1500](https://github.com/stoatchat/for-web/issues/1500)) ([86674a2](https://github.com/stoatchat/for-web/commit/86674a21f1fcd9ee21fa3bcfeb34fa6a866f12aa))
+* Increase autocomplete box size ([#911](https://github.com/stoatchat/for-web/issues/911)) ([c1cdf9d](https://github.com/stoatchat/for-web/commit/c1cdf9d21319a2fddcf0ced7ba80a3280d8b4249))
+* Make device not go to sleep while in a call ([#1498](https://github.com/stoatchat/for-web/issues/1498)) ([7a3d22d](https://github.com/stoatchat/for-web/commit/7a3d22d9828a36e3dafb4072cbdb42e4c2c60c81))
+* make file paste/drop respect permissions ([#1225](https://github.com/stoatchat/for-web/issues/1225)) ([065252f](https://github.com/stoatchat/for-web/commit/065252fc7bca8c60bca959c65f9e05421daebd54))
+* Show each font in its own font ([ed51b00](https://github.com/stoatchat/for-web/commit/ed51b003fcb8bb06a0193d1b58c618935a7b418a))
+* Show previews of fonts in the appearance menu font dropdowns ([#1454](https://github.com/stoatchat/for-web/issues/1454)) ([ed51b00](https://github.com/stoatchat/for-web/commit/ed51b003fcb8bb06a0193d1b58c618935a7b418a))
+* unable to remove display name from profile ([#1493](https://github.com/stoatchat/for-web/issues/1493)) ([0846404](https://github.com/stoatchat/for-web/commit/0846404840dda679913a04af5bbd930c93789338))
+
 ## [0.15.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.14.1...stoat-for-web-v0.15.0) (2026-08-12)
 
 
