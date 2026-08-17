@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-27 20:29+0000\n"
-"Last-Translator: Ondřej Novák <pikacus196@gmail.com>\n"
-"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/revolt-for-web/cs/>\n"
+"PO-Revision-Date: 2026-08-14 02:29+0000\n"
+"Last-Translator: iNKY <sir.drak@posteo.net>\n"
+"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -53,7 +54,7 @@ msgstr "{0, plural, one {# blokovaná zpráva} few {# blokované zprávy} other 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr ""
+msgstr "{0, plural, one {Přetáhnout soubor} other {Přetáhnout # souborů}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -151,15 +152,12 @@ msgstr "{0}-{1} z {2}"
 msgid "{0}'s roles"
 msgstr "{0} rolí"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{h} hours"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{m} minutes"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{sec} seconds"
 #~ msgstr ""
 
@@ -239,19 +237,15 @@ msgstr "<0/> změnil jméno skupiny na <1>{0}</1>"
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
+"<0>Dejte si pozor!</0><1/>Tohle není stejný jako ten odkaz, který je "
+"zobrazen:"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "1 day"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 hour"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 minute"
 #~ msgstr ""
 
@@ -259,15 +253,12 @@ msgstr ""
 msgid "1 person reacted"
 msgstr "1 osoba zareagovala"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "1 second"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 seconds"
 #~ msgstr ""
 
@@ -275,7 +266,6 @@ msgstr "1 osoba zareagovala"
 msgid "12 hours"
 msgstr "12 hodin"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "2 hours"
 #~ msgstr ""
 
@@ -283,32 +273,24 @@ msgstr "12 hodin"
 msgid "24 hours"
 msgstr "24 hodin"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "3 days"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 seconds"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 seconds"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "6 hours"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "7 days"
 #~ msgstr ""
 
@@ -352,7 +334,7 @@ msgstr "Odeslat žádost o přátelství"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
-msgstr ""
+msgstr "Přidat bota"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
@@ -386,8 +368,6 @@ msgstr "Administrátorský panel"
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Affects all roles and users"
 #~ msgstr "Ovlivňuje všechny role a členy"
 
@@ -402,11 +382,11 @@ msgstr "Všechny zprávy"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "All roles have overrides."
-msgstr ""
+msgstr "Všechny role mají přepisy."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "All Systems Operational"
-msgstr ""
+msgstr "Všechny systémy funkční"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
@@ -422,7 +402,7 @@ msgstr "S tímto uživatelem již jste přátelé."
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
-msgstr ""
+msgstr "Vždy se ptát o kvalitě sdílení obrazovky"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
@@ -459,17 +439,17 @@ msgstr "Jste si jistí že chcete jít na "
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to pin this message?"
-msgstr ""
+msgstr "Jste si jistý, že chcete připnout tuto zprávu?"
 
 #. placeholder {0}: props.user?.displayName ?? props.user.username
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr ""
+msgstr "Jste si jistý, že chcete odebrat {0} z {1}?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
-msgstr ""
+msgstr "Jste si jistý, že chcete odepnout tuto zprávu?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -481,7 +461,7 @@ msgstr "Přidělit role"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
-msgstr ""
+msgstr "Zvuk vypnut od prohlížeče"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -490,7 +470,7 @@ msgstr "Ověřovací aplikace"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Automatic Gain Control"
-msgstr ""
+msgstr "Automatická regulace mikrofonu"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -568,13 +548,12 @@ msgstr "Bot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser"
-msgstr ""
+msgstr "Prohlížeč"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
 msgstr "Reudkce ozvěny v prohlížeči"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #~ msgid "Browser Noise Supression"
 #~ msgstr ""
 
@@ -598,15 +577,17 @@ msgstr "Vytvořením tohoto serveru, souhlasíte s <0>Acceptable Use Policy</0>.
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
-msgstr ""
+msgstr "Obejít pomalý režim"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
-msgstr ""
+msgstr "Obejdete pomalý režim v kanálech"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
+"Nemůžete najít dokonalý GIF? Miřte na Gifboxu a nahrávejte své vlastní pro "
+"všechny k využití."
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -662,7 +643,7 @@ msgstr "Změnit"
 #. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change {0}'s nickname"
-msgstr ""
+msgstr "Změnit přezdívku {0}"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
@@ -670,7 +651,7 @@ msgstr "Změnit avatar"
 
 #: components/modal/modals/EditBotUsername.tsx
 msgid "Change bot username"
-msgstr ""
+msgstr "Změnit uživatelské jméno bota"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
@@ -703,7 +684,7 @@ msgstr "Změnit vlastní přezdívku"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change this bot's username"
-msgstr ""
+msgstr "Změnit uživatelské jméno tohle bota"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
@@ -711,13 +692,12 @@ msgstr "Změnit uživatelské jméno"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change Username"
-msgstr ""
+msgstr "Změnit uživatelské jméno"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
 msgstr "Změnit profil na serverech"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -829,7 +809,7 @@ msgstr "Kód"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
-msgstr ""
+msgstr "Již brzy! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
@@ -875,7 +855,7 @@ msgstr "Pokračovat"
 
 #: src/AndroidNag.tsx
 msgid "Continue in browser"
-msgstr ""
+msgstr "Pokračovat v prohlížeči"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
@@ -891,7 +871,7 @@ msgstr "Konverzace"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
-msgstr ""
+msgstr "Kopírováno!"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
@@ -903,7 +883,7 @@ msgstr "Kopírovat ID kanálu"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy file link"
-msgstr ""
+msgstr "Kopírovat odkaz souboru"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -928,7 +908,7 @@ msgstr "Kopírovat ID zprávy"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message link"
-msgstr ""
+msgstr "Kopírovat odkaz zprávy"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
@@ -999,7 +979,6 @@ msgstr "Vytvořit novou kategorií"
 msgid "Create a new group"
 msgstr "Vytvořit novou skupinu"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #~ msgid "Create a new role"
 #~ msgstr "Vytvořit novou roli"
 
@@ -1082,7 +1061,7 @@ msgstr "Tato Relace"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Custom colour"
-msgstr ""
+msgstr "Vlastní barva"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
@@ -1090,7 +1069,7 @@ msgstr "Vlastní status"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr ""
+msgstr "Vlastní rámec okna"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
@@ -1108,12 +1087,12 @@ msgstr "Chyba databáze, prosím kontaktujte podporu. ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
-msgstr ""
+msgstr "Formát datumu"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Deafen"
-msgstr ""
+msgstr "Ztlumen"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
@@ -1128,14 +1107,9 @@ msgstr "Vypnout členům zvuk"
 msgid "Default"
 msgstr "Výchozí"
 
-#: components/app/interface/settings/ServerSettings.tsx
-#: components/app/interface/settings/ChannelSettings.tsx
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Default Permissions"
 #~ msgstr "Výchozí Oprávnění"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #~ msgid "Defean"
 #~ msgstr ""
 
@@ -1169,7 +1143,7 @@ msgstr "Smazat Ůčet"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
-msgstr ""
+msgstr "Smazat a připnout zprávy odeslané od ostatních členů"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
@@ -1200,7 +1174,7 @@ msgstr "Odstranit zprávu"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Delete Message History"
-msgstr ""
+msgstr "Smazat historii zpráv"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
@@ -1277,7 +1251,7 @@ msgstr ""
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
-msgstr ""
+msgstr "Nesmazat zprávy"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1405,7 +1379,7 @@ msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
-msgstr ""
+msgstr "Ukončit hovor"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Enhanced"
@@ -1467,7 +1441,7 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Extreme violence, gore or animal cruelty"
-msgstr ""
+msgstr "Extrémní násilí, krvavost a týrání zvířat"
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable notifications. Stoat does not have notification permission."
@@ -1570,7 +1544,7 @@ msgstr "Získat nový set záložních kódů"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Get active recovery codes"
-msgstr ""
+msgstr "Získat nové obnovovací kódy"
 
 #: src/AndroidNag.tsx
 msgid "Get it on Google Play"
@@ -1673,7 +1647,7 @@ msgstr "Tady je váš nový zvací odkaz: <0>{0}</0>"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Hide Others"
-msgstr ""
+msgstr "Skrýt ostatní"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
@@ -1694,7 +1668,7 @@ msgstr "Potvrzuji, že je mi nejméně 18 let."
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "I understand the consequences"
-msgstr ""
+msgstr "Rozumím důsledkům"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "ID copied to clipboard"
@@ -1711,7 +1685,6 @@ msgstr "Nečinný"
 msgid "Illegal hacking or cracking"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Image by @fakurian"
 #~ msgstr ""
 
@@ -1745,7 +1718,7 @@ msgstr "Pozvěte všechny své přátele, pár cool botů a uspořádejte velkou
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite Bot"
-msgstr ""
+msgstr "Pozvat bota"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 #: components/auth/src/flows/Form.tsx
@@ -1770,15 +1743,15 @@ msgstr "Pozvánky"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "irrelevant joke badge 1"
-msgstr ""
+msgstr "nerelevantní vtipný odznak 1"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "irrelevant joke badge 2"
-msgstr ""
+msgstr "nerelevantní vtipný odznak 2"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "ISO Standard (YYYY-MM-DD)"
-msgstr ""
+msgstr "Standardní ISO (YYYY-MM-DD)"
 
 #: components/modal/modals/Invite.tsx
 #: components/modal/modals/JoinServer.tsx
@@ -1937,7 +1910,7 @@ msgstr ""
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Major Outage"
-msgstr ""
+msgstr "Velký výpadek"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Malware or phishing"
@@ -2088,7 +2061,7 @@ msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Missing permission"
-msgstr ""
+msgstr "Chybějící oprávnění"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Monochrome"
@@ -2134,7 +2107,7 @@ msgstr "Vypnout členům mikrofon"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mute Screen Share"
-msgstr ""
+msgstr "Ztlumit sdílení obrazovky"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
@@ -2148,7 +2121,7 @@ msgstr "Ztlumeno"
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted until <0/>"
-msgstr ""
+msgstr "Ztlumen do <0/>"
 
 #: components/modal/modals/UserProfileMutualFriends.tsx
 msgid "Mutual Friends"
@@ -2177,16 +2150,16 @@ msgstr "Neutrální"
 
 #: components/ui/components/features/messaging/elements/MessageDivider.tsx
 msgid "NEW"
-msgstr ""
+msgstr "NOVÝ"
 
 #. placeholder {0}: dayjs(decodeTime(props.lastId()!)).fromNow()
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
 msgid "New messages since {0}"
-msgstr ""
+msgstr "Nové zprávy od {0}"
 
 #: components/modal/modals/EditCategory.tsx
 msgid "New name"
-msgstr ""
+msgstr "Nové jméno"
 
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -2303,16 +2276,16 @@ msgstr ""
 
 #: components/instance/index.tsx
 msgid "Oops, something went wrong! {e}"
-msgstr ""
+msgstr "Jejda, něco se zkazilo! {e}"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #. placeholder {0}: provider()![0]
 #: components/auth/src/flows/MailProvider.tsx
 msgid "Open {0}"
-msgstr ""
+msgstr "Otevřít {0}"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Open channel settings"
@@ -2383,7 +2356,7 @@ msgstr ""
 
 #: components/modal/modals/ScreenSharePicker.tsx
 msgid "Pick a Screen to Share"
-msgstr ""
+msgstr "Vyberte obrazovku k sdílení"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
@@ -2396,7 +2369,7 @@ msgstr ""
 #: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin message"
-msgstr ""
+msgstr "Připnout zprávu"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Platform Moderator"
@@ -2404,7 +2377,7 @@ msgstr "Moderátor Platformy"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Play sound"
-msgstr ""
+msgstr "Přehrát zvuk"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please confirm this action using the selected method."
@@ -2444,7 +2417,7 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Privacy"
-msgstr ""
+msgstr "Soukromí"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
@@ -2465,12 +2438,12 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Promotes harm"
-msgstr ""
+msgstr "Povzbuzuje ublížení"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Pronouns"
-msgstr ""
+msgstr "Zájmena"
 
 #: components/i18n/errors.tsx
 msgid "Provided email or password is wrong."
@@ -2478,7 +2451,7 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Raid or spam attack"
-msgstr ""
+msgstr "Přepadení nebo spamový útok"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/menus/MessageContextMenu.tsx
@@ -2493,7 +2466,6 @@ msgstr ""
 msgid "Read Message History"
 msgstr "Číst historii zpráv"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Read More"
 #~ msgstr ""
 
@@ -2513,7 +2485,7 @@ msgstr "Důvod"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Reason for report"
-msgstr ""
+msgstr "Důvod k nahlášení"
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2537,7 +2509,7 @@ msgstr "Obnovovací kód"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Recovery Codes"
-msgstr ""
+msgstr "Obnovovací kódy"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Reduced"
@@ -2569,7 +2541,7 @@ msgstr ""
 
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove"
-msgstr ""
+msgstr "Odebrat"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
@@ -2590,26 +2562,26 @@ msgstr "Odebrat přítele"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove Member"
-msgstr ""
+msgstr "Odebrat člena"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
-msgstr ""
+msgstr "Odebrat avatary ostatních členů"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove reaction"
-msgstr ""
+msgstr "Odebrat reakci"
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/modal/modals/EditCategory.tsx
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename"
-msgstr ""
+msgstr "Přejmenovat"
 
 #: components/app/menus/CategoryContextMenu.tsx
 #: components/modal/modals/EditCategory.tsx
 msgid "Rename category"
-msgstr ""
+msgstr "Přejmenovat kategorii"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
@@ -2674,7 +2646,7 @@ msgstr "Obnovit heslo"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Reset Recovery Codes"
-msgstr ""
+msgstr "Resetovat obnovovací kódy"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Reset Token"
@@ -2682,7 +2654,7 @@ msgstr "Obnovit Token"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Responsibly disclosed security issues"
-msgstr ""
+msgstr "Zodpovědně uzavíral bezpečnostní problémy"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
@@ -2694,7 +2666,7 @@ msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Revenge or underage pornography"
-msgstr ""
+msgstr "Pomsta nebo nezletilé pornografie"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Review policy changes"
@@ -2705,11 +2677,11 @@ msgstr ""
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Colour"
-msgstr ""
+msgstr "Barva role"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Icon"
-msgstr ""
+msgstr "Ikona role"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/modal/modals/CreateRole.tsx
@@ -2741,11 +2713,11 @@ msgstr "Uložit"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Save file"
-msgstr ""
+msgstr "Uložit soubor"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Save permissions"
-msgstr ""
+msgstr "Uložit oprávnění"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
@@ -2758,33 +2730,33 @@ msgstr "Poznámky"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Saving…"
-msgstr ""
+msgstr "Uložím…"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Scams or fraud"
-msgstr ""
+msgstr "Podvody nebo padělky"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Screen Share Settings"
-msgstr ""
+msgstr "Nastavení sdílení obrazovky"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Screen Share Volume"
-msgstr ""
+msgstr "Hlasitost sdílení obrazovky"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
-msgstr ""
+msgstr "Hledat"
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
-msgstr ""
+msgstr "Hledat skupiny..."
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
-msgstr ""
+msgstr "Hledat uživatelé..."
 
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
@@ -3462,11 +3434,9 @@ msgstr ""
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default speaker"
 #~ msgstr ""
 
