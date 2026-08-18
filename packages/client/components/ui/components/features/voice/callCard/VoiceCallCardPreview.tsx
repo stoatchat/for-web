@@ -83,7 +83,7 @@ const Avatars = styled("div", {
     height: "fit-content",
 
     "& :not(:first-child)": {
-      marginInlineStart: "-6px",
+      marginInlineStart: "-9px",
     },
   },
 });
