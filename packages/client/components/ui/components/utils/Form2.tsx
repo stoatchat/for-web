@@ -180,9 +180,7 @@ const FormFileInput = (
             files[0].size > local.maxSize
           ) {
             local.control.setErrors({
-              error: new Error(
-                t`File must be smaller than ${humanFileSize(local.maxSize)}`,
-              ),
+              error: t`File must be smaller than ${humanFileSize(local.maxSize)}`,
             });
             local.control.markTouched(true);
             return;
@@ -207,13 +205,24 @@ const FormFileInput = (
       >
         <For each={Object.keys(local.control.errors!)}>
           {(errorMsg: string) => (
-            <small>{local.control.errors![errorMsg]}</small>
+            <FileError>{local.control.errors![errorMsg]}</FileError>
           )}
         </For>
       </Show>
     </>
   );
 };
+
+const FileError = styled("div", {
+  base: {
+    background: "var(--md-sys-color-error-container)",
+    color: "var(--md-sys-color-on-error-container)",
+    borderRadius: "var(--borderRadius-sm)",
+    fontSize: "0.8125rem",
+    marginTop: "var(--gap-sm)",
+    padding: "var(--gap-sm)",
+  },
+});
 
 /**
  * Form wrapper for Checkbox
