@@ -28,6 +28,7 @@ import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Row } from "../layout";
 
 import { FileInput, humanFileSize } from "./files";
+import { Symbol } from "./Symbol";
 
 /**
  * Form wrapper for TextField
@@ -179,10 +180,10 @@ const FormFileInput = (
             local.maxSize &&
             files[0].size > local.maxSize
           ) {
+            const maxSizeFormatted = humanFileSize(local.maxSize);
+
             local.control.setErrors({
-              error: new Error(
-                t`File must be smaller than ${humanFileSize(local.maxSize)}`,
-              ),
+              error: t`File must be smaller than ${maxSizeFormatted}`,
             });
             local.control.markTouched(true);
             return;
@@ -205,15 +206,38 @@ const FormFileInput = (
           !local.hideErrors && local.control.isTouched && !local.control.isValid
         }
       >
-        <For each={Object.keys(local.control.errors!)}>
-          {(errorMsg: string) => (
-            <small>{local.control.errors![errorMsg]}</small>
-          )}
-        </For>
+        <FileError role="alert">
+          <Symbol size={18}>error</Symbol>
+          <div>
+            <For each={Object.keys(local.control.errors!)}>
+              {(errorMsg: string) => (
+                <div>{local.control.errors![errorMsg]}</div>
+              )}
+            </For>
+          </div>
+        </FileError>
       </Show>
     </>
   );
 };
+
+const FileError = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "var(--gap-sm)",
+    marginTop: "var(--gap-sm)",
+    padding: "var(--gap-sm) var(--gap-md)",
+
+    backgroundColor: "var(--md-sys-color-error-container)",
+    color: "var(--md-sys-color-on-error-container)",
+    borderRadius: "var(--borderRadius-sm)",
+    overflowWrap: "anywhere",
+
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+});
 
 /**
  * Form wrapper for Checkbox
