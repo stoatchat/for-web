@@ -218,6 +218,11 @@ class Voice {
         deviceId: this.#settings.preferredAudioOutputDevice,
       },
       videoCaptureDefaults: {
+        resolution: {
+          width: 1280,
+          height: 720,
+          frameRate: 30,
+        },
         deviceId: this.#settings.preferredVideoDevice,
       },
     });
