@@ -79,6 +79,13 @@ export default function FlowHome() {
                   </Button>
                 </Column>
               </a>
+              <a href="/login/connect">
+                <Column>
+                  <Button variant="text">
+                    <Trans>Connect to another server</Trans>
+                  </Button>
+                </Column>
+              </a>
             </Column>
           </Column>
         </>

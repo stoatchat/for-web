@@ -32,7 +32,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
 
   const [inst, setInst] = createSignal<Instance>();
 
-  //Check Stoat instance
+  // Check Stoat instance
   const host = normalizeHost(params.host);
 
   function onError(e: unknown) {
@@ -51,10 +51,9 @@ export function InstanceContext(props: { children?: JSXElement }) {
   }
 
   (async () => {
-    //Redirect default instance
-    //TODO This redirects ALL instance paths to default until multi-instance is ready
-    // Replace with `if (host === DefaultHost)` when ready
-    if (host) return nav(Instance.relPath(), { replace: true });
+    // Keep the default instance on the root route, while allowing custom
+    // instances to load their configuration from their own domain.
+    if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
 
     try {
       const appCfg: AppConfig = host

@@ -15,6 +15,7 @@ import { PublicBot, PublicChannelInvite } from "stoat.js";
 
 import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
+import FlowConnect from "@revolt/auth/src/flows/FlowConnect";
 import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
 import FlowDeleteAccount from "@revolt/auth/src/flows/FlowDelete";
 import FlowHome from "@revolt/auth/src/flows/FlowHome";
@@ -151,6 +152,7 @@ const routes = () => (
       <Route path="/create" component={FlowCreate} />
       <Route path="/create/:code" component={FlowCreate} />
       <Route path="/auth" component={FlowLogin} />
+      <Route path="/connect" component={FlowConnect} />
       <Route path="/resend" component={FlowResend} />
       <Route path="/reset" component={FlowReset} />
       <Route path="/verify/:token" component={FlowVerify} />
