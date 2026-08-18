@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.15.2](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.1...stoat-for-web-v0.15.2) (2026-08-18)
+
+
+### Bug Fixes
+
+* Default to enhanced noise suppression (rnnoise) ([#1512](https://github.com/stoatchat/for-web/issues/1512)) ([4a1c872](https://github.com/stoatchat/for-web/commit/4a1c87270a8de1e77f474fc28d278e40b4ed3ba2))
+* Limit camera to 720p ([#1513](https://github.com/stoatchat/for-web/issues/1513)) ([0c29ea9](https://github.com/stoatchat/for-web/commit/0c29ea9c7e511fb83cec7274ad853e29db3bab71))
+* limit users in voice call preview to 3, like on android ([#1509](https://github.com/stoatchat/for-web/issues/1509)) ([fc7a020](https://github.com/stoatchat/for-web/commit/fc7a020139c3c7c69f7ae785b4a2b816cd5211af))
+
 ## [0.15.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.0...stoat-for-web-v0.15.1) (2026-08-17)
 
 
