@@ -464,6 +464,34 @@ export function MessageComposition(props: Props) {
               </MessageBox.FloatingAction>
             </Show>
             <MessageBox.ActionContainer>
+              <Show
+                when={state.settings.getValue(
+                  "appearance:show_silent_typing_quick_toggle",
+                )}
+              >
+                <MessageBox.InlineIcon>
+                  <IconButton
+                    onPress={() => {
+                      state.settings.setValue(
+                        "privacy:silent_typing",
+                        !state.settings.getValue("privacy:silent_typing"),
+                      );
+                    }}
+                    use:floating={{
+                      tooltip: {
+                        placement: "top",
+                        content: t`Silent typing`,
+                      },
+                    }}
+                  >
+                    <Symbol>
+                      {state.settings.getValue("privacy:silent_typing")
+                        ? "keyboard_off"
+                        : "keyboard"}
+                    </Symbol>
+                  </IconButton>
+                </MessageBox.InlineIcon>
+              </Show>
               <CompositionMediaPicker
                 onMessage={sendMessage}
                 onTextReplacement={(text) => setNodeReplacement([text])}

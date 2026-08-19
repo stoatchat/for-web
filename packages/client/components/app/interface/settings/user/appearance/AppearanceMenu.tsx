@@ -441,6 +441,19 @@ export function AppearanceMenu() {
         >
           <Trans>Hide typing indicators from other users</Trans>
         </Checkbox>
+        <Checkbox
+          checked={state.settings.getValue(
+            "appearance:show_silent_typing_quick_toggle",
+          )}
+          onChange={(e) =>
+            state.settings.setValue(
+              "appearance:show_silent_typing_quick_toggle",
+              e.currentTarget.checked,
+            )
+          }
+        >
+          <Trans>Show silent typing toggle in message bar</Trans>
+        </Checkbox>
       </Column>
     </Column>
   );

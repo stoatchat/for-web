@@ -44,6 +44,11 @@ interface SettingsDefinition {
   "privacy:silent_typing": boolean;
 
   /**
+   * Whether to add a silent-typing quick toggle to the message composition bar
+   */
+  "appearance:show_silent_typing_quick_toggle": boolean;
+
+  /**
    * Selected unicode emoji
    */
   "appearance:unicode_emoji": UnicodeEmojiPacks;
@@ -109,6 +114,7 @@ const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "notifications:desktop": "string",
   "notifications:push": "string",
   "privacy:silent_typing": "boolean",
+  "appearance:show_silent_typing_quick_toggle": "boolean",
   "appearance:unicode_emoji": "string",
   "appearance:show_send_button": "boolean",
   "appearance:compact_mode": "boolean",
@@ -153,6 +159,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
       "notifications:desktop": "default",
       "notifications:push": "default",
       "privacy:silent_typing": false,
+      "appearance:show_silent_typing_quick_toggle": false,
       "appearance:unicode_emoji": "fluent-3d",
       "appearance:show_send_button": true,
       "appearance:compact_mode": false,
