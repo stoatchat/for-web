@@ -343,6 +343,7 @@ const Card = styled("div", {
       true: {
         height: "100%",
         borderRadius: 0,
+        background: "#000",
       },
       false: {},
     },

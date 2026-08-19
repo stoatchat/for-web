@@ -17,10 +17,13 @@ import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
  * Call card (active)
  */
 export function VoiceCallCardActiveRoom() {
+  const voice = useVoice();
+  const fullscreen = () => voice.fullscreen();
+
   return (
-    <View>
+    <View fullscreen={fullscreen()} class={fullscreen() ? "group" : undefined}>
       <Participants />
-      <VoiceCallControls>
+      <VoiceCallControls fullscreen={fullscreen()}>
         <VoiceCallControlHolder right>
           <VoiceCallFullscreen />
         </VoiceCallControlHolder>
@@ -85,7 +88,11 @@ function Participants() {
   });
 
   return (
-    <Call ref={callRef} class={voice.focusId() ? "" : scrollableStyles()}>
+    <Call
+      ref={callRef}
+      fullscreen={voice.fullscreen()}
+      class={voice.focusId() ? "" : scrollableStyles()}
+    >
       <InRoom>
         <FocusedParticipant />
         <Show when={voice.focusId()}>
@@ -114,6 +121,7 @@ function Participants() {
         </Show>
         <Grid
           focus={!!voice.focusId()}
+          fullscreen={voice.fullscreen()}
           show={voice.showBar()}
           class={voice.focusId() ? scrollableStyles({ direction: "x" }) : ""}
           style={{ "--vc-tile-width": tileWidth() }}
@@ -163,6 +171,15 @@ const View = styled("div", {
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
   },
+  variants: {
+    fullscreen: {
+      true: {
+        position: "relative",
+        gap: 0,
+        padding: 0,
+      },
+    },
+  },
 });
 
 const VoiceCallControls = styled("div", {
@@ -171,6 +188,33 @@ const VoiceCallControls = styled("div", {
     flexShrink: "0",
     overflow: "hidden",
     flexDirection: "row-reverse",
+  },
+  variants: {
+    fullscreen: {
+      true: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 10,
+        opacity: 1,
+        transition: "opacity 0.25s ease",
+        pointerEvents: "auto",
+        background:
+          "linear-gradient(transparent, color-mix(in srgb, var(--md-sys-color-scrim) 55%, transparent))",
+        paddingTop: "var(--gap-xl)",
+
+        "@media (hover: hover)": {
+          opacity: 0,
+          pointerEvents: "none",
+
+          _groupHover: {
+            opacity: 1,
+            pointerEvents: "auto",
+          },
+        },
+      },
+    },
   },
 });
 
@@ -226,6 +270,14 @@ const Call = styled("div", {
     flexGrow: 1,
     minHeight: 0,
   },
+  variants: {
+    fullscreen: {
+      true: {
+        flex: 1,
+        gap: 0,
+      },
+    },
+  },
 });
 
 const Grid = styled("div", {
@@ -250,6 +302,12 @@ const Grid = styled("div", {
           width: "auto",
           height: "100%",
         },
+      },
+    },
+    fullscreen: {
+      true: {
+        gap: 0,
+        minHeight: "100%",
       },
     },
     show: {
