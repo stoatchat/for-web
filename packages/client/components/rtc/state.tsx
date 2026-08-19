@@ -97,6 +97,8 @@ class Voice {
   private limits;
   private screenShareTracks: Set<string>;
   private stoppedWatching: Set<string>;
+  #stoppedWatchingEpoch: Accessor<number>;
+  #setStoppedWatchingEpoch: Setter<number>;
   private voiceProcessor?: VoiceProcessor;
 
   constructor(
@@ -157,6 +159,9 @@ class Voice {
 
     this.screenShareTracks = new Set();
     this.stoppedWatching = new Set();
+    const [stoppedWatchingEpoch, setStoppedWatchingEpoch] = createSignal(0);
+    this.#stoppedWatchingEpoch = stoppedWatchingEpoch;
+    this.#setStoppedWatchingEpoch = setStoppedWatchingEpoch;
 
     // Setup settings listeners
     this.settingsListeners();
@@ -320,6 +325,7 @@ class Voice {
         this.stoppedWatching.delete(
           `${Track.Source.ScreenShare}_${unpub.participantSid}`,
         );
+        this.#touchStoppedWatching();
       }
     });
 
@@ -361,6 +367,7 @@ class Voice {
 
       this.screenShareTracks = new Set();
       this.stoppedWatching = new Set();
+      this.#touchStoppedWatching();
 
       this.sound.playSound("userLeaveVoice");
     } catch (e) {
@@ -808,8 +815,22 @@ class Voice {
     this.#setShowBar((s) => !s);
   }
 
+  #touchStoppedWatching() {
+    this.#setStoppedWatchingEpoch((n) => n + 1);
+  }
+
   isWatchingStopped(t: TrackReferenceOrPlaceholder) {
+    this.#stoppedWatchingEpoch();
     return this.stoppedWatching.has(this.trackId(t));
+  }
+
+  stoppedScreenShareTrack() {
+    this.#stoppedWatchingEpoch();
+    return this.visibleVidTracks().find(
+      (t) =>
+        t.source === Track.Source.ScreenShare &&
+        this.stoppedWatching.has(this.trackId(t)),
+    );
   }
 
   #setScreenShareSubscribed(
@@ -832,6 +853,7 @@ class Voice {
   resumeWatching(t: TrackReferenceOrPlaceholder) {
     if (t.source !== Track.Source.ScreenShare) return;
     this.stoppedWatching.delete(this.trackId(t));
+    this.#touchStoppedWatching();
     this.#setScreenShareSubscribed(t, true);
   }
 
@@ -840,6 +862,7 @@ class Voice {
     if (!track || track.source !== Track.Source.ScreenShare) return;
 
     this.stoppedWatching.add(this.trackId(track));
+    this.#touchStoppedWatching();
     this.#setScreenShareSubscribed(track, false);
 
     if (this.isFocus(track)) {

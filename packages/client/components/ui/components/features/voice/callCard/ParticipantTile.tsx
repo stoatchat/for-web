@@ -71,6 +71,8 @@ export function ParticipantTile(props: TileProps) {
 
   const isVideo = () => !isVideoMuted();
   const isScreenShare = () => track.source === Track.Source.ScreenShare;
+  const watchingStopped = () =>
+    isScreenShare() && voice.isWatchingStopped(track);
   const isSpeaking = useIsSpeaking(participant);
 
   const getHeight = () => {
@@ -84,7 +86,11 @@ export function ParticipantTile(props: TileProps) {
   };
 
   return (
-    <Show when={!isScreenShare() || !isRemoteScreenShareMuted()}>
+    <Show
+      when={
+        !isScreenShare() || !isRemoteScreenShareMuted() || watchingStopped()
+      }
+    >
       <div
         class={
           tile({
@@ -95,8 +101,9 @@ export function ParticipantTile(props: TileProps) {
           }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
         }
         onClick={() => {
-          if (isScreenShare() && voice.isWatchingStopped(track)) {
+          if (watchingStopped()) {
             voice.resumeWatching(track);
+            return;
           }
           voice.toggleFocus(track);
         }}
@@ -139,9 +146,7 @@ export function ParticipantTile(props: TileProps) {
               overflow: "hidden",
             }}
             trackRef={track as TrackReference}
-            manageSubscription={
-              !isScreenShare() || !voice.isWatchingStopped(track)
-            }
+            manageSubscription={!isScreenShare() || !watchingStopped()}
             ref={videoRef}
             on:resize={() => {
               setVideoDims({
@@ -151,10 +156,13 @@ export function ParticipantTile(props: TileProps) {
             }}
           />
         </Show>
-        <Overlay showOnHover={isScreenShare()}>
+        <Overlay showOnHover={isScreenShare() && !watchingStopped()}>
           <OverlayInner>
             <OverflowingText>{user().username}</OverflowingText>
             <Row gap="md">
+              <Show when={watchingStopped()}>
+                <Symbol size={18}>play_circle</Symbol>
+              </Show>
               {isScreenShare() ? (
                 <Show when={isScreenShareAudioUserMuted()}>
                   <Symbol
