@@ -81,7 +81,11 @@ export function VoiceCallCardActiveRoom() {
       <Show when={fullscreen() && voice.focusId()}>
         <FocusBarControls />
       </Show>
-      <VoiceCallControls fullscreen={fullscreen()} visible={visible()}>
+      <VoiceCallControls
+        fullscreen={fullscreen()}
+        visible={visible()}
+        onPointerDown={() => fullscreen() && revealControls()}
+      >
         <VoiceCallControlHolder right>
           <VoiceCallVideoOnlyFilter />
           <VoiceCallFullscreen />

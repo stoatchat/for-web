@@ -128,7 +128,7 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       <Button
         size={props.size}
         variant="_error"
-        onPress={() => voice.disconnect()}
+        onPress={() => void voice.disconnect()}
         use:floating={{
           tooltip: {
             placement: "top",
@@ -148,6 +148,7 @@ const Actions = styled("div", {
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
     zIndex: 2,
+    pointerEvents: "auto",
 
     display: "flex",
     width: "fit-content",
