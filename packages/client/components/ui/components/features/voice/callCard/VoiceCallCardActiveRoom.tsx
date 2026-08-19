@@ -1,7 +1,14 @@
 import { useLingui } from "@lingui/solid/macro";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Track } from "livekit-client";
-import { createEffect, For, onMount, Show } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import { TrackLoop } from "solid-livekit-components";
 import { styled } from "styled-system/jsx";
 
@@ -14,17 +21,67 @@ import { ParticipantTile, tile } from "./ParticipantTile";
 import { VoiceCallCardActions } from "./VoiceCallCardActions";
 import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 
+const CONTROLS_IDLE_MS = 4000;
+
+function useIdleVoiceControls(fullscreen: () => boolean) {
+  const [visible, setVisible] = createSignal(true);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+
+  const canIdleHide = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover)").matches;
+
+  function clearTimer() {
+    if (timer) {
+      clearTimeout(timer);
+      timer = undefined;
+    }
+  }
+
+  function scheduleHide() {
+    clearTimer();
+    if (!fullscreen() || !canIdleHide()) return;
+    timer = setTimeout(() => setVisible(false), CONTROLS_IDLE_MS);
+  }
+
+  function revealControls() {
+    setVisible(true);
+    scheduleHide();
+  }
+
+  createEffect(() => {
+    if (fullscreen()) {
+      setVisible(true);
+      scheduleHide();
+    } else {
+      clearTimer();
+      setVisible(true);
+    }
+  });
+
+  onCleanup(clearTimer);
+
+  return { visible, revealControls };
+}
+
 /**
  * Call card (active)
  */
 export function VoiceCallCardActiveRoom() {
   const voice = useVoice();
   const fullscreen = () => voice.fullscreen();
+  const { visible, revealControls } = useIdleVoiceControls(fullscreen);
 
   return (
-    <View fullscreen={fullscreen()} class={fullscreen() ? "group" : undefined}>
+    <View
+      fullscreen={fullscreen()}
+      onPointerMove={() => fullscreen() && revealControls()}
+    >
       <Participants />
-      <VoiceCallControls fullscreen={fullscreen()}>
+      <Show when={fullscreen() && voice.focusId()}>
+        <FocusBarControls />
+      </Show>
+      <VoiceCallControls fullscreen={fullscreen()} visible={visible()}>
         <VoiceCallControlHolder right>
           <VoiceCallVideoOnlyFilter />
           <VoiceCallFullscreen />
@@ -35,6 +92,71 @@ export function VoiceCallCardActiveRoom() {
         </VoiceCallControlHolder>
       </VoiceCallControls>
     </View>
+  );
+}
+
+function FocusBarControlsButtons() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <>
+      <Show when={voice.focusTrack()?.source === Track.Source.ScreenShare}>
+        <IconButton
+          size="xs"
+          variant={"tonal"}
+          onPress={() => voice.stopWatchingLive()}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content: t`Stop watching`,
+            },
+          }}
+        >
+          <Symbol>stop_screen_share</Symbol>
+        </IconButton>
+      </Show>
+      <IconButton
+        size="xs"
+        variant={"tonal"}
+        onPress={() => voice.toggleShowBar()}
+        use:floating={{
+          tooltip: {
+            placement: "top",
+            content: voice.showBar() ? t`Hide Others` : t`Show Others`,
+          },
+        }}
+      >
+        <Show
+          when={voice.showBar()}
+          fallback={<Symbol>keyboard_arrow_up</Symbol>}
+        >
+          <Symbol>keyboard_arrow_down</Symbol>
+        </Show>
+      </IconButton>
+    </>
+  );
+}
+
+function FocusBarControls() {
+  return (
+    <FocusBarControlsHolder>
+      <FocusBarControlsButtons />
+    </FocusBarControlsHolder>
+  );
+}
+
+function FocusBarControlsInline() {
+  return (
+    <div
+      style={{
+        "margin-bottom": "10px",
+        display: "flex",
+        gap: "var(--gap-sm)",
+      }}
+    >
+      <FocusBarControlsButtons />
+    </div>
   );
 }
 
@@ -152,51 +274,9 @@ function Participants() {
             </IconButton>
           </ShowBarButtonHolder>
         </Show>
-        <Show when={voice.focusId()}>
+        <Show when={voice.focusId() && !voice.fullscreen()}>
           <ShowBarButtonHolder>
-            <div
-              style={{
-                "margin-bottom": "10px",
-                display: "flex",
-                gap: "var(--gap-sm)",
-              }}
-            >
-              <Show
-                when={voice.focusTrack()?.source === Track.Source.ScreenShare}
-              >
-                <IconButton
-                  size="xs"
-                  variant={"tonal"}
-                  onPress={() => voice.stopWatchingLive()}
-                  use:floating={{
-                    tooltip: {
-                      placement: "top",
-                      content: t`Stop watching`,
-                    },
-                  }}
-                >
-                  <Symbol>stop_screen_share</Symbol>
-                </IconButton>
-              </Show>
-              <IconButton
-                size="xs"
-                variant={"tonal"}
-                onPress={() => voice.toggleShowBar()}
-                use:floating={{
-                  tooltip: {
-                    placement: "top",
-                    content: voice.showBar() ? t`Hide Others` : t`Show Others`,
-                  },
-                }}
-              >
-                <Show
-                  when={voice.showBar()}
-                  fallback={<Symbol>keyboard_arrow_up</Symbol>}
-                >
-                  <Symbol>keyboard_arrow_down</Symbol>
-                </Show>
-              </IconButton>
-            </div>
+            <FocusBarControlsInline />
           </ShowBarButtonHolder>
         </Show>
         <Grid
@@ -279,23 +359,54 @@ const VoiceCallControls = styled("div", {
         left: 0,
         right: 0,
         zIndex: 10,
-        opacity: 1,
         transition: "opacity 0.25s ease",
-        pointerEvents: "auto",
         background:
           "linear-gradient(transparent, color-mix(in srgb, var(--md-sys-color-scrim) 55%, transparent))",
         paddingTop: "var(--gap-xl)",
-
-        "@media (hover: hover)": {
-          opacity: 0,
-          pointerEvents: "none",
-
-          _groupHover: {
-            opacity: 1,
-            pointerEvents: "auto",
-          },
-        },
       },
+    },
+    visible: {
+      true: {},
+      false: {},
+    },
+  },
+  compoundVariants: [
+    {
+      fullscreen: true,
+      visible: true,
+      css: {
+        opacity: 1,
+        pointerEvents: "auto",
+      },
+    },
+    {
+      fullscreen: true,
+      visible: false,
+      css: {
+        opacity: 0,
+        pointerEvents: "none",
+      },
+    },
+  ],
+  defaultVariants: {
+    visible: true,
+  },
+});
+
+const FocusBarControlsHolder = styled("div", {
+  base: {
+    position: "absolute",
+    bottom: "72px",
+    left: 0,
+    right: 0,
+    zIndex: 15,
+    display: "flex",
+    justifyContent: "center",
+    gap: "var(--gap-sm)",
+    pointerEvents: "none",
+
+    "& button, & [role=button]": {
+      pointerEvents: "auto",
     },
   },
 });
