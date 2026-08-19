@@ -4,6 +4,7 @@ export { useVoice, VoiceContext } from "./state";
 
 export { InRoom } from "./components/InRoom";
 export { RoomAudioManager } from "./components/RoomAudioManager";
+export { useIsDeafened } from "./hooks/useIsDeafened";
 export { stoatSinkName } from "./virtualMic";
 
 const originalMediaCall = navigator.mediaDevices.getDisplayMedia;

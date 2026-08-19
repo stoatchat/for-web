@@ -14,7 +14,7 @@ import { Track } from "livekit-client";
 import { styled } from "styled-system/jsx";
 
 import { useUser } from "@revolt/markdown/users";
-import { useVoice } from "@revolt/rtc";
+import { useIsDeafened, useVoice } from "@revolt/rtc";
 import { Avatar } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -64,6 +64,7 @@ function ConnectedUser() {
   });
 
   const isSpeaking = useIsSpeaking(participant);
+  const isDeafened = useIsDeafened(participant);
   const user = useUser(participant.identity);
 
   return (
@@ -74,8 +75,15 @@ function ConnectedUser() {
         fallback={user().username}
         shape="square"
       />
-      <Show when={isMuted()}>
-        <Symbol background="rgba(0,0,0,.5)">mic_off</Symbol>
+      <Show
+        when={isDeafened()}
+        fallback={
+          <Show when={isMuted()}>
+            <Symbol background="rgba(0,0,0,.5)">mic_off</Symbol>
+          </Show>
+        }
+      >
+        <Symbol background="rgba(0,0,0,.5)">headset_off</Symbol>
       </Show>
     </UserIcon>
   );
