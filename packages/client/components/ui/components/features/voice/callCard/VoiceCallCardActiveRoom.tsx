@@ -1,8 +1,8 @@
 import { useLingui } from "@lingui/solid/macro";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
+import { Track } from "livekit-client";
 import { createEffect, For, onMount, Show } from "solid-js";
 import { TrackLoop } from "solid-livekit-components";
-import { Track } from "livekit-client";
 import { styled } from "styled-system/jsx";
 
 import { InRoom, useVoice } from "@revolt/rtc";
@@ -131,6 +131,26 @@ function Participants() {
     >
       <InRoom>
         <FocusedParticipant />
+        <Show when={voice.stoppedScreenShareTrack() && !voice.focusId()}>
+          <ShowBarButtonHolder>
+            <IconButton
+              size="xs"
+              variant={"tonal"}
+              onPress={() => {
+                const track = voice.stoppedScreenShareTrack();
+                if (track) voice.resumeWatching(track);
+              }}
+              use:floating={{
+                tooltip: {
+                  placement: "top",
+                  content: t`Resume watching`,
+                },
+              }}
+            >
+              <Symbol>play_circle</Symbol>
+            </IconButton>
+          </ShowBarButtonHolder>
+        </Show>
         <Show when={voice.focusId()}>
           <ShowBarButtonHolder>
             <div
@@ -140,7 +160,9 @@ function Participants() {
                 gap: "var(--gap-sm)",
               }}
             >
-              <Show when={voice.focusTrack()?.source === Track.Source.ScreenShare}>
+              <Show
+                when={voice.focusTrack()?.source === Track.Source.ScreenShare}
+              >
                 <IconButton
                   size="xs"
                   variant={"tonal"}
