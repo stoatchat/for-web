@@ -22,6 +22,8 @@ export function VoiceCallCardActiveRoom() {
       <Participants />
       <VoiceCallControls>
         <VoiceCallControlHolder right>
+          <VoiceCallInternalCollapse />
+          <VoiceCallInternalExpand />
           <VoiceCallFullscreen />
         </VoiceCallControlHolder>
         <VoiceCallCardActions size="sm" />
@@ -30,6 +32,64 @@ export function VoiceCallCardActiveRoom() {
         </VoiceCallControlHolder>
       </VoiceCallControls>
     </View>
+  );
+}
+
+/** Compact call card that leaves only call actions available. */
+export function VoiceCallCardCollapsed() {
+  return (
+    <CompactView>
+      <VoiceCallCardActions size="sm" compact />
+    </CompactView>
+  );
+}
+
+function VoiceCallInternalCollapse() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <IconButton
+      size="sm"
+      variant="standard"
+      onPress={() => voice.toggleInternalCollapsed()}
+      use:floating={{
+        tooltip: {
+          placement: "top",
+          content: t`Compact call controls`,
+        },
+      }}
+    >
+      <Symbol>unfold_less</Symbol>
+    </IconButton>
+  );
+}
+
+function VoiceCallInternalExpand() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <IconButton
+      size="sm"
+      variant="standard"
+      onPress={() => voice.toggleInternalExpanded()}
+      use:floating={{
+        tooltip: {
+          placement: "top",
+          content: voice.internalExpanded()
+            ? t`Collapse call view`
+            : t`Expand call view`,
+        },
+      }}
+    >
+      <Show
+        when={voice.internalExpanded()}
+        fallback={<Symbol>open_in_full</Symbol>}
+      >
+        <Symbol>close_fullscreen</Symbol>
+      </Show>
+    </IconButton>
   );
 }
 
@@ -162,6 +222,14 @@ const View = styled("div", {
     flexDirection: "column",
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
+  },
+});
+
+const CompactView = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

@@ -79,6 +79,12 @@ class Voice {
   fullscreen: Accessor<boolean>;
   #setFullscreen: Setter<boolean>;
 
+  internalExpanded: Accessor<boolean>;
+  #setInternalExpanded: Setter<boolean>;
+
+  internalCollapsed: Accessor<boolean>;
+  #setInternalCollapsed: Setter<boolean>;
+
   focusId: Accessor<string | undefined>;
   #setFocus: Setter<string | undefined>;
 
@@ -132,6 +138,14 @@ class Voice {
     const [fullscreen, setFullscreen] = createSignal(false);
     this.fullscreen = fullscreen;
     this.#setFullscreen = setFullscreen;
+
+    const [internalExpanded, setInternalExpanded] = createSignal(false);
+    this.internalExpanded = internalExpanded;
+    this.#setInternalExpanded = setInternalExpanded;
+
+    const [internalCollapsed, setInternalCollapsed] = createSignal(false);
+    this.internalCollapsed = internalCollapsed;
+    this.#setInternalCollapsed = setInternalCollapsed;
 
     const [focus, setFocus] = createSignal<string>();
     this.focusId = focus;
@@ -331,6 +345,8 @@ class Voice {
         this.#setRoom();
         this.#setChannel();
         this.#setFullscreen(false);
+        this.#setInternalExpanded(false);
+        this.#setInternalCollapsed(false);
         this.vidTracks = () => [];
       });
 
@@ -626,7 +642,26 @@ class Voice {
   }
 
   toggleFullscreen(fullscreen: boolean = !this.fullscreen()) {
+    if (fullscreen) {
+      this.#setInternalExpanded(false);
+      this.#setInternalCollapsed(false);
+    }
     this.#setFullscreen(fullscreen);
+  }
+
+  /** Expand the call and channel view without using browser fullscreen. */
+  toggleInternalExpanded(expanded: boolean = !this.internalExpanded()) {
+    if (expanded) this.#setInternalCollapsed(false);
+    this.#setInternalExpanded(expanded);
+  }
+
+  /** Collapse the call card while keeping the call actions accessible. */
+  toggleInternalCollapsed(collapsed: boolean = !this.internalCollapsed()) {
+    if (collapsed) {
+      this.#setFullscreen(false);
+      this.#setInternalExpanded(false);
+    }
+    this.#setInternalCollapsed(collapsed);
   }
 
   trackId(t: TrackReferenceOrPlaceholder) {

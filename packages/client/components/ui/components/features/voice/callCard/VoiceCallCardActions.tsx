@@ -10,7 +10,10 @@ import { useState } from "@revolt/state";
 import { Button, IconButton } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
+export function VoiceCallCardActions(props: {
+  size: "xs" | "sm";
+  compact?: boolean;
+}) {
   const voice = useVoice();
   const state = useState();
   const navigate = useNavigate();
@@ -35,6 +38,21 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
           }}
         >
           <Symbol>arrow_top_left</Symbol>
+        </IconButton>
+      </Show>
+      <Show when={props.compact}>
+        <IconButton
+          variant="standard"
+          size={props.size}
+          onPress={() => voice.toggleInternalCollapsed(false)}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content: t`Expand call controls`,
+            },
+          }}
+        >
+          <Symbol>unfold_more</Symbol>
         </IconButton>
       </Show>
       <IconButton

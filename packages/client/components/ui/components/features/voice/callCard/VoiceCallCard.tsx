@@ -20,7 +20,10 @@ import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
-import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
+import {
+  VoiceCallCardActiveRoom,
+  VoiceCallCardCollapsed,
+} from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
 
@@ -30,6 +33,8 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 type Info = {
   channel: Channel;
   pos: DOMRect;
+  container: DOMRect;
+  contentHeight: number;
   drawer?: SlideState;
 };
 
@@ -109,10 +114,21 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     if (voice.fullscreen()) {
       sty.transform = ``;
       sty.width = `100%`;
+      sty.height = "";
+      setMode();
+    } else if (
+      voice.internalExpanded() &&
+      inf?.container &&
+      (!inf.drawer || inf.drawer === SlideState.SHOWN)
+    ) {
+      sty.transform = `translate(${inf.container.x}px, ${inf.container.y}px)`;
+      sty.width = `${inf.container.width}px`;
+      sty.height = `${inf.contentHeight}px`;
       setMode();
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
+      sty.height = "";
       setMode();
     } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
@@ -170,6 +186,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
           mode={mode()}
           onPointerDown={mouseDown}
           fullscreen={voice.fullscreen()}
+          expanded={voice.internalExpanded()}
         >
           <Switch>
             <Match when={mode() && inCall()}>
@@ -181,6 +198,8 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
                 inCall={inCall()}
                 showCard={voice.showCard(channel()!)}
                 fullscreen={voice.fullscreen()}
+                expanded={voice.internalExpanded()}
+                collapsed={voice.internalCollapsed()}
               />
             </Match>
           </Switch>
@@ -216,6 +235,10 @@ const Float = styled("div", {
       },
       false: {},
     },
+    expanded: {
+      true: {},
+      false: {},
+    },
   },
   compoundVariants: [
     {
@@ -239,11 +262,14 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
 
   function updateInfo() {
     const vc = voice.channel();
+    const container = ref!.parentElement!.getBoundingClientRect();
     setInfo(
       !vc || vc.id === props.channel.id
         ? {
             channel: props.channel,
             pos: ref!.getBoundingClientRect(),
+            container,
+            contentHeight: container.height,
             drawer: state.appDrawer()?.state,
           }
         : undefined,
@@ -273,16 +299,25 @@ function VoiceCallCard(props: {
   inCall: boolean;
   showCard: boolean;
   fullscreen: boolean;
+  expanded: boolean;
+  collapsed: boolean;
 }) {
   return (
     <Show when={props.showCard}>
-      <Base fullscreen={props.fullscreen}>
-        <Card active={props.inCall} fullscreen={props.fullscreen}>
+      <Base fullscreen={props.fullscreen} expanded={props.expanded}>
+        <Card
+          active={props.inCall}
+          fullscreen={props.fullscreen}
+          expanded={props.expanded}
+          collapsed={props.collapsed}
+        >
           <Show
             when={props.inCall}
             fallback={<VoiceCallCardPreview channel={props.channel} />}
           >
-            <VoiceCallCardActiveRoom />
+            <Show when={props.collapsed} fallback={<VoiceCallCardActiveRoom />}>
+              <VoiceCallCardCollapsed />
+            </Show>
           </Show>
         </Card>
       </Base>
@@ -313,6 +348,14 @@ const Base = styled("div", {
         height: "100%",
         padding: 0,
       },
+    },
+    expanded: {
+      true: {
+        top: 0,
+        height: "100%",
+        padding: 0,
+      },
+      false: {},
     },
   },
 });
@@ -346,11 +389,27 @@ const Card = styled("div", {
       },
       false: {},
     },
+    expanded: {
+      true: {
+        height: "100%",
+      },
+      false: {},
+    },
+    collapsed: {
+      true: {
+        width: "fit-content",
+        height: "auto",
+        background: "transparent",
+      },
+      false: {},
+    },
   },
   compoundVariants: [
     {
       active: [true],
       fullscreen: [false],
+      expanded: [false],
+      collapsed: [false],
       css: {
         height: "40vh",
       },
