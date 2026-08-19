@@ -174,7 +174,7 @@ class Voice {
     const setNoiseSuppression = (noiseSuppression: NoiseSuppresionState) => {
       const track = this.getMicrophoneTrack()?.audioTrack;
       if (track) {
-        if (noiseSuppression === "browser") {
+        if (noiseSuppression !== "disabled") {
           track.constraints.noiseSuppression = true;
           //@ts-expect-error voiceIsolation is not yet standard, but it supported by livekit and most chromium based browsers, including electron.
           track.constraints.voiceIsolation = true;
@@ -210,9 +210,12 @@ class Voice {
       audioCaptureDefaults: {
         deviceId: this.#settings.preferredAudioInputDevice,
         echoCancellation: this.#settings.echoCancellation,
-        noiseSuppression: this.#settings.noiseSupression === "browser",
+        // Keep the browser's voice-isolation stage enabled before the optional
+        // RNNoise processor. Combining both is more effective at suppressing
+        // transient sounds such as keyboard clicks than RNNoise alone.
+        noiseSuppression: this.#settings.noiseSupression !== "disabled",
         autoGainControl: this.#settings.autoGainControl,
-        voiceIsolation: this.#settings.noiseSupression === "browser",
+        voiceIsolation: this.#settings.noiseSupression !== "disabled",
       },
       audioOutput: {
         deviceId: this.#settings.preferredAudioOutputDevice,

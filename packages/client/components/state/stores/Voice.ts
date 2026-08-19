@@ -7,10 +7,19 @@ import { AbstractStore } from ".";
  */
 export type NoiseSuppresionState = "disabled" | "browser" | "enhanced";
 
+/** Intensity of the residual-noise gate used with RNNoise. */
+export type NoiseSuppressionLevel = "low" | "medium" | "high";
+
 const NoiseSuppresionStates: NoiseSuppresionState[] = [
   "disabled",
   "browser",
   "enhanced",
+];
+
+const NoiseSuppressionLevels: NoiseSuppressionLevel[] = [
+  "low",
+  "medium",
+  "high",
 ];
 
 /**
@@ -34,6 +43,7 @@ export interface TypeVoice {
 
   echoCancellation: boolean;
   noiseSupression: NoiseSuppresionState;
+  noiseSuppressionLevel: NoiseSuppressionLevel;
   autoGainControl: boolean;
 
   screenShareQuality: ScreenShareQualityName;
@@ -78,6 +88,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
     return {
       echoCancellation: true,
       noiseSupression: "browser",
+      noiseSuppressionLevel: "high",
       autoGainControl: true,
       screenShareQuality: "low",
       screenShareQualityAsk: true,
@@ -129,6 +140,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
 
     if (typeof input.autoGainControl === "boolean") {
       data.autoGainControl = input.autoGainControl;
+    }
+
+    if (
+      input.noiseSuppressionLevel &&
+      NoiseSuppressionLevels.includes(input.noiseSuppressionLevel)
+    ) {
+      data.noiseSuppressionLevel = input.noiseSuppressionLevel;
     }
 
     if (
@@ -306,6 +324,11 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
     this.set("noiseSupression", value);
   }
 
+  /** Set the intensity of the RNNoise residual-noise gate. */
+  set noiseSuppressionLevel(value: NoiseSuppressionLevel) {
+    this.set("noiseSuppressionLevel", value);
+  }
+
   /**
    * Set auto gain control
    */
@@ -395,6 +418,11 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get noiseSupression(): NoiseSuppresionState | undefined {
     return this.get().noiseSupression;
+  }
+
+  /** Get the intensity of the RNNoise residual-noise gate. */
+  get noiseSuppressionLevel(): NoiseSuppressionLevel | undefined {
+    return this.get().noiseSuppressionLevel;
   }
 
   /**

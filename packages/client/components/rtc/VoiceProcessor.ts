@@ -16,6 +16,9 @@ export class VoiceProcessor implements TrackProcessor<
   private settings: Voice;
 
   private noiseSuppressionNode?: RNNoiseNode;
+  private noiseGateNode?: ScriptProcessorNode;
+  private noiseGateActiveFrames = 0;
+  private noiseGateHoldFrames = 0;
   private sourceNode?: MediaStreamAudioSourceNode;
   private highpassNode?: BiquadFilterNode;
   private compressorNode?: DynamicsCompressorNode;
@@ -93,6 +96,7 @@ export class VoiceProcessor implements TrackProcessor<
   private updateNoiseSuppression(context: AudioContext) {
     if (this.noiseSuppressionNode) {
       this.compressorNode?.disconnect();
+      this.noiseGateNode?.disconnect();
       this.noiseSuppressionNode.disconnect();
       this.highpassNode?.disconnect();
       this.sourceNode?.disconnect();
@@ -108,6 +112,47 @@ export class VoiceProcessor implements TrackProcessor<
       this.noiseSuppressionNode = new RNNoiseNode(this.audioContext!);
       this.highpassNode.connect(this.noiseSuppressionNode);
 
+      this.noiseGateNode = context.createScriptProcessor(1024, 1, 1);
+      this.noiseGateNode.onaudioprocess = (event) => {
+        const input = event.inputBuffer.getChannelData(0);
+        let power = 0;
+        for (const sample of input) power += sample * sample;
+
+        const level = 20 * Math.log10(Math.sqrt(power / input.length) + 1e-8);
+        const gate = {
+          low: { threshold: -64, attackFrames: 1 },
+          medium: { threshold: -56, attackFrames: 2 },
+          high: { threshold: -42, attackFrames: 4 },
+        }[this.settings.noiseSuppressionLevel ?? "high"];
+
+        // A keyboard click is typically a very short spike. Requiring the
+        // signal to remain above the threshold before opening the gate keeps
+        // those spikes out while allowing sustained speech through.
+        if (level >= gate.threshold) {
+          this.noiseGateActiveFrames++;
+          if (this.noiseGateActiveFrames >= gate.attackFrames) {
+            // Keep the gate open through natural pauses between words. This
+            // retains the aggressive keyboard rejection on entry without
+            // clipping speech that briefly drops below the threshold.
+            this.noiseGateHoldFrames = 20;
+          }
+        } else {
+          this.noiseGateActiveFrames = 0;
+        }
+
+        const gain = this.noiseGateHoldFrames > 0 ? 1 : 0;
+        this.noiseGateHoldFrames = Math.max(0, this.noiseGateHoldFrames - 1);
+
+        for (
+          let channel = 0;
+          channel < event.outputBuffer.numberOfChannels;
+          channel++
+        ) {
+          const output = event.outputBuffer.getChannelData(channel);
+          for (let i = 0; i < input.length; i++) output[i] = input[i] * gain;
+        }
+      };
+
       // Create a new dynamics compressor
       this.compressorNode = context.createDynamicsCompressor();
       this.compressorNode.threshold.value = -3;
@@ -115,7 +160,8 @@ export class VoiceProcessor implements TrackProcessor<
       this.compressorNode.ratio.value = 20;
       this.compressorNode.attack.value = 0.003;
       this.compressorNode.release.value = 0.05;
-      this.noiseSuppressionNode.connect(this.compressorNode);
+      this.noiseSuppressionNode.connect(this.noiseGateNode);
+      this.noiseGateNode.connect(this.compressorNode);
 
       // Connect the compressor to the output gain
       this.compressorNode.connect(this.gainNode!);
@@ -124,6 +170,7 @@ export class VoiceProcessor implements TrackProcessor<
     } else {
       // Bypass noise suppression and remove all unused nodes
       this.compressorNode = undefined;
+      this.noiseGateNode = undefined;
       this.noiseSuppressionNode = undefined;
       this.highpassNode = undefined;
       this.sourceNode!.connect(this.gainNode!);
@@ -163,12 +210,16 @@ export class VoiceProcessor implements TrackProcessor<
     this.sourceNode?.disconnect();
     this.highpassNode?.disconnect();
     this.noiseSuppressionNode?.disconnect();
+    this.noiseGateNode?.disconnect();
     this.compressorNode?.disconnect();
     this.gainNode?.disconnect();
     this.destinationNode?.disconnect();
     this.sourceNode = undefined;
     this.highpassNode = undefined;
     this.noiseSuppressionNode = undefined;
+    this.noiseGateNode = undefined;
+    this.noiseGateActiveFrames = 0;
+    this.noiseGateHoldFrames = 0;
     this.compressorNode = undefined;
     this.gainNode = undefined;
     this.destinationNode = undefined;
