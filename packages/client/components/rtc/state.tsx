@@ -16,6 +16,7 @@ import {
 
 import {
   LocalTrackPublication,
+  RemoteTrackPublication,
   Room,
   ScreenSharePresets,
   Track,
@@ -88,6 +89,7 @@ class Voice {
   private config;
   private limits;
   private screenShareTracks: Set<string>;
+  private stoppedWatching: Set<string>;
   private voiceProcessor?: VoiceProcessor;
 
   constructor(
@@ -143,6 +145,7 @@ class Voice {
     this.openModal = modals.openModal;
 
     this.screenShareTracks = new Set();
+    this.stoppedWatching = new Set();
 
     // Setup settings listeners
     this.settingsListeners();
@@ -298,6 +301,11 @@ class Voice {
         this.sound.playSound("streamEnd");
         this.screenShareTracks.delete(unpub.trackSid);
       }
+      if (unpub.source === Track.Source.ScreenShare) {
+        this.stoppedWatching.delete(
+          `${Track.Source.ScreenShare}_${unpub.participantSid}`,
+        );
+      }
     });
 
     // Gather latency
@@ -336,6 +344,7 @@ class Voice {
       });
 
       this.screenShareTracks = new Set();
+      this.stoppedWatching = new Set();
 
       this.sound.playSound("userLeaveVoice");
     } catch (e) {
@@ -756,6 +765,45 @@ class Voice {
 
   toggleShowBar() {
     this.#setShowBar((s) => !s);
+  }
+
+  isWatchingStopped(t: TrackReferenceOrPlaceholder) {
+    return this.stoppedWatching.has(this.trackId(t));
+  }
+
+  #setScreenShareSubscribed(
+    track: TrackReferenceOrPlaceholder,
+    subscribed: boolean,
+  ) {
+    const publication = track.publication;
+    if (!(publication instanceof RemoteTrackPublication)) return;
+
+    publication.setSubscribed(subscribed);
+
+    const audioPublication = track.participant.getTrackPublication(
+      Track.Source.ScreenShareAudio,
+    );
+    if (audioPublication instanceof RemoteTrackPublication) {
+      audioPublication.setSubscribed(subscribed);
+    }
+  }
+
+  resumeWatching(t: TrackReferenceOrPlaceholder) {
+    if (t.source !== Track.Source.ScreenShare) return;
+    this.stoppedWatching.delete(this.trackId(t));
+    this.#setScreenShareSubscribed(t, true);
+  }
+
+  stopWatchingLive(t?: TrackReferenceOrPlaceholder) {
+    const track = t ?? this.focusTrack();
+    if (!track || track.source !== Track.Source.ScreenShare) return;
+
+    this.stoppedWatching.add(this.trackId(track));
+    this.#setScreenShareSubscribed(track, false);
+
+    if (this.isFocus(track)) {
+      this.toggleFocus();
+    }
   }
 
   getConnectedUser(userId: string) {

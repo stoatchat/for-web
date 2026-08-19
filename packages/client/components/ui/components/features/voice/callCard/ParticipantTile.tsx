@@ -94,7 +94,12 @@ export function ParticipantTile(props: TileProps) {
             ...props,
           }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
         }
-        onClick={() => voice.toggleFocus(track)}
+        onClick={() => {
+          if (isScreenShare() && voice.isWatchingStopped(track)) {
+            voice.resumeWatching(track);
+          }
+          voice.toggleFocus(track);
+        }}
         use:floating={{
           // TODO: Conflicts with focusing, maybe only show if clicking name itself
           //   userCard: {
@@ -134,7 +139,9 @@ export function ParticipantTile(props: TileProps) {
               overflow: "hidden",
             }}
             trackRef={track as TrackReference}
-            manageSubscription={true}
+            manageSubscription={
+              !isScreenShare() || !voice.isWatchingStopped(track)
+            }
             ref={videoRef}
             on:resize={() => {
               setVideoDims({

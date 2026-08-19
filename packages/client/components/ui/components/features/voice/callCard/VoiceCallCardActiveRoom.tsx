@@ -2,6 +2,7 @@ import { useLingui } from "@lingui/solid/macro";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { createEffect, For, onMount, Show } from "solid-js";
 import { TrackLoop } from "solid-livekit-components";
+import { Track } from "livekit-client";
 import { styled } from "styled-system/jsx";
 
 import { InRoom, useVoice } from "@revolt/rtc";
@@ -90,7 +91,28 @@ function Participants() {
         <FocusedParticipant />
         <Show when={voice.focusId()}>
           <ShowBarButtonHolder>
-            <div style={{ "margin-bottom": "10px" }}>
+            <div
+              style={{
+                "margin-bottom": "10px",
+                display: "flex",
+                gap: "var(--gap-sm)",
+              }}
+            >
+              <Show when={voice.focusTrack()?.source === Track.Source.ScreenShare}>
+                <IconButton
+                  size="xs"
+                  variant={"tonal"}
+                  onPress={() => voice.stopWatchingLive()}
+                  use:floating={{
+                    tooltip: {
+                      placement: "top",
+                      content: t`Stop watching`,
+                    },
+                  }}
+                >
+                  <Symbol>stop_screen_share</Symbol>
+                </IconButton>
+              </Show>
               <IconButton
                 size="xs"
                 variant={"tonal"}
