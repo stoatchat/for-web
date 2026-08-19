@@ -19,8 +19,10 @@ import {
   LocalTrackPublication,
   RemoteTrackPublication,
   Room,
+  RoomEvent,
   ScreenSharePresets,
   Track,
+  TrackPublication,
 } from "livekit-client";
 import { Channel } from "stoat.js";
 
@@ -100,6 +102,8 @@ class Voice {
   #stoppedWatchingEpoch: Accessor<number>;
   #setStoppedWatchingEpoch: Setter<number>;
   private voiceProcessor?: VoiceProcessor;
+  #audioToggleInFlight: Promise<void> = Promise.resolve();
+  #applyingMicFromRoom = false;
 
   constructor(
     voiceSettings: VoiceSettings,
@@ -262,14 +266,13 @@ class Voice {
       this.#setScreenshare(false);
     });
 
-    room.addListener("connected", () => {
+    this.#setupLocalAudioSyncListeners(room);
+
+    room.addListener(RoomEvent.Connected, () => {
       this.#setState("CONNECTED");
-      if (this.speakingPermission)
-        room.localParticipant
-          .setMicrophoneEnabled(this.#settings.micOn)
-          .then((track) => {
-            this.#settings.micOn = track != null;
-          });
+      if (this.speakingPermission) {
+        void this.#applyDesiredMicState();
+      }
       for (const p of room.remoteParticipants.values()) {
         const screenShareTrack = p.getTrackPublication(
           Track.Source.ScreenShare,
@@ -281,9 +284,20 @@ class Voice {
       this.sound.playSound("userJoinVoice");
     });
 
-    room.addListener("disconnected", () => this.#setState("DISCONNECTED"));
+    room.addListener(RoomEvent.Disconnected, () =>
+      this.#setState("DISCONNECTED"),
+    );
 
-    room.addListener("localTrackPublished", (pub) => {
+    room.addListener(RoomEvent.Reconnecting, () =>
+      this.#setState("RECONNECTING"),
+    );
+
+    room.addListener(RoomEvent.Reconnected, () => {
+      this.#setState("CONNECTED");
+      void this.#applyDesiredMicState();
+    });
+
+    room.addListener(RoomEvent.LocalTrackPublished, (pub) => {
       if (pub.audioTrack && pub.audioTrack.source === Track.Source.Microphone) {
         if (!pub.audioTrack.getProcessor()) {
           pub.audioTrack?.setProcessor(
@@ -293,15 +307,15 @@ class Voice {
       }
     });
 
-    room.addListener("participantConnected", () => {
+    room.addListener(RoomEvent.ParticipantConnected, () => {
       this.sound.playSound("userJoinVoice");
     });
 
-    room.addListener("participantDisconnected", () => {
+    room.addListener(RoomEvent.ParticipantDisconnected, () => {
       this.sound.playSound("userLeaveVoice");
     });
 
-    room.addListener("trackPublished", (pub) => {
+    room.addListener(RoomEvent.TrackPublished, (pub) => {
       if (pub.source === Track.Source.ScreenShare) {
         pub.once("subscribed", (track) => {
           // Play the sound once playback starts, which might be quite a bit after subscription
@@ -316,7 +330,7 @@ class Voice {
       }
     });
 
-    room.addListener("trackUnpublished", (unpub) => {
+    room.addListener(RoomEvent.TrackUnpublished, (unpub) => {
       if (this.screenShareTracks.has(unpub.trackSid)) {
         this.sound.playSound("streamEnd");
         this.screenShareTracks.delete(unpub.trackSid);
@@ -377,7 +391,77 @@ class Voice {
     }
   }
 
+  #desiredMicEnabled(): boolean {
+    return (
+      this.#settings.micOn && !this.#settings.deafen && this.speakingPermission
+    );
+  }
+
+  #syncLocalMicFromRoom() {
+    if (this.#applyingMicFromRoom) return;
+
+    const room = this.room();
+    if (!room) return;
+
+    const liveMic = room.localParticipant.isMicrophoneEnabled;
+    if (!this.#settings.deafen && this.#settings.micOn !== liveMic) {
+      this.#settings.micOn = liveMic;
+    }
+  }
+
+  async #applyDesiredMicState() {
+    const room = this.room();
+    if (!room || !this.speakingPermission) return;
+
+    const desired = this.#desiredMicEnabled();
+    if (room.localParticipant.isMicrophoneEnabled === desired) {
+      this.#syncLocalMicFromRoom();
+      return;
+    }
+
+    this.#applyingMicFromRoom = true;
+    try {
+      await room.localParticipant.setMicrophoneEnabled(desired);
+      this.#syncLocalMicFromRoom();
+    } finally {
+      this.#applyingMicFromRoom = false;
+    }
+  }
+
+  #setupLocalAudioSyncListeners(room: Room) {
+    const syncLocalMicPublication = (pub: TrackPublication) => {
+      if (pub.source !== Track.Source.Microphone) return;
+      this.#syncLocalMicFromRoom();
+    };
+
+    room.on(RoomEvent.TrackMuted, (pub, participant) => {
+      if (participant.isLocal) syncLocalMicPublication(pub);
+    });
+
+    room.on(RoomEvent.TrackUnmuted, (pub, participant) => {
+      if (participant.isLocal) syncLocalMicPublication(pub);
+    });
+
+    room.on(RoomEvent.LocalTrackPublished, (pub) => {
+      syncLocalMicPublication(pub);
+    });
+
+    room.on(RoomEvent.LocalTrackUnpublished, (pub) => {
+      syncLocalMicPublication(pub);
+    });
+  }
+
+  async #withAudioToggle(fn: () => Promise<void>) {
+    const run = this.#audioToggleInFlight.then(fn);
+    this.#audioToggleInFlight = run.catch(() => {});
+    await run;
+  }
+
   async toggleDeafen(fromMute?: boolean) {
+    return this.#withAudioToggle(() => this.#toggleDeafenInternal(fromMute));
+  }
+
+  async #toggleDeafenInternal(fromMute?: boolean) {
     try {
       const room = this.room();
       if (!room) throw "invalid state";
@@ -389,6 +473,8 @@ class Voice {
       this.#settings.deafen = !this.#settings.deafen;
       if (fromMute) {
         this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      } else {
+        this.#syncLocalMicFromRoom();
       }
       if (this.#settings.deafen) {
         this.sound.playSound("deafen");
@@ -401,27 +487,29 @@ class Voice {
   }
 
   async toggleMute() {
-    if (this.#settings.deafen) {
-      this.toggleDeafen(true);
-      return;
-    }
-    try {
-      const room = this.room();
-      if (!room) throw "invalid state";
-      await room.localParticipant.setMicrophoneEnabled(
-        !room.localParticipant.isMicrophoneEnabled,
-      );
-
-      this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
-
-      if (this.#settings.micOn) {
-        this.sound.playSound("unmute");
-      } else {
-        this.sound.playSound("mute");
+    return this.#withAudioToggle(async () => {
+      if (this.#settings.deafen) {
+        await this.#toggleDeafenInternal(true);
+        return;
       }
-    } catch (e) {
-      this.onErr(e);
-    }
+      try {
+        const room = this.room();
+        if (!room) throw "invalid state";
+        await room.localParticipant.setMicrophoneEnabled(
+          !room.localParticipant.isMicrophoneEnabled,
+        );
+
+        this.#syncLocalMicFromRoom();
+
+        if (this.#settings.micOn) {
+          this.sound.playSound("unmute");
+        } else {
+          this.sound.playSound("mute");
+        }
+      } catch (e) {
+        this.onErr(e);
+      }
+    });
   }
 
   async toggleCamera() {
