@@ -104,6 +104,7 @@ class Voice {
   private voiceProcessor?: VoiceProcessor;
   #audioToggleInFlight: Promise<void> = Promise.resolve();
   #applyingMicFromRoom = false;
+  #connectSession = 0;
 
   constructor(
     voiceSettings: VoiceSettings,
@@ -221,7 +222,8 @@ class Voice {
   }
 
   async connect(channel: Channel, auth?: { url: string; token: string }) {
-    this.disconnect();
+    await this.disconnect();
+    const session = ++this.#connectSession;
 
     this.device.setWakeLocked();
 
@@ -343,32 +345,45 @@ class Voice {
       }
     });
 
-    // Gather latency
-    const selected = await Promise.any(
-      this.config.features.livekit.nodes.map(async (node) => {
-        return fetch(node.public_url.replace("wss", "https")).then(() => {
-          return node.name;
-        });
-      }),
-    );
+    try {
+      // Gather latency
+      const selected = await Promise.any(
+        this.config.features.livekit.nodes.map(async (node) => {
+          return fetch(node.public_url.replace("wss", "https")).then(() => {
+            return node.name;
+          });
+        }),
+      );
+      if (session !== this.#connectSession) return;
 
-    if (!auth) {
-      auth = await channel.joinCall(selected);
+      if (!auth) {
+        auth = await channel.joinCall(selected);
+      }
+      if (session !== this.#connectSession) return;
+
+      await room.connect(auth.url, auth.token, {
+        autoSubscribe: false,
+      });
+      if (session !== this.#connectSession) {
+        await room.disconnect();
+      }
+    } catch (e) {
+      if (session === this.#connectSession) {
+        this.onErr(e);
+        await this.disconnect();
+      }
     }
-
-    await room.connect(auth.url, auth.token, {
-      autoSubscribe: false,
-    });
   }
 
-  disconnect() {
+  async disconnect() {
+    this.#connectSession++;
     this.device.releaseWakeLock();
     try {
       const room = this.room();
       if (!room) return;
 
       room.removeAllListeners();
-      room.disconnect();
+      await room.disconnect();
 
       batch(() => {
         this.#setState("READY");
