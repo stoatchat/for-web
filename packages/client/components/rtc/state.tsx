@@ -19,6 +19,7 @@ import {
   Room,
   ScreenSharePresets,
   Track,
+  VideoEncoding,
   VideoResolution,
 } from "livekit-client";
 import { Channel } from "stoat.js";
@@ -49,6 +50,22 @@ type State =
 type ScreenShareQuality = {
   name: ScreenShareQualityName;
   resolution: VideoResolution;
+  /**
+   * Publish encoding for this quality.
+   *
+   * This has to be provided explicitly: livekit-client defaults
+   * `publishDefaults.screenShareEncoding` to `ScreenSharePresets.h1080fps15`,
+   * so leaving it out caps every share at 15fps no matter what the capture
+   * constraints say.
+   */
+  encoding: VideoEncoding;
+  /**
+   * What to give up first when there is not enough bandwidth or CPU.
+   *
+   * Motion qualities keep the frame rate and shed resolution; the text quality
+   * wants the opposite, since it exists to keep small text readable.
+   */
+  degradationPreference: RTCDegradationPreference;
   fullName: string;
   contentHint: string;
 };
@@ -426,7 +443,9 @@ class Voice {
     > = {
       low: {
         name: "low",
-        resolution: ScreenSharePresets.h720fps30.resolution,
+        resolution: { ...ScreenSharePresets.h720fps30.resolution },
+        encoding: ScreenSharePresets.h720fps30.encoding,
+        degradationPreference: "maintain-framerate",
         fullName: `720p 30FPS`,
         contentHint: "motion",
       },
@@ -441,17 +460,24 @@ class Voice {
     ) {
       qualities.high = {
         name: "high",
-        resolution: ScreenSharePresets.h1080fps30.resolution,
+        resolution: { ...ScreenSharePresets.h1080fps30.resolution },
+        encoding: ScreenSharePresets.h1080fps30.encoding,
+        degradationPreference: "maintain-framerate",
         fullName: `1080p 30FPS`,
         contentHint: "motion",
       };
-      const originalResolution = ScreenSharePresets.original.resolution;
-      originalResolution.frameRate = 5;
-      originalResolution.aspectRatio = 0;
 
-      const limit = this.limits().video_resolution;
-      originalResolution.width = limit[0];
-      originalResolution.height = limit[1];
+      // copy: `ScreenSharePresets.original` is a singleton exported by
+      // livekit-client, so writing to its resolution corrupts the preset for
+      // the rest of the session
+      const originalResolution: VideoResolution = {
+        ...ScreenSharePresets.original.resolution,
+        frameRate: 5,
+        aspectRatio: 0,
+        width: limit[0],
+        height: limit[1],
+      };
+
       // If both resolutions are limited, set aspect ratio
       if (originalResolution.height !== 0 && originalResolution.width !== 0) {
         originalResolution.aspectRatio =
@@ -461,12 +487,55 @@ class Voice {
       qualities.text = {
         name: "text",
         resolution: originalResolution,
+        encoding: {
+          ...ScreenSharePresets.original.encoding,
+          maxFramerate: 5,
+        },
+        // this quality exists to keep small text readable, so give up frames
+        // before resolution -- the opposite of the motion qualities
+        degradationPreference: "maintain-resolution",
         fullName: `Source 5FPS`,
         contentHint: "text",
       };
     }
 
     return qualities;
+  }
+
+  /**
+   * Push a quality's publish encoding onto an already published screen share.
+   *
+   * `applyConstraints` only changes what gets captured; the frame rate and
+   * bitrate that actually go out are fixed on the sender at publish time, so
+   * they have to be updated separately when the quality is chosen from the
+   * picker or the settings modal.
+   */
+  async applyScreenShareEncoding(
+    publication: LocalTrackPublication,
+    quality: ScreenShareQuality,
+  ) {
+    const sender = publication.videoTrack?.sender;
+    if (!sender) return;
+
+    try {
+      const params = sender.getParameters();
+      if (!params.encodings?.length) return;
+
+      for (const encoding of params.encodings) {
+        encoding.maxFramerate = quality.encoding.maxFramerate;
+
+        // simulcast layers are scaled down copies of the same picture, so the
+        // full bitrate budget only belongs to the full resolution layer
+        const scale = encoding.scaleResolutionDownBy ?? 1;
+        encoding.maxBitrate = Math.round(
+          quality.encoding.maxBitrate / (scale * scale),
+        );
+      }
+
+      await sender.setParameters(params);
+    } catch (err) {
+      console.error("Failed to apply screen share encoding", err);
+    }
   }
 
   async toggleScreenshare() {
@@ -511,13 +580,14 @@ class Voice {
       }
 
       try {
+        const initialQuality =
+          qualities[this.#settings.screenShareQuality || "low"] ??
+          qualities.low!;
+
         const localTrack = await room.localParticipant.setScreenShareEnabled(
           true,
           {
-            resolution:
-              this.getEnabledScreenShareQualities()[
-                this.#settings.screenShareQuality || "low"
-              ]?.resolution,
+            resolution: initialQuality.resolution,
             audio: {
               autoGainControl: false,
               echoCancellation: false,
@@ -525,6 +595,15 @@ class Voice {
               voiceIsolation: false,
               restrictOwnAudio: true,
             },
+          },
+          {
+            // Without this livekit falls back to `publishDefaults`, whose
+            // `screenShareEncoding` is `ScreenSharePresets.h1080fps15` -- every
+            // share was capped at 15fps no matter which quality was picked.
+            screenShareEncoding: initialQuality.encoding,
+            // Motion qualities trade resolution away before frame rate; the
+            // text quality does the reverse.
+            degradationPreference: initialQuality.degradationPreference,
           },
         );
 
@@ -556,7 +635,13 @@ class Voice {
 
             if (localTrack.videoTrack) {
               await localTrack.videoTrack.mediaStreamTrack.applyConstraints({
-                frameRate: { max: quality.resolution.frameRate },
+                // `ideal` matters as much as `max` here: capture starts clamped
+                // to 5fps (see the getDisplayMedia override in ./index.ts), and
+                // a bare `max` does not ask the source to speed back up
+                frameRate: {
+                  ideal: quality.resolution.frameRate,
+                  max: quality.resolution.frameRate,
+                },
                 width:
                   quality.resolution.width === 0
                     ? undefined
@@ -565,15 +650,20 @@ class Voice {
                         max: quality.resolution.width,
                       },
                 height:
-                  quality.resolution.width === 0
+                  quality.resolution.height === 0
                     ? undefined
                     : {
-                        ideal: quality.resolution.width,
+                        ideal: quality.resolution.height,
                         max: quality.resolution.height,
                       },
               });
               localTrack.videoTrack.mediaStreamTrack.contentHint =
                 quality.contentHint;
+
+              // the publish encoding was fixed when the track went out, so a
+              // quality picked afterwards has to be pushed to the sender too
+              await this.applyScreenShareEncoding(localTrack, quality);
+
               if (!audio && screenAudioTrack?.track) {
                 room.localParticipant.unpublishTrack(screenAudioTrack.track);
               }
