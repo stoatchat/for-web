@@ -104,14 +104,14 @@ function Participants() {
     voice.videoOnlyFilter();
     const focus = voice.focusTrack();
     if (focus && !voice.visibleVidTracks().some((t) => voice.isFocus(t))) {
-      voice.toggleFocus();
+      voice.clearFocus();
     }
   });
 
   // Clear stale focus when focusId points at a track that no longer exists.
   createEffect(() => {
     if (voice.focusId() && !voice.focusTrack()) {
-      voice.toggleFocus();
+      voice.clearFocus();
     }
   });
 
@@ -375,7 +375,9 @@ const Grid = styled("div", {
   variants: {
     focus: {
       true: {
-        flexDirection: "column",
+        flexDirection: "row",
+        flexWrap: "nowrap",
+        flexShrink: 0,
         height: `max(20%, ${TILE_MIN_FOCUS_HEIGHT})`,
         minHeight: 0,
         transition: "height .3s ease",
@@ -395,18 +397,42 @@ const Grid = styled("div", {
     show: {
       false: {
         height: 0,
+        minHeight: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
       },
     },
   },
+
+  compoundVariants: [
+    {
+      focus: true,
+      fullscreen: true,
+      css: {
+        minHeight: 0,
+        flexShrink: 0,
+      },
+    },
+    {
+      focus: true,
+      show: false,
+      css: {
+        minHeight: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+      },
+    },
+  ],
 });
 
 const FocusBox = styled("div", {
   base: {
-    height: 0,
-    flexGrow: 1,
+    minHeight: 0,
+    flex: "1 1 0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     margin: "0 auto",
+    overflow: "hidden",
   },
 });

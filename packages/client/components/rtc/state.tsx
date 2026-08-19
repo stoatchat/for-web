@@ -773,24 +773,31 @@ class Voice {
     return `${t.source}_${t.participant.sid}`;
   }
 
+  clearFocus() {
+    batch(() => {
+      this.#setFocus(undefined);
+      this.#setShowBar(true);
+    });
+  }
+
   toggleFocus(t?: TrackReferenceOrPlaceholder) {
     const id = t ? this.trackId(t) : undefined;
-    const next =
-      this.focusId() === id || this.visibleVidTracks().length < 2
-        ? undefined
-        : id;
-    this.#setFocus(next);
-    if (!next) {
-      this.#setShowBar(true);
+    if (!id || this.visibleVidTracks().length < 2) {
+      this.clearFocus();
+      return;
     }
+    if (this.focusId() === id) {
+      this.clearFocus();
+      return;
+    }
+    this.#setFocus(id);
   }
 
   toggleVideoOnlyFilter() {
     this.#setVideoOnlyFilter((on) => !on);
     const focus = this.focusTrack();
     if (focus && !this.hasActiveVideo(focus)) {
-      this.#setFocus(undefined);
-      this.#setShowBar(true);
+      this.clearFocus();
     }
   }
 
@@ -812,9 +819,11 @@ class Voice {
 
   focusTrack() {
     const id = this.focusId();
-    return id
-      ? this.vidTracks().find((t) => this.trackId(t) === id)
-      : undefined;
+    if (!id) return undefined;
+    return (
+      this.visibleVidTracks().find((t) => this.trackId(t) === id) ??
+      this.vidTracks().find((t) => this.trackId(t) === id)
+    );
   }
 
   toggleShowBar() {
@@ -872,7 +881,7 @@ class Voice {
     this.#setScreenShareSubscribed(track, false);
 
     if (this.isFocus(track)) {
-      this.toggleFocus();
+      this.clearFocus();
     }
   }
 
