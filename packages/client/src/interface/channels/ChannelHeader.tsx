@@ -29,6 +29,7 @@ import MdSettings from "@material-design-icons/svg/outlined/settings.svg?compone
 
 import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
+import { DesktopUpdateSlot } from "../desktop/DesktopUpdateSlot";
 
 import { canIHasSidebar, SidebarState } from "./text/TextChannel";
 
@@ -140,6 +141,8 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
+
+      <DesktopUpdateSlot />
 
       <Show when={props.channel.isVoice && !voice.showCard(props.channel)}>
         <IconButton

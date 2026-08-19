@@ -35,6 +35,7 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { HeaderIcon } from "./common/CommonHeader";
+import { DesktopUpdateSlot } from "./desktop/DesktopUpdateSlot";
 
 /**
  * Base layout of the friends page
@@ -109,6 +110,7 @@ export function Friends() {
           <Symbol>group</Symbol>
         </HeaderIcon>
         <Trans>Friends</Trans>
+        <DesktopUpdateSlot />
       </Header>
 
       <main class={main()}>
