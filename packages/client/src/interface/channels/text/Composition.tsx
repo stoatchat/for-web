@@ -205,6 +205,7 @@ export function MessageComposition(props: Props) {
    * Send typing packet
    */
   function startTyping() {
+    if (state.settings.getValue("privacy:silent_typing")) return;
     if (typeof isTyping === "number" && +new Date() < isTyping) return;
 
     const ws = client()!.events;

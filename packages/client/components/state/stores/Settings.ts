@@ -39,6 +39,11 @@ interface SettingsDefinition {
   "notifications:push": NotificationPermissionState;
 
   /**
+   * Whether to send typing notifications
+   */
+  "privacy:silent_typing": boolean;
+
+  /**
    * Selected unicode emoji
    */
   "appearance:unicode_emoji": UnicodeEmojiPacks;
@@ -103,6 +108,7 @@ type ValueType<T extends keyof SettingsDefinition> =
 const EXPECTED_TYPES: { [K in keyof SettingsDefinition]: ValueType<K> } = {
   "notifications:desktop": "string",
   "notifications:push": "string",
+  "privacy:silent_typing": "boolean",
   "appearance:unicode_emoji": "string",
   "appearance:show_send_button": "boolean",
   "appearance:compact_mode": "boolean",
@@ -146,6 +152,7 @@ export class Settings extends AbstractStore<"settings", TypeSettings> {
     return {
       "notifications:desktop": "default",
       "notifications:push": "default",
+      "privacy:silent_typing": false,
       "appearance:unicode_emoji": "fluent-3d",
       "appearance:show_send_button": true,
       "appearance:compact_mode": false,

@@ -426,6 +426,22 @@ export function AppearanceMenu() {
           </For>
         </FloatingSelect>
       </Column>
+      <Column>
+        <Text class="title" size="small">
+          <Trans>Silent typing</Trans>
+        </Text>
+        <Checkbox
+          checked={state.settings.getValue("privacy:silent_typing")}
+          onChange={(e) =>
+            state.settings.setValue(
+              "privacy:silent_typing",
+              e.currentTarget.checked,
+            )
+          }
+        >
+          <Trans>Hide typing indicators from other users</Trans>
+        </Checkbox>
+      </Column>
     </Column>
   );
 }
