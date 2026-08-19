@@ -20,9 +20,13 @@ import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 const isMacOS = navigator.platform.startsWith("Mac");
 const isNative = !!window.native;
 
+function getDesktopConfig() {
+  return window.desktopConfig?.get();
+}
+
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
-    isNative ? window.desktopConfig.get().windowState.isMaximised : false,
+    isNative ? (getDesktopConfig()?.windowState?.isMaximised ?? false) : false,
   );
   const { lifecycle } = useClientLifecycle();
 
@@ -44,7 +48,7 @@ export function Titlebar() {
     <Presence>
       <Show
         when={
-          (isNative && window.desktopConfig?.get().customFrame) ||
+          (isNative && (getDesktopConfig()?.customFrame ?? false)) ||
           isDisconnected()
         }
       >
