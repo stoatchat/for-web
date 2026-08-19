@@ -19,7 +19,6 @@ import {
   Room,
   ScreenSharePresets,
   Track,
-  VideoPreset,
 } from "livekit-client";
 import { Channel } from "stoat.js";
 
@@ -37,10 +36,14 @@ import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callC
 import { Device, useDevice } from "@revolt/common";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
-import { ScreenShareProfile, ScreenShareQuality } from "./screenShareProfile";
+import {
+  SCREEN_SHARE_PRESET_GAMING,
+  SCREEN_SHARE_PRESET_HIGH,
+  ScreenShareProfile,
+  screenSharePublishOptions,
+  ScreenShareQuality,
+} from "./screenShareProfile";
 import { VoiceProcessor } from "./VoiceProcessor";
-
-const h1080fps60 = new VideoPreset(1920, 1080, 12_000_000, 60, "medium");
 
 type State =
   | "READY"
@@ -220,6 +223,10 @@ class Voice {
           frameRate: 30,
         },
         deviceId: this.#settings.preferredVideoDevice,
+      },
+      publishDefaults: {
+        screenShareSimulcastLayers: [],
+        degradationPreference: "maintain-framerate",
       },
     });
 
@@ -437,10 +444,17 @@ class Voice {
     ) {
       qualities.high = {
         name: "high",
-        resolution: h1080fps60.resolution,
+        resolution: SCREEN_SHARE_PRESET_HIGH.resolution,
         fullName: "1080p 60FPS",
         contentHint: "motion",
-        encoding: h1080fps60.encoding,
+        encoding: SCREEN_SHARE_PRESET_HIGH.encoding,
+      };
+      qualities.gaming = {
+        name: "gaming",
+        resolution: SCREEN_SHARE_PRESET_GAMING.resolution,
+        fullName: "1080p 60FPS Gaming",
+        contentHint: "motion",
+        encoding: SCREEN_SHARE_PRESET_GAMING.encoding,
       };
       const originalResolution = ScreenSharePresets.original.resolution;
       originalResolution.frameRate = 5;
@@ -583,8 +597,7 @@ class Voice {
 
         if (isDesktop) {
           const profilePromise = this.#pickDesktopScreenShareProfile(qualities);
-          // Always start capture at high; picker can downgrade via applyConstraints.
-          captureQuality = qualities.high ?? qualities.low!;
+          captureQuality = qualities.gaming ?? qualities.high ?? qualities.low!;
 
           const [pickedProfile, localTrack] = await Promise.all([
             profilePromise,
@@ -595,9 +608,7 @@ class Voice {
                 contentHint: captureQuality.contentHint,
                 audio: this.#screenShareAudioOptions(),
               },
-              captureQuality.encoding
-                ? { screenShareEncoding: captureQuality.encoding }
-                : undefined,
+              screenSharePublishOptions(captureQuality.encoding),
             ),
           ]);
 
@@ -648,11 +659,10 @@ class Voice {
           true,
           {
             resolution: captureQuality.resolution,
+            contentHint: captureQuality.contentHint,
             audio: this.#screenShareAudioOptions(),
           },
-          captureQuality.encoding
-            ? { screenShareEncoding: captureQuality.encoding }
-            : undefined,
+          screenSharePublishOptions(captureQuality.encoding),
         );
 
         const screenAudioTrack = room.localParticipant.getTrackPublication(

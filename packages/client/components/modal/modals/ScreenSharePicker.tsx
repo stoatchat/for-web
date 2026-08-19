@@ -16,7 +16,7 @@ export function ScreenSharePickerModal(
   const { t } = useLingui();
 
   const group = createFormGroup({
-    qualityName: createFormControl<ScreenShareQualityName>("high"),
+    qualityName: createFormControl<ScreenShareQualityName>("gaming"),
     audio: createFormControl(voice.screenShareAudio),
     idx: createFormControl([0], { required: true }),
   });
