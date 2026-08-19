@@ -27,6 +27,7 @@ import {
 import { TextEditor2 } from "../features/texteditor/TextEditor2";
 import { Row } from "../layout";
 
+import { useError } from "@revolt/i18n";
 import { FileInput, humanFileSize } from "./files";
 
 /**
@@ -162,6 +163,7 @@ const FormFileInput = (
     "hideErrors",
   ]);
 
+  const err = useError();
   const { t } = useLingui();
 
   return (
@@ -180,7 +182,9 @@ const FormFileInput = (
             files[0].size > local.maxSize
           ) {
             local.control.setErrors({
-              error: t`File must be smaller than ${humanFileSize(local.maxSize)}`,
+              error: new Error(
+                t`File must be smaller than ${humanFileSize(local.maxSize)}`,
+              ),
             });
             local.control.markTouched(true);
             return;
@@ -205,7 +209,7 @@ const FormFileInput = (
       >
         <For each={Object.keys(local.control.errors!)}>
           {(errorMsg: string) => (
-            <FileError>{local.control.errors![errorMsg]}</FileError>
+            <FileError>{err(local.control.errors![errorMsg])}</FileError>
           )}
         </For>
       </Show>
@@ -215,12 +219,9 @@ const FormFileInput = (
 
 const FileError = styled("div", {
   base: {
-    background: "var(--md-sys-color-error-container)",
-    color: "var(--md-sys-color-on-error-container)",
-    borderRadius: "var(--borderRadius-sm)",
+    color: "var(--md-sys-color-error)",
     fontSize: "0.8125rem",
     marginTop: "var(--gap-sm)",
-    padding: "var(--gap-sm)",
   },
 });
 
