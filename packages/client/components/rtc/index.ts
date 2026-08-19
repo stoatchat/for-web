@@ -9,9 +9,14 @@ export { stoatSinkName } from "./virtualMic";
 const originalMediaCall = navigator.mediaDevices.getDisplayMedia;
 
 navigator.mediaDevices.getDisplayMedia = async function (opts) {
-  // Hard overwrite the track constraints so that we -never ever- get a track
-  // that is over 720p when requesting a new video track
-  if (opts && opts.video && typeof opts.video === "object") {
+  const isDesktopPicker = !!window.native?.onceScreenPicker;
+
+  if (
+    !isDesktopPicker &&
+    opts &&
+    opts.video &&
+    typeof opts.video === "object"
+  ) {
     opts.video = {
       ...opts.video,
       frameRate: { ideal: 5, max: 5 },
