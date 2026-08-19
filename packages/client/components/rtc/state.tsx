@@ -9,6 +9,7 @@ import {
   useContext,
 } from "solid-js";
 import {
+  isTrackReference,
   RoomContext,
   TrackReferenceOrPlaceholder,
   useTracks,
@@ -81,6 +82,9 @@ class Voice {
   showBar: Accessor<boolean>;
   #setShowBar: Setter<boolean>;
 
+  videoOnlyFilter: Accessor<boolean>;
+  #setVideoOnlyFilter: Setter<boolean>;
+
   private sound: SoundController;
   private device: Device;
 
@@ -136,6 +140,10 @@ class Voice {
     const [showBar, setShowBar] = createSignal(true);
     this.showBar = showBar;
     this.#setShowBar = setShowBar;
+
+    const [videoOnlyFilter, setVideoOnlyFilter] = createSignal(false);
+    this.videoOnlyFilter = videoOnlyFilter;
+    this.#setVideoOnlyFilter = setVideoOnlyFilter;
 
     const inst = useInstance();
     this.config = inst.config;
@@ -332,6 +340,7 @@ class Voice {
         this.#setRoom();
         this.#setChannel();
         this.#setFullscreen(false);
+        this.#setVideoOnlyFilter(false);
         this.vidTracks = () => [];
       });
 
@@ -739,8 +748,30 @@ class Voice {
   toggleFocus(t?: TrackReferenceOrPlaceholder) {
     const id = t ? this.trackId(t) : undefined;
     this.#setFocus(
-      this.focusId() === id || this.vidTracks().length < 2 ? undefined : id,
+      this.focusId() === id || this.visibleVidTracks().length < 2
+        ? undefined
+        : id,
     );
+  }
+
+  toggleVideoOnlyFilter() {
+    this.#setVideoOnlyFilter((on) => !on);
+    const focus = this.focusTrack();
+    if (focus && !this.hasActiveVideo(focus)) {
+      this.#setFocus(undefined);
+    }
+  }
+
+  hasActiveVideo(t: TrackReferenceOrPlaceholder) {
+    if (!isTrackReference(t)) return false;
+    const pub = t.publication;
+    return !!pub && !pub.isMuted && pub.kind === "video";
+  }
+
+  visibleVidTracks() {
+    const tracks = this.vidTracks();
+    if (!this.videoOnlyFilter()) return tracks;
+    return tracks.filter((t) => this.hasActiveVideo(t));
   }
 
   isFocus(t: TrackReferenceOrPlaceholder) {

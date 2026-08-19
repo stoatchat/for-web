@@ -25,6 +25,7 @@ export function VoiceCallCardActiveRoom() {
       <Participants />
       <VoiceCallControls fullscreen={fullscreen()}>
         <VoiceCallControlHolder right>
+          <VoiceCallVideoOnlyFilter />
           <VoiceCallFullscreen />
         </VoiceCallControlHolder>
         <VoiceCallCardActions size="sm" />
@@ -51,6 +52,31 @@ function VoiceCallFullscreen() {
   );
 }
 
+function VoiceCallVideoOnlyFilter() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <IconButton
+      size="sm"
+      variant={voice.videoOnlyFilter() ? "filled" : "standard"}
+      onPress={() => voice.toggleVideoOnlyFilter()}
+      use:floating={{
+        tooltip: {
+          placement: "top",
+          content: voice.videoOnlyFilter()
+            ? t`Show all participants`
+            : t`Show video only`,
+        },
+      }}
+    >
+      <Show when={voice.videoOnlyFilter()} fallback={<Symbol>groups</Symbol>}>
+        <Symbol>video_camera_front</Symbol>
+      </Show>
+    </IconButton>
+  );
+}
+
 const TILE_MIN_WIDTH = "250px",
   TILE_MIN_FOCUS_HEIGHT = "100px";
 
@@ -68,10 +94,19 @@ function Participants() {
 
   const tileWidth = () => {
     const vidWidth = Math.round(
-      100 / (voice.vidTracks().length + testTrackCount),
+      100 / (voice.visibleVidTracks().length + testTrackCount),
     );
     return `max(${TILE_MIN_WIDTH}, ${vidWidth}% - var(--gap-md))`;
   };
+
+  // Clear focus when the focused track is no longer visible.
+  createEffect(() => {
+    voice.videoOnlyFilter();
+    const focus = voice.focusTrack();
+    if (focus && !voice.visibleVidTracks().some((t) => voice.isFocus(t))) {
+      voice.toggleFocus();
+    }
+  });
 
   // Clear out any focus when the track that was focused is no longer available.
   createEffect(() => {
@@ -127,7 +162,9 @@ function Participants() {
           style={{ "--vc-tile-width": tileWidth() }}
         >
           <TrackLoop
-            tracks={() => voice.vidTracks().filter((t) => !voice.isFocus(t))}
+            tracks={() =>
+              voice.visibleVidTracks().filter((t) => !voice.isFocus(t))
+            }
           >
             {() => <ParticipantTile />}
           </TrackLoop>
