@@ -70,6 +70,25 @@ type ScreenShareQuality = {
   contentHint: string;
 };
 
+/**
+ * Frame rate for the "smooth" screen share quality.
+ *
+ * livekit-client ships no 60fps screen share preset, so this one is built by
+ * hand from the 1080p30 preset.
+ */
+const SMOOTH_FRAME_RATE = 60;
+
+/**
+ * Bitrate for the "smooth" screen share quality.
+ *
+ * A higher frame rate needs more bitrate to stay legible while the picture is
+ * moving, or the encoder trades the frame rate straight back away and there is
+ * nothing to gain over 1080p30. 60fps does compress better per frame than
+ * 30fps, so this sits above the 5Mbps of 1080p30 without doubling it, and
+ * stays under the 7Mbps the `original` preset already asks for.
+ */
+const SMOOTH_MAX_BITRATE = 6_000_000;
+
 class Voice {
   #settings: VoiceSettings;
 
@@ -464,6 +483,22 @@ class Voice {
         encoding: ScreenSharePresets.h1080fps30.encoding,
         degradationPreference: "maintain-framerate",
         fullName: `1080p 30FPS`,
+        contentHint: "motion",
+      };
+
+      qualities.smooth = {
+        name: "smooth",
+        resolution: {
+          ...ScreenSharePresets.h1080fps30.resolution,
+          frameRate: SMOOTH_FRAME_RATE,
+        },
+        encoding: {
+          maxBitrate: SMOOTH_MAX_BITRATE,
+          maxFramerate: SMOOTH_FRAME_RATE,
+          priority: "medium",
+        },
+        degradationPreference: "maintain-framerate",
+        fullName: `1080p 60FPS`,
         contentHint: "motion",
       };
 
