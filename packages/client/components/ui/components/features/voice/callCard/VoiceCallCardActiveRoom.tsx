@@ -94,9 +94,8 @@ function Participants() {
   let callRef: HTMLDivElement | undefined;
 
   const tileWidth = () => {
-    const vidWidth = Math.round(
-      100 / (voice.visibleVidTracks().length + testTrackCount),
-    );
+    const count = Math.max(voice.visibleVidTracks().length + testTrackCount, 1);
+    const vidWidth = Math.round(100 / count);
     return `max(${TILE_MIN_WIDTH}, ${vidWidth}% - var(--gap-md))`;
   };
 
@@ -109,9 +108,11 @@ function Participants() {
     }
   });
 
-  // Clear out any focus when the track that was focused is no longer available.
+  // Clear stale focus when focusId points at a track that no longer exists.
   createEffect(() => {
-    if (!voice.focusTrack()) voice.toggleFocus();
+    if (voice.focusId() && !voice.focusTrack()) {
+      voice.toggleFocus();
+    }
   });
 
   onMount(() => {
@@ -201,7 +202,7 @@ function Participants() {
         <Grid
           focus={!!voice.focusId()}
           fullscreen={voice.fullscreen()}
-          show={voice.showBar()}
+          show={!voice.focusId() || voice.showBar()}
           class={voice.focusId() ? scrollableStyles({ direction: "x" }) : ""}
           style={{ "--vc-tile-width": tileWidth() }}
         >
