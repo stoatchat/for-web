@@ -17,7 +17,7 @@ export function ScreenShareSettingsModal(
 
   const group = createFormGroup({
     qualityName: createFormControl<ScreenShareQualityName>(
-      voice.screenShareQuality || "low",
+      voice.screenShareQuality || "high",
       { required: true },
     ),
     audio: createFormControl(props.audio && voice.screenShareAudio, {

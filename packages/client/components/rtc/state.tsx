@@ -583,10 +583,8 @@ class Voice {
 
         if (isDesktop) {
           const profilePromise = this.#pickDesktopScreenShareProfile(qualities);
-          captureQuality =
-            qualities[this.#settings.screenShareQuality || "high"] ??
-            qualities.high ??
-            qualities.low!;
+          // Always start capture at high; picker can downgrade via applyConstraints.
+          captureQuality = qualities.high ?? qualities.low!;
 
           const [pickedProfile, localTrack] = await Promise.all([
             profilePromise,
