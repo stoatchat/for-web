@@ -362,6 +362,8 @@ class Voice {
         this.#setChannel();
         this.#setFullscreen(false);
         this.#setVideoOnlyFilter(false);
+        this.#setFocus(undefined);
+        this.#setShowBar(true);
         this.vidTracks = () => [];
       });
 
@@ -773,11 +775,14 @@ class Voice {
 
   toggleFocus(t?: TrackReferenceOrPlaceholder) {
     const id = t ? this.trackId(t) : undefined;
-    this.#setFocus(
+    const next =
       this.focusId() === id || this.visibleVidTracks().length < 2
         ? undefined
-        : id,
-    );
+        : id;
+    this.#setFocus(next);
+    if (!next) {
+      this.#setShowBar(true);
+    }
   }
 
   toggleVideoOnlyFilter() {
@@ -785,6 +790,7 @@ class Voice {
     const focus = this.focusTrack();
     if (focus && !this.hasActiveVideo(focus)) {
       this.#setFocus(undefined);
+      this.#setShowBar(true);
     }
   }
 
