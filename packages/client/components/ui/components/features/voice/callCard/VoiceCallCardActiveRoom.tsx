@@ -22,6 +22,8 @@ export function VoiceCallCardActiveRoom() {
       <Participants />
       <VoiceCallControls>
         <VoiceCallControlHolder right>
+          <VoiceCallCollapseButton />
+          <VoiceCallExpandButton />
           <VoiceCallFullscreen />
         </VoiceCallControlHolder>
         <VoiceCallCardActions size="sm" />
@@ -30,6 +32,60 @@ export function VoiceCallCardActiveRoom() {
         </VoiceCallControlHolder>
       </VoiceCallControls>
     </View>
+  );
+}
+
+export function VoiceCallCardCollapsed() {
+  return (
+    <CompactContainer>
+      <VoiceCallCardActions size="sm" compact />
+    </CompactContainer>
+  );
+}
+
+function VoiceCallCollapseButton() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <IconButton
+      size="sm"
+      variant="standard"
+      onPress={() => voice.toggleCollapsed()}
+      use:floating={{
+        tooltip: {
+          placement: "top",
+          content: t`Compact call controls`,
+        },
+      }}
+    >
+      <Symbol>unfold_less</Symbol>
+    </IconButton>
+  );
+}
+
+function VoiceCallExpandButton() {
+  const voice = useVoice();
+  const { t } = useLingui();
+
+  return (
+    <IconButton
+      size="sm"
+      variant="standard"
+      onPress={() => voice.toggleExpanded()}
+      use:floating={{
+        tooltip: {
+          placement: "top",
+          content: voice.expanded()
+            ? t`Collapse call view`
+            : t`Expand call view`,
+        },
+      }}
+    >
+      <Show when={voice.expanded()} fallback={<Symbol>open_in_full</Symbol>}>
+        <Symbol>close_fullscreen</Symbol>
+      </Show>
+    </IconButton>
   );
 }
 
@@ -157,11 +213,18 @@ const View = styled("div", {
     minHeight: 0,
     height: "100%",
     width: "100%",
-
     display: "flex",
     flexDirection: "column",
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
+  },
+});
+
+const CompactContainer = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

@@ -79,6 +79,12 @@ class Voice {
   fullscreen: Accessor<boolean>;
   #setFullscreen: Setter<boolean>;
 
+  expanded: Accessor<boolean>;
+  #setExpanded: Setter<boolean>;
+
+  collapsed: Accessor<boolean>;
+  #setCollapsed: Setter<boolean>;
+
   focusId: Accessor<string | undefined>;
   #setFocus: Setter<string | undefined>;
 
@@ -132,6 +138,14 @@ class Voice {
     const [fullscreen, setFullscreen] = createSignal(false);
     this.fullscreen = fullscreen;
     this.#setFullscreen = setFullscreen;
+
+    const [expanded, setExpanded] = createSignal(false);
+    this.expanded = expanded;
+    this.#setExpanded = setExpanded;
+
+    const [collapsed, setCollapsed] = createSignal(false);
+    this.collapsed = collapsed;
+    this.#setCollapsed = setCollapsed;
 
     const [focus, setFocus] = createSignal<string>();
     this.focusId = focus;
@@ -336,6 +350,8 @@ class Voice {
         this.#setRoom();
         this.#setChannel();
         this.#setFullscreen(false);
+        this.#setExpanded(false);
+        this.#setCollapsed(false);
         this.vidTracks = () => [];
       });
 
@@ -631,7 +647,24 @@ class Voice {
   }
 
   toggleFullscreen(fullscreen: boolean = !this.fullscreen()) {
+    if (fullscreen) {
+      this.#setExpanded(false);
+      this.#setCollapsed(false);
+    }
     this.#setFullscreen(fullscreen);
+  }
+
+  toggleExpanded(expanded: boolean = !this.expanded()) {
+    if (expanded) this.#setCollapsed(false);
+    this.#setExpanded(expanded);
+  }
+
+  toggleCollapsed(collapsed: boolean = !this.collapsed()) {
+    if (collapsed) {
+      this.#setFullscreen(false);
+      this.#setExpanded(false);
+    }
+    this.#setCollapsed(collapsed);
   }
 
   trackId(t: TrackReferenceOrPlaceholder) {
