@@ -213,6 +213,7 @@ export const tile = cva({
     fullscreen: {
       true: {
         minWidth: "20%",
+        borderRadius: 0,
       },
     },
   },
@@ -230,6 +231,15 @@ export const tile = cva({
       focus: [true],
       css: {
         aspectRatio: "auto",
+      },
+    },
+    {
+      focus: [true],
+      fullscreen: [true],
+      css: {
+        height: "100%",
+        width: "100%",
+        maxWidth: "none",
       },
     },
   ],
