@@ -29,6 +29,7 @@ import MdSettings from "@material-design-icons/svg/filled/settings.svg?component
 import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
 import { HeaderIcon } from "./common/CommonHeader";
+import { DesktopUpdateSlot } from "./desktop/DesktopUpdateSlot";
 
 /**
  * Base layout of the home page (i.e. the header/background)
@@ -110,6 +111,7 @@ export function HomePage() {
           <MdHome {...iconSize(22)} />
         </HeaderIcon>
         <Trans>Home</Trans>
+        <DesktopUpdateSlot />
       </Header>
       <div use:scrollable={{ class: content() }}>
         <Column>
