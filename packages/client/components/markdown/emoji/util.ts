@@ -1,6 +1,5 @@
-import emojiRegex from "emoji-regex";
-
 import { MarkdownProps } from "..";
+import { RE_UNICODE_EMOJI } from "./UnicodeEmoji";
 
 /**
  * Regex for custom emoji
@@ -11,7 +10,7 @@ export const RE_CUSTOM_EMOJI = /:([0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}):/g;
  * Regex for any emoji
  */
 export const RE_ANY_EMOJI = new RegExp(
-  RE_CUSTOM_EMOJI.source + "|[\uE0E0-\uE0E6]?(?:" + emojiRegex().source + ")",
+  RE_CUSTOM_EMOJI.source + "|" + RE_UNICODE_EMOJI.source,
   "g",
 );
 

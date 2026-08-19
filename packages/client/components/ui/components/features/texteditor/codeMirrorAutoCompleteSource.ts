@@ -14,26 +14,25 @@ import {
 } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 
-import emojiMapping from "../../../emojiMapping.json";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
+import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
-const EMOJI_KEYS = Object.keys(emojiMapping).sort();
 const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map(
   (id) =>
     ({
       type: "emoji",
       label: `:${id}:`,
-      apply: emojiMapping[id as keyof typeof emojiMapping],
+      apply: getEmojiByShorthand(id).emoji,
     }) as Completion,
 );
 
-const RE_match = /(?<!\w)[:@%#]\w*/;
-const RE_emojiValidFor = /(?<!\w):\w*/;
-const RE_mentionValidFor = /(?<!\w)@\w*/;
-const RE_roleValidFor = /(?<!\w)@\w*/;
-const RE_channelValidFor = /(?<!\w)#\w*/;
+const RE_match = /(?<!\w)[:@%#][\w\-+]*/;
+const RE_emojiValidFor = /(?<!\w):[\w\-+]*/;
+const RE_mentionValidFor = /(?<!\w)@[\w\-+]*/;
+const RE_roleValidFor = /(?<!\w)@[\w\-+]*/;
+const RE_channelValidFor = /(?<!\w)#[\w\-+]/;
 
 export function codeMirrorAutoCompleteSource(
   searchSpace: Accessor<AutoCompleteSearchSpace>,
