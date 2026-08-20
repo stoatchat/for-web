@@ -942,6 +942,13 @@ class Voice {
     return this.stoppedWatching.has(this.trackId(t));
   }
 
+  isScreenShareWatchingStopped(participantSid: string) {
+    this.#stoppedWatchingEpoch();
+    return this.stoppedWatching.has(
+      `${Track.Source.ScreenShare}_${participantSid}`,
+    );
+  }
+
   stoppedScreenShareTrack() {
     this.#stoppedWatchingEpoch();
     return this.visibleVidTracks().find(
