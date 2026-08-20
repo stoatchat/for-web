@@ -109,10 +109,12 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     if (voice.fullscreen()) {
       sty.transform = ``;
       sty.width = `100%`;
+      sty.height = ``;
       setMode();
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
+      sty.height = `${inf.pos.height}px`;
       setMode();
     } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
@@ -129,6 +131,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       y = float[0] === "t" ? PAD_Y : `calc(100vh - var(--flt-h) - ${PAD_Y})`;
     sty.transform = `translate(${x}, ${y})`;
     sty.width = "";
+    sty.height = "";
     setMode("floating");
   }
 
@@ -195,7 +198,8 @@ const Float = styled("div", {
     position: "fixed",
     zIndex: 10,
     pointerEvents: "none",
-    transition: "all .3s cubic-bezier(1, 0, 0, 1)",
+    transition:
+      "transform .3s cubic-bezier(1, 0, 0, 1), width .3s cubic-bezier(1, 0, 0, 1)",
     height: "40vh",
     touchAction: "none",
   },
@@ -253,17 +257,23 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   createEffect(updateInfo);
 
   onMount(() => {
-    const target = ref?.parentElement;
-    if (!target) return;
-
-    createResizeObserver(target, updateInfo);
+    if (!ref) return;
+    createResizeObserver(ref, updateInfo);
   });
   onCleanup(() => {
     setInfo();
   });
 
-  return <div ref={ref!} />;
+  return <MountAnchor ref={ref!} />;
 }
+
+const MountAnchor = styled("div", {
+  base: {
+    width: "100%",
+    height: "100%",
+    minHeight: 0,
+  },
+});
 
 /**
  * Call card
@@ -293,10 +303,12 @@ function VoiceCallCard(props: {
 const Base = styled("div", {
   base: {
     left: 0,
-    top: "var(--gap-md)",
+    top: 0,
     padding: "var(--gap-md)",
+    boxSizing: "border-box",
 
     width: "100%",
+    height: "100%",
     position: "absolute",
 
     zIndex: 2,
@@ -309,8 +321,6 @@ const Base = styled("div", {
   variants: {
     fullscreen: {
       true: {
-        top: 0,
-        height: "100%",
         padding: 0,
       },
     },
@@ -353,7 +363,9 @@ const Card = styled("div", {
       active: [true],
       fullscreen: [false],
       css: {
-        height: "40vh",
+        height: "100%",
+        minHeight: 0,
+        flexGrow: 1,
       },
     },
   ],

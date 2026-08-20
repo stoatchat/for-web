@@ -26,7 +26,7 @@ import {
   TypingIndicator,
   main,
 } from "@revolt/ui";
-import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
+import { VoiceCallChatSplit } from "@revolt/ui/components/features/voice/callCard/VoiceCallChatSplit";
 
 import { ChannelHeader } from "../ChannelHeader";
 import { ChannelPageProps } from "../ChannelPage";
@@ -216,35 +216,37 @@ export function TextChannel(props: ChannelPageProps) {
               </BelowFloatingHeader>
             }
           >
-            <VoiceChannelCallCardMount channel={props.channel} />
+            <VoiceCallChatSplit channel={props.channel} />
           </Show>
 
-          <Messages
-            channel={props.channel}
-            lastReadId={lastId}
-            pendingMessages={(pendingProps) => (
-              <DraftMessages
-                channel={props.channel}
-                tail={pendingProps.tail}
-                sentIds={pendingProps.ids}
-              />
-            )}
-            typingIndicator={
-              <TypingIndicator
-                users={props.channel.typing}
-                ownId={client().user!.id}
-              />
-            }
-            highlightedMessageId={highlightMessageId}
-            clearHighlightedMessage={() => navigate(".")}
-            jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
-            atEnd={[atEnd, setEnd]}
-          />
+          <ChatColumn>
+            <Messages
+              channel={props.channel}
+              lastReadId={lastId}
+              pendingMessages={(pendingProps) => (
+                <DraftMessages
+                  channel={props.channel}
+                  tail={pendingProps.tail}
+                  sentIds={pendingProps.ids}
+                />
+              )}
+              typingIndicator={
+                <TypingIndicator
+                  users={props.channel.typing}
+                  ownId={client().user!.id}
+                />
+              }
+              highlightedMessageId={highlightMessageId}
+              clearHighlightedMessage={() => navigate(".")}
+              jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+              atEnd={[atEnd, setEnd]}
+            />
 
-          <MessageComposition
-            channel={props.channel}
-            onMessageSend={() => jumpToBottomRef?.()}
-          />
+            <MessageComposition
+              channel={props.channel}
+              onMessageSend={() => jumpToBottomRef?.()}
+            />
+          </ChatColumn>
         </main>
         <Show
           when={
@@ -329,6 +331,16 @@ const Content = styled("div", {
     flexGrow: 1,
     minWidth: 0,
     minHeight: 0,
+  },
+});
+
+const ChatColumn = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1,
+    minHeight: 0,
+    overflow: "hidden",
   },
 });
 

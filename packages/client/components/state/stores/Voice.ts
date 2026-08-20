@@ -52,6 +52,9 @@ export interface TypeVoice {
 
   screenShareVolumes: Record<string, number>;
   screenShareMutes: Record<string, boolean>;
+
+  /** Fraction of the channel column used by the in-call voice pane (0–1). */
+  channelCallSplitRatio: number;
 }
 
 /**
@@ -92,6 +95,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       userMutes: {},
       screenShareVolumes: {},
       screenShareMutes: {},
+      channelCallSplitRatio: 0.4,
     };
   }
 
@@ -196,6 +200,16 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
           ([userId, muted]) => typeof userId === "string" && muted === true,
         )
         .forEach(([k, v]) => (data.screenShareMutes[k] = v));
+    }
+
+    if (
+      typeof input.channelCallSplitRatio === "number" &&
+      Number.isFinite(input.channelCallSplitRatio)
+    ) {
+      data.channelCallSplitRatio = Math.min(
+        0.85,
+        Math.max(0.15, input.channelCallSplitRatio),
+      );
     }
 
     return data;
@@ -453,5 +467,19 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get micOn(): boolean {
     return this.get().micOn;
+  }
+
+  /**
+   * Fraction of the channel column used by the in-call voice pane
+   */
+  get channelCallSplitRatio(): number {
+    return this.get().channelCallSplitRatio;
+  }
+
+  /**
+   * Persist the channel voice/chat split ratio
+   */
+  set channelCallSplitRatio(value: number) {
+    this.set("channelCallSplitRatio", Math.min(0.85, Math.max(0.15, value)));
   }
 }
