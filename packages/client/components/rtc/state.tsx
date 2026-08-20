@@ -104,9 +104,10 @@ class Voice {
   private config;
   private limits;
   private screenShareTracks: Set<string>;
-  private stoppedWatching: Set<string>;
-  #stoppedWatchingEpoch: Accessor<number>;
-  #setStoppedWatchingEpoch: Setter<number>;
+  /** Opt-in set: remote screen shares are paused until the user resumes watching. */
+  private watchingLive: Set<string>;
+  #watchingLiveEpoch: Accessor<number>;
+  #setWatchingLiveEpoch: Setter<number>;
   private voiceProcessor?: VoiceProcessor;
   #audioToggleInFlight: Promise<void> = Promise.resolve();
   #applyingMicFromRoom = false;
@@ -169,10 +170,10 @@ class Voice {
     this.openModal = modals.openModal;
 
     this.screenShareTracks = new Set();
-    this.stoppedWatching = new Set();
-    const [stoppedWatchingEpoch, setStoppedWatchingEpoch] = createSignal(0);
-    this.#stoppedWatchingEpoch = stoppedWatchingEpoch;
-    this.#setStoppedWatchingEpoch = setStoppedWatchingEpoch;
+    this.watchingLive = new Set();
+    const [watchingLiveEpoch, setWatchingLiveEpoch] = createSignal(0);
+    this.#watchingLiveEpoch = watchingLiveEpoch;
+    this.#setWatchingLiveEpoch = setWatchingLiveEpoch;
 
     // Setup settings listeners
     this.settingsListeners();
@@ -294,6 +295,7 @@ class Voice {
         if (screenShareTrack) {
           this.screenShareTracks.add(screenShareTrack.trackSid);
         }
+        this.#pauseRemoteScreenShare(p);
       }
       this.sound.playSound("userJoinVoice");
     });
@@ -341,7 +343,14 @@ class Voice {
       this.sound.playSound("userLeaveVoice");
     });
 
-    room.addListener(RoomEvent.TrackPublished, (pub) => {
+    room.addListener(RoomEvent.TrackPublished, (pub, participant) => {
+      if (
+        pub.source === Track.Source.ScreenShare ||
+        pub.source === Track.Source.ScreenShareAudio
+      ) {
+        // Opt-in: never auto-subscribe new screen shares (or their audio).
+        this.#pauseRemoteScreenShare(participant);
+      }
       if (pub.source === Track.Source.ScreenShare) {
         pub.once("subscribed", (track) => {
           // Play the sound once playback starts, which might be quite a bit after subscription
@@ -362,10 +371,10 @@ class Voice {
         this.screenShareTracks.delete(unpub.trackSid);
       }
       if (unpub.source === Track.Source.ScreenShare) {
-        this.stoppedWatching.delete(
+        this.watchingLive.delete(
           `${Track.Source.ScreenShare}_${unpub.participantSid}`,
         );
-        this.#touchStoppedWatching();
+        this.#touchWatchingLive();
       }
     });
 
@@ -421,8 +430,8 @@ class Voice {
       });
 
       this.screenShareTracks = new Set();
-      this.stoppedWatching = new Set();
-      this.#touchStoppedWatching();
+      this.watchingLive = new Set();
+      this.#touchWatchingLive();
 
       this.sound.playSound("userLeaveVoice");
     } catch (e) {
@@ -976,28 +985,65 @@ class Voice {
     this.#setShowBar((s) => !s);
   }
 
-  #touchStoppedWatching() {
-    this.#setStoppedWatchingEpoch((n) => n + 1);
+  #touchWatchingLive() {
+    this.#setWatchingLiveEpoch((n) => n + 1);
+  }
+
+  #screenShareWatchId(participantSid: string) {
+    return `${Track.Source.ScreenShare}_${participantSid}`;
+  }
+
+  /**
+   * Keep remote screen share video/audio unsubscribed until the user opts in.
+   * Safe to call repeatedly when publications appear on join or publish.
+   */
+  #pauseRemoteScreenShare(participant: {
+    sid: string;
+    getTrackPublication: (source: Track.Source) => TrackPublication | undefined;
+  }) {
+    const screenShare = participant.getTrackPublication(
+      Track.Source.ScreenShare,
+    );
+    const screenShareAudio = participant.getTrackPublication(
+      Track.Source.ScreenShareAudio,
+    );
+    if (!screenShare && !screenShareAudio) return;
+
+    const id = this.#screenShareWatchId(participant.sid);
+    if (this.watchingLive.has(id)) {
+      // User already opted in; leave subscription state alone.
+      return;
+    }
+
+    this.#touchWatchingLive();
+
+    for (const pub of [screenShare, screenShareAudio]) {
+      if (pub instanceof RemoteTrackPublication) {
+        pub.setSubscribed(false);
+      }
+    }
   }
 
   isWatchingStopped(t: TrackReferenceOrPlaceholder) {
-    this.#stoppedWatchingEpoch();
-    return this.stoppedWatching.has(this.trackId(t));
+    this.#watchingLiveEpoch();
+    if (t.source !== Track.Source.ScreenShare || t.participant.isLocal) {
+      return false;
+    }
+    return !this.watchingLive.has(this.trackId(t));
   }
 
   isScreenShareWatchingStopped(participantSid: string) {
-    this.#stoppedWatchingEpoch();
-    return this.stoppedWatching.has(
-      `${Track.Source.ScreenShare}_${participantSid}`,
-    );
+    this.#watchingLiveEpoch();
+    return !this.watchingLive.has(this.#screenShareWatchId(participantSid));
   }
 
   stoppedScreenShareTrack() {
-    this.#stoppedWatchingEpoch();
+    this.#watchingLiveEpoch();
     return this.visibleVidTracks().find(
       (t) =>
         t.source === Track.Source.ScreenShare &&
-        this.stoppedWatching.has(this.trackId(t)),
+        !t.participant.isLocal &&
+        !this.watchingLive.has(this.trackId(t)),
     );
   }
 
@@ -1020,8 +1066,8 @@ class Voice {
 
   resumeWatching(t: TrackReferenceOrPlaceholder) {
     if (t.source !== Track.Source.ScreenShare) return;
-    this.stoppedWatching.delete(this.trackId(t));
-    this.#touchStoppedWatching();
+    this.watchingLive.add(this.trackId(t));
+    this.#touchWatchingLive();
     this.#setScreenShareSubscribed(t, true);
   }
 
@@ -1029,8 +1075,8 @@ class Voice {
     const track = t ?? this.focusTrack();
     if (!track || track.source !== Track.Source.ScreenShare) return;
 
-    this.stoppedWatching.add(this.trackId(track));
-    this.#touchStoppedWatching();
+    this.watchingLive.delete(this.trackId(track));
+    this.#touchWatchingLive();
     this.#setScreenShareSubscribed(track, false);
 
     if (this.isFocus(track)) {
