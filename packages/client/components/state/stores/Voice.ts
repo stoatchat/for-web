@@ -409,8 +409,8 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   /**
    * Get noise supression
    */
-  get noiseSupression(): NoiseSuppresionState | undefined {
-    return this.get().noiseSupression;
+  get noiseSupression(): NoiseSuppresionState {
+    return this.get().noiseSupression ?? "enhanced";
   }
 
   /**

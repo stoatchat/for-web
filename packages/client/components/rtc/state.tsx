@@ -218,7 +218,7 @@ class Voice {
     createEffect(() => {
       setEchoCancellation(getSettings().echoCancellation ?? true);
       setAutoGainControl(getSettings().autoGainControl ?? true);
-      setNoiseSuppression(getSettings().noiseSupression ?? "browser");
+      setNoiseSuppression(getSettings().noiseSupression ?? "enhanced");
       restartTrack();
     });
 
