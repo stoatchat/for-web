@@ -3,10 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-14 02:29+0000\n"
+"PO-Revision-Date: 2026-08-20 05:27+0000\n"
 "Last-Translator: iNKY <sir.drak@posteo.net>\n"
-"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/revolt-"
-"for-web/cs/>\n"
+"Language-Team: Czech <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -98,50 +98,50 @@ msgstr "{0} se připojil"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr "{0} zbývá"
+msgstr "{0} se odpojil"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from ?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0} se stal {1} novým vlastníkem skupiny"
+msgstr "{0} udělil {1} jako nového vlastníka skupiny"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} pinned a message"
-msgstr "{0} připnutých zpráv"
+msgstr "{0} připnul zprávu"
 
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr "{0} přejmenovaných kanálů"
+msgstr "{0} přejmenoval kanál"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} unpinned a message"
-msgstr "{0} odepnutých zpráv"
+msgstr "{0} odepnul zprávu"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was added by {1}"
-msgstr "{0} byl přidán {1}"
+msgstr "{0} byl přidán od {1}"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr "{0} byl zabanován/a"
+msgstr "{0} byl zabanován"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr "{0} byl/a vyhozen/a"
+msgstr "{0} byl vyhozen"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr "{0} byl odebrán {1}"
+msgstr "{0} byl odebrán od {1}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -153,11 +153,11 @@ msgstr "{0}-{1} z {2}"
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr "{0} rolí"
+msgstr "{0} role"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
-msgstr "{unknown} reagoval/a"
+msgstr "{unknown} reagoval"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
@@ -692,7 +692,7 @@ msgstr "Klikněte na možnosti níže pro víc informací o různých změnách!
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
-msgstr ""
+msgstr "Klikněte pro kopírování uživatelského jména"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -1144,7 +1144,7 @@ msgstr "Odpojeno"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
-msgstr ""
+msgstr "Discord RPC"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1168,11 +1168,11 @@ msgstr "Nerušit"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Don't ask me again"
-msgstr ""
+msgstr "Již se mi neptejte"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
-msgstr ""
+msgstr "Již se mi neptejte pro "
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
@@ -1184,7 +1184,7 @@ msgstr ""
 
 #: src/AndroidNag.tsx
 msgid "Don't show this again"
-msgstr ""
+msgstr "Již mi tohle neukazujte"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
@@ -1352,7 +1352,7 @@ msgstr "Zadejte své upřednostňované uživatelské jméno."
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Everyone"
-msgstr ""
+msgstr "Všichni"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "External links can be dangerous!"
@@ -1443,7 +1443,7 @@ msgstr "Přátelé"
 
 #: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "from "
-msgstr ""
+msgstr "od "
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
@@ -1478,10 +1478,11 @@ msgid ""
 "Gifbox is our own GIF service, so you can keep sharing GIFs right here on "
 "Stoat."
 msgstr ""
+"Gifbox je náš vlastní servis GIFů, takže můžete stále sdílet GIFy na Stoatu."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
-msgstr ""
+msgstr "GIFy jsou teď poháněny od Gifboxu"
 
 #: src/interface/Home.tsx
 msgid "Give feedback on Stoat"
@@ -3465,8 +3466,6 @@ msgstr "Pokud ostaní mohou upravit toto nastavení"
 msgid "with {0}"
 msgstr ""
 
-#. placeholder {0}: names.join(", ")
-#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 #~ msgid "With {0}"
 #~ msgstr "s {0}"
 
