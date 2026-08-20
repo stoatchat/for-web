@@ -12,7 +12,8 @@ import { VoiceChannelCallCardMount } from "./VoiceCallCard";
 const SPLITTER_PX = 8;
 const MIN_CALL_PX = 160;
 const MIN_CHAT_PX = 220;
-const PREVIEW_PX = 136;
+/** Reserved height for the pre-join call card (avatars + title + subtext). */
+const PREVIEW_PX = 148;
 
 /**
  * Reserves a top pane for the floating voice card and a drag handle
@@ -122,7 +123,7 @@ const Root = styled("div", {
 const CallPane = styled("div", {
   base: {
     width: "100%",
-    minHeight: 0,
+    minHeight: `${PREVIEW_PX}px`,
     flexShrink: 0,
     position: "relative",
     overflow: "hidden",
