@@ -1,12 +1,15 @@
 import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
 
-import { Participant, ParticipantEvent } from "livekit-client";
+import { LocalParticipant, Participant, ParticipantEvent } from "livekit-client";
 
 /**
  * LiveKit participant attribute used to tell others we are deafened.
  *
  * Mute is already visible via the microphone track (`useIsMuted`). Deafen only
  * mutes inbound audio, so it must be published separately.
+ *
+ * Publishing uses `LocalParticipant.setAttributes`, which LiveKit gates behind
+ * the token grant `canUpdateOwnMetadata` (permission `canUpdateMetadata`).
  */
 export const LIVEKIT_DEAFEN_ATTRIBUTE = "deafen";
 
@@ -18,6 +21,24 @@ export function deafenAttributePayload(
 
 export function participantIsDeafened(participant: Participant): boolean {
   return participant.attributes[LIVEKIT_DEAFEN_ATTRIBUTE] === "true";
+}
+
+/** True when the local token/room permission allows setAttributes / setMetadata. */
+export function canPublishDeafenAttribute(
+  participant: LocalParticipant,
+): boolean {
+  return participant.permissions?.canUpdateMetadata === true;
+}
+
+/** LiveKit rejects setAttributes without canUpdateOwnMetadata with this message. */
+export function isOwnMetadataPermissionError(error: unknown): boolean {
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof error === "string"
+        ? error
+        : String(error);
+  return /update own metadata/i.test(message);
 }
 
 /**
