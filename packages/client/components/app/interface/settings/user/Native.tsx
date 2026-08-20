@@ -157,7 +157,7 @@ export default function Native() {
           "hardwareAcceleration",
           "speed",
           t`Hardware Acceleration`,
-          t`Use the graphics card to improve performance.`,
+          t`Use the graphics card for rendering and video decode. Restart Stoat to apply changes.`,
         )}
       </CategoryButton.Group>
 
