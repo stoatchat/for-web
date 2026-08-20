@@ -23,7 +23,6 @@ import {
   Header,
   NewMessages,
   Text,
-  TypingIndicator,
   main,
 } from "@revolt/ui";
 import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
@@ -33,6 +32,7 @@ import { ChannelPageProps } from "../ChannelPage";
 
 import { Channel } from "stoat.js";
 import { MessageComposition } from "./Composition";
+import { CompositionInfo } from "./CompositionInfo";
 import { MemberSidebar } from "./MemberSidebar";
 import { TextSearchSidebar } from "./TextSearchSidebar";
 
@@ -229,17 +229,13 @@ export function TextChannel(props: ChannelPageProps) {
                 sentIds={pendingProps.ids}
               />
             )}
-            typingIndicator={
-              <TypingIndicator
-                users={props.channel.typing}
-                ownId={client().user!.id}
-              />
-            }
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
             atEnd={[atEnd, setEnd]}
           />
+
+          <CompositionInfo channel={props.channel} />
 
           <MessageComposition
             channel={props.channel}
