@@ -173,7 +173,7 @@ export function UserProfileEditor(props: Props) {
           imageAspect="232/100"
           imageRounded={false}
           imageJustify={false}
-          maxSize={instance.limits().file_upload_size_limits["background"]}
+          maxSize={instance.limits().file_upload_size_limits["backgrounds"]}
         />
         <Form2.TextField
           minlength={2}
