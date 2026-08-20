@@ -35,32 +35,26 @@ export function VoiceCallCardActiveRoom() {
   );
 }
 
-export function VoiceCallCardCollapsed() {
-  return (
-    <CompactContainer>
-      <VoiceCallCardActions size="sm" compact />
-    </CompactContainer>
-  );
-}
-
 function VoiceCallCollapseButton() {
   const voice = useVoice();
   const { t } = useLingui();
 
   return (
-    <IconButton
-      size="sm"
-      variant="standard"
-      onPress={() => voice.toggleCollapsed()}
-      use:floating={{
-        tooltip: {
-          placement: "top",
-          content: t`Compact call controls`,
-        },
-      }}
-    >
-      <Symbol>unfold_less</Symbol>
-    </IconButton>
+    <DesktopOnly>
+      <IconButton
+        size="sm"
+        variant="standard"
+        onPress={() => voice.toggleCollapsed()}
+        use:floating={{
+          tooltip: {
+            placement: "top",
+            content: t`Collapse call window`,
+          },
+        }}
+      >
+        <Symbol>unfold_less</Symbol>
+      </IconButton>
+    </DesktopOnly>
   );
 }
 
@@ -69,23 +63,25 @@ function VoiceCallExpandButton() {
   const { t } = useLingui();
 
   return (
-    <IconButton
-      size="sm"
-      variant="standard"
-      onPress={() => voice.toggleExpanded()}
-      use:floating={{
-        tooltip: {
-          placement: "top",
-          content: voice.expanded()
-            ? t`Collapse call view`
-            : t`Expand call view`,
-        },
-      }}
-    >
-      <Show when={voice.expanded()} fallback={<Symbol>open_in_full</Symbol>}>
-        <Symbol>close_fullscreen</Symbol>
-      </Show>
-    </IconButton>
+    <DesktopOnly>
+      <IconButton
+        size="sm"
+        variant="standard"
+        onPress={() => voice.toggleExpanded()}
+        use:floating={{
+          tooltip: {
+            placement: "top",
+            content: voice.expanded()
+              ? t`Restore call window`
+              : t`Maximize call window`,
+          },
+        }}
+      >
+        <Show when={voice.expanded()} fallback={<Symbol>open_in_full</Symbol>}>
+          <Symbol>close_fullscreen</Symbol>
+        </Show>
+      </IconButton>
+    </DesktopOnly>
   );
 }
 
@@ -220,11 +216,12 @@ const View = styled("div", {
   },
 });
 
-const CompactContainer = styled("div", {
+const DesktopOnly = styled("div", {
   base: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    _tablet: {
+      display: "none",
+    },
   },
 });
 

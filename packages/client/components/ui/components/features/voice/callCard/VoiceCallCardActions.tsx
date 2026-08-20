@@ -48,7 +48,7 @@ export function VoiceCallCardActions(props: {
           use:floating={{
             tooltip: {
               placement: "top",
-              content: t`Expand call controls`,
+              content: t`Restore call window`,
             },
           }}
         >
@@ -159,6 +159,22 @@ export function VoiceCallCardActions(props: {
     </Actions>
   );
 }
+
+export function VoiceCallCardCollapsed(props: { size?: "xs" | "sm" }) {
+  return (
+    <CompactContainer>
+      <VoiceCallCardActions size={props.size ?? "sm"} compact />
+    </CompactContainer>
+  );
+}
+
+const CompactContainer = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 const Actions = styled("div", {
   base: {

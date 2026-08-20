@@ -655,7 +655,10 @@ class Voice {
   }
 
   toggleExpanded(expanded: boolean = !this.expanded()) {
-    if (expanded) this.#setCollapsed(false);
+    if (expanded) {
+      this.#setFullscreen(false);
+      this.#setCollapsed(false);
+    }
     this.#setExpanded(expanded);
   }
 

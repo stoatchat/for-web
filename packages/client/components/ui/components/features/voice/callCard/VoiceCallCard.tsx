@@ -20,10 +20,8 @@ import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
-import {
-  VoiceCallCardActiveRoom,
-  VoiceCallCardCollapsed,
-} from "./VoiceCallCardActiveRoom";
+import { VoiceCallCardCollapsed } from "./VoiceCallCardActions";
+import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
 
@@ -33,8 +31,7 @@ type FloatType = "tl" | "tr" | "bl" | "br";
 type Info = {
   channel: Channel;
   pos: DOMRect;
-  container: DOMRect;
-  contentHeight: number;
+  parentRect: DOMRect;
   drawer?: SlideState;
 };
 
@@ -118,12 +115,12 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       setMode();
     } else if (
       voice.expanded() &&
-      inf?.container &&
+      inf?.parentRect &&
       (!inf.drawer || inf.drawer === SlideState.SHOWN)
     ) {
-      sty.transform = `translate(${inf.container.x}px, ${inf.container.y}px)`;
-      sty.width = `${inf.container.width}px`;
-      sty.height = `${inf.contentHeight}px`;
+      sty.transform = `translate(${inf.parentRect.x}px, ${inf.parentRect.y}px)`;
+      sty.width = `${inf.parentRect.width}px`;
+      sty.height = `${inf.parentRect.height}px`;
       setMode();
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
@@ -257,14 +254,13 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
 
   function updateInfo() {
     const vc = voice.channel();
-    const container = ref!.parentElement!.getBoundingClientRect();
+    const parentRect = ref!.parentElement!.getBoundingClientRect();
     setInfo(
       !vc || vc.id === props.channel.id
         ? {
             channel: props.channel,
             pos: ref!.getBoundingClientRect(),
-            container,
-            contentHeight: container.height,
+            parentRect,
             drawer: state.appDrawer()?.state,
           }
         : undefined,
