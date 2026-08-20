@@ -4,6 +4,11 @@ import { Trans } from "@lingui/solid/macro";
 import { File, Message } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
+import {
+  copyImageFromUrl,
+  downloadFromUrl,
+  filenameFromUrl,
+} from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
@@ -43,6 +48,8 @@ export function MessageContextMenu(props: {
   reactPicker?: Accessor<MediaPickerProps | undefined>;
   file?: File;
   link?: string;
+  /** Image URL for embed/lightbox images that are not a File attachment */
+  imageUrl?: string;
 }) {
   const user = useUser();
   const state = useState();
@@ -144,11 +151,22 @@ export function MessageContextMenu(props: {
     navigator.clipboard.writeText(props.message!.id);
   }
 
+  function isImageFile() {
+    return props.file?.metadata.type === "Image";
+  }
+
+  function imageUrl() {
+    if (isImageFile()) {
+      return props.file!.originalUrl;
+    }
+    return props.imageUrl;
+  }
+
   /**
    * Opens the file preview in a new tab
    */
   function openFile() {
-    window.open(props.file?.previewUrl, "_blank");
+    window.open(imageUrl() ?? props.file?.previewUrl, "_blank");
   }
 
   /**
@@ -162,9 +180,45 @@ export function MessageContextMenu(props: {
     navigator.clipboard.writeText(props.link ?? "");
   }
 
+  function copyImage() {
+    const url = imageUrl();
+    if (!url) return;
+    copyImageFromUrl(url).catch(showError);
+  }
+
+  function copyImageUrl() {
+    const url = imageUrl();
+    if (!url) return;
+    navigator.clipboard.writeText(url);
+  }
+
+  function saveImage() {
+    const url = imageUrl();
+    if (!url) return;
+    downloadFromUrl(url, props.file?.filename ?? filenameFromUrl(url)).catch(
+      showError,
+    );
+  }
+
   return (
     <ContextMenu>
-      <Show when={props.file}>
+      <Show when={imageUrl()}>
+        <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
+          <Trans>Open file</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton icon={MdContentCopy} onClick={copyImage}>
+          <Trans>Copy image</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton icon={MdLink} onClick={copyImageUrl}>
+          <Trans>Copy image URL</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton icon={MdDownload} onClick={saveImage}>
+          <Trans>Save image</Trans>
+        </ContextMenuButton>
+
+        <ContextMenuDivider />
+      </Show>
+      <Show when={props.file && !isImageFile()}>
         <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
           <Trans>Open file</Trans>
         </ContextMenuButton>

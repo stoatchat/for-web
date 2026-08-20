@@ -10,10 +10,18 @@ import {
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
+import { useLingui } from "@lingui/solid/macro";
 import Panzoom, { PanzoomObject } from "@panzoom/panzoom";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { MessageContextMenu } from "@revolt/app";
+import {
+  copyImageFromUrl,
+  downloadFromUrl,
+  filenameFromUrl,
+} from "@revolt/common";
+import { useModals } from "@revolt/modal";
 import { Column, Dialog, DialogProps, IconButton, Text } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
@@ -23,7 +31,42 @@ import { Modals } from "../types";
 export function ImageViewerModal(
   props: DialogProps & Modals & { type: "image_viewer" },
 ) {
+  const { t } = useLingui();
+  const { showError } = useModals();
   const [ref, setRef] = createSignal<HTMLElement>();
+
+  function imageSrc() {
+    if (props.file) {
+      return props.file.originalUrl;
+    }
+    return props.embed?.proxiedURL ?? props.embed?.url;
+  }
+
+  function imageFilename() {
+    return props.file?.filename ?? filenameFromUrl(imageSrc() ?? "", "image");
+  }
+
+  function saveImage() {
+    const url = imageSrc();
+    if (!url) return;
+    downloadFromUrl(url, imageFilename()).catch(showError);
+  }
+
+  function copyImage() {
+    const url = imageSrc();
+    if (!url) return;
+    copyImageFromUrl(url).catch(showError);
+  }
+
+  function copyImageUrl() {
+    const url = imageSrc();
+    if (!url) return;
+    navigator.clipboard.writeText(url);
+  }
+
+  function imageContextMenu() {
+    return <MessageContextMenu file={props.file} imageUrl={imageSrc()} />;
+  }
 
   let panzoom: PanzoomObject;
 
@@ -109,22 +152,62 @@ export function ImageViewerModal(
                     </Match>
                   </Switch>
                   <Card onClick={(e) => e.stopPropagation()}>
-                    <IconButton onPress={() => panzoom?.zoomOut()}>
+                    <IconButton
+                      onPress={() => panzoom?.zoomOut()}
+                      use:floating={{
+                        tooltip: {
+                          placement: "bottom",
+                          content: t`Zoom out`,
+                        },
+                      }}
+                    >
                       <Symbol>zoom_out</Symbol>
                     </IconButton>
-                    <IconButton onPress={() => panzoom?.zoomIn()}>
+                    <IconButton
+                      onPress={() => panzoom?.zoomIn()}
+                      use:floating={{
+                        tooltip: {
+                          placement: "bottom",
+                          content: t`Zoom in`,
+                        },
+                      }}
+                    >
                       <Symbol>zoom_in</Symbol>
                     </IconButton>
-                    <Show when={props.file}>
-                      <a
-                        target="_blank"
-                        href={props.file?.originalUrl}
-                        download={props.file?.filename}
+                    <Show when={imageSrc()}>
+                      <IconButton
+                        onPress={saveImage}
+                        use:floating={{
+                          tooltip: {
+                            placement: "bottom",
+                            content: t`Save image`,
+                          },
+                        }}
                       >
-                        <IconButton>
-                          <Symbol>download</Symbol>
-                        </IconButton>
-                      </a>
+                        <Symbol>download</Symbol>
+                      </IconButton>
+                      <IconButton
+                        onPress={copyImage}
+                        use:floating={{
+                          tooltip: {
+                            placement: "bottom",
+                            content: t`Copy image`,
+                          },
+                        }}
+                      >
+                        <Symbol>content_copy</Symbol>
+                      </IconButton>
+                      <IconButton
+                        onPress={copyImageUrl}
+                        use:floating={{
+                          tooltip: {
+                            placement: "bottom",
+                            content: t`Copy image URL`,
+                          },
+                        }}
+                      >
+                        <Symbol>link</Symbol>
+                      </IconButton>
                     </Show>
                     <Show when={props.embed || props.gif}>
                       <a
@@ -152,6 +235,9 @@ export function ImageViewerModal(
                     }}
                     src={props.file!.originalUrl}
                     onClick={(e) => e.stopPropagation()}
+                    use:floating={{
+                      contextMenu: imageContextMenu,
+                    }}
                   />
                 </Match>
                 <Match when={props.embed}>
@@ -162,6 +248,9 @@ export function ImageViewerModal(
                     }}
                     src={props.embed!.proxiedURL}
                     onClick={(e) => e.stopPropagation()}
+                    use:floating={{
+                      contextMenu: imageContextMenu,
+                    }}
                   />
                 </Match>
                 <Match when={props.gif}>
