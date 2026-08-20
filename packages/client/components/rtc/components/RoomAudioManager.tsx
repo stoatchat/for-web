@@ -39,14 +39,16 @@ export function RoomAudioManager() {
 
   createEffect(() => {
     const tracks = filteredTracks();
-    console.info("[rtc] filtered tracks", filteredTracks());
     for (const track of tracks) {
       const publication = track.publication as RemoteTrackPublication;
-      const stopStreamAudio =
-        isScreenShareAudioSource(track.source) &&
-        voice.isScreenShareWatchingStopped(track.participant.sid);
-      publication.setSubscribed(!stopStreamAudio);
-      console.info(track.publication);
+      if (isScreenShareAudioSource(track.source)) {
+        // Screen share audio follows the same opt-in as video (Resume watching).
+        publication.setSubscribed(
+          !voice.isScreenShareWatchingStopped(track.participant.sid),
+        );
+      } else {
+        publication.setSubscribed(true);
+      }
     }
   });
 
