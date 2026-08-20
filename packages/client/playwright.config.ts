@@ -1,80 +1,42 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+import { E2E_BASE_URL, isProductionE2E } from "./e2e/helpers/env";
+
+const production = isProductionE2E();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
+ *
+ * Local (default): starts dev server via mise, hits http://localhost:4173
+ * Production: set E2E_BASE_URL in .env.test — no local webServer
  */
 export default defineConfig({
   testDir: "./e2e",
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  fullyParallel: !production,
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  workers: production ? 1 : process.env.CI ? 1 : undefined,
   reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  timeout: 60_000,
   use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: "http://localhost:4173",
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    baseURL: production ? E2E_BASE_URL : "http://localhost:4173",
     trace: "on-first-retry",
+    screenshot: "only-on-failure",
   },
-
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
-
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
-    },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "mise start",
-    url: "http://localhost:4173",
-    timeout: 300_000,
-    reuseExistingServer: !process.env.CI,
-  },
+  projects: production
+    ? [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }]
+    : [
+        { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+        { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+      ],
+  ...(production
+    ? {}
+    : {
+        webServer: {
+          command: "mise start",
+          url: "http://localhost:4173",
+          timeout: 300_000,
+          reuseExistingServer: !process.env.CI,
+        },
+      }),
 });
