@@ -135,7 +135,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           </Text>
           <Show when={window.native}>
             <Text class="label">
-              Stoat for Desktop {window.native.versions.desktop()}
+              {window.native.appName?.() ?? "Stoat"} for Desktop{" "}
+              {window.native.versions.desktop()}
             </Text>
             <Text class="label">
               <span
