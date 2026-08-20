@@ -41,7 +41,11 @@ import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callC
 import { Device, useDevice } from "@revolt/common";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
-import { deafenAttributePayload } from "./deafenAttribute";
+import {
+  canPublishDeafenAttribute,
+  deafenAttributePayload,
+  isOwnMetadataPermissionError,
+} from "./deafenAttribute";
 import {
   SCREEN_SHARE_PRESET_GAMING,
   SCREEN_SHARE_PRESET_HIGH,
@@ -294,6 +298,18 @@ class Voice {
       this.sound.playSound("userJoinVoice");
     });
 
+    // Stoat join tokens omit canUpdateOwnMetadata. A VPS webhook may grant
+    // canUpdateMetadata after join; republish deafen when that lands.
+    room.addListener(
+      RoomEvent.ParticipantPermissionsChanged,
+      (_prev, participant) => {
+        if (!participant.isLocal) return;
+        if (canPublishDeafenAttribute(room.localParticipant)) {
+          void this.#publishDeafenAttribute();
+        }
+      },
+    );
+
     room.addListener(RoomEvent.Disconnected, () =>
       this.#setState("DISCONNECTED"),
     );
@@ -436,12 +452,18 @@ class Voice {
     const room = this.room();
     if (!room || room.state !== ConnectionState.Connected) return;
 
+    // setAttributes requires LiveKit canUpdateOwnMetadata. Without it, skip
+    // silently so local deafen (RoomAudioManager + Voice store) still works
+    // and we never open the blocking error modal.
+    if (!canPublishDeafenAttribute(room.localParticipant)) return;
+
     try {
       await room.localParticipant.setAttributes(
         deafenAttributePayload(deafened),
       );
     } catch (e) {
-      this.onErr(e);
+      if (isOwnMetadataPermissionError(e)) return;
+      // Other publish failures must not undo local deafen or block the UI.
     }
   }
 
