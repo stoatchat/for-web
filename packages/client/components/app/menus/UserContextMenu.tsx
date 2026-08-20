@@ -1,7 +1,9 @@
 import { Trans } from "@lingui/solid/macro";
+import type { TrackReferenceOrPlaceholder } from "@livekit/components-core";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useSmartParams } from "@revolt/routing";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { Slider, Symbol, Text } from "@revolt/ui";
 import { useNavigate } from "@solidjs/router";
@@ -27,16 +29,35 @@ export function UserContextMenu(props: {
   contextMessage?: Message;
   inVoice?: boolean;
   isScreenshare?: boolean;
+  /** Screen-share tile track; enables Stop/Resume watching in the menu. */
+  screenShareTrack?: TrackReferenceOrPlaceholder;
 }) {
   // TODO: if we take serverId instead, we could dynamically fetch server member here
   // same for the floating menu I guess?
   const state = useState();
+  const voice = useVoice();
   const client = useClient();
   const navigate = useNavigate();
   const { openModal, modals } = useModals();
 
   // server context
   const params = useSmartParams();
+
+  function watchingStopped() {
+    const track = props.screenShareTrack;
+    return !!track && voice.isWatchingStopped(track);
+  }
+
+  function toggleWatching() {
+    const track = props.screenShareTrack;
+    if (!track) return;
+    if (voice.isWatchingStopped(track)) {
+      voice.resumeWatching(track);
+    } else {
+      voice.stopWatchingLive(track);
+    }
+    props.onClose?.();
+  }
 
   /**
    * Open direct message channel
@@ -385,6 +406,28 @@ export function UserContextMenu(props: {
         >
           <Trans>Mute Screen Share</Trans>
         </ContextMenuButton>
+        <Show when={props.screenShareTrack}>
+          <ContextMenuButton
+            symbol={
+              <IconSlot>
+                <Show
+                  when={watchingStopped()}
+                  fallback={<Symbol size={16}>stop_screen_share</Symbol>}
+                >
+                  <Symbol size={16}>play_circle</Symbol>
+                </Show>
+              </IconSlot>
+            }
+            onClick={toggleWatching}
+          >
+            <Show
+              when={watchingStopped()}
+              fallback={<Trans>Stop watching</Trans>}
+            >
+              <Trans>Resume watching</Trans>
+            </Show>
+          </ContextMenuButton>
+        </Show>
 
         <ContextMenuDivider />
       </Show>
