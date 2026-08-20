@@ -9,6 +9,10 @@ import { useState } from "@revolt/state";
 
 import { useVoice } from "../state";
 
+function isScreenShareAudioSource(source: Track.Source) {
+  return source === Track.Source.ScreenShareAudio;
+}
+
 export function RoomAudioManager() {
   const voice = useVoice();
   const state = useState();
@@ -37,7 +41,11 @@ export function RoomAudioManager() {
     const tracks = filteredTracks();
     console.info("[rtc] filtered tracks", filteredTracks());
     for (const track of tracks) {
-      (track.publication as RemoteTrackPublication).setSubscribed(true);
+      const publication = track.publication as RemoteTrackPublication;
+      const stopStreamAudio =
+        isScreenShareAudioSource(track.source) &&
+        voice.isScreenShareWatchingStopped(track.participant.sid);
+      publication.setSubscribed(!stopStreamAudio);
       console.info(track.publication);
     }
   });
@@ -45,24 +53,34 @@ export function RoomAudioManager() {
   return (
     <div style={{ display: "none" }}>
       <Key each={filteredTracks()} by={(item) => getTrackReferenceId(item)}>
-        {(track) => (
-          <AudioTrack
-            trackRef={track()}
-            volume={
-              state.voice.outputVolume *
-              (track().source === Track.Source.ScreenShareAudio
-                ? state.voice.getScreenShareVolume(track().participant.identity)
-                : state.voice.getUserVolume(track().participant.identity))
-            }
-            muted={
-              (track().source === Track.Source.ScreenShareAudio
-                ? state.voice.getScreenShareMuted(track().participant.identity)
-                : state.voice.getUserMuted(track().participant.identity)) ||
-              voice.deafen()
-            }
-            enableBoosting
-          />
-        )}
+        {(track) => {
+          const t = track();
+          const streamAudio = isScreenShareAudioSource(t.source);
+          const watchingStopped =
+            streamAudio &&
+            voice.isScreenShareWatchingStopped(t.participant.sid);
+          const perTrackMuted = streamAudio
+            ? state.voice.getScreenShareMuted(t.participant.identity)
+            : state.voice.getUserMuted(t.participant.identity);
+
+          return (
+            <AudioTrack
+              trackRef={t}
+              volume={
+                state.voice.outputVolume *
+                (streamAudio
+                  ? state.voice.getScreenShareVolume(t.participant.identity)
+                  : state.voice.getUserVolume(t.participant.identity))
+              }
+              muted={
+                watchingStopped ||
+                perTrackMuted ||
+                (!streamAudio && voice.deafen())
+              }
+              enableBoosting
+            />
+          );
+        }}
       </Key>
     </div>
   );
