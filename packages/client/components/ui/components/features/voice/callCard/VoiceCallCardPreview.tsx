@@ -2,13 +2,13 @@ import { For, Show } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useUsers } from "@revolt/markdown/users";
 import { useVoice } from "@revolt/rtc";
 import { Avatar, Ripple, Text, typography } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-import { css } from "styled-system/css";
 
 /**
  * Call card (preview)
@@ -17,6 +17,7 @@ export function VoiceCallCardPreview(props: { channel: Channel }) {
   const voice = useVoice();
   const { t } = useLingui();
 
+  // Track ReactiveMap via keys() so join-card avatars update before LiveKit connect.
   const ids = () => [...props.channel.voiceParticipants.keys()];
   const users = useUsers(ids);
 
@@ -27,8 +28,11 @@ export function VoiceCallCardPreview(props: { channel: Channel }) {
 
     if (names.length > 3) {
       return t`with ${names.length} others`;
-    } else if (names.length && names.length !== 0) {
+    } else if (names.length) {
       return t`with ${names.join(", ")}`;
+    } else if (ids().length) {
+      // Voice state has members; user profiles may still be hydrating.
+      return t`with ${ids().length} others`;
     } else {
       return t`Start the call`;
     }
@@ -38,10 +42,17 @@ export function VoiceCallCardPreview(props: { channel: Channel }) {
     <Preview onClick={() => voice.connect(props.channel)}>
       <Ripple />
       <Avatars>
-        <For each={users()} fallback={<Symbol size={24}>voice_chat</Symbol>}>
-          {(user) => (
-            <Avatar size={24} src={user?.avatar} fallback={user?.username} />
-          )}
+        <For each={ids()} fallback={<Symbol size={24}>voice_chat</Symbol>}>
+          {(id, index) => {
+            const user = () => users()[index()];
+            return (
+              <Avatar
+                size={24}
+                src={user()?.avatar}
+                fallback={user()?.username ?? id}
+              />
+            );
+          }}
         </For>
       </Avatars>
       <Text class="title" size="large">
@@ -65,12 +76,14 @@ const Preview = styled("div", {
     borderRadius: "var(--borderRadius-lg)",
 
     height: "100%",
+    minHeight: 0,
+    boxSizing: "border-box",
     justifyContent: "center",
 
     display: "flex",
     flexDirection: "column",
     gap: "var(--gap-sm)",
-    padding: "var(--gap-lg)",
+    padding: "var(--gap-md)",
 
     color: "var(--md-sys-color-on-surface)",
   },

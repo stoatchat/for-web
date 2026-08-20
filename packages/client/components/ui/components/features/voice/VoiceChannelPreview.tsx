@@ -1,4 +1,4 @@
-import { For, Show, splitProps } from "solid-js";
+import { For, Show, createMemo, splitProps } from "solid-js";
 import {
   TrackLoop,
   useEnsureParticipant,
@@ -38,7 +38,7 @@ export function VoiceChannelPreview(props: { channel: Channel }) {
 }
 
 /**
- * Use API as the source of truth
+ * Use LiveKit as the source of truth (when connected to this channel)
  */
 function VariantLive() {
   const tracks = useTracks(
@@ -54,13 +54,17 @@ function VariantLive() {
 }
 
 /**
- * Use LiveKit as the source of truth
+ * Use API voice state as the source of truth (before joining / other channels)
  */
 function VariantPreview(props: { channel: Channel }) {
+  const participants = createMemo(() => [
+    ...props.channel.voiceParticipants.values(),
+  ]);
+
   return (
-    <Show when={props.channel.voiceParticipants.size}>
+    <Show when={participants().length}>
       <Base>
-        <For each={[...props.channel.voiceParticipants.values()]}>
+        <For each={participants()}>
           {(participant) => <ParticipantPreview participant={participant} />}
         </For>
       </Base>
@@ -134,29 +138,35 @@ function CommonUser(props: {
   const user = useUser(() => rest.userId);
 
   return (
-    <div
-      class={previewUser({ speaking: rest.speaking })}
-      use:floating={{
-        userCard: {
-          user: user().user!,
-          member: user().member,
-        },
-        contextMenu: () => (
-          <UserContextMenu
-            user={user().user!}
-            member={user().member}
-            inVoice={rest.isLive}
-          />
-        ),
-      }}
-    >
-      <Ripple />
-      <Avatar size={24} src={user().avatar} fallback={user().username} />{" "}
-      <PreviewUsername>{user().username}</PreviewUsername>
-      <Row gap="sm">
-        <VoiceStatefulUserIcons {...iconProps} userId={rest.userId} />
-      </Row>
-    </div>
+    <Show when={user().user || user().username}>
+      <div
+        class={previewUser({ speaking: rest.speaking })}
+        use:floating={
+          user().user
+            ? {
+                userCard: {
+                  user: user().user!,
+                  member: user().member,
+                },
+                contextMenu: () => (
+                  <UserContextMenu
+                    user={user().user!}
+                    member={user().member}
+                    inVoice={rest.isLive}
+                  />
+                ),
+              }
+            : {}
+        }
+      >
+        <Ripple />
+        <Avatar size={24} src={user().avatar} fallback={user().username} />{" "}
+        <PreviewUsername>{user().username}</PreviewUsername>
+        <Row gap="sm">
+          <VoiceStatefulUserIcons {...iconProps} userId={rest.userId} />
+        </Row>
+      </div>
+    </Show>
   );
 }
 

@@ -114,7 +114,14 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
-      sty.height = `${inf.pos.height}px`;
+      // PR #22 sizes the card to the mount. A 0×0 mount (pre-layout) used to
+      // collapse the pre-join preview to height 0 and hide participants.
+      // Only apply a positive height; otherwise keep CSS so the join card stays visible.
+      if (inf.pos.height > 0) {
+        sty.height = `${inf.pos.height}px`;
+      } else {
+        sty.height = "";
+      }
       setMode();
     } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
@@ -259,6 +266,8 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   onMount(() => {
     if (!ref) return;
     createResizeObserver(ref, updateInfo);
+    // Remeasure after layout so the first paint is not stuck at 0×0.
+    requestAnimationFrame(updateInfo);
   });
   onCleanup(() => {
     setInfo();
@@ -271,7 +280,7 @@ const MountAnchor = styled("div", {
   base: {
     width: "100%",
     height: "100%",
-    minHeight: 0,
+    minHeight: "100%",
   },
 });
 
@@ -344,8 +353,10 @@ const Card = styled("div", {
         width: "100%",
       },
       false: {
-        width: "360px",
-        height: "120px",
+        // Fill the reserved pre-join strip so participant avatars/names stay visible.
+        width: "100%",
+        height: "100%",
+        minHeight: 0,
         cursor: "pointer",
       },
     },
