@@ -44,7 +44,17 @@ export function VoiceStatefulUserIcons(props: {
         </Symbol>
       </Show>
       <Show when={props.deafened}>
-        <Symbol size={16}>headset_off</Symbol>
+        <Symbol
+          size={16}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content: t`Deafened`,
+            },
+          }}
+        >
+          headset_off
+        </Symbol>
       </Show>
       <Show when={props.camera}>
         <Symbol size={16}>camera_video</Symbol>

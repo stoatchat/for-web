@@ -1,5 +1,6 @@
 import { getVirtmic } from "./virtualMic";
 
+export { useIsDeafened } from "./deafenAttribute";
 export { useVoice, VoiceContext } from "./state";
 
 export { InRoom } from "./components/InRoom";

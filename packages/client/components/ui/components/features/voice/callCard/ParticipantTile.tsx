@@ -14,7 +14,7 @@ import { styled } from "styled-system/jsx";
 
 import { UserContextMenu } from "@revolt/app";
 import { useUser } from "@revolt/markdown/users";
-import { useVoice } from "@revolt/rtc";
+import { useIsDeafened, useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { Avatar } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
@@ -48,6 +48,7 @@ export function ParticipantTile(props: TileProps) {
     participant,
     source: Track.Source.Microphone,
   });
+  const isDeafened = useIsDeafened(participant);
 
   const isScreenShareAudioMuted = useIsMuted({
     participant,
@@ -180,6 +181,9 @@ export function ParticipantTile(props: TileProps) {
                 <VoiceStatefulUserIcons
                   userId={participant.identity}
                   muted={isMuted()}
+                  deafened={
+                    (participant.isLocal && voice.deafen()) || isDeafened()
+                  }
                   camera={isVideo()}
                 />
               )}

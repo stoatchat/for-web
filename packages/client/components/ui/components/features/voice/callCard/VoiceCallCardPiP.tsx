@@ -14,7 +14,7 @@ import { Track } from "livekit-client";
 import { styled } from "styled-system/jsx";
 
 import { useUser } from "@revolt/markdown/users";
-import { useVoice } from "@revolt/rtc";
+import { useIsDeafened, useVoice } from "@revolt/rtc";
 import { Avatar } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -57,6 +57,8 @@ export function VoiceCallCardPiP() {
 
 function ConnectedUser() {
   const participant = useEnsureParticipant();
+  const voice = useVoice();
+  const isDeafened = useIsDeafened(participant);
 
   const isMuted = useIsMuted({
     participant,
@@ -65,6 +67,7 @@ function ConnectedUser() {
 
   const isSpeaking = useIsSpeaking(participant);
   const user = useUser(participant.identity);
+  const showDeafened = (participant.isLocal && voice.deafen()) || isDeafened();
 
   return (
     <UserIcon speaking={isSpeaking()}>
@@ -76,6 +79,9 @@ function ConnectedUser() {
       />
       <Show when={isMuted()}>
         <Symbol background="rgba(0,0,0,.5)">mic_off</Symbol>
+      </Show>
+      <Show when={showDeafened}>
+        <Symbol background="rgba(0,0,0,.5)">headset_off</Symbol>
       </Show>
     </UserIcon>
   );
