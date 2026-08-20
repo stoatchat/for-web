@@ -16,6 +16,7 @@ import {
 } from "solid-livekit-components";
 
 import {
+  ConnectionState,
   LocalTrackPublication,
   RemoteTrackPublication,
   Room,
@@ -40,6 +41,7 @@ import { VoiceCallCardContext } from "@revolt/ui/components/features/voice/callC
 import { Device, useDevice } from "@revolt/common";
 import { InRoom } from "./components/InRoom";
 import { RoomAudioManager } from "./components/RoomAudioManager";
+import { deafenAttributePayload } from "./deafenAttribute";
 import {
   SCREEN_SHARE_PRESET_GAMING,
   SCREEN_SHARE_PRESET_HIGH,
@@ -218,6 +220,12 @@ class Voice {
       setAutoGainControl(getSettings().autoGainControl ?? true);
       setNoiseSuppression(getSettings().noiseSupression ?? "browser");
       restartTrack();
+    });
+
+    createEffect(() => {
+      const deafened = getSettings().deafen;
+      this.state();
+      void this.#publishDeafenAttribute(deafened);
     });
   }
 
@@ -421,6 +429,19 @@ class Voice {
     const liveMic = room.localParticipant.isMicrophoneEnabled;
     if (!this.#settings.deafen && this.#settings.micOn !== liveMic) {
       this.#settings.micOn = liveMic;
+    }
+  }
+
+  async #publishDeafenAttribute(deafened: boolean = this.#settings.deafen) {
+    const room = this.room();
+    if (!room || room.state !== ConnectionState.Connected) return;
+
+    try {
+      await room.localParticipant.setAttributes(
+        deafenAttributePayload(deafened),
+      );
+    } catch (e) {
+      this.onErr(e);
     }
   }
 
