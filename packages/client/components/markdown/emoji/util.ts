@@ -1,11 +1,7 @@
 import emojiRegex from "emoji-regex";
 
+import { RE_CUSTOM_EMOJI } from "stoat.js";
 import { MarkdownProps } from "..";
-
-/**
- * Regex for custom emoji
- */
-export const RE_CUSTOM_EMOJI = /:([0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}):/g;
 
 /**
  * Regex for any emoji
