@@ -29,6 +29,11 @@ export const ScreenShareQualityNames: ScreenShareQualityName[] = [
   "text",
 ];
 
+function storedVolume(volume: number | undefined): number {
+  const n = Number(volume);
+  return Number.isFinite(n) ? n : 1.0;
+}
+
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
@@ -221,7 +226,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    * @param volume Volume
    */
   setUserVolume(userId: string, volume: number) {
-    this.set("userVolumes", userId, volume);
+    this.set("userVolumes", userId, storedVolume(volume));
   }
 
   /**
@@ -230,7 +235,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    * @returns Volume or default
    */
   getUserVolume(userId: string): number {
-    return this.get().userVolumes[userId] || 1.0;
+    return storedVolume(this.get().userVolumes[userId]);
   }
 
   /**
@@ -257,7 +262,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    * @param volume Volume
    */
   setScreenShareVolume(userId: string, volume: number) {
-    this.set("screenShareVolumes", userId, volume);
+    this.set("screenShareVolumes", userId, storedVolume(volume));
   }
 
   /**
@@ -266,7 +271,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    * @returns Volume or default
    */
   getScreenShareVolume(userId: string): number {
-    return this.get().screenShareVolumes[userId] || 1.0;
+    return storedVolume(this.get().screenShareVolumes[userId]);
   }
 
   /**
