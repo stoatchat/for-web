@@ -1011,14 +1011,14 @@ class Voice {
 
     const id = this.#screenShareWatchId(participant.sid);
     if (this.watchingLive.has(id)) {
-      // User already opted in; leave subscription state alone.
       return;
     }
 
-    this.#touchWatchingLive();
-
     for (const pub of [screenShare, screenShareAudio]) {
-      if (pub instanceof RemoteTrackPublication) {
+      if (
+        pub instanceof RemoteTrackPublication &&
+        pub.isSubscribed
+      ) {
         pub.setSubscribed(false);
       }
     }
@@ -1054,12 +1054,17 @@ class Voice {
     const publication = track.publication;
     if (!(publication instanceof RemoteTrackPublication)) return;
 
-    publication.setSubscribed(subscribed);
+    if (publication.isSubscribed !== subscribed) {
+      publication.setSubscribed(subscribed);
+    }
 
     const audioPublication = track.participant.getTrackPublication(
       Track.Source.ScreenShareAudio,
     );
-    if (audioPublication instanceof RemoteTrackPublication) {
+    if (
+      audioPublication instanceof RemoteTrackPublication &&
+      audioPublication.isSubscribed !== subscribed
+    ) {
       audioPublication.setSubscribed(subscribed);
     }
   }

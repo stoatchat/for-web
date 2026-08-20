@@ -99,6 +99,7 @@ function MiniVideoTile() {
 
 function MiniVideo() {
   const track = useTrackRefContext();
+  const isScreenShare = () => track.source === Track.Source.ScreenShare;
 
   return (
     <VideoTrack
@@ -113,7 +114,7 @@ function MiniVideo() {
         overflow: "hidden",
       }}
       trackRef={track as TrackReference}
-      manageSubscription={true}
+      manageSubscription={!isScreenShare()}
     />
   );
 }

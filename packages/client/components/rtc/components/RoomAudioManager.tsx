@@ -42,11 +42,13 @@ export function RoomAudioManager() {
     for (const track of tracks) {
       const publication = track.publication as RemoteTrackPublication;
       if (isScreenShareAudioSource(track.source)) {
-        // Screen share audio follows the same opt-in as video (Resume watching).
-        publication.setSubscribed(
-          !voice.isScreenShareWatchingStopped(track.participant.sid),
+        const shouldSubscribe = !voice.isScreenShareWatchingStopped(
+          track.participant.sid,
         );
-      } else {
+        if (publication.isSubscribed !== shouldSubscribe) {
+          publication.setSubscribed(shouldSubscribe);
+        }
+      } else if (!publication.isSubscribed) {
         publication.setSubscribed(true);
       }
     }

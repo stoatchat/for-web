@@ -148,7 +148,7 @@ export function ParticipantTile(props: TileProps) {
               overflow: "hidden",
             }}
             trackRef={track as TrackReference}
-            manageSubscription={!isScreenShare() || !watchingStopped()}
+            manageSubscription={!isScreenShare()}
             ref={videoRef}
             on:resize={() => {
               setVideoDims({
