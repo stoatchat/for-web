@@ -4,6 +4,7 @@ import { TextEmbed as TextEmbedClass, WebsiteEmbed } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { Markdown } from "@revolt/markdown";
 import { RenderAnchor } from "@revolt/markdown/plugins/anchors";
 import { useModals } from "@revolt/modal";
@@ -84,6 +85,7 @@ const Description = styled("div", {
  */
 export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
   const { openModal } = useModals();
+  const { message, reactPicker } = useMessage();
 
   return (
     <Base style={{ "border-color": props.embed.colour }}>
@@ -175,6 +177,18 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                       embed: (props.embed as WebsiteEmbed).image!,
                     })
                   }
+                  use:floating={{
+                    contextMenu: () => (
+                      <MessageContextMenu
+                        message={message}
+                        reactPicker={reactPicker}
+                        imageUrl={
+                          (props.embed as WebsiteEmbed).image!.proxiedURL ??
+                          (props.embed as WebsiteEmbed).image!.url
+                        }
+                      />
+                    ),
+                  }}
                 />
               </SizedContent>
             </Match>

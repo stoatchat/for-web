@@ -9,6 +9,7 @@ import {
 } from "stoat.js";
 import { css } from "styled-system/css";
 
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { isGifBox, isGif as isGifLib } from "@revolt/common/lib/gifs";
 import { useModals } from "@revolt/modal";
 import { SizedContent } from "@revolt/ui/components/utils";
@@ -20,6 +21,7 @@ import { TextEmbed } from "./TextEmbed";
  */
 export function Embed(props: { embed: MessageEmbed }) {
   const { openModal } = useModals();
+  const { message, reactPicker } = useMessage();
 
   /**
    * Whether the embed is a GIF
@@ -62,6 +64,19 @@ export function Embed(props: { embed: MessageEmbed }) {
                 embed: image(),
               })
             }
+            use:floating={{
+              contextMenu: () => (
+                <MessageContextMenu
+                  message={message}
+                  reactPicker={reactPicker}
+                  imageUrl={
+                    isGIF() && !isGifBox(props.embed)
+                      ? image()!.url
+                      : (image()!.proxiedURL ?? image()!.url)
+                  }
+                />
+              ),
+            }}
           />
         </SizedContent>
       </Match>
