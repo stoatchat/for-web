@@ -77,9 +77,15 @@ export function VoiceCallCardActiveRoom() {
       fullscreen={fullscreen()}
       onPointerMove={() => fullscreen() && revealControls()}
     >
-      <Participants />
+      <Participants
+        controlsVisible={visible()}
+        onRevealControls={() => fullscreen() && revealControls()}
+      />
       <Show when={fullscreen() && voice.focusId()}>
-        <FocusBarControls />
+        <FocusBarControls
+          visible={visible()}
+          onPointerDown={() => fullscreen() && revealControls()}
+        />
       </Show>
       <VoiceCallControls
         fullscreen={fullscreen()}
@@ -142,9 +148,15 @@ function FocusBarControlsButtons() {
   );
 }
 
-function FocusBarControls() {
+function FocusBarControls(props: {
+  visible: boolean;
+  onPointerDown: () => void;
+}) {
   return (
-    <FocusBarControlsHolder>
+    <FocusBarControlsHolder
+      visible={props.visible}
+      onPointerDown={props.onPointerDown}
+    >
       <FocusBarControlsButtons />
     </FocusBarControlsHolder>
   );
@@ -210,7 +222,10 @@ const TILE_MIN_WIDTH = "250px",
 /**
  * Show a grid of participants
  */
-function Participants() {
+function Participants(props: {
+  controlsVisible: boolean;
+  onRevealControls: () => void;
+}) {
   const voice = useVoice();
   const { t } = useLingui();
 
@@ -259,7 +274,11 @@ function Participants() {
       <InRoom>
         <FocusedParticipant />
         <Show when={voice.stoppedScreenShareTrack() && !voice.focusId()}>
-          <ShowBarButtonHolder>
+          <ShowBarButtonHolder
+            fullscreen={voice.fullscreen()}
+            visible={voice.fullscreen() ? props.controlsVisible : true}
+            onPointerDown={() => voice.fullscreen() && props.onRevealControls()}
+          >
             <IconButton
               size="xs"
               variant={"tonal"}
@@ -407,11 +426,25 @@ const FocusBarControlsHolder = styled("div", {
     display: "flex",
     justifyContent: "center",
     gap: "var(--gap-sm)",
+    transition: "opacity 0.25s ease",
     pointerEvents: "none",
 
     "& button, & [role=button]": {
       pointerEvents: "auto",
     },
+  },
+  variants: {
+    visible: {
+      true: {
+        opacity: 1,
+      },
+      false: {
+        opacity: 0,
+      },
+    },
+  },
+  defaultVariants: {
+    visible: true,
   },
 });
 
@@ -455,6 +488,41 @@ const ShowBarButtonHolder = styled("div", {
     overflow: "visible",
     display: "flex",
     flexDirection: "column-reverse",
+  },
+  variants: {
+    fullscreen: {
+      true: {
+        transition: "opacity 0.25s ease",
+        pointerEvents: "none",
+
+        "& button, & [role=button]": {
+          pointerEvents: "auto",
+        },
+      },
+    },
+    visible: {
+      true: {},
+      false: {},
+    },
+  },
+  compoundVariants: [
+    {
+      fullscreen: true,
+      visible: true,
+      css: {
+        opacity: 1,
+      },
+    },
+    {
+      fullscreen: true,
+      visible: false,
+      css: {
+        opacity: 0,
+      },
+    },
+  ],
+  defaultVariants: {
+    visible: true,
   },
 });
 
