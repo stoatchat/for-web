@@ -118,30 +118,43 @@ export function TextChannel(props: ChannelPageProps) {
       () => props.channel.unread && atEnd(),
       (unread) => {
         if (unread) {
-          if (document.hasFocus()) {
-            // acknowledge the message
+          // Prefer visibility over hasFocus — Electron custom frames often
+          // report hasFocus=false while the channel view is still on screen.
+          if (document.visibilityState === "visible") {
             props.channel.ack();
-          } else {
-            // otherwise mark this location as the last read location
-            if (!lastId()) {
-              // (taking away one second from the seed)
-              setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
-            }
+          } else if (!lastId()) {
+            // (taking away one second from the seed)
+            setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
           }
         }
       },
     ),
   );
 
-  // Mark as read on re-focus
+  // Mark as read on re-focus / becoming visible
   function onFocus() {
     if (props.channel.unread && atEnd()) {
       props.channel.ack();
     }
   }
 
+  function onVisibility() {
+    if (
+      document.visibilityState === "visible" &&
+      props.channel.unread &&
+      atEnd()
+    ) {
+      props.channel.ack();
+    }
+  }
+
   document.addEventListener("focus", onFocus);
-  onCleanup(() => document.removeEventListener("focus", onFocus));
+  document.addEventListener("visibilitychange", onVisibility);
+  onCleanup(() => {
+    document.removeEventListener("focus", onFocus);
+    document.removeEventListener("visibilitychange", onVisibility);
+    props.channel.flushPendingAck();
+  });
 
   // Register ack/jump latest
   createKeybind(KeybindAction.CHAT_JUMP_END, () => {
