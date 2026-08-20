@@ -120,6 +120,7 @@ export function ParticipantTile(props: TileProps) {
               member={user().member}
               inVoice={!isScreenShare()}
               isScreenshare={isScreenShare()}
+              screenShareTrack={isScreenShare() ? track : undefined}
             />
           ),
         }}

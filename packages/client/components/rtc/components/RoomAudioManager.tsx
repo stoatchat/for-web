@@ -54,14 +54,12 @@ export function RoomAudioManager() {
     <div style={{ display: "none" }}>
       <Key each={filteredTracks()} by={(item) => getTrackReferenceId(item)}>
         {(track) => {
+          // Solid components run once — keep mute/volume reads inside JSX so
+          // store + stop-watching updates reach AudioTrack (setEnabled / setVolume).
           const t = track();
           const streamAudio = isScreenShareAudioSource(t.source);
-          const watchingStopped =
-            streamAudio &&
-            voice.isScreenShareWatchingStopped(t.participant.sid);
-          const perTrackMuted = streamAudio
-            ? state.voice.getScreenShareMuted(t.participant.identity)
-            : state.voice.getUserMuted(t.participant.identity);
+          const identity = t.participant.identity;
+          const participantSid = t.participant.sid;
 
           return (
             <AudioTrack
@@ -69,12 +67,15 @@ export function RoomAudioManager() {
               volume={
                 state.voice.outputVolume *
                 (streamAudio
-                  ? state.voice.getScreenShareVolume(t.participant.identity)
-                  : state.voice.getUserVolume(t.participant.identity))
+                  ? state.voice.getScreenShareVolume(identity)
+                  : state.voice.getUserVolume(identity))
               }
               muted={
-                watchingStopped ||
-                perTrackMuted ||
+                (streamAudio &&
+                  voice.isScreenShareWatchingStopped(participantSid)) ||
+                (streamAudio
+                  ? state.voice.getScreenShareMuted(identity)
+                  : state.voice.getUserMuted(identity)) ||
                 (!streamAudio && voice.deafen())
               }
               enableBoosting
