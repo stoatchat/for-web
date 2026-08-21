@@ -8,6 +8,7 @@ import { useClient } from "@revolt/client";
 import { useDurationFormat } from "@revolt/i18n/durations";
 import { useUsers } from "@revolt/markdown/users";
 import { Avatar, OverflowingText, Symbol, typography } from "@revolt/ui";
+import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 interface Props {
@@ -128,7 +129,8 @@ export function CompositionInfo(props: Props) {
         </OverflowingText>
       </Show>
       <Show when={props.channel.slowmode}>
-        <SlowmodeHolder
+        <div
+          class={SlowmodeHolder()}
           use:floating={{
             tooltip: {
               placement: "top",
@@ -143,7 +145,7 @@ export function CompositionInfo(props: Props) {
               <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
             </Switch>
           </SlowmodeText>
-        </SlowmodeHolder>
+        </div>
       </Show>
     </Bar>
   );
@@ -193,13 +195,14 @@ const Dummy = styled("div", {
   },
 });
 
-const SlowmodeHolder = styled("div", {
+const SlowmodeHolder = cva({
   base: {
     display: "flex",
     alignItems: "center",
     marginLeft: "auto",
     gap: "var(--gap-sm)",
     color: "var(--md-sys-color-outline)",
+    flexShrink: 0,
   },
 });
 

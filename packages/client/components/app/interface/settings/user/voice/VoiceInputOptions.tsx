@@ -74,7 +74,7 @@ function SelectInput(props: { kind: MediaDeviceKind }) {
     const devs = media()
       .devices()
       // Filter out the virtual sink
-      .filter((dev) => dev.label !== stoatSinkName);
+      .filter((dev) => dev.label.split(":").pop() !== stoatSinkName);
 
     //Ensure default is at top
     let d = devs.find((d) => d.deviceId === "default");
