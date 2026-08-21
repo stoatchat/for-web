@@ -413,6 +413,13 @@ class Voice {
     this.device.releaseWakeLock();
     try {
       const room = this.room();
+      const channel = this.channel();
+      // Drop local user from API voice preview immediately. Leave webhooks can
+      // lag or fail (voice-ingress); without this, End Call leaves a ghost.
+      const localId = room?.localParticipant?.identity;
+      if (channel && localId) {
+        channel.voiceParticipants.delete(localId);
+      }
       if (!room) return;
 
       room.removeAllListeners();
