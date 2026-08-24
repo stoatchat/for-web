@@ -20,7 +20,6 @@ import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
-import { VoiceCallCardCollapsed } from "./VoiceCallCardActions";
 import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
@@ -125,11 +124,13 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
-      sty.height = "";
+      sty.height = voice.collapsed() ? "56px" : "40vh";
       setMode();
     } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
       sty.transform = `translate(${innerWidth + 50}px, ${y}px)`;
+      sty.width = "";
+      sty.height = "";
       setMode();
     } else if (!mode()) setFloat("tr");
   });
@@ -141,6 +142,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
       x = float[1] === "l" ? PAD_X : `calc(100vw - var(--flt-w) - ${PAD_X})`,
       y = float[0] === "t" ? PAD_Y : `calc(100vh - var(--flt-h) - ${PAD_Y})`;
     sty.transform = `translate(${x}, ${y})`;
+    sty.width = "";
     sty.height = "";
     setMode("floating");
   }
@@ -210,7 +212,7 @@ const Float = styled("div", {
     position: "fixed",
     zIndex: 10,
     pointerEvents: "none",
-    transition: "all .3s cubic-bezier(1, 0, 0, 1)",
+    transition: "all var(--transitions-medium)",
     height: "40vh",
     touchAction: "none",
   },
@@ -295,22 +297,33 @@ function VoiceCallCard(props: {
 }) {
   return (
     <Show when={props.showCard}>
-      <Base fullscreen={props.fullscreen} expanded={props.expanded}>
-        <Card
-          active={props.inCall}
-          fullscreen={props.fullscreen}
-          expanded={props.expanded}
-          collapsed={props.collapsed}
+      <Base
+        fullscreen={props.fullscreen}
+        expanded={props.expanded}
+        collapsed={props.collapsed}
+      >
+        <Show
+          when={props.inCall}
+          fallback={
+            <Card
+              active={false}
+              fullscreen={props.fullscreen}
+              expanded={props.expanded}
+              collapsed={false}
+            >
+              <VoiceCallCardPreview channel={props.channel} />
+            </Card>
+          }
         >
-          <Show
-            when={props.inCall}
-            fallback={<VoiceCallCardPreview channel={props.channel} />}
+          <Card
+            active={true}
+            fullscreen={props.fullscreen}
+            expanded={props.expanded}
+            collapsed={props.collapsed}
           >
-            <Show when={props.collapsed} fallback={<VoiceCallCardActiveRoom />}>
-              <VoiceCallCardCollapsed />
-            </Show>
-          </Show>
-        </Card>
+            <VoiceCallCardActiveRoom collapsed={props.collapsed} />
+          </Card>
+        </Show>
       </Base>
     </Show>
   );
@@ -319,18 +332,21 @@ function VoiceCallCard(props: {
 const Base = styled("div", {
   base: {
     left: 0,
-    top: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    top: 0,
+    padding: 0,
 
     width: "100%",
+    height: "100%",
     position: "absolute",
 
     zIndex: 2,
     userSelect: "none",
+    pointerEvents: "none",
 
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
+    transition: "all var(--transitions-medium)",
   },
   variants: {
     fullscreen: {
@@ -345,6 +361,12 @@ const Base = styled("div", {
         top: 0,
         height: "100%",
         padding: 0,
+      },
+      false: {},
+    },
+    collapsed: {
+      true: {
+        paddingTop: "var(--gap-sm)",
       },
       false: {},
     },
@@ -356,9 +378,12 @@ const Card = styled("div", {
     pointerEvents: "all",
 
     maxWidth: "100%",
-    transition: "var(--transitions-fast) all",
-    transitionTimingFunction: "ease-in-out",
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
 
+    transition:
+      "background var(--transitions-medium), border-radius var(--transitions-medium)",
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",
   },
@@ -366,6 +391,7 @@ const Card = styled("div", {
     active: {
       true: {
         width: "100%",
+        height: "100%",
       },
       false: {
         width: "360px",
@@ -375,39 +401,26 @@ const Card = styled("div", {
     },
     fullscreen: {
       true: {
-        height: "100%",
         borderRadius: 0,
       },
       false: {},
     },
     expanded: {
       true: {
-        height: "100%",
+        borderRadius: "var(--borderRadius-xl)",
       },
       false: {},
     },
     collapsed: {
       true: {
-        width: "fit-content",
-        height: "auto",
         background: "transparent",
       },
       false: {},
     },
   },
-  compoundVariants: [
-    {
-      active: [true],
-      fullscreen: [false],
-      expanded: [false],
-      collapsed: [false],
-      css: {
-        height: "40vh",
-      },
-    },
-  ],
   defaultVariants: {
     active: false,
     fullscreen: false,
+    collapsed: false,
   },
 });

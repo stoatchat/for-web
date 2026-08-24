@@ -16,19 +16,21 @@ import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 /**
  * Call card (active)
  */
-export function VoiceCallCardActiveRoom() {
+export function VoiceCallCardActiveRoom(props: { collapsed?: boolean }) {
   return (
-    <View>
-      <Participants />
+    <View collapsed={props.collapsed}>
+      <ParticipantsWrapper collapsed={props.collapsed}>
+        <Participants />
+      </ParticipantsWrapper>
       <VoiceCallControls>
-        <VoiceCallControlHolder right>
+        <VoiceCallControlHolder left collapsed={props.collapsed}>
+          <VoiceCallCardStatus />
+        </VoiceCallControlHolder>
+        <VoiceCallCardActions size="sm" compact={props.collapsed} />
+        <VoiceCallControlHolder right collapsed={props.collapsed}>
           <VoiceCallCollapseButton />
           <VoiceCallExpandButton />
           <VoiceCallFullscreen />
-        </VoiceCallControlHolder>
-        <VoiceCallCardActions size="sm" />
-        <VoiceCallControlHolder left overflow>
-          <VoiceCallCardStatus />
         </VoiceCallControlHolder>
       </VoiceCallControls>
     </View>
@@ -211,8 +213,18 @@ const View = styled("div", {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-md)",
     padding: "var(--gap-md)",
+    boxSizing: "border-box",
+    transition: "padding var(--transitions-medium)",
+  },
+  variants: {
+    collapsed: {
+      true: {
+        padding: "0px",
+        justifyContent: "center",
+      },
+      false: {},
+    },
   },
 });
 
@@ -225,43 +237,71 @@ const DesktopOnly = styled("div", {
   },
 });
 
+const ParticipantsWrapper = styled("div", {
+  base: {
+    flexGrow: 1,
+    minHeight: 0,
+    display: "flex",
+    flexDirection: "column",
+    transition: "opacity var(--transitions-medium)",
+    opacity: 1,
+    overflow: "hidden",
+  },
+  variants: {
+    collapsed: {
+      true: {
+        opacity: 0,
+        pointerEvents: "none",
+      },
+      false: {
+        opacity: 1,
+      },
+    },
+  },
+});
+
 const VoiceCallControls = styled("div", {
   base: {
     display: "flex",
-    flexShrink: "0",
-    overflow: "hidden",
-    flexDirection: "row-reverse",
+    position: "relative",
+    flexShrink: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    minHeight: "44px",
   },
 });
 
 const VoiceCallControlHolder = styled("div", {
   base: {
     display: "flex",
-    flex: "1",
-    alignSelf: "center",
+    position: "absolute",
+    alignItems: "center",
     gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    transition: "opacity var(--transitions-medium)",
+    opacity: 1,
+    zIndex: 1,
   },
   variants: {
-    right: {
-      true: {
-        justifyContent: "flex-end",
-      },
-    },
-    empty: {
-      true: {
-        gap: "0px",
-        padding: "0px",
-      },
-    },
     left: {
       true: {
-        justifyContent: "flex-start",
+        left: 0,
+        overflow: "hidden",
+        maxWidth: "40%",
       },
     },
-    overflow: {
+    right: {
       true: {
-        overflow: "hidden",
+        right: 0,
+      },
+    },
+    collapsed: {
+      true: {
+        opacity: 0,
+        pointerEvents: "none",
+      },
+      false: {
+        opacity: 1,
       },
     },
   },

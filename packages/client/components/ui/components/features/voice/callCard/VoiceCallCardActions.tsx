@@ -40,7 +40,7 @@ export function VoiceCallCardActions(props: {
           <Symbol>arrow_top_left</Symbol>
         </IconButton>
       </Show>
-      <Show when={props.compact}>
+      <CompactButton show={!!props.compact}>
         <IconButton
           variant="standard"
           size={props.size}
@@ -54,7 +54,7 @@ export function VoiceCallCardActions(props: {
         >
           <Symbol>unfold_more</Symbol>
         </IconButton>
-      </Show>
+      </CompactButton>
       <IconButton
         size={props.size}
         variant={voice.microphone() ? "filled" : "tonal"}
@@ -168,11 +168,34 @@ export function VoiceCallCardCollapsed(props: { size?: "xs" | "sm" }) {
   );
 }
 
+const CompactButton = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    transition: "all var(--transitions-medium)",
+    overflow: "hidden",
+  },
+  variants: {
+    show: {
+      true: {
+        width: "36px",
+        opacity: 1,
+      },
+      false: {
+        width: "0px",
+        opacity: 0,
+        pointerEvents: "none",
+      },
+    },
+  },
+});
+
 const CompactContainer = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    pointerEvents: "all",
   },
 });
 
@@ -182,6 +205,7 @@ const Actions = styled("div", {
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
     zIndex: 2,
+    pointerEvents: "all",
 
     display: "flex",
     width: "fit-content",
@@ -190,5 +214,6 @@ const Actions = styled("div", {
 
     borderRadius: "var(--borderRadius-full)",
     background: "var(--md-sys-color-surface-container)",
+    transition: "all var(--transitions-medium)",
   },
 });
