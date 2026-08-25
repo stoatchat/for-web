@@ -1,8 +1,4 @@
-import {
-  type Accessor,
-  type InitializedResource,
-  createResource,
-} from "solid-js";
+import { type Accessor, createMemo } from "solid-js";
 
 import { ServerMember, User } from "stoat.js";
 
@@ -57,39 +53,6 @@ export function userInformation(user?: User, member?: ServerMember) {
   };
 }
 
-async function getOrFetchUsers(options: {
-  ids: string[];
-  params: Accessor<{ serverId?: string }>;
-  filterNull?: boolean;
-}) {
-  const client = useClient();
-  const serverId = options.params().serverId;
-  return Promise.all(
-    options.ids.map(async (id) => {
-      const user =
-        client().users.get(id) ??
-        (await client()
-          .users.fetch(id)
-          .catch(() => null));
-
-      // Edge case: what if user fails to fetch on a spotty/intermittent conenction?
-      // Promise.all fails as soon as possible, so if one fetch fails, everything else
-      // does too and we don't get any data at all
-      if (!user) return undefined;
-
-      return userInformation(
-        user,
-        serverId
-          ? client().serverMembers.getByKey({
-              server: serverId,
-              user: user.id,
-            })
-          : undefined,
-      );
-    }),
-  ).then((arr) => (options.filterNull ? arr.filter((x) => x) : arr));
-}
-
 /**
  * Resolve multiple users by their ID within the current context
  * @param ids User IDs
@@ -99,18 +62,47 @@ async function getOrFetchUsers(options: {
 export function useUsers(
   ids: string[] | Accessor<string[]>,
   filterNull?: boolean,
-): InitializedResource<(UserInformation | undefined)[]> {
+): Accessor<(UserInformation | undefined)[]> {
   // TODO: use a context here for when we do multi view :)
   const params = useSmartParams();
-  const [users] = createResource(
-    {
-      ids: typeof ids === "function" ? ids() : ids,
-      params,
-      filterNull,
-    },
-    getOrFetchUsers,
-    { initialValue: [] as (UserInformation | undefined)[] },
-  );
+  const clientAccessor = useClient();
+
+  const pending = new Map<string, Promise<unknown>>();
+  function ensureUser(id: string) {
+    if (clientAccessor().users.has(id) || pending.has(id)) return;
+    const promise = clientAccessor()
+      .users.fetch(id)
+      .catch(() => undefined);
+
+    pending.set(id, promise);
+
+    promise.finally(() => {
+      pending.delete(id);
+    });
+  }
+
+  const users = createMemo(() => {
+    const list = (typeof ids === "function" ? ids() : ids).map((id) => {
+      const user = clientAccessor().users.get(id);
+      if (!user) {
+        // Fetch the user in the background and return an unknown user for now
+        ensureUser(id);
+        return userInformation();
+      }
+
+      return userInformation(
+        user,
+        params().serverId
+          ? clientAccessor().serverMembers.getByKey({
+              server: params().serverId!,
+              user: user.id,
+            })
+          : undefined,
+      );
+    });
+
+    return filterNull ? list.filter((x) => x) : list;
+  });
 
   return users;
 }
