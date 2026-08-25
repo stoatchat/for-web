@@ -17,9 +17,11 @@ import {
 import {
   LocalTrackPublication,
   Room,
+  ScreenShareCaptureOptions,
   ScreenSharePresets,
   Track,
-  VideoResolution,
+  VideoEncoding,
+  VideoPresets,
 } from "livekit-client";
 import { Channel } from "stoat.js";
 
@@ -46,11 +48,12 @@ type State =
   | "CONNECTED"
   | "RECONNECTING";
 
-type ScreenShareQuality = {
+type ScreenShareQuality = Required<
+  Pick<ScreenShareCaptureOptions, "contentHint" | "resolution">
+> & {
   name: ScreenShareQualityName;
-  resolution: VideoResolution;
   fullName: string;
-  contentHint: string;
+  encoding: VideoEncoding;
 };
 
 class Voice {
@@ -218,12 +221,13 @@ class Voice {
         deviceId: this.#settings.preferredAudioOutputDevice,
       },
       videoCaptureDefaults: {
-        resolution: {
-          width: 1280,
-          height: 720,
-          frameRate: 30,
-        },
+        // TODO: Support higher resolutions based on limits
+        resolution: VideoPresets.h720.resolution,
         deviceId: this.#settings.preferredVideoDevice,
+      },
+      publishDefaults: {
+        videoEncoding: VideoPresets.h720.encoding,
+        screenShareEncoding: ScreenSharePresets.h720fps30.encoding,
       },
     });
 
@@ -429,6 +433,7 @@ class Voice {
         resolution: ScreenSharePresets.h720fps30.resolution,
         fullName: `720p 30FPS`,
         contentHint: "motion",
+        encoding: ScreenSharePresets.h720fps30.encoding,
       },
     };
 
@@ -444,6 +449,7 @@ class Voice {
         resolution: ScreenSharePresets.h1080fps30.resolution,
         fullName: `1080p 30FPS`,
         contentHint: "motion",
+        encoding: ScreenSharePresets.h1080fps30.encoding,
       };
       const originalResolution = ScreenSharePresets.original.resolution;
       originalResolution.frameRate = 5;
@@ -463,6 +469,7 @@ class Voice {
         resolution: originalResolution,
         fullName: `Source 5FPS`,
         contentHint: "text",
+        encoding: ScreenSharePresets.original.encoding,
       };
     }
 
@@ -511,13 +518,14 @@ class Voice {
       }
 
       try {
+        const chosenQuality =
+          this.getEnabledScreenShareQualities()[
+            this.#settings.screenShareQuality || "low"
+          ];
         const localTrack = await room.localParticipant.setScreenShareEnabled(
           true,
           {
-            resolution:
-              this.getEnabledScreenShareQualities()[
-                this.#settings.screenShareQuality || "low"
-              ]?.resolution,
+            resolution: chosenQuality?.resolution,
             audio: {
               autoGainControl: false,
               echoCancellation: false,
@@ -526,6 +534,7 @@ class Voice {
               restrictOwnAudio: true,
             },
           },
+          { screenShareEncoding: chosenQuality?.encoding },
         );
 
         const screenAudioTrack = room.localParticipant.getTrackPublication(
@@ -555,25 +564,17 @@ class Voice {
             const quality = qualities[qualityName] || qualities.low!;
 
             if (localTrack.videoTrack) {
-              await localTrack.videoTrack.mediaStreamTrack.applyConstraints({
-                frameRate: { max: quality.resolution.frameRate },
-                width:
-                  quality.resolution.width === 0
-                    ? undefined
-                    : {
-                        ideal: quality.resolution.width,
-                        max: quality.resolution.width,
-                      },
-                height:
-                  quality.resolution.width === 0
-                    ? undefined
-                    : {
-                        ideal: quality.resolution.width,
-                        max: quality.resolution.height,
-                      },
-              });
-              localTrack.videoTrack.mediaStreamTrack.contentHint =
-                quality.contentHint;
+              await localTrack.videoTrack.applyScreenShareConstraints(
+                {
+                  resolution: {
+                    frameRate: quality.resolution.frameRate,
+                    width: quality.resolution.width,
+                    height: quality.resolution.height,
+                  },
+                  contentHint: quality.contentHint,
+                },
+                quality.encoding,
+              );
               if (!audio && screenAudioTrack?.track) {
                 room.localParticipant.unpublishTrack(screenAudioTrack.track);
               }
