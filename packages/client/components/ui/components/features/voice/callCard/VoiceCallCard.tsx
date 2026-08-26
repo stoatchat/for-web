@@ -17,6 +17,7 @@ import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useVoice } from "@revolt/rtc";
+import { VoiceLayout } from "@revolt/rtc/state";
 import { useState } from "@revolt/state";
 import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
@@ -107,13 +108,13 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     resetEvents();
 
     //Set mode based on state
-    if (voice.fullscreen()) {
+    if (voice.layout() === "fullscreen") {
       sty.transform = ``;
       sty.width = `100%`;
       sty.height = "";
       setMode();
     } else if (
-      voice.expanded() &&
+      voice.layout() === "expanded" &&
       inf?.parentRect &&
       (!inf.drawer || inf.drawer === SlideState.SHOWN)
     ) {
@@ -124,7 +125,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
       sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
       sty.width = `${inf.pos.width}px`;
-      sty.height = voice.collapsed() ? "56px" : "40vh";
+      sty.height = voice.layout() === "collapsed" ? "56px" : "";
       setMode();
     } else if (!inCall()) {
       const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
@@ -153,14 +154,12 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
     document
       .getElementById("floating")
       ?.addEventListener("fullscreenchange", () => {
-        if (!document.fullscreenElement) {
-          voice.toggleFullscreen(false);
-        }
+        if (!document.fullscreenElement) voice.resetLayout();
       });
   });
 
   createEffect(() => {
-    if (voice.fullscreen() && inCall()) {
+    if (voice.layout() === "fullscreen" && inCall()) {
       if (
         !document
           .getElementById("floating")
@@ -184,7 +183,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
           ref={ref}
           mode={mode()}
           onPointerDown={mouseDown}
-          fullscreen={voice.fullscreen()}
+          fullscreen={voice.layout() === "fullscreen"}
         >
           <Switch>
             <Match when={mode() && inCall()}>
@@ -195,9 +194,7 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
                 channel={channel()!}
                 inCall={inCall()}
                 showCard={voice.showCard(channel()!)}
-                fullscreen={voice.fullscreen()}
-                expanded={voice.expanded()}
-                collapsed={voice.collapsed()}
+                layout={voice.layout()}
               />
             </Match>
           </Switch>
@@ -212,7 +209,7 @@ const Float = styled("div", {
     position: "fixed",
     zIndex: 10,
     pointerEvents: "none",
-    transition: "all var(--transitions-medium)",
+    transition: "all .3s cubic-bezier(1, 0, 0, 1)",
     height: "40vh",
     touchAction: "none",
   },
@@ -231,7 +228,6 @@ const Float = styled("div", {
         top: 0,
         // Width is set by floating logic in effect above
       },
-      false: {},
     },
   },
   compoundVariants: [
@@ -256,13 +252,12 @@ export function VoiceChannelCallCardMount(props: { channel: Channel }) {
 
   function updateInfo() {
     const vc = voice.channel();
-    const parentRect = ref!.parentElement!.getBoundingClientRect();
     setInfo(
       !vc || vc.id === props.channel.id
         ? {
             channel: props.channel,
             pos: ref!.getBoundingClientRect(),
-            parentRect,
+            parentRect: ref!.parentElement!.getBoundingClientRect(),
             drawer: state.appDrawer()?.state,
           }
         : undefined,
@@ -291,39 +286,19 @@ function VoiceCallCard(props: {
   channel: Channel;
   inCall: boolean;
   showCard: boolean;
-  fullscreen: boolean;
-  expanded: boolean;
-  collapsed: boolean;
+  layout: VoiceLayout;
 }) {
   return (
     <Show when={props.showCard}>
-      <Base
-        fullscreen={props.fullscreen}
-        expanded={props.expanded}
-        collapsed={props.collapsed}
-      >
-        <Show
-          when={props.inCall}
-          fallback={
-            <Card
-              active={false}
-              fullscreen={props.fullscreen}
-              expanded={props.expanded}
-              collapsed={false}
-            >
-              <VoiceCallCardPreview channel={props.channel} />
-            </Card>
-          }
-        >
-          <Card
-            active={true}
-            fullscreen={props.fullscreen}
-            expanded={props.expanded}
-            collapsed={props.collapsed}
+      <Base layout={props.layout as never}>
+        <Card active={props.inCall} layout={props.layout}>
+          <Show
+            when={props.inCall}
+            fallback={<VoiceCallCardPreview channel={props.channel} />}
           >
-            <VoiceCallCardActiveRoom collapsed={props.collapsed} />
-          </Card>
-        </Show>
+            <VoiceCallCardActiveRoom />
+          </Show>
+        </Card>
       </Base>
     </Show>
   );
@@ -332,8 +307,8 @@ function VoiceCallCard(props: {
 const Base = styled("div", {
   base: {
     left: 0,
-    top: 0,
-    padding: 0,
+    top: "var(--gap-md)",
+    padding: "var(--gap-md)",
 
     width: "100%",
     height: "100%",
@@ -349,26 +324,17 @@ const Base = styled("div", {
     transition: "all var(--transitions-medium)",
   },
   variants: {
-    fullscreen: {
-      true: {
+    layout: {
+      fullscreen: {
         top: 0,
         height: "100%",
         padding: 0,
       },
-    },
-    expanded: {
-      true: {
+      expanded: {
         top: 0,
         height: "100%",
         padding: 0,
       },
-      false: {},
-    },
-    collapsed: {
-      true: {
-        paddingTop: "var(--gap-sm)",
-      },
-      false: {},
     },
   },
 });
@@ -378,12 +344,9 @@ const Card = styled("div", {
     pointerEvents: "all",
 
     maxWidth: "100%",
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
+    transition: "var(--transitions-fast) all",
+    transitionTimingFunction: "ease-in-out",
 
-    transition:
-      "background var(--transitions-medium), border-radius var(--transitions-medium)",
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",
   },
@@ -399,28 +362,16 @@ const Card = styled("div", {
         cursor: "pointer",
       },
     },
-    fullscreen: {
-      true: {
+    layout: {
+      fullscreen: {
         borderRadius: 0,
       },
-      false: {},
-    },
-    expanded: {
-      true: {
+      expanded: {
         borderRadius: "var(--borderRadius-xl)",
       },
-      false: {},
-    },
-    collapsed: {
-      true: {
-        background: "transparent",
+      collapsed: {
+        background: "none",
       },
-      false: {},
     },
-  },
-  defaultVariants: {
-    active: false,
-    fullscreen: false,
-    collapsed: false,
   },
 });

@@ -10,10 +10,7 @@ import { useState } from "@revolt/state";
 import { Button, IconButton } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-export function VoiceCallCardActions(props: {
-  size: "xs" | "sm";
-  compact?: boolean;
-}) {
+export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
   const voice = useVoice();
   const state = useState();
   const navigate = useNavigate();
@@ -40,11 +37,11 @@ export function VoiceCallCardActions(props: {
           <Symbol>arrow_top_left</Symbol>
         </IconButton>
       </Show>
-      <CompactButton show={!!props.compact}>
+      <Show when={props.size !== "xs" && voice.layout() === "collapsed"}>
         <IconButton
           variant="standard"
           size={props.size}
-          onPress={() => voice.toggleCollapsed(false)}
+          onPress={() => voice.toggleLayout("collapsed")}
           use:floating={{
             tooltip: {
               placement: "top",
@@ -54,7 +51,7 @@ export function VoiceCallCardActions(props: {
         >
           <Symbol>unfold_more</Symbol>
         </IconButton>
-      </CompactButton>
+      </Show>
       <IconButton
         size={props.size}
         variant={voice.microphone() ? "filled" : "tonal"}
@@ -160,52 +157,12 @@ export function VoiceCallCardActions(props: {
   );
 }
 
-export function VoiceCallCardCollapsed(props: { size?: "xs" | "sm" }) {
-  return (
-    <CompactContainer>
-      <VoiceCallCardActions size={props.size ?? "sm"} compact />
-    </CompactContainer>
-  );
-}
-
-const CompactButton = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    transition: "all var(--transitions-medium)",
-    overflow: "hidden",
-  },
-  variants: {
-    show: {
-      true: {
-        width: "36px",
-        opacity: 1,
-      },
-      false: {
-        width: "0px",
-        opacity: 0,
-        pointerEvents: "none",
-      },
-    },
-  },
-});
-
-const CompactContainer = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    pointerEvents: "all",
-  },
-});
-
 const Actions = styled("div", {
   base: {
     flexShrink: 0,
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
     zIndex: 2,
-    pointerEvents: "all",
 
     display: "flex",
     width: "fit-content",
@@ -214,6 +171,5 @@ const Actions = styled("div", {
 
     borderRadius: "var(--borderRadius-full)",
     background: "var(--md-sys-color-surface-container)",
-    transition: "all var(--transitions-medium)",
   },
 });

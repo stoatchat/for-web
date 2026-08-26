@@ -1,9 +1,10 @@
 import { useLingui } from "@lingui/solid/macro";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
-import { createEffect, For, onMount, Show } from "solid-js";
+import { createEffect, createMemo, For, onMount, Show } from "solid-js";
 import { TrackLoop } from "solid-livekit-components";
 import { styled } from "styled-system/jsx";
 
+import { useDevice } from "@revolt/common";
 import { InRoom, useVoice } from "@revolt/rtc";
 import { IconButton } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -16,89 +17,83 @@ import { VoiceCallCardStatus } from "./VoiceCallCardStatus";
 /**
  * Call card (active)
  */
-export function VoiceCallCardActiveRoom(props: { collapsed?: boolean }) {
+export function VoiceCallCardActiveRoom() {
+  const voice = useVoice();
+  const collapsed = createMemo(() => voice.layout() === "collapsed");
+
   return (
-    <View collapsed={props.collapsed}>
-      <ParticipantsWrapper collapsed={props.collapsed}>
-        <Participants />
-      </ParticipantsWrapper>
+    <View collapsed={collapsed()}>
+      <Participants />
       <VoiceCallControls>
-        <VoiceCallControlHolder left collapsed={props.collapsed}>
+        <VoiceCallControlHolder left collapsed={collapsed()}>
           <VoiceCallCardStatus />
         </VoiceCallControlHolder>
-        <VoiceCallCardActions size="sm" compact={props.collapsed} />
-        <VoiceCallControlHolder right collapsed={props.collapsed}>
-          <VoiceCallCollapseButton />
-          <VoiceCallExpandButton />
-          <VoiceCallFullscreen />
+        <VoiceCallCardActions size="sm" />
+        <VoiceCallControlHolder right collapsed={collapsed()}>
+          <LayoutButtons />
         </VoiceCallControlHolder>
       </VoiceCallControls>
     </View>
   );
 }
 
-function VoiceCallCollapseButton() {
+function LayoutButtons() {
   const voice = useVoice();
+  const device = useDevice();
   const { t } = useLingui();
 
   return (
-    <DesktopOnly>
+    <>
+      {/* TODO: Refactor call controls on mobile to make these buttons not overflow */}
+      <Show when={device.layout() === "desktop"}>
+        <IconButton
+          size="sm"
+          variant="standard"
+          onPress={() => voice.toggleLayout("collapsed")}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content: t`Collapse call window`,
+            },
+          }}
+        >
+          <Symbol>unfold_less</Symbol>
+        </IconButton>
+        <IconButton
+          size="sm"
+          variant="standard"
+          onPress={() => voice.toggleLayout("expanded")}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content:
+                voice.layout() === "expanded"
+                  ? t`Restore call window`
+                  : t`Maximize call window`,
+            },
+          }}
+        >
+          <Show
+            when={voice.layout() === "expanded"}
+            fallback={<Symbol>open_in_full</Symbol>}
+          >
+            <Symbol>close_fullscreen</Symbol>
+          </Show>
+        </IconButton>
+      </Show>
       <IconButton
         size="sm"
-        variant="standard"
-        onPress={() => voice.toggleCollapsed()}
-        use:floating={{
-          tooltip: {
-            placement: "top",
-            content: t`Collapse call window`,
-          },
-        }}
+        variant={"standard"}
+        onPress={() => voice.toggleLayout("fullscreen")}
       >
-        <Symbol>unfold_less</Symbol>
-      </IconButton>
-    </DesktopOnly>
-  );
-}
-
-function VoiceCallExpandButton() {
-  const voice = useVoice();
-  const { t } = useLingui();
-
-  return (
-    <DesktopOnly>
-      <IconButton
-        size="sm"
-        variant="standard"
-        onPress={() => voice.toggleExpanded()}
-        use:floating={{
-          tooltip: {
-            placement: "top",
-            content: voice.expanded()
-              ? t`Restore call window`
-              : t`Maximize call window`,
-          },
-        }}
-      >
-        <Show when={voice.expanded()} fallback={<Symbol>open_in_full</Symbol>}>
-          <Symbol>close_fullscreen</Symbol>
+        <Show
+          when={voice.layout() === "fullscreen"}
+          fallback={<Symbol>fullscreen</Symbol>}
+        >
+          <Symbol>fullscreen_exit</Symbol>
         </Show>
       </IconButton>
-    </DesktopOnly>
-  );
-}
-
-function VoiceCallFullscreen() {
-  const voice = useVoice();
-  return (
-    <IconButton
-      size="sm"
-      variant={"standard"}
-      onPress={() => voice.toggleFullscreen()}
-    >
-      <Show when={voice.fullscreen()} fallback={<Symbol>fullscreen</Symbol>}>
-        <Symbol>fullscreen_exit</Symbol>
-      </Show>
-    </IconButton>
+    </>
   );
 }
 
@@ -180,7 +175,10 @@ function Participants() {
           <For each={Array(testTrackCount)}>
             {() => (
               <div
-                class={tile({ fullscreen: voice.fullscreen() }) + " vc_tile"}
+                class={
+                  tile({ fullscreen: voice.layout() === "fullscreen" }) +
+                  " vc_tile"
+                }
               />
             )}
           </For>
@@ -211,51 +209,17 @@ const View = styled("div", {
     minHeight: 0,
     height: "100%",
     width: "100%",
+
     display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
+    gap: "var(--gap-md)",
     padding: "var(--gap-md)",
-    boxSizing: "border-box",
     transition: "padding var(--transitions-medium)",
   },
   variants: {
     collapsed: {
-      true: {
-        padding: "0px",
-        justifyContent: "center",
-      },
-      false: {},
-    },
-  },
-});
-
-const DesktopOnly = styled("div", {
-  base: {
-    display: "flex",
-    _tablet: {
-      display: "none",
-    },
-  },
-});
-
-const ParticipantsWrapper = styled("div", {
-  base: {
-    flexGrow: 1,
-    minHeight: 0,
-    display: "flex",
-    flexDirection: "column",
-    transition: "opacity var(--transitions-medium)",
-    opacity: 1,
-    overflow: "hidden",
-  },
-  variants: {
-    collapsed: {
-      true: {
-        opacity: 0,
-        pointerEvents: "none",
-      },
-      false: {
-        opacity: 1,
-      },
+      true: { padding: 0 },
     },
   },
 });
@@ -263,36 +227,31 @@ const ParticipantsWrapper = styled("div", {
 const VoiceCallControls = styled("div", {
   base: {
     display: "flex",
-    position: "relative",
     flexShrink: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    minHeight: "44px",
+    overflow: "hidden",
   },
 });
 
 const VoiceCallControlHolder = styled("div", {
   base: {
     display: "flex",
-    position: "absolute",
-    alignItems: "center",
+    flex: 1,
+    alignSelf: "center",
     gap: "var(--gap-md)",
-    transition: "opacity var(--transitions-medium)",
+    padding: "var(--gap-md)",
     opacity: 1,
-    zIndex: 1,
+    transition: "opacity var(--transitions-medium)",
   },
   variants: {
     left: {
       true: {
-        left: 0,
+        justifyContent: "flex-start",
         overflow: "hidden",
-        maxWidth: "40%",
       },
     },
     right: {
       true: {
-        right: 0,
+        justifyContent: "flex-end",
       },
     },
     collapsed: {
@@ -300,16 +259,13 @@ const VoiceCallControlHolder = styled("div", {
         opacity: 0,
         pointerEvents: "none",
       },
-      false: {
-        opacity: 1,
-      },
     },
   },
 });
 
 const ShowBarButtonHolder = styled("div", {
   base: {
-    height: "0px",
+    height: 0,
     alignSelf: "center",
     overflow: "visible",
     display: "flex",
