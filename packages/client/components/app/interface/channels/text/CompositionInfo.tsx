@@ -1,18 +1,19 @@
 import { createCountdownFromNow } from "@solid-primitives/date";
-import { For, Match, Show, Switch, createMemo } from "solid-js";
-
-import { Channel, User } from "stoat.js";
+import { For, Match, Setter, Show, Switch, createMemo } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
+import { Channel, User } from "stoat.js";
+import { cva } from "styled-system/css";
+import { styled } from "styled-system/jsx";
+
 import { useClient } from "@revolt/client";
 import { useDurationFormat } from "@revolt/i18n/durations";
 import { useUsers } from "@revolt/markdown/users";
 import { Avatar, OverflowingText, Symbol, typography } from "@revolt/ui";
-import { cva } from "styled-system/css";
-import { styled } from "styled-system/jsx";
 
 interface Props {
   channel: Channel;
+  showPad: Setter<boolean>;
 }
 
 /**
@@ -23,9 +24,7 @@ export function CompositionInfo(props: Props) {
   const durationFormat = useDurationFormat();
   const client = useClient();
 
-  const isSlowmodeExempt = (): boolean => {
-    return props.channel.havePermission("BypassSlowmode");
-  };
+  const isSlowmodeExempt = () => props.channel.havePermission("BypassSlowmode");
 
   const slowmodeCountdown = createMemo(() => {
     if (!props.channel.slowmode || isSlowmodeExempt()) return 0;
@@ -81,73 +80,82 @@ export function CompositionInfo(props: Props) {
    * Generate list of user IDs
    * @returns User IDs
    */
-  const userIds = () =>
-    (
-      props.channel.typing.filter(
-        (user) =>
-          typeof user !== "undefined" &&
-          user.id !== client().user!.id &&
-          user.relationship !== "Blocked",
-      ) as User[]
-    )
-      .sort((a, b) => a!.id.toUpperCase().localeCompare(b!.id.toUpperCase()))
-      .map((user) => user.id);
+  const users = useUsers(
+    () =>
+      (
+        props.channel.typing.filter(
+          (user) =>
+            typeof user !== "undefined" &&
+            user.id !== client().user!.id &&
+            user.relationship !== "Blocked",
+        ) as User[]
+      )
+        .sort((a, b) => a!.id.toUpperCase().localeCompare(b!.id.toUpperCase()))
+        .map((user) => user.id),
+    true,
+  );
 
-  const users = useUsers(userIds, true);
+  const showInfo = createMemo(() => {
+    const info = props.channel.slowmode || users().length;
+    props.showPad(!info);
+    return info;
+  });
 
   return (
-    <Bar>
-      <Show when={users().length} fallback={<Dummy />}>
-        <Avatars>
-          <For each={users()}>
-            {(user, index) => (
-              <Avatar
-                src={user!.avatar}
-                size={15}
-                holepunch={
-                  index() + 1 < users().length ? "overlap-subtle" : "none"
-                }
-              />
-            )}
-          </For>
-        </Avatars>
-        <OverflowingText class={typography({ class: "body", size: "small" })}>
-          <Switch fallback={<Trans>Several people are typing…</Trans>}>
-            <Match when={users().length === 1}>
-              <Trans>{users()[0]!.username} is typing…</Trans>
-            </Match>
-            <Match when={users().length < 5}>
-              <Trans>
-                {users()
-                  .slice(0, -1)
-                  .map((user) => user!.username)
-                  .join(", ")}{" "}
-                and {users().slice(-1)[0]!.username} are typing…
-              </Trans>
-            </Match>
-          </Switch>
-        </OverflowingText>
-      </Show>
-      <Show when={props.channel.slowmode}>
-        <div
-          class={SlowmodeHolder()}
-          use:floating={{
-            tooltip: {
-              placement: "top",
-              content: t`Members can send one message every ${slowmodeWaitTime()}.`,
-            },
-          }}
-        >
-          <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
-          <SlowmodeText>
-            <Switch fallback={t`Slowmode is enabled.`}>
-              <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
-              <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
+    <Show when={showInfo()}>
+      <Bar>
+        <Show when={users().length} fallback={<Dummy />}>
+          <Avatars>
+            <For each={users()}>
+              {(user, index) => (
+                <Avatar
+                  src={user!.avatar}
+                  size={15}
+                  holepunch={
+                    index() + 1 < users().length ? "overlap-subtle" : "none"
+                  }
+                />
+              )}
+            </For>
+          </Avatars>
+          <OverflowingText class={typography({ class: "body", size: "small" })}>
+            <Switch fallback={<Trans>Several people are typing…</Trans>}>
+              <Match when={users().length === 1}>
+                <Trans>{users()[0]!.username} is typing…</Trans>
+              </Match>
+              <Match when={users().length < 5}>
+                <Trans>
+                  {users()
+                    .slice(0, -1)
+                    .map((user) => user!.username)
+                    .join(", ")}{" "}
+                  and {users().slice(-1)[0]!.username} are typing…
+                </Trans>
+              </Match>
             </Switch>
-          </SlowmodeText>
-        </div>
-      </Show>
-    </Bar>
+          </OverflowingText>
+        </Show>
+        <Show when={props.channel.slowmode}>
+          <div
+            class={SlowmodeHolder()}
+            use:floating={{
+              tooltip: {
+                placement: "top",
+                content: t`Members can send one message every ${slowmodeWaitTime()}.`,
+              },
+            }}
+          >
+            <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
+            <SlowmodeText>
+              <Switch fallback={t`Slowmode is enabled.`}>
+                <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
+                <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
+              </Switch>
+            </SlowmodeText>
+          </div>
+        </Show>
+      </Bar>
+    </Show>
   );
 }
 

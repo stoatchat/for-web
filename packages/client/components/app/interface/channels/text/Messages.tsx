@@ -31,11 +31,12 @@ import {
   JumpToBottom,
   MessageDivider,
 } from "@revolt/ui";
-
 import {
   ListView2,
   ListView2Update,
 } from "@revolt/ui/components/utils/ListView2";
+
+import { CompositionInfo } from "./CompositionInfo";
 import { Message } from "./Message";
 import { useMessageCache } from "./MessageCache";
 
@@ -126,6 +127,9 @@ export function Messages(props: Props) {
    * Whether the current fetch has failed
    */
   const [failure, setFailure] = createSignal(false);
+
+  /** Whether to show padding at bottom */
+  const [showPad, setShowPad] = createSignal(false);
 
   /**
    * Collect messages during fetches
@@ -954,6 +958,9 @@ export function Messages(props: Props) {
                   tail: pendingMessageIsTrailing(),
                   ids: sentMessageIdempotency(),
                 })}
+                <Show when={showPad()}>
+                  <Padding />
+                </Show>
               </Show>
             </div>
           </div>
@@ -964,6 +971,7 @@ export function Messages(props: Props) {
           <JumpToBottom onClick={jumpToBottom} />
         </AnchorToEnd>
       </Show>
+      <CompositionInfo channel={props.channel} showPad={setShowPad} />
     </>
   );
 }
@@ -981,6 +989,15 @@ const AnchorToEnd = styled("div", {
       position: "absolute",
       bottom: "var(--gap-md)",
     },
+  },
+});
+
+/**
+ * Container padding
+ */
+const Padding = styled("div", {
+  base: {
+    height: "26px",
   },
 });
 

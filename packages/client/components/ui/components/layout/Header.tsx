@@ -16,7 +16,6 @@ export const Header = styled("div", {
     flex: "0 auto",
     display: "flex",
     flexShrink: 0,
-    padding: "0 16px",
     alignItems: "center",
     fontWeight: 600,
     userSelect: "none",
@@ -33,8 +32,8 @@ export const Header = styled("div", {
       flexShrink: 0,
     },
 
-    _tablet: {
-      paddingRight: 0,
+    _phone: {
+      marginLeft: "16px",
     },
   },
   variants: {
@@ -52,7 +51,6 @@ export const Header = styled("div", {
         color: "white",
         fill: "white",
 
-        padding: 0,
         alignItems: "flex-end",
         justifyContent: "stretch",
         textShadow: "0px 0px 1px var(--md-sys-color-shadow)",
