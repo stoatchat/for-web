@@ -5,7 +5,7 @@ import { cva } from "styled-system/css";
 
 import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
-import { STOAT_HOST } from "@revolt/common/lib/env";
+import { normalizeHost } from "@revolt/common/lib/env";
 import { DefaultHost, useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
@@ -45,21 +45,12 @@ const internalLink = cva({
   },
 });
 
-function inAppScope(link: URL, root: string): boolean {
-  return (
-    [
-      root,
-      "https://stoat.chat",
-      "https://beta.stoat.chat",
-      "https://old.stoat.chat",
-      "https://revolt.chat",
-      "https://app.revolt.chat",
-    ].includes(link.origin) &&
-    /\/(i|app|home|pwa|dev|invite|bot|friends|server|channel)\/?/.test(
-      link.pathname,
-    )
-  );
-}
+/** Allowed link protocols */
+const Protocols = ["http:", "https:", "mailto:", "tel:"];
+
+const RE_INVITE = /^\/\w+$/;
+const RE_STOAT_PATH =
+  /^(?:\/i\/[\w:.]{1,32})?\/(?:(?:server\/[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}\/)?channel\/[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}(?:\/[ABCDEFGHJKMNPQRSTVWXYZ\d]{26})?|bot\/[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}|invite\/\w+)\/?$/;
 
 export function RenderAnchor(
   props: { disabled?: boolean } & JSX.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -74,6 +65,7 @@ export function RenderAnchor(
   ]);
 
   const instance = useInstance();
+  const state = useState();
 
   // Handle empty link
   if (!localProps.href) return <span>{remoteProps.children}</span>;
@@ -82,35 +74,29 @@ export function RenderAnchor(
   try {
     let url = new URL(localProps.href);
 
-    // Only allow http, https, mailto, and tel protocols
-    if (
-      url.protocol !== "http:" &&
-      url.protocol !== "https:" &&
-      url.protocol !== "mailto:" &&
-      url.protocol !== "tel:"
-    ) {
-      return <span>{remoteProps.children}</span>;
-    }
+    if (!Protocols.includes(url.protocol)) return props.children;
 
     // Remap discover links to native links
     if (url.origin === "https://rvlt.gg" || url.origin === "https://stt.gg") {
-      if (/^\/[\w\d]+$/.test(url.pathname)) {
+      if (RE_INVITE.test(url.pathname)) {
         url = new URL(`/invite${url.pathname}`, instance.origin);
       } else if (url.pathname.startsWith("/discover")) {
         url = new URL(url.pathname, instance.origin);
       }
-    }
+    } else url.host = normalizeHost(url.host);
 
     // Determine whether it's in our scope
-    if (inAppScope(url, instance.origin)) {
+    if (RE_STOAT_PATH.test(url.pathname)) {
       const client = useClient(),
         params = paramsFromPathname(url.pathname);
 
-      params.host ||= STOAT_HOST;
+      params.host ||= url.host;
       const remote = params.host !== (instance.host || DefaultHost);
 
       //TODO: Fetch more info about remote link from the remote instance
-      //But need a way to cache the results
+      // if (remote) {
+      //   const cfg = state.host.getHost(link.host);
+      // }
 
       if (params.exactChannel) {
         const channel = () => client().channels.get(params.channelId!);
@@ -212,7 +198,6 @@ export function RenderAnchor(
     }
 
     // All other links
-    const state = useState();
     const { openModal } = useModals();
 
     function onHandleWarning(

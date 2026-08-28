@@ -3,7 +3,7 @@ import { createFormControl, createFormGroup } from "solid-forms";
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
-import { DefaultHost, useInstance } from "@revolt/instance";
+import { DefaultHost, RE_HOST, useInstance } from "@revolt/instance";
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
 import { Modals } from "../types";
@@ -35,7 +35,7 @@ export function AdvancedLoginModal(
     let newHost = DefaultHost;
 
     if (host) {
-      if (host.length > 32) throw "Invalid Instance URL";
+      if (!RE_HOST.test(host)) throw "Invalid Instance URL";
       newHost = new URL(RE_URL.test(host) ? host : `https://${host}`).host;
     }
 
