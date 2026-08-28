@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-08-25 00:03+0000\n"
 "Last-Translator: Not Available <musicgamesandwhatever@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/uk/>\n"
+"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/revolt-for-web/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -59,7 +57,7 @@ msgstr "{0, plural, one {Скинути файл} few {Скинути # файл
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} і {1} пишуть…"
 
@@ -84,7 +82,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} файлів перевищують ліміт розміру в {maxSizeFormatted}, тому не були завантажені."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} пише…"
 
@@ -1549,9 +1547,7 @@ msgstr "Завантажте з Google Play"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
-msgstr ""
-"Gifbox – це наш власний GIF-сервіс, щоб ви могли ділитися гіфками прямо в "
-"Stoat."
+msgstr "Gifbox – це наш власний GIF-сервіс, щоб ви могли ділитися гіфками прямо в Stoat."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
@@ -1693,9 +1689,7 @@ msgstr "Видання себе за іншу особу"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
-msgstr ""
-"Між іншим, встановіть Stoat з Google Play для швидшого і плавнішого досвіду "
-"на Android."
+msgstr "Між іншим, встановіть Stoat з Google Play для швидшого і плавнішого досвіду на Android."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -1981,7 +1975,7 @@ msgid "Members"
 msgstr "Учасники"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "Користувачі можуть надсилати одне повідомлення кожних {0}."
 
@@ -2361,9 +2355,7 @@ msgstr "Оберіть екран для трансляції"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
-msgstr ""
-"Оберіть ім'я, за яким вас зможуть знаходити інші. Пізніше ви можете його "
-"змінити у налаштуваннях користувача."
+msgstr "Оберіть ім'я, за яким вас зможуть знаходити інші. Пізніше ви можете його змінити у налаштуваннях користувача."
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin"
@@ -2902,7 +2894,7 @@ msgstr "Налаштувати одноразовий аутентифікато
 msgid "Setup recovery codes"
 msgstr "Налаштувати коди відновлення"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Декілька людей пишуть…"
 
@@ -2943,11 +2935,11 @@ msgstr "Зареєструватися"
 msgid "Silent"
 msgstr "Тихо"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr "Поза дією повільного режиму"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "Повільний режим увімкнено."
 
@@ -3092,9 +3084,7 @@ msgstr "Перейти у голосовий канал"
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync appearance options, such as chosen emoji pack and message density."
-msgstr ""
-"Поєднуйте варіанти оформлення, як-от обраний вами емоджі-пак і щільність "
-"повідомлення."
+msgstr "Поєднуйте варіанти оформлення, як-от обраний вами емоджі-пак і щільність повідомлення."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your chosen theme, colours, and any custom CSS."
@@ -3147,8 +3137,7 @@ msgstr "Ця дія не мала жодного ефекту."
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
-msgstr ""
-"Файл \"{0}\" ({fileSize}) перевищує допустимий ліміт {maxSizeFormatted}."
+msgstr "Файл \"{0}\" ({fileSize}) перевищує допустимий ліміт {maxSizeFormatted}."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3176,9 +3165,7 @@ msgstr "Цей канал має позначку 18+."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This channel is not available in your region while we review options on legal compliance."
-msgstr ""
-"Цей канал недоступний у вашому регіоні, поки ми аналізуємо варіанти "
-"дотримання вимог законодавства."
+msgstr "Цей канал недоступний у вашому регіоні, поки ми аналізуємо варіанти дотримання вимог законодавства."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This content is not available in your region."
@@ -3223,8 +3210,7 @@ msgstr "Це повідомлення порожнє, і тому не було 
 
 #: components/i18n/errors.tsx
 msgid "This password has previously appeared in security leaks, please use another password."
-msgstr ""
-"Цей пароль уже фігурував у зливах, будь ласка, використайте інший пароль."
+msgstr "Цей пароль уже фігурував у зливах, будь ласка, використайте інший пароль."
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "This server is about..."
@@ -3232,9 +3218,7 @@ msgstr "Цей сервер про..."
 
 #: components/i18n/errors.tsx
 msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
-msgstr ""
-"Спроба реєстрації позначена як спам. Перегляньте <0> цю статтю від служби "
-"підтримки"
+msgstr "Спроба реєстрації позначена як спам. Перегляньте <0> цю статтю від служби підтримки"
 
 #: components/i18n/errors.tsx
 msgid "This user has blocked you."
@@ -3435,20 +3419,15 @@ msgstr "ім'якористувача#1234"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
-msgstr ""
-"Користувачі муситимуть підтвердити свій вік перед приєднанням до каналу."
+msgstr "Користувачі муситимуть підтвердити свій вік перед приєднанням до каналу."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Users will be asked to confirm their age before opening this channel."
-msgstr ""
-"Користувачі муситимуть підтвердити свій вік перед відкриттям цього каналу."
+msgstr "Користувачі муситимуть підтвердити свій вік перед відкриттям цього каналу."
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
-msgstr ""
-"Користувачі більше не муситимуть підтверджувати свій вік перед приєднанням "
-"до цього каналу. <0/> Будь ласка, забезпечте, щоб вміст каналу підходив усім "
-"віковим категоріям."
+msgstr "Користувачі більше не муситимуть підтверджувати свій вік перед приєднанням до цього каналу. <0/> Будь ласка, забезпечте, щоб вміст каналу підходив усім віковим категоріям."
 
 #~ msgid "Using default microphone"
 #~ msgstr ""
@@ -3596,8 +3575,7 @@ msgstr "Бажаєте створити новий сервер чи доєдн�
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr ""
-"Ви підтверджуєте, що ваш бот відповідає Політиці Прийнятного Використання."
+msgstr "Ви підтверджуєте, що ваш бот відповідає Політиці Прийнятного Використання."
 
 #. placeholder {0}: props.member.user?.username
 #. placeholder {0}: props.user?.username
@@ -3685,9 +3663,7 @@ msgstr "У вас відсутній дозвіл на надсилання по
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
-msgstr ""
-"Вас було заблоковано за багаторазове введення неправильного пароля. "
-"Почекайте кілька хвилин і спробуйте знову, будь ласка."
+msgstr "Вас було заблоковано за багаторазове введення неправильного пароля. Почекайте кілька хвилин і спробуйте знову, будь ласка."
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."
@@ -3746,16 +3722,11 @@ msgstr "Ви досягли свого ліміту на ботів."
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You've sent too many friend requests, the maximum is {0}"
-msgstr ""
-"Ви надіслали занадто багато запитів на дружбу, максимально допустима "
-"кількість – {0}"
+msgstr "Ви надіслали занадто багато запитів на дружбу, максимально допустима кількість – {0}"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr ""
-"Ваш акаунт з усіма вашими даними (включно з вашими повідомленнями і списком "
-"друзів) буде додано до черги на видалення. На пошту буде надіслано лист для "
-"підтвердження – у вас буде 7 днів, щоб скасувати це, сповістивши підтримку."
+msgstr "Ваш акаунт з усіма вашими даними (включно з вашими повідомленнями і списком друзів) буде додано до черги на видалення. На пошту буде надіслано лист для підтвердження – у вас буде 7 днів, щоб скасувати це, сповістивши підтримку."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -3779,6 +3750,4 @@ msgstr "Ваш рівень ролі занадто низький для ціє
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
-msgstr ""
-"Вашого користувача уже було створено? Спробуйте залогінитися знову чи "
-"оновити додаток."
+msgstr "Вашого користувача уже було створено? Спробуйте залогінитися знову чи оновити додаток."

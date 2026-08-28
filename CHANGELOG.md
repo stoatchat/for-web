@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.3](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.2...stoat-for-web-v0.15.3) (2026-08-28)
+
+
+### Bug Fixes
+
+* actually fetch the user in the background without blocking rendering ([6ee204c](https://github.com/stoatchat/for-web/commit/6ee204c1aab970704c895d5ce14ac9067a484cf3))
+* actually fetch the user in the background without blocking ui ([#1554](https://github.com/stoatchat/for-web/issues/1554)) ([6ee204c](https://github.com/stoatchat/for-web/commit/6ee204c1aab970704c895d5ce14ac9067a484cf3))
+* Combine slowmode and typing indicators into one ui ([#1541](https://github.com/stoatchat/for-web/issues/1541)) ([c2eb345](https://github.com/stoatchat/for-web/commit/c2eb34560dfce89ce71ce7dc55d003108e688182))
+* Ensures virtualMic finds pipewire sink with or without prefix ([#1545](https://github.com/stoatchat/for-web/issues/1545)) ([342920b](https://github.com/stoatchat/for-web/commit/342920b952bd080d3e4719eb64f9439d86bab0df))
+* External link and invite paths on self-hosted ([#1521](https://github.com/stoatchat/for-web/issues/1521)) ([039ba1c](https://github.com/stoatchat/for-web/commit/039ba1cb8fa62bab966f8a636ef817b4cef87723))
+* Make slowmode tooltip work ([#1547](https://github.com/stoatchat/for-web/issues/1547)) ([61d0972](https://github.com/stoatchat/for-web/commit/61d097230a93de8fccc0cdfcaa424d4601f96a08))
+* missing file size in banner ([#1544](https://github.com/stoatchat/for-web/issues/1544)) ([db55975](https://github.com/stoatchat/for-web/commit/db55975a8964ae119aa8f8b6e6a8b9ea19f675b2))
+* Normalize regex format ([#1538](https://github.com/stoatchat/for-web/issues/1538)) ([cc84f9e](https://github.com/stoatchat/for-web/commit/cc84f9e4187eb308a2aac938a640944e791b6e8a))
+* Reset screenshare encoding after changing resolution ([#1532](https://github.com/stoatchat/for-web/issues/1532)) ([10df7bf](https://github.com/stoatchat/for-web/commit/10df7bf72d33596d7d1a628b6120aa38bdaaae90))
+* Show file size validation errors ([#1518](https://github.com/stoatchat/for-web/issues/1518)) ([1eafe60](https://github.com/stoatchat/for-web/commit/1eafe601b08beb72ba0425e8bbb98a1686e9f334))
+* unknown users when full member list is not loaded ([#1529](https://github.com/stoatchat/for-web/issues/1529)) ([609274d](https://github.com/stoatchat/for-web/commit/609274d4b37fba572eab7338391a5b7a09759ce9))
+
 ## [0.15.2](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.1...stoat-for-web-v0.15.2) (2026-08-18)
 
 

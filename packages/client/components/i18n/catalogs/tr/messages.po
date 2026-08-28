@@ -57,7 +57,7 @@ msgstr "{0, plural, one {Bir Dosya Bırak} other {Dosya # Bırak}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} ve {1} yazıyor…"
 
@@ -82,7 +82,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} dosya, {maxSizeFormatted} olan maksimum boyut sınırını aştığı için yüklenemedi."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} yazıyor…"
 
@@ -1978,7 +1978,7 @@ msgid "Members"
 msgstr "Üyeler"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "Üyeler her {0}'da bir mesaj gönderebilir."
 
@@ -2897,7 +2897,7 @@ msgstr "Tek kullanımlık şifre doğrulaması ayarla"
 msgid "Setup recovery codes"
 msgstr "Kurtarma kodu ayarla"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Birkaç kişi yazıyor…"
 
@@ -2939,11 +2939,11 @@ msgstr "Kaydol"
 msgid "Silent"
 msgstr "Sessiz"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr "Yavaş mod bağışıklığı"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "Yavaş mod aktif."
 
