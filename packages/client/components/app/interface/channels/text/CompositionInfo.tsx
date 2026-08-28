@@ -1,7 +1,8 @@
 import { createCountdownFromNow } from "@solid-primitives/date";
-import { For, Match, Setter, Show, Switch, createMemo } from "solid-js";
+import { For, Match, Show, Switch, createMemo, onMount } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Channel, User } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -13,7 +14,7 @@ import { Avatar, OverflowingText, Symbol, typography } from "@revolt/ui";
 
 interface Props {
   channel: Channel;
-  showPad: Setter<boolean>;
+  scrollRef?: HTMLElement | null;
 }
 
 /**
@@ -95,15 +96,25 @@ export function CompositionInfo(props: Props) {
     true,
   );
 
-  const showInfo = createMemo(() => {
-    const info = props.channel.slowmode || users().length;
-    props.showPad(!info);
-    return info;
-  });
+  let barRef: HTMLDivElement | undefined;
+
+  onMount(() => createResizeObserver(() => props.scrollRef, setBarWidth));
+
+  function setBarRef(r?: HTMLDivElement) {
+    barRef = r;
+    setBarWidth();
+  }
+
+  function setBarWidth() {
+    if (barRef && props.scrollRef)
+      barRef.style.width = `calc(100% - ${
+        props.scrollRef.offsetWidth - props.scrollRef.clientWidth
+      }px)`;
+  }
 
   return (
-    <Show when={showInfo()}>
-      <Bar>
+    <Show when={props.channel.slowmode || users().length || setBarRef()}>
+      <Bar ref={setBarRef}>
         <Show when={users().length} fallback={<Dummy />}>
           <Avatars>
             <For each={users()}>
@@ -179,11 +190,9 @@ const Avatars = styled("div", {
  */
 const Bar = styled("div", {
   base: {
-    width: "100%",
     minHeight: "26px",
-
-    padding: "0 var(--gap-lg)",
-    borderRadius: "var(--borderRadius-lg)",
+    paddingLeft: "var(--gap-lg)",
+    paddingRight: "var(--gap-md)",
 
     display: "flex",
     gap: "var(--gap-md)",
@@ -193,6 +202,7 @@ const Bar = styled("div", {
     flexDirection: "row",
 
     color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface-container-lowest)",
   },
 });
 
