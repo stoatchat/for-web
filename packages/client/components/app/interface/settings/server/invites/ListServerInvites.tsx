@@ -3,9 +3,11 @@ import { For, Match, Switch } from "solid-js";
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { Channel, Server, ServerInvite } from "stoat.js";
-import { styled } from "styled-system/jsx";
+import { css } from "styled-system/css";
 
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
+import { getInviteLink } from "@revolt/modal/modals/CreateInvite";
 import {
   Avatar,
   Button,
@@ -23,6 +25,7 @@ import {
 export function ListServerInvites(props: { server: Server }) {
   const { t } = useLingui();
   const client = useQueryClient();
+  const instance = useInstance();
   const { showError, openModal } = useModals();
   const query = useQuery(() => ({
     queryKey: ["invites", props.server.id],
@@ -104,21 +107,25 @@ export function ListServerInvites(props: { server: Server }) {
                         </Column>
                       </Row>
                     </DataTable.Cell>
-                    <DataTable.Cell>
-                      <Link
-                        href="#"
-                        onClick={() => {
-                          const channel = item.channel || defaultChannel();
-                          if (channel)
-                            openModal({
-                              type: "create_invite",
-                              channel,
-                              id: item.id,
-                            });
+                    <DataTable.Cell class={itemIds}>
+                      {item.id}
+                      <Button
+                        size="icon"
+                        variant="text"
+                        use:floating={{
+                          tooltip: {
+                            placement: "bottom",
+                            content: t`Copy invite link`,
+                          },
                         }}
+                        onPress={() =>
+                          navigator.clipboard.writeText(
+                            getInviteLink(item.id, instance),
+                          )
+                        }
                       >
-                        {item.id}
-                      </Link>
+                        <Symbol size={20}>content_copy</Symbol>
+                      </Button>
                     </DataTable.Cell>
                     <DataTable.Cell width="40px">
                       <Button
@@ -146,10 +153,10 @@ export function ListServerInvites(props: { server: Server }) {
   );
 }
 
-const Link = styled("a", {
-  base: {
-    color: "var(--md-sys-color-primary)",
-    cursor: "pointer",
-    "&:hover": { textDecoration: "underline" },
+const itemIds = css({
+  "& button": {
+    display: "inline-block",
+    verticalAlign: "middle",
+    marginLeft: "var(--gap-sm)",
   },
 });

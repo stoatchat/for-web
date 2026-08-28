@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/solid-query";
 import { styled } from "styled-system/jsx";
 
 import { useInstance } from "@revolt/instance";
+import Instance from "@revolt/instance/Instance";
 import { Dialog, DialogProps } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -28,6 +29,10 @@ const Invite = styled("div", {
   },
 });
 
+/** Get absolute link from invite id */
+export const getInviteLink = (id: string, inst: Instance) =>
+  inst.isStoat ? `https://stt.gg/${id}` : inst.href(`/invite/${id}`);
+
 /**
  * Modal to create a new invite
  */
@@ -38,33 +43,21 @@ export function CreateInviteModal(
   const [link, setLink] = createSignal("...");
   const instance = useInstance();
 
-  const setId = (id: string) =>
-    setLink(
-      instance.isStoat
-        ? `https://stt.gg/${id}`
-        : instance.href(`/invite/${id}`),
-    );
-
   const fetchInvite = useMutation(() => ({
     mutationFn: () =>
-      props.channel.createInvite().then(({ _id }) => setId(_id)),
+      props.channel
+        .createInvite()
+        .then(({ _id }) => setLink(getInviteLink(_id, instance))),
     onError: showError,
   }));
 
-  onMount(() => {
-    if (props.id) setId(props.id);
-    else fetchInvite.mutate();
-  });
+  onMount(() => fetchInvite.mutate());
 
   return (
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={
-        <Show when={props.id} fallback={<Trans>Create Invite</Trans>}>
-          <Trans>View Invite</Trans>
-        </Show>
-      }
+      title={<Trans>Create Invite</Trans>}
       actions={[
         { text: <Trans>OK</Trans> },
         {
@@ -81,8 +74,9 @@ export function CreateInviteModal(
         fallback={<Trans>Generating invite…</Trans>}
       >
         <Invite>
-          <Trans>Here is your invite code:</Trans>
-          <code>{link()}</code>
+          <Trans>
+            Here is your new invite code: <code>{link()}</code>
+          </Trans>
         </Invite>
       </Show>
     </Dialog>
