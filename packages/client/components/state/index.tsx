@@ -22,6 +22,7 @@ import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
 import { Experiments } from "./stores/Experiments";
+import { Hosts } from "./stores/Hosts";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
 import { LinkSafety } from "./stores/LinkSafety";
@@ -83,6 +84,7 @@ export class State {
 
   // define all stores
   auth = new Auth(this);
+  host = new Hosts(this);
   draft = new Draft(this);
   experiments = new Experiments(this);
   keybinds = new Keybinds(this);
