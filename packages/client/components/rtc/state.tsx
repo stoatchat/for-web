@@ -48,6 +48,8 @@ type State =
   | "CONNECTED"
   | "RECONNECTING";
 
+export type VoiceLayout = "fullscreen" | "expanded" | "collapsed" | undefined;
+
 type ScreenShareQuality = Required<
   Pick<ScreenShareCaptureOptions, "contentHint" | "resolution">
 > & {
@@ -79,8 +81,8 @@ class Voice {
   screenshare: Accessor<boolean>;
   #setScreenshare: Setter<boolean>;
 
-  fullscreen: Accessor<boolean>;
-  #setFullscreen: Setter<boolean>;
+  layout: Accessor<VoiceLayout>;
+  #setLayout: Setter<VoiceLayout>;
 
   focusId: Accessor<string | undefined>;
   #setFocus: Setter<string | undefined>;
@@ -132,9 +134,9 @@ class Voice {
     this.screenshare = screenshare;
     this.#setScreenshare = setScreenshare;
 
-    const [fullscreen, setFullscreen] = createSignal(false);
-    this.fullscreen = fullscreen;
-    this.#setFullscreen = setFullscreen;
+    const [layout, setLayout] = createSignal<VoiceLayout>();
+    this.layout = layout;
+    this.#setLayout = setLayout;
 
     const [focus, setFocus] = createSignal<string>();
     this.focusId = focus;
@@ -339,7 +341,7 @@ class Voice {
         this.#setState("READY");
         this.#setRoom();
         this.#setChannel();
-        this.#setFullscreen(false);
+        this.#setLayout();
         this.vidTracks = () => [];
       });
 
@@ -631,8 +633,12 @@ class Voice {
     }
   }
 
-  toggleFullscreen(fullscreen: boolean = !this.fullscreen()) {
-    this.#setFullscreen(fullscreen);
+  resetLayout() {
+    this.#setLayout();
+  }
+
+  toggleLayout(type: VoiceLayout) {
+    this.#setLayout((l) => (l === type ? undefined : type));
   }
 
   trackId(t: TrackReferenceOrPlaceholder) {
