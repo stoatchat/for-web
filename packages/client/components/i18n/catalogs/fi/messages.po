@@ -57,7 +57,7 @@ msgstr "{0, plural, one {Pudota tiedosto} other {Pudota # tiedostoa}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} ja {1} kirjoittavat…"
 
@@ -82,7 +82,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} tiedostoa ylittivät {maxSizeFormatted} enimmäiskokorajan eikä niitä voitu ladata."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} kirjoittaa…"
 
@@ -1975,7 +1975,7 @@ msgid "Members"
 msgstr "Jäsenet"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr ""
 
@@ -2894,7 +2894,7 @@ msgstr "Ota käyttöön kertakäyttösalasanan todennussovellus"
 msgid "Setup recovery codes"
 msgstr "Määritä palautuskoodit"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Useat ihmiset kirjoittavat…"
 
@@ -2935,11 +2935,11 @@ msgstr "Rekisteröidy"
 msgid "Silent"
 msgstr "Hiljainen"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr ""
 

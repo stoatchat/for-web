@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-08-15 17:15+0000\n"
 "Last-Translator: コピ <cpy@ik.me>\n"
-"Language-Team: Japanese <https://translate.stoat.chat/projects/revolt/revolt-"
-"for-web/ja/>\n"
+"Language-Team: Japanese <https://translate.stoat.chat/projects/revolt/revolt-for-web/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -55,7 +54,7 @@ msgstr "{0, plural, one {ファイルをドロップ} other {# 個のファイ�
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} と {1} が入力中…"
 
@@ -76,15 +75,11 @@ msgstr "あと {0} 個追加可能"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
-msgid ""
-"{0} files exceed the maximum size limit of {maxSizeFormatted} and were not "
-"uploaded."
-msgstr ""
-"{0} 個のファイルは、最大容量の {maxSizeFormatted} を超過していたためアップ"
-"ロードされませんでした。"
+msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
+msgstr "{0} 個のファイルは、最大容量の {maxSizeFormatted} を超過していたためアップロードされませんでした。"
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} が入力中…"
 
@@ -227,8 +222,7 @@ msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> がグループの名前を <1>{0}</1> に変更しました"
 
 #: components/modal/modals/LinkWarning.tsx
-msgid ""
-"<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
+msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr "<0>警告！</0><1/>表示されていたリンクとは異なります:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
@@ -276,7 +270,8 @@ msgstr "確認しました"
 msgid "Add"
 msgstr "追加"
 
-#: components/modal/modals/AddFriend.tsx src/interface/Friends.tsx
+#: components/modal/modals/AddFriend.tsx
+#: src/interface/Friends.tsx
 msgid "Add a new friend"
 msgstr "フレンドを追加"
 
@@ -315,6 +310,9 @@ msgstr "管理者パネル"
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
 msgstr "詳細設定"
+
+#~ msgid "Affects all roles and users"
+#~ msgstr "全てのロールとユーザーに影響します"
 
 #: src/interface/Friends.tsx
 msgid "All"
@@ -421,7 +419,8 @@ msgstr "アバター"
 #: components/app/interface/settings/user/_AccountCard.tsx
 #: components/auth/src/flows/FlowCheck.tsx
 #: components/auth/src/flows/FlowCreate.tsx
-#: components/auth/src/flows/FlowLogin.tsx components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/MFAFlow.tsx
 #: src/interface/channels/AgeGate.tsx
 msgid "Back"
 msgstr "戻る"
@@ -507,15 +506,11 @@ msgstr "忙しい"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"ボットを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこと"
-"になります。"
+msgstr "ボットを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したことになります。"
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"サーバーを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したこ"
-"とになります。"
+msgstr "サーバーを作成することで、あなたは<0>コミュニティガイドライン</0>に同意したことになります。"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -526,12 +521,11 @@ msgid "Bypasses slowmode in channels"
 msgstr "チャンネルの低速モードを回避"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
-msgid ""
-"Can't find the perfect GIF? Head to Gifbox and upload your own for everyone "
-"to use."
+msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx components/modal/modals/AddBot.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/AddBot.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/DeleteBot.tsx
@@ -540,11 +534,13 @@ msgstr ""
 #: components/modal/modals/DeleteMessage.tsx
 #: components/modal/modals/DeleteRole.tsx
 #: components/modal/modals/DeleteServer.tsx
-#: components/modal/modals/EditCategory.tsx components/modal/modals/Invite.tsx
+#: components/modal/modals/EditCategory.tsx
+#: components/modal/modals/Invite.tsx
 #: components/modal/modals/KickMember.tsx
 #: components/modal/modals/LeaveServer.tsx
 #: components/modal/modals/MFAEnableTOTP.tsx
-#: components/modal/modals/MFAFlow.tsx components/modal/modals/Onboarding.tsx
+#: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/Onboarding.tsx
 #: components/modal/modals/PinMessage.tsx
 #: components/modal/modals/RemoveMember.tsx
 #: components/modal/modals/RenameSession.tsx
@@ -567,9 +563,7 @@ msgstr "メッセージを取り消す"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr ""
-"所有するサーバーが削除または譲渡されるまで、アカウントを削除することはできま"
-"せん"
+msgstr "所有するサーバーが削除または譲渡されるまで、アカウントを削除することはできません"
 
 #: components/i18n/errors.tsx
 msgid "Cannot edit this message."
@@ -757,7 +751,8 @@ msgstr "設定しておけば、二要素認証の手段を失ってもアカウ
 msgid "Configure one-time password authentication"
 msgstr "ワンタイムパスワード認証を設定"
 
-#: components/auth/src/flows/FlowLogin.tsx components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/FlowLogin.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Confirm"
 msgstr "確認"
 
@@ -896,6 +891,9 @@ msgstr "作成"
 msgid "Create a channel before inviting others!"
 msgstr "メンバーを招待する前に、まずはチャンネルを作りましょう!"
 
+#~ msgid "Create a group"
+#~ msgstr "グループの作成"
+
 #: src/interface/Home.tsx
 msgid "Create a group or server"
 msgstr "グループかサーバーを作成"
@@ -912,6 +910,9 @@ msgstr "カテゴリーを作成"
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Create a new group"
 msgstr "グループを作成"
+
+#~ msgid "Create a new role"
+#~ msgstr "新しくロールを作成する"
 
 #: components/modal/modals/CreateWebhook.tsx
 msgid "Create a webhook"
@@ -1014,9 +1015,7 @@ msgstr "ダーク"
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "Database error, please contact support. ({0})"
-msgstr ""
-"サーバー内部でデータベースエラーが発生しました。サポートまでご連絡ください。 "
-"({0})"
+msgstr "サーバー内部でデータベースエラーが発生しました。サポートまでご連絡ください。 ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
@@ -1039,6 +1038,9 @@ msgstr "メンバーのスピーカーをミュート"
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Default"
 msgstr "デフォルト"
+
+#~ msgid "Default Permissions"
+#~ msgstr "デフォルトの権限"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Degraded Performance"
@@ -1070,9 +1072,7 @@ msgstr "アカウントを削除"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Delete and pin messages sent by other members"
-msgstr ""
-"他のメンバーが送信したメッセージを削除したり、ピン留めしたりすることができま"
-"す"
+msgstr "他のメンバーが送信したメッセージを削除したり、ピン留めしたりすることができます"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
@@ -1266,7 +1266,8 @@ msgid "Effective <0/> (<1/>)"
 msgstr "<0/> に施行 (<1/>)"
 
 #: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx components/modal/modals/EditEmail.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditEmail.tsx
 msgid "Email"
 msgstr "メールアドレス"
 
@@ -1300,9 +1301,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr ""
-"透明感のあるガラス・ブラー効果を有効にする (古いPCでは動作が重くなる場合があ"
-"ります)"
+msgstr "透明感のあるガラス・ブラー効果を有効にする (古いPCでは動作が重くなる場合があります)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1320,7 +1319,8 @@ msgstr ""
 msgid "Enter a new name for this session"
 msgstr "セッションの新しい名前を入力"
 
-#: components/auth/src/flows/Form.tsx components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
 msgid "Enter a new password."
 msgstr "新しいパスワードを入力してください。"
 
@@ -1370,8 +1370,7 @@ msgid "Extreme violence, gore or animal cruelty"
 msgstr "過激な暴力、残虐な描写、または動物虐待"
 
 #: components/client/NotificationsController.ts
-msgid ""
-"Failed to enable notifications. Stoat does not have notification permission."
+msgid "Failed to enable notifications. Stoat does not have notification permission."
 msgstr ""
 
 #: components/client/NotificationsController.ts
@@ -1440,7 +1439,8 @@ msgstr "3時間"
 msgid "For 8 hours"
 msgstr "8時間"
 
-#: src/interface/Friends.tsx src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/Friends.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
 msgstr "フレンド"
 
@@ -1454,9 +1454,7 @@ msgstr "フルーツサラダ"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Generate a new token if it gets lost or compromised"
-msgstr ""
-"トークンをなくしてしまったり、誰かにバレてしまったりした場合はトークンを再発"
-"行できます"
+msgstr "トークンをなくしてしまったり、誰かにバレてしまったりした場合はトークンを再発行できます"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Generate Recovery Codes"
@@ -1479,9 +1477,7 @@ msgid "Get it on Google Play"
 msgstr ""
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
-msgid ""
-"Gifbox is our own GIF service, so you can keep sharing GIFs right here on "
-"Stoat."
+msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
 msgstr ""
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
@@ -1512,9 +1508,13 @@ msgstr "ログイン画面に戻る"
 msgid "Go to account settings to edit your username"
 msgstr "ユーザー名はアカウント設定で変更できます"
 
-#: components/app/interface/settings/user/Feedback.tsx src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "Go to the Stoat Lounge"
 msgstr "Stoat Loungeを開く"
+
+#~ msgid "Go to the testers server"
+#~ msgstr "テスターサーバーに移動する"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Good"
@@ -1583,7 +1583,8 @@ msgstr "コントラスト高め"
 msgid "Hoist Role"
 msgstr ""
 
-#: src/interface/Home.tsx src/interface/navigation/channels/HomeSidebar.tsx
+#: src/interface/Home.tsx
+#: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Home"
 msgstr "ホーム"
 
@@ -1615,9 +1616,7 @@ msgid "Impersonation"
 msgstr "なりすまし"
 
 #: src/AndroidNag.tsx
-msgid ""
-"In the meantime, install Stoat from Google Play for a faster, smoother "
-"experience designed for Android."
+msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
 msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
@@ -1638,8 +1637,7 @@ msgstr "オンライン状態を隠す"
 
 #: src/interface/Home.tsx
 msgid "Invite all of your friends, some cool bots, and throw a big party."
-msgstr ""
-"たくさんのフレンドと素敵なボットを招待して盛大なパーティを開きましょう。"
+msgstr "たくさんのフレンドと素敵なボットを招待して盛大なパーティを開きましょう。"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite Bot"
@@ -1678,7 +1676,8 @@ msgstr "不適切なジョーク2"
 msgid "ISO Standard (YYYY-MM-DD)"
 msgstr "ISO標準 (西暦-月-日)"
 
-#: components/modal/modals/Invite.tsx components/modal/modals/JoinServer.tsx
+#: components/modal/modals/Invite.tsx
+#: components/modal/modals/JoinServer.tsx
 msgid "Join"
 msgstr "参加"
 
@@ -1686,7 +1685,8 @@ msgstr "参加"
 msgid "Join a server"
 msgstr "サーバーに参加"
 
-#: components/app/interface/settings/user/Feedback.tsx src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "Join the Stoat Lounge"
 msgstr "Stoatラウンジに参加"
 
@@ -1900,7 +1900,7 @@ msgid "Members"
 msgstr "メンバー"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr ""
 
@@ -2081,7 +2081,8 @@ msgstr "{0}以来の新しいメッセージ"
 msgid "New name"
 msgstr ""
 
-#: components/auth/src/flows/Form.tsx components/modal/modals/EditPassword.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/EditPassword.tsx
 msgid "New Password"
 msgstr "新しいパスワード"
 
@@ -2151,7 +2152,8 @@ msgid "Offline"
 msgstr "オフライン"
 
 #: components/auth/src/flows/FlowHome.tsx
-#: components/modal/modals/CreateInvite.tsx components/modal/modals/Error2.tsx
+#: components/modal/modals/CreateInvite.tsx
+#: components/modal/modals/Error2.tsx
 #: components/modal/modals/SignedOut.tsx
 msgid "OK"
 msgstr "OK"
@@ -2181,7 +2183,8 @@ msgid "Ongoing Maintenance"
 msgstr ""
 
 #: components/ui/components/features/profiles/ProfileStatus.tsx
-#: src/interface/channels/text/MemberSidebar.tsx src/interface/Friends.tsx
+#: src/interface/channels/text/MemberSidebar.tsx
+#: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Online"
@@ -2246,7 +2249,8 @@ msgid "Partial Outage"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx components/modal/modals/MFAFlow.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/MFAFlow.tsx
 msgid "Password"
 msgstr "パスワード"
 
@@ -2275,12 +2279,8 @@ msgid "Pick a Screen to Share"
 msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid ""
-"Pick a username that you want people to be able to find you by. This can be "
-"changed later in your user settings."
-msgstr ""
-"他のユーザーから検索されるように名前を決めましょう。この名前は後でもユーザー"
-"の設定から変更できます。"
+msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
+msgstr "他のユーザーから検索されるように名前を決めましょう。この名前は後でもユーザーの設定から変更できます。"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin"
@@ -2317,8 +2317,7 @@ msgstr "安全な場所に保存しておいてください。"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Please scan or use the token below in your authenticator app."
-msgstr ""
-"お使いの認証アプリで、下記のトークンをスキャンもしくは入力してください。"
+msgstr "お使いの認証アプリで、下記のトークンをスキャンもしくは入力してください。"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
@@ -2811,7 +2810,7 @@ msgstr ""
 msgid "Setup recovery codes"
 msgstr ""
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "複数人が入力中…"
 
@@ -2852,11 +2851,11 @@ msgstr "登録"
 msgid "Silent"
 msgstr "サイレント"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr ""
 
@@ -2934,9 +2933,7 @@ msgid "Stoat Founder"
 msgstr ""
 
 #: components/auth/src/flows/FlowHome.tsx
-msgid ""
-"Stoat is one of the best ways to stay connected with your friends and "
-"community, anywhere, anytime."
+msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 msgstr ""
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
@@ -3049,9 +3046,7 @@ msgstr ""
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
-msgid ""
-"The file \"{0}\" ({fileSize}) exceeds the maximum size limit of "
-"{maxSizeFormatted}."
+msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr ""
 
 #: components/i18n/errors.tsx
@@ -3063,9 +3058,7 @@ msgid "Theme"
 msgstr "テーマ"
 
 #: components/i18n/errors.tsx
-msgid ""
-"This account is not activated! Please check your account's inbox and try "
-"again."
+msgid "This account is not activated! Please check your account's inbox and try again."
 msgstr ""
 
 #: components/i18n/errors.tsx
@@ -3081,9 +3074,7 @@ msgid "This channel is marked as mature."
 msgstr ""
 
 #: src/interface/channels/AgeGate.tsx
-msgid ""
-"This channel is not available in your region while we review options on "
-"legal compliance."
+msgid "This channel is not available in your region while we review options on legal compliance."
 msgstr ""
 
 #: src/interface/channels/AgeGate.tsx
@@ -3128,9 +3119,7 @@ msgid "This message is empty and has not been sent."
 msgstr ""
 
 #: components/i18n/errors.tsx
-msgid ""
-"This password has previously appeared in security leaks, please use another "
-"password."
+msgid "This password has previously appeared in security leaks, please use another password."
 msgstr ""
 
 #: components/app/interface/settings/server/Overview.tsx
@@ -3158,9 +3147,7 @@ msgid "This username is not allowed."
 msgstr ""
 
 #: components/modal/modals/ResetBotToken.tsx
-msgid ""
-"This will invalidate the current token and stop any existing instances of "
-"the bot from running."
+msgid "This will invalidate the current token and stop any existing instances of the bot from running."
 msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
@@ -3327,7 +3314,8 @@ msgid "User's profile has inappropriate content"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
-#: components/auth/src/flows/Form.tsx components/modal/modals/AddFriend.tsx
+#: components/auth/src/flows/Form.tsx
+#: components/modal/modals/AddFriend.tsx
 #: components/modal/modals/CreateBot.tsx
 #: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/EditUsername.tsx
@@ -3348,9 +3336,7 @@ msgid "Users will be asked to confirm their age before opening this channel."
 msgstr ""
 
 #: components/modal/modals/ChannelToggleMature.tsx
-msgid ""
-"Users will no longer be asked to confirm their age before joining this "
-"channel.<0/> Please ensure the content is appropriate for all ages."
+msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
@@ -3381,6 +3367,9 @@ msgstr "現在進行中のバグレポートはこちら。"
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View members"
 msgstr "メンバーを表示"
+
+#~ msgid "View older updates"
+#~ msgstr "過去のアップデートを見る"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "View pinned messages"
@@ -3428,9 +3417,7 @@ msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
-msgid ""
-"We've sent you a verification email. Please allow up to 10 minutes for it to "
-"arrive."
+msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
 msgstr "確認メールを送信しました。 到着まで最大 10 分ほどお待ちください。"
 
 #: components/app/interface/channels/text/Message.tsx
@@ -3449,6 +3436,9 @@ msgstr "ウェブフックの名前"
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
 msgstr "ウェブフック"
+
+#~ msgid "Welcome to"
+#~ msgstr "ようこそ"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome!"
@@ -3513,11 +3503,15 @@ msgstr ""
 msgid "You can also click the gear icon in the bottom left."
 msgstr ""
 
+#~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
+#~ msgstr "左上のユーザーアイコンを右クリックするか、すでにホームにいる場合は左クリックしてください。"
+
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
 msgstr "また開き直すことは可能ですが、両者ともに消えてしまいます。"
 
-#: components/app/interface/settings/user/Feedback.tsx src/interface/Home.tsx
+#: components/app/interface/settings/user/Feedback.tsx
+#: src/interface/Home.tsx
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "こちらで直接、問題の報告や改善点の相談ができます。"
 
@@ -3574,9 +3568,7 @@ msgid "You don't have permission to send messages in this channel."
 msgstr "このチャンネルでメッセージを送信する権限がありません。"
 
 #: components/i18n/errors.tsx
-msgid ""
-"You have been locked out for entering a wrong password multiple times. "
-"Please wait a couple minutes and try again."
+msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
 msgstr ""
 
 #: components/i18n/errors.tsx
@@ -3600,12 +3592,8 @@ msgid "You will not receive any notifications"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
-msgid ""
-"You won't be able to access your account unless you contact support - "
-"however, your data will not be deleted."
-msgstr ""
-"サポートに連絡しない限り、アカウントにアクセスすることはできません。ただし、"
-"データは削除されません。"
+msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
+msgstr "サポートに連絡しない限り、アカウントにアクセスすることはできません。ただし、データは削除されません。"
 
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
@@ -3616,7 +3604,8 @@ msgstr "再招待されない限り、参加することはできません。"
 msgid "You're already part of this group."
 msgstr ""
 
-#: components/i18n/errors.tsx components/modal/modals/Invite.tsx
+#: components/i18n/errors.tsx
+#: components/modal/modals/Invite.tsx
 msgid "You're already part of this server."
 msgstr ""
 
@@ -3642,10 +3631,7 @@ msgid "You've sent too many friend requests, the maximum is {0}"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
-msgid ""
-"Your account and all of your data (including your messages and friends list) "
-"will be queued for deletion. A confirmation email will be sent - you can "
-"cancel this within 7 days by contacting support."
+msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
 msgstr ""
 
 #: components/auth/src/flows/FlowVerify.tsx
@@ -3669,35 +3655,5 @@ msgid "Your role ranking is too low to take this action."
 msgstr ""
 
 #: components/i18n/errors.tsx
-msgid ""
-"Your user has already been created? Try logging in again or refreshing the "
-"app."
+msgid "Your user has already been created? Try logging in again or refreshing the app."
 msgstr ""
-
-#~ msgid "Affects all roles and users"
-#~ msgstr "全てのロールとユーザーに影響します"
-
-#~ msgid "Create a group"
-#~ msgstr "グループの作成"
-
-#~ msgid "Create a new role"
-#~ msgstr "新しくロールを作成する"
-
-#~ msgid "Default Permissions"
-#~ msgstr "デフォルトの権限"
-
-#~ msgid "Go to the testers server"
-#~ msgstr "テスターサーバーに移動する"
-
-#~ msgid "View older updates"
-#~ msgstr "過去のアップデートを見る"
-
-#~ msgid "Welcome to"
-#~ msgstr "ようこそ"
-
-#~ msgid ""
-#~ "You can also right-click the user icon in the top left, or left click it "
-#~ "if you're already home."
-#~ msgstr ""
-#~ "左上のユーザーアイコンを右クリックするか、すでにホームにいる場合は左クリッ"
-#~ "クしてください。"

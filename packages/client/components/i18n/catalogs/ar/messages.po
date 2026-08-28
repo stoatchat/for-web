@@ -57,7 +57,7 @@ msgstr "{0, plural, one {تنزيل ملف} other {تنزيل # ملفات}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} و {1} يكتبون…"
 
@@ -82,7 +82,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} ملفات تفوق الحجم الاقصى من {maxSizeFormatted} ولم يتم رفعها."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} يكتب…"
 
@@ -2003,7 +2003,7 @@ msgid "Members"
 msgstr "الأعضاء"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "يمكن للأعضاء إرسال رسالة واحدة كل {0}."
 
@@ -2922,7 +2922,7 @@ msgstr "اعداد موثق كلمة المرور للاستخدام الواح�
 msgid "Setup recovery codes"
 msgstr "اعداد رموز الاسترجاع"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "العديد من الأشخاص يكتبون…"
 
@@ -2963,11 +2963,11 @@ msgstr "انشاء حساب"
 msgid "Silent"
 msgstr "صامت"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "تم تمكين الوضع البطيء."
 

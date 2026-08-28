@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-08-19 22:18+0000\n"
 "Last-Translator: Valera <kot-valera123@proton.me>\n"
-"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/ru/>\n"
+"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/revolt-for-web/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -56,7 +54,7 @@ msgstr "{0, plural, one {Поместите файл} few {Поместите # 
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} и {1} печатают…"
 
@@ -81,7 +79,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} файлов пиевышают лимит размера файла в {maxSizeFormatted} и не были загружены."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} печатает…"
 
@@ -578,9 +576,7 @@ msgstr "Обходит медленный режим в каналах"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr ""
-"Не нашли подходящую гифку? Зайдите на Gifbox и загрузите свою — пусть её "
-"используют все."
+msgstr "Не нашли подходящую гифку? Зайдите на Gifbox и загрузите свою — пусть её используют все."
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -1542,9 +1538,7 @@ msgstr "Доступно в Google Play"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
-msgstr ""
-"Gifbox — наш собственный сервис GIF, так что вы можете продолжать делиться "
-"гифками прямо здесь, в Stoat."
+msgstr "Gifbox — наш собственный сервис GIF, так что вы можете продолжать делиться гифками прямо здесь, в Stoat."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
@@ -1686,9 +1680,7 @@ msgstr "Выдача себя за кого-то другого"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
-msgstr ""
-"Тем временем можно установить Stoat из Google Play для более быстрой и "
-"удобной работы на Android."
+msgstr "Тем временем можно установить Stoat из Google Play для более быстрой и удобной работы на Android."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -1971,7 +1963,7 @@ msgid "Members"
 msgstr "Участники"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "Участники могут отправлять сообщения каждые {0}."
 
@@ -2884,7 +2876,7 @@ msgstr "Включить аутентификацию одноразовым п�
 msgid "Setup recovery codes"
 msgstr "Включить коды восстановления"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Несколько людей печатают…"
 
@@ -2925,11 +2917,11 @@ msgstr "Зарегистрироваться"
 msgid "Silent"
 msgstr "Тихий"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr "Обход медленного режима"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "Включен медленный режим."
 
@@ -3497,8 +3489,7 @@ msgstr "Хотите поменять имя пользователя?"
 
 #: src/AndroidNag.tsx
 msgid "We are working hard on optimising our web app for mobile."
-msgstr ""
-"Мы активно работаем над оптимизацией веб-приложения для мобильных устройств."
+msgstr "Мы активно работаем над оптимизацией веб-приложения для мобильных устройств."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."

@@ -57,7 +57,7 @@ msgstr "{0, plural, one {Upuść plik} other {Upuść # plików}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} i {1} piszą…"
 
@@ -82,7 +82,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "{0} pliki/ów przekroczyły/o maksymalny limit {maxSizeFormatted} i nie zostały załadowane."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} pisze…"
 
@@ -2003,7 +2003,7 @@ msgid "Members"
 msgstr "Członkowie"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr ""
 
@@ -2922,7 +2922,7 @@ msgstr "Skonfiguruj uwierzytelnianie hasłem jednorazowym"
 msgid "Setup recovery codes"
 msgstr "Ustaw kody odzyskiwania"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Wiele osób pisze…"
 
@@ -2963,11 +2963,11 @@ msgstr "Zarejestruj się"
 msgid "Silent"
 msgstr "Cichy"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr ""
 

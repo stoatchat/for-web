@@ -4,10 +4,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-08-23 22:29+0000\n"
-"Last-Translator: \"Matthew R.\" <mattcapazz@users.noreply.translate.stoat."
-"chat>\n"
-"Language-Team: Portuguese (Portugal) <https://translate.stoat.chat/projects/"
-"revolt/revolt-for-web/pt_PT/>\n"
+"Last-Translator: \"Matthew R.\" <mattcapazz@users.noreply.translate.stoat.chat>\n"
+"Language-Team: Portuguese (Portugal) <https://translate.stoat.chat/projects/revolt/revolt-for-web/pt_PT/>\n"
 "Language: pt-PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -59,7 +57,7 @@ msgstr "{0, plural, one {Largar ficheiro} other {Largar # ficheiros}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} e {1} estão a escrever…"
 
@@ -81,12 +79,10 @@ msgstr "{0} espaços de emoji restantes"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr ""
-"Os ficheiros {0} ultrapassam o tamanho máximo de {maxSizeFormatted} e não "
-"foram submetidos."
+msgstr "Os ficheiros {0} ultrapassam o tamanho máximo de {maxSizeFormatted} e não foram submetidos."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} está a escrever…"
 
@@ -586,9 +582,7 @@ msgstr "Ignorar modo lento em todos os canais"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr ""
-"Não consegues encontrar o GIF perfeito? Visita o Gifbox e carrega os teus "
-"próprios para todos utilizarem."
+msgstr "Não consegues encontrar o GIF perfeito? Visita o Gifbox e carrega os teus próprios para todos utilizarem."
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -1373,8 +1367,7 @@ msgstr "Activar notificações"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr ""
-"Activar efeitos de transparência e desfoque (lentidão em máquinas antigas)"
+msgstr "Activar efeitos de transparência e desfoque (lentidão em máquinas antigas)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1444,9 +1437,7 @@ msgstr "Violência extrema, sangue, ou crueldade animal"
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable notifications. Stoat does not have notification permission."
-msgstr ""
-"Falha ao activar notificações. O Stoat não tem permissão para enviar "
-"notificações."
+msgstr "Falha ao activar notificações. O Stoat não tem permissão para enviar notificações."
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable push notifications. Please try again later."
@@ -1553,9 +1544,7 @@ msgstr "Descarrega no Google Play"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
-msgstr ""
-"Gifbox é o nosso próprio serviço de GIF, para que continues a partilhar GIFs "
-"aqui mesmo no Stoat."
+msgstr "Gifbox é o nosso próprio serviço de GIF, para que continues a partilhar GIFs aqui mesmo no Stoat."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
@@ -1697,9 +1686,7 @@ msgstr "Falsa-representação"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
-msgstr ""
-"Entretanto, instala o Stoat através do Google Play para desfrutar de uma "
-"experiência mais rápida e fluída, desenvolvida para Android."
+msgstr "Entretanto, instala o Stoat através do Google Play para desfrutar de uma experiência mais rápida e fluída, desenvolvida para Android."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -1985,7 +1972,7 @@ msgid "Members"
 msgstr "Membros"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "Membros podem enviar uma mensagem a cada {0}."
 
@@ -2402,9 +2389,7 @@ msgstr "Por favor, guarda-os num local seguro."
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Please scan or use the token below in your authenticator app."
-msgstr ""
-"Por favor, digitaliza o código ou utiliza o 'token' abaixo no teu "
-"autenticador."
+msgstr "Por favor, digitaliza o código ou utiliza o 'token' abaixo no teu autenticador."
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
@@ -2806,8 +2791,7 @@ msgstr "Enviar 'email'"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
-msgstr ""
-"Enviar conteúdo incorporado, tais como 'links' ou conteúdo personalizado"
+msgstr "Enviar conteúdo incorporado, tais como 'links' ou conteúdo personalizado"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
@@ -2907,7 +2891,7 @@ msgstr "Configurar a autenticação de senha de uso singular"
 msgid "Setup recovery codes"
 msgstr "Configurar códigos de recuperação"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Várias pessoas estão a escrever…"
 
@@ -2948,11 +2932,11 @@ msgstr "Regista-te"
 msgid "Silent"
 msgstr "Silencioso"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr "Imune a modo lento"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "Modo lento activo."
 
@@ -3037,9 +3021,7 @@ msgstr "Fundador do Stoat"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
-msgstr ""
-"O Stoat é uma das melhores formas de te manteres ligado aos teus amigos e "
-"comunidade, em qualquer lugar, a qualquer hora."
+msgstr "O Stoat é uma das melhores formas de te manteres ligado aos teus amigos e comunidade, em qualquer lugar, a qualquer hora."
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Stoat rocks!"
@@ -3099,9 +3081,7 @@ msgstr "Mudar para este canal de voz"
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync appearance options, such as chosen emoji pack and message density."
-msgstr ""
-"Sincroniza as opções de aparência, como o pacote de emojis escolhido e a "
-"densidade da mensagem."
+msgstr "Sincroniza as opções de aparência, como o pacote de emojis escolhido e a densidade da mensagem."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your chosen theme, colours, and any custom CSS."
@@ -3154,8 +3134,7 @@ msgstr "Essa acção não teve efeito."
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
-msgstr ""
-"O ficheiro \"{0}\" ({fileSize}) excede o limite máximo de {maxSizeFormatted}."
+msgstr "O ficheiro \"{0}\" ({fileSize}) excede o limite máximo de {maxSizeFormatted}."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3167,9 +3146,7 @@ msgstr "Tema"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
-msgstr ""
-"Esta conta não está activa! Por favor verifica o teu correio electrónico e "
-"tenta novamente."
+msgstr "Esta conta não está activa! Por favor verifica o teu correio electrónico e tenta novamente."
 
 #: components/i18n/errors.tsx
 msgid "This bot is private and can only be added by the creator."
@@ -3185,9 +3162,7 @@ msgstr "Este canal está marcado como adulto."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This channel is not available in your region while we review options on legal compliance."
-msgstr ""
-"Este canal não está disponível na tua região enquanto analisamos as opções "
-"de conformidade legal."
+msgstr "Este canal não está disponível na tua região enquanto analisamos as opções de conformidade legal."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This content is not available in your region."
@@ -3232,9 +3207,7 @@ msgstr "Esta mensagem está vazia e não foi enviada."
 
 #: components/i18n/errors.tsx
 msgid "This password has previously appeared in security leaks, please use another password."
-msgstr ""
-"Este senha apareceu previamente em fugas de segurança, por favor utiliza "
-"outra senha."
+msgstr "Este senha apareceu previamente em fugas de segurança, por favor utiliza outra senha."
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "This server is about..."
@@ -3242,9 +3215,7 @@ msgstr "Este servidor é sobre..."
 
 #: components/i18n/errors.tsx
 msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
-msgstr ""
-"Este registo está marcado como 'spam'. Consulta <0>este artigo de "
-"suporte.</0>"
+msgstr "Este registo está marcado como 'spam'. Consulta <0>este artigo de suporte.</0>"
 
 #: components/i18n/errors.tsx
 msgid "This user has blocked you."
@@ -3264,9 +3235,7 @@ msgstr "Este nome de utilizador não é permitido."
 
 #: components/modal/modals/ResetBotToken.tsx
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
-msgstr ""
-"Isto invalidará o 'token' actual e impedirá a execução de quaisquer "
-"instâncias existentes do bot."
+msgstr "Isto invalidará o 'token' actual e impedirá a execução de quaisquer instâncias existentes do bot."
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Time format"
@@ -3455,9 +3424,7 @@ msgstr "Utilizadores terão de confirmar a idade antes de abrir este canal."
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
-msgstr ""
-"Utilizadores já não terão de confirmar a sua idade para entrar neste canal.<"
-"0/> Certifica-te que o conteúdo é apropriado para todas as idades."
+msgstr "Utilizadores já não terão de confirmar a sua idade para entrar neste canal.<0/> Certifica-te que o conteúdo é apropriado para todas as idades."
 
 #~ msgid "Using default microphone"
 #~ msgstr ""
@@ -3540,9 +3507,7 @@ msgstr "Queres mudar o nome de utilizador?"
 
 #: src/AndroidNag.tsx
 msgid "We are working hard on optimising our web app for mobile."
-msgstr ""
-"Estamos a trabalhar arduamente para optimizar a nossa aplicação para "
-"telemóvel."
+msgstr "Estamos a trabalhar arduamente para optimizar a nossa aplicação para telemóvel."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
@@ -3607,9 +3572,7 @@ msgstr "Queres criar um servidor novo ou juntar-te a um já existente?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr ""
-"Concordas que o teu bot está sujeito a politica de à Política de Utilização "
-"Aceitável."
+msgstr "Concordas que o teu bot está sujeito a politica de à Política de Utilização Aceitável."
 
 #. placeholder {0}: props.member.user?.username
 #. placeholder {0}: props.user?.username
@@ -3760,11 +3723,7 @@ msgstr "Enviaste demasiado pedidos de amizade, o máximo é {0}"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr ""
-"A tua conta e todos os teus dados (incluindo as tuas mensagens e lista de "
-"amigos) serão colocados em fila para eliminação. Será enviado um e-mail de "
-"confirmação. Podes cancelar a eliminação no prazo de 7 dias entrando em "
-"contacto com o suporte."
+msgstr "A tua conta e todos os teus dados (incluindo as tuas mensagens e lista de amigos) serão colocados em fila para eliminação. Será enviado um e-mail de confirmação. Podes cancelar a eliminação no prazo de 7 dias entrando em contacto com o suporte."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -3772,9 +3731,7 @@ msgstr "A tua conta foi verificada!"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
-msgstr ""
-"O teu pedido de alteração do discriminador foi limitado, por favor tenta "
-"novamente mais tarde."
+msgstr "O teu pedido de alteração do discriminador foi limitado, por favor tenta novamente mais tarde."
 
 #: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
@@ -3790,6 +3747,4 @@ msgstr "O teu 'rank' é demasiado baixo para tomar esta acção."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
-msgstr ""
-"O teu utilizador já foi criado? Tenta reiniciar a sessão outra vez ou "
-"refrescar a aplicação."
+msgstr "O teu utilizador já foi criado? Tenta reiniciar a sessão outra vez ou refrescar a aplicação."
