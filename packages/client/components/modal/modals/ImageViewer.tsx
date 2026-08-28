@@ -14,10 +14,10 @@ import Panzoom, { PanzoomObject } from "@panzoom/panzoom";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { supportsAnchorDownload } from "@revolt/common";
+import { isGifBox } from "@revolt/common/lib/gifs";
 import { Column, Dialog, DialogProps, IconButton, Text } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import { isGifBox } from "@revolt/common/lib/gifs";
 import { Modals } from "../types";
 
 export function ImageViewerModal(
@@ -117,7 +117,7 @@ export function ImageViewerModal(
                     </IconButton>
                     <Show when={props.file}>
                       <a
-                        target="_blank"
+                        target={supportsAnchorDownload ? undefined : "_blank"}
                         href={props.file?.originalUrl}
                         download={props.file?.filename}
                       >

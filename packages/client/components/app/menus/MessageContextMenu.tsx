@@ -4,6 +4,7 @@ import { Trans } from "@lingui/solid/macro";
 import { File, Message } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
+import { supportsAnchorDownload } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
@@ -49,7 +50,6 @@ export function MessageContextMenu(props: {
   const instance = useInstance();
   const client = useClient();
   const { openModal, showError } = useModals();
-  const supportsDownload = "download" in document.createElement("a");
 
   /**
    * Reply to this message
@@ -173,7 +173,7 @@ export function MessageContextMenu(props: {
           <Trans>Copy file link</Trans>
         </ContextMenuButton>
         <a
-          target={supportsDownload ? undefined : "_blank"}
+          target={supportsAnchorDownload ? undefined : "_blank"}
           download={props.file?.filename}
           href={props.file?.originalUrl}
         >

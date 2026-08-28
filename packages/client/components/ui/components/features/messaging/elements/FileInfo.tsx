@@ -10,6 +10,7 @@ import { Match, Show, Switch } from "solid-js";
 import { File, MessageEmbed } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { supportsAnchorDownload } from "@revolt/common";
 import { IconButton, Text } from "@revolt/ui/components/design";
 import { Column, Row } from "@revolt/ui/components/layout";
 import { humanFileSize } from "@revolt/ui/components/utils";
@@ -74,7 +75,7 @@ export function FileInfo(props: Props) {
       </Column>
       <Show when={props.file}>
         <a
-          target="_blank"
+          target={supportsAnchorDownload ? undefined : "_blank"}
           href={props.file?.originalUrl}
           download={props.file?.filename}
         >
