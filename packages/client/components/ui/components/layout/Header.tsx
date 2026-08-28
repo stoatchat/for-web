@@ -33,7 +33,7 @@ export const Header = styled("div", {
     },
 
     _phone: {
-      marginLeft: "16px",
+      marginLeft: "var(--gap-lg)",
     },
   },
   variants: {

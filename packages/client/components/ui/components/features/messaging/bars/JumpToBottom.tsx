@@ -15,6 +15,8 @@ interface Props {
   onClick: () => void;
 }
 
+const indStyle = css({ marginBottom: "var(--gap-md)" });
+
 /**
  * Component indicating user can jump back to present messages
  */
@@ -22,7 +24,7 @@ export function JumpToBottom(props: Props) {
   return (
     <FloatingIndicator
       position="bottom"
-      class={css({ marginBottom: "var(--gap-md)" })}
+      class={indStyle}
       onClick={props.onClick}
     >
       <Ripple />
