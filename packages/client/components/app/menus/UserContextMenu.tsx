@@ -1,6 +1,7 @@
 import { Trans } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
+import { canInviteToServer } from "@revolt/modal/modals/InviteToServer";
 import { useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { Slider, Symbol, Text } from "@revolt/ui";
@@ -74,6 +75,16 @@ export function UserContextMenu(props: {
   function openProfile() {
     openModal({
       type: "user_profile",
+      user: props.user,
+    });
+  }
+
+  /**
+   * Invite this person to one of your servers
+   */
+  function inviteToServer() {
+    openModal({
+      type: "invite_to_server",
       user: props.user,
     });
   }
@@ -401,6 +412,18 @@ export function UserContextMenu(props: {
         >
           <Trans>Profile</Trans>
         </ContextMenuButton>
+        <Show when={canInviteToServer(client(), props.user)}>
+          <ContextMenuButton
+            symbol={
+              <IconSlot>
+                <Symbol size={16}>group_add</Symbol>
+              </IconSlot>
+            }
+            onClick={inviteToServer}
+          >
+            <Trans>Invite to server</Trans>
+          </ContextMenuButton>
+        </Show>
       </Show>
       <Show when={props.user.relationship === "Friend" || props.user.bot}>
         <ContextMenuButton

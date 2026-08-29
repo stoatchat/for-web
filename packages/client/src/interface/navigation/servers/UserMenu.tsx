@@ -26,7 +26,9 @@ import { useClient, useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Avatar, Column, Row, Text, UserStatus, iconSize } from "@revolt/ui";
+import { floatingElements } from "@revolt/ui/directives";
 
+import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import MdContactPage from "@material-design-icons/svg/outlined/contact_page.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MdEditNote from "@material-design-icons/svg/outlined/edit_note.svg?component-solid";
@@ -60,7 +62,8 @@ export function UserMenu(props: Props) {
   const [ref, setRef] = createSignal<HTMLDivElement>();
 
   const position = useFloating(() => props.anchor(), ref, {
-    placement: "right-start",
+    // anchored at the bottom of the rail, so the menu grows upwards
+    placement: "right-end",
     whileElementsMounted: autoUpdate,
     middleware: [offset(5), shift()],
   });
@@ -69,8 +72,41 @@ export function UserMenu(props: Props) {
     setShow((v) => !v);
   }
 
+  /**
+   * Dismiss the tooltip still showing on the avatar when the menu opens.
+   *
+   * The menu is rendered inside the avatar's Tooltip wrapper, so hovering to
+   * click leaves the tooltip up, floating over the menu's own header.
+   */
+  createEffect(
+    on(show, (open) => {
+      if (!open) return;
+
+      const anchor = props.anchor();
+      if (!anchor) return;
+
+      for (const entry of floatingElements()) {
+        if (entry.element.contains(anchor)) entry.hide();
+      }
+    }),
+  );
+
   function close() {
     setShow(false);
+  }
+
+  /**
+   * Open your own profile.
+   *
+   * The menu previously only exposed the profile through its unmarked header
+   * row, which reads as decoration rather than a link.
+   */
+  function openProfile() {
+    const self = user();
+    if (!self) return;
+
+    openModal({ type: "user_profile", user: self });
+    close();
   }
 
   function onMouseDown(event: MouseEvent) {
@@ -139,6 +175,12 @@ export function UserMenu(props: Props) {
                   </Column>
                 </Row>
               </ContextMenuItem>
+
+              <ContextMenuDivider />
+
+              <ContextMenuButton icon={MdAccountCircle} onClick={openProfile}>
+                <Trans>Profile</Trans>
+              </ContextMenuButton>
 
               <ContextMenuDivider />
 

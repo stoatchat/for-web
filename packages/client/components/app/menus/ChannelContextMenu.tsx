@@ -9,7 +9,9 @@ import { useState } from "@revolt/state";
 
 import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
+import MdGrid3x3 from "@material-design-icons/svg/outlined/grid_3x3.svg?component-solid";
 import MdGroupAdd from "@material-design-icons/svg/outlined/group_add.svg?component-solid";
+import MdHeadsetMic from "@material-design-icons/svg/outlined/headset_mic.svg?component-solid";
 import MdLibraryAdd from "@material-design-icons/svg/outlined/library_add.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMarkChatRead from "@material-design-icons/svg/outlined/mark_chat_read.svg?component-solid";
@@ -59,9 +61,10 @@ export function ChannelContextMenu(props: { channel: Channel }) {
   /**
    * Create a new channel
    */
-  function createChannel() {
+  function createChannel(channelType: "Text" | "Voice") {
     openModal({
       type: "create_channel",
+      channelType,
       server: props.channel.server!,
       categoryId: getCategory(props.channel),
     });
@@ -153,8 +156,17 @@ export function ChannelContextMenu(props: { channel: Channel }) {
       <ContextMenuDivider />
 
       <Show when={props.channel.server?.havePermission("ManageChannel")}>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+        <ContextMenuButton
+          icon={MdGrid3x3}
+          onClick={() => createChannel("Text")}
+        >
           <Trans>Create channel</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton
+          icon={MdHeadsetMic}
+          onClick={() => createChannel("Voice")}
+        >
+          <Trans>Create voice channel</Trans>
         </ContextMenuButton>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
           <Trans>Create category</Trans>

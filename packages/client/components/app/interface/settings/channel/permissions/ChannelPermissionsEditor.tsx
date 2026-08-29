@@ -1,4 +1,4 @@
-import { For, Match, Show, Switch, createSignal } from "solid-js";
+import { For, Match, Show, Switch, createMemo, createSignal } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
 import {
@@ -10,7 +10,13 @@ import {
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Button, Checkbox2, Text, Switch as UiSwitch } from "@revolt/ui";
+import {
+  Button,
+  Checkbox2,
+  Text,
+  TextField,
+  Switch as UiSwitch,
+} from "@revolt/ui";
 import { typography } from "@revolt/ui/components/design/Text";
 
 type Props = (
@@ -468,6 +474,25 @@ export function ChannelPermissionsEditor(props: Props) {
     return desc[context] ?? desc.Any;
   }
 
+  const [filter, setFilter] = createSignal("");
+
+  /**
+   * Permissions matching the search box.
+   *
+   * There are around thirty entries in one flat list, so finding a single one
+   * otherwise means scrolling the whole thing.
+   */
+  const visiblePermissions = createMemo(() => {
+    const needle = filter().trim().toLowerCase();
+    if (!needle) return Permissions;
+
+    return Permissions.filter(
+      (entry) =>
+        entry.title.toLowerCase().includes(needle) ||
+        (description(entry) ?? "").toLowerCase().includes(needle),
+    );
+  });
+
   return (
     <div
       class={css({
@@ -476,10 +501,22 @@ export function ChannelPermissionsEditor(props: Props) {
         gap: "var(--gap-lg)",
       })}
     >
-      <For each={Permissions}>
+      <TextField
+        variant="filled"
+        value={filter()}
+        placeholder={t`Search permissions…`}
+        onInput={(e) => setFilter(e.currentTarget.value)}
+      />
+
+      <Show when={filter() && !visiblePermissions().length}>
+        <Text class="label">{t`No permission matches that search.`}</Text>
+      </Show>
+
+      <For each={visiblePermissions()}>
         {(entry) => (
           <Show when={description(entry)}>
-            <Show when={entry.heading}>
+            {/* section headings only make sense on the unfiltered list */}
+            <Show when={entry.heading && !filter().trim()}>
               <span
                 class={css({
                   marginTop: "var(--gap-lg)",

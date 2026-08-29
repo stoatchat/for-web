@@ -9,8 +9,9 @@ import {
   createMemo,
 } from "solid-js";
 
-import { useLingui } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
+import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useDevice } from "@revolt/common";
@@ -38,7 +39,11 @@ import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
+import MdGrid3x3 from "@material-design-icons/svg/outlined/grid_3x3.svg?component-solid";
+import MdHeadsetMic from "@material-design-icons/svg/outlined/headset_mic.svg?component-solid";
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
+
+import { ContextMenu, ContextMenuButton } from "@revolt/app/menus/ContextMenu";
 
 import { SidebarBase } from "./common";
 
@@ -336,6 +341,24 @@ function Category(
   const state = useState();
   const isOpen = () => state.layout.getSectionState(props.category.id, true);
   const { isMobile } = useDevice();
+  const { openModal } = useModals();
+  const { t } = useLingui();
+
+  const canCreateChannel = createMemo(() =>
+    props.server.havePermission("ManageChannel"),
+  );
+
+  /**
+   * Create a channel of the given type in this category
+   */
+  function createChannel(channelType: "Text" | "Voice") {
+    openModal({
+      type: "create_channel",
+      server: props.server,
+      channelType,
+      categoryId: props.category.id,
+    });
+  }
 
   const channels = createMemo(() =>
     props.category.channels.filter(
@@ -352,6 +375,7 @@ function Category(
       <Show when={props.category.id !== "default"}>
         <div use:floating={props.menuGenerator(props.category as never)}>
           <CategoryBase
+            data-category-header
             open={isOpen()}
             onClick={() => {
               state.layout.toggleSectionState(props.category.id, true);
@@ -360,6 +384,37 @@ function Category(
           >
             {props.category.title}
             <MdChevronRight {...iconSize(12)} />
+            <Show when={canCreateChannel()}>
+              {/* discoverable alternative to the right-click menu */}
+              <div
+                class={categoryAction()}
+                use:floating={{
+                  tooltip: { placement: "top", content: t`Create Channel` },
+                  /* the channel type has to be picked before the modal opens:
+                     the modal titles itself from it and no longer asks */
+                  contextMenu: () => (
+                    <ContextMenu>
+                      <ContextMenuButton
+                        icon={MdGrid3x3}
+                        onClick={() => createChannel("Text")}
+                      >
+                        <Trans>Create channel</Trans>
+                      </ContextMenuButton>
+                      <ContextMenuButton
+                        icon={MdHeadsetMic}
+                        onClick={() => createChannel("Voice")}
+                      >
+                        <Trans>Create voice channel</Trans>
+                      </ContextMenuButton>
+                    </ContextMenu>
+                  ),
+                  contextMenuHandler: "click",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Symbol size={16}>add</Symbol>
+              </div>
+            </Show>
           </CategoryBase>
         </div>
       </Show>
@@ -404,8 +459,35 @@ const CategorySection = styled("div", {
 });
 
 /**
- * Category title styling
+ * Action revealed when hovering a category header
+ *
+ * A recipe rather than a styled() component: `use:floating` is a Solid
+ * directive, which only binds to native elements.
  */
+const categoryAction = cva({
+  base: {
+    marginInlineStart: "auto",
+    display: "flex",
+    alignItems: "center",
+
+    opacity: 0,
+    transition: "var(--transitions-fast) opacity",
+
+    "[data-category-header]:hover &": {
+      opacity: 1,
+    },
+
+    // touch devices never hover, so the button would otherwise be unreachable
+    "@media (hover: none)": {
+      opacity: 1,
+    },
+
+    "&:hover": {
+      color: "var(--md-sys-color-primary)",
+    },
+  },
+});
+
 const CategoryBase = styled("div", {
   base: {
     display: "flex",
@@ -474,7 +556,19 @@ function Entry(
       (props.channel.mentions?.size || true),
   );
 
+  const { t } = useLingui();
+
   const inCall = () => props.channel.id === voice.channel()?.id;
+
+  /**
+   * Whether this row should offer a one-click way into the call
+   */
+  const canJoinCall = createMemo(
+    () =>
+      props.channel.isVoice &&
+      props.channel.havePermission("Connect") &&
+      !inCall(),
+  );
 
   const attentionState = createMemo(() =>
     props.active
@@ -517,10 +611,27 @@ function Entry(
         }
         actions={
           <Show when={!isMobile}>
+            {/* joining used to require opening the channel first, then
+                clicking the card in the conversation area */}
+            <Show when={canJoinCall()}>
+              <a
+                use:floating={{
+                  tooltip: { placement: "top", content: t`Join Call` },
+                }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  voice.connect(props.channel);
+                }}
+              >
+                <Symbol size={16} fill>
+                  call
+                </Symbol>
+              </a>
+            </Show>
             <Show when={canInvite()}>
               <a
                 use:floating={{
-                  tooltip: { placement: "top", content: "Create Invite" },
+                  tooltip: { placement: "top", content: t`Create Invite` },
                 }}
                 onClick={(e) => {
                   e.preventDefault();
@@ -538,7 +649,7 @@ function Entry(
             <Show when={canEditChannel()}>
               <a
                 use:floating={{
-                  tooltip: { placement: "top", content: "Edit Channel" },
+                  tooltip: { placement: "top", content: t`Edit Channel` },
                 }}
                 onClick={(e) => {
                   e.preventDefault();

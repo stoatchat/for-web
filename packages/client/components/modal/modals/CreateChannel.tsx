@@ -1,9 +1,11 @@
+import { Show } from "solid-js";
+
 import { createFormControl, createFormGroup } from "solid-forms";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useNavigate } from "@revolt/routing";
-import { Column, Dialog, DialogProps, Form2, Radio2 } from "@revolt/ui";
+import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -20,13 +22,12 @@ export function CreateChannelModal(
 
   const group = createFormGroup({
     name: createFormControl("", { required: true }),
-    type: createFormControl("Text"),
   });
 
   async function onSubmit() {
     try {
       const channel = await props.server.createChannel({
-        type: group.controls.type.value as "Text" | "Voice",
+        type: props.channelType,
         name: group.controls.name.value,
       });
 
@@ -63,7 +64,14 @@ export function CreateChannelModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Create channel</Trans>}
+      title={
+        <Show
+          when={props.channelType === "Voice"}
+          fallback={<Trans>Create channel</Trans>}
+        >
+          <Trans>Create voice channel</Trans>
+        </Show>
+      }
       actions={[
         { text: <Trans>Close</Trans> },
         {
@@ -87,15 +95,6 @@ export function CreateChannelModal(
             control={group.controls.name}
             label={t`Channel Name`}
           />
-
-          <Form2.Radio control={group.controls.type}>
-            <Radio2.Option value="Text">
-              <Trans>Text Channel</Trans>
-            </Radio2.Option>
-            <Radio2.Option value="Voice">
-              <Trans>Voice Channel</Trans>
-            </Radio2.Option>
-          </Form2.Radio>
         </Column>
       </form>
     </Dialog>

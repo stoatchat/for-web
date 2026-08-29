@@ -30,6 +30,7 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import { useSettingsNavigation } from "./Settings";
 import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
@@ -71,8 +72,14 @@ const Config: SettingsConfiguration<{ server: Server }> = {
     const client = useClient();
 
     if (id?.startsWith("bots/")) {
-      const bot = client().bots.get(id.substring("bots/".length))!;
-      return <ViewBot bot={bot!} />;
+      const bot = client().bots.get(id.substring("bots/".length));
+
+      if (!bot) {
+        useSettingsNavigation().navigate("bots");
+        return null;
+      }
+
+      return <ViewBot bot={bot} />;
     }
 
     switch (id) {

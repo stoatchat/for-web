@@ -24,25 +24,40 @@ import { css } from "styled-system/css";
 import { useSettingsNavigation } from "../../Settings";
 
 /**
+ * Placeholder name given to a freshly created role.
+ *
+ * Deliberately not translated: it is written to the server as real role
+ * data, so it must not depend on the creator's locale.
+ */
+const DEFAULT_ROLE_NAME = "New role";
+
+/**
  * Menu to see all roles
  */
 export function ServerRoleOverview(props: { context: Server }) {
   const { navigate, registerAction } = useSettingsNavigation();
-  const { openModal, showError } = useModals();
+  const { showError } = useModals();
 
   const change = useMutation(() => ({
     mutationFn: (order: string[]) => props.context.setRoleOrdering(order),
     onError: showError,
   }));
 
+  /**
+   * Create a role and open its editor straight away.
+   *
+   * Asking for a name in a modal first added a step for something the editor
+   * already asks for, so the role is created with a placeholder name that the
+   * editor's own name field is there to replace.
+   */
+  const create = useMutation(() => ({
+    mutationFn: () => props.context.createRole(DEFAULT_ROLE_NAME),
+    onSuccess: (created) => navigate(`roles/${created.id}`),
+    onError: showError,
+  }));
+
   function createRole() {
-    openModal({
-      type: "create_role",
-      server: props.context,
-      callback(roleId) {
-        navigate(`roles/${roleId}`);
-      },
-    });
+    if (!create.isPending) create.mutate();
   }
 
   let unregisterAction: (() => void) | undefined;

@@ -319,6 +319,10 @@ msgstr "Hyväksy kaveripyyntö"
 msgid "Acknowledge"
 msgstr "Hyväksy"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Action"
+msgstr ""
+
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add"
@@ -393,6 +397,10 @@ msgstr "Anna jäsenten vaihtaa nimeä ja kuvaketta viestiä kohden"
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr "Anna muiden lisätä bottisi Discover-tabista"
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Allow others to invite your bot"
+msgstr ""
+
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
 msgstr "Olet jo ystäviä tämän käyttäjän kanssa."
@@ -413,6 +421,10 @@ msgstr "Tapahtui virhe."
 #: components/i18n/errors.tsx
 msgid "An internal error occurred. ({0})"
 msgstr "Sisäinen virhe tapahtui. ({0})"
+
+#: components/modal/modals/CreateInvite.tsx
+msgid "Anyone with this link will be able to join. The link is only created once you ask for it."
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -458,6 +470,10 @@ msgstr "Roolien asettaminen"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
+msgstr ""
+
+#: components/app/interface/settings/ServerSettings.tsx
+msgid "Audit Log"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
@@ -518,6 +534,10 @@ msgstr "Bannaa käyttäjä"
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
 msgstr "Bannaa Käyttäjä"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Banned a member"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
@@ -588,6 +608,7 @@ msgstr ""
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/CreateInvite.tsx
 #: components/modal/modals/DeleteBot.tsx
 #: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteChannel.tsx
@@ -693,6 +714,10 @@ msgstr ""
 msgid "Change your profile per-server"
 msgstr "Muuta profiilia tälle palvelimelle"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Changed channel permissions for a role"
+msgstr ""
+
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -779,6 +804,7 @@ msgstr "Sovelluksen asetukset"
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EmojiPreview.tsx
+#: components/modal/modals/InviteToServer.tsx
 #: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/PolicyChange.tsx
@@ -801,6 +827,10 @@ msgstr "Sulje keskustelu {0}n kanssa?"
 #: components/modal/modals/JoinServer.tsx
 msgid "Code"
 msgstr "Koodi"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Collapse call window"
+msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
@@ -1036,6 +1066,13 @@ msgstr "Luo palvelin"
 msgid "Create server emoji"
 msgstr "Voi luoda palvelimen emojeita"
 
+#: components/app/menus/CategoryContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/modal/modals/CreateChannel.tsx
+msgid "Create voice channel"
+msgstr ""
+
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
 msgstr "Luo webhook"
@@ -1043,6 +1080,27 @@ msgstr "Luo webhook"
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
 msgstr "Luotiin <0/>"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created a webhook"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created an emoji"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created an invite"
+msgstr ""
+
+#. placeholder {0}: action.name
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created channel {0}"
+msgstr ""
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1178,6 +1236,35 @@ msgstr "Poista rooli"
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Delete Server"
 msgstr "Poista palvelin"
+
+#. placeholder {0}: action.count
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted {0} messages"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a channel"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a message"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a webhook"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted an emoji"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted an invite"
+msgstr ""
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1329,6 +1416,22 @@ msgstr "Muokkaa tunnistettasi"
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Muokattu"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a channel"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a member"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited the server"
+msgstr ""
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Effective <0/> (<1/>)"
@@ -1707,6 +1810,11 @@ msgstr "Käyttöliittymän fontti"
 msgid "Invisible"
 msgstr "Näkymätön"
 
+#. placeholder {0}: props.user.displayName
+#: components/modal/modals/InviteToServer.tsx
+msgid "Invite {0} to a server"
+msgstr ""
+
 #: src/interface/Home.tsx
 msgid "Invite all of your friends, some cool bots, and throw a big party."
 msgstr "Kutsu kaikki ystäväsi, muutama botti, ja aloita juhlat."
@@ -1723,6 +1831,10 @@ msgstr "Kutsukoodi"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "Muiden kutsuminen"
+
+#: components/app/menus/UserContextMenu.tsx
+msgid "Invite to server"
+msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite URL copied to clipboard"
@@ -1770,6 +1882,7 @@ msgstr "Liity Stoat Loungeen"
 msgid "Join the voice channel"
 msgstr "Liity puhekanavalle"
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/ui/components/features/messaging/elements/Invite.tsx
 #: components/ui/components/features/profiles/ProfileJoined.tsx
 msgid "Joined"
@@ -1806,6 +1919,10 @@ msgstr "Erota Jäsen"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
 msgstr "Jäsenien erottaminen"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Kicked a member"
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -1968,6 +2085,14 @@ msgstr "Merkkaa tämä kanava vain aikuisille tarkoitetuksi?"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Masquerade"
 msgstr "Naamio"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Maximize call window"
+msgstr ""
+
+#: components/app/interface/settings/server/members/ListMembers.tsx
+msgid "Member"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
@@ -2177,6 +2302,10 @@ msgstr "Nimimerkki"
 msgid "No GIFs found"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "No permission matches that search."
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
 msgstr "Valtuuksia ei vielä asetettu"
@@ -2189,6 +2318,7 @@ msgstr ""
 msgid "Nobody here right now!"
 msgstr "Ketään ei ole täällä tällä hetkellä!"
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
@@ -2201,6 +2331,10 @@ msgstr "Normaali"
 #: components/modal/modals/ReportContent.tsx
 msgid "Not of minimum age to use the platform"
 msgstr "Ei tarpeeksi ikää käyttääkseen alustaa"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Nothing has been logged yet."
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/ServerContextMenu.tsx
@@ -2366,6 +2500,10 @@ msgstr ""
 msgid "Pin message"
 msgstr "Kiinnitä viesti"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Pinned a message"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Platform Moderator"
 msgstr "Alustan moderaattori"
@@ -2424,6 +2562,7 @@ msgstr "Yksityinen kanava"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Profile"
 msgstr "Profiili"
 
@@ -2582,6 +2721,10 @@ msgstr "Nimeä kategoria uudelleen"
 msgid "Rename Session"
 msgstr "Nimeä istunto uudelleen"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Reordered roles"
+msgstr ""
+
 #: components/app/interface/settings/user/Native.tsx
 msgid "Rep Stoat using Discord rich presence."
 msgstr "Edusta Stoattia käyttämällä Discordin rikasta läsnäoloa."
@@ -2651,6 +2794,11 @@ msgstr "Nollaa todennustunnus"
 msgid "Responsibly disclosed security issues"
 msgstr "Vastuullisesti paljastetut tietoturvaongelmat"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Restore call window"
+msgstr ""
+
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
 msgstr "Yritä lähettämistä uudelleen"
@@ -2687,6 +2835,7 @@ msgstr "Roolin nimi"
 msgid "Role Overrides"
 msgstr ""
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
 msgid "Roles"
@@ -2752,6 +2901,10 @@ msgstr "Etsi ryhmiä..."
 #: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
 msgstr "Etsi käyttäjiä..."
+
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Search permissions…"
+msgstr ""
 
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
@@ -3127,8 +3280,8 @@ msgid "Terms of Service"
 msgstr "Käyttöehdot"
 
 #: components/modal/modals/CreateChannel.tsx
-msgid "Text Channel"
-msgstr "Tekstikanava"
+#~ msgid "Text Channel"
+#~ msgstr "Tekstikanava"
 
 #: components/i18n/errors.tsx
 msgid "That action had no effect."
@@ -3216,6 +3369,10 @@ msgstr "Tämä salasana on aiemmin esiintynyt tietoturvavuodoissa, käytä toist
 msgid "This server is about..."
 msgstr "Tämä palvelin käsittelee..."
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "This server's audit log could not be loaded. The instance may not allow you to read it."
+msgstr ""
+
 #: components/i18n/errors.tsx
 msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
 msgstr ""
@@ -3270,6 +3427,10 @@ msgstr "Trendaavat GIFit"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Troubleshooting"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Unbanned a member"
 msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
@@ -3329,6 +3490,10 @@ msgstr ""
 msgid "Unpin message"
 msgstr "Irrota viesti"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Unpinned a message"
+msgstr ""
+
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Unsent message"
 msgstr "Lähettämätön viesti"
@@ -3341,6 +3506,10 @@ msgstr "Ei-toivottu mainonta tai roskaposti"
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Until I turn it back on"
 msgstr "Kunnes laitan sen takaisin päälle"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Updated an emoji"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
@@ -3358,6 +3527,7 @@ msgstr "Käytä koodi tai kutsunta linkki"
 msgid "Use the graphics card to improve performance."
 msgstr "Käytä näytönohjainta parantaakseen suorituskykyä."
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "User"
 msgstr "Käyttäjä"
@@ -3493,8 +3663,8 @@ msgid "Voice & Video"
 msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx
-msgid "Voice Channel"
-msgstr "Puhekanava"
+#~ msgid "Voice Channel"
+#~ msgstr "Puhekanava"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
@@ -3547,6 +3717,10 @@ msgstr ""
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
 msgstr "Mitä uutta"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "When"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
@@ -3666,6 +3840,10 @@ msgstr "Sinulla ei ole oikeuksia lähettää viestejä tällä kanavalla."
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
 msgstr "Sinut on lukittu ulos, koska syötit väärän salasanan liian monta kertaa. Odota muutama minuutti ja yritä uudelleen."
+
+#: components/modal/modals/InviteToServer.tsx
+msgid "You have no server you can invite them to. They may already be in all of them, or you may not be allowed to create invites."
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."

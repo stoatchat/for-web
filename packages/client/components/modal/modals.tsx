@@ -37,6 +37,7 @@ import { EmojiPreviewModal } from "./modals/EmojiPreview";
 import { Error2Modal } from "./modals/Error2";
 import { ImageViewerModal } from "./modals/ImageViewer";
 import { InviteModal } from "./modals/Invite";
+import { InviteToServerModal } from "./modals/InviteToServer";
 import { JoinServerModal } from "./modals/JoinServer";
 import { KickMemberModal } from "./modals/KickMember";
 import { LeaveServerModal } from "./modals/LeaveServer";
@@ -110,6 +111,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <CreateOrJoinServerModal {...modalProps} />;
     case "create_group_or_server":
       return <CreateGroupOrServer {...modalProps} />;
+    case "invite_to_server":
+      return <InviteToServerModal {...modalProps} />;
     case "create_role":
       return <CreateRoleModal {...modalProps} />;
     case "create_server":

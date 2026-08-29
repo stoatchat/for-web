@@ -5,6 +5,8 @@ import { Server } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 
+import MdGrid3x3 from "@material-design-icons/svg/outlined/grid_3x3.svg?component-solid";
+import MdHeadsetMic from "@material-design-icons/svg/outlined/headset_mic.svg?component-solid";
 import MdLibraryAdd from "@material-design-icons/svg/outlined/library_add.svg?component-solid";
 
 import { ContextMenu, ContextMenuButton } from "./ContextMenu";
@@ -18,9 +20,10 @@ export function ServerSidebarContextMenu(props: { server: Server }) {
   /**
    * Create a new channel
    */
-  function createChannel() {
+  function createChannel(channelType: "Text" | "Voice") {
     openModal({
       type: "create_channel",
+      channelType,
       server: props.server!,
     });
   }
@@ -38,8 +41,17 @@ export function ServerSidebarContextMenu(props: { server: Server }) {
   return (
     <ContextMenu>
       <Show when={props.server?.havePermission("ManageChannel")}>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+        <ContextMenuButton
+          icon={MdGrid3x3}
+          onClick={() => createChannel("Text")}
+        >
           <Trans>Create channel</Trans>
+        </ContextMenuButton>
+        <ContextMenuButton
+          icon={MdHeadsetMic}
+          onClick={() => createChannel("Voice")}
+        >
+          <Trans>Create voice channel</Trans>
         </ContextMenuButton>
         <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
           <Trans>Create category</Trans>

@@ -1,4 +1,4 @@
-import { Show, createSignal, onMount } from "solid-js";
+import { Match, Switch, createSignal } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
@@ -35,7 +35,7 @@ export function CreateInviteModal(
   props: DialogProps & Modals & { type: "create_invite" },
 ) {
   const { showError } = useModals();
-  const [link, setLink] = createSignal("...");
+  const [link, setLink] = createSignal<string>();
   const instance = useInstance();
 
   const fetchInvite = useMutation(() => ({
@@ -52,34 +52,55 @@ export function CreateInviteModal(
     onError: showError,
   }));
 
-  onMount(() => fetchInvite.mutate());
-
   return (
     <Dialog
       show={props.show}
       onClose={props.onClose}
       title={<Trans>Create Invite</Trans>}
-      actions={[
-        { text: <Trans>OK</Trans> },
-        {
-          text: <Trans>Copy Link</Trans>,
-          onClick: () => {
-            navigator.clipboard.writeText(link());
-            return false;
-          },
-        },
-      ]}
+      actions={
+        link()
+          ? [
+              { text: <Trans>OK</Trans> },
+              {
+                text: <Trans>Copy Link</Trans>,
+                onClick: () => {
+                  navigator.clipboard.writeText(link()!);
+                  return false;
+                },
+              },
+            ]
+          : [
+              { text: <Trans>Cancel</Trans> },
+              {
+                text: <Trans>Create Invite</Trans>,
+                isDisabled: fetchInvite.isPending,
+                onClick: () => {
+                  fetchInvite.mutate();
+                  return false;
+                },
+              },
+            ]
+      }
     >
-      <Show
-        when={!fetchInvite.isPending}
-        fallback={<Trans>Generating invite…</Trans>}
-      >
-        <Invite>
+      <Switch
+        fallback={
           <Trans>
-            Here is your new invite code: <code>{link()}</code>
+            Anyone with this link will be able to join. The link is only created
+            once you ask for it.
           </Trans>
-        </Invite>
-      </Show>
+        }
+      >
+        <Match when={fetchInvite.isPending}>
+          <Trans>Generating invite…</Trans>
+        </Match>
+        <Match when={link()}>
+          <Invite>
+            <Trans>
+              Here is your new invite code: <code>{link()}</code>
+            </Trans>
+          </Invite>
+        </Match>
+      </Switch>
     </Dialog>
   );
 }

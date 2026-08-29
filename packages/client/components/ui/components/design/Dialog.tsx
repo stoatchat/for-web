@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js";
-import { For, Show, splitProps } from "solid-js";
+import { For, Show, createEffect, on, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
@@ -37,7 +37,96 @@ type Props = DialogProps & {
  *
  * @specification https://m3.material.io/components/dialogs
  */
+/**
+ * Elements inside a dialog that can receive keyboard focus
+ */
+const FOCUSABLE_SELECTOR = [
+  "mdui-text-field",
+  "mdui-radio",
+  "mdui-checkbox",
+  "mdui-switch",
+  "mdui-select",
+  "input",
+  "textarea",
+  "select",
+  "button",
+  "a[href]",
+  '[tabindex]:not([tabindex="-1"])',
+].join(", ");
+
+/**
+ * Fields that should receive focus first when a dialog opens
+ */
+const INITIAL_FIELD_SELECTOR = "mdui-text-field, input, textarea";
+
 export function Dialog(props: Props) {
+  let container: HTMLDivElement | undefined;
+
+  /**
+   * Collect the currently focusable elements within the dialog
+   */
+  function focusableElements() {
+    if (!container) return [];
+
+    return [
+      ...container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+    ].filter(
+      (element) =>
+        !element.hasAttribute("disabled") && element.offsetParent !== null,
+    );
+  }
+
+  /**
+   * Move focus into the dialog once it is shown.
+   *
+   * Text fields win over buttons so that a dialog asking for a name is
+   * immediately typeable; dialogs without any field fall back to the container
+   * itself, which keeps the focus trap below effective.
+   */
+  function focusInitialElement() {
+    if (!container) return;
+
+    const field = container.querySelector<HTMLElement>(INITIAL_FIELD_SELECTOR);
+    (field ?? focusableElements()[0] ?? container).focus();
+  }
+
+  /**
+   * Keep Tab navigation inside the dialog by wrapping around at both ends
+   */
+  function onKeyDown(event: KeyboardEvent) {
+    if (event.key !== "Tab" || !container) return;
+
+    const focusable = focusableElements();
+    if (!focusable.length) {
+      // Nothing to cycle through, but focus must not escape either
+      event.preventDefault();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  // Wait a frame so the entrance animation has mounted the container and any
+  // custom elements inside it have been upgraded before we focus them.
+  createEffect(
+    on(
+      () => props.show,
+      (show) => {
+        if (show) requestAnimationFrame(focusInitialElement);
+      },
+    ),
+  );
+
   return (
     <Portal mount={document.getElementById("floating")!}>
       <Dialog.Scrim
@@ -59,6 +148,8 @@ export function Dialog(props: Props) {
               class="dialog"
             >
               <Container
+                ref={container}
+                tabIndex={-1}
                 style={{
                   "min-width": props.minWidth
                     ? `${props.minWidth}px`
@@ -66,6 +157,7 @@ export function Dialog(props: Props) {
                   padding: props.padding ? `${props.padding}px` : undefined,
                 }}
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={onKeyDown}
               >
                 <Show when={props.icon}>
                   <Icon>{props.icon}</Icon>

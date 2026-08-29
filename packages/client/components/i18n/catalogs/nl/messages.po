@@ -340,6 +340,10 @@ msgstr "Accepteer vriendschapsverzoek"
 msgid "Acknowledge"
 msgstr "Erken"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Action"
+msgstr ""
+
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add"
@@ -416,6 +420,10 @@ msgstr "Sta leden toe om hun naam en avatar per bericht te wijzigen"
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr "Sta anderen toe om je bot toe te voegen aan hun servers via Discover"
 
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Allow others to invite your bot"
+msgstr ""
+
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
 msgstr "Reeds bevriend met deze gebruiker."
@@ -436,6 +444,10 @@ msgstr "Er is een probleem opgetreden."
 #: components/i18n/errors.tsx
 msgid "An internal error occurred. ({0})"
 msgstr "Er is een interne fout opgetreden. ({0})"
+
+#: components/modal/modals/CreateInvite.tsx
+msgid "Anyone with this link will be able to join. The link is only created once you ask for it."
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -481,6 +493,10 @@ msgstr "Rollen Toewijzen"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
+msgstr ""
+
+#: components/app/interface/settings/ServerSettings.tsx
+msgid "Audit Log"
 msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
@@ -541,6 +557,10 @@ msgstr "Gebruiker verbannen"
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
 msgstr "Gebruiker Verbannen"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Banned a member"
+msgstr ""
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
@@ -612,6 +632,7 @@ msgstr ""
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
+#: components/modal/modals/CreateInvite.tsx
 #: components/modal/modals/DeleteBot.tsx
 #: components/modal/modals/DeleteCategory.tsx
 #: components/modal/modals/DeleteChannel.tsx
@@ -717,6 +738,10 @@ msgstr ""
 msgid "Change your profile per-server"
 msgstr "Je profiel aanpassen per server"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Changed channel permissions for a role"
+msgstr ""
+
 #: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
@@ -804,6 +829,7 @@ msgstr "Client instellingen"
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
 #: components/modal/modals/EmojiPreview.tsx
+#: components/modal/modals/InviteToServer.tsx
 #: components/modal/modals/JoinServer.tsx
 #: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/PolicyChange.tsx
@@ -826,6 +852,10 @@ msgstr "Conversatie met {0} sluiten?"
 #: components/modal/modals/JoinServer.tsx
 msgid "Code"
 msgstr "Code"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Collapse call window"
+msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
@@ -1062,6 +1092,13 @@ msgstr "Creër server"
 msgid "Create server emoji"
 msgstr "Creër server emoji"
 
+#: components/app/menus/CategoryContextMenu.tsx
+#: components/app/menus/ChannelContextMenu.tsx
+#: components/app/menus/ServerSidebarContextMenu.tsx
+#: components/modal/modals/CreateChannel.tsx
+msgid "Create voice channel"
+msgstr ""
+
 #: components/app/interface/settings/channel/webhooks/WebhooksList.tsx
 msgid "Create Webhook"
 msgstr "Creër webhook"
@@ -1069,6 +1106,27 @@ msgstr "Creër webhook"
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Created <0/>"
 msgstr "Gecreërd <0/>"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created a webhook"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created an emoji"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created an invite"
+msgstr ""
+
+#. placeholder {0}: action.name
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Created channel {0}"
+msgstr ""
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1209,6 +1267,35 @@ msgstr "Rol Verwijderen"
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Delete Server"
 msgstr "Server Verwijderen"
+
+#. placeholder {0}: action.count
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted {0} messages"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a channel"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a message"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted a webhook"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted an emoji"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Deleted an invite"
+msgstr ""
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1360,6 +1447,22 @@ msgstr "Bewerk jouw identiteit"
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
 msgstr "Aangepast"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a channel"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a member"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited a role"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Edited the server"
+msgstr ""
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Effective <0/> (<1/>)"
@@ -1739,6 +1842,11 @@ msgstr "Interfacelettertype"
 msgid "Invisible"
 msgstr "Onzichtbaar"
 
+#. placeholder {0}: props.user.displayName
+#: components/modal/modals/InviteToServer.tsx
+msgid "Invite {0} to a server"
+msgstr ""
+
 #: src/interface/Home.tsx
 msgid "Invite all of your friends, some cool bots, and throw a big party."
 msgstr "Nodig al je vrienden uit, een paar coole bots, en geef een groot feest."
@@ -1755,6 +1863,10 @@ msgstr "Uitnodigingscode"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Invite Others"
 msgstr "Anderen Uitnodigen"
+
+#: components/app/menus/UserContextMenu.tsx
+msgid "Invite to server"
+msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite URL copied to clipboard"
@@ -1802,6 +1914,7 @@ msgstr "De Stoat Lounge toetreden"
 msgid "Join the voice channel"
 msgstr "Het spraak kanaal toetreden"
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/ui/components/features/messaging/elements/Invite.tsx
 #: components/ui/components/features/profiles/ProfileJoined.tsx
 msgid "Joined"
@@ -1838,6 +1951,10 @@ msgstr "Lid Kicken"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
 msgstr "Leden Kicken"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Kicked a member"
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -2000,6 +2117,14 @@ msgstr "Dit kanaal als voor volwassenen markeren?"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Masquerade"
 msgstr "Maskerade"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Maximize call window"
+msgstr ""
+
+#: components/app/interface/settings/server/members/ListMembers.tsx
+msgid "Member"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
@@ -2209,6 +2334,10 @@ msgstr "Gebruikersnaam"
 msgid "No GIFs found"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "No permission matches that search."
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
 msgstr "Er zijn nog geen machtigingen ingesteld"
@@ -2221,6 +2350,7 @@ msgstr ""
 msgid "Nobody here right now!"
 msgstr "Er is nu niemand aanwezig!"
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "None"
@@ -2233,6 +2363,10 @@ msgstr "Normaal"
 #: components/modal/modals/ReportContent.tsx
 msgid "Not of minimum age to use the platform"
 msgstr "Niet de minimumleeftijd om het platform te gebruiken"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Nothing has been logged yet."
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/ServerContextMenu.tsx
@@ -2398,6 +2532,10 @@ msgstr ""
 msgid "Pin message"
 msgstr "Bericht vastzetten"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Pinned a message"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Platform Moderator"
 msgstr "Platformmoderator"
@@ -2456,6 +2594,7 @@ msgstr "Privékanaal"
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
+#: src/interface/navigation/servers/UserMenu.tsx
 msgid "Profile"
 msgstr "Profiel"
 
@@ -2615,6 +2754,10 @@ msgstr "Categorie hernoemen"
 msgid "Rename Session"
 msgstr "Sessie hernoemen"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Reordered roles"
+msgstr ""
+
 #: components/app/interface/settings/user/Native.tsx
 msgid "Rep Stoat using Discord rich presence."
 msgstr "Rep Stoat maakt gebruik van Discord rich presence."
@@ -2684,6 +2827,11 @@ msgstr "Token Resetten"
 msgid "Responsibly disclosed security issues"
 msgstr "Op verantwoorde wijze gemelde beveiligingsproblemen"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Restore call window"
+msgstr ""
+
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
 msgstr "Opnieuw proberen te verzenden"
@@ -2720,6 +2868,7 @@ msgstr "Naam van de rol"
 msgid "Role Overrides"
 msgstr ""
 
+#: components/app/interface/settings/server/members/ListMembers.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
 msgid "Roles"
@@ -2785,6 +2934,10 @@ msgstr "Zoeken naar groepen..."
 #: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
 msgstr "Zoeken naar gebruikers..."
+
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Search permissions…"
+msgstr ""
 
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
@@ -3160,8 +3313,8 @@ msgid "Terms of Service"
 msgstr "Gebruikersovereenkomst"
 
 #: components/modal/modals/CreateChannel.tsx
-msgid "Text Channel"
-msgstr "Tekstkanaal"
+#~ msgid "Text Channel"
+#~ msgstr "Tekstkanaal"
 
 #: components/i18n/errors.tsx
 msgid "That action had no effect."
@@ -3249,6 +3402,10 @@ msgstr "Dit wachtwoord is eerder voorgekomen in beveiligingslekken, gebruik alst
 msgid "This server is about..."
 msgstr "Deze server gaat over..."
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "This server's audit log could not be loaded. The instance may not allow you to read it."
+msgstr ""
+
 #: components/i18n/errors.tsx
 msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
 msgstr ""
@@ -3303,6 +3460,10 @@ msgstr "Trending GIF's"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Troubleshooting"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Unbanned a member"
 msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
@@ -3362,6 +3523,10 @@ msgstr ""
 msgid "Unpin message"
 msgstr "Bericht losmaken"
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Unpinned a message"
+msgstr ""
+
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Unsent message"
 msgstr "Bericht intrekken"
@@ -3374,6 +3539,10 @@ msgstr "Ongevraagde reclame of spam"
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Until I turn it back on"
 msgstr "Totdat ik het weer inschakel"
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "Updated an emoji"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
@@ -3391,6 +3560,7 @@ msgstr "Gebruik een code of uitnodigingslink"
 msgid "Use the graphics card to improve performance."
 msgstr "Gebruik de grafische kaart om de prestaties te verbeteren."
 
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "User"
 msgstr "Gebruiker"
@@ -3528,8 +3698,8 @@ msgid "Voice & Video"
 msgstr ""
 
 #: components/modal/modals/CreateChannel.tsx
-msgid "Voice Channel"
-msgstr "Spraakkanaal"
+#~ msgid "Voice Channel"
+#~ msgstr "Spraakkanaal"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
@@ -3581,6 +3751,10 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
+msgstr ""
+
+#: components/app/interface/settings/server/auditlog/ListAuditLog.tsx
+msgid "When"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
@@ -3701,6 +3875,10 @@ msgstr "Je bent niet gemachtigd om berichten te sturen in dit kanaal."
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
 msgstr "Je bent buitengesloten omdat je meerdere keren een verkeerd wachtwoord hebt ingevoerd. Wacht een paar minuten en probeer het opnieuw."
+
+#: components/modal/modals/InviteToServer.tsx
+msgid "You have no server you can invite them to. They may already be in all of them, or you may not be allowed to create invites."
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."

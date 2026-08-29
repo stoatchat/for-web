@@ -10,9 +10,11 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { SettingsConfiguration } from ".";
 import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissionsEditor";
 import Overview from "./server/Overview";
+import { ListAuditLog } from "./server/auditlog/ListAuditLog";
 import { ListServerBans } from "./server/bans/ListBans";
 import { EmojiList } from "./server/emojis/EmojiList";
 import { ListServerInvites } from "./server/invites/ListServerInvites";
+import { ListServerMembers } from "./server/members/ListMembers";
 import { ServerRoleEditor } from "./server/roles/ServerRoleEditor";
 import { ServerRoleOverview } from "./server/roles/ServerRoleOverview";
 import { BackCard } from "./user/_AccountCard";
@@ -70,6 +72,10 @@ const Config: SettingsConfiguration<Server> = {
         return <ListServerInvites server={server} />;
       case "bans":
         return <ListServerBans server={server} />;
+      case "members":
+        return <ListServerMembers server={server} />;
+      case "auditlog":
+        return <ListAuditLog server={server} />;
 
       default:
         return null;
@@ -117,7 +123,7 @@ const Config: SettingsConfiguration<Server> = {
           title: <Trans>User Management</Trans>,
           entries: [
             {
-              hidden: true,
+              hidden: !server.havePermission("ManageServer"),
               id: "members",
               icon: <Symbol size={20}>group</Symbol>,
               title: <Trans>Members</Trans>,
@@ -142,6 +148,14 @@ const Config: SettingsConfiguration<Server> = {
               id: "bans",
               icon: <Symbol size={20}>gavel</Symbol>,
               title: <Trans>Bans</Trans>,
+            },
+            {
+              // there is a permission dedicated to this; ManageServer is full
+              // admin, so gating on it hid the page from every moderator
+              hidden: !server.havePermission("ViewAuditLogs"),
+              id: "auditlog",
+              icon: <Symbol size={20}>history</Symbol>,
+              title: <Trans>Audit Log</Trans>,
             },
           ],
         },

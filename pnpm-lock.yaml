@@ -207,9 +207,6 @@ importers:
       '@tauri-apps/api':
         specifier: ^2.5.0
         version: 2.5.0
-      '@thisbeyond/solid-dnd':
-        specifier: ^0.7.5
-        version: 0.7.5(solid-js@1.9.14)
       color-rgba:
         specifier: ^3.0.0
         version: 3.0.0
@@ -3113,12 +3110,6 @@ packages:
 
   '@tauri-apps/api@2.5.0':
     resolution: {integrity: sha512-Ldux4ip+HGAcPUmuLT8EIkk6yafl5vK0P0c0byzAKzxJh7vxelVtdPONjfgTm96PbN24yjZNESY8CKo8qniluA==}
-
-  '@thisbeyond/solid-dnd@0.7.5':
-    resolution: {integrity: sha512-DfI5ff+yYGpK9M21LhYwIPlbP2msKxN2ARwuu6GF8tT1GgNVDTI8VCQvH4TJFoVApP9d44izmAcTh/iTCH2UUw==}
-    engines: {node: '>=18.0.0', pnpm: '>=8.6.0'}
-    peerDependencies:
-      solid-js: 1.9.14
 
   '@trivago/prettier-plugin-sort-imports@5.2.2':
     resolution: {integrity: sha512-fYDQA9e6yTNmA13TLVSA+WMQRc5Bn/c0EUBditUHNfMMxN7M82c38b1kEggVE3pLpZ0FwkwJkUEKMiOi52JXFA==}
@@ -9771,10 +9762,6 @@ snapshots:
       solid-js: 1.9.14
 
   '@tauri-apps/api@2.5.0': {}
-
-  '@thisbeyond/solid-dnd@0.7.5(solid-js@1.9.14)':
-    dependencies:
-      solid-js: 1.9.14
 
   '@trivago/prettier-plugin-sort-imports@5.2.2(@vue/compiler-sfc@3.5.25)(prettier@3.8.1)':
     dependencies:

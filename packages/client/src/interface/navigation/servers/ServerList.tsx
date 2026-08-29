@@ -146,29 +146,6 @@ export const ServerList = (props: Props) => {
             }
           />
         </a>
-        <Tooltip
-          placement="right"
-          content={() => (
-            <Column>
-              <span>{props.user.username}</span>
-              <Text class="label" size="small">
-                {props.user.presence}
-              </Text>
-            </Column>
-          )}
-          aria={props.user.username}
-        >
-          <a ref={setMenuButton} class={entryContainer()}>
-            <Avatar
-              size={42}
-              src={props.user.avatarURL}
-              holepunch={"bottom-right"}
-              overlay={<UserStatus.Graphic status={props.user.presence} />}
-              interactive
-            />
-          </a>
-          <UserMenu anchor={menuButton} />
-        </Tooltip>
         <For each={props.unreadConversations.slice(0, 9)}>
           {(conversation) => (
             <Tooltip placement="right" content={conversation.displayName}>
@@ -263,7 +240,12 @@ export const ServerList = (props: Props) => {
                 })}
                 use:floating={props.menuGenerator(entry.item)}
               >
-                <a href={state.layout.getLastActiveServerPath(entry.item.id)}>
+                {/* the tooltip's aria label sits on the wrapper, so the link
+                    itself would otherwise be announced with no name at all */}
+                <a
+                  href={state.layout.getLastActiveServerPath(entry.item.id)}
+                  aria-label={entry.item.name}
+                >
                   <Avatar
                     size={42}
                     src={entry.item.iconURL}
@@ -326,6 +308,29 @@ export const ServerList = (props: Props) => {
       <Shadow>
         <div />
       </Shadow>
+      <Tooltip
+        placement="right"
+        content={() => (
+          <Column>
+            <span>{props.user.username}</span>
+            <Text class="label" size="small">
+              {props.user.presence}
+            </Text>
+          </Column>
+        )}
+        aria={props.user.username}
+      >
+        <a ref={setMenuButton} class={entryContainer()}>
+          <Avatar
+            size={42}
+            src={props.user.avatarURL}
+            holepunch={"bottom-right"}
+            overlay={<UserStatus.Graphic status={props.user.presence} />}
+            interactive
+          />
+        </a>
+        <UserMenu anchor={menuButton} />
+      </Tooltip>
       <Tooltip placement="right" content="Settings">
         <a
           class={entryContainer()}
