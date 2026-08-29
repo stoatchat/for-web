@@ -67,16 +67,14 @@ export function ShareToModal(
   );
 
   const chats = createMemo(() => {
-    const filterLowercase = filter().toLowerCase();
+    const filterLower = filter().toLowerCase();
     return chatsAll().filter((c) =>
-      (c.recipient?.displayName ?? c.name)
-        .toLowerCase()
-        .includes(filterLowercase),
+      (c.recipient?.displayName ?? c.name).toLowerCase().includes(filterLower),
     );
   });
 
   const shares = new ReactiveMap<string, Channel>();
-  let refTest!: HTMLSpanElement,
+  let scrollRef!: HTMLDivElement,
     run = false;
 
   createEffect(() => {
@@ -157,40 +155,39 @@ export function ShareToModal(
         },
       ]}
       isDisabled={stat() > 1}
-      noScroll={true}
-      header={
-        <TextField
-          value={filter()}
-          variant="filled"
-          style={{ "margin-bottom": "var(--gap-md)" }}
-          placeholder={t`Search for chats...`}
-          onKeyUp={(e) => setFilter(e.currentTarget.value)}
-        />
-      }
+      hasScroll={true}
     >
-      <span ref={refTest} />
+      <TextField
+        value={filter()}
+        variant="filled"
+        style={{ "margin-bottom": "var(--gap-md)" }}
+        placeholder={t`Search for chats...`}
+        onKeyUp={(e) => setFilter(e.currentTarget.value)}
+      />
       <Switch fallback={<CircularProgress />}>
         <Match when={err()}>
           <div style={{ color: "var(--md-sys-color-error)" }}>{err()}</div>
         </Match>
         <Match when={stat()}>
-          <VirtualContainer
-            items={chats()}
-            scrollTarget={refTest.parentElement!}
-            itemSize={{ height: 48 }}
-          >
-            {(item) => (
-              <div
-                style={{
-                  ...item.style,
-                  width: "100%",
-                  "padding-block": "3px",
-                }}
-              >
-                <Entry channel={item.item} shares={shares} />
-              </div>
-            )}
-          </VirtualContainer>
+          <div ref={scrollRef} use:scrollable>
+            <VirtualContainer
+              items={chats()}
+              scrollTarget={scrollRef}
+              itemSize={{ height: 48 }}
+            >
+              {(item) => (
+                <div
+                  style={{
+                    ...item.style,
+                    width: "100%",
+                    "padding-block": "3px",
+                  }}
+                >
+                  <Entry channel={item.item} shares={shares} />
+                </div>
+              )}
+            </VirtualContainer>
+          </div>
         </Match>
       </Switch>
     </Dialog>

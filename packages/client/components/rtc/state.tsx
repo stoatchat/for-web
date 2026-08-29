@@ -510,7 +510,7 @@ class Voice {
               screenPickerQualityName = qualityName;
               screenPickerAudio = audio;
             },
-            sources: sources,
+            sources,
             qualities: Object.keys(qualities).map((k) => {
               const v = qualities[k as ScreenShareQualityName]!;
               return { name: k, fullName: v.fullName };
