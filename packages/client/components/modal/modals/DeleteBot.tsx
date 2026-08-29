@@ -29,7 +29,9 @@ export function DeleteBotModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Delete {props.bot.user!.displayName}?</Trans>}
+      title={
+        <Trans>Delete {props.bot.user?.displayName ?? props.bot.id}?</Trans>
+      }
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
