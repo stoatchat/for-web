@@ -24,15 +24,17 @@ export function Discoverable(props: {
   const { isStoat } = useInstance();
   const err = useError();
 
-  const [discoverRequest, discoverRequestActions] = createResource(
-    () => props.discoverable.discoverRequestStatus(),
-    () => props.discoverable.discoverRequestStatus(),
+  const [discoverRequest, discoverRequestActions] = createResource(() =>
+    props.discoverable.discoverRequestStatus(),
   );
 
-  const onDiscoverRequestClick = () => {
-    props.discoverable
-      .requestDiscover()
-      .then(async () => discoverRequestActions.refetch());
+  // We don't need to subscribe to props.discoverable.
+  // eslint-disable-next-line solid/reactivity
+  const onDiscoverRequestClick = (reset?: () => void) => () => {
+    props.discoverable.requestDiscover().then(async () => {
+      discoverRequestActions.refetch();
+      reset?.();
+    });
   };
 
   return (
@@ -64,14 +66,14 @@ export function Discoverable(props: {
       >
         <Suspense fallback={<CircularProgress />}>
           <ErrorBoundary
-            fallback={(e: Error) => {
+            fallback={(e: Error, reset) => {
               // Parse the error because a 404 means you can request.
               const parsed = JSON.parse(e.message);
               if (parsed.type === "NotFound") {
                 return (
                   <DiscoverButton
                     discoverable={props.discoverable}
-                    onDiscoverRequestClick={onDiscoverRequestClick}
+                    onDiscoverRequestClick={onDiscoverRequestClick(reset)}
                   />
                 );
               }
@@ -87,6 +89,7 @@ export function Discoverable(props: {
           >
             <Show
               when={discoverRequest()}
+              keyed={true}
               fallback={
                 <MessagePreview>
                   <Text class="title" size="small">
@@ -96,8 +99,7 @@ export function Discoverable(props: {
                 </MessagePreview>
               }
             >
-              {(discoverRequest) => {
-                const dr = discoverRequest();
+              {(dr) => {
                 return (
                   <Switch>
                     <Match
@@ -155,7 +157,7 @@ export function Discoverable(props: {
                       </MessagePreview>
                       <DiscoverButton
                         discoverable={props.discoverable}
-                        onDiscoverRequestClick={onDiscoverRequestClick}
+                        onDiscoverRequestClick={onDiscoverRequestClick()}
                       />
                     </Match>
                     <Match
