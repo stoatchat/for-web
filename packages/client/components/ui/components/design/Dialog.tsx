@@ -28,6 +28,7 @@ type Props = DialogProps & {
   actions?: DialogAction[];
   isDisabled?: boolean;
   noScroll?: boolean;
+  header?: JSX.Element;
 
   scrimBackground?: string;
 
@@ -79,6 +80,7 @@ export function Dialog(props: Props) {
                     {props.title}
                   </Title>
                 </Show>
+                {props.header}
                 <Content
                   class={typography() + (props.noScroll ? scrollContent : "")}
                 >
