@@ -4,6 +4,7 @@ import {
   createMemo,
   createSignal,
   Match,
+  Show,
   Switch,
 } from "solid-js";
 
@@ -14,6 +15,7 @@ import { Channel } from "stoat.js";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
+import { getChannelIcon } from "@revolt/common";
 import { useError } from "@revolt/i18n";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useState } from "@revolt/state";
@@ -25,6 +27,8 @@ import {
   DialogProps,
   MenuButton,
   OverflowingText,
+  Symbol,
+  TextField,
   typography,
   UserStatus,
 } from "@revolt/ui";
@@ -51,11 +55,25 @@ export function ShareToModal(
 
   const [err, setErr] = createSignal<string>();
   const [stat, setStat] = createSignal(0);
-  const conversations = createMemo(() =>
-    state.ordering.orderedConversations(client()),
+  const [filter, setFilter] = createSignal("");
+
+  const chatsAll = createMemo(
+    () =>
+      client()
+        .channels.toList()
+        .filter((c) => c.type !== "SavedMessages"),
+    //TODO Bizarre bug preventing sort by recent
+    //.sort((a, b) => +b.updatedAt - +a.updatedAt)
   );
-  //TODO Show most recent server channels you were active in
-  //server.orderedChannels.flatMap((cat) => cat.channels);
+
+  const chats = createMemo(() => {
+    const filterLowercase = filter().toLowerCase();
+    return chatsAll().filter((c) =>
+      (c.recipient?.displayName ?? c.name)
+        .toLowerCase()
+        .includes(filterLowercase),
+    );
+  });
 
   const shares = new ReactiveMap<string, Channel>();
   let refTest!: HTMLSpanElement,
@@ -67,17 +85,19 @@ export function ShareToModal(
     if (files) return setStat(1);
     (async () => {
       try {
-        const fNames = (await (
-          await fetch("/_share", { method: "PATCH" })
-        ).json()) as string[];
-        const fData: File[] = [];
-        for (let i = 0; i < fNames.length; ++i) {
-          const share = await fetch("/_share");
-          if (share.status === 404) break; //No more files
-          if (share.status !== 200) throw `HTTP Code ${share.status}`;
-          fData.push(new File([await share.blob()], fNames[i]));
+        const fRes = await fetch("/_share", { method: "PATCH" }),
+          fData: File[] = [];
+        if (fRes.status === 200) {
+          const fNames = (await fRes.json()) as string[];
+          for (let i = 0; i < fNames.length; ++i) {
+            const share = await fetch("/_share");
+            if (share.status === 404) break; //No more files
+            if (share.status !== 200) throw `HTTP Code ${share.status}`;
+            fData.push(new File([await share.blob()], fNames[i]));
+          }
         }
 
+        // fData.push(new File(["test data"], "test.txt")); //TODO TEMP
         if (!fData.length) throw t`No file data found`;
         files = fData;
         setStat(1);
@@ -138,6 +158,15 @@ export function ShareToModal(
       ]}
       isDisabled={stat() > 1}
       noScroll={true}
+      header={
+        <TextField
+          value={filter()}
+          variant="filled"
+          style={{ "margin-bottom": "var(--gap-md)" }}
+          placeholder={t`Search for chats...`}
+          onKeyUp={(e) => setFilter(e.currentTarget.value)}
+        />
+      }
     >
       <span ref={refTest} />
       <Switch fallback={<CircularProgress />}>
@@ -145,9 +174,8 @@ export function ShareToModal(
           <div style={{ color: "var(--md-sys-color-error)" }}>{err()}</div>
         </Match>
         <Match when={stat()}>
-          {/* TODO Search box? */}
           <VirtualContainer
-            items={conversations()}
+            items={chats()}
             scrollTarget={refTest.parentElement!}
             itemSize={{ height: 48 }}
           >
@@ -195,7 +223,11 @@ function Entry(props: {
       icon={
         <>
           <Checkbox checked={check()} />
-          <Switch>
+          <Switch
+            fallback={
+              <Symbol size={32}>{getChannelIcon(props.channel)}</Symbol>
+            }
+          >
             <Match when={props.channel.type === "Group"}>
               <Avatar
                 size={32}
@@ -221,140 +253,26 @@ function Entry(props: {
         </>
       }
     >
-      <Switch>
-        <Match when={props.channel.type === "Group"}>
-          <OverflowingText>
-            <TextWithEmoji content={props.channel.name!} />
-          </OverflowingText>
-          <span class={typography({ class: "_status" })}>
-            {props.channel.recipientIds.size}{" "}
-            {props.channel.recipientIds.size > 1 ? `Members` : "Member"}
-          </span>
-        </Match>
-        <Match when={props.channel.type === "DirectMessage"}>
-          <OverflowingText>
-            {props.channel?.recipient?.displayName}
-          </OverflowingText>
-        </Match>
-      </Switch>
+      <OverflowingText>
+        <Show
+          when={props.channel.type !== "DirectMessage"}
+          fallback={props.channel?.recipient?.displayName}
+        >
+          <Show when={props.channel.server}>
+            <TextWithEmoji content={props.channel.server?.name} />
+            <Symbol size={16} display="" verticalAlign="middle">
+              chevron_right
+            </Symbol>
+          </Show>
+          <TextWithEmoji content={props.channel.name} />
+        </Show>
+      </OverflowingText>
+      <Show when={props.channel.type === "Group"}>
+        <span class={typography({ class: "_status" })}>
+          {props.channel.recipientIds.size}{" "}
+          {props.channel.recipientIds.size > 1 ? `Members` : "Member"}
+        </span>
+      </Show>
     </MenuButton>
   );
 }
-
-/*function Entry(
-  props: { channel: Channel; active: boolean } & Pick<Props, "menuGenerator">,
-) {
-  const state = useState();
-  const voice = useVoice();
-  const { openModal } = useModals();
-  const { isMobile } = useDevice();
-
-  const canEditChannel = createMemo(() =>
-    (["ManageChannel", "ManagePermissions", "ManageWebhooks"] as const).some(
-      (perm) => props.channel.server?.havePermission(perm),
-    ),
-  );
-
-  const canInvite = createMemo(() =>
-    props.channel.server?.havePermission("InviteOthers"),
-  );
-
-  const alertState = createMemo(
-    () =>
-      !props.active &&
-      props.channel.unread &&
-      (props.channel.mentions?.size || true),
-  );
-
-  const inCall = () => props.channel.id === voice.channel()?.id;
-
-  const attentionState = createMemo(() =>
-    props.active
-      ? "selected"
-      : inCall()
-        ? "active"
-        : state.notifications.isChannelMuted(props.channel)
-          ? "muted"
-          : props.channel.unread
-            ? "active"
-            : "normal",
-  );
-
-  return (
-    <Column gap="sm">
-      <MenuButton
-        href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}
-        use:floating={props.menuGenerator(props.channel)}
-        size="normal"
-        alert={alertState()}
-        attention={attentionState()}
-        icon={
-          <>
-            <Switch fallback={<Symbol>grid_3x3</Symbol>}>
-              <Match when={props.channel.isVoice}>
-                <Symbol
-                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                >
-                  headset_mic
-                </Symbol>
-              </Match>
-            </Switch>
-            <Show when={props.channel.icon}>
-              <ChannelIcon
-                src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
-              />
-            </Show>
-          </>
-        }
-        actions={
-          <Show when={!isMobile}>
-            <Show when={canInvite()}>
-              <a
-                use:floating={{
-                  tooltip: { placement: "top", content: "Create Invite" },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  openModal({
-                    type: "create_invite",
-                    channel: props.channel,
-                  });
-                }}
-              >
-                <Symbol size={16} fill>
-                  person_add
-                </Symbol>
-              </a>
-            </Show>
-            <Show when={canEditChannel()}>
-              <a
-                use:floating={{
-                  tooltip: { placement: "top", content: "Edit Channel" },
-                }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  openModal({
-                    type: "settings",
-                    config: "channel",
-                    context: props.channel,
-                  });
-                }}
-              >
-                <Symbol size={16} fill>
-                  settings
-                </Symbol>
-              </a>
-            </Show>
-          </Show>
-        }
-      >
-        <OverflowingText>
-          <TextWithEmoji content={props.channel.name!} />
-        </OverflowingText>
-      </MenuButton>
-
-      <VoiceChannelPreview channel={props.channel} />
-    </Column>
-  );
-}*/
