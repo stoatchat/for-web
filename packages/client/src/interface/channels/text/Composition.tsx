@@ -1,15 +1,11 @@
 import {
-  For,
-  Show,
   createEffect,
   createMemo,
   createSignal,
   For,
-  Match,
   on,
   onCleanup,
   Show,
-  Switch,
 } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
@@ -18,7 +14,6 @@ import { Channel } from "stoat.js";
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
 import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
-import { useDurationFormat } from "@revolt/i18n/durations";
 import { useInstance } from "@revolt/instance";
 import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
