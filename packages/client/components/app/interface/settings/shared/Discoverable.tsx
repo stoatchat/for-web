@@ -13,9 +13,7 @@ import { styled } from "styled-system/jsx";
 
 import { useError } from "@revolt/i18n";
 import { useInstance } from "@revolt/instance";
-import { CategoryButton, CircularProgress, iconSize, Text } from "@revolt/ui";
-
-import MdPublic from "@material-design-icons/svg/outlined/public.svg?component-solid";
+import { CategoryButton, CircularProgress, Symbol, Text } from "@revolt/ui";
 
 export function Discoverable(props: {
   discoverable: Bot | Server;
@@ -215,7 +213,7 @@ function DiscoverButton(props: {
             <Trans>Allow others to join your server from Discover</Trans>
           )
         }
-        icon={<MdPublic {...iconSize(22)} />}
+        icon={<Symbol size={22}>public</Symbol>}
         action="chevron"
         onClick={props.onDiscoverRequestClick}
       >
