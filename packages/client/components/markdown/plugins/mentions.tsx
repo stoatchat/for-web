@@ -191,8 +191,8 @@ export const mention = cva({
     fontWeight: 600,
     borderRadius: "var(--borderRadius-lg)",
 
-    color: "var(--md-sys-color-on-primary-container)",
-    background: "var(--md-sys-color-primary-container)",
+    color: "var(--md-sys-color-on-primary-fixed)",
+    background: "var(--md-sys-color-primary-fixed-dim)",
   },
   variants: {
     isLink: {

@@ -460,7 +460,8 @@ export function MessageComposition(props: Props) {
             <IconButton
               _compositionSendMessage
               size="sm"
-              variant={canSend() ? "filled" : "tonal"}
+              variant="filled"
+              selected={canSend()}
               shape="square"
               isDisabled={!canSend()}
               onPress={sendMessage}

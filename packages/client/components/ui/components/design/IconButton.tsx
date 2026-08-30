@@ -36,6 +36,7 @@ export function IconButton(props: Props) {
     "shape",
     "width",
     "variant",
+    "selected",
     "_compositionSendMessage",
   ]);
   let ref: HTMLButtonElement | undefined;
@@ -153,6 +154,10 @@ const iconButton2 = cva({
       },
       false: {},
     },
+    selected: {
+      true: {},
+      false: {},
+    },
     _compositionSendMessage: {
       true: {
         width: "48px",
@@ -171,6 +176,38 @@ const iconButton2 = cva({
     _compositionSendMessage: false,
   },
   compoundVariants: [
+    {
+      variant: "filled",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-primary)",
+        "--colour": "var(--md-sys-color-on-primary)",
+      },
+    },
+    {
+      variant: "filled",
+      selected: false,
+      css: {
+        background: "var(--md-sys-color-surface-container)",
+        "--colour": "var(--md-sys-color-on-surface-container)",
+      },
+    },
+    {
+      variant: "tonal",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-secondary)",
+        "--colour": "var(--md-sys-color-on-secondary)",
+      },
+    },
+    {
+      variant: "outlined",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-inverse-surface)",
+        "--colour": "var(--md-sys-color-inverse-on-surface)",
+      },
+    },
     // disabled styles
     {
       variant: ["filled", "tonal", "outlined"],
