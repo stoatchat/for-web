@@ -34,6 +34,7 @@ const InformationRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
+    width: "100%",
     alignItems: "center",
     gap: "var(--gap-md)",
   },
@@ -113,7 +114,7 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
 
         <Show when={props.embed.title}>
           <InformationRow>
-            <Show when={props.embed.iconUrl}>
+            <Show when={props.embed.iconUrl && props.embed.type !== "Website"}>
               <Favicon
                 loading="lazy"
                 draggable={false}
@@ -121,11 +122,11 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />
             </Show>
-            <RenderAnchor href={props.embed.url}>
-              <Title>
+            <Title>
+              <RenderAnchor href={props.embed.url}>
                 <OverflowingText>{props.embed.title}</OverflowingText>
-              </Title>
-            </RenderAnchor>
+              </RenderAnchor>
+            </Title>
           </InformationRow>
         </Show>
 
