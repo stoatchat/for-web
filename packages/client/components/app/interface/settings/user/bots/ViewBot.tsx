@@ -7,6 +7,7 @@ import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
   Column,
+  Form2,
   iconSize,
   Symbol,
   useSnackbar,
@@ -20,6 +21,7 @@ import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?comp
 import MdPublic from "@material-design-icons/svg/outlined/public.svg?component-solid";
 import MdToken from "@material-design-icons/svg/outlined/token.svg?component-solid";
 
+import { IFormControl } from "solid-forms";
 import { UserSummary } from "../account/index";
 import { UserProfileEditor } from "../profile/UserProfileEditor";
 
@@ -43,7 +45,34 @@ export function ViewBot(props: { bot: Bot }) {
         bannerUrl={profile.data?.animatedBannerURL}
       />
 
-      <UserProfileEditor user={props.bot.user!} profile={profile.data} />
+      <UserProfileEditor
+        user={props.bot.user!}
+        profile={profile.data}
+        attach={[
+          {
+            name: "public",
+            value: props.bot.public,
+          },
+        ]}
+        onSubmit={(g) => {
+          props.bot.edit({
+            public: (g.controls["public"] as IFormControl<boolean>).value,
+          });
+        }}
+        onReset={(g) => {
+          (g.controls["public"] as IFormControl<boolean>).setValue(
+            props.bot.public || false,
+          );
+        }}
+      >
+        {(g) => (
+          <Form2.Checkbox
+            control={g.controls["public"] as IFormControl<boolean>}
+          >
+            <Trans>Allow others to invite your bot</Trans>
+          </Form2.Checkbox>
+        )}
+      </UserProfileEditor>
       {/* <ErrorBoundary fallback={<>Failed to load profile</>}>
         <Suspense fallback={<>loading...</>}>{profile.data?.content}</Suspense>
       </ErrorBoundary> */}

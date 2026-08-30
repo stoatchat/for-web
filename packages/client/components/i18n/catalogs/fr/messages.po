@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-07 23:02+0000\n"
-"Last-Translator: Walker Beautiful <themandawalker@gmail.com>\n"
+"PO-Revision-Date: 2026-08-23 22:29+0000\n"
+"Last-Translator: Kat <dmoosn@proton.me>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/revolt-for-web/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -47,9 +47,6 @@ msgstr "(les modifications sont en cours d'enregistrement…)"
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
 msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
 
-#~ msgid "{0, plural, one {# Member} other {# Members}}"
-#~ msgstr ""
-
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
@@ -57,7 +54,7 @@ msgstr "{0, plural, one {Déposer un fichier} other {Déposer # fichiers}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
 msgstr "{0} et {1} sont en train d'écrire…"
 
@@ -82,7 +79,7 @@ msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were no
 msgstr "Les fichiers {0} dépassent la taille maximale autorisée de {maxSizeFormatted} et n'ont pas été téléchargés."
 
 #. placeholder {0}: users()[0]!.username
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
 msgstr "{0} est en train d'écrire…"
 
@@ -151,15 +148,12 @@ msgstr "{0}-{1} sur {2}"
 msgid "{0}'s roles"
 msgstr "Rôles de {0}"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{h} hours"
 #~ msgstr "{h} heures"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{m} minutes"
 #~ msgstr "{m} minutes"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{sec} seconds"
 #~ msgstr "{sec} secondes"
 
@@ -240,18 +234,12 @@ msgstr "<0/> a mis à jour le nom du groupe en <1>{0}</1>"
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr "<0>Attention !</0><1/>Ce n'est pas le même lien que celui qui était affiché :"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "1 day"
 #~ msgstr "1 jour"
 
-#: src/interface/channels/text/Composition.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 hour"
 #~ msgstr "1 heure"
 
-#: src/interface/channels/text/Composition.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 minute"
 #~ msgstr "1 minute"
 
@@ -259,15 +247,12 @@ msgstr "<0>Attention !</0><1/>Ce n'est pas le même lien que celui qui était af
 msgid "1 person reacted"
 msgstr "Une personne a réagi"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "1 second"
 #~ msgstr "1 seconde"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 minutes"
 #~ msgstr "10 minutes"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 seconds"
 #~ msgstr "10 secondes"
 
@@ -275,7 +260,6 @@ msgstr "Une personne a réagi"
 msgid "12 hours"
 msgstr "12 heures"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "2 hours"
 #~ msgstr "2 heures"
 
@@ -283,32 +267,24 @@ msgstr "12 heures"
 msgid "24 hours"
 msgstr "24 heures"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "3 days"
 #~ msgstr "3 jours"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 minutes"
 #~ msgstr "30 minutes"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 seconds"
 #~ msgstr "30 secondes"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 minutes"
 #~ msgstr "5 minutes"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 seconds"
 #~ msgstr "5 secondes"
 
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "6 hours"
 #~ msgstr "6 heures"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "7 days"
 #~ msgstr "7 jours"
 
@@ -352,7 +328,7 @@ msgstr "Ajouter un nouvel ami"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
-msgstr ""
+msgstr "Ajouter un bot"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
@@ -386,8 +362,6 @@ msgstr "Panneau d'administration"
 msgid "Advanced"
 msgstr "Avancé"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Affects all roles and users"
 #~ msgstr "Affecte tous les rôles et utilisateurs"
 
@@ -402,7 +376,7 @@ msgstr "Tous les messages"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "All roles have overrides."
-msgstr ""
+msgstr "Tous les rôles disposent de permissions spécifiques."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "All Systems Operational"
@@ -453,9 +427,6 @@ msgstr "Êtes-vous sûr de vouloir supprimer ceci ?"
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
 msgstr "Êtes-vous sûr de vouloir aller à "
-
-#~ msgid "Are you sure you want to go to <0>{0}</0>?"
-#~ msgstr ""
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to pin this message?"
@@ -573,9 +544,6 @@ msgstr "Navigateur"
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
 msgstr "Annulation de l'écho du navigateur"
-
-#~ msgid "Browser Noise Supression"
-#~ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Bug Tracker"
@@ -715,9 +683,6 @@ msgstr "Change le nom d'utilisateur"
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
 msgstr "Modifier votre profil par serveur"
-
-#~ msgid "Changelog"
-#~ msgstr ""
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Description"
@@ -960,7 +925,7 @@ msgstr "Impossible de trouver ce que vous avez demandé."
 
 #: components/instance/index.tsx
 msgid "Couldn't fetch Stoat configuration from {hStr}."
-msgstr ""
+msgstr "Impossible de récupérer la configuration de Stoat depuis {hStr}."
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/CreateBot.tsx
@@ -997,7 +962,6 @@ msgstr "Créer une nouvelle catégorie"
 msgid "Create a new group"
 msgstr "Créer un nouveau groupe"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #~ msgid "Create a new role"
 #~ msgstr "Créer un nouveau rôle"
 
@@ -1080,7 +1044,7 @@ msgstr "Session en cours"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Custom colour"
-msgstr ""
+msgstr "Couleur personnalisée"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
@@ -1126,15 +1090,8 @@ msgstr "Mettre en sourdine les membres"
 msgid "Default"
 msgstr "Défaut"
 
-#: components/app/interface/settings/ServerSettings.tsx
-#: components/app/interface/settings/ChannelSettings.tsx
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Default Permissions"
 #~ msgstr "Permissions par défaut"
-
-#~ msgid "Defean"
-#~ msgstr ""
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Degraded Performance"
@@ -1255,7 +1212,7 @@ msgstr "Nom d'affichage"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Display users with this role separately in the member list"
-msgstr ""
+msgstr "Afficher séparément les utilisateurs ayant ce rôle dans la liste des membres"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Do Not Disturb"
@@ -1268,9 +1225,6 @@ msgstr "Ne plus me demander"
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
 msgstr "Ne plus me demander pour "
-
-#~ msgid "Don't ask me again for <0>{0}</0>"
-#~ msgstr ""
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
@@ -1452,7 +1406,7 @@ msgstr "Entrez votre nom d'utilisateur préféré."
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Everyone"
-msgstr ""
+msgstr "Tout le monde"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "External links can be dangerous!"
@@ -1678,7 +1632,7 @@ msgstr "Contraste élevé"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Hoist Role"
-msgstr ""
+msgstr "Afficher les membres du rôle séparément"
 
 #: src/interface/Home.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -1708,9 +1662,6 @@ msgstr "Inactif"
 msgid "Illegal hacking or cracking"
 msgstr "Hacking illégal ou piratage"
 
-#~ msgid "Image by @fakurian"
-#~ msgstr ""
-
 #: components/modal/modals/ReportContent.tsx
 msgid "Impersonation"
 msgstr "Usurpation d'identité"
@@ -1721,7 +1672,7 @@ msgstr "En attendant, installez Stoat depuis le Google Play pour une expérience
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
-msgstr ""
+msgstr "Volume d'entré"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Instead of closing, Stoat will hide in your tray."
@@ -1784,9 +1735,6 @@ msgstr "Rejoindre"
 #: components/modal/modals/JoinServer.tsx
 msgid "Join a server"
 msgstr "Rejoindre un serveur"
-
-#~ msgid "Join call"
-#~ msgstr ""
 
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
@@ -2003,7 +1951,7 @@ msgid "Members"
 msgstr "Membres"
 
 #. placeholder {0}: slowmodeWaitTime()
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
 msgstr "Les membres peuvent envoyer un message toutes les {0}."
 
@@ -2182,7 +2130,7 @@ msgstr "Nouveaux messages depuis {0}"
 
 #: components/modal/modals/EditCategory.tsx
 msgid "New name"
-msgstr ""
+msgstr "Nouveau nom"
 
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -2211,7 +2159,7 @@ msgstr "Aucune permission définie pour le moment"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
-msgstr ""
+msgstr "Aucune autorisation spécifique de rôle n’a été configurée."
 
 #: src/interface/Friends.tsx
 msgid "Nobody here right now!"
@@ -2299,7 +2247,7 @@ msgstr "Seules les mentions vous seront notifiées"
 
 #: components/instance/index.tsx
 msgid "Oops, something went wrong! {e}"
-msgstr ""
+msgstr "Oups, quelque chose s'est mal passé ! {e}"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2341,7 +2289,7 @@ msgstr "Vue d'ensemble"
 
 #: components/ui/components/features/profiles/ProfileOwner.tsx
 msgid "Owner"
-msgstr ""
+msgstr "Propriétaire"
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Pardon User"
@@ -2371,11 +2319,11 @@ msgstr "Permissions"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Permissions available when no role overrides apply"
-msgstr ""
+msgstr "Permissions disponibles lorsqu’aucune autorisation spécifique de rôle ne s’applique"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Permissions available without any role"
-msgstr ""
+msgstr "Permissions disponibles sans aucun rôle"
 
 #: components/modal/modals/ScreenSharePicker.tsx
 msgid "Pick a Screen to Share"
@@ -2436,7 +2384,7 @@ msgstr "Propulsé par RNNoise"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Privacy"
@@ -2488,9 +2436,6 @@ msgstr "Réagir aux messages avec des émojis"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read Message History"
 msgstr "Lire l'historique des messages"
-
-#~ msgid "Read More"
-#~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channel"
@@ -2556,11 +2501,11 @@ msgstr "Pertinence"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Remote Channel"
-msgstr ""
+msgstr "Salon distant"
 
 #: components/markdown/plugins/anchors.tsx
 msgid "Remote Server"
-msgstr ""
+msgstr "Serveur distant"
 
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove"
@@ -2695,12 +2640,9 @@ msgstr "Vengeance ou pornographie impliquant des mineurs"
 msgid "Review policy changes"
 msgstr "Modifications apportées à la politique d'évaluation"
 
-#~ msgid "Roadmap"
-#~ msgstr ""
-
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Colour"
-msgstr ""
+msgstr "Couleur du rôle"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Icon"
@@ -2713,7 +2655,7 @@ msgstr "Nom du rôle"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Role Overrides"
-msgstr ""
+msgstr "Permissions du rôle"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
@@ -2722,7 +2664,7 @@ msgstr "Rôles"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Roles with No Overrides"
-msgstr ""
+msgstr "Rôles sans permissions"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
@@ -2740,7 +2682,7 @@ msgstr "Enregistrer le fichier"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Save permissions"
-msgstr ""
+msgstr "Enregistrer les permissions"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
@@ -2753,7 +2695,7 @@ msgstr "Notes enregistrées"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Saving…"
-msgstr ""
+msgstr "Sauvegarde…"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Scams or fraud"
@@ -2780,9 +2722,6 @@ msgstr "Rechercher des groupes..."
 #: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
 msgstr "Rechercher des utilisateurs..."
-
-#~ msgid "See what we're currently working on."
-#~ msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select audio input"
@@ -2904,7 +2843,7 @@ msgstr "Sessions"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Set role colour to {colour}"
-msgstr ""
+msgstr "Définir la couleur du rôle sur {colour}"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Set your status"
@@ -2922,7 +2861,7 @@ msgstr "Configurer l'authentificateur à mot de passe unique"
 msgid "Setup recovery codes"
 msgstr "Configurer les codes de récupération"
 
-#: components/ui/components/features/messaging/composition/TypingIndicator.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Several people are typing…"
 msgstr "Plusieurs personnes sont en train d'écrire…"
 
@@ -2963,11 +2902,11 @@ msgstr "S'inscrire"
 msgid "Silent"
 msgstr "Silencieux"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
 msgstr "Immunisé contre le mode lent"
 
-#: src/interface/channels/text/Composition.tsx
+#: src/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
 msgstr "Mode lent activé."
 
@@ -2991,9 +2930,6 @@ msgstr "Il y a un problème avec votre demande, {0}."
 #: components/i18n/errors.tsx
 msgid "Something went wrong! {error}"
 msgstr "Une erreur s'est produite ! {error}"
-
-#~ msgid "Something went wrong! Try again later."
-#~ msgstr ""
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Sounds"
@@ -3035,9 +2971,6 @@ msgstr "Commencer avec l'ordinateur"
 msgid "Status"
 msgstr "Statut"
 
-#~ msgid "Stoat Desktop"
-#~ msgstr ""
-
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Stoat Developer"
 msgstr "Développeur Stoat"
@@ -3056,7 +2989,7 @@ msgstr "Stoat est l'un des meilleurs moyens de rester en contact avec vos amis e
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Stoat rocks!"
-msgstr ""
+msgstr "Stoat, c'est génial !"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Stoat will start in the system tray."
@@ -3401,7 +3334,7 @@ msgstr "L'utilisateur a enfreint une certaine règle…"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Joined"
-msgstr "Utilisateur inscrit"
+msgstr "Utilisateur arrivé"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Joined Call"
@@ -3456,12 +3389,6 @@ msgstr "Les utilisateurs devront confirmer leur âge avant d'ouvrir ce salon."
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr "Les utilisateurs ne seront plus invités à confirmer leur âge avant de rejoindre ce salon.<0/> Veuillez vous assurer que le contenu est adapté à tous les âges."
-
-#~ msgid "Using default microphone"
-#~ msgstr ""
-
-#~ msgid "Using default speaker"
-#~ msgstr ""
 
 #: src/interface/navigation/channels/ServerSidebar.tsx
 msgid "Verified"
@@ -3582,8 +3509,16 @@ msgstr "Si d'autres utilisateurs peuvent modifier ces paramètres"
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
-msgid "With {0}"
-msgstr "Avec {0}"
+msgid "with {0}"
+msgstr "avec {0}"
+
+#~ msgid "With {0}"
+#~ msgstr "Avec {0}"
+
+#. placeholder {0}: names.length
+#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
+msgid "with {0} others"
+msgstr "avec {0} autres"
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"

@@ -1,4 +1,4 @@
-import { Accessor, createMemo } from "solid-js";
+import { type Accessor, createMemo } from "solid-js";
 
 import { ServerMember, User } from "stoat.js";
 
@@ -63,32 +63,48 @@ export function useUsers(
   ids: string[] | Accessor<string[]>,
   filterNull?: boolean,
 ): Accessor<(UserInformation | undefined)[]> {
-  const clientAccessor = useClient();
-
   // TODO: use a context here for when we do multi view :)
   const params = useSmartParams();
+  const clientAccessor = useClient();
 
-  // eslint-disable-next-line solid/reactivity
-  return createMemo(() => {
-    const client = clientAccessor()!;
+  const pending = new Map<string, Promise<unknown>>();
+  function ensureUser(id: string) {
+    if (clientAccessor().users.has(id) || pending.has(id)) return;
+    const promise = clientAccessor()
+      .users.fetch(id)
+      .catch(() => undefined);
+
+    pending.set(id, promise);
+
+    promise.finally(() => {
+      pending.delete(id);
+    });
+  }
+
+  const users = createMemo(() => {
     const list = (typeof ids === "function" ? ids() : ids).map((id) => {
-      const user = client.users.get(id)!;
-
-      if (user) {
-        return userInformation(
-          user,
-          params().serverId
-            ? client.serverMembers.getByKey({
-                server: params().serverId!,
-                user: user.id,
-              })
-            : undefined,
-        );
+      const user = clientAccessor().users.get(id);
+      if (!user) {
+        // Fetch the user in the background and return an unknown user for now
+        ensureUser(id);
+        return userInformation();
       }
+
+      return userInformation(
+        user,
+        params().serverId
+          ? clientAccessor().serverMembers.getByKey({
+              server: params().serverId!,
+              user: user.id,
+            })
+          : undefined,
+      );
     });
 
     return filterNull ? list.filter((x) => x) : list;
   });
+
+  return users;
 }
 
 /**

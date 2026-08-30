@@ -30,7 +30,7 @@ const Base = styled("div", {
   },
 });
 
-const SiteInformation = styled("div", {
+const InformationRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
@@ -94,7 +94,7 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
             (props.embed as WebsiteEmbed).siteName
           }
         >
-          <SiteInformation>
+          <InformationRow>
             <Show when={props.embed.iconUrl}>
               <Favicon
                 loading="lazy"
@@ -108,15 +108,25 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                 {(props.embed as WebsiteEmbed).siteName}
               </Text>
             </OverflowingText>
-          </SiteInformation>
+          </InformationRow>
         </Show>
 
         <Show when={props.embed.title}>
-          <RenderAnchor href={props.embed.url}>
-            <Title>
-              <OverflowingText>{props.embed.title}</OverflowingText>
-            </Title>
-          </RenderAnchor>
+          <InformationRow>
+            <Show when={props.embed.iconUrl}>
+              <Favicon
+                loading="lazy"
+                draggable={false}
+                src={props.embed.proxiedIconURL}
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+            </Show>
+            <RenderAnchor href={props.embed.url}>
+              <Title>
+                <OverflowingText>{props.embed.title}</OverflowingText>
+              </Title>
+            </RenderAnchor>
+          </InformationRow>
         </Show>
 
         <Show when={props.embed.description}>
