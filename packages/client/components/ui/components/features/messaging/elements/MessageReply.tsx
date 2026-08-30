@@ -29,6 +29,11 @@ interface Props {
    * Whether to hide the left side reply indicator
    */
   noDecorations?: boolean;
+
+  /**
+   * Whether to inherit the parent container's text colour
+   */
+  preview?: boolean;
 }
 
 export const Base = styled("div", {
@@ -67,6 +72,12 @@ export const Base = styled("div", {
           marginInlineStart: "30px",
         },
       },
+    },
+    preview: {
+      true: {
+        color: "inherit",
+      },
+      false: {},
     },
   },
   defaultVariants: {
@@ -116,7 +127,11 @@ export function MessageReply(props: Props) {
   };
 
   return (
-    <Base noDecorations={props.noDecorations}>
+    <Base
+      class="msgreply"
+      noDecorations={props.noDecorations}
+      preview={props.preview}
+    >
       <Switch fallback={<Trans>Message not loaded, click to jump</Trans>}>
         <Match when={props.message?.author?.relationship === "Blocked"}>
           <Trans>Blocked User</Trans>

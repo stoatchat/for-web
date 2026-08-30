@@ -57,12 +57,28 @@ export default defineConfig({
           },
           "5%": {
             background: "var(--md-sys-color-primary-container)",
+            color: "var(--md-sys-color-on-primary-container)",
           },
           "95%": {
             background: "var(--md-sys-color-primary-container)",
+            color: "var(--md-sys-color-on-primary-container)",
           },
           "100%": {
             background: "transparent",
+          },
+        },
+        highlightMessageInfo: {
+          "0%": {
+            color: "inherit",
+          },
+          "5%": {
+            color: "var(--md-sys-color-on-primary-container)",
+          },
+          "95%": {
+            color: "var(--md-sys-color-on-primary-container)",
+          },
+          "100%": {
+            color: "inherit",
           },
         },
         skeletonShimmer: {

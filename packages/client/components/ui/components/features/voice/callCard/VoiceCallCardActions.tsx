@@ -54,7 +54,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </Show>
       <IconButton
         size={props.size}
-        variant={voice.microphone() ? "filled" : "tonal"}
+        variant="filled"
+        selected={voice.microphone()}
         onPress={() => voice.toggleMute()}
         use:floating={{
           tooltip: {
@@ -74,7 +75,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </IconButton>
       <IconButton
         size={props.size}
-        variant={voice.deafen() || !voice.listenPermission ? "tonal" : "filled"}
+        variant="filled"
+        selected={voice.deafen() || !voice.listenPermission}
         onPress={() => voice.toggleDeafen()}
         use:floating={{
           tooltip: {
@@ -97,7 +99,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </IconButton>
       <IconButton
         size={props.size}
-        variant={limits().video && voice.video() ? "filled" : "tonal"}
+        selected={limits().video && voice.video()}
+        variant="filled"
         onPress={() => {
           if (limits().video) voice.toggleCamera();
         }}
@@ -117,7 +120,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
       </IconButton>
       <IconButton
         size={props.size}
-        variant={limits().video && voice.screenshare() ? "filled" : "tonal"}
+        variant="filled"
+        selected={limits().video && voice.screenshare()}
         onPress={() => {
           if (limits().video) voice.toggleScreenshare();
         }}
@@ -170,6 +174,6 @@ const Actions = styled("div", {
     alignSelf: "center",
 
     borderRadius: "var(--borderRadius-full)",
-    background: "var(--md-sys-color-surface-container)",
+    background: "var(--md-sys-color-surface-container-low)",
   },
 });
