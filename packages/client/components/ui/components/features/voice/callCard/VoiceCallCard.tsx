@@ -349,6 +349,7 @@ const Card = styled("div", {
 
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",
+    color: "var(--md-sys-color-on-secondary-container)",
   },
   variants: {
     active: {

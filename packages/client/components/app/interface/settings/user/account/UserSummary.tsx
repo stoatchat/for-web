@@ -19,8 +19,8 @@ export function UserSummary(props: {
   const bannerStyle = () =>
     props.bannerUrl
       ? {
-          "background-image": `linear-gradient(color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent), color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent)), url("${props.bannerUrl}")`,
-          color: "black",
+          "background-image": `linear-gradient(color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent), color-mix(in srgb, var(--md-sys-color-surface-container-high) 70%, transparent)), url("${props.bannerUrl}")`,
+          color: "var(--md-sys-color-on-surface-container-low)",
         }
       : {
           background: `var(--md-sys-color-primary-container)`,
@@ -99,8 +99,6 @@ const Username = styled("div", {
 
     display: "flex",
     flexDirection: "column",
-
-    color: "var(--md-sys-color-on-secondary-container)",
 
     // Display Name
     "& :nth-child(1)": {

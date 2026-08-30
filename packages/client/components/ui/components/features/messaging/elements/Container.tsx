@@ -154,11 +154,26 @@ const base = cva({
     mentioned: {
       true: {
         background: "var(--md-sys-color-primary-container)",
+        color: "var(--md-sys-color-on-primary-container)",
+
+        "& :is(.msginfo, .msgreply)": {
+          color: "var(--md-sys-color-on-primary-container)",
+          "&.msgreply::before": {
+            borderInlineStartColor:
+              "color-mix(in srgb, var(--md-sys-color-on-surface-variant), transparent 75%)",
+            borderTopColor:
+              "color-mix(in srgb, var(--md-sys-color-on-surface-variant), transparent 75%)",
+          },
+        },
       },
     },
     highlight: {
       true: {
         animation: "highlightMessage 3s",
+
+        "& .msginfo": {
+          animation: "highlightMessageInfo 3s",
+        },
       },
     },
     sendStatus: {
@@ -187,6 +202,13 @@ const base = cva({
 
         "&:hover": {
           background: "var(--md-sys-color-surface-container)",
+          color: "var(--md-sys-color-on-surface)",
+          "& .msginfo": {
+            color: "var(--md-sys-color-outline)",
+          },
+          "& .msgreply": {
+            color: "var(--md-sys-color-on-surface)",
+          },
         },
       },
       hide: {},
@@ -464,14 +486,18 @@ export function MessageContainer(props: Props) {
           <Show when={!props.tail && !props.compact}>
             <Row gap="sm" align>
               <OverflowingText>{props.username}</OverflowingText>
-              <NonBreakingText class={infoText()}>{props.info}</NonBreakingText>
+              <NonBreakingText class={"msginfo " + infoText()}>
+                {props.info}
+              </NonBreakingText>
               <Show when={props.pronouns}>
-                <OverflowingText class={infoText({ shrink: true })}>
+                <OverflowingText
+                  class={"msginfo " + infoText({ shrink: true })}
+                >
                   <span>{props.pronouns}</span>
                   <span>·</span>
                 </OverflowingText>
               </Show>
-              <NonBreakingText class={infoText()}>
+              <NonBreakingText class={"msginfo " + infoText()}>
                 <Show
                   when={props.timestamp instanceof Date}
                   fallback={props.timestamp as JSX.Element}

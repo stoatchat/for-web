@@ -37,6 +37,7 @@ export default function Sounds() {
             <Content>
               <Trans>Message Received</Trans>{" "}
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("message", true)}
                 use:floating={{
                   tooltip: {
@@ -57,6 +58,7 @@ export default function Sounds() {
             <Content>
               <Trans>Mute</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("mute", true)}
                 use:floating={{
                   tooltip: {
@@ -77,6 +79,7 @@ export default function Sounds() {
             <Content>
               <Trans>Unmute</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("unmute", true)}
                 use:floating={{
                   tooltip: {
@@ -97,6 +100,7 @@ export default function Sounds() {
             <Content>
               <Trans>Deafen</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("deafen", true)}
                 use:floating={{
                   tooltip: {
@@ -117,6 +121,7 @@ export default function Sounds() {
             <Content>
               <Trans>Undeafen</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("undeafen", true)}
                 use:floating={{
                   tooltip: {
@@ -147,6 +152,7 @@ export default function Sounds() {
             <Content>
               <Trans>User Joined Call</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("userJoinVoice", true)}
                 use:floating={{
                   tooltip: {
@@ -167,6 +173,7 @@ export default function Sounds() {
             <Content>
               <Trans>User Left Call</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() =>
                   soundController.playSound("userLeaveVoice", true)
                 }
@@ -189,6 +196,7 @@ export default function Sounds() {
             <Content>
               <Trans>Stream Start</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("streamStart", true)}
                 use:floating={{
                   tooltip: {
@@ -209,6 +217,7 @@ export default function Sounds() {
             <Content>
               <Trans>Stream End</Trans>
               <IconButton
+                style={{ fill: "var(--md-sys-color-on-secondary-container)" }}
                 onPress={() => soundController.playSound("streamEnd", true)}
                 use:floating={{
                   tooltip: {
