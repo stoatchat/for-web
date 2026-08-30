@@ -125,6 +125,27 @@ export function Discoverable(props: {
                           </Trans>
                         </Text>
                       </MessagePreview>
+                      <CategoryButton.Group>
+                        <CategoryButton
+                          description={
+                            <Trans>
+                              Cancel your discover request and remove it from
+                              the review queue
+                            </Trans>
+                          }
+                          icon={<Symbol size={22}>cancel</Symbol>}
+                          action="chevron"
+                          onClick={() =>
+                            props.discoverable
+                              .cancelDiscoverRequest()
+                              .then(async () =>
+                                discoverRequestActions.refetch(),
+                              )
+                          }
+                        >
+                          <Trans>Cancel discover request</Trans>
+                        </CategoryButton>
+                      </CategoryButton.Group>
                     </Match>
                     <Match
                       when={
