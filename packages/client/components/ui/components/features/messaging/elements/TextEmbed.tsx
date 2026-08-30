@@ -62,7 +62,7 @@ const Title = styled("span", {
     flexShrink: 1,
 
     fontSize: "16px",
-    color: "var(--md-sys-color-primary) !important",
+    color: "var(--md-sys-color-on-primary-container)",
   },
 });
 
@@ -123,7 +123,12 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
               />
             </Show>
             <Title>
-              <RenderAnchor href={props.embed.url}>
+              <RenderAnchor
+                class={css({
+                  color: "var(--md-sys-color-on-primary-container) !important",
+                })}
+                href={props.embed.url}
+              >
                 <OverflowingText>{props.embed.title}</OverflowingText>
               </RenderAnchor>
             </Title>
@@ -134,7 +139,13 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
           <Description>
             <Switch fallback={props.embed.description}>
               <Match when={props.embed.type === "Text"}>
-                <Markdown content={props.embed.description!} />
+                <div
+                  class={css({
+                    "& a": { color: "var(--md-sys-on-primary-container)" },
+                  })}
+                >
+                  <Markdown content={props.embed.description!} />
+                </div>{" "}
               </Match>
             </Switch>
           </Description>

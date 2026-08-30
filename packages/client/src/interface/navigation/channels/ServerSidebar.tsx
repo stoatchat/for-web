@@ -501,7 +501,13 @@ function Entry(
             <Switch fallback={<Symbol>grid_3x3</Symbol>}>
               <Match when={props.channel.isVoice}>
                 <Symbol
-                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
+                  color={
+                    inCall()
+                      ? props.active
+                        ? "var(--md-sys-color-on-primary-container)"
+                        : "var(--md-sys-color-primary)"
+                      : undefined
+                  }
                 >
                   headset_mic
                 </Symbol>
