@@ -500,7 +500,13 @@ function Entry(
             <Icon
               channel={props.channel}
               symbol={getChannelIcon(props.channel)}
-              special={props.channel.mature ? "warning" : undefined}
+              special={
+                props.channel.e2e
+                  ? "lock"
+                  : props.channel.mature
+                    ? "warning"
+                    : undefined
+              }
               color={inCall() ? "var(--md-sys-color-primary)" : undefined}
             />
             <Show when={props.channel.icon}>

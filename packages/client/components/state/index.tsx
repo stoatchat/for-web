@@ -20,6 +20,7 @@ import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
+import { Encrypted } from "./stores/Encrypted";
 import { Experiments } from "./stores/Experiments";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
@@ -90,6 +91,7 @@ export class State {
   theme = new Theme(this);
   voice = new Voice(this);
   sounds = new Sounds(this);
+  e2e = new Encrypted(this);
 
   /**
    * Iterate over all available stores

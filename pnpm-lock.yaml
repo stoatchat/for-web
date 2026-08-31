@@ -561,8 +561,8 @@ importers:
         specifier: 1.9.14
         version: 1.9.14
       stoat-api:
-        specifier: 0.15.3
-        version: 0.15.3
+        specifier: git+https://github.com/Pecacheu/javascript-client-api#8a612098dd853dbaaad6ae03baf2af40c079818c
+        version: https://codeload.github.com/Pecacheu/javascript-client-api/tar.gz/8a612098dd853dbaaad6ae03baf2af40c079818c
       ulid:
         specifier: ^3.0.2
         version: 3.0.2
@@ -6188,8 +6188,9 @@ packages:
     resolution: {integrity: sha512-eCPu1qRxPVkl5605OTWF8Wz40b4Mf45NY5LQmVPQ599knfs5QhASUm9GbJ5BDMDOXgrnh0wyEdvzmL//YMlw0A==}
     engines: {node: '>=18'}
 
-  stoat-api@0.15.3:
-    resolution: {integrity: sha512-r08FplgeZWft4Hd2CK1tZ7EEzhocUyy/aeeOGBrKC6vy3ANsDhcMzGdJioYQ3jpzH+jFIPLQJzBaJK27Wf3Vug==}
+  stoat-api@https://codeload.github.com/Pecacheu/javascript-client-api/tar.gz/8a612098dd853dbaaad6ae03baf2af40c079818c:
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/Pecacheu/javascript-client-api/tar.gz/8a612098dd853dbaaad6ae03baf2af40c079818c}
+    version: 0.15.3
 
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
@@ -13610,7 +13611,7 @@ snapshots:
 
   stdin-discarder@0.3.2: {}
 
-  stoat-api@0.15.3:
+  stoat-api@https://codeload.github.com/Pecacheu/javascript-client-api/tar.gz/8a612098dd853dbaaad6ae03baf2af40c079818c:
     dependencies:
       json-with-bigint: 3.4.4
 
