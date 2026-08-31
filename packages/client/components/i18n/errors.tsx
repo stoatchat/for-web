@@ -1,6 +1,9 @@
-import { Trans, useLingui } from "@lingui/solid/macro";
 import { createMemo, Match, Switch } from "solid-js";
+
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
+
+import { AuthError } from "@revolt/state/stores/Auth";
 
 const RE_BREAK = /\s*\n\s*/g;
 
@@ -18,6 +21,9 @@ function cleanError(error: unknown) {
   return error;
 }
 
+/** Any error we can translate */
+type KnownError = API.Error | AuthError | { type: "SocketError" };
+
 /**
  * Translate any error
  */
@@ -32,7 +38,7 @@ export function useError() {
 
     // handle Revolt API errors
     if (typeof (error as { type: never })?.type === "string") {
-      const err = error as API.Error | { type: "SocketError" };
+      const err = error as KnownError;
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -128,6 +134,17 @@ export function useError() {
           return t`This account is not activated! Please check your account's inbox and try again.`;
         case "TotpAlreadyEnabled":
           return t`Multi-factor authentication is already enabled for this account.`;
+        case "AuthError":
+          switch (err.name) {
+            case "save_fail":
+              return t`Encountered a problem while saving previous session.`;
+            case "dup_login":
+              return t`Whoops, you're already logged in as this user!`;
+            case "ses_not_found":
+              return t`User session not found. Try switching users or logging in again.`;
+            default:
+              return `AuthError: ${err.name}`;
+          }
         case "SocketError":
           return t`The web socket was unable to connect to the backend.`;
         case "ContactSupport":
