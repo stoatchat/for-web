@@ -500,6 +500,7 @@ function Entry(
             <Icon
               channel={props.channel}
               symbol={getChannelIcon(props.channel)}
+              special={props.channel.mature ? "warning" : undefined}
               color={inCall() ? "var(--md-sys-color-primary)" : undefined}
             />
             <Show when={props.channel.icon}>
@@ -562,17 +563,23 @@ function Entry(
   );
 }
 
-function Icon(props: { channel: Channel; symbol: string; color?: string }) {
+function Icon(props: {
+  channel: Channel;
+  symbol: string;
+  special?: string;
+  color?: string;
+}) {
+  const maskId = "_m" + Date.now();
   return (
     <Show
-      when={props.channel.mature}
+      when={props.special}
       fallback={<Symbol color={props.color}>{props.symbol}</Symbol>}
     >
       <svg viewBox="0 0 24 24" width="24" height="24">
-        <mask id="m">
+        <mask id={maskId}>
           <rect x="0" y="0" width="24" height="24" fill="#fff" />
           <text {...warnProps} stroke="#000" stroke-width="3" color="#000">
-            warning
+            {props.special}
           </text>
         </mask>
         <text
@@ -583,12 +590,12 @@ function Icon(props: { channel: Channel; symbol: string; color?: string }) {
           }}
           x="0"
           y="24"
-          mask="url(#m)"
+          mask={`url(#${maskId})`}
         >
           {props.symbol}
         </text>
         <text {...warnProps} color={props.color}>
-          warning
+          {props.special}
         </text>
       </svg>
     </Show>
