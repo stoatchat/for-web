@@ -3,6 +3,7 @@ import {
   Show,
   createEffect,
   createMemo,
+  createRenderEffect,
   createSignal,
   on,
   onCleanup,
@@ -113,7 +114,14 @@ export function MessageComposition(props: Props) {
   state.draft._setNodeReplacement = setNodeReplacement;
   onCleanup(() => (state.draft._setNodeReplacement = undefined));
 
-  createEffect(
+  // MessageBox unmounts/remounts the editor when sendingAllowed toggles
+  // (e.g. navigating through a channel we can't send in), and that
+  // toggle is read directly in JSX rather than through an effect. A
+  // plain createEffect here would update initialValue one tick after
+  // that remount, so the fresh editor could seed itself from the
+  // previous channel's (stale) content. createRenderEffect runs in the
+  // same synchronous pass as the JSX re-render, so it's not.
+  createRenderEffect(
     on(
       () => props.channel,
       () => setInitialValue([currentValue()]),
