@@ -1,4 +1,3 @@
-import { useLingui } from "@lingui/solid/macro";
 import { CONFIGURATION } from "@revolt/common";
 import { User } from "stoat.js";
 
@@ -21,6 +20,19 @@ export type TypeAuth = {
   session?: Session;
   saved: Array<Session>;
 };
+
+type AuthErrType = "save_fail" | "dup_login" | "ses_not_found";
+
+export class AuthError extends Error {
+  type: "AuthError";
+  name: AuthErrType;
+
+  constructor(name: AuthErrType) {
+    super();
+    this.type = "AuthError";
+    this.name = name;
+  }
+}
 
 function strOrNone(str?: string) {
   if (typeof str === "string" && str) return str;
@@ -150,16 +162,11 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    */
   addSession(newSes: Session) {
     const data = this.#read();
-    if (data.session) {
-      const { t } = useLingui();
-      throw t`Encountered a problem while saving previous session.`;
-    }
+    if (data.session) throw new AuthError("save_fail");
+
     data.session = newSes;
     for (const ses of data.saved)
-      if (ses.userId === newSes.userId) {
-        const { t } = useLingui();
-        throw t`Whoops, you're already logged in as this user!`;
-      }
+      if (ses.userId === newSes.userId) throw new AuthError("dup_login");
     this.set(data);
   }
 
@@ -198,8 +205,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
         if (old) saved.unshift(old);
         return this.set(data);
       }
-    const { t } = useLingui();
-    throw t`User session not found. Try switching users or logging in again.`;
+    throw new AuthError("ses_not_found");
   }
 
   /**
