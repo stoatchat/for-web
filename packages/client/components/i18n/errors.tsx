@@ -1,12 +1,11 @@
-import { Trans, useLingui } from "@lingui/solid/macro";
 import { createMemo, Match, Switch } from "solid-js";
-import { API } from "stoat.js";
+
+import { Trans, useLingui } from "@lingui/solid/macro";
+import { API, EncryptError } from "stoat.js";
 
 const RE_BREAK = /\s*\n\s*/g;
 
-function cleanError(
-  error: unknown,
-): { type?: never } | { message?: never } | string | undefined {
+function cleanError(error: unknown) {
   // Attempt to parse the incoming error as JSON if it is a string,
   // as some errors (e.g on login) are sent to this function as a string,
   // which then causes the error message to be unlocalised and unhelpful.
@@ -15,12 +14,13 @@ function cleanError(
       return JSON.parse(error);
     } catch {
       // Ignore JSON parse errors
-      return error;
     }
   }
-
-  return error as { type?: never } | { message?: never } | undefined;
+  return error;
 }
+
+/** Any error we can translate */
+type KnownError = API.Error | EncryptError;
 
 /**
  * Translate any error
@@ -30,15 +30,13 @@ export function useError() {
 
   return (error: unknown, context?: string) => {
     error = cleanError(error);
+    console.error(error);
 
     // TODO: HTTP errors
 
     // handle Revolt API errors
-    if (
-      (error as { type?: never } | undefined)?.type &&
-      typeof (error as { type: never }).type === "string"
-    ) {
-      const err = error as API.Error;
+    if (typeof (error as { type: never })?.type === "string") {
+      const err = error as KnownError;
 
       switch (err.type) {
         case "AlreadyFriends":
@@ -98,7 +96,7 @@ export function useError() {
         case "InvalidCredentials":
           return t`Provided email or password is wrong.`;
         case "InvalidSession":
-          return t`Please log in again.`;
+          return t`You were logged out!`;
         case "InvalidUsername":
           return t`This username is not allowed.`;
         case "MissingPermission":
@@ -153,6 +151,15 @@ export function useError() {
             default:
               return t`Your request failed. Please contact support.`;
           }
+        case "EncryptError":
+          switch (err.name) {
+            case "bad_version":
+              return t`Invalid e2ee protocol version.`;
+            case "no_key":
+              return t`No encryption key!`;
+            default:
+              return `EncryptionError: ${err.name}`;
+          }
 
         // unreachable errors (in theory)
         case "FileTooLarge":
@@ -190,10 +197,7 @@ export function useError() {
     }
 
     // pass-through pre-localised errors with new Error({ message: <> })
-    if (
-      (error as { message?: never } | undefined)?.message &&
-      typeof (error as { message: never }).message === "string"
-    ) {
+    if (typeof (error as { message: never })?.message === "string") {
       const message = (error as { message: string }).message.trim();
       if (message) return message;
     } else if (typeof error === "string") {

@@ -9,6 +9,7 @@ import { AddMembersToGroupModal } from "./modals/AddMembersToGroup";
 import { BanMemberModal } from "./modals/BanMember";
 import { BanNonMemberModal } from "./modals/BanNonMember";
 import { ChangelogModal } from "./modals/Changelog";
+import { ChannelEncryptModal } from "./modals/ChannelEcrypt";
 import { ChannelInfoModal } from "./modals/ChannelInfo";
 import { ChannelToggleMatureModal } from "./modals/ChannelToggleMature";
 import { CreateBotModal } from "./modals/CreateBot";
@@ -96,6 +97,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <ChannelInfoModal {...modalProps} />;
     case "channel_toggle_mature":
       return <ChannelToggleMatureModal {...modalProps} />;
+    case "channel_e2ee":
+      return <ChannelEncryptModal {...modalProps} />;
     case "create_bot":
       return <CreateBotModal {...modalProps} />;
     case "create_category":
