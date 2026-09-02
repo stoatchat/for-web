@@ -389,9 +389,17 @@ msgstr ""
 msgid "Allow members to change name and avatar per-message"
 msgstr "Anna jäsenten vaihtaa nimeä ja kuvaketta viestiä kohden"
 
-#: components/app/interface/settings/user/bots/ViewBot.tsx
+#: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to add your bot to their servers from Discover"
 msgstr "Anna muiden lisätä bottisi Discover-tabista"
+
+#: components/app/interface/settings/user/bots/ViewBot.tsx
+msgid "Allow others to invite your bot"
+msgstr ""
+
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Allow others to join your server from Discover"
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
@@ -584,6 +592,10 @@ msgstr ""
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
 
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Can't get discover request status right now"
+msgstr ""
+
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/BanMember.tsx
@@ -613,6 +625,10 @@ msgstr ""
 msgid "Cancel"
 msgstr "Peruuta"
 
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Cancel discover request"
+msgstr ""
+
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
 msgstr "Peru ystäväpyyntö"
@@ -620,6 +636,10 @@ msgstr "Peru ystäväpyyntö"
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Cancel message"
 msgstr "Peru viesti"
+
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Cancel your discover request and remove it from the review queue"
+msgstr ""
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
@@ -725,6 +745,11 @@ msgstr "Kanavat"
 msgid "Chat Input"
 msgstr "Keskustelusyöte"
 
+#. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Check back often to see if your {0} has been approved!"
+msgstr ""
+
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
 msgstr "Tarkista sähköpostisi!"
@@ -802,6 +827,10 @@ msgstr "Sulje keskustelu {0}n kanssa?"
 msgid "Code"
 msgstr "Koodi"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Collapse call window"
+msgstr ""
+
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
 msgstr ""
@@ -838,6 +867,11 @@ msgstr "Yhdistetty"
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connecting"
 msgstr "Yhdistää"
+
+#. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Contact support to remove this {0} from discover"
+msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
@@ -883,6 +917,10 @@ msgstr ""
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
 msgstr "Kopioi tunniste"
+
+#: components/app/interface/settings/server/invites/ListServerInvites.tsx
+msgid "Copy invite link"
+msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
@@ -1122,7 +1160,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Poista"
 
-#. placeholder {0}: props.bot.user!.displayName
+#. placeholder {0}: props.bot.user?.displayName ?? props.bot.id
 #. placeholder {0}: props.channel.name
 #. placeholder {0}: props.role.name
 #: components/modal/modals/DeleteBot.tsx
@@ -1212,6 +1250,11 @@ msgstr "Yhteys katkaistu"
 #: components/app/interface/settings/user/Native.tsx
 msgid "Discord RPC"
 msgstr "Discord-RPC"
+
+#: components/app/interface/settings/ServerSettings.tsx
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Discover"
+msgstr ""
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1969,6 +2012,10 @@ msgstr "Merkkaa tämä kanava vain aikuisille tarkoitetuksi?"
 msgid "Masquerade"
 msgstr "Naamio"
 
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Maximize call window"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Members"
@@ -2482,6 +2529,16 @@ msgstr "Syy"
 msgid "Reason for report"
 msgstr ""
 
+#. placeholder {0}: (dr.status as { Denied: string | null }) .Denied
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Reason: {0}"
+msgstr ""
+
+#. placeholder {0}: (dr.status as { Removed: string | null }) .Removed
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Reason: {0} Contact support for more information."
+msgstr ""
+
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
 msgstr "Vastaanota ilmoituksia kun sovellus on auki ja taustalla."
@@ -2650,6 +2707,11 @@ msgstr "Nollaa todennustunnus"
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Responsibly disclosed security issues"
 msgstr "Vastuullisesti paljastetut tietoturvaongelmat"
+
+#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
+#: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+msgid "Restore call window"
+msgstr ""
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
@@ -3062,7 +3124,7 @@ msgstr "Lähetä ominaisuusehdotus"
 msgid "Submit feedback"
 msgstr "Lähetä palautetta"
 
-#: components/app/interface/settings/user/bots/ViewBot.tsx
+#: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Submit to Discover"
 msgstr "Lähetä Discoveriin"
 
@@ -3134,18 +3196,51 @@ msgstr "Tekstikanava"
 msgid "That action had no effect."
 msgstr "Toimenpiteellä ei ollut vaikutusta."
 
+#: components/i18n/errors.tsx
+msgid "The bot has been removed from discover by moderators, the user must contact support."
+msgstr ""
+
+#: components/i18n/errors.tsx
+msgid "The bot is already on discover, the user must contact support to have it removed"
+msgstr ""
+
+#: components/i18n/errors.tsx
+msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
+msgstr ""
+
+#: components/i18n/errors.tsx
+msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
+msgstr ""
+
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Tiedosto \"{0} ({fileSize}) ylittää {maxSizeFormatted}n enimmäiskokorajan."
 
 #: components/i18n/errors.tsx
+msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
+msgstr ""
+
+#: components/i18n/errors.tsx
 msgid "The password is too short."
 msgstr "Salasana on liian lyhyt."
+
+#: components/i18n/errors.tsx
+msgid "The server has been removed from discover by moderators, the user must contact support."
+msgstr ""
+
+#: components/i18n/errors.tsx
+msgid "The server is already on discover, the user must contact support to have it removed."
+msgstr ""
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
 msgstr "Teema"
+
+#. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "This {0} is discoverable"
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3611,6 +3706,10 @@ msgstr "Voit avata sen myöhemmin uudelleen, mutta se katoaa molemmin puolin."
 msgid "You can report issues and discuss improvements with us directly here."
 msgstr "Voit ilmoittaa ongelmia ja keskustella kanssamme parannuksista täällä."
 
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "You can request again below"
+msgstr ""
+
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
@@ -3675,6 +3774,10 @@ msgstr "Tämä käyttäjä on estetty."
 msgid "You may be experiencing connection issues."
 msgstr ""
 
+#: components/i18n/errors.tsx
+msgid "You may not submit this item to discover."
+msgstr ""
+
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
 msgstr "Tämä käyttäjä on mykistetty."
@@ -3726,6 +3829,11 @@ msgstr "Olet saavuttanut henkilökohtaisten bottien määrärajan."
 msgid "You've sent too many friend requests, the maximum is {0}"
 msgstr "Olet lähettänyt liian monta kaveripyyntöä, maksimi on {0}"
 
+#. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Your {0} is under review"
+msgstr ""
+
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
 msgstr "Käyttäjätilisi ja tietosi (mukaanlukien viestisi ja kaverilistasi) ovat jonossa poistoa varten. Vahvistusviesti lähetetään sähköpostiisi - voit perua tämän päätöksen 7 päivän sisällä ottamalla yhteyttä tukeen."
@@ -3733,6 +3841,14 @@ msgstr "Käyttäjätilisi ja tietosi (mukaanlukien viestisi ja kaverilistasi) ov
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
 msgstr "Tilisi on vahvistettu!"
+
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Your discover request has been denied"
+msgstr ""
+
+#: components/app/interface/settings/shared/Discoverable.tsx
+msgid "Your discover request has been removed"
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
@@ -3745,6 +3861,10 @@ msgstr "Viestisi on liian pitkä, poista joitain merkkejä ja yritä uudelleen."
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"
 msgstr "Palautuskoodisi"
+
+#: components/i18n/errors.tsx
+msgid "Your request failed. Please contact support."
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "Your role ranking is too low to take this action."
