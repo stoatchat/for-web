@@ -37,17 +37,23 @@ export class Device {
   /** If Stoat is running as a web app */
   readonly isPWA =
     //Safari
-    (window.navigator as never as { standalone: boolean }).standalone ||
+    (navigator as never as { standalone: boolean }).standalone ||
     //Other
-    window.matchMedia("(display-mode: standalone)").matches;
+    matchMedia("(display-mode: standalone)").matches;
+
+  pwaPrompt;
+  pwaInstalled;
 
   /**
-   * Whether this device is an IOS Touch device. Relies on useragent.
+   * Whether this device is an iOS touch device. Relies on useragent.
    *
    * **Warning:** Don't use unless absolutely necessary.
    * Granular feature-detection is preferred when possible.
    */
-  readonly isIOSTouch = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  readonly isIOSTouch = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+  /** If the engine is Firefox-based. Relies on useragent. */
+  readonly isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 
   private pMedia;
   private tMedia;
@@ -75,6 +81,16 @@ export class Device {
     if (this.isPWA && navigator.virtualKeyboard) {
       navigator.virtualKeyboard.overlaysContent = true;
     }
+
+    const [pp, setPp] = createSignal<BeforeInstallPromptEvent>();
+    if (typeof window._PwaP === "object") setPp(window._PwaP);
+    else window._PwaP = setPp;
+    this.pwaPrompt = pp;
+
+    const [pi, setPi] = createSignal(false);
+    if (typeof window._PwaI === "boolean") setPi(window._PwaI);
+    else window._PwaI = setPi;
+    this.pwaInstalled = pi;
   }
 
   onLayout = () => {
