@@ -15,11 +15,15 @@ import { Column, Row } from "@revolt/ui/components/layout";
 import { humanFileSize } from "@revolt/ui/components/utils";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-/**
- * Base container
- */
-const Base = styled(Row, {
-  base: {},
+const InfoColumn = styled(Column, {
+  base: {
+    overflow: "hidden",
+
+    "& > *": {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
+  },
 });
 
 interface Props {
@@ -38,8 +42,15 @@ interface Props {
  * Information about a given attachment or embed
  */
 export function FileInfo(props: Props) {
+  function download(url: string, name?: string) {
+    const link = document.createElement("a");
+    link.href = url;
+    if (name) link.download = name;
+    link.click();
+  }
+
   return (
-    <Base align>
+    <Row align>
       <Switch fallback={<BiSolidFile size={24} />}>
         <Match
           when={
@@ -64,25 +75,23 @@ export function FileInfo(props: Props) {
           <BiSolidFileTxt size={24} />
         </Match>
       </Switch>
-      <Column grow>
+      <InfoColumn grow>
         <span>{props.file?.filename}</span>
         <Show when={props.file?.size}>
           <Text class="label" size="small">
             {humanFileSize(props.file!.size!)}
           </Text>
         </Show>
-      </Column>
+      </InfoColumn>
       <Show when={props.file}>
-        <a
-          target="_blank"
-          href={props.file?.originalUrl}
-          download={props.file?.filename}
+        <IconButton
+          onPress={() =>
+            download(props.file!.originalUrl, props.file?.filename)
+          }
         >
-          <IconButton>
-            <Symbol>download</Symbol>
-          </IconButton>
-        </a>
+          <Symbol>download</Symbol>
+        </IconButton>
       </Show>
-    </Base>
+    </Row>
   );
 }

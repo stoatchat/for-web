@@ -18,7 +18,6 @@ import { styled } from "styled-system/jsx";
 import { decodeTime } from "ulid";
 
 import { useClient } from "@revolt/client";
-import { isGif } from "@revolt/common/lib/gifs";
 import { useTime } from "@revolt/i18n";
 import { Markdown } from "@revolt/markdown";
 import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
@@ -46,12 +45,6 @@ import {
 } from "../../../menus/UserContextMenu";
 
 import { EditMessage } from "./EditMessage";
-
-/**
- * Regex for matching URLs
- */
-const RE_URL =
-  /[(http(s)?)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 
 interface Props {
   /**
@@ -117,16 +110,6 @@ export function Message(props: Props) {
   const [isHovering, setIsHovering] = createSignal(false);
   const [reactPicker, setReactPicker] = createSignal<MediaPickerProps>();
   let msgRef!: HTMLDivElement;
-
-  /**
-   * Determine whether this message only contains a GIF
-   */
-  const isOnlyGIF = () =>
-    props.message.embeds &&
-    props.message.embeds.length === 1 &&
-    isGif(props.message.embeds[0]) &&
-    props.message.content &&
-    !props.message.content.replace(RE_URL, "").length;
 
   /**
    * React with an emoji
@@ -355,23 +338,30 @@ export function Message(props: Props) {
             return <></>;
           }}
         </CompositionMediaPicker>
-        <Switch>
+        <Switch
+          fallback={
+            <For each={props.message.embeds}>
+              {(em) => <Embed embed={em} />}
+            </For>
+          }
+        >
           <Match when={props.editing}>
             <EditMessage message={props.message} />
           </Match>
-          <Match when={props.message.content && !isOnlyGIF()}>
-            <BreakText>
-              <Markdown content={props.message.content!} />
-            </BreakText>
+          <Match when={props.message.content}>
+            <Markdown
+              content={props.message.content}
+              message={props.message}
+              container={(md) => (
+                <BreakText class="message_body">{md}</BreakText>
+              )}
+            />
           </Match>
         </Switch>
         <For each={props.message.attachments}>
           {(attachment) => (
             <Attachment message={props.message} file={attachment} />
           )}
-        </For>
-        <For each={props.message.embeds}>
-          {(embed) => <Embed embed={embed} />}
         </For>
         <Reactions
           reactions={
