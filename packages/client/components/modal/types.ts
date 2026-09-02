@@ -348,6 +348,14 @@ export type Modals =
       onCancel: () => void;
     }
   | {
+      type: "timeout_member";
+      member: ServerMember;
+    }
+  | {
+      type: "remove_timeout";
+      member: ServerMember;
+    }
+  | {
       type: "edit_bot_username";
       bot: Bot;
     };

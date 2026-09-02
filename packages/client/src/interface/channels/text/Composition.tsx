@@ -1,11 +1,11 @@
 import {
-  For,
-  Show,
   createEffect,
   createMemo,
   createSignal,
+  For,
   on,
   onCleanup,
+  Show,
 } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
@@ -13,8 +13,9 @@ import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { useInstance } from "@revolt/instance";
-import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -22,10 +23,10 @@ import {
   FileCarousel,
   FileDropAnywhereCollector,
   FilePasteCollector,
+  humanFileSize,
   IconButton,
   MessageBox,
   MessageReplyPreview,
-  humanFileSize,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
@@ -51,6 +52,10 @@ export function MessageComposition(props: Props) {
   const client = useClient();
   const { limits } = useInstance();
   const { openModal } = useModals();
+
+  const isTimedOut = createIsTimedOut(
+    () => props.channel.server?.member?.timeout,
+  );
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
@@ -93,7 +98,8 @@ export function MessageComposition(props: Props) {
     return (
       !tooLong &&
       (draftContent.trim().length > 0 || draftFiles.length > 0) &&
-      !isSlowmode
+      !isSlowmode &&
+      !isTimedOut()
     );
   });
 
@@ -415,7 +421,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !isTimedOut()
+        }
+        timeoutActive={isTimedOut()}
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)
