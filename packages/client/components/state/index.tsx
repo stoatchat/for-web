@@ -15,12 +15,14 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { LoadingScreen } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { AbstractStore, Store } from "./stores";
 import { Auth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
 import { Experiments } from "./stores/Experiments";
+import { Hosts } from "./stores/Hosts";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
 import { LinkSafety } from "./stores/LinkSafety";
@@ -48,6 +50,8 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
+const WriteQueue = new Map<string, NodeJS.Timeout>();
+
 /**
  * Global application state
  */
@@ -55,7 +59,8 @@ export class State {
   // internal data management
   private store: Store;
   private setStore: SetStoreFunction<Store>;
-  private writeQueue: Record<string, number>;
+  private db?: LocalForage;
+  private dbGlobal: LocalForage;
 
   appDrawer;
   setAppDrawer;
@@ -76,6 +81,7 @@ export class State {
 
   // define all stores
   auth = new Auth(this);
+  host = new Hosts(this);
   draft = new Draft(this);
   experiments = new Experiments(this);
   keybinds = new Keybinds(this);
@@ -109,12 +115,12 @@ export class State {
    * Generate all store defaults / initial store
    * @returns Defaults object
    */
-  private defaults() {
+  private defaults(localOnly = false) {
     const defaults: Partial<Store> = {};
 
-    for (const store of this.iterStores()) {
-      defaults[store.getKey()] = store.default() as never;
-    }
+    for (const store of this.iterStores())
+      if (!localOnly || !store.global)
+        defaults[store.getKey()] = store.default() as never;
 
     return defaults;
   }
@@ -123,10 +129,11 @@ export class State {
    * Construct the global application state
    */
   constructor() {
+    this.dbGlobal = localforage.createInstance({ storeName: "global" });
+
     const [store, setStore] = createStore(this.defaults() as Store);
     this.store = store as never;
     this.setStore = setStore;
-    this.writeQueue = {};
 
     const [ad, setAd] = createSignal<SlideDrawer>();
     this.appDrawer = ad;
@@ -140,54 +147,55 @@ export class State {
   /**
    * Write some data to the store and disk
    */
-  private write: SetStoreFunction<Store> = (...args: unknown[]) => {
-    // pass the data to the store
-    (this.setStore as (...args: unknown[]) => void)(...args);
+  private write = (key: string, global: boolean, ...args: unknown[]) => {
+    const dbLocal = this.db; //Cache in case it changes before timeout
 
-    // resolve key
-    const key = args[0] as string;
+    // pass the data to the store
+    (this.setStore as (...args: unknown[]) => void)(key, ...args);
 
     // touch the key if syncable
     this.sync.touchIfSyncable(key);
 
+    //Read-only before init
+    if (!global && !dbLocal) return;
+    const db = global ? this.dbGlobal : dbLocal!,
+      qKey = (db.config().storeName || "") + "|" + key;
+
     // remove existing queued task if it exists
-    if (this.writeQueue[key]) {
-      clearTimeout(this.writeQueue[key]);
-    }
+    clearTimeout(WriteQueue.get(qKey));
 
     // queue for writing to disk
-    this.writeQueue[key] = setTimeout(
-      () => {
-        // remove from write queue
-        delete this.writeQueue[key];
+    WriteQueue.set(
+      qKey,
+      setTimeout(
+        () => {
+          // remove from write queue
+          WriteQueue.delete(qKey);
 
-        // write the entire key to storage
-        localforage.setItem(
-          key,
-          JSON.parse(
-            JSON.stringify((this.store as Record<string, unknown>)[key]),
-          ),
-        );
+          // write the entire key to storage
+          const dataStr = JSON.stringify(
+            (this.store as Record<string, unknown>)[key],
+          );
+          db.setItem(key, JSON.parse(dataStr));
+          //Backup for auth
+          if (key === "auth") localStorage.setItem(key, dataStr);
 
-        if (import.meta.env.DEV) {
-          console.info("[store.save] Wrote state to disk.");
-        }
-      },
-      IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
-    ) as unknown as number;
+          if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
+        },
+        IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
+      ),
+    );
   };
 
   /**
    * Write data to store / disk and then synchronise it
    */
-  set: SetStoreFunction<Store> = (...args: unknown[]) => {
+  set = (key: string, global: boolean, ...args: unknown[]) => {
     // write to store and storage
-    (this.write as (...args: unknown[]) => void)(...args);
+    this.write(key, global, ...args);
 
     // run side-effects
-    if (import.meta.env.DEV) {
-      console.debug("[store] updated data", args[0]);
-    }
+    if (import.meta.env.DEV) console.debug("[store] updated data", args[0]);
   };
 
   /**
@@ -200,29 +208,82 @@ export class State {
   }
 
   /**
-   * Hydrate the state from disk and run side-effects
+   * Hydrate the state from disk and run side-effects.
+   * Global should only run on init; Local runs whenever session changes
    */
-  async hydrate() {
-    // load all data first
-    for (const store of this.iterStores()) {
-      const data = await localforage.getItem(store.getKey());
+  async hydrate(global = false) {
+    if (global) {
+      //Wait for write queue to finish
+      if (WriteQueue.size)
+        await new Promise<void>((res) => {
+          const tmr = setInterval(() => {
+            if (WriteQueue.size) return;
+            clearInterval(tmr);
+            res();
+          }, 50);
+        });
+    } else {
+      //Reset defaults
+      if (this.db)
+        for (const [key, data] of Object.entries(this.defaults(true)))
+          this.setStore(key as keyof Store, data);
 
-      if (data) {
-        // validate the incoming data
-        const cleanData = store.clean(data);
-
-        if (!equal(data, cleanData)) {
-          // write back to disk if it has changed
-          this.write(store.getKey(), cleanData);
-        } else {
-          this.setStore(store.getKey(), data);
-        }
-      }
+      //If session exists, use session store
+      const ses = this.store.auth.session;
+      this.db =
+        ses &&
+        localforage.createInstance({
+          storeName: `${ses.host ?? ""}@${ses.userId}`,
+        });
     }
 
+    // load all data first
+    if (global || this.db)
+      for (const store of this.iterStores())
+        if (store.global === global) {
+          const key = store.getKey();
+          let data = await (store.global ? this.dbGlobal : this.db!).getItem(
+            key,
+          );
+
+          //Load auth from backup
+          if (!data && key === "auth") {
+            const authBack = localStorage.getItem(key);
+            if (authBack) data = JSON.parse(authBack);
+          }
+
+          if (data) {
+            // validate the incoming data
+            const cleanData = store.clean(data);
+            // write back to disk if it has changed
+            if (!equal(data, cleanData))
+              this.write(key, store.global, cleanData);
+            else this.setStore(key, data);
+          }
+        }
+
     // then run side-effects
-    for (const store of this.iterStores()) {
-      store.hydrate();
+    for (const store of this.iterStores())
+      if (store.global === global) store.hydrate();
+
+    //Clear old sessions via some hackery
+    if (global) {
+      const stores = (this.dbGlobal as { _dbInfo?: { db?: IDBDatabase } })
+        ._dbInfo?.db?.objectStoreNames;
+      if (stores) {
+        const ses = this.store.auth.session,
+          sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
+            (s) => `${s.host ?? ""}@${s.userId}`,
+          );
+        for (const key of stores)
+          if (
+            key === "keyvaluepairs" ||
+            (key.indexOf("@") !== -1 && !sesNames.includes(key))
+          ) {
+            console.warn(`[store] Deleted unused db ${key}`);
+            await localforage.dropInstance({ storeName: key });
+          }
+      }
     }
   }
 }
@@ -236,14 +297,16 @@ const stateContext = createContext<State>(null! as State);
  * Mount state context
  */
 export function StateContext(props: { children: JSX.Element }) {
-  const stateLocal = new State();
+  const state = new State();
   const [ready, setReady] = createSignal(false);
 
-  onMount(() => stateLocal.hydrate().then(() => setReady(true)));
+  onMount(() => state.hydrate(true).then(() => setReady(true)));
 
   return (
-    <stateContext.Provider value={stateLocal}>
-      <Show when={ready()}>{props.children}</Show>
+    <stateContext.Provider value={state}>
+      <Show when={ready()} fallback={<LoadingScreen />}>
+        {props.children}
+      </Show>
     </stateContext.Provider>
   );
 }

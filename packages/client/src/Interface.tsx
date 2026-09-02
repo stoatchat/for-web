@@ -32,11 +32,11 @@ const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
   const { openModal } = useModals();
-  const { isLoggedIn, lifecycle } = useClientLifecycle();
+  const { isLoggedIn, isSwapping, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
   useBeforeLeave((e) => {
-    if (!e.defaultPrevented) {
+    if (!e.defaultPrevented && !isSwapping()) {
       if (e.to === "/settings") {
         e.preventDefault();
         openModal({ type: "settings", config: "user" });
