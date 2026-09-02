@@ -52,9 +52,12 @@ export default function FlowVerify() {
 
       const data = (await api.post(`/auth/account/verify/${params.token}`)) as {
         ticket?: { token: string };
-      };
+      } | null;
 
-      setState({ state: "success", mfa_ticket: data.ticket?.token });
+      // the API returns a null body when verification succeeds without
+      // issuing an MFA ticket (e.g. confirming an email change), so this
+      // must not assume `data` is an object
+      setState({ state: "success", mfa_ticket: data?.ticket?.token });
     } catch (err) {
       setState({ state: "error", error: err });
     }
