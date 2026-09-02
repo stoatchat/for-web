@@ -31,6 +31,16 @@ const Qr = styled("div", {
     placeItems: "center",
   },
 });
+/**
+ * Larger white wrapper for QR code with padding
+ */
+const QrWrapper = styled("div", {
+  base: {
+    background: "white",
+    padding: "1rem", 
+    borderRadius: "4px",
+  },
+});
 
 /**
  * Modal to display QR code and secret key for MFA and accept the correct code
@@ -98,18 +108,20 @@ export function MFAEnableTOTPModal(
           </Text>
 
           <Column align>
-            <Qr>
-              <QRCodeSVG
-                value={uri()}
-                backgroundColor="white"
-                foregroundColor="black"
-                level="medium"
-                height={140}
-                width={140}
-                backgroundAlpha={1}
-                foregroundAlpha={1}
-              />
-            </Qr>
+          <QrWrapper>
+              <Qr>
+                <QRCodeSVG
+                  value={uri()}
+                  backgroundColor="white"
+                  foregroundColor="black"
+                  level="medium"
+                  height={140}
+                  width={140}
+                  backgroundAlpha={1}
+                  foregroundAlpha={1}
+                />
+              </Qr>
+            </QrWrapper>
             <Code>{props.secret}</Code>
           </Column>
 
