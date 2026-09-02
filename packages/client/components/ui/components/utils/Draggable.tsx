@@ -55,8 +55,11 @@ export function Draggable<T>(props: Props<T>) {
     props.dragHandles || false,
   );
 
+  // start off with the items we were given; filling this in from the effect
+  // below leaves the list empty for a frame, which loses the scroll position
   const [containerItems, setContainerItems] = createSignal<ContainerItem<T>[]>(
-    [],
+    // eslint-disable-next-line solid/reactivity
+    props.items.map((item) => ({ id: item.id, item })),
   );
 
   createEffect(() => setDragDisabled(props.dragHandles || false));
