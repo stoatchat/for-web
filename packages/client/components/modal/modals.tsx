@@ -6,6 +6,7 @@ import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
 import { AddMembersToGroupModal } from "./modals/AddMembersToGroup";
+import { AvatarRadiusModal } from "./modals/AvatarRadius";
 import { BanMemberModal } from "./modals/BanMember";
 import { BanNonMemberModal } from "./modals/BanNonMember";
 import { ChangelogModal } from "./modals/Changelog";
@@ -194,6 +195,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <PinMessageModal {...modalProps} />;
     case "edit_bot_username":
       return <EditBotUsernameModal {...modalProps} />;
+    case "avatar_radius":
+      return <AvatarRadiusModal {...modalProps} />;
     case "screen_share_settings":
       return <ScreenShareSettingsModal {...modalProps} />;
     case "screen_share_picker":
