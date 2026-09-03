@@ -28,6 +28,7 @@ import { Locale } from "./stores/Locale";
 import { NotificationOptions } from "./stores/NotificationOptions";
 import { Ordering } from "./stores/Ordering";
 import { ReleaseNotes } from "./stores/ReleaseNotes";
+import { ServerFolders } from "./stores/ServerFolders";
 import { Settings } from "./stores/Settings";
 import { Sounds } from "./stores/Sounds";
 import { Sync } from "./stores/Sync";
@@ -35,6 +36,8 @@ import { Theme } from "./stores/Theme";
 import { Voice } from "./stores/Voice";
 
 export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
+export type { ResolvedEntry } from "./stores/Ordering";
+export type { ServerFolder } from "./stores/ServerFolders";
 export type { Sounds, TypeSounds } from "./stores/Sounds";
 export { SyncWorker } from "./SyncWorker";
 
@@ -84,6 +87,7 @@ export class State {
   locale = new Locale(this);
   notifications = new NotificationOptions(this);
   ordering = new Ordering(this);
+  "server-folders" = new ServerFolders(this);
   "release-notes" = new ReleaseNotes(this);
   settings = new Settings(this);
   sync = new Sync(this);
