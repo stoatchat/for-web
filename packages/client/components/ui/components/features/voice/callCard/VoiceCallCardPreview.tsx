@@ -72,7 +72,7 @@ const Preview = styled("div", {
     gap: "var(--gap-sm)",
     padding: "var(--gap-lg)",
 
-    color: "var(--md-sys-color-on-surface)",
+    color: "var(--md-sys-color-on-secondary-container)",
   },
 });
 
