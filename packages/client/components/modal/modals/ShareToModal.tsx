@@ -8,10 +8,11 @@ import {
   Switch,
 } from "solid-js";
 
-import { Trans, useLingui } from "@lingui/solid/macro";
+import { Plural, Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { ReactiveMap } from "@solid-primitives/map";
 import { Channel } from "stoat.js";
+import { styled } from "styled-system/jsx";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
@@ -26,7 +27,6 @@ import {
   Dialog,
   DialogProps,
   MenuButton,
-  OverflowingText,
   Symbol,
   TextField,
   typography,
@@ -35,8 +35,6 @@ import {
 
 import { useModals } from "..";
 import { Modals } from "../types";
-
-//location.hash = "";
 
 let files: File[] | undefined;
 
@@ -131,9 +129,26 @@ export function ShareToModal(
 
   return (
     <Dialog
+      minHeight={400}
       show={props.show}
       onClose={() => {}}
-      title={<Trans>Share {(stat(), files?.length) ?? 0} files to...</Trans>}
+      title={
+        <>
+          <Plural
+            value={stat()}
+            _0="Loading shares"
+            one="Share # file"
+            other="Share # files"
+          />
+          <Plural
+            value={shares.size}
+            _0=""
+            one=" to # chat"
+            other=" to # chats"
+          />
+          ...
+        </>
+      }
       actions={[
         {
           text: <Trans>Cancel</Trans>,
@@ -198,7 +213,7 @@ function Entry(props: {
   channel: Channel;
   shares: ReactiveMap<string, Channel>;
 }) {
-  const [check, setCheck] = createSignal(false);
+  const check = createMemo(() => props.shares.has(props.channel.id));
 
   return (
     <MenuButton
@@ -207,7 +222,6 @@ function Entry(props: {
         const on = !check();
         if (on) props.shares.set(props.channel.id, props.channel);
         else props.shares.delete(props.channel.id);
-        setCheck(on);
       }}
       size="normal"
       attention={
@@ -250,20 +264,24 @@ function Entry(props: {
         </>
       }
     >
-      <OverflowingText>
+      <ChannelName twoLine={props.channel.type === "TextChannel"}>
         <Show
-          when={props.channel.type !== "DirectMessage"}
+          when={props.channel.type === "TextChannel"}
           fallback={props.channel?.recipient?.displayName}
         >
           <Show when={props.channel.server}>
-            <TextWithEmoji content={props.channel.server?.name} />
-            <Symbol size={16} display="" verticalAlign="middle">
-              chevron_right
-            </Symbol>
+            <div>
+              <TextWithEmoji content={props.channel.server?.name} />
+              <Symbol size={16} display="" verticalAlign="middle">
+                chevron_right
+              </Symbol>
+            </div>
           </Show>
-          <TextWithEmoji content={props.channel.name} />
+          <div>
+            <TextWithEmoji content={props.channel.name} />
+          </div>
         </Show>
-      </OverflowingText>
+      </ChannelName>
       <Show when={props.channel.type === "Group"}>
         <span class={typography({ class: "_status" })}>
           {props.channel.recipientIds.size}{" "}
@@ -273,3 +291,27 @@ function Entry(props: {
     </MenuButton>
   );
 }
+
+const ChannelName = styled("div", {
+  base: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+
+    "& *": {
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    },
+  },
+  variants: {
+    twoLine: {
+      true: {
+        height: "42px",
+        display: "flex",
+        alignItems: "center",
+        flexWrap: "wrap",
+      },
+    },
+  },
+});
