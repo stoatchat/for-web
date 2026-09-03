@@ -23,6 +23,7 @@ import {
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
+import { ServerFolder } from "@revolt/state/stores/Ordering";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 
 import type { ChangelogResponse } from "./modals/Changelog";
@@ -317,6 +318,10 @@ export type Modals =
       type: "edit_category";
       server: Server;
       category: CategoryData;
+    }
+  | {
+      type: "edit_server_folder";
+      folder: ServerFolder;
     }
   | {
       type: "remove_member";

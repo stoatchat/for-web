@@ -1,4 +1,13 @@
-import { Accessor, For, JSX, Show, createMemo, createSignal } from "solid-js";
+import {
+  Accessor,
+  For,
+  JSX,
+  Match,
+  Show,
+  Switch,
+  createMemo,
+  createSignal,
+} from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { Channel, Server, User } from "stoat.js";
@@ -11,15 +20,17 @@ import { useInstance } from "@revolt/instance";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
-import { useState } from "@revolt/state";
+import { ResolvedEntry, useState } from "@revolt/state";
 import { Avatar, Column, Text, Time, Unreads, UserStatus } from "@revolt/ui";
 import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 
 import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
 import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
+import MdFolder from "@material-design-icons/svg/filled/folder.svg?component-solid";
 import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
+import { ServerFolderContextMenu } from "../../../../components/app/menus";
 import { Tooltip } from "../../../../components/ui/components/floating";
 import { Draggable } from "../../../../components/ui/components/utils/Draggable";
 import { UserMenu } from "./UserMenu";
@@ -31,7 +42,12 @@ interface Props {
   orderedServers: Server[];
 
   /**
-   * Set server ordering
+   * Server list grouped into folders, for rendering
+   */
+  orderedEntries: ResolvedEntry[];
+
+  /**
+   * Set ordering of top-level entries
    * @param ids List of IDs
    */
   setServerOrder: (ids: string[]) => void;
@@ -212,96 +228,33 @@ export const ServerList = (props: Props) => {
         <LineDivider />
         <Draggable
           type="servers"
-          items={props.orderedServers}
+          items={props.orderedEntries}
           onChange={props.setServerOrder}
           //TODO - No channel ordering on mobile due to usability issue
           //Consider adding a way to enable reordering in user settings
           disabled={isMobile}
         >
           {(entry) => (
-            <Tooltip
-              placement="right"
-              content={() => (
-                <Column>
-                  <Text class="label" size="large">
-                    {entry.item.name}
-                  </Text>{" "}
-                  <Show when={state.notifications.isMuted(entry.item)}>
-                    <Text class="label" size="small">
-                      <Show
-                        when={
-                          state.notifications.getServerMute(entry.item)!.until
-                        }
-                        fallback={<Trans>Muted</Trans>}
-                      >
-                        <Trans>
-                          Muted until{" "}
-                          <Time
-                            format="datetime"
-                            value={
-                              state.notifications.getServerMute(entry.item)!
-                                .until
-                            }
-                          />
-                        </Trans>
-                      </Show>
-                    </Text>
-                  </Show>
-                </Column>
-              )}
-              aria={entry.item.name}
-            >
-              <div
-                class={entryContainer({
-                  indicator:
-                    props.selectedServer() === entry.item.id
-                      ? "selected"
-                      : entry.item.unread &&
-                          !state.notifications.isMuted(entry.item)
-                        ? "alert"
-                        : undefined,
-                })}
-                use:floating={props.menuGenerator(entry.item)}
-              >
-                <a href={state.layout.getLastActiveServerPath(entry.item.id)}>
-                  <Avatar
-                    size={42}
-                    src={entry.item.iconURL}
-                    holepunch={
-                      entry.item.mentions.length
-                        ? entry.item.voiceStatus !== "none"
-                          ? "right"
-                          : "top-right"
-                        : entry.item.voiceStatus !== "none"
-                          ? "bottom-right"
-                          : "none"
-                    }
-                    overlay={
-                      <>
-                        <Show
-                          when={
-                            entry.item.mentions
-                              .length /* as opposed to item.unread */
-                          }
-                        >
-                          <Unreads.Graphic
-                            count={entry.item.mentions.length}
-                            unread
-                          />
-                        </Show>
-                        <Show when={entry.item.voiceStatus !== "none"}>
-                          <VoiceStatus.Graphic
-                            status={entry.item.voiceStatus}
-                          />
-                        </Show>
-                      </>
-                    }
-                    fallback={entry.item.name}
-                    interactive
+            <Switch>
+              <Match when={entry.item.type === "server" && entry.item}>
+                {(item) => (
+                  <ServerEntry
+                    server={item().server}
+                    selectedServer={props.selectedServer}
+                    menuGenerator={props.menuGenerator}
                   />
-                </a>
-              </div>
-            </Tooltip>
+                )}
+              </Match>
+              <Match when={entry.item.type === "folder" && entry.item}>
+                {(item) => (
+                  <FolderEntry
+                    entry={item()}
+                    selectedServer={props.selectedServer}
+                    menuGenerator={props.menuGenerator}
+                  />
+                )}
+              </Match>
+            </Switch>
           )}
         </Draggable>
         <Tooltip placement="right" content={"Create or join a server"}>
@@ -341,6 +294,175 @@ export const ServerList = (props: Props) => {
 /**
  * Server list container
  */
+/**
+ * A single server in the list
+ */
+function ServerEntry(props: {
+  server: Server;
+  selectedServer: Accessor<string | undefined>;
+  menuGenerator: (target: Server | Channel) => JSX.Directives["floating"];
+}) {
+  const state = useState();
+
+  return (
+    <Tooltip
+      placement="right"
+      content={() => (
+        <Column>
+          <Text class="label" size="large">
+            {props.server.name}
+          </Text>{" "}
+          <Show when={state.notifications.isMuted(props.server)}>
+            <Text class="label" size="small">
+              <Show
+                when={state.notifications.getServerMute(props.server)!.until}
+                fallback={<Trans>Muted</Trans>}
+              >
+                <Trans>
+                  Muted until{" "}
+                  <Time
+                    format="datetime"
+                    value={
+                      state.notifications.getServerMute(props.server)!.until
+                    }
+                  />
+                </Trans>
+              </Show>
+            </Text>
+          </Show>
+        </Column>
+      )}
+      aria={props.server.name}
+    >
+      <div
+        class={entryContainer({
+          indicator:
+            props.selectedServer() === props.server.id
+              ? "selected"
+              : props.server.unread &&
+                  !state.notifications.isMuted(props.server)
+                ? "alert"
+                : undefined,
+        })}
+        use:floating={props.menuGenerator(props.server)}
+      >
+        <a href={state.layout.getLastActiveServerPath(props.server.id)}>
+          <Avatar
+            size={42}
+            src={props.server.iconURL}
+            holepunch={
+              props.server.mentions.length
+                ? props.server.voiceStatus !== "none"
+                  ? "right"
+                  : "top-right"
+                : props.server.voiceStatus !== "none"
+                  ? "bottom-right"
+                  : "none"
+            }
+            overlay={
+              <>
+                <Show
+                  when={
+                    props.server.mentions.length /* as opposed to item.unread */
+                  }
+                >
+                  <Unreads.Graphic
+                    count={props.server.mentions.length}
+                    unread
+                  />
+                </Show>
+                <Show when={props.server.voiceStatus !== "none"}>
+                  <VoiceStatus.Graphic status={props.server.voiceStatus} />
+                </Show>
+              </>
+            }
+            fallback={props.server.name}
+            interactive
+          />
+        </a>
+      </div>
+    </Tooltip>
+  );
+}
+
+/**
+ * A folder of servers, collapsible in place
+ */
+function FolderEntry(props: {
+  entry: Extract<ResolvedEntry, { type: "folder" }>;
+  selectedServer: Accessor<string | undefined>;
+  menuGenerator: (target: Server | Channel) => JSX.Directives["floating"];
+}) {
+  const state = useState();
+
+  const collapsed = () => props.entry.folder.collapsed ?? false;
+
+  const mentions = () =>
+    props.entry.servers.reduce(
+      (count, server) => count + server.mentions.length,
+      0,
+    );
+
+  const unread = () =>
+    props.entry.servers.some(
+      (server) => server.unread && !state.notifications.isMuted(server),
+    );
+
+  const holdsSelected = () =>
+    props.entry.servers.some((server) => server.id === props.selectedServer());
+
+  return (
+    <FolderGroup expanded={!collapsed()}>
+      <Tooltip
+        placement="right"
+        content={props.entry.folder.name || "Folder"}
+        aria={props.entry.folder.name || "Folder"}
+      >
+        <div
+          class={entryContainer({
+            indicator:
+              collapsed() && holdsSelected()
+                ? "selected"
+                : collapsed() && unread()
+                  ? "alert"
+                  : undefined,
+          })}
+          use:floating={{
+            contextMenu: () => (
+              <ServerFolderContextMenu folder={props.entry.folder} />
+            ),
+          }}
+          style={{ color: props.entry.folder.colour ?? undefined }}
+        >
+          <a onClick={() => state.ordering.toggleFolder(props.entry.folder.id)}>
+            <Avatar
+              size={42}
+              holepunch={collapsed() && mentions() ? "top-right" : "none"}
+              overlay={
+                <Show when={collapsed() && mentions()}>
+                  <Unreads.Graphic count={mentions()} unread />
+                </Show>
+              }
+              fallback={<MdFolder />}
+            />
+          </a>
+        </div>
+      </Tooltip>
+      <Show when={!collapsed()}>
+        <For each={props.entry.servers}>
+          {(server) => (
+            <ServerEntry
+              server={server}
+              selectedServer={props.selectedServer}
+              menuGenerator={props.menuGenerator}
+            />
+          )}
+        </For>
+      </Show>
+    </FolderGroup>
+  );
+}
+
 const ServerListBase = styled("div", {
   base: {
     display: "flex",
@@ -400,6 +522,30 @@ const entryContainer = cva({
       },
     },
   },
+});
+
+/**
+ * Group a folder together with its servers while expanded
+ */
+const FolderGroup = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    flexShrink: 0,
+  },
+  variants: {
+    expanded: {
+      true: {
+        paddingBlock: "6px",
+        borderRadius: "var(--borderRadius-lg)",
+        background:
+          "color-mix(in srgb, var(--md-sys-color-on-surface) 10%, transparent)",
+      },
+      false: {},
+    },
+  },
+  defaultVariants: { expanded: false },
 });
 
 /**

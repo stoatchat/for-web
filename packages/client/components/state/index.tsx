@@ -35,6 +35,12 @@ import { Theme } from "./stores/Theme";
 import { Voice } from "./stores/Voice";
 
 export { ALLOWED_IMAGE_TYPES } from "./stores/Draft";
+export { isFolder } from "./stores/Ordering";
+export type {
+  OrderingEntry,
+  ResolvedEntry,
+  ServerFolder,
+} from "./stores/Ordering";
 export type { Sounds, TypeSounds } from "./stores/Sounds";
 export { SyncWorker } from "./SyncWorker";
 
