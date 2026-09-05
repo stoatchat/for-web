@@ -16,12 +16,11 @@ import { styled } from "styled-system/jsx";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
-import { getChannelIcon } from "@revolt/common";
+import { ChannelIcon } from "@revolt/common";
 import { useError } from "@revolt/i18n";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useState } from "@revolt/state";
 import {
-  Avatar,
   Checkbox,
   CircularProgress,
   Dialog,
@@ -30,7 +29,6 @@ import {
   Symbol,
   TextField,
   typography,
-  UserStatus,
 } from "@revolt/ui";
 
 import { useModals } from "..";
@@ -234,33 +232,7 @@ function Entry(props: {
       icon={
         <>
           <Checkbox checked={check()} />
-          <Switch
-            fallback={
-              <Symbol size={32}>{getChannelIcon(props.channel)}</Symbol>
-            }
-          >
-            <Match when={props.channel.type === "Group"}>
-              <Avatar
-                size={32}
-                shape="rounded-square"
-                fallback={props.channel.name}
-                src={props.channel.iconURL}
-                primaryContrast
-              />
-            </Match>
-            <Match when={props.channel.type === "DirectMessage"}>
-              <Avatar
-                size={32}
-                src={props.channel.iconURL}
-                holepunch="bottom-right"
-                overlay={
-                  <UserStatus.Graphic
-                    status={props.channel?.recipient?.presence}
-                  />
-                }
-              />
-            </Match>
-          </Switch>
+          <ChannelIcon channel={props.channel} />
         </>
       }
     >
