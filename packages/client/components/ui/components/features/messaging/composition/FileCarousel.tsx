@@ -6,10 +6,9 @@ import { styled } from "styled-system/jsx";
 import { useInstance } from "@revolt/instance";
 import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 import { Ripple, typography } from "@revolt/ui/components/design";
-import { OverflowingText, iconSize } from "@revolt/ui/components/utils";
+import { iconSize, OverflowingText, Symbol } from "@revolt/ui/components/utils";
 
 import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-import MdCancel from "@material-design-icons/svg/outlined/cancel.svg?component-solid";
 import MdFile from "@material-design-icons/svg/outlined/description.svg?component-solid";
 
 interface Props {
@@ -37,6 +36,18 @@ interface Props {
    * @param fileId ID
    */
   removeFile(fileId: string): void;
+
+  /**
+   * Whether a file is currently marked as a spoiler
+   * @param fileId ID
+   */
+  isSpoiler(fileId: string): boolean;
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId ID
+   */
+  toggleSpoiler(fileId: string): void;
 }
 
 /**
@@ -72,6 +83,19 @@ export function FileCarousel(props: Props) {
               const file = () => props.getFile(id);
 
               /**
+               * Whether this file is marked as a spoiler
+               */
+              const spoiler = () => props.isSpoiler(id);
+
+              /**
+               * Handler for toggling spoiler state
+               */
+              const onToggleSpoiler = (event: MouseEvent) => {
+                event.stopPropagation();
+                props.toggleSpoiler(id);
+              };
+
+              /**
                * Handler for removing the file
                */
               const onClick = () => props.removeFile(id);
@@ -84,7 +108,6 @@ export function FileCarousel(props: Props) {
 
                   <Entry ignored={index() >= limits().message_attachments}>
                     <PreviewBox
-                      onClick={onClick}
                       image={ALLOWED_IMAGE_TYPES.includes(file().file.type)}
                     >
                       <Switch
@@ -101,12 +124,31 @@ export function FileCarousel(props: Props) {
                             src={file().dataUri}
                             alt={file().file.name}
                             loading="eager"
+                            spoiler={spoiler()}
                           />
                         </Match>
                       </Switch>
-                      <Overlay>
-                        <MdCancel {...iconSize(36)} />
-                      </Overlay>
+
+                      <Show when={spoiler()}>
+                        <SpoilerLabel onClick={onToggleSpoiler}>
+                          Spoiler
+                        </SpoilerLabel>
+                      </Show>
+
+                      <ActionBox>
+                        <ActionIcon onClick={onToggleSpoiler}>
+                          <Switch
+                            fallback={<Symbol size={16}>visibility</Symbol>}
+                          >
+                            <Match when={spoiler()}>
+                              <Symbol size={16}>visibility_off</Symbol>
+                            </Match>
+                          </Switch>
+                        </ActionIcon>
+                        <ActionIcon danger onClick={onClick}>
+                          <Symbol size={16}>delete</Symbol>
+                        </ActionIcon>
+                      </ActionBox>
                     </PreviewBox>
                     <FileName>
                       <OverflowingText>{file().file.name}</OverflowingText>
@@ -132,11 +174,11 @@ export function FileCarousel(props: Props) {
  */
 const PreviewBox = styled("div", {
   base: {
+    position: "relative",
     display: "grid",
     justifyItems: "center",
     gridTemplate: `"main" var(--preview-size) / minmax(var(--preview-size), 1fr)`,
 
-    cursor: "pointer",
     overflow: "hidden",
     borderRadius: "var(--gap-md)",
 
@@ -163,30 +205,89 @@ const Image = styled("img", {
     objectFit: "cover",
     marginBottom: "var(--gap-md)",
     height: "var(--preview-size)",
+    transition: "var(--transitions-fast) filter",
+  },
+  variants: {
+    spoiler: {
+      true: {
+        filter: "blur(28px)",
+      },
+    },
   },
 });
 
 /**
- * Overlay container
+ * Centered pill label shown over a spoiler-marked thumbnail; click to unmark
  */
-const Overlay = styled("div", {
+const SpoilerLabel = styled("button", {
   base: {
-    zIndex: 1,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    zIndex: 2,
+    transform: "translate(-50%, -50%)",
 
-    display: "grid",
-    alignItems: "center",
-    justifyContent: "center",
+    padding: "4px var(--gap-sm)",
+    borderRadius: "999px",
+    border: "none",
 
-    width: "100%",
-    height: "100%",
-
-    opacity: 0,
+    cursor: "pointer",
     color: "white",
-    background: "rgba(0, 0, 0, 0.8)",
-    transition: "var(--transitions-fast) opacity",
+    background: "rgba(0, 0, 0, 0.6)",
+
+    textTransform: "uppercase",
+    ...typography.raw({ class: "label", size: "small" }),
+  },
+});
+
+/**
+ * Grouped action toolbar, pinned to the top-right corner
+ */
+const ActionBox = styled("div", {
+  base: {
+    position: "absolute",
+    top: "var(--gap-sm)",
+    right: "var(--gap-sm)",
+    zIndex: 3,
+
+    display: "flex",
+    alignItems: "center",
+    gap: "2px",
+
+    padding: "3px",
+    borderRadius: "var(--borderRadius-md)",
+    background: "rgba(0, 0, 0, 0.6)",
+  },
+});
+
+/**
+ * Individual icon button inside the action box
+ */
+const ActionIcon = styled("button", {
+  base: {
+    display: "grid",
+    placeItems: "center",
+
+    width: "22px",
+    height: "22px",
+    padding: 0,
+    borderRadius: "var(--borderRadius-sm, 4px)",
+    border: "none",
+
+    cursor: "pointer",
+    color: "white",
+    background: "transparent",
+    transition: "var(--transitions-fast) background",
 
     "&:hover": {
-      opacity: 1,
+      background: "rgba(255, 255, 255, 0.15)",
+    },
+  },
+  variants: {
+    danger: {
+      true: {
+        color: "var(--md-sys-color-error)",
+      },
     },
   },
 });

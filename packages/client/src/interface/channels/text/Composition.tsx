@@ -305,6 +305,22 @@ export function MessageComposition(props: Props) {
     state.draft.removeFile(props.channel.id, fileId);
   }
 
+  /**
+   * Check if a file is marked as a spoiler
+   * @param fileId File ID
+   */
+  function isSpoiler(fileId: string) {
+    return state.draft.isFileSpoiler(fileId);
+  }
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId File ID
+   */
+  function toggleSpoiler(fileId: string) {
+    state.draft.toggleFileSpoiler(fileId);
+  }
+
   const searchSpace = useSearchSpace(() => props.channel, client);
 
   return (
@@ -320,6 +336,8 @@ export function MessageComposition(props: Props) {
         getFile={state.draft.getFile}
         addFile={addFile}
         removeFile={removeFile}
+        isSpoiler={isSpoiler}
+        toggleSpoiler={toggleSpoiler}
       />
       <For each={draft().replies ?? []}>
         {(reply) => {
