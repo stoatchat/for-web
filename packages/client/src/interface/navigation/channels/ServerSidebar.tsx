@@ -13,7 +13,7 @@ import { useLingui } from "@lingui/solid/macro";
 import type { API, Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { useDevice } from "@revolt/common";
+import { ChannelIcon, useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
@@ -29,16 +29,11 @@ import {
   OverflowingText,
   Row,
   Tooltip,
-  iconSize,
-  symbolSize,
   typography,
 } from "@revolt/ui";
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
-import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
 
@@ -275,7 +270,9 @@ function ServerInfo(
           variant={props.server.banner ? "_header" : "standard"}
           onPress={props.openServerSettings}
         >
-          <MdSettings {...symbolSize(24)} />
+          <Symbol fill weight={350}>
+            settings
+          </Symbol>
         </IconButton>
       </Show>
     </Row>
@@ -359,7 +356,9 @@ function Category(
             {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
           >
             {props.category.title}
-            <MdChevronRight {...iconSize(12)} />
+            <Symbol size={12} weight={300}>
+              chevron_right
+            </Symbol>
           </CategoryBase>
         </div>
       </Show>
@@ -400,6 +399,10 @@ const CategorySection = styled("div", {
     paddingBlock: "var(--gap-sm)",
     borderRadius: "var(--borderRadius-sm)",
     background: "var(--md-sys-color-surface-container-low)",
+
+    "&:first-child": {
+      paddingTop: 0,
+    },
   },
 });
 
@@ -431,14 +434,14 @@ const CategoryBase = styled("div", {
       "--color": "var(--md-sys-color-on-surface-variant)",
     },
 
-    "& svg": {
+    "& span": {
       transition: "var(--transitions-fast) transform",
     },
   },
   variants: {
     open: {
       true: {
-        "& svg": {
+        "& span": {
           transform: "rotateZ(90deg)",
         },
       },
@@ -496,25 +499,7 @@ function Entry(
         size="normal"
         alert={alertState()}
         attention={attentionState()}
-        icon={
-          <>
-            <Switch fallback={<Symbol>grid_3x3</Symbol>}>
-              <Match when={props.channel.isVoice}>
-                <Symbol
-                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                >
-                  headset_mic
-                </Symbol>
-              </Match>
-            </Switch>
-            <Show when={props.channel.icon}>
-              <ChannelIcon
-                src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
-              />
-            </Show>
-          </>
-        }
+        icon={<ChannelIcon channel={props.channel} />}
         actions={
           <Show when={!isMobile}>
             <Show when={canInvite()}>
@@ -566,14 +551,3 @@ function Entry(
     </Column>
   );
 }
-
-/**
- * Channel icon styling
- */
-const ChannelIcon = styled("img", {
-  base: {
-    width: "16px",
-    height: "16px",
-    objectFit: "contain",
-  },
-});

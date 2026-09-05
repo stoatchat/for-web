@@ -3,58 +3,47 @@ import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 
 declare let self: ServiceWorkerGlobalScope;
 
-interface ChannelPartial {
-  channel_type: string;
-  name?: string;
-}
-
-interface StoatPushNotification {
-  title?: string;
-  author?: string;
-  body: string;
-  icon?: string;
-  channel?: ChannelPartial;
-  url?: string;
-}
-
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
-self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
-  if (typeof event.notification.data === "string") {
-    event.waitUntil(self.clients.openWindow(event.notification.data));
-  }
-});
+const shares: File[] = [];
+let shareLock: Promise<void> | null, shareRes: () => void;
 
-self.addEventListener("push", (event) => {
-  if (!event.data) return;
-  const payload = event.data.text();
+self.addEventListener("fetch", (event) => {
+  const url = new URL(event.request.url);
+  if (url.origin !== location.origin) return;
 
-  const notification: StoatPushNotification = JSON.parse(payload);
+  //Intercept share intent
+  if (url.pathname === "/_share") {
+    if (event.request.method === "POST")
+      event.respondWith(
+        (async () => {
+          const files = (await event.request.formData()).getAll(
+            "files",
+          ) as File[];
 
-  if (!notification.title) {
-    if (notification.channel) {
-      if (notification.channel.channel_type === "DirectMessage") {
-        notification.title = notification.author || "Stoat";
-      } else {
-        notification.title = `${notification.author} in ${notification.channel.name}`;
+          if (!shareLock) {
+            shareLock = new Promise((res) => (shareRes = res));
+            event.waitUntil(shareLock);
+          }
+          shares.push(...files);
+          return Response.redirect("/#share", 303);
+        })(),
+      );
+    else if (event.request.method === "PATCH") {
+      event.respondWith(Response.json(shares.map((f) => f.name)));
+    } else if (event.request.method === "GET") {
+      const share = shares.shift();
+      if (shareLock && !shares.length) {
+        shareLock = null;
+        shareRes();
       }
-    } else {
-      notification.title = "Stoat";
+      event.respondWith(
+        new Response(share?.stream(), { status: share ? 200 : 400 }),
+      );
     }
   }
-
-  notification.url ||= self.registration.scope;
-
-  event.waitUntil(
-    self.registration.showNotification(notification.title || "Stoat", {
-      icon: notification.icon,
-      body: notification.body,
-      data: notification.url,
-    }),
-  );
 });
 
 cleanupOutdatedCaches();

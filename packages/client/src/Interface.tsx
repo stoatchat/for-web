@@ -17,6 +17,7 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
+import { isSharing } from "@revolt/modal/modals/ShareToModal";
 import { Navigate, useBeforeLeave, useLocation } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
@@ -47,7 +48,11 @@ const Interface = (props: { children: JSX.Element }) => {
   });
 
   createEffect(() => {
-    if (!isLoggedIn()) {
+    if (isLoggedIn()) {
+      //Share intent
+      if (location.hash === "#share" || isSharing())
+        openModal({ type: "share_to" });
+    } else {
       state.layout.setNextPath(pathname);
       console.debug("WAITING... currently", lifecycle.state());
     }
@@ -183,9 +188,14 @@ const Content = styled("div", {
   variants: {
     sidebar: {
       false: {
+        paddingLeft: "var(--gap-md)",
         borderTopLeftRadius: "var(--borderRadius-lg)",
         borderBottomLeftRadius: "var(--borderRadius-lg)",
         overflow: "hidden",
+
+        _tablet: {
+          paddingLeft: 0,
+        },
       },
     },
   },

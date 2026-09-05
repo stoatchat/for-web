@@ -288,7 +288,7 @@ const Container = styled("div", {
 
     gap: "var(--gap-md)",
     padding: "var(--gap-md)",
-    margin: "var(--gap-md) 0",
+    marginBottom: "var(--gap-md)",
     borderRadius: "var(--borderRadius-lg)",
 
     background: "var(--md-sys-color-primary-container)",

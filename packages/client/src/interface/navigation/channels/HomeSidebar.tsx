@@ -8,24 +8,19 @@ import { styled } from "styled-system/jsx";
 
 import { ChannelContextMenu, UserContextMenu } from "@revolt/app";
 import { useClient } from "@revolt/client";
-import { useDevice } from "@revolt/common";
+import { ChannelIcon, useDevice } from "@revolt/common";
 import Instance from "@revolt/instance/Instance";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { useLocation, useNavigate } from "@revolt/routing";
 import {
-  Avatar,
   Deferred,
   MenuButton,
   OverflowingText,
   Tooltip,
-  UserStatus,
-  iconSize,
   typography,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 
 import { SidebarBase } from "./common";
 
@@ -72,9 +67,9 @@ export const HomeSidebar = (props: Props) => {
     <SidebarBase class="channel_bar home">
       <div ref={scrollTargetElement} use:invisibleScrollable>
         <List>
-          <SidebarTitle>
+          <Header>
             <Trans>Conversations</Trans>
-          </SidebarTitle>
+          </Header>
 
           <MenuButton
             href="/app"
@@ -201,15 +196,20 @@ export const HomeSidebar = (props: Props) => {
   );
 };
 
-/**
- * Sidebar title
- */
-const SidebarTitle = styled("p", {
+export const Header = styled("div", {
   base: {
-    paddingBlock: "calc(var(--gap-md) + 15px)",
-    paddingInline: "var(--gap-md)",
-
-    ...typography.raw({ class: "title" }),
+    alignItems: "center",
+    fontWeight: 600,
+    userSelect: "none",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    height: "48px",
+    lineHeight: "48px",
+    verticalAlign: "middle",
+    margin: "var(--gap-md)",
+    marginLeft: "var(--gap-lg)",
+    color: "var(--md-sys-color-on-surface)",
+    backgroundColor: "var(--md-sys-color-surface-variant)",
   },
 });
 
@@ -310,31 +310,7 @@ function Entry(
               ? "active"
               : "normal"
       }
-      icon={
-        <Switch>
-          <Match when={local.channel.type === "Group"}>
-            <Avatar
-              size={32}
-              shape="rounded-square"
-              fallback={local.channel.name}
-              src={local.channel.iconURL}
-              primaryContrast
-            />
-          </Match>
-          <Match when={local.channel.type === "DirectMessage"}>
-            <Avatar
-              size={32}
-              src={local.channel.iconURL}
-              holepunch="bottom-right"
-              overlay={
-                <UserStatus.Graphic
-                  status={local.channel?.recipient?.presence}
-                />
-              }
-            />
-          </Match>
-        </Switch>
-      }
+      icon={<ChannelIcon channel={props.channel} />}
       actions={
         <Show when={!local.isMobile}>
           <a
@@ -346,7 +322,7 @@ function Entry(
               });
             }}
           >
-            <MdClose {...iconSize("18px")} />
+            <Symbol size={18}>close</Symbol>
           </a>
         </Show>
       }
@@ -406,7 +382,6 @@ function Entry(
  */
 const List = styled("div", {
   base: {
-    paddingLeft: "var(--gap-md)",
     width: "var(--layout-width-channel-sidebar)",
   },
 });
