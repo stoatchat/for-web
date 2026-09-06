@@ -1,4 +1,4 @@
-import { Match, Show, Switch } from "solid-js";
+import { Match, Show, Switch, createEffect, onCleanup } from "solid-js";
 
 import { File, ImageEmbed, Message, VideoEmbed } from "stoat.js";
 import { css } from "styled-system/css";
@@ -30,6 +30,10 @@ export const AttachmentContainer = styled(Column, {
 export function Attachment(props: { file: File; message?: Message }) {
   const { openModal } = useModals();
   const { reactPicker } = useMessage();
+
+  //TODO Disk cache for decrypted attachments
+  createEffect(() => props.file.loadFile());
+  onCleanup(() => props.file.unloadFile());
 
   return (
     <Switch fallback={`Could not render ${props.file.metadata.type}!`}>

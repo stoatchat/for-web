@@ -1,8 +1,9 @@
 import { createFormControl, createFormGroup } from "solid-forms";
-import { Match, Show, Switch } from "solid-js";
+import { Show } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import type { API } from "stoat.js";
+import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { useDurationFormat } from "@revolt/i18n/durations";
@@ -181,14 +182,62 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
               })
             }
           >
-            <Switch fallback={<Trans>Mark as Mature</Trans>}>
-              <Match when={props.channel.mature}>
-                <Trans>Unmark as Mature</Trans>
-              </Match>
-            </Switch>
+            <Show
+              when={props.channel.mature}
+              fallback={<Trans>Mark as Mature</Trans>}
+            >
+              <Trans>Unmark as Mature</Trans>
+            </Show>
+          </Button>
+        </div>
+      </Column>
+      <Column>
+        <Text class="label">
+          <Trans>End-to-End Encryption</Trans>
+        </Text>
+        <Text>
+          <Trans>
+            Secure this channel via{" "}
+            <Link
+              href="https://en.wikipedia.org/wiki/End-to-end_encryption"
+              target="_blank"
+            >
+              end-to-end encryption
+            </Link>
+            . Messages and attachments are encrypted with AES-256, so only users
+            with the <i>secret password</i> can read the content. Once you
+            enable this, it can't be disabled.
+          </Trans>
+        </Text>
+        <div>
+          <Button
+            isDisabled={props.channel.e2e}
+            use:floating={{
+              tooltip: props.channel.e2e
+                ? {
+                    placement: "top",
+                    content: t`Encryption is already enabled`,
+                  }
+                : undefined,
+            }}
+            onPress={() =>
+              openModal({
+                type: "channel_e2ee",
+                channel: props.channel,
+              })
+            }
+          >
+            <Trans>Enable Encryption</Trans>
           </Button>
         </div>
       </Column>
     </Column>
   );
 }
+
+const Link = styled("a", {
+  base: {
+    color: "var(--md-sys-color-primary)",
+    "&:hover": { textDecoration: "underline" },
+  },
+});

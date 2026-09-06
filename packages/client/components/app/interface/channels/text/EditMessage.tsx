@@ -6,7 +6,7 @@ import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
-import { KeybindAction, createKeybind } from "@revolt/keybinds";
+import { createKeybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Text } from "@revolt/ui";
@@ -18,7 +18,7 @@ export function EditMessage(props: { message: Message }) {
   const client = useClient();
   const { openModal, isOpen, pop } = useModals();
 
-  const initialValue = [state.draft.editingMessageContent || ""] as const;
+  const initialValue = state.draft.editingMessageContent || "";
 
   const change = useMutation(() => ({
     mutationFn: (content: string) => props.message.edit({ content }),
@@ -30,15 +30,12 @@ export function EditMessage(props: { message: Message }) {
     },
   }));
 
-  function saveMessage() {
+  async function saveMessage() {
     const content = state.draft.editingMessageContent;
 
     if (content?.length) {
       state.draft._setNodeReplacement?.(["_focus"]); // focus message box
-      if (content === props.message.content) {
-        return;
-      }
-
+      if (content === initialValue) return;
       change.mutate(content);
     } else if (isOpen("delete_message")) {
       void props.message.delete();
@@ -65,7 +62,7 @@ export function EditMessage(props: { message: Message }) {
           autoFocus
           onComplete={saveMessage}
           onChange={state.draft.setEditingMessageContent}
-          initialValue={initialValue}
+          initialValue={[initialValue]}
           autoCompleteSearchSpace={searchSpace}
         />
       </EditorBox>
@@ -77,7 +74,13 @@ export function EditMessage(props: { message: Message }) {
             <Action onClick={() => state.draft.setEditingMessage(undefined)}>
               cancel
             </Action>{" "}
-            &middot; enter to <Action onClick={saveMessage}>save</Action>
+            &middot; enter to{" "}
+            <Action
+              onClick={saveMessage}
+              disabled={state.draft.editingMessageContent === initialValue}
+            >
+              save
+            </Action>
           </Text>
         }
       >
@@ -101,7 +104,16 @@ const EditorBox = styled("div", {
 const Action = styled("span", {
   base: {
     fontWeight: 600,
-    cursor: "pointer",
-    color: "var(--md-sys-color-primary)",
+  },
+  variants: {
+    disabled: {
+      false: {
+        cursor: "pointer",
+        color: "var(--md-sys-color-primary)",
+      },
+    },
+  },
+  defaultVariants: {
+    disabled: false,
   },
 });

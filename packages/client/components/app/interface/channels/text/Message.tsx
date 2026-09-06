@@ -222,86 +222,93 @@ export function Message(props: Props) {
           </For>
         }
         info={
-          <Switch fallback={<div />}>
-            <Match when={props.message.iconRole}>
-              <Tooltip content={props.message.iconRole!.name} placement="top">
-                <Avatar
-                  size={16}
-                  shape="rounded-square"
-                  src={props.message.iconRole!.icon?.previewUrl}
-                />
-              </Tooltip>
-            </Match>
-            <Match
-              when={
-                props.message.masquerade &&
-                props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
-              }
-            >
-              <Tooltip
-                content={t`Message was sent on another platform`}
-                placement="top"
+          <>
+            <Switch fallback={<div />}>
+              <Match when={props.message.iconRole}>
+                <Tooltip content={props.message.iconRole!.name} placement="top">
+                  <Avatar
+                    size={16}
+                    shape="rounded-square"
+                    src={props.message.iconRole!.icon?.previewUrl}
+                  />
+                </Tooltip>
+              </Match>
+              <Match
+                when={
+                  props.message.masquerade &&
+                  props.message.authorId === "01FHGJ3NPP7XANQQH8C2BE44ZY"
+                }
               >
-                <Symbol size={16}>link</Symbol>
-              </Tooltip>
-            </Match>
-            <Match when={props.message.author?.privileged}>
-              <Tooltip content={t`Official Communication`} placement="top">
-                <Symbol size={16}>brightness_alert</Symbol>
-              </Tooltip>
-            </Match>
-            <Match when={props.message.author?.bot}>
-              <Tooltip content={t`Bot`} placement="top">
-                <Symbol size={16} fill>
-                  smart_toy
-                </Symbol>
-              </Tooltip>
-            </Match>
-            <Match when={props.message.webhook}>
-              <Tooltip content={t`Webhook`} placement="top">
-                <Symbol size={16} fill>
-                  cloud
-                </Symbol>
-              </Tooltip>
-            </Match>
-            <Match when={props.message.isSuppressed}>
-              <Tooltip content={t`Silent`} placement="top">
-                <Symbol size={16} fill>
-                  notifications_off
-                </Symbol>
-              </Tooltip>
-            </Match>
-            <Match
-              when={
-                props.message.authorId &&
-                dayjs().diff(decodeTime(props.message.authorId), "day") < 1
-              }
-            >
-              <NewUser>
-                <Tooltip content={t`New to Stoat`} placement="top">
+                <Tooltip
+                  content={t`Message was sent on another platform`}
+                  placement="top"
+                >
+                  <Symbol size={16}>link</Symbol>
+                </Tooltip>
+              </Match>
+              <Match when={props.message.author?.privileged}>
+                <Tooltip content={t`Official Communication`} placement="top">
+                  <Symbol size={16}>brightness_alert</Symbol>
+                </Tooltip>
+              </Match>
+              <Match when={props.message.author?.bot}>
+                <Tooltip content={t`Bot`} placement="top">
                   <Symbol size={16} fill>
-                    spa
+                    smart_toy
                   </Symbol>
                 </Tooltip>
-              </NewUser>
-            </Match>
-            <Match
-              when={
-                props.message.member &&
-                dayjs().diff(props.message.member.joinedAt, "day") < 1
-              }
-            >
-              <NewUser>
-                <Tooltip content={t`New to the server`} placement="top">
-                  <Symbol size={16}>spa</Symbol>
+              </Match>
+              <Match when={props.message.webhook}>
+                <Tooltip content={t`Webhook`} placement="top">
+                  <Symbol size={16} fill>
+                    cloud
+                  </Symbol>
                 </Tooltip>
-              </NewUser>
-            </Match>
-            {/* <Match when={props.message.authorId === "01EX2NCWQ0CHS3QJF0FEQS1GR4"}>
+              </Match>
+              <Match when={props.message.isSuppressed}>
+                <Tooltip content={t`Silent`} placement="top">
+                  <Symbol size={16} fill>
+                    notifications_off
+                  </Symbol>
+                </Tooltip>
+              </Match>
+              <Match
+                when={
+                  props.message.authorId &&
+                  dayjs().diff(decodeTime(props.message.authorId), "day") < 1
+                }
+              >
+                <NewUser>
+                  <Tooltip content={t`New to Stoat`} placement="top">
+                    <Symbol size={16} fill>
+                      spa
+                    </Symbol>
+                  </Tooltip>
+                </NewUser>
+              </Match>
+              <Match
+                when={
+                  props.message.member &&
+                  dayjs().diff(props.message.member.joinedAt, "day") < 1
+                }
+              >
+                <NewUser>
+                  <Tooltip content={t`New to the server`} placement="top">
+                    <Symbol size={16}>spa</Symbol>
+                  </Tooltip>
+                </NewUser>
+              </Match>
+              {/* <Match when={props.message.authorId === "01EX2NCWQ0CHS3QJF0FEQS1GR4"}>
             <span />
             <span>placeholder &middot; </span>
           </Match> */}
-          </Switch>
+            </Switch>
+            <Show when={props.message.channel?.e2e}>
+              <Tooltip content={t`This message is encrypted`} placement="top">
+                <Symbol size={16}>lock</Symbol>
+              </Tooltip>
+            </Show>
+          </>
         }
         compact={
           !!props.message.systemMessage ||

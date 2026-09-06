@@ -4,6 +4,7 @@ import { State } from "..";
 
 import { TypeAuth } from "./Auth";
 import { TypeDraft } from "./Draft";
+import { TypeEncrypted } from "./Encrypted";
 import { TypeExperiments } from "./Experiments";
 import { TypeKeybinds } from "./Keybinds";
 import { TypeLayout } from "./Layout";
@@ -34,6 +35,7 @@ export type Store = {
   sync: TypeSynchronisation;
   theme: TypeTheme;
   voice: TypeVoice;
+  e2e: TypeEncrypted;
 };
 
 /**

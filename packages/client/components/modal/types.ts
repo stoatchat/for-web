@@ -63,6 +63,10 @@ export type Modals =
       channel: Channel;
     }
   | {
+      type: "channel_e2ee";
+      channel: Channel;
+    }
+  | {
       type: "create_bot";
       client: Client;
       onCreate: (bot: Bot) => void;

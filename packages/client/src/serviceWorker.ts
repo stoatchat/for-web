@@ -6,6 +6,7 @@ declare let self: ServiceWorkerGlobalScope;
 interface ChannelPartial {
   channel_type: string;
   name?: string;
+  e2e?: boolean;
 }
 
 interface StoatPushNotification {
@@ -44,6 +45,10 @@ self.addEventListener("push", (event) => {
     } else {
       notification.title = "Stoat";
     }
+  }
+
+  if (notification.channel?.e2e) {
+    notification.body = "Sent an encrypted message";
   }
 
   notification.url ||= self.registration.scope;

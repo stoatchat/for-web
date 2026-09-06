@@ -1,6 +1,6 @@
-import { Accessor, Setter, batch, createSignal } from "solid-js";
+import { Accessor, batch, createSignal, Setter } from "solid-js";
 
-import { API, Channel, Client, Message } from "stoat.js";
+import { API, Channel, Client, encrypt, Message } from "stoat.js";
 import { ulid } from "ulid";
 
 import { insecureUniqueId } from "@revolt/common";
@@ -301,75 +301,88 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     ]);
 
     // Try sending the message
-    const { content, replies, files } = draft;
-
-    // Construct message object
-    const attachments: string[] = [];
-    const data: API.DataMessageSend = {
-      content,
-      replies,
-      attachments,
-    };
-
-    // Add any files if attached
-    if (files?.length) {
-      // TODO: keep track of % upload progress
-      // we could visually show this in chat like
-      // on Discord mobile and allow individual
-      // files to be cancelled
-      for (const fileId of files) {
-        // Prepare for upload
-        const body = new FormData();
-        const { file, autumnId, uploadProgress } = this.getFile(fileId);
-
-        // Use ID if already uploaded
-        if (autumnId) {
-          attachments.push(autumnId);
-          continue;
-        }
-
-        body.set("file", file);
-
-        // We have to use XMLHttpRequest because modern fetch duplex streams require QUIC or HTTP/2
-        const xhr = new XMLHttpRequest();
-
-        const [success, response] = await new Promise<
-          [boolean, { id: string }]
-        >((resolve) => {
-          xhr.upload.addEventListener("progress", (event) => {
-            if (event.lengthComputable) {
-              uploadProgress[1](event.loaded / event.total);
-            }
-          });
-
-          xhr.addEventListener("loadend", () => {
-            uploadProgress[1](1);
-            resolve([xhr.readyState === 4 && xhr.status === 200, xhr.response]);
-          });
-
-          xhr.open("POST", `${this.instance.mediaUrl}/attachments`, true);
-
-          const [authHeader, authHeaderValue] = client.authenticationHeader;
-          xhr.setRequestHeader(authHeader, authHeaderValue);
-          xhr.responseType = "json";
-
-          xhr.send(body);
-        });
-
-        if (!success) throw "Upload Error";
-
-        attachments.push(response.id);
-        this.fileCache[fileId].autumnId = response.id;
-      }
-    }
-
-    // TODO: fix bug with backend
-    if (!attachments.length) {
-      delete data.attachments;
-    }
-
-    // Send the message and clear the draft
     try {
+      const { content, replies, files } = draft;
+
+      // Construct message object
+      const attachments: string[] = [];
+      const data: API.DataMessageSend = {
+        content,
+        replies,
+        attachments,
+      };
+
+      // Add any files if attached
+      const key = channel.key;
+      if (files?.length) {
+        // TODO: keep track of % upload progress
+        // we could visually show this in chat like
+        // on Discord mobile and allow individual
+        // files to be cancelled
+        for (const fileId of files) {
+          // Prepare for upload
+          const body = new FormData();
+          const { file: fDat, autumnId, uploadProgress } = this.getFile(fileId);
+
+          // Use ID if already uploaded
+          if (autumnId) {
+            attachments.push(autumnId);
+            continue;
+          }
+
+          //Encrypt file
+          let file = fDat;
+          if (key) {
+            const buf = await encrypt(key, await file.arrayBuffer());
+            //Obfuscate filename but keep extension
+            const extIdx = file.name.indexOf("."),
+              ext = extIdx === -1 ? "" : file.name.slice(extIdx);
+            file = new File([buf], file.type + ext);
+          }
+
+          body.set("file", file);
+          if (key) body.set("e2e_id", channel.id);
+
+          // We have to use XMLHttpRequest because modern fetch duplex streams require QUIC or HTTP/2
+          const xhr = new XMLHttpRequest();
+
+          const [success, response] = await new Promise<
+            [boolean, { id: string }]
+          >((resolve) => {
+            xhr.upload.addEventListener("progress", (event) => {
+              if (event.lengthComputable) {
+                uploadProgress[1](event.loaded / event.total);
+              }
+            });
+
+            xhr.addEventListener("loadend", () => {
+              uploadProgress[1](1);
+              resolve([
+                xhr.readyState === 4 && xhr.status === 200,
+                xhr.response,
+              ]);
+            });
+
+            xhr.open("POST", `${this.instance.mediaUrl}/attachments`, true);
+
+            const [authHeader, authHeaderValue] = client.authenticationHeader;
+            xhr.setRequestHeader(authHeader, authHeaderValue);
+            xhr.responseType = "json";
+
+            xhr.send(body);
+          });
+
+          if (!success) throw "Upload Error";
+
+          attachments.push(response.id);
+          this.fileCache[fileId].autumnId = response.id;
+        }
+      }
+
+      // TODO: fix bug with backend
+      if (!attachments.length) delete data.attachments;
+
+      // Send the message and clear the draft
       await channel.sendMessage(data, idempotencyKey);
 
       if (files) {
@@ -385,7 +398,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
           (entry) => entry.idempotencyKey !== idempotencyKey,
         ),
       );
-    } catch {
+    } catch (e) {
+      console.error(e);
       this.set(
         "outbox",
         channel.id,
