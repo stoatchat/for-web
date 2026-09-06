@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-22 12:43+0000\n"
-"Last-Translator: Kitan Lain <kitanlain@gmail.com>\n"
-"Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/revolt-for-web/id/>\n"
+"PO-Revision-Date: 2026-09-06 19:18+0000\n"
+"Last-Translator: Steven Felix <stevenfelix505@gmail.com>\n"
+"Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -31,7 +32,7 @@ msgstr "[Besok pada] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[Hari] dddd [lalu pukul] LT"
+msgstr "[Hari] dddd [pada] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -69,17 +70,19 @@ msgstr "{0} mengganti deskripsi saluran"
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr "{0} mengubah ikon saluran"
+msgstr "{0} mengganti ikon saluran"
 
 #. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr "slot emoji tersedia {0}"
+msgstr "{0} slot emoji tersedia"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "{0} file melebihi batas ukuran maksimum {maxSizeFormatted} dan tidak berhasil diunggah."
+msgstr ""
+"{0} berkas melebihi batas ukuran maksimum {maxSizeFormatted} dan tidak "
+"berhasil diunggah."
 
 #. placeholder {0}: users()[0]!.username
 #: src/interface/channels/text/CompositionInfo.tsx
@@ -100,7 +103,7 @@ msgstr "{0} keluar"
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0} menunjuk{1} sebagai pemilik grup baru"
+msgstr "{0} menunjuk {1} sebagai pemilik grup baru"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -115,7 +118,7 @@ msgstr "{0} mengganti nama saluran"
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} unpinned a message"
-msgstr "{0} batal menyematkan pesan"
+msgstr "{0} melepas sematan pesan"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -126,12 +129,12 @@ msgstr "{0} telah ditambahkan oleh {1}"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr "{0} telah dibanned"
+msgstr "{0} telah dilarang"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr "{0} telah dikeluarkan"
+msgstr "{0} diusir"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -149,17 +152,14 @@ msgstr "{0}-{1} dari {2}"
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr "role {0}"
+msgstr "Peran {0}"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{h} hours"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{m} minutes"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{sec} seconds"
 #~ msgstr ""
 
@@ -181,11 +181,11 @@ msgstr "<0/> sudah ditambahkan oleh <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been banned from the server"
-msgstr "<0/> sudah dibanned dari server"
+msgstr "<0/> sudah dilarang dari server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been kicked from the server"
-msgstr "<0/> sudah dikeluarkan dari server"
+msgstr "<0/> telah diusir dari server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
@@ -221,11 +221,11 @@ msgstr "<0/> mengalihkan kepemilikan grup ke <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> unpinned <1/>"
-msgstr "<0/> batal disematkan <1/>"
+msgstr "<0/> dilepas sematan <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
-msgstr "<0/> perbarui deskripsi grup"
+msgstr "<0/> memperbarui deskripsi grup"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group icon "
@@ -240,18 +240,12 @@ msgstr "<0/> memperbarui nama grup ke <1>{0}</1>"
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr "<0>Hati-hati!</0><1/>Ini bukan tautan yang ditampilkan:"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "1 day"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 hour"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 minute"
 #~ msgstr ""
 
@@ -259,15 +253,12 @@ msgstr "<0>Hati-hati!</0><1/>Ini bukan tautan yang ditampilkan:"
 msgid "1 person reacted"
 msgstr "1 orang memberi reaksi"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "1 second"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 seconds"
 #~ msgstr ""
 
@@ -275,7 +266,6 @@ msgstr "1 orang memberi reaksi"
 msgid "12 hours"
 msgstr "12 jam"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "2 hours"
 #~ msgstr ""
 
@@ -283,38 +273,30 @@ msgstr "12 jam"
 msgid "24 hours"
 msgstr "24 jam"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "3 days"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 seconds"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 seconds"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "6 hours"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "7 days"
 #~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr "dapat mengakses saluran di server ini"
+msgstr "Dapat mengakses saluran di server ini"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
@@ -338,7 +320,7 @@ msgstr "Terima permintaan pertemanan"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr "Menerima"
+msgstr "Akui"
 
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
@@ -352,11 +334,11 @@ msgstr "Tambahkan teman baru"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
-msgstr ""
+msgstr "Tambahkan Bot"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Add friend"
-msgstr "Tambah teman"
+msgstr "Tambahkan teman"
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: src/interface/channels/ChannelHeader.tsx
@@ -380,14 +362,12 @@ msgstr "Admin"
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
 msgid "Admin Panel"
-msgstr "Admin Panel"
+msgstr "Panel Admin"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
 msgstr "Lanjutan"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Affects all roles and users"
 #~ msgstr "Mempengaruhi semua peran dan pengguna"
 
@@ -402,15 +382,15 @@ msgstr "Semua Pesan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "All roles have overrides."
-msgstr ""
+msgstr "Semua peran memiliki penggantian."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "All Systems Operational"
-msgstr ""
+msgstr "Semua Sistem Beroperasi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr "Izinkan anggota untuk mengubah nama dan anggota per pesan"
+msgstr "Izinkan anggota untuk mengganti nama dan avatar per-pesan"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to add your bot to their servers from Discover"
@@ -422,7 +402,7 @@ msgstr "Sudah berteman dengan pengguna ini."
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
-msgstr ""
+msgstr "Selalu Tanyakan Kualitas Berbagi Layar"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
@@ -459,17 +439,17 @@ msgstr "Apakah kamu yakin ingin pergi ke "
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to pin this message?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin menyematkan pesan ini?"
 
 #. placeholder {0}: props.user?.displayName ?? props.user.username
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin menghapus {0} dari {1}?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
-msgstr ""
+msgstr "Apakah Anda yakin ingin melepas sematan pesan ini?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -481,7 +461,7 @@ msgstr "Berikan Peran"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
-msgstr ""
+msgstr "Audio dimatikan oleh browser"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -490,7 +470,7 @@ msgstr "Aplikasi Autentikator"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Automatic Gain Control"
-msgstr ""
+msgstr "Kontrol Penguatan Otomatis"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -512,43 +492,43 @@ msgstr "Lencana"
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban"
-msgstr "Ban"
+msgstr "Larang"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Ban evasion"
-msgstr "Penyingkiran ban"
+msgstr "Penghindaran larangan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr "Ban anggota dengan peringkat lebih rendah dari server"
+msgstr "Larang anggota dengan peringkat lebih rendah dari server"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
-msgstr "Ban anggota"
+msgstr "Larang anggota"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Ban Member"
-msgstr "Ban Anggota"
+msgstr "Larang Anggota"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
-msgstr "Melarang Anggota"
+msgstr "Larang Anggota"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban user"
-msgstr "Ban pengguna"
+msgstr "Larang pengguna"
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "Ban User"
-msgstr "Ban Pengguna"
+msgstr "Larang Pengguna"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Banner"
-msgstr "Banner"
+msgstr "Pelarang"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Bans"
-msgstr "Ban"
+msgstr "Larangan"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Block user"
@@ -568,13 +548,12 @@ msgstr "Bot"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser"
-msgstr ""
+msgstr "Browser"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr "Pembatalan Gema Browser"
+msgstr "Penghilangan Gema Browser"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #~ msgid "Browser Noise Supression"
 #~ msgstr ""
 
@@ -590,23 +569,29 @@ msgstr "Sibuk"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Dengan membuat bot ini, kamu setuju terhadap <0>Acceptable Use Policy</0>."
+msgstr ""
+"Dengan membuat bot ini, Anda menyetujui <0>Kebijakan Penggunaan yang Dapat "
+"Diterima</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Dengan membuat server ini, kamu setuju terhadap <0>Acceptable Use Policy</0>."
+msgstr ""
+"Dengan membuat server ini, Anda menyetujui <0>Kebijakan Penggunaan yang "
+"Dapat Diterima</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
-msgstr ""
+msgstr "Lewati Mode Lambat"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
-msgstr ""
+msgstr "Lewati mode lambat di saluran"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
 msgstr ""
+"Tidak bisa menemukan GIF yang sempurna? Kunjungi Gifbox dan unggah milik "
+"Anda agar bisa digunakan semua orang."
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -639,7 +624,7 @@ msgstr "Batal"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
-msgstr "Batalkan permintaan teman"
+msgstr "Batalkan permintaan pertemanan"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Cancel message"
@@ -647,77 +632,76 @@ msgstr "Batalkan pesan"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr "Tidak dapat menghapus akun hingga server dihapus atau dialihkan"
+msgstr "Tidak dapat menghapus akun sampai server dihapus atau dialihkan"
 
 #: components/i18n/errors.tsx
 msgid "Cannot edit this message."
-msgstr "Tidak dapat menyunting pesan ini."
+msgstr "Tidak dapat mengedit pesan ini."
 
 #: components/modal/modals/EditBotUsername.tsx
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
 msgid "Change"
-msgstr "Ubah"
+msgstr "Ganti"
 
 #. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change {0}'s nickname"
-msgstr ""
+msgstr "Ganti nama panggilan {0}"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
-msgstr "Mengubah Avatar"
+msgstr "Ganti Avatar"
 
 #: components/modal/modals/EditBotUsername.tsx
 msgid "Change bot username"
-msgstr ""
+msgstr "Ganti nama pengguna bot"
 
 #. placeholder {0}: props.member.server!.name
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change identity on {0}"
-msgstr "Ubah identitas pada {0}"
+msgstr "Ganti identitas pada {0}"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr "Ubah email login"
+msgstr "Ganti email masuk"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
-msgstr "Ubah kata sandi login"
+msgstr "Ganti kata sandi masuk"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Nickname"
-msgstr "Ubah Nama Panggilan"
+msgstr "Ganti Nama Panggilan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change other members' nicknames"
-msgstr "Ubah nama panggilan anggota lainnya"
+msgstr "Ganti nama panggilan anggota lain"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own avatar"
-msgstr "Ubah avatar kamu"
+msgstr "Ganti avatar sendiri"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change own nickname"
-msgstr "Ubah nama panggilan kamu"
+msgstr "Ganti nama panggilan sendiri"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change this bot's username"
-msgstr ""
+msgstr "Ganti nama pengguna bot ini"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
-msgstr "Ubah nama pengguna"
+msgstr "Ganti nama pengguna"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change Username"
-msgstr ""
+msgstr "Ganti Nama Pengguna"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Change your profile per-server"
-msgstr "Ubah profil kamu per server"
+msgstr "Ganti profil Anda per-server"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -740,7 +724,7 @@ msgstr "Pengaturan Saluran"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Slowmode"
-msgstr ""
+msgstr "Mode Lambat Saluran"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Channels"
@@ -772,7 +756,7 @@ msgstr "Klik item di bawah untuk mempelajari lebih lanjut mengenai berbagai peru
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
-msgstr ""
+msgstr "Klik untuk menyalin nama pengguna"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -829,7 +813,7 @@ msgstr "Kode"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
-msgstr ""
+msgstr "Segera hadir! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
@@ -866,7 +850,7 @@ msgstr "Menghubungkan"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
-msgstr "Konten melanggar hukum"
+msgstr "Konten melanggar satu atau lebih undang-undang"
 
 #: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/MFAEnableTOTP.tsx
@@ -875,7 +859,7 @@ msgstr "Lanjut"
 
 #: src/AndroidNag.tsx
 msgid "Continue in browser"
-msgstr ""
+msgstr "Lanjutkan di browser"
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Continue to app"
@@ -891,7 +875,7 @@ msgstr "Percakapan"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
-msgstr ""
+msgstr "Disalin!"
 
 #: components/app/menus/CategoryContextMenu.tsx
 msgid "Copy category ID"
@@ -903,7 +887,7 @@ msgstr "Salin ID saluran"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy file link"
-msgstr ""
+msgstr "Salin tautan berkas"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -928,7 +912,7 @@ msgstr "Salin ID pesan"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message link"
-msgstr ""
+msgstr "Salin tautan pesan"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Copy role ID"
@@ -958,11 +942,11 @@ msgstr "Salin URL webhook"
 
 #: components/i18n/errors.tsx
 msgid "Could not find what you requested."
-msgstr "Tidak dapat menemukan apa yang kamu minta."
+msgstr "Tidak dapat menemukan apa yang Anda minta."
 
 #: components/instance/index.tsx
 msgid "Couldn't fetch Stoat configuration from {hStr}."
-msgstr ""
+msgstr "Tidak dapat mengambil konfigurasi Stoat dari {hStr}."
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/CreateBot.tsx
@@ -977,7 +961,7 @@ msgstr "Buat"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Create a channel before inviting others!"
-msgstr "Buat saluran terlebih dahulu sebelum mengundang pengguna lainnya!"
+msgstr "Buatlah saluran sebelum mengundang orang lain!"
 
 #~ msgid "Create a group"
 #~ msgstr "Buat sebuah grup"
@@ -999,7 +983,6 @@ msgstr "Buat kategori baru"
 msgid "Create a new group"
 msgstr "Buat grup baru"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #~ msgid "Create a new role"
 #~ msgstr "Buat peran baru"
 
@@ -1013,11 +996,11 @@ msgstr "Buat akun"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit server roles"
-msgstr "Buat dan sunting peran server"
+msgstr "Buat dan edit peran server"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create and edit webhooks"
-msgstr "Buat dan sunting webhook"
+msgstr "Buat dan edit webhook"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Create Bot"
@@ -1048,7 +1031,7 @@ msgstr "Buat Undangan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Create invites for others to use"
-msgstr "Buat undangan untuk pengguna lain"
+msgstr "Buat undangan untuk digunakan orang lain"
 
 #: components/modal/modals/CreateRole.tsx
 msgid "Create Role"
@@ -1074,7 +1057,7 @@ msgstr "<0/> telah dibuat"
 #: components/modal/modals/EditPassword.tsx
 #: components/modal/modals/EditUsername.tsx
 msgid "Current Password"
-msgstr "Sandi Saat Ini"
+msgstr "Kata Sandi Saat Ini"
 
 #: components/app/interface/settings/user/Sessions.tsx
 msgid "Current Session"
@@ -1082,7 +1065,7 @@ msgstr "Sesi Saat Ini"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Custom colour"
-msgstr ""
+msgstr "Warna khusus"
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Custom status"
@@ -1090,7 +1073,7 @@ msgstr "Status khusus"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr "Kustom bingkai jendela"
+msgstr "Bingkai jendela khusus"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
@@ -1104,16 +1087,16 @@ msgstr "Gelap"
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "Database error, please contact support. ({0})"
-msgstr "Terjadi kesalahan pada database, silakan hubungi dukungan. ({0})"
+msgstr "Terjadi kesalahan basis data, silahkan hubungi dukungan. ({0})"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Date format"
-msgstr ""
+msgstr "Format tanggal"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Deafen"
-msgstr ""
+msgstr "Tulikan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Deafen lower-ranking members in voice call"
@@ -1128,14 +1111,9 @@ msgstr "Tulikan Anggota"
 msgid "Default"
 msgstr "Bawaan"
 
-#: components/app/interface/settings/ServerSettings.tsx
-#: components/app/interface/settings/ChannelSettings.tsx
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Default Permissions"
 #~ msgstr "Izin Bawaan"
 
-#: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #~ msgid "Defean"
 #~ msgstr ""
 
@@ -1200,7 +1178,7 @@ msgstr "Hapus pesan"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Delete Message History"
-msgstr ""
+msgstr "Hapus Riwayat Pesan"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Delete Role"
@@ -1208,7 +1186,7 @@ msgstr "Hapus Peran"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Delete Server"
-msgstr "Hapis Server"
+msgstr "Hapus Server"
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1229,7 +1207,7 @@ msgstr "Nonaktifkan Akun"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Disable one-time password authenticator"
-msgstr "Nonaktifkan autentikator kata sandi sekali pakai"
+msgstr "Matikan autentikator kata sandi sekali pakai"
 
 #: components/app/interface/settings/server/Overview.tsx
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
@@ -1266,18 +1244,18 @@ msgstr "Jangan Ganggu"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Don't ask me again"
-msgstr ""
+msgstr "Jangan tanya saya lagi"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Don't ask me again for "
-msgstr "Jangan tanyakan lagi untuk "
+msgstr "Jangan tanya saya lagi untuk "
 
 #~ msgid "Don't ask me again for <0>{0}</0>"
 #~ msgstr ""
 
 #: components/modal/modals/BanMember.tsx
 msgid "Don't delete messages"
-msgstr ""
+msgstr "Jangan hapus pesan"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
@@ -1285,7 +1263,7 @@ msgstr "Jangan beritahu anggota lain bahwa kamu telah keluar"
 
 #: src/AndroidNag.tsx
 msgid "Don't show this again"
-msgstr ""
+msgstr "Jangan tampilkan ini lagi"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Donate"
@@ -1310,11 +1288,11 @@ msgstr "Narkoba dan barang ilegal"
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "Edit {0}'s roles"
-msgstr "Sunting peran {0}"
+msgstr "Edit peran {0}"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit and delete channel"
-msgstr "Sunting dan hapus saluran"
+msgstr "Edit dan hapus saluran"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit any permissions on the server"
@@ -1330,15 +1308,15 @@ msgstr "Sunting Profil Umum"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
-msgstr "Sunting nama dan deskripsi grup"
+msgstr "Edit nama dan deskripsi grup"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit identity"
-msgstr "Sunting identitas"
+msgstr "Edit identitas"
 
 #: components/modal/modals/ServerInfo.tsx
 msgid "Edit Identity"
-msgstr "Sunting Identitas"
+msgstr "Edit Identitas"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Edit message"
@@ -1346,20 +1324,20 @@ msgstr "Edit pesan"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit roles"
-msgstr "Sunting peran"
+msgstr "Edit peran"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit the server's information and settings"
-msgstr "Sunting informasi dan pengaturan server"
+msgstr "Edit informasi dan pengaturan server"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
 msgid "Edit your identity"
-msgstr "Sunting identitasmu"
+msgstr "Edit identitas Anda"
 
 #: components/ui/components/features/messaging/elements/Container.tsx
 msgid "Edited"
-msgstr "Telah disunting"
+msgstr "Diedit"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Effective <0/> (<1/>)"
@@ -1385,19 +1363,19 @@ msgstr "Emoji"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Enable Authenticator"
-msgstr "Aktifkan Autentikator"
+msgstr "Hidupkan Autentikator"
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Enable authenticator app"
-msgstr "Aktifkan aplikasi autentikator"
+msgstr "Hidupkan aplikasi autentikator"
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Enable Desktop Notifications"
-msgstr "Aktifkan Notifikasi Desktop"
+msgstr "Hidupkan Notifikasi Desktop"
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Enable Push Notifications"
-msgstr ""
+msgstr "Hidupkan Notifikasi Dorong"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
@@ -1405,7 +1383,7 @@ msgstr "Aktifkan efek transparansi kaca/blur (lambat pada perangkat lama)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
-msgstr ""
+msgstr "Akhiri panggilan"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Enhanced"
@@ -1505,7 +1483,7 @@ msgstr "Temukan komunitas berdasarkan hobi atau minat kamu."
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Find your com<0/>munity,<1/>connect with the world."
-msgstr "Temukan ko0/>munitasmu,<1/>terhubung dengan dunia."
+msgstr "Temukan ko<0/>munitasmu,<1/>terhubung dengan dunia."
 
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
@@ -1546,7 +1524,7 @@ msgstr "Teman"
 
 #: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "from "
-msgstr ""
+msgstr "dari "
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Fruit Salad"
@@ -1554,11 +1532,11 @@ msgstr "Salad Buah"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Generate a new token if it gets lost or compromised"
-msgstr "Buat token baru apabila token yang lama hilang atau disalahgunakan"
+msgstr "Hasilkan token baru apabila token yang lama hilang atau disalahgunakan"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Generate Recovery Codes"
-msgstr "Buat Kode Pemulihan"
+msgstr "Hasilkan Kode Pemulihan"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Generating invite…"
@@ -1574,7 +1552,7 @@ msgstr "Dapatkan kode pemulihan aktif"
 
 #: src/AndroidNag.tsx
 msgid "Get it on Google Play"
-msgstr ""
+msgstr "Dapatkan di Google Play"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -1711,7 +1689,6 @@ msgstr "Diam"
 msgid "Illegal hacking or cracking"
 msgstr "Peretasan atau pembobolan ilegal"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Image by @fakurian"
 #~ msgstr ""
 
@@ -1722,6 +1699,8 @@ msgstr "Peniruan"
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
 msgstr ""
+"Sementara itu, instal Stoat dari Google Play untuk pengalaman yang lebih "
+"cepat dan lancar, dirancang untuk Android."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -1817,27 +1796,27 @@ msgstr "Loncat ke awal"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Keep as is"
-msgstr "Biarkan seperti ini"
+msgstr "Biarkan apa adanya"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick"
-msgstr "Keluarkan"
+msgstr "Usir"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick lower-ranking members from the server"
-msgstr "Keluarkan anggota dengan peringkat lebih rendah dari server"
+msgstr "Usir anggota dengan peringkat lebih rendah dari server"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Kick member"
-msgstr "Keluarkan anggota"
+msgstr "Usir anggota"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick Member"
-msgstr "Keluarkan Anggota"
+msgstr "Usir Anggota"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Kick Members"
-msgstr "Keluarkan Anggota"
+msgstr "Usir Anggota"
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -1858,7 +1837,7 @@ msgstr "Luncurkan Stoat ketika kamu masuk ke komputermu."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Learn more"
-msgstr ""
+msgstr "Pelajari lebih lanjut"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "Learn more about how to create bots on Stoat."
@@ -1886,7 +1865,7 @@ msgstr "Keluar server"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Let Stoat use its own custom titlebar."
-msgstr "Biarkan Staot menggunakan titlebar kustomnya sendiri."
+msgstr "Biarkan Stoat menggunakan bilah judul kustomnya sendiri."
 
 #: src/interface/Home.tsx
 msgid "Let us know how we can improve our app by giving us feedback."
@@ -1987,11 +1966,11 @@ msgstr "Tandai sebagai Dewasa"
 #: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mark as read"
-msgstr "Tandai sebagai telah dibaca"
+msgstr "Tandai sudah dibaca"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Mark as unread"
-msgstr "Tandai sebagai belum dibaca"
+msgstr "Tandai belum dibaca"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Mark this channel as mature?"
@@ -2076,7 +2055,7 @@ msgstr "Pesan dikirim dari platform lain"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Messaging"
-msgstr "Perpesanan"
+msgstr "Pesan"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "MFA setup canceled."
@@ -2112,7 +2091,7 @@ msgstr "PIndahkan anggota antar saluran suara"
 
 #: components/i18n/errors.tsx
 msgid "Multi-factor authentication is already enabled for this account."
-msgstr "Autentikasi multi-faktor telah diaktifkan untuk akun ini."
+msgstr "Autentikasi multi-faktor telah dihidupkan untuk akun ini."
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -2134,7 +2113,7 @@ msgstr "Bisukan Anggota"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mute Screen Share"
-msgstr ""
+msgstr "Bisukan Berbagi Layar"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
@@ -2186,7 +2165,7 @@ msgstr "Pesan baru sejak {0}"
 
 #: components/modal/modals/EditCategory.tsx
 msgid "New name"
-msgstr ""
+msgstr "Nama baru"
 
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -2242,7 +2221,7 @@ msgstr "Notifikasi"
 
 #: components/ui/components/features/messaging/composition/MessageReplyPreview.tsx
 msgid "Off"
-msgstr "Nonaktif"
+msgstr "Mati"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Official Communication"
@@ -2271,7 +2250,7 @@ msgstr "Terlama"
 
 #: components/ui/components/features/messaging/composition/MessageReplyPreview.tsx
 msgid "On"
-msgstr "Aktif"
+msgstr "Hidup"
 
 #: components/modal/modals/DeleteBot.tsx
 #: components/modal/modals/DeleteCategory.tsx
@@ -2345,7 +2324,7 @@ msgstr "Ikhtisar"
 
 #: components/ui/components/features/profiles/ProfileOwner.tsx
 msgid "Owner"
-msgstr ""
+msgstr "Pemilik"
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Pardon User"
@@ -2363,7 +2342,7 @@ msgstr "Kata Sandi"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Password changed successfully."
-msgstr ""
+msgstr "Kata sandi berhasil diubah."
 
 #: src/interface/Friends.tsx
 msgid "Pending"
@@ -2383,7 +2362,7 @@ msgstr ""
 
 #: components/modal/modals/ScreenSharePicker.tsx
 msgid "Pick a Screen to Share"
-msgstr ""
+msgstr "Pilih Layar untuk dibagikan"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
@@ -2391,7 +2370,7 @@ msgstr "Pilih nama pengguna yang kamu inginkan agar orang lain dapat menemukanmu
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin"
-msgstr ""
+msgstr "Sematkan"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/PinMessage.tsx
@@ -2404,7 +2383,7 @@ msgstr "Moderator Platform"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Play sound"
-msgstr ""
+msgstr "Putar suara"
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please confirm this action using the selected method."
@@ -2424,7 +2403,8 @@ msgstr "Harap simpan ini di tempat yang aman."
 
 #: components/modal/modals/MFAEnableTOTP.tsx
 msgid "Please scan or use the token below in your authenticator app."
-msgstr "Silakan pindai atau gunakan token di bawah pada aplikasi autentikator kamu."
+msgstr ""
+"Silahkan pindai atau gunakan token di bawah pada aplikasi autentikator kamu."
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
@@ -2432,7 +2412,7 @@ msgstr "Pilih metode untuk mengautentikasi permintaanmu."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Please select a reason"
-msgstr "Silakan pilih sebuah alasan"
+msgstr "Silahkan pilih sebuah alasan"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Powered by RNNoise"
@@ -2444,7 +2424,7 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Privacy"
-msgstr ""
+msgstr "Privasi"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy Policy"
@@ -2493,7 +2473,6 @@ msgstr "Reaksi terhadap pesan menggunakan emoji"
 msgid "Read Message History"
 msgstr "Baca Riwayat Pesan"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Read More"
 #~ msgstr ""
 
@@ -2513,7 +2492,7 @@ msgstr "Alasan"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Reason for report"
-msgstr ""
+msgstr "Alasan laporan"
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2705,11 +2684,11 @@ msgstr "Tinjau perubahan kebijakan"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Colour"
-msgstr ""
+msgstr "Warna Peran"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Icon"
-msgstr ""
+msgstr "Ikon Peran"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/modal/modals/CreateRole.tsx
@@ -2718,7 +2697,7 @@ msgstr "Nama Peran"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Role Overrides"
-msgstr ""
+msgstr "Penggantian Peran"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
@@ -2727,7 +2706,7 @@ msgstr "Peran"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Roles with No Overrides"
-msgstr ""
+msgstr "Peran Tanpa Penggantian"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
@@ -2745,7 +2724,7 @@ msgstr "Simpan berkas"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Save permissions"
-msgstr ""
+msgstr "Simpan izin"
 
 #: src/interface/channels/text/Composition.tsx
 msgid "Save to your notes"
@@ -2758,7 +2737,7 @@ msgstr "Catatan Tersimpan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Saving…"
-msgstr ""
+msgstr "Menyimpan…"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Scams or fraud"
@@ -2767,15 +2746,15 @@ msgstr "Penipuan atau penggelapan"
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Screen Share Settings"
-msgstr ""
+msgstr "Pengaturan Berbagi Layar"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Screen Share Volume"
-msgstr ""
+msgstr "Volume Berbagi Layar"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
@@ -2807,7 +2786,7 @@ msgstr ""
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Select screen share quality"
-msgstr ""
+msgstr "Pilih kualitas berbagi layar"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select video input"
@@ -2876,7 +2855,7 @@ msgstr "Avatar Server"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Server Banner"
-msgstr "Banner Server"
+msgstr "Pelarang Server"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Server Default"
@@ -2934,7 +2913,7 @@ msgstr "Beberapa orang sedang mengetik…"
 #: components/modal/modals/ScreenSharePicker.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Share audio"
-msgstr ""
+msgstr "Bagikan audio"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Share camera or screen in voice call"
@@ -2942,7 +2921,7 @@ msgstr "Bagikan kamera atau layar di panggilan suara"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Share screen"
-msgstr ""
+msgstr "Bagikan layar"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Show corrections and suggestions as you type."
@@ -3022,7 +3001,7 @@ msgstr "Pemeriksa ejaan"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Start camera"
-msgstr ""
+msgstr "Mulai kamera"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Start Minimised to Tray"
@@ -3057,7 +3036,9 @@ msgstr "Pendiri Stoat"
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
-msgstr "Stoat adalah salah satu cara terbaik untuk tetap terhubung dengan temen dan komunitas kamu, dimana pun, kapan pun."
+msgstr ""
+"Stoat adalah salah satu cara terbaik untuk tetap terhubung dengan teman dan "
+"komunitas kamu, dimana saja, kapan saja."
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Stoat rocks!"
@@ -3069,11 +3050,11 @@ msgstr ""
 
 #: src/AndroidNag.tsx
 msgid "Stoat works best as an app"
-msgstr ""
+msgstr "Stoat bekerja lebih baik sebagai aplikasi"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Stop camera"
-msgstr ""
+msgstr "Hentikan kamera"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Stop sharing"
@@ -3153,7 +3134,7 @@ msgstr "Cegah sementara anggota dengan peringkat lebih rendah dalam berinteraksi
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Terms"
-msgstr ""
+msgstr "Persyaratan"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Terms of Service"
@@ -3259,7 +3240,7 @@ msgstr "Pengguna ini telah memblokir kamu."
 
 #: components/modal/modals/BanNonMember.tsx
 msgid "This user is not part of the server and may already be banned"
-msgstr "Pengguna ini bukan anggota server dan mungkin telah dibanned."
+msgstr "Pengguna ini bukan bagian dari server dan mungkin sudah dilarang"
 
 #: components/i18n/errors.tsx
 msgid "This username is already taken."
@@ -3275,7 +3256,7 @@ msgstr "Ini akan membatalkan token saat ini dan menghentikan semua instance dari
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Time format"
-msgstr ""
+msgstr "Format waktu"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
@@ -3287,7 +3268,7 @@ msgstr "Alihkan bilah sisi utama"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Token copied to clipboard"
-msgstr ""
+msgstr "Token disalin ke papan klip"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
@@ -3307,7 +3288,7 @@ msgstr ""
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Unblock user"
-msgstr "Buka Blokir"
+msgstr "Buka blokir pengguna"
 
 #. placeholder {0}: err.type
 #: components/i18n/errors.tsx
@@ -3317,7 +3298,7 @@ msgstr "Kegalatan Stoat: {0}"
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Undeafen"
-msgstr ""
+msgstr "Dengarkan"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Unknown"
@@ -3343,7 +3324,7 @@ msgstr "Hapus tanda saluran ini sebagai dewasa?"
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Unmute"
-msgstr ""
+msgstr "Bunyikan"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Unmute Channel"
@@ -3355,12 +3336,12 @@ msgstr "Bunyikan Server"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Unpin"
-msgstr ""
+msgstr "Lepas sematan"
 
 #: components/app/menus/MessageContextMenu.tsx
 #: components/modal/modals/PinMessage.tsx
 msgid "Unpin message"
-msgstr "Hapus sematan pesan"
+msgstr "Lepas sematan pesan"
 
 #: components/app/interface/channels/text/DraftMessage.tsx
 msgid "Unsent message"
@@ -3381,7 +3362,7 @@ msgstr "Unggah Berkas"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Upload to Gifbox"
-msgstr ""
+msgstr "Unggah ke Gifbox"
 
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
@@ -3397,7 +3378,7 @@ msgstr "Pengguna"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Banned"
-msgstr "Pengguna yang Dibanned"
+msgstr "Pengguna Dilarang"
 
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
@@ -3414,7 +3395,7 @@ msgstr "Pengguna Bergabung dalam Panggilan"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Kicked"
-msgstr "Pengguna Dikeluarkan"
+msgstr "Pengguna Diusir"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Left"
@@ -3462,11 +3443,9 @@ msgstr "Pengguna akan diminta mengonfirmasi usia mereka sebelum membuka saluran 
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr "Pengguna tidak akan diminta mengonfirmasi usia mereka sebelum bergabung ke dalam saluran ini lagi.<0/> Harap pastikan konten saluran pantas untuk segala usia."
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default speaker"
 #~ msgstr ""
 
@@ -3512,7 +3491,7 @@ msgstr "Lihat Kode Pemulihan"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "View status page"
-msgstr ""
+msgstr "Lihat halaman status"
 
 #: components/ui/components/features/messaging/bars/JumpToBottom.tsx
 msgid "Viewing older messages"
@@ -3525,7 +3504,7 @@ msgstr "Suara"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Voice & Video"
-msgstr ""
+msgstr "Suara & Video"
 
 #: components/modal/modals/CreateChannel.tsx
 msgid "Voice Channel"
@@ -3541,11 +3520,13 @@ msgstr "Volume"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Want to change username?"
-msgstr "Ingin mengubah nama pengguna?"
+msgstr "Ingin mengganti nama pengguna?"
 
 #: src/AndroidNag.tsx
 msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
+"Kami sedang bekerja keras untuk mengoptimalkan aplikasi web kami untuk "
+"perangkat seluler."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
@@ -3577,11 +3558,11 @@ msgstr "Selamat datang!"
 
 #: components/modal/modals/Changelog.tsx
 msgid "What's new"
-msgstr ""
+msgstr "Apa yang baru"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
-msgstr ""
+msgstr "Apa yang Baru"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
@@ -3590,17 +3571,15 @@ msgstr "Apakah pengguna lain dapat menyunting pengaturan ini"
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "with {0}"
-msgstr ""
+msgstr "dengan {0}"
 
-#. placeholder {0}: names.join(", ")
-#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 #~ msgid "With {0}"
 #~ msgstr "Dengan {0}"
 
 #. placeholder {0}: names.length
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "with {0} others"
-msgstr ""
+msgstr "dengan {0} lainnya"
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
@@ -3619,16 +3598,16 @@ msgstr "Kamu setuju bahwa bot kamu merupakan subjek terhadap Kebijakan Penggunaa
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
 msgid "You are about to ban {0}"
-msgstr "Kamu akan memban {0}"
+msgstr "Anda akan melarang {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr "Kamu akan mengeluarkan {0}"
+msgstr "Anda akan mengusir {0}"
 
 #: components/i18n/errors.tsx
 msgid "You are banned from this server."
-msgstr "Kamu telah dibanned dari server ini."
+msgstr "Anda telah dilarang dari server ini."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
@@ -3708,7 +3687,7 @@ msgstr "Kamu telah memblokir pengguna ini."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "You may be experiencing connection issues."
-msgstr ""
+msgstr "Anda mungkin sedang mengalami masalah koneksi."
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
@@ -3729,7 +3708,7 @@ msgstr "Kamu tidak akan bisa mengakses akunmu kecuali dengan menghubungi bantuan
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
 msgid "You won't be able to rejoin unless you are re-invited."
-msgstr "Kamu tidak akan bisa bergabung kembali kecuali kamu diundang kembali."
+msgstr "Anda tidak akan bisa bergabung kembali kecuali Anda diundang kembali."
 
 #: components/i18n/errors.tsx
 msgid "You're already part of this group."
@@ -3779,7 +3758,7 @@ msgstr "Pesan kamu terlalu panjang, silakan hapus beberapa karakter dan coba lag
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Your recovery codes"
-msgstr "Kode pemulihanmu"
+msgstr "Kode pemulihan Anda"
 
 #: components/i18n/errors.tsx
 msgid "Your role ranking is too low to take this action."
