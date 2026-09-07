@@ -16,7 +16,6 @@ export const Header = styled("div", {
     flex: "0 auto",
     display: "flex",
     flexShrink: 0,
-    padding: "0 16px",
     alignItems: "center",
     fontWeight: 600,
     userSelect: "none",
@@ -32,15 +31,12 @@ export const Header = styled("div", {
     "& svg": {
       flexShrink: 0,
     },
-
-    _tablet: {
-      paddingRight: 0,
-    },
   },
   variants: {
     placement: {
       primary: {
         margin: "var(--gap-md) var(--gap-md) var(--gap-md) 0",
+        _phone: { marginLeft: "var(--gap-lg)" },
       },
       secondary: {
         margin: "var(--gap-md)",
@@ -52,7 +48,6 @@ export const Header = styled("div", {
         color: "white",
         fill: "white",
 
-        padding: 0,
         alignItems: "flex-end",
         justifyContent: "stretch",
         textShadow: "0px 0px 1px var(--md-sys-color-shadow)",
@@ -64,16 +59,23 @@ export const Header = styled("div", {
           background: "linear-gradient(0deg, black, transparent)",
         },
       },
-      false: {},
     },
     transparent: {
       true: {
         width: "calc(100% - var(--gap-md))",
         zIndex: "10",
       },
-      false: {},
     },
   },
+  compoundVariants: [
+    {
+      placement: "secondary",
+      image: false,
+      css: {
+        marginLeft: "var(--gap-lg)",
+      },
+    },
+  ],
   defaultVariants: {
     placement: "primary",
     image: false,

@@ -183,9 +183,14 @@ const Content = styled("div", {
   variants: {
     sidebar: {
       false: {
+        paddingLeft: "var(--gap-md)",
         borderTopLeftRadius: "var(--borderRadius-lg)",
         borderBottomLeftRadius: "var(--borderRadius-lg)",
         overflow: "hidden",
+
+        _tablet: {
+          paddingLeft: 0,
+        },
       },
     },
   },
