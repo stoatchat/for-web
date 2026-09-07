@@ -227,8 +227,7 @@ const SpoilerLabel = styled("button", {
     zIndex: 2,
     transform: "translate(-50%, -50%)",
 
-    padding: "4px var(--gap-sm)",
-    borderRadius: "999px",
+    display: "grid",
     border: "none",
 
     cursor: "pointer",
