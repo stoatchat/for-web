@@ -11,15 +11,19 @@ import {
 import { Dynamic } from "solid-js/web";
 
 import { CONFIGURATION } from "@revolt/common";
-import { AppConfig, normalizeHost, STOAT_HOST } from "@revolt/common/lib/env";
+import { normalizeHost, STOAT_HOST } from "@revolt/common/lib/env";
+import { fetchHost } from "@revolt/state/stores/Hosts";
 import { LoadingScreen, useSnackbar } from "@revolt/ui";
 
 import Instance, { _newClient } from "./Instance";
 
-export const StoatOrigin = new URL(`https://${STOAT_HOST}`).origin;
+export const RE_HOST = /^[\w:.]{1,32}$/;
+export const StoatOrigin = `https://${STOAT_HOST}`;
 export const DefaultURL = new URL(`https://${CONFIGURATION.DEFAULT_HOST}`);
 export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
+
+const WordmarkPath = "/assets/web/wordmark.svg";
 
 const instanceContext = createContext<Instance>();
 let appLoadedOnce = false;
@@ -52,18 +56,27 @@ export function InstanceContext(props: { children?: JSXElement }) {
 
   (async () => {
     //Redirect default instance
-    //TODO This redirects ALL instance paths to default until multi-instance is ready
-    // Replace with `if (host === DefaultHost)` when ready
-    if (host) return nav(Instance.relPath(), { replace: true });
+    if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
 
     try {
-      const appCfg: AppConfig = host
-        ? await (await fetch(`https://${host}/.well-known/stoat`)).json()
-        : { api: CONFIGURATION.DEFAULT_API_URL };
-
+      const appCfg = await fetchHost(host || DefaultHost);
       const cli = _newClient(appCfg.api);
       await cli.initConfig();
-      setInst(new Instance(appCfg, cli, host, nav));
+      const inst = new Instance(appCfg, cli, host, nav);
+
+      const wordmark =
+        //TODO better way to get instance client path than checking isStoat
+        (host ? inst.origin + (inst.isStoat ? "/app" : "") : "") + WordmarkPath;
+
+      try {
+        inst.wordmark = await (await fetch(wordmark)).text();
+      } catch (e) {
+        console.error(e);
+        //Fallback to builtin
+        inst.wordmark = await (await fetch(WordmarkPath)).text();
+      }
+
+      setInst(inst);
     } catch (e) {
       onError(e);
     }

@@ -15,19 +15,19 @@ const getEnv = (name: string, devOnly?: boolean) =>
     ? (import.meta.env[name] as string)
     : undefined;
 
+const StoatHosts = [
+  // historically...
+  "api.revolt.chat",
+  "beta.revolt.chat",
+  "revolt.chat",
+  // ... and now:
+  "api.stoat.chat",
+  "beta.stoat.chat",
+];
+
 /** If host is Stoat, normalize to STOAT_HOST, else return host */
 export const normalizeHost = (host: string) =>
-  [
-    // historically...
-    "api.revolt.chat",
-    "beta.revolt.chat",
-    "revolt.chat",
-    // ... and now:
-    "api.stoat.chat",
-    "beta.stoat.chat",
-  ].includes(host)
-    ? STOAT_HOST
-    : host;
+  StoatHosts.includes(host) ? STOAT_HOST : host;
 
 const isStoatOfficialAPI = (api: string) =>
   [

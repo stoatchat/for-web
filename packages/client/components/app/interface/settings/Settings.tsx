@@ -163,7 +163,10 @@ export function Settings(props: SettingsProps & SettingsConfiguration<never>) {
                       easing: [0.17, 0.67, 0.58, 0.98],
                     }}
                   >
-                    {props.render({ page }, props.context)}
+                    {props.render(
+                      { page, onClose: props.onClose },
+                      props.context,
+                    )}
                   </Motion.div>
                 </Rerun>
               </Presence>

@@ -57,3 +57,4 @@ export { TextEditor } from "./TextEditor";
 export { TextField } from "./TextField";
 export { Unreads } from "./Unreads";
 export { UserStatus } from "./UserStatus";
+export { Wordmark } from "./Wordmark";

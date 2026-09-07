@@ -289,6 +289,9 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     // Check if this is something we can even send
     if (!draft.content && !draft.files?.length) return;
 
+    //Don't send empty replies
+    if (draft.replies?.length === 0) delete draft.replies;
+
     // Add message to the outbox
     const idempotencyKey = ulid();
     this.set("outbox", channel.id, [

@@ -350,4 +350,10 @@ export type Modals =
   | {
       type: "edit_bot_username";
       bot: Bot;
+    }
+  | {
+      type: "swap_user";
+    }
+  | {
+      type: "login_advanced";
     };
