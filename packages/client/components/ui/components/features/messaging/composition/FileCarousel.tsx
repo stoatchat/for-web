@@ -227,12 +227,13 @@ const SpoilerLabel = styled("button", {
     zIndex: 2,
     transform: "translate(-50%, -50%)",
 
-    display: "grid",
+    padding: "4px var(--gap-sm)",
+    borderRadius: "var(--borderRadius-lg)",
     border: "none",
 
     cursor: "pointer",
-    color: "white",
-    background: "rgba(0, 0, 0, 0.6)",
+    color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface)",
 
     textTransform: "uppercase",
     ...typography.raw({ class: "label", size: "small" }),
@@ -255,7 +256,7 @@ const ActionBox = styled("div", {
 
     padding: "3px",
     borderRadius: "var(--borderRadius-md)",
-    background: "rgba(0, 0, 0, 0.6)",
+    background: "var(--md-sys-color-surface)",
   },
 });
 
@@ -279,7 +280,8 @@ const ActionIcon = styled("button", {
     transition: "var(--transitions-fast) background",
 
     "&:hover": {
-      background: "rgba(255, 255, 255, 0.15)",
+      background:
+        "color-mix(in srgb, var(--md-sys-color-on-surface) 15%, transparent)",
     },
   },
   variants: {
