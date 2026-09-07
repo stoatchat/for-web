@@ -287,7 +287,7 @@ export function Message(props: Props) {
                 content={t`Timed Out until ${props.message.member!.timeout!.toLocaleString()}`}
                 placement="top"
               >
-                <Symbol size={16} fill>
+                <Symbol size={16} color="var(--md-sys-color-error)">
                   timer_off
                 </Symbol>
               </Tooltip>
