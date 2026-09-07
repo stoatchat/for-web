@@ -77,7 +77,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   default(): TypeVoice {
     return {
       echoCancellation: true,
-      noiseSupression: "browser",
+      noiseSupression: "enhanced",
       autoGainControl: true,
       screenShareQuality: "low",
       screenShareQualityAsk: true,
@@ -117,7 +117,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
 
     // migrate legacy noise suppression to new suppression state
     if ((input.noiseSupression as unknown) === "true") {
-      data.noiseSupression = "browser";
+      data.noiseSupression = "enhanced";
     } else if ((input.noiseSupression as unknown) === "false") {
       data.noiseSupression = "disabled";
     } else if (

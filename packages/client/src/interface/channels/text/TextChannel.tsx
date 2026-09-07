@@ -23,7 +23,6 @@ import {
   Header,
   NewMessages,
   Text,
-  TypingIndicator,
   main,
 } from "@revolt/ui";
 import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
@@ -229,12 +228,6 @@ export function TextChannel(props: ChannelPageProps) {
                 sentIds={pendingProps.ids}
               />
             )}
-            typingIndicator={
-              <TypingIndicator
-                users={props.channel.typing}
-                ownId={client().user!.id}
-              />
-            }
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}

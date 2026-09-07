@@ -90,7 +90,7 @@ export function ParticipantTile(props: TileProps) {
           tile({
             speaking: !isScreenShare() && isSpeaking(),
             video: isVideo() || isScreenShare(),
-            fullscreen: voice.fullscreen(),
+            fullscreen: voice.layout() === "fullscreen",
             ...props,
           }) + (isScreenShare() ? " vc_tile group" : " vc_tile")
         }

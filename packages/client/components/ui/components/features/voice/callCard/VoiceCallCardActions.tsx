@@ -37,6 +37,21 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
           <Symbol>arrow_top_left</Symbol>
         </IconButton>
       </Show>
+      <Show when={props.size !== "xs" && voice.layout() === "collapsed"}>
+        <IconButton
+          variant="standard"
+          size={props.size}
+          onPress={() => voice.toggleLayout("collapsed")}
+          use:floating={{
+            tooltip: {
+              placement: "top",
+              content: t`Restore call window`,
+            },
+          }}
+        >
+          <Symbol>unfold_more</Symbol>
+        </IconButton>
+      </Show>
       <IconButton
         size={props.size}
         variant={voice.microphone() ? "filled" : "tonal"}

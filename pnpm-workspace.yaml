@@ -16,4 +16,8 @@ nodeLinker: isolated
 overrides:
   "prettier": "^3.8.1"
   "solid-js": "1.9.14"
+
+patchedDependencies:
+  livekit-client: patches/livekit-client.patch
+
 strictPeerDependencies: false

@@ -1,4 +1,6 @@
 import { Trans, useLingui } from "@lingui/solid/macro";
+import { IFormControl } from "solid-forms";
+
 import { Bot } from "stoat.js";
 
 import { createProfileResource } from "@revolt/client/resources";
@@ -7,6 +9,7 @@ import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
   Column,
+  Form2,
   iconSize,
   Symbol,
   useSnackbar,
@@ -17,9 +20,9 @@ import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-s
 import MdKey from "@material-design-icons/svg/outlined/key.svg?component-solid";
 import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
-import MdPublic from "@material-design-icons/svg/outlined/public.svg?component-solid";
 import MdToken from "@material-design-icons/svg/outlined/token.svg?component-solid";
 
+import { Discoverable } from "../../shared/Discoverable";
 import { UserSummary } from "../account/index";
 import { UserProfileEditor } from "../profile/UserProfileEditor";
 
@@ -43,10 +46,34 @@ export function ViewBot(props: { bot: Bot }) {
         bannerUrl={profile.data?.animatedBannerURL}
       />
 
-      <UserProfileEditor user={props.bot.user!} profile={profile.data} />
-      {/* <ErrorBoundary fallback={<>Failed to load profile</>}>
-        <Suspense fallback={<>loading...</>}>{profile.data?.content}</Suspense>
-      </ErrorBoundary> */}
+      <UserProfileEditor
+        user={props.bot.user!}
+        profile={profile.data}
+        attach={[
+          {
+            name: "public",
+            value: props.bot.public,
+          },
+        ]}
+        onSubmit={(g) => {
+          props.bot.edit({
+            public: (g.controls["public"] as IFormControl<boolean>).value,
+          });
+        }}
+        onReset={(g) => {
+          (g.controls["public"] as IFormControl<boolean>).setValue(
+            props.bot.public || false,
+          );
+        }}
+      >
+        {(g) => (
+          <Form2.Checkbox
+            control={g.controls["public"] as IFormControl<boolean>}
+          >
+            <Trans>Allow others to invite your bot</Trans>
+          </Form2.Checkbox>
+        )}
+      </UserProfileEditor>
 
       <CategoryButton.Group>
         <CategoryButton
@@ -68,17 +95,6 @@ export function ViewBot(props: { bot: Bot }) {
           }
         >
           <Trans>Change Username</Trans>
-        </CategoryButton>
-        <CategoryButton
-          description={
-            <Trans>
-              Allow others to add your bot to their servers from Discover
-            </Trans>
-          }
-          icon={<MdPublic {...iconSize(22)} />}
-          action="chevron"
-        >
-          <Trans>Submit to Discover</Trans>
         </CategoryButton>
       </CategoryButton.Group>
 
@@ -147,6 +163,8 @@ export function ViewBot(props: { bot: Bot }) {
           <Trans>Delete Bot</Trans>
         </CategoryButton>
       </CategoryButton.Group>
+
+      <Discoverable discoverable={props.bot} />
     </Column>
   );
 }

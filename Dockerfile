@@ -15,8 +15,7 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 
 COPY packages/ packages/
 
-# Copy panda config needed by client's "prepare" lifecycle script (panda codegen)
-COPY packages/client/panda.config.ts packages/client/
+COPY patches/ patches/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile

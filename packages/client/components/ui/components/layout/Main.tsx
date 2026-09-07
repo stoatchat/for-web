@@ -16,16 +16,14 @@ export const main = cva({
     flexDirection: "column",
 
     paddingInline: "var(--gap-md)",
-    marginInline: "var(--gap-md)",
-    marginBlockEnd: "var(--gap-md)",
+    margin: "0 var(--gap-md) var(--gap-md) 0",
     borderRadius: "var(--borderRadius-xl)",
     background: "var(--md-sys-color-surface-container-lowest)",
     paddingBottom: "env(keyboard-inset-height)",
 
     _tablet: {
       margin: 0,
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
+      borderRadius: "var(--borderRadius-xl) 0 0 0",
     },
 
     _phone: {

@@ -1,8 +1,7 @@
 import { useInstance } from "@revolt/instance";
+import { RE_CHANNELS } from "stoat.js";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
-
-const RE_CHANNEL = /<#([A-z0-9]{26})>/g;
 
 export const remarkChannels: Plugin = () => (tree) => {
   const instance = useInstance();
@@ -15,7 +14,7 @@ export const remarkChannels: Plugin = () => (tree) => {
       idx,
       parent: { children: unknown[] },
     ) => {
-      const elements = node.value.split(RE_CHANNEL);
+      const elements = node.value.split(RE_CHANNELS);
       if (elements.length === 1) return; // no matches
 
       const newNodes = elements.map((value, index) => {

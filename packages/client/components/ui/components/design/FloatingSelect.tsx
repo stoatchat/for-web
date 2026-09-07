@@ -3,6 +3,7 @@ import {
   JSX,
   Show,
   children as accessChildren,
+  createEffect,
   createSignal,
   onCleanup,
   onMount,
@@ -25,6 +26,7 @@ type FloatingSelectProps = FloatingSelectPropsLabel & {
   variant?: "filled" | "outlined";
   children: JSX.Element;
   onChange?: (event: Event & { currentTarget: MenuItem }) => void;
+  onOpened?: () => void;
 };
 
 /**
@@ -94,7 +96,10 @@ export function FloatingSelect(props: FloatingSelectProps) {
     }
   }
 
-  onMount(() => document.addEventListener("mousedown", handleClickOutside));
+  onMount(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    if (props.onOpened) createEffect(() => isOpen() && props.onOpened?.());
+  });
   onCleanup(() =>
     document.removeEventListener("mousedown", handleClickOutside),
   );

@@ -120,7 +120,7 @@ const RoleIcon = styled("div", {
 });
 
 const RE_MENTION =
-  /(<@[0-9ABCDEFGHJKMNPQRSTVWXYZ]{26}>|@everyone|@online|<%[0-9ABCDEFGHJKMNPQRSTVWXYZ]{26}>)/;
+  /(<@[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}>|@everyone|@online|<%[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}>)/;
 
 export const remarkMentions: Plugin = () => (tree) => {
   visit(
