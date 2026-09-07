@@ -43,25 +43,28 @@ export abstract class AbstractStore<T extends keyof Store, D> {
   /**
    * Marker used to determine whether this is a store
    */
-  private readonly _storeHint = true;
+  readonly _storeHint = true;
 
   /**
    * Reference to the current state
    */
-  protected readonly state: State;
+  protected readonly state;
 
   /**
    * This store's key
    */
-  private readonly key: T;
+  private readonly key;
+  readonly global;
 
   /**
    * Construct a new store
    * @param state Reference to current state
    * @param key This store's key
+   * @param global Use global data store
    */
-  constructor(state: State, key: T) {
+  constructor(state: State, key: T, global = false) {
     this.state = state;
+    this.global = global;
     this.key = key;
   }
 
@@ -77,10 +80,7 @@ export abstract class AbstractStore<T extends keyof Store, D> {
    * Set some value in this store
    */
   protected set: SetStoreFunction<Store[T]> = (...args: unknown[]) => {
-    (this.state.set as unknown as (...args: unknown[]) => void)(
-      this.key,
-      ...args,
-    );
+    this.state.set(this.key, this.global, ...args);
   };
 
   /**
