@@ -189,6 +189,21 @@ export function Messages(props: Props) {
   }
 
   /**
+   * Helper function to find the closest parent scroll container
+   * @param el Element
+   * @returns Element
+   */
+  function findScrollContainer(el: Element | null | undefined) {
+    if (!el) {
+      return null;
+    } else if (["scroll", "auto"].includes(getComputedStyle(el).overflowY)) {
+      return el;
+    } else {
+      return findScrollContainer(el.parentElement);
+    }
+  }
+
+  /**
    * Initial load subroutine
    * @param nearby Message we should load around (and then scroll to)
    */
@@ -278,7 +293,7 @@ export function Messages(props: Props) {
       // If we're not at the end, restore scroll position
       if (existingState && !existingState.atEnd) {
         setTimeout(() =>
-          listRef()?.scrollTo({
+          findScrollContainer(listRef())?.scrollTo({
             top: existingState.scrollTop!,
             behavior: "instant",
           }),
@@ -287,7 +302,7 @@ export function Messages(props: Props) {
       // Or... reset scroll to the end
       else if (atEnd()) {
         setTimeout(() =>
-          listRef()?.scrollTo({
+          findScrollContainer(listRef())?.scrollTo({
             top: 9999999,
             behavior: "instant",
           }),
@@ -442,25 +457,9 @@ export function Messages(props: Props) {
    * Jump to the present messages
    */
   async function caseJumpToBottom() {
-    /**
-     * Helper function to find the closest parent scroll container
-     * @param el Element
-     * @returns Element
-     */
-    function findScrollContainer(el: Element | null) {
-      if (!el) {
-        return null;
-      } else if (getComputedStyle(el).overflowY === "scroll") {
-        return el;
-      } else {
-        return el.parentElement;
-      }
-    }
-
     // Scroll to the bottom if we're already at the end
     if (atEnd()) {
-      const containerChild = findScrollContainer(listRef()!)!.children[0];
-      containerChild!.scrollIntoView({
+      listRef()!.scrollIntoView({
         behavior: "smooth",
         block: "end",
       });
@@ -513,15 +512,13 @@ export function Messages(props: Props) {
 
         // Animate scroll to bottom
         setTimeout(() => {
-          const containerChild = findScrollContainer(listRef()!)!.children[0];
-
-          containerChild!.scrollIntoView({
+          listRef()!.scrollIntoView({
             behavior: "instant",
             block: "start",
           });
 
           setTimeout(() => {
-            containerChild!.scrollIntoView({
+            listRef()!.scrollIntoView({
               behavior: "smooth",
               block: "end",
             });
@@ -624,7 +621,7 @@ export function Messages(props: Props) {
               messages: messages(),
               atStart: atStart(),
               atEnd: atEnd(),
-              scrollTop: listRef()?.scrollTop,
+              scrollTop: findScrollContainer(listRef())?.scrollTop,
             });
           }
         });
@@ -930,34 +927,32 @@ export function Messages(props: Props) {
         permitFetching={() => typeof fetching() !== "string"}
       >
         <Deferred>
-          <div>
-            <div ref={setListRef}>
-              <Show when={atStart()}>
-                <ConversationStart channel={props.channel} />
-              </Show>
-              {/* TODO: else show (loading icon) OR (load more) */}
-              <For each={messagesWithTail()}>
-                {(entry) => (
-                  <Entry
-                    {...entry}
-                    highlightedMessageId={props.highlightedMessageId}
-                    editingMessageId={
-                      typeof state.draft.editingMessageId === "string"
-                        ? state.draft.editingMessageId
-                        : undefined
-                    }
-                  />
-                )}
-              </For>
-              {/* TODO: show (loading icon) OR (load more) */}
-              <Show when={atEnd()}>
-                {props.pendingMessages?.({
-                  tail: pendingMessageIsTrailing(),
-                  ids: sentMessageIdempotency(),
-                })}
-                <Padding />
-              </Show>
-            </div>
+          <div ref={setListRef}>
+            <Show when={atStart()}>
+              <ConversationStart channel={props.channel} />
+            </Show>
+            {/* TODO: else show (loading icon) OR (load more) */}
+            <For each={messagesWithTail()}>
+              {(entry) => (
+                <Entry
+                  {...entry}
+                  highlightedMessageId={props.highlightedMessageId}
+                  editingMessageId={
+                    typeof state.draft.editingMessageId === "string"
+                      ? state.draft.editingMessageId
+                      : undefined
+                  }
+                />
+              )}
+            </For>
+            {/* TODO: show (loading icon) OR (load more) */}
+            <Show when={atEnd()}>
+              {props.pendingMessages?.({
+                tail: pendingMessageIsTrailing(),
+                ids: sentMessageIdempotency(),
+              })}
+              <Padding />
+            </Show>
           </div>
         </Deferred>
       </ListView2>
