@@ -20,6 +20,7 @@ import {
   Symbol,
   Text,
 } from "@revolt/ui";
+import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
 
 /**
  * Emoji list
@@ -78,13 +79,17 @@ export function EmojiList(props: { server: Server }) {
         <Column>
           <Row align>
             <Column>
-              <Form2.FileInput
+              <CropFileInput
                 control={editGroup.controls.file}
                 accept="image/*"
+                label={t`Emoji`}
                 imageJustify={false}
                 allowRemoval={false}
                 maxSize={instance.limits().file_upload_size_limits["emojis"]}
-                hideErrors={true}
+                ratio={1}
+                ratioLabel={t`Square`}
+                allowModeToggle={false}
+                dialogTitle={<Trans>Crop Emoji</Trans>}
               />
             </Column>
             <Column grow>
