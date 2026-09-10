@@ -128,11 +128,8 @@ const UserIcon = styled("div", {
   variants: {
     speaking: {
       true: {
-        "& svg": {
-          outlineOffset: "1px",
-          outline: "2px solid var(--md-sys-color-primary)",
-          borderRadius: "var(--borderRadius-circle)",
-        },
+        outlineOffset: "1px",
+        outline: "2px solid var(--md-sys-color-primary)",
       },
     },
   },
