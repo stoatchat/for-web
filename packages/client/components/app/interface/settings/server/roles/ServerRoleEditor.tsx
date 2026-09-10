@@ -22,6 +22,7 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { createMaterialColourVariables } from "@revolt/ui/themes";
 
+import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
@@ -322,14 +323,17 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             onChange={selectColour}
           />
 
-          <Form2.FileInput
+          <CropFileInput
             control={editGroup.controls.icon}
             accept="image/*"
             label={t`Role Icon`}
             imageJustify={false}
             maxSize={instance.limits().file_upload_size_limits["icons"]}
+            ratio={1}
+            ratioLabel={t`Square`}
+            allowModeToggle={false}
+            dialogTitle={<Trans>Crop Role Icon</Trans>}
           />
-
           <Column>
             <Text class="label">
               <Trans>Hoist Role</Trans>

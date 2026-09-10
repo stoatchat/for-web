@@ -18,6 +18,7 @@ import {
   Text,
 } from "@revolt/ui";
 
+import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
 import { ChannelSettingsProps } from "../ChannelSettings";
 
 /**
@@ -108,10 +109,16 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
           <Text class="label">
             <Trans>Channel Info</Trans>
           </Text>
-          <Form2.FileInput
+          <CropFileInput
             control={editGroup.controls.icon}
             accept="image/*"
+            label={t`Channel Icon`}
+            imageJustify={false}
             maxSize={instance.limits().file_upload_size_limits["icons"]}
+            ratio={1}
+            ratioLabel={t`Square`}
+            allowModeToggle={false}
+            dialogTitle={<Trans>Crop Channel Icon</Trans>}
           />
           <Form2.TextField
             minlength={1}
