@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-11 04:16+0000\n"
+"PO-Revision-Date: 2026-09-12 16:18+0000\n"
 "Last-Translator: Steven Felix <stevenfelix505@gmail.com>\n"
 "Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/id/>\n"
@@ -97,7 +97,7 @@ msgstr "{0} bergabung"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr "{0} keluar"
+msgstr "{0} pergi"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from ?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
@@ -124,12 +124,12 @@ msgstr "{0} melepas sematan pesan"
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was added by {1}"
-msgstr "{0} telah ditambahkan oleh {1}"
+msgstr "{0} ditambahkan oleh {1}"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr "{0} telah dilarang"
+msgstr "{0} dilarang"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
@@ -140,7 +140,7 @@ msgstr "{0} diusir"
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr "{0} sudah dihapus oleh {1}"
+msgstr "{0} dihapus oleh {1}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -165,23 +165,23 @@ msgstr "Peran {0}"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{unknown} reacted"
-msgstr "{unknown} memberikan reaksi"
+msgstr "{unknown} memberikan tanggapan"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr "{usernames} dan {unknown} lainnya memberi reaksi"
+msgstr "{usernames} dan {unknown} lainnya memberikan tanggapan"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
-msgstr "{usernames} bereaksi"
+msgstr "{usernames} memberikan tanggapan"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been added by <1/>"
-msgstr "<0/> sudah ditambahkan oleh <1/>"
+msgstr "<0/> telah ditambahkan oleh <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been banned from the server"
-msgstr "<0/> sudah dilarang dari server"
+msgstr "<0/> telah dilarang dari server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been kicked from the server"
@@ -189,7 +189,7 @@ msgstr "<0/> telah diusir dari server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr "<0/> sudah dihapus oleh <1/>"
+msgstr "<0/> telah dihapus oleh <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
@@ -197,15 +197,15 @@ msgstr "<0/> bergabung ke server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the group"
-msgstr "<0/> keluar dari grup"
+msgstr "<0/> meninggalkan grup"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the server"
-msgstr "<0/> keluar dari server"
+msgstr "<0/> meninggalkan server"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> pinned <1/>"
-msgstr "<0/> disematkan <1/>"
+msgstr "<0/> menyematkan <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
@@ -221,7 +221,7 @@ msgstr "<0/> mengalihkan kepemilikan grup ke <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> unpinned <1/>"
-msgstr "<0/> dilepas sematan <1/>"
+msgstr "<0/> melepas sematan <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
@@ -251,7 +251,7 @@ msgstr "<0>Hati-hati!</0><1/>Ini bukan tautan yang ditampilkan:"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "1 person reacted"
-msgstr "1 orang memberi reaksi"
+msgstr "1 orang memberikan tanggapan"
 
 #~ msgid "1 second"
 #~ msgstr ""
@@ -737,7 +737,7 @@ msgstr "Masukan Obrolan"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your mail!"
-msgstr "Periksa email kamu!"
+msgstr "Periksa email Anda!"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
@@ -819,7 +819,7 @@ msgstr "Segera hadir! 👀"
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
 msgstr ""
-"Konfigurasi cara untuk mengakses kembali akun kamu apabila Verifikasi 2 "
+"Konfigurasikan cara untuk masuk kembali ke akun Anda jika Verifikasi 2 "
 "Langkah Anda hilang"
 
 #: components/app/interface/settings/user/Account.tsx
@@ -1263,7 +1263,7 @@ msgstr "Jangan hapus pesan"
 
 #: components/modal/modals/LeaveServer.tsx
 msgid "Don't notify others that you've left"
-msgstr "Jangan beritahu anggota lain bahwa Anda telah keluar"
+msgstr "Jangan beritahu orang lain bahwa Anda telah pergi"
 
 #: src/AndroidNag.tsx
 msgid "Don't show this again"
@@ -1483,7 +1483,7 @@ msgstr "Berkas harus lebih kecil dari {0}"
 
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
-msgstr "Temukan komunitas berdasarkan hobi atau minat kamu."
+msgstr "Temukan komunitas berdasarkan hobi atau minat Anda."
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "Find your com<0/>munity,<1/>connect with the world."
@@ -2284,7 +2284,7 @@ msgstr "Daring"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Only mentions will notify you"
-msgstr "Hanya sebutan akan memberikan kamu notifikasi"
+msgstr "Hanya sebutan yang akan memberitahu Anda"
 
 #: components/instance/index.tsx
 msgid "Oops, something went wrong! {e}"
@@ -2417,7 +2417,7 @@ msgstr ""
 
 #: components/modal/modals/MFAFlow.tsx
 msgid "Please select a method to authenticate your request."
-msgstr "Pilih metode untuk mengautentikasi permintaanmu."
+msgstr "Silahkan pilih metode untuk mengautentikasi permintaan Anda."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Please select a reason"
@@ -2472,7 +2472,7 @@ msgstr "Serangan raid atau spam"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/menus/MessageContextMenu.tsx
 msgid "React"
-msgstr "Reaksi"
+msgstr "Tanggapi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React to messages with emoji"
@@ -2561,7 +2561,7 @@ msgstr "Hapus"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove all reactions"
-msgstr "Hapus semua reaksi"
+msgstr "Hapus semua tanggapan"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Remove Authenticator"
@@ -2586,7 +2586,7 @@ msgstr "Hapus avatar anggota lainnya"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Remove reaction"
-msgstr "Hapus reaksi"
+msgstr "Hapus tanggapan"
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/modal/modals/EditCategory.tsx
@@ -3375,7 +3375,7 @@ msgstr "Iklan yang tidak diminta atau spam"
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Until I turn it back on"
-msgstr "Hingga aku aktifkan lagi"
+msgstr "Hingga saya menghidupkannya lagi"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Upload Files"
@@ -3420,7 +3420,7 @@ msgstr "Pengguna Diusir"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "User Left"
-msgstr "Pengguna Keluar"
+msgstr "Pengguna Pergi"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "User Left Call"
@@ -3436,7 +3436,7 @@ msgstr "Pengaturan Pengguna"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "User's profile has inappropriate content"
-msgstr "Profil pengguna berisi konten tidak pantas"
+msgstr "Profil pengguna memiliki konten yang tidak pantas"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/auth/src/flows/Form.tsx
@@ -3611,15 +3611,19 @@ msgstr "dengan {0} lainnya"
 
 #: components/modal/modals/CreateGroupOrServer.tsx
 msgid "Would you like to create a new group or server?"
-msgstr "Apakah kamu ingin membuat grup atau server baru?"
+msgstr "Apakah Anda ingin membuat grup atau server baru?"
 
 #: components/modal/modals/CreateOrJoinServer.tsx
 msgid "Would you like to create a new server or join an existing one?"
-msgstr "Apakah kamu ingin membuat server baru atau bergabung dengan server yang sudah ada?"
+msgstr ""
+"Apakah Anda ingin membuat server baru atau bergabung dengan server yang "
+"sudah ada?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr "Kamu setuju bahwa bot kamu merupakan subjek terhadap Kebijakan Penggunaan yang Dapat Diterima."
+msgstr ""
+"Anda setuju bahwa bot Anda tunduk pada Kebijakan Penggunaan yang Dapat "
+"Diterima."
 
 #. placeholder {0}: props.member.user?.username
 #. placeholder {0}: props.user?.username
@@ -3639,58 +3643,63 @@ msgstr "Anda telah dilarang dari server ini."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
-msgstr "Kamu juga dapat mengklik ikon roda gigi pada bagian kiri bawah."
+msgstr "Anda juga bisa mengklik ikon roda gigi di kiri bawah."
 
 #~ msgid "You can also right-click the user icon in the top left, or left click it if you're already home."
 #~ msgstr "Kamu juga bisa klik kanan ikon pengguna di kiri atas, atau klik kiri jika kamu sedang berada di beranda."
 
 #: components/modal/modals/DeleteChannel.tsx
 msgid "You can re-open it later, but it will disappear on both sides."
-msgstr "Kamu dapat membukanya kembali nanti, namun percakapan akan hilang di kedua sisi."
+msgstr ""
+"Anda bisa membukanya kembali nanti, namun itu akan hilang di kedua sisi."
 
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr "Kamu dapat melaporkan masalah dan mendiskusikan peningkatan dengan kami secara langsung di sini."
+msgstr ""
+"Anda bisa melaporkan masalah dan mendiskusikan perbaikan secara langsung "
+"dengan kami di sini."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
-msgstr "Kamu tak diperbolehkan berada di lebih dari {0} server, silakan tinggalkan salah satu dan coba lagi."
+msgstr ""
+"Anda tidak bisa berada di lebih dari {0} server, silahkan tinggalkan salah "
+"satu dan coba lagi."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't have more than {0} channels on this server."
-msgstr "Kamu tidak dapat memiliki lebih dari {0} saluran pada server ini."
+msgstr "Anda tidak bisa memiliki lebih dari {0} saluran di server ini."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't have more than {0} emojis on this server."
-msgstr "Kamu tidak dapat memiliki lebih dari {0} emoji pada server ini."
+msgstr "Anda tidak bisa memiliki lebih dari {0} emoji di server ini."
 
 #: components/i18n/errors.tsx
 msgid "You cannot give yourself missing permissions."
-msgstr "Kamu tidak bisa memberikan izin yang hilang kepada dirimu sendiri."
+msgstr "Anda tidak bisa memberikan izin yang hilang kepada diri Anda sendiri."
 
 #: components/i18n/errors.tsx
 msgid "You cannot join this call."
-msgstr "Kamu tidak bisa bergabung pada panggilan ini."
+msgstr "Anda tidak bisa bergabung dengan panggilan ini."
 
 #: components/i18n/errors.tsx
 msgid "You cannot remove yourself."
-msgstr "Kamu tidak bisa menghapus dirimu sendiri."
+msgstr "Anda tidak bisa menghapus diri Anda sendiri."
 
 #: components/i18n/errors.tsx
 msgid "You cannot report yourself."
-msgstr "Kamu tidak bisa melaporkan dirimu sendiri."
+msgstr "Anda tidak bisa melaporkan diri Anda sendiri."
 
 #: components/i18n/errors.tsx
 msgid "You cannot timeout yourself."
-msgstr "Kamu tidak bisa membatasi waktu kamu sendiri."
+msgstr "Anda tidak bisa membatasi waktu Anda sendiri."
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "You cannot undo this action."
-msgstr "Kamu tidak bisa membatalkan tindakan ini."
+msgstr "Anda tidak bisa membatalkan tindakan ini."
 
 #. placeholder {0}: props.display
 #: components/modal/modals/LinkWarning.tsx
@@ -3699,19 +3708,21 @@ msgstr "Kamu mengklik \"{0}\""
 
 #: components/i18n/errors.tsx
 msgid "You do not have permission to do this."
-msgstr "Kamu tidak memiliki izin untuk melakukan ini."
+msgstr "Anda tidak memiliki izin untuk melakukan ini."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
-msgstr "Kamu tidak memiliki izin untuk mengirim pesan di saluran ini."
+msgstr "Anda tidak memiliki izin untuk mengirim pesan di saluran ini."
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
-msgstr "Kamu telah ditangguhkan karena memasukkan kata sandi yang salah beberapa kali. Harap tunggu beberapa menit dan coba lagi."
+msgstr ""
+"Anda telah dikunci karena memasukkan kata sandi yang salah beberapa kali. "
+"Harap tunggu beberapa menit dan coba lagi."
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."
-msgstr "Kamu telah memblokir pengguna ini."
+msgstr "Anda telah memblokir pengguna ini."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "You may be experiencing connection issues."
@@ -3719,11 +3730,11 @@ msgstr "Anda mungkin sedang mengalami masalah koneksi."
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
-msgstr "Kamu telah membisukan pengguna ini."
+msgstr "Anda membisukan pengguna ini."
 
 #: components/auth/src/flows/FlowHome.tsx
 msgid "You were logged out!"
-msgstr "Kamu sudah keluar!"
+msgstr "Anda telah keluar!"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "You will not receive any notifications"
@@ -3731,7 +3742,9 @@ msgstr "Anda tidak akan menerima notifikasi lagi"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
-msgstr "Kamu tidak akan bisa mengakses akunmu kecuali dengan menghubungi bantuan - namun, datamu tidak akan dihapus."
+msgstr ""
+"Anda tidak akan bisa mengakses akun Anda kecuali Anda menghubungi dukungan - "
+"namun, data Anda tidak akan dihapus."
 
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
@@ -3759,29 +3772,33 @@ msgstr ""
 
 #: components/modal/modals/SignedOut.tsx
 msgid "You've been signed out of Stoat!"
-msgstr "Kamu telah keluar dari Stoat!"
+msgstr "Anda telah keluar dari Stoat!"
 
 #: components/i18n/errors.tsx
 msgid "You've reached your personal bot limit."
-msgstr "Kamu telah mencapai batas bot pribadi kamu."
+msgstr "Anda telah mencapai batas bot pribadi Anda."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You've sent too many friend requests, the maximum is {0}"
 msgstr ""
-"Anda telah mengirim terlalu banyak permintaan pertemanan, maksimum adalah {0}"
+"Anda sudah mengirim terlalu banyak permintaan pertemanan, maksimumnya adalah "
+"{0}"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr "Akun kamu dan seluruh data kamu (termasuk pesan dan daftar teman) akan diantrekan untuk penghapusan. Email konfirmasi akan dikirim - kamu dapat membatalkan penghapusan ini dalam waktu 7 hari dengan menghubungi dukungan."
+msgstr ""
+"Akun Anda dan seluruh data Anda (termasuk pesan dan daftar teman Anda) akan "
+"dimasukkan ke dalam antrean untuk dihapus. Email konfirmasi akan dikirimkan -"
+" Anda dapat membatalkan ini dalam waktu 7 hari dengan menghubungi dukungan."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
-msgstr "Akunmu telah diverifikasi!"
+msgstr "Akun Anda telah diverifikasi!"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
-msgstr "Perubahan diskriminator kamu telah mencapai batas permintaan, silakan coba lagi nanti."
+msgstr "Perubahan diskriminator Anda telah dibatasi, silahkan coba lagi nanti."
 
 #: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
@@ -3794,7 +3811,7 @@ msgstr "Kode pemulihan Anda"
 
 #: components/i18n/errors.tsx
 msgid "Your role ranking is too low to take this action."
-msgstr "Peringkat peran kamu terlalu rendah untuk mengambil tindakan ini."
+msgstr "Peringkat peran Anda terlalu rendah untuk mengambil tindakan ini."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
