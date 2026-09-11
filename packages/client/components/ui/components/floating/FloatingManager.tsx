@@ -140,9 +140,18 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
 
   /**
    * Dismiss floating element when clicking elsewhere
+   *
+   * Must ignore clicks on the trigger element itself - that element's own
+   * "click" handler (in the `floating` directive) is what toggles the
+   * element open/closed. Without this guard, a pointerdown on the trigger
+   * closes it here first (pointerdown fires before click), so the
+   * subsequent click sees nothing open and immediately re-opens it -
+   * clicking the trigger to close would instead appear to do nothing.
    */
   function onMouseDown(e: PointerEvent) {
     if (!e.defaultPrevented) {
+      if (props.element.contains(e.target as Node)) return;
+
       const currentlyShown = props.show();
       if (!currentlyShown?.contextMenu && !currentlyShown?.userCard) return;
 
