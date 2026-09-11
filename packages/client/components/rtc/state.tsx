@@ -353,17 +353,23 @@ class Voice {
     }
   }
 
+  /**
+   * Toggle deafen. Works both while connected to a call (live-updates the
+   * room) and outside of one (just flips the setting for the next call),
+   * same as toggling mute below.
+   */
   async toggleDeafen(fromMute?: boolean) {
     try {
       const room = this.room();
-      if (!room) throw "invalid state";
-      await room.localParticipant.setMicrophoneEnabled(
-        (this.#settings.micOn || !!fromMute) &&
-          !room.localParticipant.isMicrophoneEnabled,
-      );
+      if (room) {
+        await room.localParticipant.setMicrophoneEnabled(
+          (this.#settings.micOn || !!fromMute) &&
+            !room.localParticipant.isMicrophoneEnabled,
+        );
+      }
 
       this.#settings.deafen = !this.#settings.deafen;
-      if (fromMute) {
+      if (fromMute && room) {
         this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
       }
       if (this.#settings.deafen) {
@@ -383,12 +389,14 @@ class Voice {
     }
     try {
       const room = this.room();
-      if (!room) throw "invalid state";
-      await room.localParticipant.setMicrophoneEnabled(
-        !room.localParticipant.isMicrophoneEnabled,
-      );
-
-      this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      if (room) {
+        await room.localParticipant.setMicrophoneEnabled(
+          !room.localParticipant.isMicrophoneEnabled,
+        );
+        this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      } else {
+        this.#settings.micOn = !this.#settings.micOn;
+      }
 
       if (this.#settings.micOn) {
         this.sound.playSound("unmute");

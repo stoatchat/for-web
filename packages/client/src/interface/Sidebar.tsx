@@ -8,16 +8,18 @@ import {
   ChannelContextMenu,
   ServerSidebarContextMenu,
 } from "@revolt/app";
-import { useClient, useUser } from "@revolt/client";
+import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useLocation, useParams, useSmartParams } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 
 import { HomeSidebar, ServerList, ServerSidebar } from "./navigation";
+import { UserPanel } from "./navigation/channels/UserPanel";
 
 const MainBar = styled("div", {
   base: {
+    position: "relative",
     display: "flex",
     flexShrink: 0,
 
@@ -39,7 +41,6 @@ export const Sidebar = (props: {
    */
   menuGenerator: (t: ServerI | Channel) => JSX.Directives["floating"];
 }) => {
-  const user = useUser();
   const state = useState();
   const client = useClient();
   const { openModal } = useModals();
@@ -58,7 +59,6 @@ export const Sidebar = (props: {
             // TODO: muting channels
             (channel) => channel.unread,
           )}
-        user={user()!}
         selectedServer={() => params.server}
         onCreateOrJoinServer={() =>
           openModal({
@@ -80,6 +80,7 @@ export const Sidebar = (props: {
           </Match>
         </Switch>
       </Show>
+      <UserPanel />
     </MainBar>
   );
 };

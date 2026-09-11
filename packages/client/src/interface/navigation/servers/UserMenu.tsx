@@ -11,7 +11,7 @@ import {
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
-import { autoUpdate, offset, shift } from "@floating-ui/dom";
+import { Placement, autoUpdate, offset, shift } from "@floating-ui/dom";
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -35,6 +35,11 @@ import MdNotificationsOff from "@material-design-icons/svg/outlined/notification
 
 interface Props {
   anchor: Accessor<HTMLDivElement | undefined>;
+  /**
+   * Where the menu opens relative to the anchor.
+   * @default "right-start"
+   */
+  placement?: Placement;
 }
 
 const TruncatedStatusText = styled("div", {
@@ -60,7 +65,10 @@ export function UserMenu(props: Props) {
   const [ref, setRef] = createSignal<HTMLDivElement>();
 
   const position = useFloating(() => props.anchor(), ref, {
-    placement: "right-start",
+    // Static per mount, like the other useFloating options here (all plain,
+    // non-reactive values) - placement never changes after mount in practice.
+    // eslint-disable-next-line solid/reactivity
+    placement: props.placement ?? "right-start",
     whileElementsMounted: autoUpdate,
     middleware: [offset(5), shift()],
   });

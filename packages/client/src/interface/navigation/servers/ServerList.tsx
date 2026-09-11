@@ -1,7 +1,7 @@
-import { Accessor, For, JSX, Show, createMemo, createSignal } from "solid-js";
+import { Accessor, For, JSX, Show, createMemo } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
-import { Channel, Server, User } from "stoat.js";
+import { Channel, Server } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -9,20 +9,17 @@ import { useClient } from "@revolt/client";
 import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
-import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { Avatar, Column, Text, Time, Unreads, UserStatus } from "@revolt/ui";
+import { Avatar, Column, Text, Time, Unreads } from "@revolt/ui";
 import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 
 import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
 import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
 import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
 import { Tooltip } from "../../../../components/ui/components/floating";
 import { Draggable } from "../../../../components/ui/components/utils/Draggable";
-import { UserMenu } from "./UserMenu";
 
 interface Props {
   /**
@@ -40,11 +37,6 @@ interface Props {
    * Unread conversations list
    */
   unreadConversations: Channel[];
-
-  /**
-   * Current logged in user
-   */
-  user: User;
 
   /**
    * Selected server id
@@ -70,7 +62,6 @@ export const ServerList = (props: Props) => {
   const client = useClient();
   const navigate = useNavigate();
   const { isMobile } = useDevice();
-  const { openModal } = useModals();
   const instance = useInstance();
 
   const navigateServer = (byOffset: number) => {
@@ -114,9 +105,6 @@ export const ServerList = (props: Props) => {
       .length;
   });
 
-  // Ref for floating menu
-  const [menuButton, setMenuButton] = createSignal<HTMLDivElement>();
-
   return (
     <ServerListBase>
       <div use:invisibleScrollable={{ direction: "y", class: listBase() }}>
@@ -146,29 +134,6 @@ export const ServerList = (props: Props) => {
             }
           />
         </a>
-        <Tooltip
-          placement="right"
-          content={() => (
-            <Column>
-              <span>{props.user.username}</span>
-              <Text class="label" size="small">
-                {props.user.presence}
-              </Text>
-            </Column>
-          )}
-          aria={props.user.username}
-        >
-          <a ref={setMenuButton} class={entryContainer()}>
-            <Avatar
-              size={42}
-              src={props.user.avatarURL}
-              holepunch={"bottom-right"}
-              overlay={<UserStatus.Graphic status={props.user.presence} />}
-              interactive
-            />
-          </a>
-          <UserMenu anchor={menuButton} />
-        </Tooltip>
         <For each={props.unreadConversations.slice(0, 9)}>
           {(conversation) => (
             <Tooltip placement="right" content={conversation.displayName}>
@@ -326,14 +291,6 @@ export const ServerList = (props: Props) => {
       <Shadow>
         <div />
       </Shadow>
-      <Tooltip placement="right" content="Settings">
-        <a
-          class={entryContainer()}
-          onClick={() => openModal({ type: "settings", config: "user" })}
-        >
-          <Avatar size={42} fallback={<MdSettings />} interactive />
-        </a>
-      </Tooltip>
     </ServerListBase>
   );
 };
