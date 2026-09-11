@@ -191,11 +191,12 @@ const base = cva({
         background: "transparent",
       },
       muted: {
-        "--color": "var(--md-sys-color-outline-variant)",
+        "--color":
+          "color-mix(in oklch, var(--md-sys-color-outline-variant) 100%, transparent 38%)",
         background: "transparent",
 
         "& img": {
-          opacity: "0.3",
+          opacity: "0.38",
         },
       },
       active: {
