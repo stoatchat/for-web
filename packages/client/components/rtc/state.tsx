@@ -21,6 +21,7 @@ import {
   ScreenSharePresets,
   Track,
   VideoEncoding,
+  VideoPreset,
   VideoPresets,
 } from "livekit-client";
 import { Channel } from "stoat.js";
@@ -454,12 +455,25 @@ class Voice {
       (limit[0] === 0 || limit[0] >= 1920) &&
       (limit[1] === 0 || limit[1] >= 1080)
     ) {
+      // LiveKit's built-in h1080fps30 preset caps out at 5Mbps, which looks
+      // soft for detailed/high-motion content - bump it a bit for a sharper
+      // "high" option, and add a 60fps variant for smoother motion (games).
+      const high1080p30 = new VideoPreset(1920, 1080, 8_000_000, 30, "medium");
+      const high1080p60 = new VideoPreset(1920, 1080, 10_000_000, 60, "medium");
+
       qualities.high = {
         name: "high",
-        resolution: ScreenSharePresets.h1080fps30.resolution,
+        resolution: high1080p30.resolution,
         fullName: `1080p 30FPS`,
         contentHint: "motion",
-        encoding: ScreenSharePresets.h1080fps30.encoding,
+        encoding: high1080p30.encoding,
+      };
+      qualities.high60 = {
+        name: "high60",
+        resolution: high1080p60.resolution,
+        fullName: `1080p 60FPS`,
+        contentHint: "motion",
+        encoding: high1080p60.encoding,
       };
       const originalResolution = ScreenSharePresets.original.resolution;
       originalResolution.frameRate = 5;
