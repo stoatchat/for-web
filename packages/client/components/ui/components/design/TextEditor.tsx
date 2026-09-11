@@ -1,16 +1,16 @@
 import { useFloating } from "solid-floating-ui";
 import {
   Accessor,
-  For,
-  Match,
-  Show,
-  Switch,
   createEffect,
   createMemo,
   createSignal,
+  For,
+  Match,
   on,
   onCleanup,
   onMount,
+  Show,
+  Switch,
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
@@ -49,14 +49,11 @@ import {
 } from "@revolt/markdown/prosemirror";
 import { useState } from "@revolt/state";
 
-import emojiMapping from "../../emojiMapping.json";
 import { AutoCompleteSearchSpace } from "../utils/autoComplete";
 
+import { getEmojiByShorthand, MAPPED_EMOJI_KEYS } from "@revolt/ui";
 import { Avatar } from "./Avatar";
 import { typography } from "./Text";
-
-const EMOJI_KEYS = Object.keys(emojiMapping).sort();
-const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map((id) => ({ id, name: id }));
 
 interface Props {
   /**
@@ -300,7 +297,7 @@ export function TextEditor(props: Props) {
                     }
                   : {
                       type: "unicode",
-                      codepoint: emojiMapping[id as keyof typeof emojiMapping],
+                      codepoint: getEmojiByShorthand(id).emoji,
                       name: emote.name,
                     },
               );
