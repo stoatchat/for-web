@@ -15,6 +15,7 @@ import unmuteSound from "../../public/assets/sounds/unmute.ogg";
 import userJoinVoiceSound from "../../public/assets/sounds/user_join_voice.ogg";
 import userLeaveVoiceSound from "../../public/assets/sounds/user_leave_voice.ogg";
 import userMovedSound from "../../public/assets/sounds/user_moved.ogg";
+import userSelfLeaveVoiceSound from "../../public/assets/sounds/user_self_leave_voice.ogg";
 
 /**
  * A controller class for making sure sounds are managed in one place and to prevent undesirable sound overlaps
@@ -127,6 +128,10 @@ export class SoundController {
       }
       case "userLeaveVoice": {
         this.node = new Audio(userLeaveVoiceSound);
+        break;
+      }
+      case "userSelfLeaveVoice": {
+        this.node = new Audio(userSelfLeaveVoiceSound);
         break;
       }
       case "userMoved": {

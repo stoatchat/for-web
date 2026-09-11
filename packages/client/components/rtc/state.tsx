@@ -348,7 +348,7 @@ class Voice {
 
       this.screenShareTracks = new Set();
 
-      this.sound.playSound("userLeaveVoice");
+      this.sound.playSound("userSelfLeaveVoice");
     } catch (e) {
       this.onErr(e);
     }

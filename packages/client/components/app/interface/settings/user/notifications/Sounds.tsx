@@ -182,6 +182,28 @@ export default function Sounds() {
             </Content>
           </CategoryButton>
           <CategoryButton
+            action={<Checkbox checked={sounds.enabled("userSelfLeaveVoice")} />}
+            onClick={() => sounds.toggle("userSelfLeaveVoice")}
+            icon="blank"
+          >
+            <Content>
+              <Trans>You Left Call</Trans>
+              <IconButton
+                onPress={() =>
+                  soundController.playSound("userSelfLeaveVoice", true)
+                }
+                use:floating={{
+                  tooltip: {
+                    placement: "top",
+                    content: playSoundString,
+                  },
+                }}
+              >
+                <MdVolumeUp {...iconSize(18)} />
+              </IconButton>
+            </Content>
+          </CategoryButton>
+          <CategoryButton
             action={<Checkbox checked={sounds.enabled("streamStart")} />}
             onClick={() => sounds.toggle("streamStart")}
             icon="blank"
