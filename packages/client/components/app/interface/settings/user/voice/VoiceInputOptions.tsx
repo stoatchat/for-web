@@ -15,6 +15,8 @@ import {
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { MicMonitor } from "./MicMonitor";
+
 /**
  * Input options
  */
@@ -31,6 +33,7 @@ export function VoiceInputOptions() {
         </Show>
       </CategoryButton.Group>
       <VolumeSliders />
+      <MicMonitor />
     </Column>
   );
 }

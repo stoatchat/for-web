@@ -27,6 +27,14 @@ export const ScreenShareQualityNames: ScreenShareQualityName[] = [
   "text",
 ];
 
+/**
+ * Allowed range for the voice activity threshold (dBFS). Matches the range
+ * the self-hosted LiveKit server's own speaking detection is tuned for.
+ */
+export const MIC_SENSITIVITY_MIN_DB = -60;
+export const MIC_SENSITIVITY_MAX_DB = -10;
+export const MIC_SENSITIVITY_DEFAULT_DB = -35;
+
 export interface TypeVoice {
   preferredAudioInputDevice?: string;
   preferredAudioOutputDevice?: string;
@@ -42,6 +50,11 @@ export interface TypeVoice {
 
   inputVolume: number;
   outputVolume: number;
+  /**
+   * Voice activity threshold in dBFS: the mic only transmits once the
+   * (noise-suppressed) input level rises above this. Lower = more sensitive.
+   */
+  micSensitivity: number;
   deafen: boolean;
   micOn: boolean;
 
@@ -84,6 +97,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       screenShareAudio: true,
       inputVolume: 1.0,
       outputVolume: 1.0,
+      micSensitivity: MIC_SENSITIVITY_DEFAULT_DB,
       deafen: false,
       micOn: true,
       userVolumes: {},
@@ -152,6 +166,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
 
     if (typeof input.outputVolume === "number") {
       data.outputVolume = input.outputVolume;
+    }
+
+    if (typeof input.micSensitivity === "number") {
+      data.micSensitivity = Math.min(
+        MIC_SENSITIVITY_MAX_DB,
+        Math.max(MIC_SENSITIVITY_MIN_DB, input.micSensitivity),
+      );
     }
 
     if (typeof input.deafen === "boolean") {
@@ -349,6 +370,16 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
   }
 
   /**
+   * Set voice activity threshold (dBFS)
+   */
+  set micSensitivity(value: number) {
+    this.set(
+      "micSensitivity",
+      Math.min(MIC_SENSITIVITY_MAX_DB, Math.max(MIC_SENSITIVITY_MIN_DB, value)),
+    );
+  }
+
+  /**
    * Set mic status
    */
   set micOn(value: boolean) {
@@ -437,6 +468,13 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get outputVolume(): number {
     return this.get().outputVolume;
+  }
+
+  /**
+   * Get voice activity threshold (dBFS)
+   */
+  get micSensitivity(): number {
+    return this.get().micSensitivity ?? MIC_SENSITIVITY_DEFAULT_DB;
   }
 
   /**

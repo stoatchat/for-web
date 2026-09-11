@@ -180,7 +180,7 @@ export const tile = cva({
   base: {
     display: "grid",
     aspectRatio: "16/9",
-    transition: "all .3s ease, width 0s, height 0s",
+    transition: "all .3s ease, width 0s, height 0s, outline-color .05s ease",
     borderRadius: "var(--borderRadius-lg)",
     width: "var(--vc-tile-width)",
     maxWidth: "calc(var(--vc-h) * 16 / 9)",
