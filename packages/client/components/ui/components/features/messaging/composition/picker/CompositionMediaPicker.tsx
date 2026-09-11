@@ -131,6 +131,7 @@ function Picker(
     if (rect.right > innerWidth || rect.bottom > innerHeight) setFixed(true);
   }
   onMount(() => {
+    (document.activeElement as HTMLElement)?.blur(); //Hide keyboard
     addEventListener("mousedown", onMouseDown);
     addEventListener("resize", onResize);
     setTimeout(onResize, 1);
