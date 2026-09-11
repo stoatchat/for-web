@@ -34,7 +34,6 @@ const InformationRow = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
     alignItems: "center",
     gap: "var(--gap-md)",
   },
@@ -56,14 +55,9 @@ const PreviewImage = styled("img", {
   },
 });
 
-const Title = styled("span", {
-  base: {
-    minWidth: 0,
-    flexShrink: 1,
-
-    fontSize: "16px",
-    color: "var(--md-sys-color-primary) !important",
-  },
+const titleCss = css({
+  fontSize: "16px",
+  color: "var(--md-sys-color-primary)",
 });
 
 const Content = styled(Column, {
@@ -83,11 +77,26 @@ const Description = styled("div", {
 /**
  * Text Embed
  */
-export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
+export function TextEmbed(props: {
+  embed: TextEmbedClass | WebsiteEmbed;
+  link?: URL;
+}) {
   const { openModal } = useModals();
 
+  function nameFromURL() {
+    let name;
+    try {
+      name = new URL(props.embed.url!).hostname;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-empty
+    } catch (_) {}
+    return name || "Website";
+  }
+
   return (
-    <Base style={{ "border-color": props.embed.colour }}>
+    <Base
+      class="text_embed embed"
+      style={{ "border-color": props.embed.colour }}
+    >
       <Content gap="md" grow>
         <Show
           when={
@@ -112,9 +121,9 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
           </InformationRow>
         </Show>
 
-        <Show when={props.embed.title}>
+        <Show when={props.embed.url}>
           <InformationRow>
-            <Show when={props.embed.iconUrl && props.embed.type !== "Website"}>
+            <Show when={props.embed.iconUrl}>
               <Favicon
                 loading="lazy"
                 draggable={false}
@@ -122,11 +131,17 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />
             </Show>
-            <Title>
-              <RenderAnchor href={props.embed.url}>
-                <OverflowingText>{props.embed.title}</OverflowingText>
+            <OverflowingText class={titleCss}>
+              <RenderAnchor
+                href={
+                  props.link?.toString() ||
+                  (props.embed as WebsiteEmbed).originalUrl ||
+                  props.embed.url
+                }
+              >
+                {props.embed.title ?? nameFromURL()}
               </RenderAnchor>
-            </Title>
+            </OverflowingText>
           </InformationRow>
         </Show>
 

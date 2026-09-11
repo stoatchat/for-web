@@ -1,4 +1,4 @@
-import { Match, Switch } from "solid-js";
+import { createMemo, Match, Switch } from "solid-js";
 
 import {
   ImageEmbed,
@@ -18,13 +18,13 @@ import { TextEmbed } from "./TextEmbed";
 /**
  * Render a given embed
  */
-export function Embed(props: { embed: MessageEmbed }) {
+export function Embed(props: { embed: MessageEmbed; link?: URL }) {
   const { openModal } = useModals();
 
   /**
    * Whether the embed is a GIF
    */
-  const isGIF = () => isGifLib(props.embed);
+  const isGIF = createMemo(() => isGifLib(props.embed));
 
   /**
    * Whether there is a video
@@ -45,7 +45,11 @@ export function Embed(props: { embed: MessageEmbed }) {
   return (
     <Switch fallback={`Could not render ${props.embed.type}!`}>
       <Match when={image()}>
-        <SizedContent width={image()!.width} height={image()!.height}>
+        <SizedContent
+          class={"img_embed embed"}
+          width={image()!.width}
+          height={image()!.height}
+        >
           <img
             // bypass proxy for known GIF providers
             // TODO: Remove the Gifbox check here once gifbox embeds are fixed
@@ -66,7 +70,11 @@ export function Embed(props: { embed: MessageEmbed }) {
         </SizedContent>
       </Match>
       <Match when={video()}>
-        <SizedContent width={video()!.width} height={video()!.height}>
+        <SizedContent
+          class={"video_embed embed"}
+          width={video()!.width}
+          height={video()!.height}
+        >
           <video
             playsinline
             loop={isGIF()}
@@ -95,7 +103,10 @@ export function Embed(props: { embed: MessageEmbed }) {
       <Match
         when={props.embed.type === "Website" || props.embed.type === "Text"}
       >
-        <TextEmbed embed={props.embed as WebsiteEmbed | TextEmbedClass} />
+        <TextEmbed
+          embed={props.embed as WebsiteEmbed | TextEmbedClass}
+          link={props.link}
+        />
       </Match>
       <Match when={props.embed.type === "None"}> </Match>
     </Switch>
