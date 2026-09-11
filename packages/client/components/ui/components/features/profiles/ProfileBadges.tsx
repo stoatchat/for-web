@@ -19,13 +19,17 @@ import { Text } from "../../design";
 
 import { ProfileCard } from "./ProfileCard";
 
-export function ProfileBadges(props: { user: User }) {
+export function ProfileBadges(props: {
+  user: User;
+  /** Full width, height fits content (used in the floating user card) */
+  fluid?: boolean;
+}) {
   const { t } = useLingui();
 
   return (
     <Show when={props.user.badges}>
-      <ProfileCard>
-        <Text class="title" size="large">
+      <ProfileCard width={props.fluid ? "full" : undefined}>
+        <Text class="title" size={props.fluid ? "small" : "large"}>
           <Trans>Badges</Trans>
         </Text>
 

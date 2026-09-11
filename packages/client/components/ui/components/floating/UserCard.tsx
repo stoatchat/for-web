@@ -17,12 +17,13 @@ const base = cva({
 
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-container-high)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow:
+      "0 24px 48px -16px rgba(0, 0, 0, 0.55), 0 0 0 1px var(--md-sys-color-outline-variant)",
 
     width: "340px",
-    height: "400px",
 
-    borderRadius: "var(--borderRadius-xl)",
+    borderRadius: "var(--borderRadius-lg)",
+    overflow: "hidden",
   },
 });
 
@@ -41,7 +42,19 @@ export function UserCard(
   }));
 
   function openFull() {
-    openModal({ type: "user_profile", user: props.user, member: props.member });
+    if (props.user.self) {
+      openModal({
+        type: "settings",
+        config: "user",
+        context: { page: "profile" },
+      });
+    } else {
+      openModal({
+        type: "user_profile",
+        user: props.user,
+        member: props.member,
+      });
+    }
     props.onClose();
   }
 
@@ -52,44 +65,73 @@ export function UserCard(
   return (
     <Show when={!isMobile}>
       <div
-        use:invisibleScrollable={{ class: base() }}
+        class={base()}
         on:pointerdown={(e) => {
           e.preventDefault();
         }}
       >
-        <Grid>
+        <TopArea>
           <Profile.Banner
+            overlap
             width={2}
             user={props.user}
             member={props.member}
             bannerUrl={query.data?.animatedBannerURL}
             onClick={openFull}
           />
-          <Profile.Actions
-            user={props.user}
-            member={props.member}
-            onClose={props.onClose}
-            width={2}
+          <ActionsOverlay>
+            <Profile.Actions
+              user={props.user}
+              member={props.member}
+              onClose={props.onClose}
+              width={2}
+              compact
+            />
+          </ActionsOverlay>
+        </TopArea>
+
+        <Stack>
+          <Profile.Bio
+            content={query.data?.content}
+            onClick={openFull}
+            fluid
           />
-          <Profile.Roles member={props.member} />
-          <Profile.Badges user={props.user} />
-          <Profile.Status user={props.user} />
-          <Profile.Joined user={props.user} member={props.member} />{" "}
+          <Profile.Roles member={props.member} fluid />
+          <Profile.Badges user={props.user} fluid />
           <Show when={props.bot}>
-            <Profile.Owner bot={props.bot!} />
+            <Profile.Owner bot={props.bot!} fluid />
           </Show>
-          <Profile.Bio content={query.data?.content} onClick={openFull} />
-        </Grid>
+          <Profile.Joined user={props.user} member={props.member} fluid />
+        </Stack>
       </div>
     </Show>
   );
 }
 
-const Grid = styled("div", {
+const TopArea = styled("div", {
   base: {
-    display: "grid",
-    gap: "var(--gap-md)",
+    position: "relative",
+  },
+});
+
+const ActionsOverlay = styled("div", {
+  base: {
+    position: "absolute",
+    top: "var(--gap-sm)",
+    right: "var(--gap-sm)",
+
+    padding: "4px",
+    borderRadius: "var(--borderRadius-full)",
+    background: "rgba(0, 0, 0, 0.45)",
+    backdropFilter: "blur(4px)",
+  },
+});
+
+const Stack = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "var(--gap-lg)",
     padding: "var(--gap-md)",
-    gridTemplateColumns: "repeat(2, 1fr)",
   },
 });

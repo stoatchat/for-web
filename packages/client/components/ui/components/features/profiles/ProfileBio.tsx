@@ -12,6 +12,8 @@ interface Props {
   full?: boolean;
   content?: string;
   onClick?: () => void;
+  /** Full width, height fits content (used in the floating user card) */
+  fluid?: boolean;
 }
 
 /**
@@ -23,14 +25,14 @@ export function ProfileBio(props: Props) {
       <ProfileCard
         onClick={props.onClick}
         isLink={typeof props.onClick !== "undefined"}
-        width={props.full ? 3 : 2}
-        constraint={props.full ? undefined : "half"}
+        width={props.fluid ? "full" : props.full ? 3 : 2}
+        constraint={props.fluid || props.full ? undefined : "half"}
       >
         <Show when={props.onClick}>
           <Ripple />
         </Show>
 
-        <Text class="title" size="large">
+        <Text class="title" size={props.fluid ? "small" : "large"}>
           Bio
         </Text>
 

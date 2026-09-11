@@ -16,6 +16,11 @@ export function ProfileBanner(props: {
   onClick?: (e: MouseEvent) => void;
   onClickAvatar?: (e: MouseEvent) => void;
   width: 2 | 3;
+  /**
+   * Discord-style layout: avatar overlaps the bottom edge of the banner
+   * and the name block is rendered underneath, instead of inline.
+   */
+  overlap?: boolean;
 }) {
   const { t } = useLingui();
 
@@ -38,6 +43,73 @@ export function ProfileBanner(props: {
   }
 
   const pronouns = () => props.member?.pronouns ?? props.user.pronouns;
+
+  const showDisplayName = () =>
+    (props.member?.displayName ?? props.user.displayName) !==
+    props.user.username;
+
+  const usernameBlock = (
+    <Row>
+      <UsernameContainer>
+        <Tooltip
+          content={isCopied() ? t`Copied!` : t`Click to copy username`}
+          placement="top"
+        >
+          <Username onClick={onUsernameClick}>
+            {props.user.username}
+            <LowEmphasis>#{props.user.discriminator}</LowEmphasis>
+          </Username>
+        </Tooltip>
+      </UsernameContainer>
+      <Pronouns>
+        <OverflowingText>
+          <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
+        </OverflowingText>
+      </Pronouns>
+    </Row>
+  );
+
+  if (props.overlap) {
+    return (
+      <OverlapWrap>
+        <FlatBanner
+          style={{
+            "background-image": `url('${props.bannerUrl}')`,
+          }}
+          isLink={typeof props.onClick !== "undefined"}
+          onClick={props.onClick}
+        >
+          <Show when={typeof props.onClick !== "undefined"}>
+            <Ripple />
+          </Show>
+        </FlatBanner>
+
+        <AvatarRing>
+          <Avatar
+            src={props.user.animatedAvatarURL}
+            size={80}
+            holepunch="bottom-right"
+            onClick={props.onClickAvatar}
+            interactive={props.user.avatar && !!props.onClickAvatar}
+            overlay={<UserStatus.Graphic status={props.user.presence} />}
+          />
+        </AvatarRing>
+
+        <Show when={props.user.status?.text}>
+          <StatusBubble>{props.user.status?.text}</StatusBubble>
+        </Show>
+
+        <OverlapDetails>
+          <Show when={showDisplayName()}>
+            <span class={css({ fontWeight: 700, fontSize: "1.1rem" })}>
+              {props.member?.displayName ?? props.user.displayName}
+            </span>
+          </Show>
+          {usernameBlock}
+        </OverlapDetails>
+      </OverlapWrap>
+    );
+  }
 
   return (
     <Banner
@@ -62,39 +134,98 @@ export function ProfileBanner(props: {
           overlay={<UserStatus.Graphic status={props.user.presence} />}
         />
         <UserDetails>
-          <Show
-            when={
-              (props.member?.displayName ?? props.user.displayName) !==
-              props.user.username
-            }
-          >
+          <Show when={showDisplayName()}>
             <span class={css({ fontWeight: 600 })}>
               {props.member?.displayName ?? props.user.displayName}
             </span>
           </Show>
-          <Row>
-            <UsernameContainer>
-              <Tooltip
-                content={isCopied() ? t`Copied!` : t`Click to copy username`}
-                placement="top"
-              >
-                <Username onClick={onUsernameClick}>
-                  {props.user.username}
-                  <LowEmphasis>#{props.user.discriminator}</LowEmphasis>
-                </Username>
-              </Tooltip>
-            </UsernameContainer>
-            <Pronouns>
-              <OverflowingText>
-                <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
-              </OverflowingText>
-            </Pronouns>
-          </Row>
+          {usernameBlock}
         </UserDetails>
       </Row>
     </Banner>
   );
 }
+
+const OverlapWrap = styled("div", {
+  base: {
+    position: "relative",
+  },
+});
+
+const FlatBanner = styled("div", {
+  base: {
+    position: "relative",
+    height: "100px",
+    backgroundColor: "var(--md-sys-color-surface-container-highest)",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    borderRadius: "var(--borderRadius-lg) var(--borderRadius-lg) 0 0",
+  },
+  variants: {
+    isLink: {
+      true: {
+        cursor: "pointer",
+      },
+    },
+  },
+});
+
+const AvatarRing = styled("div", {
+  base: {
+    position: "absolute",
+    top: "60px",
+    left: "var(--gap-lg)",
+    display: "flex",
+    padding: "4px",
+    borderRadius: "var(--borderRadius-circle)",
+    background: "var(--md-sys-color-surface-container-high)",
+  },
+});
+
+const StatusBubble = styled("div", {
+  base: {
+    position: "absolute",
+    top: "56px",
+    left: "calc(var(--gap-lg) + 96px)",
+    maxWidth: "170px",
+    zIndex: 1,
+
+    padding: "6px 10px",
+    borderRadius: "var(--borderRadius-lg)",
+    background: "var(--md-sys-color-surface-container-highest)",
+    boxShadow: "0 4px 12px -4px rgba(0, 0, 0, 0.4)",
+
+    fontSize: "0.8125rem",
+    lineHeight: "1.1rem",
+    overflowWrap: "anywhere",
+    userSelect: "text",
+
+    "&::after": {
+      content: "''",
+      position: "absolute",
+      left: "-6px",
+      top: "16px",
+      width: 0,
+      height: 0,
+      borderTop: "6px solid transparent",
+      borderBottom: "6px solid transparent",
+      borderRight: "6px solid var(--md-sys-color-surface-container-highest)",
+    },
+  },
+});
+
+const OverlapDetails = styled("div", {
+  base: {
+    ...typography.raw(),
+
+    display: "flex",
+    flexDirection: "column",
+    gap: "var(--gap-xs)",
+
+    padding: "var(--gap-lg)",
+    paddingTop: "44px",
+  },
+});
 
 const Banner = styled("div", {
   base: {

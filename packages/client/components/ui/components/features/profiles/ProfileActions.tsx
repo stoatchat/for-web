@@ -10,8 +10,11 @@ import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
 import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
+import MdChat from "@material-design-icons/svg/filled/chat.svg?component-solid";
+import MdCheck from "@material-design-icons/svg/filled/check.svg?component-solid";
 import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
 import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
+import MdPersonAdd from "@material-design-icons/svg/filled/person_add.svg?component-solid";
 
 import { Button, IconButton } from "../../design";
 import { iconSize } from "../../utils";
@@ -21,6 +24,12 @@ import { iconSize } from "../../utils";
  */
 export function ProfileActions(props: {
   width: 2 | 3;
+
+  /**
+   * Render friend/message actions as compact icon-only buttons
+   * instead of full text buttons (used in the floating user card).
+   */
+  compact?: boolean;
 
   user: User;
   member?: ServerMember;
@@ -54,31 +63,68 @@ export function ProfileActions(props: {
     openModal(
       props.member
         ? { type: "server_identity", member: props.member }
-        : { type: "settings", config: "user" },
+        : {
+            type: "settings",
+            config: "user",
+            context: { page: "profile" },
+          },
     );
     if (!props.member) props.onClose();
   }
 
   return (
-    <Actions width={props.width}>
+    <Actions width={props.width} compact={props.compact}>
       <Show when={props.user.relationship === "None" && !props.user.bot}>
-        <Button onPress={() => props.user.addFriend()}>Add Friend</Button>
+        <Show
+          when={props.compact}
+          fallback={
+            <Button onPress={() => props.user.addFriend()}>
+              Add Friend
+            </Button>
+          }
+        >
+          <IconButton onPress={() => props.user.addFriend()}>
+            <MdPersonAdd {...iconSize(16)} />
+          </IconButton>
+        </Show>
       </Show>
       <Show when={props.user.relationship === "Incoming"}>
-        <Button onPress={() => props.user.addFriend()}>
-          Accept friend request
-        </Button>
+        <Show
+          when={props.compact}
+          fallback={
+            <Button onPress={() => props.user.addFriend()}>
+              Accept friend request
+            </Button>
+          }
+        >
+          <IconButton onPress={() => props.user.addFriend()}>
+            <MdCheck {...iconSize(16)} />
+          </IconButton>
+        </Show>
         <IconButton onPress={() => props.user.removeFriend()}>
-          <MdCancel />
+          <MdCancel {...(props.compact ? iconSize(16) : {})} />
         </IconButton>
       </Show>
       <Show when={props.user.relationship === "Outgoing"}>
-        <Button onPress={() => props.user.removeFriend()}>
-          Cancel friend request
-        </Button>
+        <Show
+          when={props.compact}
+          fallback={
+            <Button onPress={() => props.user.removeFriend()}>
+              Cancel friend request
+            </Button>
+          }
+        >
+          <IconButton onPress={() => props.user.removeFriend()}>
+            <MdCancel {...iconSize(16)} />
+          </IconButton>
+        </Show>
       </Show>
       <Show when={props.user.relationship === "Friend"}>
-        <Button onPress={openDm}>Message</Button>
+        <Show when={props.compact} fallback={<Button onPress={openDm}>Message</Button>}>
+          <IconButton onPress={openDm}>
+            <MdChat {...iconSize(16)} />
+          </IconButton>
+        </Show>
       </Show>
       <Show when={publicBot()}>
         <Button
@@ -141,6 +187,11 @@ const Actions = styled("div", {
       },
       2: {
         gridColumn: "1 / 3",
+      },
+    },
+    compact: {
+      true: {
+        gap: "var(--gap-xs)",
       },
     },
   },

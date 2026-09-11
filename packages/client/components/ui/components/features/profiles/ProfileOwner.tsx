@@ -12,7 +12,11 @@ import { useQuery } from "@tanstack/solid-query";
 import { Row } from "../../layout";
 import { ProfileCard } from "./ProfileCard";
 
-export function ProfileOwner(props: { bot: { owner: string } }) {
+export function ProfileOwner(props: {
+  bot: { owner: string };
+  /** Full width, height fits content (used in the floating user card) */
+  fluid?: boolean;
+}) {
   const client = useClient();
   const { openModal } = useModals();
 
@@ -38,9 +42,13 @@ export function ProfileOwner(props: { bot: { owner: string } }) {
   return (
     <>
       <Show when={props.bot.owner}>
-        <ProfileCard isLink onClick={OpenOwnerProfile}>
+        <ProfileCard
+          isLink
+          onClick={OpenOwnerProfile}
+          width={props.fluid ? "full" : undefined}
+        >
           <Ripple />
-          <Text class="title" size="large">
+          <Text class="title" size={props.fluid ? "small" : "large"}>
             <Trans>Owner</Trans>
           </Text>
           <Row>
