@@ -11,12 +11,17 @@ import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
 import { TypeReleaseNotes } from "./ReleaseNotes";
 
-type SynchronisedStores = "ordering" | "notifications" | "release-notes";
+type SynchronisedStores =
+  | "ordering"
+  | "notifications"
+  | "release-notes"
+  | "server-folders";
 
 const STORE_KEYS: SynchronisedStores[] = [
   "ordering",
   "notifications",
   "release-notes",
+  "server-folders",
 ];
 
 export interface TypeSynchronisation {
@@ -61,6 +66,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
         ordering: 0,
         notifications: 0,
         "release-notes": 0,
+        "server-folders": 0,
       },
     };
   }

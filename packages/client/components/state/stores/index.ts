@@ -12,6 +12,7 @@ import { TypeLocale } from "./Locale";
 import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
 import { TypeReleaseNotes } from "./ReleaseNotes";
+import { TypeServerFolders } from "./ServerFolders";
 import { TypeSettings } from "./Settings";
 import { TypeSounds } from "./Sounds";
 import { TypeSynchronisation } from "./Sync";
@@ -29,6 +30,7 @@ export type Store = {
   notifications: TypeNotificationOptions;
   ordering: TypeOrdering;
   "release-notes": TypeReleaseNotes;
+  "server-folders": TypeServerFolders;
   settings: TypeSettings;
   sounds: TypeSounds;
   sync: TypeSynchronisation;
