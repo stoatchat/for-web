@@ -47,6 +47,28 @@ export function UserContextMenu(props: {
   }
 
   /**
+   * Whether the current user owns/manages at least one server they could
+   * invite this friend to
+   */
+  function canInviteToServer() {
+    return !!client().servers.find((server) =>
+      server.havePermission("InviteOthers"),
+    );
+  }
+
+  /**
+   * Open the "invite friend to server" modal
+   */
+  function inviteToServer() {
+    openModal({
+      type: "invite_friend_to_server",
+      client: client(),
+      user: props.user,
+    });
+    props.onClose?.();
+  }
+
+  /**
    * Delete channel
    */
   function closeDm() {
@@ -450,6 +472,18 @@ export function UserContextMenu(props: {
           onClick={openDm}
         >
           <Trans>Message</Trans>
+        </ContextMenuButton>
+      </Show>
+      <Show when={props.user.relationship === "Friend" && canInviteToServer()}>
+        <ContextMenuButton
+          symbol={
+            <IconSlot>
+              <Symbol size={16}>person_add</Symbol>
+            </IconSlot>
+          }
+          onClick={inviteToServer}
+        >
+          <Trans>Invite to Server</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={props.channel?.type === "TextChannel"}>

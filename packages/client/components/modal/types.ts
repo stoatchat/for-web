@@ -235,6 +235,11 @@ export type Modals =
       invite: PublicChannelInvite;
     }
   | {
+      type: "invite_friend_to_server";
+      client: Client;
+      user: User;
+    }
+  | {
       type: "settings";
       config: keyof typeof SettingsConfigurations;
       // eslint-disable-next-line
