@@ -7,25 +7,30 @@ import {
   Show,
 } from "solid-js";
 
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
+import {
+  type CropResult,
+  cropImage,
+  CropSizeError,
+  loadImage,
+} from "../utils/imageProcessor";
+
+export { CropSizeError };
+export type { CropResult };
 export type CropMode = "ratio" | "freeform";
 
-export interface CropResult {
-  blob: Blob;
-  dataUrl: string;
-  width: number;
-  height: number;
-}
-
 export interface ImageCropperHandle {
-  /** Reads the current crop rect and resolves the cropped file. Throws if the image hasn't loaded yet. */
+  /** Loads the source image fresh and resolves the cropped file. Rejects with CropSizeError if `maxSize` is set and exceeded. */
   crop: () => Promise<CropResult>;
 }
 
 export interface ImageCropperProps {
   /** Image to crop object URL or data URL. */
   src: string;
+  /** The real source File, when available — preserves the output's filename/MIME instead of defaulting to PNG. */
+  sourceFile?: Pick<File, "name" | "type">;
   /** Aspect ratio (width / height) used when mode === 'ratio'. Defaults to 1 (square). */
   ratio?: number;
   /** Starting mode. Defaults to 'ratio'. */
@@ -34,8 +39,12 @@ export interface ImageCropperProps {
   allowModeToggle?: boolean;
   /** Label shown for the ratio option in the toggle, e.g. "Square", "Banner". Defaults to 'Fixed ratio'. */
   ratioLabel?: string;
-  outputType?: string; // default 'image/png'
+  outputType?: string; // defaults to sourceFile.type, or 'image/png' if not provided
   outputQuality?: number; // for jpeg/webp
+  /** Rejects crop() with a CropSizeError if the encoded result exceeds this — checked against the actual output. */
+  maxSize?: number;
+  /** Include CropResult.dataUrl. Off by default. */
+  includeDataUrl?: boolean;
   ref?: (handle: ImageCropperHandle) => void;
 }
 
@@ -169,8 +178,8 @@ const Segment = styled("button", {
     cursor: "pointer",
     transition: "background-color 120ms ease, color 120ms ease",
     _hover: {
-      background: "var(--md-sys-color-on-surface)",
-      opacity: 0.92,
+      background:
+        "color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent)",
     },
     "&:not(:first-child)": {
       borderInlineStart: "1px solid var(--md-sys-color-outline)",
@@ -190,20 +199,31 @@ const Segment = styled("button", {
   },
 });
 
-export interface ImageCropperHandle {
-  crop: () => Promise<CropResult>;
-}
+const ErrorMessage = styled("div", {
+  base: {
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "var(--md-sys-color-on-surface-variant)",
+    fontSize: "14px",
+    textAlign: "center",
+    padding: "16px",
+  },
+});
 
-export default function ImageCropper(props: ImageCropperProps): JSX.Element {
+export function ImageCropper(props: ImageCropperProps): JSX.Element {
   let containerRef: HTMLDivElement | undefined;
   let imgRef: HTMLImageElement | undefined;
 
   const [mode, setMode] = createSignal<CropMode>(props.initialMode ?? "ratio");
   const [displaySize, setDisplaySize] = createSignal({ w: 0, h: 0 });
-  const [naturalSize, setNaturalSize] = createSignal({ w: 0, h: 0 });
+  const [loadFailed, setLoadFailed] = createSignal(false);
   const [rect, setRect] = createSignal<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const [dragging, setDragging] = createSignal<{
     kind: "move" | HandleId;
+    pointerId: number;
     startX: number;
     startY: number;
     startRect: Rect;
@@ -223,7 +243,6 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
       return { x: (w - cw) / 2, y: (h - ch) / 2, w: cw, h: ch };
     }
 
-    // For freeform, just take up the entire image
     return { x: 0, y: 0, w, h };
   }
 
@@ -231,7 +250,6 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
     if (!imgRef || !containerRef) return;
     const natW = imgRef.naturalWidth;
     const natH = imgRef.naturalHeight;
-    setNaturalSize({ w: natW, h: natH });
 
     const boxW = containerRef.clientWidth;
     const boxH = containerRef.clientHeight;
@@ -289,6 +307,7 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     setDragging({
       kind: "move",
+      pointerId: e.pointerId,
       startX: e.clientX,
       startY: e.clientY,
       startRect: rect(),
@@ -302,6 +321,7 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
       setDragging({
         kind: id,
+        pointerId: e.pointerId,
         startX: e.clientX,
         startY: e.clientY,
         startRect: rect(),
@@ -311,7 +331,7 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
 
   function onPointerMove(e: PointerEvent) {
     const d = dragging();
-    if (!d) return;
+    if (!d || e.pointerId !== d.pointerId) return;
     const dx = e.clientX - d.startX;
     const dy = e.clientY - d.startY;
     const { w: boxW, h: boxH } = displaySize();
@@ -392,50 +412,45 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
   onMount(() => {
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
   });
   onCleanup(() => {
     window.removeEventListener("pointermove", onPointerMove);
     window.removeEventListener("pointerup", onPointerUp);
+    window.removeEventListener("pointercancel", onPointerUp);
   });
 
   async function crop(): Promise<CropResult> {
-    if (!imgRef) throw new Error("ImageCropper: image not loaded yet");
-    const nat = naturalSize();
     const disp = displaySize();
-    const scale = nat.w / disp.w;
+    if (disp.w === 0) {
+      throw new Error(
+        "ImageCropper: nothing to crop yet — image hasn't been measured",
+      );
+    }
+
+    const img = await loadImage(props.src);
+    const scale = img.naturalWidth / disp.w;
     const r = rect();
 
-    const sx = r.x * scale;
-    const sy = r.y * scale;
-    const sw = r.w * scale;
-    const sh = r.h * scale;
-
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.round(sw);
-    canvas.height = Math.round(sh);
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("ImageCropper: failed to get canvas context");
-    ctx.drawImage(imgRef, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
-
-    const type = props.outputType ?? "image/png";
-    const quality = props.outputQuality;
-    const blob: Blob = await new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (b) => (b ? resolve(b) : reject(new Error("toBlob failed"))),
-        type,
-        quality,
-      );
-    });
-    const dataUrl = canvas.toDataURL(type, quality);
-    return { blob, dataUrl, width: canvas.width, height: canvas.height };
+    return cropImage(
+      img,
+      { x: r.x * scale, y: r.y * scale, w: r.w * scale, h: r.h * scale },
+      props.sourceFile ?? { name: "cropped", type: "image/png" },
+      {
+        outputType: props.outputType,
+        outputQuality: props.outputQuality,
+        maxSize: props.maxSize,
+        includeDataUrl: props.includeDataUrl,
+      },
+    );
   }
 
   props.ref?.({ crop });
 
   const handles = (): HandleId[] =>
     mode() === "ratio"
-      ? ["ne", "nw", "se", "sw"] // Only corners for locked ratio
-      : ["n", "s", "e", "w", "ne", "nw", "se", "sw"]; // All handles for freeform
+      ? ["ne", "nw", "se", "sw"]
+      : ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
 
   return (
     <div>
@@ -455,9 +470,15 @@ export default function ImageCropper(props: ImageCropperProps): JSX.Element {
             height: `${displaySize().h}px`,
           }}
           onLoad={handleImgLoad}
+          onError={() => setLoadFailed(true)}
           draggable={false}
           alt=""
         />
+        <Show when={loadFailed()}>
+          <ErrorMessage>
+            <Trans>Couldn't load this image.</Trans>
+          </ErrorMessage>
+        </Show>
         <Show when={displaySize().w > 0}>
           <Mask
             style={{

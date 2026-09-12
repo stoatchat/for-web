@@ -15,7 +15,7 @@ import {
   Text,
 } from "@revolt/ui";
 
-import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { ServerSettingsProps } from "../ServerSettings";
 
 /**
@@ -220,18 +220,19 @@ export default function ServerOverview(props: ServerSettingsProps) {
     <Column gap="xl">
       <form onSubmit={submit}>
         <Column>
-          <CropFileInput
+          <Form2.FileInput
             control={editGroup.controls.icon}
             accept="image/*"
             label={t`Server Icon`}
             imageJustify={false}
             maxSize={instance.limits().file_upload_size_limits["icons"]}
-            ratio={1}
-            ratioLabel={t`Square`}
-            allowModeToggle={false}
-            dialogTitle={<Trans>Crop Server Icon</Trans>}
+            process={cropProcess({
+              ratio: 1,
+              ratioLabel: t`Server Icon`,
+              dialogTitle: <Trans>Crop Server Icon</Trans>,
+            })}
           />
-          <CropFileInput
+          <Form2.FileInput
             control={editGroup.controls.banner}
             accept="image/*"
             label={t`Server Banner`}
@@ -239,10 +240,11 @@ export default function ServerOverview(props: ServerSettingsProps) {
             imageRounded={false}
             imageJustify={false}
             maxSize={instance.limits().file_upload_size_limits["banners"]}
-            ratio={232 / 100}
-            ratioLabel={t`Banner`}
-            allowModeToggle={false}
-            dialogTitle={<Trans>Crop Server Banner</Trans>}
+            process={cropProcess({
+              ratio: 232 / 100,
+              ratioLabel: t`Banner`,
+              dialogTitle: <Trans>Crop Server Banner</Trans>,
+            })}
           />
           <Form2.TextField
             minlength={1}
