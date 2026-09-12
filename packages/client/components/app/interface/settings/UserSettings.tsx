@@ -158,7 +158,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
                   class={css({
                     display: "flex",
                     flexWrap: "wrap",
-                    gap: "0.5em",
+                    gap: "var(--space-100)",
                     opacity: "0.5",
                     "& a": {
                       color: "inherit",

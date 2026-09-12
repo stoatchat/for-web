@@ -266,7 +266,7 @@ export function GroupMemberSidebar(props: Props) {
  */
 const Container = styled("div", {
   base: {
-    paddingRight: "var(--gap-md)",
+    paddingRight: "var(--space-100)",
     width: "var(--layout-width-channel-sidebar)",
   },
 });
@@ -280,7 +280,7 @@ const CategoryTitle = styled("div", {
     color: "var(--md-sys-color-on-surface)",
     display: "flex",
     alignItems: "center",
-    gap: "6px",
+    gap: "var(--space-75)",
 
     ...typography.raw({ class: "label", size: "small" }),
   },

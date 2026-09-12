@@ -25,6 +25,6 @@ export function Badge(props: Props) {
 
 const badge = cva({
   base: {
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
   },
 });

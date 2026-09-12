@@ -55,7 +55,7 @@ const MentionToggle = styled("a", {
     alignItems: "center",
     flexDirection: "row",
     textTransform: "uppercase",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     cursor: "pointer",
   },
   variants: {
@@ -86,8 +86,8 @@ const Base = styled(Row, {
     fontSize: "0.8em",
     userSelect: "none",
 
-    marginBlockEnd: "var(--gap-md)",
-    padding: "var(--gap-md) var(--gap-lg)",
+    marginBlockEnd: "var(--space-100)",
+    padding: "var(--space-100) var(--space-200)",
     borderRadius: "var(--borderRadius-lg)",
 
     background: "var(--md-sys-color-primary-container)",

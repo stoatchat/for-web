@@ -144,7 +144,7 @@ export function EmojiList(props: { server: Server }) {
                     flex: 1,
                     display: "flex",
                     alignItems: "center",
-                    gap: "var(--gap-sm)",
+                    gap: "var(--space-50)",
                   })}
                 >
                   <Avatar

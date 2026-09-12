@@ -47,7 +47,7 @@ const MessagePreview = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    paddingBlock: "var(--gap-md)",
+    paddingBlock: "var(--space-100)",
     gap: "var(--message-group-spacing)",
     pointerEvents: "none",
   },

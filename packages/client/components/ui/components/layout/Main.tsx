@@ -15,8 +15,8 @@ export const main = cva({
     overflow: "hidden",
     flexDirection: "column",
 
-    paddingInline: "var(--gap-md)",
-    margin: "0 var(--gap-md) var(--gap-md) 0",
+    paddingInline: "var(--space-100)",
+    margin: "0 var(--space-100) var(--space-100) 0",
     borderRadius: "var(--borderRadius-xl)",
     background: "var(--md-sys-color-surface-container-lowest)",
     paddingBottom: "env(keyboard-inset-height)",

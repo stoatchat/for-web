@@ -332,7 +332,7 @@ const sidebar = cva({
   base: {
     flexShrink: 0,
     width: "var(--layout-width-channel-sidebar)",
-    // margin: "var(--gap-md)",
+    // margin: "var(--space-100)",
     borderRadius: "var(--borderRadius-lg)",
     // color: "var(--colours-sidebar-channels-foreground)",
     // background: "var(--colours-sidebar-channels-background)",
@@ -344,7 +344,7 @@ const sidebar = cva({
  */
 const WideSidebarContainer = styled("div", {
   base: {
-    paddingRight: "var(--gap-md)",
+    paddingRight: "var(--space-100)",
     width: "360px",
   },
 });
@@ -354,7 +354,7 @@ const WideSidebarContainer = styled("div", {
  */
 const SidebarTitle = styled("div", {
   base: {
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     color: "var(--md-sys-color-on-surface)",
   },
 });

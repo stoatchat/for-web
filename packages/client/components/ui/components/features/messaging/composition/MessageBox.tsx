@@ -102,7 +102,7 @@ const Base = styled("div", {
     flexGrow: 1,
     minWidth: 0,
 
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--space-50) var(--space-100)",
     borderStartRadius: "var(--borderRadius-xl)",
 
     display: "flex",
@@ -130,8 +130,8 @@ const Parent = styled("div", {
     flexShrink: 0,
 
     display: "flex",
-    gap: "var(--gap-md)",
-    margin: "0 0 var(--gap-md) 0",
+    gap: "var(--space-100)",
+    margin: "0 0 var(--space-100) 0",
     maxHeight: "var(--layout-height-message-box)",
   },
 });
@@ -144,7 +144,7 @@ const Blocked = styled(Row, {
     flexGrow: 1,
     fontSize: "14px",
     userSelect: "none",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
   },
   variants: {
     noPad: { true: { padding: 0 } },

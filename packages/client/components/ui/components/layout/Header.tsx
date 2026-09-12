@@ -12,7 +12,7 @@ export interface Props {
  */
 export const Header = styled("div", {
   base: {
-    gap: "10px",
+    gap: "var(--space-125)",
     flex: "0 auto",
     display: "flex",
     flexShrink: 0,
@@ -35,11 +35,11 @@ export const Header = styled("div", {
   variants: {
     placement: {
       primary: {
-        margin: "var(--gap-md) var(--gap-md) var(--gap-md) 0",
-        _phone: { marginLeft: "var(--gap-lg)" },
+        margin: "var(--space-100) var(--space-100) var(--space-100) 0",
+        _phone: { marginLeft: "var(--space-200)" },
       },
       secondary: {
-        margin: "var(--gap-md)",
+        margin: "var(--space-100)",
         backgroundColor: "var(--md-sys-color-surface-variant)",
       },
     },
@@ -62,7 +62,7 @@ export const Header = styled("div", {
     },
     transparent: {
       true: {
-        width: "calc(100% - var(--gap-md))",
+        width: "calc(100% - var(--space-100))",
         zIndex: "10",
       },
     },
@@ -72,7 +72,7 @@ export const Header = styled("div", {
       placement: "secondary",
       image: false,
       css: {
-        marginLeft: "var(--gap-lg)",
+        marginLeft: "var(--space-200)",
       },
     },
   ],
@@ -97,7 +97,7 @@ export const BelowFloatingHeader = styled("div", {
     "& > div > div": {
       width: "100%",
       position: "absolute",
-      top: "var(--gap-md)",
+      top: "var(--space-100)",
     },
   },
 });

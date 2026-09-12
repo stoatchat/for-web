@@ -64,8 +64,8 @@ export function UserProfileModal(
 const Grid = styled("div", {
   base: {
     display: "grid",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     gridTemplateColumns: "repeat(3, 1fr)",
   },
 });

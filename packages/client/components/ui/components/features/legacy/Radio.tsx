@@ -15,7 +15,7 @@ const Base = styled("label", {
   base: {
     border: "2px solid var(--foreground)",
     padding: "10px",
-    gap: "10px",
+    gap: "var(--space-125)",
     display: "flex",
     cursor: "pointer",
     userSelect: "none",

@@ -63,7 +63,7 @@ export function ProfileOwner(props: { bot: { owner: string } }) {
 
 const Grid = styled("div", {
   base: {
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     display: "flex",
     flexWrap: "wrap",
   },

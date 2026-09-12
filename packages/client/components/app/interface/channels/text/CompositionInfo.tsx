@@ -191,11 +191,11 @@ const Avatars = styled("div", {
 const Bar = styled("div", {
   base: {
     minHeight: "26px",
-    paddingLeft: "var(--gap-lg)",
-    paddingRight: "var(--gap-md)",
+    paddingLeft: "var(--space-200)",
+    paddingRight: "var(--space-100)",
 
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
 
     userSelect: "none",
     alignItems: "center",
@@ -218,7 +218,7 @@ const SlowmodeHolder = cva({
     display: "flex",
     alignItems: "center",
     marginLeft: "auto",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     color: "var(--md-sys-color-outline)",
     flexShrink: 0,
   },

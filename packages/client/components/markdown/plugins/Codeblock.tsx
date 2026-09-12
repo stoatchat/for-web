@@ -9,8 +9,8 @@ const Codeblock = styled("pre", {
 
     width: "fit-content",
 
-    padding: "var(--gap-md)",
-    marginY: "var(--gap-sm)",
+    padding: "var(--space-100)",
+    marginY: "var(--space-50)",
     borderRadius: "var(--borderRadius-md)",
 
     wordWrap: "break-word",

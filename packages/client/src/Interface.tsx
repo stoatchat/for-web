@@ -183,7 +183,7 @@ const Content = styled("div", {
   variants: {
     sidebar: {
       false: {
-        paddingLeft: "var(--gap-md)",
+        paddingLeft: "var(--space-100)",
         borderTopLeftRadius: "var(--borderRadius-lg)",
         borderBottomLeftRadius: "var(--borderRadius-lg)",
         overflow: "hidden",

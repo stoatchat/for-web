@@ -216,11 +216,11 @@ const ReactionBase = styled("div", {
     display: "flex",
     overflow: "hidden",
     flexDirection: "row",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     cursor: "pointer",
     userSelect: "none",
     verticalAlign: "middle",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
 
     transition: "var(--transitions-fast) all",
@@ -264,7 +264,7 @@ const AddReaction = styled(ReactionBase, {
     background: "var(--md-sys-color-surface-bright)",
     height: "33px",
     aspectRatio: "1/1",
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
   },
 });
 
@@ -288,7 +288,7 @@ const List = styled("div", {
     display: "flex",
     flexWrap: "wrap",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     "&:hover .add": {
       opacity: 1,
     },

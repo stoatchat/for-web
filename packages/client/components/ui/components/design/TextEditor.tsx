@@ -1012,9 +1012,9 @@ const Entry = styled("div", {
     alignItems: "center",
 
     cursor: "pointer",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     background: "transparent",
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--space-50) var(--space-100)",
   },
   variants: {
     selected: {
@@ -1042,7 +1042,7 @@ const base = cva({
   base: {
     display: "flex",
     flexDirection: "column",
-    padding: "var(--gap-md) 0",
+    padding: "var(--space-100) 0",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-xs)",
     background: "var(--md-sys-color-surface-container)",

@@ -99,8 +99,8 @@ const Base = styled("div", {
 
     maxWidth: "320px",
     height: "64px",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
 
     color: "var(--md-sys-color-on-secondary-container)",

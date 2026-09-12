@@ -40,7 +40,7 @@ export const Base = styled("div", {
     display: "flex",
     userSelect: "none",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     color: "var(--md-sys-color-on-surface)",
     "& a:link": {
       textDecoration: "none",
@@ -77,7 +77,7 @@ const user = cva({
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
   },
 });
 
@@ -85,7 +85,7 @@ const Attachments = styled("em", {
   base: {
     display: "inline-flex",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     whiteSpace: "nowrap",
   },
 });
@@ -98,7 +98,7 @@ const Link = styled("a", {
     display: "flex",
     minWidth: 0,
     alignItems: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 

@@ -69,8 +69,8 @@ const Preview = styled("div", {
 
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-sm)",
-    padding: "var(--gap-lg)",
+    gap: "var(--space-50)",
+    padding: "var(--space-200)",
 
     color: "var(--md-sys-color-on-surface)",
   },

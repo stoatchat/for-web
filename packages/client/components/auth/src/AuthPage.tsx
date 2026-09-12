@@ -72,7 +72,7 @@ const Nav = styled("div", {
  */
 const NavItems = styled("div", {
   base: {
-    gap: "10px",
+    gap: "var(--space-125)",
     display: "flex",
     alignItems: "center",
 

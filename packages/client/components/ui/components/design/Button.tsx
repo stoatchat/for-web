@@ -351,7 +351,7 @@ const button = cva({
        * @deprecated
        */
       inline: {
-        padding: "var(--gap-xs) var(--gap-md)",
+        padding: "var(--space-25) var(--space-100)",
         fontSize: "0.8125rem",
         borderRadius: "var(--borderRadius-md)",
       },

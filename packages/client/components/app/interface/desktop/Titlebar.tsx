@@ -181,9 +181,9 @@ const Base = styled("div", {
 const Title = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     alignItems: "center",
-    paddingInlineStart: "var(--gap-md)",
+    paddingInlineStart: "var(--space-100)",
 
     color: "var(--md-sys-color-on-surface)",
     ...typography.raw({ class: "title", size: "small" }),
@@ -192,7 +192,7 @@ const Title = styled("div", {
     macos: {
       true: {
         order: 1,
-        paddingInlineEnd: "var(--gap-md)",
+        paddingInlineEnd: "var(--space-100)",
       },
     },
   },
@@ -204,9 +204,9 @@ const DragHandle = styled("div", {
     height: "100%",
 
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     alignItems: "center",
-    paddingInlineStart: "var(--gap-md)",
+    paddingInlineStart: "var(--space-100)",
 
     ...typography.raw({ class: "label", size: "large" }),
   },

@@ -52,7 +52,7 @@ const content = cva({
 
     padding: "48px 0",
 
-    gap: "32px",
+    gap: "var(--space-400)",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -63,7 +63,7 @@ const content = cva({
  */
 const Buttons = styled("div", {
   base: {
-    gap: "8px",
+    gap: "var(--space-100)",
     padding: "8px",
     display: "flex",
     flexWrap: "wrap",

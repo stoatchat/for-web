@@ -42,7 +42,7 @@ export function createStoatWebVariables(theme: SelectedTheme) {
 
     // load constants
     ...reduceWithPrefix(themeConstants.borderRadius, "--borderRadius-"),
-    ...reduceWithPrefix(themeConstants.gap, "--gap-"),
+    ...reduceWithPrefix(themeConstants.space, "--space-"),
     ...reduceWithPrefix(themeConstants.layout, "--layout-"),
   };
 }
@@ -76,21 +76,27 @@ const themeConstants = {
     full: "calc(infinity * 1px)",
     circle: "100%",
   },
-  /**
-   * @deprecated decide this at a component level
-   */
-  gap: {
+  space: {
+    // Material 3 spacing tokens
+    // https://m3.material.io/styles/spacing/tokens
     none: "0",
-    xxs: "1px",
-    xs: "2px",
-    s: "6px",
-    sm: "4px",
-    md: "8px",
-    l: "12px",
-    lg: "15px",
-    x: "28px",
-    xl: "32px",
-    xxl: "64px",
+    25: "0.125rem",
+    50: "0.25rem",
+    75: "0.375rem",
+    100: "0.5rem",
+    125: "0.625rem",
+    150: "0.75rem",
+    175: "0.875rem",
+    200: "1rem",
+    250: "1.125rem",
+    300: "1.25rem",
+    400: "2rem",
+    450: "2.25rem",
+    500: "2.5rem",
+    600: "3rem",
+    700: "3.5rem",
+    800: "4rem",
+    900: "4.5rem",
   },
   layout: {
     "width-channel-sidebar": "248px",

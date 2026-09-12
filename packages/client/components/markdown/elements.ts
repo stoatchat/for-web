@@ -130,10 +130,10 @@ export const orderedList = styled("ol", {
 
 export const blockquote = styled("blockquote", {
   base: {
-    margin: "var(--gap-sm) 0",
-    padding: "var(--gap-sm) var(--gap-md)",
+    margin: "var(--space-50) 0",
+    padding: "var(--space-50) var(--space-100)",
     borderRadius: "var(--borderRadius-sm)",
-    borderInlineStart: "var(--gap-sm) solid var(--border)",
+    borderInlineStart: "var(--space-50) solid var(--border)",
 
     "&, & > blockquote > blockquote": {
       color: "var(--md-sys-color-on-secondary-container)",
@@ -163,14 +163,14 @@ export const table = styled("table", {
 export const tableHeader = styled("th", {
   base: {
     fontWeight: 600,
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
     border: "1px solid var(--md-sys-color-outline)",
   },
 });
 
 export const tableElement = styled("td", {
   base: {
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
     border: "1px solid var(--md-sys-color-outline)",
   },
 });

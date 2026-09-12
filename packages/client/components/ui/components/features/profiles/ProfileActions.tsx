@@ -131,7 +131,7 @@ export function ProfileActions(props: {
 const Actions = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     justifyContent: "flex-end",
   },
   variants: {

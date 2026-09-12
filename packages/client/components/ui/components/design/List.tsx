@@ -30,7 +30,7 @@ List.Subheader = ListSubheader;
 
 const subheader = cva({
   base: {
-    paddingInline: "var(--gap-lg)",
+    paddingInline: "var(--space-200)",
   },
 });
 

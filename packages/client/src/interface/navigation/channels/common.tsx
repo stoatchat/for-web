@@ -12,7 +12,7 @@ export const SidebarBase = styled("div", {
     borderTopLeftRadius: "var(--borderRadius-lg)",
     borderBottomLeftRadius: "var(--borderRadius-lg)",
     // borderRadius: "var(--borderRadius-lg)",
-    // margin: "var(--gap-md) var(--gap-md) var(--gap-md) 0",
+    // margin: "var(--space-100) var(--space-100) var(--space-100) 0",
     width: "var(--layout-width-channel-sidebar)",
 
     fill: "var(--md-sys-color-on-surface)",

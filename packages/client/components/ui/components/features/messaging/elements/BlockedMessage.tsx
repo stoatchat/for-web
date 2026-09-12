@@ -17,10 +17,10 @@ const Base = styled("div", {
     display: "flex",
     alignItems: "center",
 
-    gap: "var(--gap-s)",
-    marginTop: "var(--gap-md)",
+    gap: "var(--space-75)",
+    marginTop: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
-    padding: "var(--gap-sm) var(--gap-xxl)",
+    padding: "var(--space-50) var(--space-800)",
 
     fontSize: "0.8em" /* TODO should be in typography */,
     color: "var(--md-sys-color-outline)",

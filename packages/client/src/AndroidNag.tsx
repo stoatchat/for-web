@@ -120,7 +120,7 @@ const Base = styled("div", {
     alignItems: "center",
     justifyContent: "space-between",
     textAlign: "center",
-    padding: "var(--gap-xl) var(--gap-lg)",
+    padding: "var(--space-400) var(--space-200)",
     userSelect: "none",
     overflowY: "auto",
 
@@ -140,12 +140,12 @@ const Hero = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
 
     "& img": {
       width: "min(60vw, 240px)",
       height: "auto",
-      marginBottom: "var(--gap-md)",
+      marginBottom: "var(--space-100)",
     },
   },
 });
@@ -166,10 +166,10 @@ const Copy = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
 
     maxWidth: "42ch",
-    paddingInline: "var(--gap-lg)",
+    paddingInline: "var(--space-200)",
     textWrap: "balance",
     color: "var(--md-sys-color-on-surface-variant)",
   },
@@ -187,8 +187,8 @@ const Footer = styled("div", {
     alignItems: "stretch",
     width: "100%",
     maxWidth: "360px",
-    gap: "var(--gap-md)",
-    paddingTop: "var(--gap-lg)",
+    gap: "var(--space-100)",
+    paddingTop: "var(--space-200)",
   },
 });
 
@@ -202,8 +202,8 @@ const DismissLink = styled("button", {
     border: "none",
     cursor: "pointer",
 
-    marginTop: "var(--gap-sm)",
-    padding: "var(--gap-sm)",
+    marginTop: "var(--space-50)",
+    padding: "var(--space-50)",
 
     font: "inherit",
     fontSize: "0.8125rem",

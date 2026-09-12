@@ -236,8 +236,8 @@ const Card = styled("div", {
   base: {
     zIndex: 999,
     display: "flex",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-surface)",
     color: "var(--md-sys-color-on-surface)",

@@ -138,7 +138,7 @@ const PreviewBox = styled("div", {
 
     cursor: "pointer",
     overflow: "hidden",
-    borderRadius: "var(--gap-md)",
+    borderRadius: "var(--space-100)",
 
     fill: "white",
     background: "var(--md-sys-color-surface-variant)",
@@ -161,7 +161,7 @@ const Image = styled("img", {
   base: {
     width: "100%",
     objectFit: "cover",
-    marginBottom: "var(--gap-md)",
+    marginBottom: "var(--space-100)",
     height: "var(--preview-size)",
   },
 });
@@ -205,7 +205,7 @@ const EmptyEntry = styled("div", {
     height: "var(--preview-size)",
 
     cursor: "pointer",
-    borderRadius: "var(--gap-md)",
+    borderRadius: "var(--space-100)",
     fill: "var(--md-sys-color-on-surface-variant)",
     background: "var(--md-sys-color-surface-variant)",
   },
@@ -258,7 +258,7 @@ const Divider = styled("div", {
   base: {
     height: "130px",
     flexShrink: 0,
-    width: "var(--gap-sm)",
+    width: "var(--space-50)",
     borderRadius: "var(--borderRadius-md)",
     background: "var(--md-sys-color-outline)",
   },
@@ -273,7 +273,7 @@ const carousel = cva({
     flexShrink: 0,
     flexDirection: "row",
     overflowX: "auto !important",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -286,9 +286,9 @@ const Container = styled("div", {
     userSelect: "none",
     flexDirection: "column",
 
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
-    margin: "var(--gap-md) 0",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
+    margin: "var(--space-100) 0",
     borderRadius: "var(--borderRadius-lg)",
 
     background: "var(--md-sys-color-primary-container)",

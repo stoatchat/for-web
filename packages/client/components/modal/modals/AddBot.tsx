@@ -172,7 +172,7 @@ const description = cva({
   base: {
     position: "relative",
     maxHeight: "120px",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-lg)",
     color: "var(--md-sys-color-on-secondary-container)",
     background: "var(--md-sys-color-secondary-container)",
@@ -195,7 +195,7 @@ const CoverText = styled("div", {
       top: 0,
       width: "100%",
       position: "absolute",
-      height: "var(--gap-md)",
+      height: "var(--space-100)",
       background: "var(--md-sys-color-secondary-container)",
     },
   },
@@ -207,8 +207,8 @@ const Item = styled("div", {
     display: "flex",
     position: "relative",
     alignItems: "center",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-sm)",
   },
   variants: {

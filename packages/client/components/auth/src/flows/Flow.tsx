@@ -15,7 +15,7 @@ export const FlowBase = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-lg)",
+    gap: "var(--space-200)",
     flexGrow: 0,
     background: "var(--md-sys-color-surface-container)",
     color: "var(--md-sys-color-on-surface)",

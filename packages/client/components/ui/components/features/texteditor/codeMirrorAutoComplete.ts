@@ -18,7 +18,7 @@ const completionTheme = EditorView.theme({
     border: "none",
     display: "flex",
     "flex-direction": "column",
-    padding: "var(--gap-md) 0",
+    padding: "var(--space-100) 0",
     overflow: "hidden",
     "border-radius": "var(--borderRadius-xs)",
     background: "var(--md-sys-color-surface-container)",
@@ -37,9 +37,9 @@ const completionTheme = EditorView.theme({
     "align-items": "center",
 
     cursor: "pointer",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     background: "transparent",
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--space-50) var(--space-100)",
   },
   '.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected="true"]': {
     background:
@@ -55,7 +55,7 @@ const completionTheme = EditorView.theme({
     "vertical-align": "baseline",
     // "margin-bottom": "-0.2em",
     "object-fit": "cover",
-    padding: "var(--gap-xxs)",
+    padding: "var(--space-25)",
     "border-radius": "var(--borderRadius-circle)",
   },
   ".cm-emoji-preview": {
@@ -65,7 +65,7 @@ const completionTheme = EditorView.theme({
     "vertical-align": "baseline",
     // "margin-bottom": "-0.2em",
     "object-fit": "contain",
-    padding: "var(--gap-xxs)",
+    padding: "var(--space-25)",
   },
   ".cm-role-preview": {
     display: "inline-block",

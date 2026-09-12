@@ -165,7 +165,7 @@ export function ProfileBadges(props: { user: User }) {
 
 const BadgeRow = styled("div", {
   base: {
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     display: "flex",
     flexWrap: "wrap",
 

@@ -160,8 +160,8 @@ export function VoiceCallCardActions(props: { size: "xs" | "sm" }) {
 const Actions = styled("div", {
   base: {
     flexShrink: 0,
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     zIndex: 2,
 
     display: "flex",

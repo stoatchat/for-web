@@ -164,9 +164,9 @@ const Base = styled("div", {
     display: "flex",
     flexDirection: "column",
 
-    marginBlock: "var(--gap-sm)",
-    marginInlineStart: "var(--gap-xl)",
-    marginInlineEnd: "var(--gap-md)",
+    marginBlock: "var(--space-50)",
+    marginInlineStart: "var(--space-400)",
+    marginInlineEnd: "var(--space-100)",
 
     color: "var(--md-sys-color-outline)",
 
@@ -176,10 +176,10 @@ const Base = styled("div", {
 
 const previewUser = cva({
   base: {
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
     position: "relative", // ... <Ripple />
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     alignItems: "center",
     borderRadius: "var(--borderRadius-md)",
   },

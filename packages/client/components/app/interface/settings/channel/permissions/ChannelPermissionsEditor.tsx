@@ -473,7 +473,7 @@ export function ChannelPermissionsEditor(props: Props) {
       class={css({
         display: "flex",
         flexDirection: "column",
-        gap: "var(--gap-lg)",
+        gap: "var(--space-200)",
       })}
     >
       <For each={Permissions}>
@@ -482,8 +482,8 @@ export function ChannelPermissionsEditor(props: Props) {
             <Show when={entry.heading}>
               <span
                 class={css({
-                  marginTop: "var(--gap-lg)",
-                  marginBottom: "var(--gap-sm)",
+                  marginTop: "var(--space-200)",
+                  marginBottom: "var(--space-50)",
                 })}
               >
                 <Text class="label">{entry.heading}</Text>
@@ -577,8 +577,8 @@ const StickyPanel = styled("div", {
   base: {
     position: "sticky",
     width: "100%",
-    padding: "var(--gap-md)",
-    bottom: "var(--gap-lg)",
+    padding: "var(--space-100)",
+    bottom: "var(--space-200)",
     borderRadius: "var(--borderRadius-xl)",
     background: "var(--md-sys-color-surface-container)",
   },
@@ -589,7 +589,7 @@ const ActionRow = styled("div", {
     width: "100%",
     display: "grid",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -619,7 +619,7 @@ function ChannelPermissionToggle(props: {
     >
       <div
         class={css({
-          marginStart: "var(--gap-md)",
+          marginStart: "var(--space-100)",
           display: "flex",
           flexDirection: "column",
         })}
@@ -646,7 +646,7 @@ function ChannelPermissionOverride(props: {
   return (
     <div
       class={css({
-        gap: "var(--gap-md)",
+        gap: "var(--space-100)",
         display: "flex",
       })}
     >

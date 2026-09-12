@@ -248,7 +248,7 @@ const MessagePreview = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     gap: "var(--message-group-spacing)",
   },
 });

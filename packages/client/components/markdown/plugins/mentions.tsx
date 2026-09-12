@@ -182,7 +182,7 @@ export const mention = cva({
   base: {
     verticalAlign: "bottom",
 
-    gap: "4px",
+    gap: "var(--space-50)",
     paddingLeft: "2px",
     paddingRight: "6px",
     alignItems: "center",
