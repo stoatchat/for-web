@@ -9,6 +9,7 @@ import { useClient } from "@revolt/client";
 import { useError } from "@revolt/i18n";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import {
   Avatar,
   CategoryButton,
@@ -18,7 +19,6 @@ import {
   Row,
   Text,
 } from "@revolt/ui";
-import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
 
 /**
  * Emoji list
@@ -77,17 +77,19 @@ export function EmojiList(props: { server: Server }) {
         <Column>
           <Row align>
             <Column>
-              <CropFileInput
+              <Form2.FileInput
                 control={editGroup.controls.file}
                 accept="image/*"
                 label={t`Emoji`}
                 imageJustify={false}
                 allowRemoval={false}
+                hideErrors={true}
                 maxSize={instance.limits().file_upload_size_limits["emojis"]}
-                ratio={1}
-                ratioLabel={t`Square`}
-                allowModeToggle={false}
-                dialogTitle={<Trans>Crop Emoji</Trans>}
+                process={cropProcess({
+                  ratio: 1,
+                  ratioLabel: t`Square`,
+                  dialogTitle: t`Crop Emoji`,
+                })}
               />
             </Column>
             <Column grow>

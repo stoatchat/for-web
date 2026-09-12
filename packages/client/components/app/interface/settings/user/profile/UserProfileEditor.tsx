@@ -18,7 +18,7 @@ import {
 
 import MdBadge from "@material-design-icons/svg/filled/badge.svg?component-solid";
 
-import { CropFileInput } from "@revolt/ui/components/design/CropFileInput";
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { useSettingsNavigation } from "../../Settings";
 
 type AttachedControl<T> = {
@@ -186,18 +186,20 @@ export function UserProfileEditor(props: Props) {
   return (
     <form onSubmit={submit}>
       <Column>
-        <CropFileInput
+        <Form2.FileInput
           control={editGroup.controls.avatar}
           accept="image/*"
           label={t`Avatar`}
           imageJustify={false}
           maxSize={instance.limits().file_upload_size_limits["avatars"]}
-          ratio={1}
-          ratioLabel={t`Square`}
-          allowModeToggle={false}
-          dialogTitle={<Trans>Crop Avatar</Trans>}
+          process={cropProcess({
+            ratio: 1,
+            ratioLabel: t`Square`,
+            allowModeToggle: false,
+            dialogTitle: t`Crop Avatar`,
+          })}
         />
-        <CropFileInput
+        <Form2.FileInput
           control={editGroup.controls.banner}
           accept="image/*"
           label={t`Banner`}
@@ -205,10 +207,11 @@ export function UserProfileEditor(props: Props) {
           imageRounded={false}
           imageJustify={false}
           maxSize={instance.limits().file_upload_size_limits["backgrounds"]}
-          ratio={232 / 100}
-          ratioLabel={t`Banner`}
-          allowModeToggle={false}
-          dialogTitle={<Trans>Crop Banner</Trans>}
+          process={cropProcess({
+            ratio: 232 / 100,
+            ratioLabel: t`Banner`,
+            dialogTitle: t`Crop Banner`,
+          })}
         />
         <Form2.TextField
           minlength={2}
