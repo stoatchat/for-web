@@ -294,12 +294,12 @@ const Stack = styled("div", {
     minHeight: 0,
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
 const searchBar = css({
-  paddingInline: "var(--gap-md)",
+  paddingInline: "var(--space-100)",
 });
 
 const scrollContainer = cva({
@@ -311,7 +311,7 @@ const scrollContainer = cva({
         flexDirection: "column",
         flexShrink: 0,
         width: "40px",
-        gap: "var(--gap-sm)",
+        gap: "var(--space-50)",
       },
       emoji: {
         flexGrow: 1,
@@ -359,10 +359,10 @@ const EmojiPreviewBar = styled("div", {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "var(--gap-xs) var(--gap-md)",
+    padding: "var(--space-25) var(--space-100)",
     minHeight: "36px",
     flexShrink: 0,
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
   },
 });
 
@@ -488,7 +488,7 @@ const EmojiOption = styled("div", {
         width: "100% !important",
         display: "flex",
         alignItems: "center",
-        paddingInline: "var(--gap-md)",
+        paddingInline: "var(--space-100)",
         zIndex: 1,
       },
     },
@@ -498,7 +498,7 @@ const EmojiOption = styled("div", {
         width: "100%",
         cursor: "pointer",
         position: "relative",
-        padding: "var(--gap-sm)",
+        padding: "var(--space-50)",
         borderRadius: "var(--borderRadius-sm)",
 
         "--emoji-size": "100%",

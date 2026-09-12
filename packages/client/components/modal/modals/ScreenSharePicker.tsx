@@ -106,8 +106,8 @@ const Item = styled("div", {
     display: "flex",
     position: "relative",
     alignItems: "center",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-sm)",
   },
   variants: {

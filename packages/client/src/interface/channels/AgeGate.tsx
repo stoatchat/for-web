@@ -133,7 +133,7 @@ const Base = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "var(--gap-lg)",
+    padding: "var(--space-200)",
     userSelect: "none",
     overflowY: "auto",
     color: "var(--md-sys-color-on-surface)",
@@ -143,14 +143,14 @@ const Base = styled("div", {
       fill: "orange",
     },
 
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
 const Confirmation = styled("label", {
   base: {
     display: "flex",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     alignItems: "center",
   },
 });
@@ -158,7 +158,7 @@ const Confirmation = styled("label", {
 const Actions = styled("div", {
   base: {
     display: "flex",
-    marginTop: "var(--gap-lg)",
-    gap: "var(--gap-lg)",
+    marginTop: "var(--space-200)",
+    gap: "var(--space-200)",
   },
 });

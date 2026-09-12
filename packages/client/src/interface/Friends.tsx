@@ -47,7 +47,7 @@ const Base = styled("div", {
 
     "& .FriendsList": {
       height: "100%",
-      paddingInline: "var(--gap-lg)",
+      paddingInline: "var(--space-200)",
     },
   },
 });

@@ -119,6 +119,6 @@ const tool = cva({
   base: {
     cursor: "pointer",
     position: "relative",
-    padding: "var(--gap-sm)",
+    padding: "var(--space-50)",
   },
 });

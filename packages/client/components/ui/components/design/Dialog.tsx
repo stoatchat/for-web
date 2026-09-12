@@ -250,7 +250,7 @@ const Content = styled("div", {
 
 const Actions = styled("div", {
   base: {
-    gap: "8px",
+    gap: "var(--space-100)",
     display: "flex",
     justifyContent: "end",
     marginBlockStart: "24px",

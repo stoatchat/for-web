@@ -134,7 +134,7 @@ const Base = styled("a", {
     // for <Ripple />:
     position: "relative",
 
-    gap: "16px",
+    gap: "var(--space-200)",
     padding: "13px",
     borderRadius: "var(--borderRadius-md)",
 
@@ -200,7 +200,7 @@ const Content = styled("div", {
 
     fontWeight: 500,
     fontSize: "14px",
-    gap: "2px",
+    gap: "var(--space-25)",
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -287,7 +287,7 @@ CategoryButton.Group = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-xs)",
+    gap: "var(--space-25)",
 
     borderRadius: "var(--borderRadius-xl)",
     overflow: "hidden",
@@ -483,7 +483,7 @@ const innerColumn = cva({
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-xs)",
+    gap: "var(--space-25)",
 
     borderRadius: "var(--borderRadius-md)",
     transition: "0.3s",
@@ -524,7 +524,7 @@ const Details = styled("div", {
 
     /* add additional padding between top button and children when it is open */
     "&.open summary": {
-      marginBottom: "var(--gap-xs)",
+      marginBottom: "var(--space-25)",
     },
 
     /* hide the default details component marker */

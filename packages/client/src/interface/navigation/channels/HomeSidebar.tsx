@@ -208,8 +208,8 @@ export const Header = styled("div", {
     height: "48px",
     lineHeight: "48px",
     verticalAlign: "middle",
-    margin: "var(--gap-md)",
-    marginLeft: "var(--gap-lg)",
+    margin: "var(--space-100)",
+    marginLeft: "var(--space-200)",
     color: "var(--md-sys-color-on-surface)",
     backgroundColor: "var(--md-sys-color-surface-variant)",
   },
@@ -220,7 +220,7 @@ export const Header = styled("div", {
  */
 const ButtonTitle = styled("div", {
   base: {
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     height: "100%",
     display: "flex",
     alignItems: "center",
@@ -230,7 +230,7 @@ const ButtonTitle = styled("div", {
 const PendingBadge = styled("div", {
   base: {
     ...typography.raw({ class: "label", size: "small" }),
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--space-50) var(--space-100)",
     color: "var(--md-sys-color-on-error)",
     background: "var(--md-sys-color-error)",
     borderRadius: "var(--borderRadius-md)",
@@ -240,11 +240,11 @@ const PendingBadge = styled("div", {
 const Category = styled("div", {
   base: {
     display: "flex",
-    paddingInline: "var(--gap-lg)",
+    paddingInline: "var(--space-200)",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: "calc(var(--gap-xl) - 5px)",
-    paddingBottom: "var(--gap-md)",
+    paddingTop: "calc(var(--space-400) - 5px)",
+    paddingBottom: "var(--space-100)",
 
     ...typography.raw({ class: "label", size: "small" }),
     fontSize: "13px",

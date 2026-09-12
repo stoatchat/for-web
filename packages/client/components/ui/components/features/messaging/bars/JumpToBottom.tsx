@@ -15,7 +15,7 @@ interface Props {
   onClick: () => void;
 }
 
-const indStyle = css({ marginBottom: "var(--gap-md)" });
+const indStyle = css({ marginBottom: "var(--space-100)" });
 
 /**
  * Component indicating user can jump back to present messages

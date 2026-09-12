@@ -47,7 +47,7 @@ export function VoiceCallCardStatus(props: { pip?: boolean }) {
 
 const FadeOut = styled("div", {
   base: {
-    paddingLeft: "var(--gap-md)",
+    paddingLeft: "var(--space-100)",
   },
   variants: {
     fade: {
@@ -74,7 +74,7 @@ const Status = styled("div", {
       "& div": {
         opacity: 1,
         fontSize: "inherit",
-        paddingLeft: "var(--gap-md)",
+        paddingLeft: "var(--space-100)",
         transition: "opacity 0s 0s, font-size 0s 0s, padding-left 0s 0s",
       },
     },
@@ -98,8 +98,8 @@ const Status = styled("div", {
     pip: {
       true: {
         position: "absolute",
-        left: "var(--gap-md)",
-        top: "var(--gap-md)",
+        left: "var(--space-100)",
+        top: "var(--space-100)",
       },
     },
   },

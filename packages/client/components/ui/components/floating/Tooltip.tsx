@@ -11,7 +11,7 @@ export const TooltipBase = styled("div", {
   base: {
     color: "white",
     background: "black",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
 
     ...typography.raw({

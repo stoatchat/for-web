@@ -155,8 +155,8 @@ const base = cva({
 
     display: "flex",
     alignItems: "center",
-    margin: "0 var(--gap-md)",
-    padding: "0 var(--gap-md)",
+    margin: "0 var(--space-100)",
+    padding: "0 var(--space-100)",
     borderRadius: "var(--borderRadius-xl)",
 
     color: "var(--color)",
@@ -175,11 +175,11 @@ const base = cva({
     size: {
       normal: {
         height: "42px",
-        gap: "var(--gap-md)",
+        gap: "var(--space-100)",
       },
       thin: {
         height: "32px",
-        gap: "var(--gap-sm)",
+        gap: "var(--space-50)",
 
         // implicitly align center since we won't stack anything
         alignItems: "center",
@@ -234,6 +234,6 @@ const Actions = styled("div", {
     display: "flex",
     alignItems: "center",
     flexDirection: "row",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
   },
 });

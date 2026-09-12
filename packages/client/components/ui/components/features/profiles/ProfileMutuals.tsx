@@ -115,7 +115,7 @@ export function ProfileMutuals(props: { user: User; member?: ServerMember }) {
 
 const Grid = styled("div", {
   base: {
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     display: "flex",
     flexWrap: "wrap",
   },

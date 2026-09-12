@@ -21,12 +21,12 @@ const Base = styled("div", {
     display: "flex",
     maxWidth: "calc(min(100%, 420px))",
     flexDirection: "row",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
     color: "var(--md-sys-color-on-primary-container)",
     background: "var(--md-sys-color-primary-container)",
-    borderInlineStart: "var(--gap-sm) solid var(--md-sys-color-primary)",
+    borderInlineStart: "var(--space-50) solid var(--md-sys-color-primary)",
   },
 });
 
@@ -36,7 +36,7 @@ const InformationRow = styled("div", {
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 

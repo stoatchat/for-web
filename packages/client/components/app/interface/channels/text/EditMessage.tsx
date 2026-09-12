@@ -94,7 +94,7 @@ const EditorBox = styled("div", {
     background: "var(--md-sys-color-surface-container-highest)",
     color: "var(--md-sys-color-on-surface-container)",
     borderRadius: "var(--borderRadius-sm)",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
   },
 });
 

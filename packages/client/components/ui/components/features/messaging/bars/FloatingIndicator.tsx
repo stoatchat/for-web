@@ -15,8 +15,8 @@ export const FloatingIndicator = styled("div", {
     alignItems: "center",
 
     width: "100%",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-lg)",
 
     cursor: "pointer",

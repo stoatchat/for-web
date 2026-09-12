@@ -104,7 +104,7 @@ const Banner = styled("div", {
     userSelect: "none",
 
     height: "120px",
-    padding: "var(--gap-lg)",
+    padding: "var(--space-200)",
 
     display: "flex",
     flexDirection: "column",
@@ -141,7 +141,7 @@ const UserDetails = styled("div", {
     flexGrow: 1,
     display: "flex",
     lineHeight: "1rem",
-    gap: "var(--gap-xs)",
+    gap: "var(--space-25)",
     flexDirection: "column",
   },
 });
@@ -172,7 +172,7 @@ const Pronouns = styled("div", {
     minWidth: 0,
     flexGrow: 1,
     lineHeight: "1rem",
-    gap: "var(--gap-xs)",
+    gap: "var(--space-25)",
     textAlign: "right",
   },
 });

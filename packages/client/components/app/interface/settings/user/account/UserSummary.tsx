@@ -77,7 +77,7 @@ export function UserSummary(props: {
 const AccountBox = styled("div", {
   base: {
     display: "flex",
-    padding: "var(--gap-lg)",
+    padding: "var(--space-200)",
     flexDirection: "column",
 
     backgroundSize: "cover",
@@ -88,7 +88,7 @@ const AccountBox = styled("div", {
 const ProfileDetails = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-lg)",
+    gap: "var(--space-200)",
     alignItems: "center",
   },
 });
@@ -128,16 +128,16 @@ const DummyPadding = styled("div", {
     // Matches with avatar size
     width: "58px",
     // Matches with ProfileDetails
-    marginInlineEnd: "var(--gap-lg)",
+    marginInlineEnd: "var(--space-200)",
   },
 });
 
 const ProfileBadges = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     width: "fit-content",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
 
     fill: "var(--md-sys-color-on-secondary)",

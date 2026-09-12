@@ -125,7 +125,7 @@ const Content = styled("div", {
     maxWidth: "300px",
     padding: "74px 0 8px",
     display: "flex",
-    gap: "2px",
+    gap: "var(--space-25)",
 
     flexDirection: "column",
 

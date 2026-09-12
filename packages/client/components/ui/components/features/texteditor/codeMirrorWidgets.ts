@@ -123,7 +123,7 @@ const widgetsTheme = EditorView.theme({
   ".cm-mention-widget": {
     "vertical-align": "bottom",
 
-    gap: "4px",
+    gap: "var(--space-50)",
     "padding-left": "2px",
     "padding-right": "6px",
     "align-items": "center",

@@ -242,7 +242,7 @@ const AvatarFrame = styled("div", {
 
     display: "flex",
     justifyContent: "end",
-    paddingInline: "var(--gap-sm)",
+    paddingInline: "var(--space-50)",
   },
 });
 
@@ -267,7 +267,7 @@ const Frame = styled("div", {
       },
       content: {
         height: "var(--message-size)",
-        marginTop: "var(--gap-sm)",
+        marginTop: "var(--space-50)",
         borderRadius: "var(--borderRadius-sm)",
       },
     },

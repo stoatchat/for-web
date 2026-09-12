@@ -236,11 +236,11 @@ const Notice = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "var(--gap-lg)",
+    gap: "var(--space-200)",
     textAlign: "center",
     maxWidth: "42ch",
     marginInline: "auto",
-    paddingInline: "var(--gap-lg)",
+    paddingInline: "var(--space-200)",
     color: "var(--md-sys-color-on-surface-variant)",
   },
 });
@@ -253,7 +253,7 @@ const Header = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -265,7 +265,7 @@ const Impact = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     letterSpacing: "0.05em",
     color: "var(--md-sys-color-on-surface-variant)",
   },

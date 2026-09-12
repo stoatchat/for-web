@@ -72,7 +72,7 @@ export function ChangelogModal(
 
 const Subtitle = styled("span", {
   base: {
-    marginBlockEnd: "var(--gap-md)",
+    marginBlockEnd: "var(--space-100)",
     fontSize: "0.875rem",
     color: "var(--md-sys-color-on-surface-variant)",
   },

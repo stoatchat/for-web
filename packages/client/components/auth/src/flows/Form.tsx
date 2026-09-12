@@ -14,7 +14,7 @@ const ErrorContainer = styled("span", {
     color: "var(--md-sys-color-error)",
     display: "flex",
     alignItems: "center",
-    gap: "0.25em",
+    gap: "var(--space-50)",
 
     "& a": {
       color: "var(--md-sys-color-primary)",

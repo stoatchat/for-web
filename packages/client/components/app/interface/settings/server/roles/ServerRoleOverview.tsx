@@ -71,7 +71,7 @@ export function ServerRoleOverview(props: { context: Server }) {
         </Text>
         <div
           class={css({
-            marginTop: "var(--gap-sm)",
+            marginTop: "var(--space-50)",
             _tablet: { paddingBlockEnd: "80px" },
           })}
         >
@@ -151,8 +151,8 @@ const ItemContainer = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-md)",
-    paddingBottom: "var(--gap-md)",
+    gap: "var(--space-100)",
+    paddingBottom: "var(--space-100)",
 
     // grow the button to full width
     "& > :nth-child(2)": {

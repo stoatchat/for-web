@@ -148,8 +148,8 @@ const MiniCard = styled("div", {
     flexDirection: "column",
     justifyContent: "end",
 
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
 
     borderRadius: "var(--borderRadius-lg)",
     background: "var(--md-sys-color-secondary-container)",

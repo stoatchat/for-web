@@ -213,7 +213,7 @@ const Info = styled("div", {
     display: "flex",
     flexShrink: 0,
     justifyContent: "end",
-    padding: "2px var(--gap-sm)",
+    padding: "2px var(--space-50)",
   },
   variants: {
     tail: {
@@ -244,7 +244,7 @@ const Body = styled("div", {
 
     minWidth: 0,
     overflow: "hidden",
-    paddingInlineEnd: "var(--gap-lg)",
+    paddingInlineEnd: "var(--space-200)",
   },
   variants: {
     editing: {
@@ -260,7 +260,7 @@ const Content = styled("div", {
   base: {
     minWidth: 0,
     display: "flex",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     flexDirection: "column",
 
     ...typography.raw({ class: "_messages" }),
@@ -274,7 +274,7 @@ const infoText = cva({
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
 
     color: "var(--md-sys-color-outline)",
 
@@ -283,7 +283,7 @@ const infoText = cva({
   variants: {
     prefix: {
       true: {
-        width: "calc(7ch * var(--gap-sm))",
+        width: "calc(7ch * var(--space-50))",
         fontSize: "0.7em",
 
         overflow: "hidden",
@@ -322,7 +322,7 @@ const CompactInfo = styled(Row, {
     flexShrink: 0,
     marginTop: "-2px",
     height: "fit-content",
-    paddingInline: "var(--gap-lg) 0",
+    paddingInline: "var(--space-200) 0",
   },
 });
 

@@ -110,7 +110,7 @@ const Stack = styled("div", {
     flexGrow: 1,
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -174,10 +174,10 @@ const Explainer = styled("div", {
     flexShrink: 0,
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
 
-    marginInline: "var(--gap-md)",
-    padding: "var(--gap-l)",
+    marginInline: "var(--space-100)",
+    padding: "var(--space-150)",
 
     borderRadius: "var(--borderRadius-md)",
     background: "var(--md-sys-color-surface-container-high)",
@@ -196,8 +196,8 @@ const ExplainerActions = styled("div", {
   base: {
     display: "flex",
     justifyContent: "end",
-    gap: "var(--gap-sm)",
-    marginTop: "var(--gap-xs)",
+    gap: "var(--space-50)",
+    marginTop: "var(--space-25)",
   },
 });
 
@@ -206,8 +206,8 @@ const SearchArea = styled("div", {
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-sm)",
-    paddingInline: "var(--gap-md)",
+    gap: "var(--space-50)",
+    paddingInline: "var(--space-100)",
 
     "& > *:last-child": {
       flexGrow: 1,
@@ -224,7 +224,7 @@ const Scroller = styled("div", {
     flexGrow: 1,
     minHeight: 0,
     overflowY: "auto",
-    paddingInline: "var(--gap-md)",
+    paddingInline: "var(--space-100)",
 
     scrollbarWidth: "none",
     "&::-webkit-scrollbar": {
@@ -249,8 +249,8 @@ const Centered = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-x)",
+    gap: "var(--space-100)",
+    padding: "var(--space-300)",
     textAlign: "center",
     color: "var(--md-sys-color-on-surface-variant)",
   },
@@ -392,8 +392,8 @@ const CategoryGrid = styled("div", {
   base: {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "var(--gap-sm)",
-    paddingBlock: "var(--gap-sm)",
+    gap: "var(--space-50)",
+    paddingBlock: "var(--space-50)",
   },
 });
 
@@ -410,7 +410,7 @@ const Category = styled("div", {
     display: "flex",
     alignItems: "end",
     justifyContent: "start",
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
 
     // scrim so the label stays legible
     boxShadow: "inset 0 -56px 48px -16px rgba(0, 0, 0, 0.7)",
@@ -553,7 +553,7 @@ function GifSearch(props: { query: string }) {
 
 const ButtonSpacing = styled("div", {
   base: {
-    marginTop: "var(--gap-s)",
+    marginTop: "var(--space-75)",
   },
 });
 
@@ -562,8 +562,8 @@ const EndOfResults = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: "var(--gap-sm)",
-    paddingBlock: "var(--gap-l)",
+    gap: "var(--space-50)",
+    paddingBlock: "var(--space-150)",
     textAlign: "center",
   },
 });
@@ -574,8 +574,8 @@ const EndOfResults = styled("div", {
 const Masonry = styled("div", {
   base: {
     columnCount: 2,
-    columnGap: "var(--gap-sm)",
-    paddingBlock: "var(--gap-sm)",
+    columnGap: "var(--space-50)",
+    paddingBlock: "var(--space-50)",
   },
 });
 
@@ -584,7 +584,7 @@ const GifTile = styled("div", {
     ...tileInteractive,
 
     width: "100%",
-    marginBottom: "var(--gap-sm)",
+    marginBottom: "var(--space-50)",
     breakInside: "avoid",
 
     "& video": {

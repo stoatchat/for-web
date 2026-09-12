@@ -65,7 +65,7 @@ export function ScreenShareSettingsModal(
       <VideoTrack
         trackRef={props.trackReference}
         style={{
-          padding: "var(--gap-md)",
+          padding: "var(--space-100)",
           "border-radius": "var(--borderRadius-lg)",
           "max-height": "400px",
           "justify-self": "center",

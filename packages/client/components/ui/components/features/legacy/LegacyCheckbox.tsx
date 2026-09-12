@@ -5,7 +5,7 @@ import { styled } from "styled-system/jsx";
 
 const Base = styled("label", {
   base: {
-    gap: "10px",
+    gap: "var(--space-125)",
     padding: "4px",
     display: "flex",
     cursor: "pointer",
@@ -35,7 +35,7 @@ const Content = styled("div", {
     flexDirection: "column",
     display: "flex",
     flexGrow: 1,
-    gap: "3px",
+    gap: "var(--space-50)",
   },
 });
 
@@ -43,7 +43,7 @@ const TitleContent = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "8px",
+    gap: "var(--space-100)",
     color: "var(--colours-foreground)",
   },
 });

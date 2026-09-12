@@ -17,7 +17,7 @@ import { TextFile } from "./TextFile";
  */
 export const AttachmentContainer = styled(Column, {
   base: {
-    padding: "var(--gap-md)",
+    padding: "var(--space-100)",
     borderRadius: "var(--borderRadius-md)",
     color: "var(--md-sys-color-inverse-on-surface)",
     background: "var(--md-sys-color-inverse-surface)",

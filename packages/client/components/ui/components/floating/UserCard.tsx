@@ -13,7 +13,7 @@ import { Profile } from "../features";
  */
 const base = cva({
   base: {
-    // padding: "var(--gap-md)",
+    // padding: "var(--space-100)",
 
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-container-high)",
@@ -88,8 +88,8 @@ export function UserCard(
 const Grid = styled("div", {
   base: {
     display: "grid",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     gridTemplateColumns: "repeat(2, 1fr)",
   },
 });

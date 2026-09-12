@@ -209,12 +209,12 @@ const Container = styled("div", {
 
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
 
     alignItems: "stretch",
 
     overflow: "hidden",
-    padding: "var(--gap-md) 0",
+    padding: "var(--space-100) 0",
 
     borderRadius: "var(--borderRadius-lg)",
     color: "var(--md-sys-color-on-surface)",

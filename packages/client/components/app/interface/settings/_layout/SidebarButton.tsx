@@ -79,7 +79,7 @@ export const SidebarButtonTitle = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "8px",
+    gap: "var(--space-75)",
     flexGrow: 1,
     minWidth: 0,
     paddingInlineEnd: "8px",
@@ -101,6 +101,6 @@ export const SidebarButtonIcon = styled("div", {
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     flexShrink: 0,
-    gap: "2px",
+    gap: "var(--space-25)",
   },
 });

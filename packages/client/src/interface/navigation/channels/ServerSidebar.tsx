@@ -224,7 +224,7 @@ export const ServerSidebar = (props: Props) => {
       </Switch>
       <div
         use:invisibleScrollable
-        style={{ "flex-grow": 1, "margin-bottom": "var(--gap-md)" }}
+        style={{ "flex-grow": 1, "margin-bottom": "var(--space-100)" }}
         use:floating={props.menuGenerator(props.server)}
       >
         <Draggable
@@ -395,9 +395,9 @@ function Category(
 const CategorySection = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     flexDirection: "column",
-    paddingBlock: "var(--gap-sm)",
+    paddingBlock: "var(--space-50)",
     borderRadius: "var(--borderRadius-sm)",
     background: "var(--md-sys-color-surface-container-low)",
 
@@ -414,10 +414,10 @@ const CategoryBase = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
 
-    padding: "0 var(--gap-sm)",
-    paddingLeft: "calc(var(--gap-lg) + 5px)",
+    padding: "0 var(--space-50)",
+    paddingLeft: "calc(var(--space-200) + 5px)",
     paddingTop: "10px",
 
     cursor: "pointer",

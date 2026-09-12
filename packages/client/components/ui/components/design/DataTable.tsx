@@ -147,13 +147,13 @@ const Container = styled("div", {
 const Table = styled("table", {
   base: {
     width: "100%",
-    // margin: "var(--gap-md)",
+    // margin: "var(--space-100)",
   },
 });
 
 const Header = styled("td", {
   base: {
-    padding: "var(--gap-lg)",
+    padding: "var(--space-200)",
   },
 });
 
@@ -171,7 +171,7 @@ const TableRow = styled("tr", {
 
 const Cell = styled("td", {
   base: {
-    padding: "var(--gap-lg)",
+    padding: "var(--space-200)",
   },
 });
 
@@ -179,7 +179,7 @@ const Pagination = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "32px",
+    gap: "var(--space-400)",
     justifyContent: "end",
   },
 });

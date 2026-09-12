@@ -116,7 +116,7 @@ function Participants() {
     const vidWidth = Math.round(
       100 / (voice.vidTracks().length + testTrackCount),
     );
-    return `max(${TILE_MIN_WIDTH}, ${vidWidth}% - var(--gap-md))`;
+    return `max(${TILE_MIN_WIDTH}, ${vidWidth}% - var(--space-100))`;
   };
 
   // Clear out any focus when the track that was focused is no longer available.
@@ -213,8 +213,8 @@ const View = styled("div", {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     transition: "padding var(--transitions-medium)",
   },
   variants: {
@@ -237,8 +237,8 @@ const VoiceCallControlHolder = styled("div", {
     display: "flex",
     flex: 1,
     alignSelf: "center",
-    gap: "var(--gap-md)",
-    padding: "var(--gap-md)",
+    gap: "var(--space-100)",
+    padding: "var(--space-100)",
     opacity: 1,
     transition: "opacity var(--transitions-medium)",
   },
@@ -278,7 +278,7 @@ const Call = styled("div", {
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     flexGrow: 1,
     minHeight: 0,
   },
@@ -291,7 +291,7 @@ const Grid = styled("div", {
     justifyContent: "safe center",
     alignContent: "safe center",
     minHeight: "100%",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 
   variants: {

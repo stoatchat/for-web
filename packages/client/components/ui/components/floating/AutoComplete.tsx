@@ -148,7 +148,7 @@ const Entry = styled("div", {
     alignItems: "center",
 
     cursor: "pointer",
-    padding: "var(--gap-sm) var(--gap-md)",
+    padding: "var(--space-50) var(--space-100)",
     background: "transparent",
   },
   variants: {
@@ -176,7 +176,7 @@ const Name = styled("div", {
 const Base = styled(Column, {
   base: {
     "--emoji-size": "1.4em",
-    padding: "var(--gap-md) 0",
+    padding: "var(--space-100) 0",
     borderRadius: "var(--borderRadius-xs)",
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-container)",

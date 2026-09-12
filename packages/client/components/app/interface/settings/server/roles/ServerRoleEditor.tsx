@@ -148,7 +148,7 @@ function RoleColourPicker(props: {
               <Show
                 when={isCustomColour()}
                 fallback={
-                  <Symbol size={20} marginRight="var(--gap-sm)">
+                  <Symbol size={20} marginRight="var(--space-50)">
                     palette
                   </Symbol>
                 }
@@ -385,7 +385,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 export const Divider = styled("div", {
   base: {
     height: "1px",
-    margin: "var(--gap-sm) 0",
+    margin: "var(--space-50) 0",
     background: "var(--md-sys-color-outline-variant)",
   },
 });
@@ -397,7 +397,7 @@ const NoColourIndicator = styled("span", {
     flexShrink: 0,
     borderRadius: "var(--borderRadius-full)",
     border: "2px dashed var(--md-sys-color-on-surface-variant)",
-    marginRight: "var(--gap-sm)",
+    marginRight: "var(--space-50)",
   },
 });
 
@@ -407,7 +407,7 @@ const CustomColourIndicator = styled("span", {
     height: "18px",
     flexShrink: 0,
     borderRadius: "50%",
-    marginRight: "var(--gap-sm)",
+    marginRight: "var(--space-50)",
   },
 });
 
@@ -417,7 +417,7 @@ const RoleColourControls = styled("div", {
     display: "flex",
     flexWrap: "wrap",
     alignItems: "stretch",
-    gap: "var(--gap-lg)",
+    gap: "var(--space-200)",
   },
 });
 
@@ -436,7 +436,7 @@ const ColourPreview = styled("div", {
     flex: "0 1 220px",
     display: "grid",
     gridTemplateRows: "auto repeat(2, minmax(0, 1fr))",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -446,8 +446,8 @@ const PreviewSurface = styled("div", {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: "var(--gap-md)",
-    paddingInline: "var(--gap-l)",
+    padding: "var(--space-100)",
+    paddingInline: "var(--space-150)",
     border: "1px solid",
     borderRadius: "var(--borderRadius-md)",
   },
@@ -458,7 +458,7 @@ const PreviewMessage = styled("div", {
     minWidth: 0,
     display: "flex",
     alignItems: "center",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
   },
 });
 
@@ -499,7 +499,7 @@ const ColourPalette = styled("div", {
     width: "100%",
     display: "grid",
     gridTemplateColumns: "repeat(11, minmax(0, 36px))",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
   },
 });
 
@@ -534,7 +534,7 @@ const ColourActions = styled("div", {
     width: "100%",
     display: "grid",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
     position: "relative",
   },
 });
@@ -544,7 +544,7 @@ const ColourActionContent = styled("span", {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "var(--gap-sm)",
+    gap: "var(--space-50)",
 
     "& svg": {
       width: "20px",

@@ -120,7 +120,7 @@ const base = css({
  */
 const InnerContent = styled("div", {
   base: {
-    gap: "13px",
+    gap: "var(--space-175)",
     minWidth: 0,
     width: "100%",
     display: "flex",
@@ -140,7 +140,7 @@ const InnerContent = styled("div", {
 const InnerColumn = styled("div", {
   base: {
     width: "100%",
-    gap: "var(--gap-md)",
+    gap: "var(--space-100)",
     display: "flex",
     flexDirection: "column",
     marginBlockEnd: "80px",
@@ -154,7 +154,7 @@ const ActionRail = styled("div", {
   base: {
     height: "100vh",
     minWidth: "56px",
-    padding: "80px 8px calc(var(--gap-xl) + env(safe-area-inset-bottom))",
+    padding: "80px 8px calc(var(--space-400) + env(safe-area-inset-bottom))",
 
     zIndex: 2,
     flexGrow: 1,
