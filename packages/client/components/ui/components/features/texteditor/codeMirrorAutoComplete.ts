@@ -29,6 +29,7 @@ const completionTheme = EditorView.theme({
   ".cm-tooltip.cm-tooltip-autocomplete > ul": {
     "min-width": "10em",
     "max-width": "50vw",
+    "max-height": "min(50vh, 490px)",
     "font-family": "inherit",
   },
   ".cm-tooltip.cm-tooltip-autocomplete > ul > li": {

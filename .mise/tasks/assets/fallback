@@ -2,4 +2,4 @@
 #MISE description="Remove Stoat brand assets and use fallback"
 set -e
 
-git submodule deinit packages/client/assets
+git submodule deinit -f packages/client/assets

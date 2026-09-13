@@ -28,7 +28,7 @@ function cleanError(
 export function useError() {
   const { t } = useLingui();
 
-  return (error: unknown) => {
+  return (error: unknown, context?: string) => {
     error = cleanError(error);
 
     // TODO: HTTP errors
@@ -54,6 +54,8 @@ export function useError() {
         case "AlreadySentRequest":
           return t`You've already sent a request to this user.`;
         case "Banned":
+          if (context === "discover")
+            return t`You may not submit this item to discover.`;
           return t`You are banned from this server.`;
         case "Blocked":
           return t`You have this user blocked.`;
@@ -132,6 +134,25 @@ export function useError() {
           return t`This account is not activated! Please check your account's inbox and try again.`;
         case "TotpAlreadyEnabled":
           return t`Multi-factor authentication is already enabled for this account.`;
+        case "ContactSupport":
+          switch (err.locale) {
+            case "discover.bot_removal_approved":
+              return t`The bot is already on discover, the user must contact support to have it removed`;
+            case "discover.bot_removal_removed":
+              return t`The bot has been removed from discover by moderators, the user must contact support.`;
+            case "discover.server_removal_approved":
+              return t`The server is already on discover, the user must contact support to have it removed.`;
+            case "discover.server_removal_removed":
+              return t`The server has been removed from discover by moderators, the user must contact support.`;
+            case "discover.declined_apply_again":
+              return t`The Discover request was declined. Declined requests cannot be removed, but the user may submit again.`;
+            case "discover.cannot_auto_remove":
+              return t`The Discover request is approved or the item has been removed from discover. In either case, the user must contact support.`;
+            case "discover.removed_cannot_apply":
+              return t`The item was removed by moderators, and as such future applications are prohibited. Contact support for more information.`;
+            default:
+              return t`Your request failed. Please contact support.`;
+          }
 
         // unreachable errors (in theory)
         case "FileTooLarge":

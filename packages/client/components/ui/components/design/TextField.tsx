@@ -93,7 +93,7 @@ export function TextField(props: Props) {
   return (
     <mdui-text-field
       {...props}
-      class={field()}
+      class={field() + (props.class ? " " + props.class : "")}
       // @codegen directives props=props include=autoComplete
     />
   );

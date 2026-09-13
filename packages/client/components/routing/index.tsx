@@ -19,20 +19,20 @@ export {
   useParams,
 } from "@solidjs/router";
 
-const RE_SERVER = /\/server\/([A-Z0-9]{26})/;
-const RE_CHANNEL = /\/channel\/([A-Z0-9]{26})/;
-const RE_MESSAGE_ID = /\/channel\/[A-Z0-9]{26}\/([A-Z0-9]{26})/;
-const RE_BOT_ID = /\/bot\/([A-Z0-9]{26})/;
+const RE_SERVER = /\/server\/([A-Z\d]{26})/;
+const RE_CHANNEL = /\/channel\/([A-Z\d]{26})/;
+const RE_MESSAGE_ID = /\/channel\/[A-Z\d]{26}\/([A-Z\d]{26})/;
+const RE_BOT_ID = /\/bot\/([A-Z\d]{26})/;
 const RE_HOST = /^\/i\/([\w:.]+)\//;
 
-const RE_INVITE_EXACT = /^(?:\/i\/[\w:.]+)?\/invite\/([\w\d]+)$/;
-const RE_BOT_ID_EXACT = /^(?:\/i\/[\w:.]+)?\/bot\/[A-Z0-9]{26}$/;
+const RE_INVITE_EXACT = /^(?:\/i\/[\w:.]+)?\/invite\/(\w+)$/;
+const RE_BOT_ID_EXACT = /^(?:\/i\/[\w:.]+)?\/bot\/[A-Z\d]{26}$/;
 
-const RE_SERVER_EXACT = /^(?:\/i\/[\w:.]+)?\/server\/([A-Z0-9]{26})$/;
+const RE_SERVER_EXACT = /^(?:\/i\/[\w:.]+)?\/server\/([A-Z\d]{26})$/;
 const RE_CHANNEL_EXACT =
-  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z0-9]{26})?\/channel\/([A-Z0-9]{26})(?:\/[A-Z0-9]{26})?$/;
+  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z\d]{26})?\/channel\/([A-Z\d]{26})(?:\/[A-Z\d]{26})?$/;
 const RE_MESSAGE_ID_EXACT =
-  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z0-9]{26})?\/channel\/[A-Z0-9]{26}\/([A-Z0-9]{26})$/;
+  /^(?:\/i\/[\w:.]+)?(?:\/server\/[A-Z\d]{26})?\/channel\/[A-Z\d]{26}\/([A-Z\d]{26})$/;
 
 /**
  * Route parameters available globally
