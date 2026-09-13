@@ -19,7 +19,7 @@ import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
-import { EMOJI_MAP } from "@revolt/ui/emojis";
+import { EMOJI_MAP, EMOJI_MAP_DEDUPE } from "@revolt/ui/emojis";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import {
@@ -90,7 +90,7 @@ export function EmojiPicker() {
               .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
               .map((emoji) => ({ t: 2, emoji })),
           ),
-        ...EMOJI_MAP.filter(
+        ...EMOJI_MAP_DEDUPE.filter(
           (ed) =>
             ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
               .length > 0,

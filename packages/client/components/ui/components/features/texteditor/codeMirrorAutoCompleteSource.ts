@@ -19,14 +19,16 @@ import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
-const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map(
-  (id) =>
-    ({
-      type: "emoji",
-      label: `:${id}:`,
-      apply: getEmojiByShorthand(id).emoji,
-    }) as Completion,
-);
+const MAPPED_EMOJI_KEYS = EMOJI_KEYS.values()
+  .toArray()
+  .map(
+    (id) =>
+      ({
+        type: "emoji",
+        label: `:${id}:`,
+        apply: getEmojiByShorthand(id).emoji,
+      }) as Completion,
+  );
 
 const RE_match = /(?<!\w)[:@%#][\w\-+]*/;
 const RE_emojiValidFor = /(?<!\w):[\w\-+]*/;

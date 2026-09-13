@@ -7,6 +7,10 @@ import { registerFloatingElement, unregisterFloatingElement } from "./floating";
 
 type Operator = "@" | ":" | "#" | "%";
 
+// TODO: This file isn't used, and is broken, and got even more broken by the emoji extensions update. Fix it and use it in bios and descriptions and stuff.
+
+// Usage: `use:autoComplete` on a component
+
 export type AutoCompleteState =
   | {
       matched: "none";
@@ -270,13 +274,11 @@ function searchMatches(
         i++;
       }
     } else {
-      let i = 0;
-      while (matches.length < 10 && i < EMOJI_KEYS.length) {
-        if (EMOJI_KEYS[i].includes(query)) {
-          matches.push(EMOJI_KEYS[i]);
+      const emojiKeySet = EMOJI_KEYS.values().toArray();
+      for (let i = 0; i < emojiKeySet.length && matches.length < 10; i++) {
+        if (emojiKeySet[i].includes(query)) {
+          matches.push(emojiKeySet[i]);
         }
-
-        i++;
       }
     }
 

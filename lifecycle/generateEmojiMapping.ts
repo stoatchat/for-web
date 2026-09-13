@@ -14,31 +14,75 @@ for (const group of emojiExtensions.extensions) {
 type AliasKey = keyof typeof emojiExtensions.aliases;
 
 const Mapping: string[][] = [];
+const ShorthandAggregator: Map<string, Set<string>> = new Map();
 
 const RE_SHORTCODE = /^:[\w\-+]+:$/u;
 
 for (const group of ordering) {
   for (const emote of group.emoji) {
+    // Bug fix: game-die is the wrong emoji, so we've added it manually. Might as well as do a generic removal system?
+    let isRemoved = false;
+    for (const code of emote.shortcodes) {
+      if (emojiExtensions.removals.includes(code)) {
+        isRemoved = true;
+        break;
+      }
+    }
+    if (isRemoved) {
+      continue;
+    }
+
     const emoji = String.fromCodePoint(...emote.base);
-    const emojiDef = [emoji];
+    const emojiShortHands: Set<string> = ShorthandAggregator.getOrInsert(
+      emoji,
+      new Set(),
+    );
 
     for (let code of emote.shortcodes) {
       code = code.replaceAll(" ", "-");
       if (!RE_SHORTCODE.test(code)) continue;
 
       const name = code.substring(1, code.length - 1).toLowerCase();
-      emojiDef.push(name);
+      emojiShortHands.add(name);
 
       // Check for aliases
       const aliases = emojiExtensions.aliases[name as AliasKey];
       if (aliases) {
         for (const alias of aliases) {
           if (!RE_SHORTCODE.test(`:${alias}:`)) continue;
-          emojiDef.push(alias.toLowerCase());
+          emojiShortHands.add(alias.toLowerCase());
         }
         delete emojiExtensions.aliases[name as AliasKey];
       }
     }
+    ShorthandAggregator.set(emoji, emojiShortHands);
+  }
+}
+
+for (const group of ordering) {
+  for (const emote of group.emoji) {
+    // Bug fix: game-die is the wrong emoji, so we've added it manually. Might as well as do a generic removal system?
+    let isRemoved = false;
+    for (const code of emote.shortcodes) {
+      if (emojiExtensions.removals.includes(code)) {
+        isRemoved = true;
+        break;
+      }
+    }
+    if (isRemoved) {
+      continue;
+    }
+
+    const emoji = String.fromCodePoint(...emote.base);
+    const emojiDef = [emoji];
+
+    const emojiShortHands: Set<string> = ShorthandAggregator.getOrInsert(
+      emoji,
+      new Set(),
+    );
+
+    emojiDef.push(...emojiShortHands);
+
     Mapping.push(emojiDef);
   }
 }

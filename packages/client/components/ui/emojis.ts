@@ -6,7 +6,8 @@ type EmojiDefinition = {
 };
 
 export const EMOJI_MAP: EmojiDefinition[] = [];
-export const EMOJI_KEYS: string[] = [];
+export const EMOJI_MAP_DEDUPE: EmojiDefinition[] = [];
+export const EMOJI_KEYS: Set<string> = new Set();
 export const SHORTHAND_TO_EMOJI: Record<string, EmojiDefinition> = {};
 export const MAPPED_EMOJI_KEYS: {
   id: string;
@@ -20,8 +21,11 @@ for (let i = 0; i < emojiMapping.length; i++) {
     shorthands: shorthands,
   };
   EMOJI_MAP.push(ed);
+  if (!EMOJI_MAP_DEDUPE.find((e) => e.emoji === ed.emoji)) {
+    EMOJI_MAP_DEDUPE.push(ed);
+  }
   for (let j = 0; j < shorthands.length; j++) {
-    EMOJI_KEYS.push(shorthands[j]);
+    EMOJI_KEYS.add(shorthands[j]);
     SHORTHAND_TO_EMOJI[shorthands[j]] = ed;
     MAPPED_EMOJI_KEYS.push({ id: shorthands[j], name: shorthands[j] });
   }
