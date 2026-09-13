@@ -26,7 +26,7 @@ const MAPPED_EMOJI_KEYS = EMOJI_KEYS.values()
       ({
         type: "emoji",
         label: `:${id}:`,
-        apply: getEmojiByShorthand(id).emoji,
+        apply: getEmojiByShorthand(id)?.emoji,
       }) as Completion,
   );
 

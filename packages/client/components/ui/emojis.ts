@@ -31,6 +31,6 @@ for (let i = 0; i < emojiMapping.length; i++) {
   }
 }
 
-export function getEmojiByShorthand(sh: string): EmojiDefinition {
+export function getEmojiByShorthand(sh: string): EmojiDefinition | undefined {
   return SHORTHAND_TO_EMOJI[sh];
 }

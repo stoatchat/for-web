@@ -303,8 +303,8 @@ function searchMatches(
           : {
               type: "unicode",
               shortcode: id,
-              codepoint: getEmojiByShorthand(id).emoji,
-              replacement: getEmojiByShorthand(id).emoji,
+              codepoint: getEmojiByShorthand(id)?.emoji ?? "",
+              replacement: getEmojiByShorthand(id)?.emoji ?? "",
             },
       ),
     };

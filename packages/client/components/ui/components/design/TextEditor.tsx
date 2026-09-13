@@ -297,7 +297,7 @@ export function TextEditor(props: Props) {
                     }
                   : {
                       type: "unicode",
-                      codepoint: getEmojiByShorthand(id).emoji,
+                      codepoint: getEmojiByShorthand(id)?.emoji ?? "",
                       name: emote.name,
                     },
               );
