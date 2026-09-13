@@ -90,10 +90,7 @@ export function FileCarousel(props: Props) {
               /**
                * Handler for toggling spoiler state
                */
-              const onToggleSpoiler = (event: MouseEvent) => {
-                event.stopPropagation();
-                props.toggleSpoiler(id);
-              };
+              const onToggleSpoiler = () => props.toggleSpoiler(id);
 
               /**
                * Handler for removing the file
@@ -271,11 +268,11 @@ const ActionIcon = styled("button", {
     width: "22px",
     height: "22px",
     padding: 0,
-    borderRadius: "var(--borderRadius-sm, 4px)",
+    borderRadius: "var(--borderRadius-sm)",
     border: "none",
 
     cursor: "pointer",
-    color: "white",
+    color: "var(--md-sys-color-on-surface)",
     background: "transparent",
     transition: "var(--transitions-fast) background",
 

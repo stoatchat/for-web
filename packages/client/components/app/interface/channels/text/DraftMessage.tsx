@@ -156,7 +156,7 @@ const PreviewImage = styled("img", {
 /**
  * Centered label shown over a spoiler-marked upload preview
  */
-const SpoilerLabel = styled("button", {
+const SpoilerLabel = styled("div", {
   base: {
     position: "absolute",
     top: "50%",
