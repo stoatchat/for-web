@@ -42,6 +42,11 @@ for (const group of ordering) {
       code = code.replaceAll(" ", "-");
       // To fix the rescue worker helmet, why is that a ’???
       code = code.replaceAll("’", "");
+      // To fix a few emojis with & in the name like St. Kitts & Nevis Flag
+      code = code.replaceAll("-&-", "-");
+      code = code.replaceAll("&", "");
+      // To fix `St.`
+      code = code.replaceAll(".", "");
       if (!RE_SHORTCODE.test(code)) continue;
 
       const name = code.substring(1, code.length - 1).toLowerCase();
