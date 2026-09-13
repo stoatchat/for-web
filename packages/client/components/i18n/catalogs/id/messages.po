@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-13 06:47+0000\n"
-"Last-Translator: Steven Felix <stevenfelix505@gmail.com>\n"
+"Last-Translator: \"@liimee\" <alt+revoltweblate@fw.taaa.my.id>\n"
 "Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/id/>\n"
 "Language: id\n"
@@ -17,31 +17,31 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr "[Kemarin pada] LT"
+msgstr "[Kemarin pukul] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr "[Hari ini pada] LT"
+msgstr "[Hari ini pukul] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr "[Besok pada] LT"
+msgstr "[Besok pukul] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[Hari] dddd [pada] LT"
+msgstr "dddd [lalu pukul] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr "dddd [pada] LT"
+msgstr "dddd [pukul] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr "(perubahan akan disimpan…)"
+msgstr "(perubahan sedang disimpan…)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
@@ -54,7 +54,7 @@ msgstr "{0, plural, one {# pesan terblokir} other {# pesan terblokir}}"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Mengunggah sebuah berkas} other {Mengunggah # berkas}}"
+msgstr "{0, plural, other {Mengunggah # berkas}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -97,7 +97,7 @@ msgstr "{0} bergabung"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} left"
-msgstr "{0} pergi"
+msgstr "{0} keluar"
 
 #. placeholder {0}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).from ?.username
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
@@ -134,13 +134,13 @@ msgstr "{0} dilarang"
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr "{0} diusir"
+msgstr "{0} dikeluarkan"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr "{0} dihapus oleh {1}"
+msgstr "{0} dikeluarkan oleh {1}"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
