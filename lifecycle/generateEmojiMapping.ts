@@ -16,7 +16,7 @@ type AliasKey = keyof typeof emojiExtensions.aliases;
 const Mapping: string[][] = [];
 const ShorthandAggregator: Map<string, Set<string>> = new Map();
 
-const RE_SHORTCODE = /^:[\w\-+]+:$/u;
+const RE_SHORTCODE = /^:[\p{L}\w!\-+]+:$/u;
 
 for (const group of ordering) {
   for (const emote of group.emoji) {
@@ -40,6 +40,8 @@ for (const group of ordering) {
 
     for (let code of emote.shortcodes) {
       code = code.replaceAll(" ", "-");
+      // To fix the rescue worker helmet, why is that a ’???
+      code = code.replaceAll("’", "");
       if (!RE_SHORTCODE.test(code)) continue;
 
       const name = code.substring(1, code.length - 1).toLowerCase();
