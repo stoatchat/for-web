@@ -104,6 +104,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       dimensions?: [number, number];
       autumnId?: string;
       uploadProgress: [Accessor<number>, Setter<number>];
+      spoiler: [Accessor<boolean>, Setter<boolean>];
     }
   >;
 
@@ -125,6 +126,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     this.fileCache = {};
 
     this.getFile = this.getFile.bind(this);
+    this.isFileSpoiler = this.isFileSpoiler.bind(this);
+    this.toggleFileSpoiler = this.toggleFileSpoiler.bind(this);
     this.setEditingMessageContent = this.setEditingMessageContent.bind(this);
     this.instance = useInstance();
   }
@@ -328,7 +331,11 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
           continue;
         }
 
-        body.set("file", file);
+        body.set(
+          "file",
+          file,
+          this.isFileSpoiler(fileId) ? `SPOILER_${file.name}` : file.name,
+        );
 
         // We have to use XMLHttpRequest because modern fetch duplex streams require QUIC or HTTP/2
         const xhr = new XMLHttpRequest();
@@ -602,6 +609,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       // we know what we're doing here...
       // eslint-disable-next-line solid/reactivity
       uploadProgress: createSignal(0),
+      // eslint-disable-next-line solid/reactivity
+      spoiler: createSignal(false),
     };
 
     if (this.fileCache[id].dataUri) {
@@ -657,6 +666,24 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   getFile(fileId: string) {
     return this.fileCache[fileId];
+  }
+
+  /**
+   * Whether a file is currently marked as a spoiler
+   * @param fileId File ID
+   */
+  isFileSpoiler(fileId: string): boolean {
+    return this.fileCache[fileId]?.spoiler[0]() ?? false;
+  }
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId File ID
+   */
+  toggleFileSpoiler(fileId: string) {
+    const entry = this.fileCache[fileId];
+    if (!entry) return;
+    entry.spoiler[1]((value) => !value);
   }
 
   /**
