@@ -62,6 +62,7 @@ export function userInformation(user?: User, member?: ServerMember) {
 export function useUsers(
   ids: string[] | Accessor<string[]>,
   filterNull?: boolean,
+  onlyCached?: boolean,
 ): Accessor<(UserInformation | undefined)[]> {
   // TODO: use a context here for when we do multi view :)
   const params = useSmartParams();
@@ -86,7 +87,7 @@ export function useUsers(
       const user = clientAccessor().users.get(id);
       if (!user) {
         // Fetch the user in the background and return an unknown user for now
-        ensureUser(id);
+        if (!onlyCached) ensureUser(id);
         return userInformation();
       }
 
