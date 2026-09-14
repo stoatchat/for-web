@@ -15,7 +15,7 @@ import {
   cropImage,
   CropSizeError,
   loadImage,
-} from "../utils/imageProcessor";
+} from "../utils/cropProcessor";
 
 export { CropSizeError };
 export type { CropResult };

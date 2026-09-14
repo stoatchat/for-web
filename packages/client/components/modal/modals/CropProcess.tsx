@@ -19,8 +19,7 @@ export interface CropProcessOptions {
 }
 
 /**
- * Produces a `process` callback for FileInput. This is the entire
- * integration point between "generic file picker" and "must be cropped":
+ * Produces a `process` callback for FileInput that crops the selected image to a given aspect ratio.
  *```tsx
  *   <Form2.FileInput
  *     control={editGroup.controls.avatar}
