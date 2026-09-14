@@ -47,7 +47,7 @@ in pkgs.mkShell {
       echo "❄️  Playwright nix version: ${unstablePkgs.playwright.version}"
       echo "📦 Playwright npm version: $playwrightNpmVersion"
 
-      if [ "\({unstablePkgs.playwright.version}" != "\)playwrightNpmVersion" ]; then
+      if [ "${unstablePkgs.playwright.version}" != "$playwrightNpmVersion" ]; then
         echo "❌ Playwright versions in nix and npm are not the same!"
       else
         echo "✅ Playwright versions in nix and npm are the same"
