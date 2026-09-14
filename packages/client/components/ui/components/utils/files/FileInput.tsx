@@ -100,10 +100,6 @@ export function FileInput(props: Props) {
     const selected = [...e.currentTarget.files];
 
     if (local.process) {
-      // Deliberately do NOT call onFiles yet — not even onFiles(null).
-      // The whole point is that control.value (or whatever onFiles feeds)
-      // never sees the raw pick at all, so there's nothing to flash and
-      // nothing to revert if the user cancels processing.
       setPendingProcess(selected);
       return;
     }
