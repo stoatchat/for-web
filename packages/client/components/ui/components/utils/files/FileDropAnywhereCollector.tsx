@@ -125,12 +125,8 @@ export function FileDropAnywhereCollector(props: Props) {
    */
   function onDragLeave() {
     deferredHide = setTimeout(() => {
-      setHideIndicator(true);
-
-      setTimeout(() => {
-        setShowIndicator(false);
-      }, 300);
-    }) as never;
+      setShowIndicator(false);
+    }, 300) as never;
   }
 
   /**
@@ -176,9 +172,7 @@ export function FileDropAnywhereCollector(props: Props) {
   return (
     <Show when={showIndicator()}>
       <Portal>
-        <Show when={!hideIndicator()}>
-          <DimScreen />
-        </Show>
+        <DimScreen />
         <Container>
           <PreviewStack
             items={previewItems()}
