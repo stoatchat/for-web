@@ -253,6 +253,6 @@ const ColourIndicator = styled("span", {
 
 const NoColourIndicator = styled(ColourIndicator, {
   base: {
-    border: "2px solid var(--md-sys-color-outline)",
+    border: "2px dashed var(--md-sys-color-on-surface-variant)",
   },
 });

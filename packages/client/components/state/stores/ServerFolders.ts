@@ -54,9 +54,11 @@ const FOLDER_PREFIX = "folder-";
  * Folders are kept in their own synced key rather than inside `ordering`.
  *
  * Clients without folder support read `ordering.servers` as a plain list of
- * server ids and write it back the same way, so anything else stored in there
- * is dropped the first time one of them reorders a server. Keeping folders
- * under a key those clients never ask for leaves them untouched.
+ * server ids and write the whole `ordering` key back the same way, so anything
+ * else stored in there is dropped the first time one of them reorders a
+ * server. Keeping folders under a key those clients never ask for leaves them
+ * untouched; only their position in `ordering.serverSidebar` is lost, which
+ * falls back to member server positions.
  */
 export class ServerFolders extends AbstractStore<
   "server-folders",

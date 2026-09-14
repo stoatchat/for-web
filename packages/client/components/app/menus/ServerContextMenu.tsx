@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { Server } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Column, Text, Time } from "@revolt/ui";
@@ -43,6 +44,7 @@ import {
 export function ServerContextMenu(props: { server: Server }) {
   const state = useState();
   const client = useClient();
+  const device = useDevice();
   const { openModal } = useModals();
 
   /**
@@ -237,8 +239,10 @@ export function ServerContextMenu(props: { server: Server }) {
       </Show>
 
       <ContextMenuSubMenu
-        onClick={() =>
-          state.ordering.createFolder("New Folder", [props.server.id])
+        onClick={
+          device.layout() === "desktop" && !device.isMobile && !device.hasTouch
+            ? () => state.ordering.createFolder("New Folder", [props.server.id])
+            : undefined
         }
         icon={MdFolder}
         buttonContent={<Trans>Add to folder</Trans>}
