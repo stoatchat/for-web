@@ -165,9 +165,6 @@ export function createRailDrag(options: {
       : { type: "move", before: undefined, parent: undefined };
   }
 
-  /**
-   * Finish the drag, applying whatever the indicator was promising
-   */
   function drop() {
     const held = dragging();
     const landed = intent();
@@ -183,7 +180,6 @@ export function createRailDrag(options: {
 
     const source = options.entries().find((entry) => entry.id === held);
 
-    // dropping something back exactly where it came from isn't a move
     if (
       landed.parent === source?.parent &&
       (landed.before === held || sitsBefore(held, landed.before))
@@ -194,48 +190,33 @@ export function createRailDrag(options: {
     options.onMove(held, landed.before, landed.parent);
   }
 
-  /**
-   * Whether the entry already sits directly in front of the given one
-   * @param id Entry
-   * @param before Entry it would land in front of
-   */
   function sitsBefore(id: string, before: string | undefined) {
-    const ids = options.entries().map((entry) => entry.id);
-    const at = ids.indexOf(id);
+    const entries = options.entries();
+    const at = entries.findIndex((entry) => entry.id === id);
+    if (at === -1) return false;
+
+    let next = at + 1;
+    while (next < entries.length && entries[next].parent === id) {
+      next++;
+    }
 
     return before === undefined
-      ? at === ids.length - 1
-      : ids[at + 1] === before;
+      ? next === entries.length
+      : entries[next]?.id === before;
   }
 
-  /**
-   * Entries which sit alongside the given one, ie. the list it can move within
-   * @param parent Folder the entries belong to, if any
-   */
   function siblings(parent: string | undefined) {
     return options.entries().filter((entry) => entry.parent === parent);
   }
 
-  /**
-   * Announce something to anyone listening
-   * @param message Message
-   */
   function announce(message: string) {
     setStatus(message);
   }
 
-  /**
-   * Describe an entry for an announcement
-   * @param id Entry id
-   */
   function name(id: string) {
     return options.label?.(id) ?? t`Server`;
   }
 
-  /**
-   * Put focus back on an entry once the list has redrawn around it
-   * @param id Entry id
-   */
   function refocus(id: string) {
     requestAnimationFrame(() => {
       const el = elements.get(id);
@@ -244,11 +225,6 @@ export function createRailDrag(options: {
     });
   }
 
-  /**
-   * Move an entry one place within the list it belongs to
-   * @param id Entry id
-   * @param direction Whether to move it up or down
-   */
   function shift(id: string, direction: -1 | 1) {
     const parent = options.entries().find((entry) => entry.id === id)?.parent;
     const list = siblings(parent);
@@ -264,8 +240,6 @@ export function createRailDrag(options: {
       return;
     }
 
-    // moving down means landing in front of whatever follows the entry we
-    // are stepping over, which may be the end of the list
     const before = direction < 0 ? list[to].id : list[to + 1]?.id;
 
     options.onMove(id, before, parent);
@@ -300,22 +274,29 @@ export function createRailDrag(options: {
 
   function onPointerUp() {
     if (dragging()) {
-      // the icon is a link, and letting go over it would otherwise navigate
       window.addEventListener("click", swallowClick, { capture: true });
+      setTimeout(() => {
+        window.removeEventListener("click", swallowClick, { capture: true });
+      }, 0);
       drop();
     } else {
       reset();
     }
   }
 
-  /**
-   * Eat the click which follows the pointer release that ended a drag
-   * @param e Click event
-   */
   function swallowClick(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     window.removeEventListener("click", swallowClick, { capture: true });
+  }
+
+  // Drop keyboard selection if window loses focus
+  function onWindowBlur() {
+    const held = carrying();
+    if (!held) return;
+
+    setCarrying(undefined);
+    announce(t`${name(held)} dropped`);
   }
 
   function onKeyDown(e: KeyboardEvent) {
@@ -329,12 +310,15 @@ export function createRailDrag(options: {
   window.addEventListener("pointerup", onPointerUp);
   window.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("blur", onWindowBlur);
 
   onCleanup(() => {
+    window.removeEventListener("click", swallowClick, { capture: true });
     window.removeEventListener("pointermove", onPointerMove);
     window.removeEventListener("pointerup", onPointerUp);
     window.removeEventListener("pointercancel", onPointerUp);
     window.removeEventListener("keydown", onKeyDown);
+    window.removeEventListener("blur", onWindowBlur);
   });
 
   return {

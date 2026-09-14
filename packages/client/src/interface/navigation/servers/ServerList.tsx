@@ -9,7 +9,7 @@ import {
   createSignal,
 } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel, Server, User } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -26,7 +26,7 @@ import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 
 import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
 import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdFolder from "@material-design-icons/svg/filled/folder.svg?component-solid";
+import MdFolderOpen from "@material-design-icons/svg/filled/folder_open.svg?component-solid";
 import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
@@ -87,6 +87,7 @@ export const ServerList = (props: Props) => {
   const navigate = useNavigate();
   const { isMobile } = useDevice();
   const { openModal } = useModals();
+  const { t } = useLingui();
   const instance = useInstance();
 
   const navigateServer = (byOffset: number) => {
@@ -136,47 +137,63 @@ export const ServerList = (props: Props) => {
   let rail!: HTMLDivElement;
 
   /**
-   * Fold one entry into another, making a folder out of two servers or
-   * dropping a server into the folder it was let go over
-   * @param target Entry dropped onto
-   * @param incoming Server being dragged
+   * Fold an entry into another
    */
   function fold(target: string, incoming: string) {
-    const entry = props.orderedEntries.find((item) => item.id === target);
+    const entries = props.orderedEntries;
+
+    const entry = entries.find((item) => item.id === target);
     if (!entry) return;
+
+    const ids = entries.map((item) => item.id).filter((id) => id !== incoming);
 
     if (entry.type === "folder") {
       state.ordering.addToFolder(entry.folder.id, incoming);
     } else {
-      state.ordering.createFolder("New Folder", [target, incoming]);
+      const folderId = state.ordering.createFolder("New Folder", [
+        target,
+        incoming,
+      ]);
+
+      const at = ids.indexOf(target);
+      if (at !== -1) {
+        ids[at] = folderId;
+      }
     }
+
+    props.setServerOrder(ids);
   }
 
   /**
-   * Apply a drop which reorders rather than folds
-   * @param moved Entry being dragged
-   * @param before Entry it should sit in front of
-   * @param parent Folder it should land inside, if any
+   * Move an entry to a new position
    */
   function place(moved: string, before?: string, parent?: string) {
+    const currentOrder = props.orderedEntries.map((entry) => entry.id);
+    const ids = currentOrder.filter((id) => id !== moved);
+
     if (parent) {
       state.ordering.placeInFolder(parent, moved, before);
+      props.setServerOrder(ids);
       return;
     }
 
-    // out of a folder and back into the list proper
     if (state.ordering.folderOf(moved)) {
       state.ordering.removeFromFolder(moved);
     }
 
-    const ids = props.orderedEntries
-      .map((entry) => entry.id)
-      .filter((id) => id !== moved);
-
     const at = before ? ids.indexOf(before) : -1;
     const index = at === -1 ? ids.length : at;
 
-    props.setServerOrder([...ids.slice(0, index), moved, ...ids.slice(index)]);
+    const newOrder = [...ids.slice(0, index), moved, ...ids.slice(index)];
+
+    if (
+      newOrder.length === currentOrder.length &&
+      newOrder.every((id, i) => id === currentOrder[i])
+    ) {
+      return;
+    }
+
+    props.setServerOrder(newOrder);
   }
 
   const drag = createRailDrag({
@@ -201,7 +218,7 @@ export const ServerList = (props: Props) => {
       for (const entry of props.orderedEntries) {
         if (entry.id === id)
           return entry.type === "folder"
-            ? entry.folder.name || "Folder"
+            ? entry.folder.name || t`Folder`
             : entry.server.name;
 
         if (entry.type !== "folder") continue;
@@ -397,6 +414,10 @@ export const ServerList = (props: Props) => {
                       fallback={
                         <FolderPreview
                           servers={(item() as { servers: Server[] }).servers}
+                          colour={
+                            (item() as { folder: { colour?: string } }).folder
+                              .colour
+                          }
                         />
                       }
                     />
@@ -440,9 +461,6 @@ export const ServerList = (props: Props) => {
   );
 };
 
-/**
- * Server list container
- */
 /**
  * A single server in the list
  */
@@ -508,7 +526,11 @@ function ServerEntry(props: {
         <Show when={isInsertionBefore(props.drag, props.server.id)}>
           <div class={railInsertion} />
         </Show>
-        <a href={state.layout.getLastActiveServerPath(props.server.id)}>
+        <a
+          draggable="false"
+          tabindex="0"
+          href={state.layout.getLastActiveServerPath(props.server.id)}
+        >
           <Avatar
             size={42}
             src={props.server.iconURL}
@@ -557,8 +579,11 @@ function FolderEntry(props: {
   drag: RailDrag;
 }) {
   const state = useState();
+  const { t } = useLingui();
 
   const collapsed = () => props.entry.folder.collapsed ?? false;
+
+  const folderName = () => props.entry.folder.name || t`Folder`;
 
   const mentions = () =>
     props.entry.servers.reduce(
@@ -580,15 +605,11 @@ function FolderEntry(props: {
       style={{
         background:
           !collapsed() && props.entry.folder.colour
-            ? `color-mix(in srgb, ${props.entry.folder.colour} 18%, transparent)`
+            ? folderTint(props.entry.folder.colour, 18)
             : undefined,
       }}
     >
-      <Tooltip
-        placement="right"
-        content={props.entry.folder.name || "Folder"}
-        aria={props.entry.folder.name || "Folder"}
-      >
+      <Tooltip placement="right" content={folderName()} aria={folderName()}>
         <div
           ref={(el) => props.drag.register(props.entry.id, el)}
           onPointerDown={(e) => props.drag.press(props.entry.id, e)}
@@ -622,35 +643,33 @@ function FolderEntry(props: {
             tabindex="0"
             aria-expanded={!collapsed()}
             onClick={() => state.ordering.toggleFolder(props.entry.folder.id)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                state.ordering.toggleFolder(props.entry.folder.id);
+              }
+            }}
           >
-            <FolderIcon
-              style={{
-                // a box shadow rather than an outline, so that the unread
-                // badge still draws on top of it
-                "box-shadow":
-                  collapsed() && props.entry.folder.colour
-                    ? `0 0 0 2px ${props.entry.folder.colour}`
-                    : undefined,
-              }}
-            >
-              <Avatar
-                size={42}
-                holepunch={collapsed() && mentions() ? "top-right" : "none"}
-                overlay={
-                  <Show when={collapsed() && mentions()}>
-                    <Unreads.Graphic count={mentions()} unread />
-                  </Show>
-                }
-                fallback={
-                  <Show
-                    when={collapsed() && props.entry.servers.length}
-                    fallback={<MdFolder />}
-                  >
-                    <FolderPreview servers={props.entry.servers} />
-                  </Show>
-                }
-              />
-            </FolderIcon>
+            <Avatar
+              size={42}
+              holepunch={collapsed() && mentions() ? "top-right" : "none"}
+              overlay={
+                <Show when={collapsed() && mentions()}>
+                  <Unreads.Graphic count={mentions()} unread />
+                </Show>
+              }
+              fallback={
+                <Show
+                  when={collapsed() && props.entry.servers.length}
+                  fallback={<MdFolderOpen />}
+                >
+                  <FolderPreview
+                    servers={props.entry.servers}
+                    colour={props.entry.folder.colour}
+                  />
+                </Show>
+              }
+            />
           </a>
         </div>
       </Tooltip>
@@ -671,19 +690,6 @@ function FolderEntry(props: {
 }
 
 type RailDrag = ReturnType<typeof createRailDrag>;
-
-/**
- * Holds the ring which shows a collapsed folder's colour
- */
-const FolderIcon = styled("div", {
-  base: {
-    display: "grid",
-    placeItems: "center",
-    // the padding is what holds the ring off the icon itself
-    padding: "2px",
-    borderRadius: "var(--borderRadius-circle)",
-  },
-});
 
 /**
  * Announcements are for screen readers, not for looking at
@@ -764,25 +770,30 @@ const railGhost = css({
 });
 
 /**
- * The first few servers in a folder, shown on the folder itself while it is
- * collapsed so you can still tell what is inside
+ * Collapsed folder preview icons
  */
-function FolderPreview(props: { servers: Server[] }) {
+function FolderPreview(props: { servers: Server[]; colour?: string }) {
+  const size = () => (props.servers.length > 2 ? 13 : 16);
+
   return (
-    <FolderPreviewBase>
+    <FolderPreviewBase
+      style={{
+        background: props.colour ? folderTint(props.colour, 30) : undefined,
+      }}
+    >
       <For each={props.servers.slice(0, 4)}>
         {(server) => (
-          <Avatar size={13} src={server.iconURL} fallback={server.name} />
+          <Avatar size={size()} src={server.iconURL} fallback={server.name} />
         )}
       </For>
     </FolderPreviewBase>
   );
 }
 
-/**
- * Lays the preview icons out two to a row, centred for folders holding fewer
- * than four servers
- */
+function folderTint(colour: string, amount: number) {
+  return `color-mix(in srgb, ${colour} ${amount}%, transparent)`;
+}
+
 const FolderPreviewBase = styled("div", {
   base: {
     width: "100%",
