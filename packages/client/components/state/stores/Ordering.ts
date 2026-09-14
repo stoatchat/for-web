@@ -16,11 +16,43 @@ export interface TypeOrdering {
   /**
    * Ordered list of server IDs
    *
-   * Servers inside folders stay in this list, and a folder is drawn where the
-   * first of its servers sits. Kept as plain ids so that clients without
-   * folder support can read and write this key without losing anything.
+   * Legacy key, read only. Provides the starting order until serverSidebar
+   * is written, and is left as older clients last saw it.
    */
   servers: string[];
+
+  /**
+   * Ordered list of server and folder IDs for the sidebar
+   */
+  serverSidebar?: string[];
+}
+
+/**
+ * Extract and deduplicate valid IDs from ordering input
+ * @param input Stored value
+ * @returns List of IDs
+ */
+function cleanIds(input: unknown): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+
+  for (const entry of Array.isArray(input) ? input : []) {
+    const ids =
+      typeof entry === "string"
+        ? [entry]
+        : Array.isArray((entry as ServerFolder)?.servers)
+          ? (entry as ServerFolder).servers
+          : [];
+
+    for (const id of ids) {
+      if (typeof id === "string" && id && !seen.has(id)) {
+        seen.add(id);
+        out.push(id);
+      }
+    }
+  }
+
+  return out;
 }
 
 /**
@@ -71,33 +103,25 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
    * Validate the given data to see if it is compliant and return a compliant object
    *
    * Accepts the flat `string[]` written by clients without folder support, and
-   * drops any server appearing more than once so it cannot render twice.
+   * drops any id appearing more than once so it cannot render twice.
    */
   clean(input: Partial<TypeOrdering>): TypeOrdering {
-    const servers: string[] = [];
-    const seen = new Set<string>();
+    const data: TypeOrdering = { servers: cleanIds(input.servers) };
 
-    if (Array.isArray(input.servers)) {
-      for (const entry of input.servers) {
-        // folders used to be written inline here, so keep hold of their
-        // members rather than dropping the servers along with the folder
-        const ids =
-          typeof entry === "string"
-            ? [entry]
-            : Array.isArray((entry as ServerFolder)?.servers)
-              ? (entry as ServerFolder).servers
-              : [];
-
-        for (const id of ids) {
-          if (typeof id === "string" && id && !seen.has(id)) {
-            seen.add(id);
-            servers.push(id);
-          }
-        }
-      }
+    if (Array.isArray(input.serverSidebar)) {
+      data.serverSidebar = cleanIds(input.serverSidebar);
     }
 
-    return { servers };
+    return data;
+  }
+
+  /**
+   * The stored order the sidebar is drawn from, falling back to servers
+   * @returns List of IDs
+   */
+  #sidebar(): string[] {
+    const { servers, serverSidebar } = this.get();
+    return serverSidebar ?? servers;
   }
 
   /**
@@ -116,16 +140,19 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
   /**
    * All known servers grouped into their folders, ready to render
    *
-   * A folder is drawn where the first of its servers sits in the ordering.
-   * Servers which are not yet ordered are appended at the end, matching the
-   * behaviour of {@link orderedServers}.
+   * A folder is drawn where its id sits in the ordering, falling back to
+   * the position of its first member. Servers which are not yet ordered are
+   * appended at the end, matching the behaviour of {@link orderedServers}.
    * @returns List of resolved entries
    */
   orderedEntries(client: Client): ResolvedEntry[] {
     const known = new Set(client?.servers.keys() ?? []);
+    const byId = new Map<string, ServerFolder>();
     const folderOf = new Map<string, ServerFolder>();
 
     for (const folder of this.folders()) {
+      byId.set(folder.id, folder);
+
       for (const serverId of folder.servers) {
         if (!folderOf.has(serverId)) {
           folderOf.set(serverId, folder);
@@ -137,7 +164,7 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
     const drawn = new Set<string>();
 
     const take = (id: string) => {
-      const folder = folderOf.get(id);
+      const folder = byId.get(id) ?? folderOf.get(id);
 
       if (folder) {
         if (drawn.has(folder.id)) return;
@@ -160,7 +187,7 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
       }
     };
 
-    this.get().servers.forEach(take);
+    this.#sidebar().forEach(take);
     [...known].forEach(take);
 
     return out;
@@ -169,8 +196,8 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
   /**
    * Set the order of top-level entries
    *
-   * Ids may refer to either servers or folders; a folder is written out as the
-   * servers it holds, so what gets stored stays a plain list of server ids.
+   * Ids may refer to either servers or folders. Writes to serverSidebar only,
+   * preserving the legacy servers list for older clients.
    * @param ids List of IDs
    */
   setServerOrder(ids: string[]) {
@@ -179,8 +206,12 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
     );
 
     this.set(
-      "servers",
-      ids.flatMap((id) => folders.get(id)?.servers ?? [id]),
+      "serverSidebar",
+      // members trail the folder so they keep their place when it unpacks
+      ids.flatMap((id) => {
+        const folder = folders.get(id);
+        return folder ? [id, ...folder.servers] : [id];
+      }),
     );
   }
 

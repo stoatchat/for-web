@@ -26,7 +26,7 @@ import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 
 import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
 import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdFolder from "@material-design-icons/svg/filled/folder.svg?component-solid";
+import MdFolderOpen from "@material-design-icons/svg/filled/folder_open.svg?component-solid";
 import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
@@ -508,7 +508,10 @@ function ServerEntry(props: {
         <Show when={isInsertionBefore(props.drag, props.server.id)}>
           <div class={railInsertion} />
         </Show>
-        <a href={state.layout.getLastActiveServerPath(props.server.id)}>
+        <a
+          draggable="false"
+          href={state.layout.getLastActiveServerPath(props.server.id)}
+        >
           <Avatar
             size={42}
             src={props.server.iconURL}
@@ -578,9 +581,12 @@ function FolderEntry(props: {
     <FolderGroup
       expanded={!collapsed()}
       style={{
-        background:
-          !collapsed() && props.entry.folder.colour
-            ? `color-mix(in srgb, ${props.entry.folder.colour} 18%, transparent)`
+        background: props.entry.folder.colour
+          ? `color-mix(in srgb, ${props.entry.folder.colour} 18%, transparent)`
+          : undefined,
+        "border-radius":
+          collapsed() && props.entry.folder.colour
+            ? "var(--borderRadius-lg)"
             : undefined,
       }}
     >
@@ -623,34 +629,23 @@ function FolderEntry(props: {
             aria-expanded={!collapsed()}
             onClick={() => state.ordering.toggleFolder(props.entry.folder.id)}
           >
-            <FolderIcon
-              style={{
-                // a box shadow rather than an outline, so that the unread
-                // badge still draws on top of it
-                "box-shadow":
-                  collapsed() && props.entry.folder.colour
-                    ? `0 0 0 2px ${props.entry.folder.colour}`
-                    : undefined,
-              }}
-            >
-              <Avatar
-                size={42}
-                holepunch={collapsed() && mentions() ? "top-right" : "none"}
-                overlay={
-                  <Show when={collapsed() && mentions()}>
-                    <Unreads.Graphic count={mentions()} unread />
-                  </Show>
-                }
-                fallback={
-                  <Show
-                    when={collapsed() && props.entry.servers.length}
-                    fallback={<MdFolder />}
-                  >
-                    <FolderPreview servers={props.entry.servers} />
-                  </Show>
-                }
-              />
-            </FolderIcon>
+            <Avatar
+              size={42}
+              holepunch={collapsed() && mentions() ? "top-right" : "none"}
+              overlay={
+                <Show when={collapsed() && mentions()}>
+                  <Unreads.Graphic count={mentions()} unread />
+                </Show>
+              }
+              fallback={
+                <Show
+                  when={collapsed() && props.entry.servers.length}
+                  fallback={<MdFolderOpen />}
+                >
+                  <FolderPreview servers={props.entry.servers} />
+                </Show>
+              }
+            />
           </a>
         </div>
       </Tooltip>
@@ -671,19 +666,6 @@ function FolderEntry(props: {
 }
 
 type RailDrag = ReturnType<typeof createRailDrag>;
-
-/**
- * Holds the ring which shows a collapsed folder's colour
- */
-const FolderIcon = styled("div", {
-  base: {
-    display: "grid",
-    placeItems: "center",
-    // the padding is what holds the ring off the icon itself
-    padding: "2px",
-    borderRadius: "var(--borderRadius-circle)",
-  },
-});
 
 /**
  * Announcements are for screen readers, not for looking at
