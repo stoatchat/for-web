@@ -84,8 +84,9 @@ const DropText = styled("div", {
  */
 export function FileDropAnywhereCollector(props: Props) {
   const { isOpen } = useModals();
-  const [showIndicator, setShowIndicator] = createSignal(false);
-  const [hideIndicator, setHideIndicator] = createSignal(false);
+  const [showIndicator, setShowIndicator] = createSignal(false, {
+    name: "showIndicator",
+  });
   const [items, setItems] = createSignal<DataTransferItem[]>([]);
 
   /**
@@ -114,7 +115,6 @@ export function FileDropAnywhereCollector(props: Props) {
 
       if (!showIndicator()) {
         setShowIndicator(true);
-        setHideIndicator(false);
         setItems(files);
       }
     }
@@ -124,13 +124,17 @@ export function FileDropAnywhereCollector(props: Props) {
    * Handle cancelled drag event
    */
   function onDragLeave() {
-    deferredHide = setTimeout(() => {
-      setHideIndicator(true);
+    // Make sure the timeout is properly cleaned up
+    if (deferredHide) {
+      clearTimeout(deferredHide);
+      deferredHide = undefined;
+    }
 
-      setTimeout(() => {
-        setShowIndicator(false);
-      }, 300);
-    }) as never;
+    deferredHide = setTimeout(() => {
+      setShowIndicator(false);
+      setItems([]);
+      deferredHide = undefined;
+    }, 300) as never;
   }
 
   /**
@@ -146,6 +150,7 @@ export function FileDropAnywhereCollector(props: Props) {
     }
 
     setShowIndicator(false);
+    setItems([]);
   }
 
   onMount(() => {
@@ -176,13 +181,10 @@ export function FileDropAnywhereCollector(props: Props) {
   return (
     <Show when={showIndicator()}>
       <Portal>
-        <Show when={!hideIndicator()}>
-          <DimScreen />
-        </Show>
+        <DimScreen />
         <Container>
           <PreviewStack
             items={previewItems()}
-            hideStack={hideIndicator}
             overlay={
               <DropText>
                 <Motion.div
