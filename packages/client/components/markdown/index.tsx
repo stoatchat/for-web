@@ -13,6 +13,7 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import { VFile } from "vfile";
 
+import { Message } from "stoat.js";
 import * as elements from "./elements";
 import { injectEmojiSize } from "./emoji/util";
 import { RenderCodeblock } from "./plugins/Codeblock";
@@ -46,7 +47,7 @@ import {
   unicodeEmojiHandler,
 } from "./plugins/unicodeEmoji";
 import { remarkInsertBreaks, sanitise } from "./sanitise";
-import { childrenToSolid } from "./solid-markdown/ast-to-solid";
+import { Container, childrenToSolid } from "./solid-markdown/ast-to-solid";
 import { defaults } from "./solid-markdown/defaults";
 
 /**
@@ -298,6 +299,17 @@ export interface MarkdownProps {
   content?: string;
 
   /**
+   * Container to wrap render in
+   */
+  container?: Container;
+
+  /**
+   * Parent message (**DO NOT** use this for any Markdown other than the
+   * root-level content of a message, else it will cause infinite recursion)
+   */
+  message?: Message;
+
+  /**
    * Whether to prevent big emoji from rendering
    */
   disallowBigEmoji?: boolean;
@@ -324,7 +336,6 @@ export function renderSimpleMarkdown(content: string) {
         components: replyComponents(),
       },
       schema: html,
-      listDepth: 0,
     },
     hastNode,
   );
@@ -380,9 +391,10 @@ export function Markdown(props: MarkdownProps) {
           ...defaults,
           // @ts-expect-error it doesn't like the td component
           components: components(),
+          container: props.container,
+          message: props.message,
         },
         schema: html,
-        listDepth: 0,
       },
       hastNode,
     );
@@ -395,8 +407,8 @@ export function Markdown(props: MarkdownProps) {
   // If it ever updates, re-render the whole tree:
   createEffect(
     on(
-      () => props.content,
-      (content) => setChildren(render(content)),
+      [() => props.content, () => props.message?.embeds],
+      (data) => setChildren(render(data[0])),
       { defer: true },
     ),
   );
