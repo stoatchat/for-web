@@ -212,6 +212,7 @@ const Content = styled("div", {
  */
 const IconWrapper = styled("div", {
   base: {
+    color: "var(--md-sys-color-on-surface)",
     fill: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-dim)",
 

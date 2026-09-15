@@ -108,7 +108,7 @@ export function MessageReplyPreview(props: Props) {
       <ReplyTo>
         <Trans>Replying to</Trans>
       </ReplyTo>
-      <MessageReply message={props.message} noDecorations />
+      <MessageReply message={props.message} noDecorations preview />
       <Row gap="lg" align>
         <Show when={!props.self}>
           <MentionToggle mention={props.mention} onClick={props.toggle}>

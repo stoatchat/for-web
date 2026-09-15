@@ -36,6 +36,7 @@ export function IconButton(props: Props) {
     "shape",
     "width",
     "variant",
+    "selected",
     "_compositionSendMessage",
   ]);
   let ref: HTMLButtonElement | undefined;
@@ -97,8 +98,8 @@ const iconButton2 = cva({
   variants: {
     variant: {
       filled: {
-        background: "var(--md-sys-color-primary)",
-        "--colour": "var(--md-sys-color-on-primary)",
+        background: "var(--md-sys-color-surface-container)",
+        "--colour": "var(--md-sys-color-on-surface-variant)",
       },
       tonal: {
         background: "var(--md-sys-color-secondary-container)",
@@ -153,6 +154,10 @@ const iconButton2 = cva({
       },
       false: {},
     },
+    selected: {
+      true: {},
+      false: {},
+    },
     _compositionSendMessage: {
       true: {
         width: "48px",
@@ -168,9 +173,34 @@ const iconButton2 = cva({
     shape: "round",
     size: "sm",
     disabled: false,
+    selected: false,
     _compositionSendMessage: false,
   },
   compoundVariants: [
+    {
+      variant: "filled",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-primary)",
+        color: "var(--md-sys-color-on-primary)",
+      },
+    },
+    {
+      variant: "tonal",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-secondary)",
+        color: "var(--md-sys-color-on-secondary)",
+      },
+    },
+    {
+      variant: "outlined",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-inverse-surface)",
+        color: "var(--md-sys-color-on-inverse-on-surface)",
+      },
+    },
     // disabled styles
     {
       variant: ["filled", "tonal", "outlined"],
