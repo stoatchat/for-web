@@ -40,7 +40,7 @@ export function loadImage(src: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = () =>
-      reject(new Error(`imageProcessor: failed to load image from ${src}`));
+      reject(new Error(`cropProcessor: failed to load image from ${src}`));
     img.src = src;
   });
 }
@@ -62,7 +62,7 @@ export async function cropImage(
   canvas.width = Math.max(1, Math.round(rect.w));
   canvas.height = Math.max(1, Math.round(rect.h));
   const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("imageProcessor: failed to get canvas context");
+  if (!ctx) throw new Error("cropProcessor: failed to get canvas context");
 
   ctx.drawImage(
     img,
@@ -79,7 +79,7 @@ export async function cropImage(
   const blob: Blob = await new Promise((resolve, reject) => {
     canvas.toBlob(
       (b) =>
-        b ? resolve(b) : reject(new Error("imageProcessor: toBlob failed")),
+        b ? resolve(b) : reject(new Error("cropProcessor: toBlob failed")),
       type,
       quality,
     );

@@ -228,7 +228,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             maxSize={instance.limits().file_upload_size_limits["icons"]}
             process={cropProcess({
               ratio: 1,
-              ratioLabel: t`Server Icon`,
+              ratioLabel: t`Square`,
               dialogTitle: <Trans>Crop Server Icon</Trans>,
             })}
           />
