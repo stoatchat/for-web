@@ -1,4 +1,4 @@
-import { For, Show, createMemo, createSignal } from "solid-js";
+import { For, createMemo } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
@@ -10,12 +10,11 @@ import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
-  Button,
   CategoryButton,
+  ColourPicker,
   ColouredText,
   Column,
   Form2,
-  Ripple,
   Text,
   typography,
 } from "@revolt/ui";
@@ -25,52 +24,6 @@ import { createMaterialColourVariables } from "@revolt/ui/themes";
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
-const ROLE_COLOUR_PALETTE = [
-  [
-    "#fca5a5",
-    "#fdba74",
-    "#fcd34d",
-    "#86efac",
-    "#6ee7b7",
-    "#67e8f9",
-    "#93c5fd",
-    "#c4b5fd",
-    "#f0abfc",
-    "#f9a8d4",
-    "#cbd5e1",
-  ],
-  [
-    "#ef4444",
-    "#f97316",
-    "#f59e0b",
-    "#22c55e",
-    "#10b981",
-    "#06b6d4",
-    "#3b82f6",
-    "#8b5cf6",
-    "#d946ef",
-    "#ec4899",
-    "#64748b",
-  ],
-  [
-    "#991b1b",
-    "#9a3412",
-    "#92400e",
-    "#166534",
-    "#065f46",
-    "#155e75",
-    "#1e40af",
-    "#5b21b6",
-    "#86198f",
-    "#9d174d",
-    "#1e293b",
-  ],
-] as const;
-
-const ROLE_COLOUR_VALUES: ReadonlySet<string> = new Set(
-  ROLE_COLOUR_PALETTE.flat(),
-);
-
 function RoleColourPicker(props: {
   colour: string | null;
   roleName: string;
@@ -78,7 +31,6 @@ function RoleColourPicker(props: {
 }) {
   const { t } = useLingui();
   const state = useState();
-  const [pickerRef, setPickerRef] = createSignal<HTMLInputElement>();
 
   const colourPreviews = createMemo(() => {
     const theme = state.theme.activeTheme;
@@ -101,90 +53,14 @@ function RoleColourPicker(props: {
     ];
   });
 
-  function isSelectedColour(colour: string) {
-    return props.colour?.toLowerCase() === colour;
-  }
-
-  function isCustomColour() {
-    const colour = props.colour?.toLowerCase();
-    return !!colour && !ROLE_COLOUR_VALUES.has(colour);
-  }
-
   return (
     <RoleColourControls>
-      <ColourSelector gap="md">
-        <Text class="label">
-          <Trans>Role Colour</Trans>
-        </Text>
-
-        <ColourPalette>
-          <For each={ROLE_COLOUR_PALETTE}>
-            {(row) => (
-              <For each={row}>
-                {(colour) => (
-                  <ColourSwatch
-                    type="button"
-                    selected={isSelectedColour(colour)}
-                    aria-label={t`Set role colour to ${colour}`}
-                    aria-pressed={isSelectedColour(colour)}
-                    style={{ background: colour }}
-                    onClick={() => props.onChange(colour)}
-                  >
-                    <Ripple />
-                  </ColourSwatch>
-                )}
-              </For>
-            )}
-          </For>
-        </ColourPalette>
-
-        <ColourActions>
-          <Button
-            size="sm"
-            variant={isCustomColour() ? "tonal" : "outlined"}
-            onPress={() => pickerRef()?.click()}
-          >
-            <ColourActionContent>
-              <Show
-                when={isCustomColour()}
-                fallback={
-                  <Symbol size={20} marginRight="var(--gap-sm)">
-                    palette
-                  </Symbol>
-                }
-              >
-                <CustomColourIndicator
-                  style={{ background: props.colour ?? "transparent" }}
-                />
-              </Show>{" "}
-              <Trans>Custom colour</Trans>
-            </ColourActionContent>
-          </Button>
-          <input
-            ref={setPickerRef}
-            type="color"
-            value={props.colour ?? "#ffffff"}
-            onInput={(event) => props.onChange(event.currentTarget.value)}
-            style={{
-              position: "absolute",
-              opacity: 0,
-              width: "0px",
-              height: "0px",
-              padding: 0,
-              border: "none",
-            }}
-          />
-          <Button
-            size="sm"
-            variant={props.colour === null ? "tonal" : "outlined"}
-            onPress={() => props.onChange(null)}
-          >
-            <ColourActionContent>
-              <NoColourIndicator /> <Trans>Default</Trans>
-            </ColourActionContent>
-          </Button>
-        </ColourActions>
-      </ColourSelector>
+      <ColourPicker
+        label={<Trans>Role Colour</Trans>}
+        colour={props.colour}
+        swatchLabel={(colour) => t`Set role colour to ${colour}`}
+        onChange={props.onChange}
+      />
 
       <ColourPreview>
         <Text class="label">
@@ -390,27 +266,6 @@ export const Divider = styled("div", {
   },
 });
 
-const NoColourIndicator = styled("span", {
-  base: {
-    width: "18px",
-    height: "18px",
-    flexShrink: 0,
-    borderRadius: "var(--borderRadius-full)",
-    border: "2px dashed var(--md-sys-color-on-surface-variant)",
-    marginRight: "var(--gap-sm)",
-  },
-});
-
-const CustomColourIndicator = styled("span", {
-  base: {
-    width: "18px",
-    height: "18px",
-    flexShrink: 0,
-    borderRadius: "50%",
-    marginRight: "var(--gap-sm)",
-  },
-});
-
 const RoleColourControls = styled("div", {
   base: {
     width: "100%",
@@ -418,14 +273,6 @@ const RoleColourControls = styled("div", {
     flexWrap: "wrap",
     alignItems: "stretch",
     gap: "var(--gap-lg)",
-  },
-});
-
-const ColourSelector = styled(Column, {
-  base: {
-    width: "fit-content",
-    maxWidth: "100%",
-    flexShrink: 0,
   },
 });
 
@@ -491,64 +338,5 @@ const PreviewUsername = styled("span", {
 const PreviewBody = styled("span", {
   base: {
     ...typography.raw({ class: "_messages" }),
-  },
-});
-
-const ColourPalette = styled("div", {
-  base: {
-    width: "100%",
-    display: "grid",
-    gridTemplateColumns: "repeat(11, minmax(0, 36px))",
-    gap: "var(--gap-sm)",
-  },
-});
-
-const ColourSwatch = styled("button", {
-  base: {
-    width: "100%",
-    aspectRatio: "1 / 1",
-    padding: 0,
-    border: 0,
-    borderRadius: "50%",
-    cursor: "pointer",
-    position: "relative",
-    overflow: "hidden",
-    transition: "border-radius 200ms cubic-bezier(0.2, 0, 0, 1)",
-
-    _focusVisible: {
-      outline: "2px solid var(--md-sys-color-on-surface)",
-      outlineOffset: "2px",
-    },
-  },
-  variants: {
-    selected: {
-      true: {
-        borderRadius: "var(--borderRadius-md)",
-      },
-    },
-  },
-});
-
-const ColourActions = styled("div", {
-  base: {
-    width: "100%",
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "var(--gap-sm)",
-    position: "relative",
-  },
-});
-
-const ColourActionContent = styled("span", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "var(--gap-sm)",
-
-    "& svg": {
-      width: "20px",
-      height: "20px",
-    },
   },
 });
