@@ -39,14 +39,19 @@ in pkgs.mkShell {
     export PLAYWRIGHT_BROWSERS_PATH=${unstablePkgs.playwright-driver.browsers}
     export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
 
-    playwrightNpmVersion="$(npm show @playwright/test version)"
-    echo "❄️  Playwright nix version: ${unstablePkgs.playwright.version}"
-    echo "📦 Playwright npm version: $playwrightNpmVersion"
-
-    if [ "${unstablePkgs.playwright.version}" != "$playwrightNpmVersion" ]; then
-      echo "❌ Playwright versions in nix and npm are not the same!"
+    if ! command -v npm &> /dev/null; then
+      echo "⚠️  'npm' is missing from your environment."
+      echo "👉 Run 'mise install' to install Node.js and other project dependencies."
     else
-      echo "✅ Playwright versions in nix and npm are the same"
+      playwrightNpmVersion="$(npm show @playwright/test version 2>/dev/null)"
+      echo "❄️  Playwright nix version: ${unstablePkgs.playwright.version}"
+      echo "📦 Playwright npm version: $playwrightNpmVersion"
+
+      if [ "${unstablePkgs.playwright.version}" != "$playwrightNpmVersion" ]; then
+        echo "❌ Playwright versions in nix and npm are not the same!"
+      else
+        echo "✅ Playwright versions in nix and npm are the same"
+      fi
     fi
   '';
 }
