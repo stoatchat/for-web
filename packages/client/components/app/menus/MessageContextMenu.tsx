@@ -1,7 +1,22 @@
+Scope: all 4 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +39 -4
++++++++++++++++++++++++++++++++++++++++----
+Progress: resolved 39, reused 39, downloaded 0, added 6
+Progress: resolved 39, reused 39, downloaded 0, added 35, done
+
+packages/client prepare$ panda codegen
+packages/client prepare: ✔️ `styled-system/css`: the css function to author styles
+packages/client prepare: ✔️ `styled-system/tokens`: the css variables and js function to query your tokens
+packages/client prepare: ✔️ `styled-system/patterns`: functions to implement and apply common layout patterns
+packages/client prepare: ✔️ `styled-system/jsx`: styled jsx elements for solid
+packages/client prepare: Done
+Done in 4.6s using pnpm v11.3.0
 import { Accessor, For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
-import { File, Message } from "stoat.js";
+import { File, ImageEmbed, Message, VideoEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
@@ -28,6 +43,8 @@ import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-s
 
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
 
+import { t } from "@lingui/core/macro";
+import { useSnackbar } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -41,13 +58,14 @@ import {
 export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
-  file?: File;
+  file?: File | ImageEmbed | VideoEmbed;
   link?: string;
 }) {
   const user = useUser();
   const state = useState();
   const instance = useInstance();
   const client = useClient();
+  const snackbar = useSnackbar();
   const { openModal, showError } = useModals();
 
   /**
@@ -148,14 +166,55 @@ export function MessageContextMenu(props: {
    * Opens the file preview in a new tab
    */
   function openFile() {
-    window.open(props.file?.previewUrl, "_blank");
+    let url: string = "";
+
+    if (props.file instanceof File) {
+      url = props.file.previewUrl;
+    } else if (
+      props.file instanceof ImageEmbed ||
+      props.file instanceof VideoEmbed
+    ) {
+      url = props.file.url;
+    }
+
+    window.open(url, "_blank");
   }
 
   /**
    * Copies the link to the original url of the file
    */
   function copyFileLink() {
-    navigator.clipboard.writeText(props.file?.previewUrl ?? "");
+    let url: string = "";
+
+    if (props.file instanceof File) {
+      url = props.file.previewUrl;
+    } else if (
+      props.file instanceof ImageEmbed ||
+      props.file instanceof VideoEmbed
+    ) {
+      url = props.file.url;
+    }
+    navigator.clipboard.writeText(url);
+  }
+
+  /**
+   * Download the file and insert it to the user's clipboard
+   */
+  async function copyFile(url: string) {
+    try {
+      const blob = await fetch(url).then((res) => res.blob());
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+
+      snackbar.show({
+        message: t`Copied file to clipboard`,
+      });
+    } catch (error) {
+      showError(error);
+    }
   }
 
   function copyLink() {
@@ -166,22 +225,32 @@ export function MessageContextMenu(props: {
     <ContextMenu>
       <Show when={props.file}>
         <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
-          <Trans>Open file</Trans>
+          <Trans>Open File</Trans>
         </ContextMenuButton>
         <ContextMenuButton icon={MdLink} onClick={copyFileLink}>
-          <Trans>Copy file link</Trans>
+          <Trans>Copy Link To File</Trans>
         </ContextMenuButton>
-        <a
-          target="_blank"
-          download={props.file?.filename}
-          href={props.file?.originalUrl}
-        >
-          <ContextMenuButton icon={MdDownload}>
-            <Trans>Save file</Trans>
+        <Show when={props.file instanceof File}>
+          <a
+            target="_blank"
+            download={(props.file as File)?.filename}
+            href={(props.file as File)?.originalUrl}
+          >
+            <ContextMenuButton icon={MdDownload}>
+              <Trans>Save file</Trans>
+            </ContextMenuButton>
+          </a>
+          <ContextMenuButton
+            icon={MdContentCopy}
+            onClick={() => copyFile((props.file as File)!.originalUrl)}
+          >
+            <Trans>Copy File</Trans>
           </ContextMenuButton>
-        </a>
+        </Show>
 
-        <ContextMenuDivider />
+        <Show when={Object.keys(props).some((key) => key !== "file")}>
+          <ContextMenuDivider />
+        </Show>
       </Show>
       <Show when={props.link}>
         <ContextMenuButton icon={MdLink} onClick={copyLink}>
@@ -307,8 +376,9 @@ export function MessageContextMenu(props: {
             <Trans>Report message</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuDivider />
         <Show when={state.settings.getValue("advanced:admin_panel")}>
+          <ContextMenuDivider />
+
           <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
             <Trans>Admin Panel</Trans>
           </ContextMenuButton>
