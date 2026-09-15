@@ -107,11 +107,15 @@ export function FileDropAnywhereCollector(props: Props) {
 
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "copy";
+      const files = [...event.dataTransfer.items].filter(
+        (i) => i.kind === "file",
+      );
+      if (files.length === 0) return; // We only want files
 
       if (!showIndicator()) {
         setShowIndicator(true);
         setHideIndicator(false);
-        setItems([...event.dataTransfer.items]);
+        setItems(files);
       }
     }
   }
@@ -121,12 +125,8 @@ export function FileDropAnywhereCollector(props: Props) {
    */
   function onDragLeave() {
     deferredHide = setTimeout(() => {
-      setHideIndicator(true);
-
-      setTimeout(() => {
-        setShowIndicator(false);
-      }, 300);
-    }) as never;
+      setShowIndicator(false);
+    }, 300) as never;
   }
 
   /**
@@ -172,9 +172,7 @@ export function FileDropAnywhereCollector(props: Props) {
   return (
     <Show when={showIndicator()}>
       <Portal>
-        <Show when={!hideIndicator()}>
-          <DimScreen />
-        </Show>
+        <DimScreen />
         <Container>
           <PreviewStack
             items={previewItems()}
