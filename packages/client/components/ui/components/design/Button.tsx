@@ -290,22 +290,27 @@ const button = cva({
     size: {
       xs: {
         height: "32px",
+        "--max-radius": "16px",
         "--padding-inline": "12px",
       },
       sm: {
         height: "40px",
+        "--max-radius": "20px",
         "--padding-inline": "16px",
       },
       md: {
         height: "56px",
+        "--max-radius": "28px",
         "--padding-inline": "24px",
       },
       lg: {
         height: "96px",
+        "--max-radius": "48px",
         "--padding-inline": "48px",
       },
       xl: {
         height: "136px",
+        "--max-radius": "68px",
         "--padding-inline": "64px",
       },
 
@@ -426,23 +431,8 @@ const button = cva({
     // hard-code values for rounded connected group shapes
     {
       shape: "round",
-      size: ["sm", "xs"],
       css: {
-        borderRadius: "48px",
-      },
-    },
-    {
-      shape: "round",
-      size: ["md"],
-      css: {
-        borderRadius: "64px",
-      },
-    },
-    {
-      shape: "round",
-      size: ["xl", "lg"],
-      css: {
-        borderRadius: "160px",
+        borderRadius: "var(--max-radius)",
       },
     },
 
@@ -452,7 +442,8 @@ const button = cva({
       size: ["sm", "xs"],
       group: "connected-start",
       css: {
-        borderRadius: "48px var(--borderRadius-md) var(--borderRadius-md) 48px",
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-md) var(--borderRadius-md) var(--max-radius)",
       },
     },
     {
@@ -460,7 +451,8 @@ const button = cva({
       size: "md",
       group: "connected-start",
       css: {
-        borderRadius: "64px var(--borderRadius-lg) var(--borderRadius-lg) 64px",
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-lg) var(--borderRadius-lg) var(--max-radius)",
       },
     },
     {
@@ -469,7 +461,7 @@ const button = cva({
       group: "connected-start",
       css: {
         borderRadius:
-          "160px var(--borderRadius-xl) var(--borderRadius-xl) 160px",
+          "var(--max-radius) var(--borderRadius-xl) var(--borderRadius-xl) var(--max-radius)",
       },
     },
 
@@ -479,7 +471,8 @@ const button = cva({
       size: ["sm", "xs"],
       group: "connected-end",
       css: {
-        borderRadius: "var(--borderRadius-md) 48px 48px var(--borderRadius-md)",
+        borderRadius:
+          "var(--borderRadius-md) var(--max-radius) var(--max-radius) var(--borderRadius-md)",
       },
     },
     {
@@ -487,7 +480,8 @@ const button = cva({
       size: "md",
       group: "connected-end",
       css: {
-        borderRadius: "var(--borderRadius-lg) 64px 64px var(--borderRadius-lg)",
+        borderRadius:
+          "var(--borderRadius-lg) var(--max-radius) var(--max-radius) var(--borderRadius-lg)",
       },
     },
     {
@@ -496,7 +490,7 @@ const button = cva({
       group: "connected-end",
       css: {
         borderRadius:
-          "var(--borderRadius-xl) 160px 160px var(--borderRadius-xl)",
+          "var(--borderRadius-xl) var(--max-radius) var(--max-radius) var(--borderRadius-xl)",
       },
     },
 
