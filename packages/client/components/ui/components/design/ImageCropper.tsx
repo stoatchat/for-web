@@ -267,11 +267,16 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
     if (mode() === "ratio") {
       const rVal = ratio();
       const maxW = Math.min(boxW, boxH * rVal);
-      w = Math.max(MIN_SIZE, Math.min(w, maxW));
+      const effectiveMinW = Math.min(MIN_SIZE, boxW, boxH * rVal);
+
+      w = Math.max(effectiveMinW, Math.min(w, maxW));
       h = w / rVal;
     } else {
-      w = Math.max(MIN_SIZE, Math.min(w, boxW));
-      h = Math.max(MIN_SIZE, Math.min(h, boxH));
+      const effectiveMinW = Math.min(MIN_SIZE, boxW);
+      const effectiveMinH = Math.min(MIN_SIZE, boxH);
+
+      w = Math.max(effectiveMinW, Math.min(w, boxW));
+      h = Math.max(effectiveMinH, Math.min(h, boxH));
     }
 
     x = Math.max(0, Math.min(x, boxW - w));
@@ -391,8 +396,13 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
         newW = newH * r;
         if (left) newX = x + w - newW;
       } else {
-        newH = newW / r;
+        if (Math.abs(dx) > Math.abs(dy) * r) {
+          newH = newW / r;
+        } else {
+          newW = newH * r;
+        }
         if (top) newY = y + h - newH;
+        if (left) newX = x + w - newW;
       }
     }
 
@@ -405,7 +415,9 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
     return { x: newX, y: newY, w: newW, h: newH };
   }
 
-  function onPointerUp() {
+  function onPointerUp(e: PointerEvent) {
+    const d = dragging();
+    if (!d || e.pointerId !== d.pointerId) return;
     setDragging(null);
   }
 

@@ -1,4 +1,4 @@
-import { type JSX, createSignal, Show } from "solid-js";
+import { type JSX, createSignal, onCleanup, Show } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 
@@ -37,6 +37,7 @@ export function cropProcess(options: CropProcessOptions) {
     const file = files[0];
     const objectUrl = URL.createObjectURL(file);
     const [sizeError, setSizeError] = createSignal<CropSizeError | null>(null);
+    const [hardError, setHardError] = createSignal<string | null>(null);
     let cropHandle: ImageCropperHandle | undefined;
 
     function cancel() {
@@ -44,18 +45,27 @@ export function cropProcess(options: CropProcessOptions) {
       resolve(null);
     }
 
+    onCleanup(() => {
+      URL.revokeObjectURL(objectUrl);
+    });
+
     async function confirm() {
       if (!cropHandle) return;
       try {
         const { file: cropped } = await cropHandle.crop();
         URL.revokeObjectURL(objectUrl);
         resolve([cropped]);
-      } catch (e) {
+      } catch (e: unknown) {
         if (e instanceof CropSizeError) {
           // Keep the dialog open (don't resolve) so the user can shrink
           // the crop area and try again instead of starting the pick over.
           setSizeError(e);
           return;
+        }
+        if (e instanceof Error) {
+          setHardError(e.message);
+        } else {
+          setHardError("An unknown error occurred");
         }
         throw e;
       }
@@ -69,7 +79,20 @@ export function cropProcess(options: CropProcessOptions) {
         minWidth={360}
         actions={[
           { text: <Trans>Cancel</Trans>, onClick: cancel },
-          { text: <Trans>Crop</Trans>, onClick: () => confirm() },
+          {
+            text: <Trans>Crop</Trans>,
+            onClick: async () => {
+              try {
+                await confirm();
+              } catch (e: unknown) {
+                if (e instanceof Error) {
+                  setHardError(e.message);
+                } else {
+                  setHardError("An unknown error occurred");
+                }
+              }
+            },
+          },
         ]}
       >
         <ImageCropper
@@ -94,6 +117,19 @@ export function cropProcess(options: CropProcessOptions) {
                 Cropped image is too large — try a smaller crop area (max.{" "}
                 {humanFileSize(e().maxSize)})
               </Trans>
+            </p>
+          )}
+        </Show>
+        <Show when={hardError()}>
+          {(e) => (
+            <p
+              style={{
+                color: "var(--md-sys-color-error)",
+                "font-size": "13px",
+                "margin-top": "8px",
+              }}
+            >
+              <Trans>An error occurred while processing the image: {e()}</Trans>
             </p>
           )}
         </Show>
