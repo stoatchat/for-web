@@ -11,12 +11,13 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import Panzoom, { PanzoomObject } from "@panzoom/panzoom";
-import { css } from "styled-system/css";
+import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Column, Dialog, DialogProps, IconButton, Text } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { MessageContextMenu } from "@revolt/app";
 import { isGifBox } from "@revolt/common/lib/gifs";
 import { Modals } from "../types";
 
@@ -32,21 +33,22 @@ export function ImageViewerModal(
       () => ref(),
       (ref) => {
         if (ref) {
-          ref.addEventListener("mousedown", (e) => {
-            // prevent panzoom from panning when
-            // context menu is triggered (or other
-            // non-dragging buttons are used!)
-            if (e.button !== 0) {
-              e.preventDefault();
-            }
-          });
-
           const zoom = Panzoom(ref, {
             minScale: 0.1,
             maxScale: 5,
+            noBind: true,
           });
 
           panzoom = zoom;
+
+          ref.addEventListener("pointerdown", (e) => {
+            if (e.button !== 2) {
+              panzoom.handleDown(e);
+              return;
+            }
+          });
+          ref.addEventListener("pointermove", panzoom.handleMove);
+          ref.addEventListener("pointerup", panzoom.handleUp);
 
           function onMouseWheel(event: WheelEvent) {
             zoom.zoom(zoom.getScale() - event.deltaY / 1000);
@@ -145,18 +147,32 @@ export function ImageViewerModal(
               </Relative>
               <Switch>
                 <Match when={props.file}>
-                  <Image
+                  <img
+                    class={Image()}
+                    use:floating={{
+                      contextMenu: () => (
+                        <MessageContextMenu file={props.file} />
+                      ),
+                    }}
                     ref={setRef}
                     style={{
                       "aspect-ratio": `${(props.file!.metadata as { width: number }).width}/${(props.file!.metadata as { height: number }).height}`,
                     }}
                     src={props.file!.originalUrl}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
                   />
                 </Match>
                 <Match when={props.embed}>
-                  <Image
+                  <img
+                    class={Image()}
                     ref={setRef}
+                    use:floating={{
+                      contextMenu: () => (
+                        <MessageContextMenu file={props.embed} />
+                      ),
+                    }}
                     style={{
                       "aspect-ratio": `${props.embed!.width}/${props.embed!.height}`,
                     }}
@@ -165,8 +181,14 @@ export function ImageViewerModal(
                   />
                 </Match>
                 <Match when={props.gif}>
-                  <Video
+                  <video
+                    class={Video()}
                     ref={setRef}
+                    use:floating={{
+                      contextMenu: () => (
+                        <MessageContextMenu file={props.gif} />
+                      ),
+                    }}
                     playsinline
                     loop
                     muted
@@ -192,7 +214,7 @@ export function ImageViewerModal(
   );
 }
 
-const Image = styled("img", {
+const Image = cva({
   base: {
     minHeight: 0,
     alignSelf: "center",
@@ -202,7 +224,7 @@ const Image = styled("img", {
   },
 });
 
-const Video = styled("video", {
+const Video = cva({
   base: {
     minHeight: 0,
     alignSelf: "center",
