@@ -1,4 +1,4 @@
-import { Accessor, For, JSX, onMount } from "solid-js";
+import { For, JSX, onMount } from "solid-js";
 
 import { styled } from "styled-system/jsx";
 
@@ -18,7 +18,7 @@ interface Props<T> {
   /**
    * Animate the stack to closure
    */
-  hideStack?: Accessor<boolean>;
+  hideStack?: boolean;
 
   /**
    * Additional elements to display on the stack
@@ -31,7 +31,7 @@ interface Props<T> {
  */
 export function PreviewStack<T>(props: Props<T>) {
   return (
-    <Base hideStack={props.hideStack?.() ?? false}>
+    <Base hideStack={props.hideStack}>
       <For each={props.items}>
         {(item) => <StackElement item={item} children={props.children} />}
       </For>
@@ -100,7 +100,7 @@ const Base = styled("div", {
   variants: {
     hideStack: {
       true: {
-        "> *": {
+        "& > svg": {
           transform: `${DEFAULT_TRANSFORM} !important`,
         },
       },
