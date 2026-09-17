@@ -3,7 +3,7 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +39 -4
 +++++++++++++++++++++++++++++++++++++++----
-Progress: resolved 39, reused 39, downloaded 0, added 6
+Progress: resolved 39, reused 39, downloaded 0, added 26
 Progress: resolved 39, reused 39, downloaded 0, added 35, done
 
 packages/client prepare$ panda codegen
@@ -41,9 +41,8 @@ import MdReport from "@material-design-icons/svg/outlined/report.svg?component-s
 import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
 import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
 
+import { useLingui } from "@lingui/solid/macro";
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
-
-import { t } from "@lingui/core/macro";
 import { useSnackbar } from "@revolt/ui";
 import {
   ContextMenu,
@@ -66,6 +65,7 @@ export function MessageContextMenu(props: {
   const instance = useInstance();
   const client = useClient();
   const snackbar = useSnackbar();
+  const { t } = useLingui();
   const { openModal, showError } = useModals();
 
   /**
@@ -166,35 +166,14 @@ export function MessageContextMenu(props: {
    * Opens the file preview in a new tab
    */
   function openFile() {
-    let url: string = "";
-
-    if (props.file instanceof File) {
-      url = props.file.previewUrl;
-    } else if (
-      props.file instanceof ImageEmbed ||
-      props.file instanceof VideoEmbed
-    ) {
-      url = props.file.url;
-    }
-
-    window.open(url, "_blank");
+    window.open(getFileUrl(), "_blank");
   }
 
   /**
    * Copies the link to the original url of the file
    */
   function copyFileLink() {
-    let url: string = "";
-
-    if (props.file instanceof File) {
-      url = props.file.previewUrl;
-    } else if (
-      props.file instanceof ImageEmbed ||
-      props.file instanceof VideoEmbed
-    ) {
-      url = props.file.url;
-    }
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(getFileUrl());
   }
 
   /**
@@ -202,7 +181,11 @@ export function MessageContextMenu(props: {
    */
   async function copyFile(url: string) {
     try {
-      const blob = await fetch(url).then((res) => res.blob());
+      const res = await fetch(url);
+      if (!res.ok)
+        throw new Error(`Failed to download file: ${res.statusText}.`);
+
+      const blob = await res.blob();
       await navigator.clipboard.write([
         new ClipboardItem({
           [blob.type]: blob,
@@ -217,6 +200,24 @@ export function MessageContextMenu(props: {
     }
   }
 
+  /**
+   * Get the preview URL of a file or embed.
+   */
+  function getFileUrl(): string {
+    let url: string = "";
+
+    if (props.file instanceof File) {
+      url = props.file.previewUrl;
+    } else if (
+      props.file instanceof ImageEmbed ||
+      props.file instanceof VideoEmbed
+    ) {
+      url = props.file.url;
+    }
+
+    return url;
+  }
+
   function copyLink() {
     navigator.clipboard.writeText(props.link ?? "");
   }
@@ -225,10 +226,10 @@ export function MessageContextMenu(props: {
     <ContextMenu>
       <Show when={props.file}>
         <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
-          <Trans>Open File</Trans>
+          <Trans>Open file</Trans>
         </ContextMenuButton>
         <ContextMenuButton icon={MdLink} onClick={copyFileLink}>
-          <Trans>Copy Link To File</Trans>
+          <Trans>Copy link to file</Trans>
         </ContextMenuButton>
         <Show when={props.file instanceof File}>
           <a
@@ -244,7 +245,7 @@ export function MessageContextMenu(props: {
             icon={MdContentCopy}
             onClick={() => copyFile((props.file as File)!.originalUrl)}
           >
-            <Trans>Copy File</Trans>
+            <Trans>Copy file</Trans>
           </ContextMenuButton>
         </Show>
 
@@ -376,9 +377,8 @@ export function MessageContextMenu(props: {
             <Trans>Report message</Trans>
           </ContextMenuButton>
         </Show>
+        <ContextMenuDivider />
         <Show when={state.settings.getValue("advanced:admin_panel")}>
-          <ContextMenuDivider />
-
           <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
             <Trans>Admin Panel</Trans>
           </ContextMenuButton>

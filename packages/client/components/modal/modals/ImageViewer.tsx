@@ -3,7 +3,7 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +39 -4
 +++++++++++++++++++++++++++++++++++++++----
-Progress: resolved 39, reused 39, downloaded 0, added 24
+Progress: resolved 39, reused 35, downloaded 0, added 31
 Progress: resolved 39, reused 39, downloaded 0, added 35, done
 
 packages/client prepare$ panda codegen
@@ -12,7 +12,7 @@ packages/client prepare: ✔️ `styled-system/tokens`: the css variables and js
 packages/client prepare: ✔️ `styled-system/patterns`: functions to implement and apply common layout patterns
 packages/client prepare: ✔️ `styled-system/jsx`: styled jsx elements for solid
 packages/client prepare: Done
-Done in 4.9s using pnpm v11.3.0
+Done in 4.6s using pnpm v11.3.0
 import {
   Match,
   Show,
@@ -43,6 +43,17 @@ export function ImageViewerModal(
 
   let panzoom: PanzoomObject;
 
+  function onPointerDown(e: PointerEvent) {
+    if (e.button !== 2) {
+      panzoom.handleDown(e);
+      return;
+    }
+  }
+
+  function onMouseWheel(event: WheelEvent) {
+    panzoom.zoom(panzoom.getScale() - event.deltaY / 1000);
+  }
+
   createEffect(
     on(
       () => ref(),
@@ -56,24 +67,20 @@ export function ImageViewerModal(
 
           panzoom = zoom;
 
-          ref.addEventListener("pointerdown", (e) => {
-            if (e.button !== 2) {
-              panzoom.handleDown(e);
-              return;
-            }
-          });
+          ref.addEventListener("pointerdown", onPointerDown);
           ref.addEventListener("pointermove", panzoom.handleMove);
           ref.addEventListener("pointerup", panzoom.handleUp);
-
-          function onMouseWheel(event: WheelEvent) {
-            zoom.zoom(zoom.getScale() - event.deltaY / 1000);
-          }
+          ref.addEventListener("pointerleave", panzoom.handleUp);
 
           document.addEventListener("mousewheel", onMouseWheel as never);
 
           onCleanup(() => {
             document.removeEventListener("mousewheel", onMouseWheel as never);
-            zoom.destroy();
+
+            ref.removeEventListener("pointermove", panzoom.handleMove);
+            ref.removeEventListener("pointerup", panzoom.handleUp);
+            ref.removeEventListener("pointerleave", panzoom.handleUp);
+            ref.removeEventListener("pointerdown", onPointerDown);
           });
         }
       },
