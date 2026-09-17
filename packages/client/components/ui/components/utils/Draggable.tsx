@@ -101,6 +101,7 @@ export function Draggable<T>(props: Props<T>) {
         items: containerItems,
         dragDisabled: isDisabled,
         flipDurationMs: 0,
+        useCursorForDetection: true,
         // transformDraggedElement: (el?: HTMLElement) => {
         //   if (el) {
         //     el.style.cursor = "grabbing !important";
