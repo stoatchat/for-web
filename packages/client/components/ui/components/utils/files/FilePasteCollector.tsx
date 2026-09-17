@@ -13,18 +13,55 @@ interface Props {
  */
 export function FilePasteCollector(props: Props) {
   /**
+   * Read clipboard items using the async clipboard API
+   * See: @link{https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api}
+   */
+  async function getFromClipboardFallback(): Promise<File[]> {
+    const permissionStatus = await navigator.permissions.query({
+      // @ts-expect-error - Why isn't this typed
+      name: "clipboard-read",
+      allowWithoutGesture: false,
+    });
+
+    if (permissionStatus.state === "denied")
+      throw new Error("Failed to paste from clipboard: Permission denied.");
+
+    const items = await navigator.clipboard.read();
+    return (
+      await Promise.all(
+        items.map(async (item) => {
+          const res = [];
+          for (const type of item.types) {
+            if (!type.startsWith("web ")) continue;
+            const blob = await item.getType(type);
+            res.push(
+              new File([blob], "file", {
+                type: blob.type.replace("web ", ""),
+              }),
+            );
+          }
+
+          return res;
+        }),
+      )
+    ).flat();
+  }
+
+  /**
    * Handle document paste event
    * @param event Event
    */
-  function onPaste(event: ClipboardEvent) {
+  async function onPaste(event: ClipboardEvent) {
     const items = event.clipboardData?.items;
-    if (typeof items === "undefined") return;
-
-    // Filter for files
-    const files: File[] = [...items]
-      .filter((item) => !item.type.startsWith("text/"))
-      .map((item) => item.getAsFile()!)
-      .filter((item) => item);
+    let files: File[] = [];
+    if (typeof items === "undefined" || items.length === 0) {
+      files = await getFromClipboardFallback();
+    } else {
+      files = [...items]
+        .filter((item) => !item.type.startsWith("text/"))
+        .map((item) => item.getAsFile()!)
+        .filter((item) => item);
+    }
 
     if (files.length) {
       event.preventDefault();

@@ -1,18 +1,3 @@
-Scope: all 4 workspace projects
-Lockfile is up to date, resolution step is skipped
-Progress: resolved 1, reused 0, downloaded 0, added 0
-Packages: +39 -4
-+++++++++++++++++++++++++++++++++++++++----
-Progress: resolved 39, reused 35, downloaded 0, added 31
-Progress: resolved 39, reused 39, downloaded 0, added 35, done
-
-packages/client prepare$ panda codegen
-packages/client prepare: ✔️ `styled-system/css`: the css function to author styles
-packages/client prepare: ✔️ `styled-system/tokens`: the css variables and js function to query your tokens
-packages/client prepare: ✔️ `styled-system/patterns`: functions to implement and apply common layout patterns
-packages/client prepare: ✔️ `styled-system/jsx`: styled jsx elements for solid
-packages/client prepare: Done
-Done in 4.6s using pnpm v11.3.0
 import {
   Match,
   Show,
