@@ -173,8 +173,8 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       console.info(`[sync] merge ${key} at ${ts} with`, data);
 
     const parsed = this.state[key].clean(JSON.parse(data));
-    if (ts > this.ts(key)) {
-      // if ts is newer, hydrate the store with it
+    if (!this.ts(key) || ts > this.ts(key)) {
+      // if ts is newer or this value does not exist on the local store, hydrate the store with it
       this.set("revision", key, ts);
       this.#blockSync.add(key);
       this.state.set(key, parsed);
