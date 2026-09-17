@@ -164,6 +164,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
                       color: "inherit",
                       textDecoration: "none",
                       "&:hover": { textDecoration: "underline" },
+                      // Add the dot separator after every link EXCEPT the last rendered one
+                      "&:not(:last-child):after": {
+                        content: '"•"',
+                        marginLeft: "0.5em",
+                      },
                     },
                   })}
                 >
