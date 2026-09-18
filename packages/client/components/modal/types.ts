@@ -133,6 +133,10 @@ export type Modals =
       message: Message;
     }
   | {
+      type: "view_reactions";
+      message: Message;
+    }
+  | {
       type: "delete_server";
       server: Server;
     }
