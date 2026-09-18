@@ -5,6 +5,7 @@ import { styled } from "styled-system/jsx";
 
 import { Initials } from "../utils";
 
+import { useState } from "@revolt/state";
 import { Ripple } from "./Ripple";
 
 export type Props = {
@@ -14,7 +15,7 @@ export type Props = {
   size?: number;
 
   /**
-   * Avatar shape
+   * Avatar shape override
    */
   shape?: "circle" | "square" | "rounded-square";
 
@@ -116,6 +117,8 @@ const FallbackBase = styled("div", {
  * Partially inspired by Adw.Avatar API, we allow users to specify a fallback component (usually just text) to display in case the URL is invalid.
  */
 export function Avatar(props: Props) {
+  const state = useState();
+
   return (
     <ParentBase
       slot={props.slot}
@@ -141,7 +144,14 @@ export function Avatar(props: Props) {
           height="32"
           class={css({ transition: "var(--transitions-fast) filter" })}
         >
-          <Shape shape={props.shape}>
+          <Shape
+            style={
+              !props.shape
+                ? { "border-radius": `${state.theme.avatarRadius}%` }
+                : {}
+            }
+            shape={props.shape}
+          >
             <Show when={props.interactive}>
               <Ripple />
             </Show>
@@ -206,7 +216,7 @@ const Shape = styled("div", {
       },
       square: {},
       "rounded-square": {
-        borderRadius: "var(--borderRadius-md)",
+        borderRadius: "var(--borderRadius-sm)",
       },
     },
   },
