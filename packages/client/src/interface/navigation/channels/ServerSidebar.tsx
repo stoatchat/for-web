@@ -513,8 +513,11 @@ function Entry(
             </Switch>
             <Show when={props.channel.icon}>
               <ChannelIcon
-                src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
+                src={
+                  props.active
+                    ? props.channel.animatedIconURL
+                    : props.channel.iconURL
+                }
               />
             </Show>
           </>
@@ -576,8 +579,8 @@ function Entry(
  */
 const ChannelIcon = styled("img", {
   base: {
-    width: "16px",
-    height: "16px",
+    width: "24px",
+    height: "24px",
     objectFit: "contain",
   },
 });
