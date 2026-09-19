@@ -197,6 +197,11 @@ export type Modals =
           callback: (ticket?: MFATicket) => void;
         }
       | {
+          mfa: MFA;
+          state: "known_resp_only";
+          callback: (response?: API.MFAResponse) => void;
+        }
+      | {
           state: "unknown";
           available_methods: API.MFAMethod[];
           callback: (response?: API.MFAResponse) => void;
