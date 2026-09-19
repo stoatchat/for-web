@@ -190,8 +190,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1(solid-js@1.9.14)
       '@solid-primitives/resize-observer':
-        specifier: 2.1.1
-        version: 2.1.1(solid-js@1.9.14)
+        specifier: 2.2.0
+        version: 2.2.0(solid-js@1.9.14)
       '@solid-primitives/set':
         specifier: ^0.7.1
         version: 0.7.1(solid-js@1.9.14)
@@ -2876,6 +2876,11 @@ packages:
     peerDependencies:
       solid-js: 1.9.14
 
+  '@solid-primitives/event-listener@2.4.6':
+    resolution: {integrity: sha512-5I0YJcTVYIWoMmgBSROBZGcz+ymhew/pGTg2dHW74BUjFKsV8Li4bOZYl0YAGP4mHw5o4UBd9/BEesqBci3wxw==}
+    peerDependencies:
+      solid-js: 1.9.14
+
   '@solid-primitives/i18n@2.2.1':
     resolution: {integrity: sha512-TnTnE2Ku11MGYZ1JzhJ8pYscwg1fr9MteoYxPwsfxWfh9Jp5K7RRJncJn9BhOHvNLwROjqOHZ46PT7sPHqbcXw==}
     peerDependencies:
@@ -2976,8 +2981,18 @@ packages:
     peerDependencies:
       solid-js: 1.9.14
 
+  '@solid-primitives/resize-observer@2.2.0':
+    resolution: {integrity: sha512-9Fuu/EWBeGj+atGHRJp70HKhdfalmpjwxY8a32NZixdLNmfCJ45AfhLQNr6uOzETbbiMx4iCKlTrJ8KZCHC2Ww==}
+    peerDependencies:
+      solid-js: 1.9.14
+
   '@solid-primitives/rootless@1.5.1':
     resolution: {integrity: sha512-G4eNC6F3ufRT2Mjbodl7rSOH7uq/Emqs3S7/BIBWgh+V/IFUtvu6WELeqSrk4FJX3T/kKKvC+T8gXhepExSWyg==}
+    peerDependencies:
+      solid-js: 1.9.14
+
+  '@solid-primitives/rootless@1.5.4':
+    resolution: {integrity: sha512-TOIZa1VUfVJ+9nkCcRajw3U4t9vBOP1HxX1WHNTbXq32mXwlqTvUnC4CRIilohcryBkT9u2ZkhUDSHRTaGp55g==}
     peerDependencies:
       solid-js: 1.9.14
 
@@ -3013,6 +3028,11 @@ packages:
 
   '@solid-primitives/static-store@0.1.1':
     resolution: {integrity: sha512-daXWvpLjd+4hbYdGaaEJ2kKFuFhshvfIBFLveW7mfk2BWHl9lGQVwUuExp3qllkK9ONA9p+5D2cpwBQosv8odQ==}
+    peerDependencies:
+      solid-js: 1.9.14
+
+  '@solid-primitives/static-store@0.1.4':
+    resolution: {integrity: sha512-LgtVaVBtB7EbmS4+M0b8xY5Iq6pUWXBsIC4VgtrFKDGDdyCaDt88sHk0fUlx1Enxm/XZnZyLXJABRoa39RjJqA==}
     peerDependencies:
       solid-js: 1.9.14
 
@@ -9539,13 +9559,18 @@ snapshots:
       '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
       solid-js: 1.9.14
 
+  '@solid-primitives/event-listener@2.4.6(solid-js@1.9.14)':
+    dependencies:
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
+      solid-js: 1.9.14
+
   '@solid-primitives/i18n@2.2.1(solid-js@1.9.14)':
     dependencies:
       solid-js: 1.9.14
 
   '@solid-primitives/immutable@0.1.10(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.4.0(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/intersection-observer@2.2.2(solid-js@1.9.14)':
@@ -9555,7 +9580,7 @@ snapshots:
 
   '@solid-primitives/jsx-tokenizer@1.1.1(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.4.0(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/keyboard@1.3.1(solid-js@1.9.14)':
@@ -9598,7 +9623,7 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.14)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.14)
       '@solid-primitives/static-store': 0.1.1(solid-js@1.9.14)
-      '@solid-primitives/utils': 6.4.0(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/platform@0.0.100(solid-js@1.9.14)':
@@ -9620,12 +9645,12 @@ snapshots:
 
   '@solid-primitives/props@3.2.1(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/range@0.1.18(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.4.0(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/refs@0.3.7(solid-js@1.9.14)':
@@ -9637,7 +9662,7 @@ snapshots:
 
   '@solid-primitives/refs@1.1.1(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/resize-observer@2.1.1(solid-js@1.9.14)':
@@ -9645,12 +9670,25 @@ snapshots:
       '@solid-primitives/event-listener': 2.4.1(solid-js@1.9.14)
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.14)
       '@solid-primitives/static-store': 0.1.1(solid-js@1.9.14)
-      '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
+      solid-js: 1.9.14
+
+  '@solid-primitives/resize-observer@2.2.0(solid-js@1.9.14)':
+    dependencies:
+      '@solid-primitives/event-listener': 2.4.6(solid-js@1.9.14)
+      '@solid-primitives/rootless': 1.5.4(solid-js@1.9.14)
+      '@solid-primitives/static-store': 0.1.4(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/rootless@1.5.1(solid-js@1.9.14)':
     dependencies:
       '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
+      solid-js: 1.9.14
+
+  '@solid-primitives/rootless@1.5.4(solid-js@1.9.14)':
+    dependencies:
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/scheduled@1.5.1(solid-js@1.9.14)':
@@ -9682,7 +9720,12 @@ snapshots:
 
   '@solid-primitives/static-store@0.1.1(solid-js@1.9.14)':
     dependencies:
-      '@solid-primitives/utils': 6.3.2(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
+      solid-js: 1.9.14
+
+  '@solid-primitives/static-store@0.1.4(solid-js@1.9.14)':
+    dependencies:
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/styles@0.0.101(solid-js@1.9.14)':
@@ -9693,7 +9736,7 @@ snapshots:
   '@solid-primitives/styles@0.0.111(solid-js@1.9.14)':
     dependencies:
       '@solid-primitives/rootless': 1.5.1(solid-js@1.9.14)
-      '@solid-primitives/utils': 6.4.0(solid-js@1.9.14)
+      '@solid-primitives/utils': 6.4.1(solid-js@1.9.14)
       solid-js: 1.9.14
 
   '@solid-primitives/timer@1.4.1(solid-js@1.9.14)':
