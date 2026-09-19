@@ -29,6 +29,7 @@ import {
   NavigationRail,
   NavigationRailItem,
   OverflowingText,
+  Spacer,
   UserStatus,
   main,
 } from "@revolt/ui";
@@ -48,6 +49,37 @@ const Base = styled("div", {
     "& .FriendsList": {
       height: "100%",
       paddingInline: "var(--gap-lg)",
+    },
+  },
+});
+
+/**
+ * Search input for the friends list
+ */
+const SearchInput = styled("input", {
+  base: {
+    height: "40px",
+    flex: "0 1 240px",
+    minWidth: 0,
+    paddingInline: "16px",
+    borderRadius: "var(--borderRadius-full)",
+
+    // Header has 600 weight, reset for input text
+    fontWeight: 400,
+    color: "var(--md-sys-color-on-surface)",
+    background: "var(--md-sys-color-surface-container-high)",
+
+    "&::placeholder": {
+      color: "var(--md-sys-color-on-surface-variant)",
+    },
+
+    "&:focus-visible": {
+      outline: "2px solid var(--md-sys-color-primary)",
+    },
+
+    // Header has no right padding on tablet, keep distance from the edge
+    _tablet: {
+      marginRight: "8px",
     },
   },
 });
@@ -95,6 +127,41 @@ export function Friends() {
     };
   });
 
+  /**
+   * Search query state
+   */
+  const [searchQuery, setSearchQuery] = createSignal("");
+
+  /**
+   * Whether a search is currently active
+   */
+  const isSearching = () => searchQuery().trim() !== "";
+
+  /**
+   * Filtered lists of users matching the search query
+   */
+  const filteredLists = createMemo(() => {
+    const query = searchQuery().trim().toLowerCase();
+    const all = lists();
+    if (!query) return all;
+
+    /**
+     * Whether the username or display name contains the query
+     */
+    const matches = (user: User) =>
+      user.username.toLowerCase().includes(query) ||
+      user.displayName.toLowerCase().includes(query);
+
+    return {
+      friends: all.friends.filter(matches),
+      online: all.online.filter(matches),
+      incoming: all.incoming.filter(matches),
+      outgoing: all.outgoing.filter(matches),
+      blocked: all.blocked.filter(matches),
+    };
+  });
+
+  // Pending request count stays constant regardless of search filter
   const pending = () => {
     const incoming = lists().incoming;
     return incoming.length > 99 ? "99+" : incoming.length;
@@ -109,6 +176,14 @@ export function Friends() {
           <Symbol>group</Symbol>
         </HeaderIcon>
         <Trans>Friends</Trans>
+        <Spacer />
+        <SearchInput
+          type="search"
+          aria-label={t`Search`}
+          placeholder={t`Search for users...`}
+          value={searchQuery()}
+          onInput={(e) => setSearchQuery(e.currentTarget.value)}
+        />
       </Header>
 
       <main class={main()}>
@@ -171,7 +246,8 @@ export function Friends() {
                 fallback={
                   <People
                     title="Online"
-                    users={lists().online}
+                    users={filteredLists().online}
+                    searching={isSearching()}
                     scrollTargetElement={targetSignal}
                   />
                 }
@@ -179,26 +255,30 @@ export function Friends() {
                 <Match when={page() === "all"}>
                   <People
                     title="All"
-                    users={lists().friends}
+                    users={filteredLists().friends}
+                    searching={isSearching()}
                     scrollTargetElement={targetSignal}
                   />
                 </Match>
                 <Match when={page() === "pending"}>
                   <People
                     title="Incoming"
-                    users={lists().incoming}
+                    users={filteredLists().incoming}
+                    searching={isSearching()}
                     scrollTargetElement={targetSignal}
                   />
                   <People
                     title="Outgoing"
-                    users={lists().outgoing}
+                    users={filteredLists().outgoing}
+                    searching={isSearching()}
                     scrollTargetElement={targetSignal}
                   />
                 </Match>
                 <Match when={page() === "blocked"}>
                   <People
                     title="Blocked"
-                    users={lists().blocked}
+                    users={filteredLists().blocked}
+                    searching={isSearching()}
                     scrollTargetElement={targetSignal}
                   />
                 </Match>
@@ -217,6 +297,7 @@ export function Friends() {
 function People(props: {
   users: User[];
   title: string;
+  searching: boolean;
   scrollTargetElement: Accessor<HTMLDivElement>;
 }) {
   return (
@@ -227,7 +308,12 @@ function People(props: {
 
       <Show when={props.users.length === 0}>
         <ListItem disabled>
-          <Trans>Nobody here right now!</Trans>
+          <Show
+            when={props.searching}
+            fallback={<Trans>Nobody here right now!</Trans>}
+          >
+            <Trans>No users match your search</Trans>
+          </Show>
         </ListItem>
       </Show>
 
