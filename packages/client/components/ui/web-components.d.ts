@@ -18,6 +18,8 @@ import type { Select } from "mdui/components/select";
 import type { Slider } from "mdui/components/slider";
 import type { Snackbar } from "mdui/components/snackbar";
 import type { TextField } from "mdui/components/text-field";
+import type { Collapse } from "mdui/components/collapse";
+import type { CollapseItem } from "mdui/components/collapse-item";
 
 declare module "solid-js" {
   namespace JSX {
@@ -42,6 +44,8 @@ declare module "solid-js" {
       "mdui-radio": ComponentProps<Radio>;
       "mdui-radio-group": ComponentProps<RadioGroup>;
       "mdui-snackbar": ComponentProps<Snackbar>;
+      "mdui-collapse": ComponentProps<Collapse>;
+      "mdui-collapse-item": ComponentProps<CollapseItem>;
     }
   }
 }
