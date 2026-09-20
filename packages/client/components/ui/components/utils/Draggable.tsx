@@ -6,6 +6,7 @@ import {
   Setter,
   createEffect,
   createSignal,
+  on,
 } from "solid-js";
 
 interface Props<T> {
@@ -64,6 +65,10 @@ export function Draggable<T>(props: Props<T>) {
 
   createEffect(() => setDragDisabled(props.dragHandles || false));
 
+  // force re-render when items change
+  // fixes inability to re-order channels after opening category
+  const [renderSignal, forceRender] = createSignal(0);
+
   createEffect(() => {
     const newContainerItems = props.items.map((item) => ({
       id: item.id,
@@ -72,6 +77,10 @@ export function Draggable<T>(props: Props<T>) {
 
     setContainerItems(newContainerItems);
   });
+
+  createEffect(
+    on(containerItems, () => forceRender((revision) => revision + 1)),
+  );
 
   /**
    * Handle DND event from solid-dnd-directive
@@ -91,6 +100,8 @@ export function Draggable<T>(props: Props<T>) {
   }
 
   function isDisabled() {
+    renderSignal();
+
     return props.disabled || dragDisabled();
   }
 
