@@ -13,7 +13,9 @@ declare global {
 declare module "solid-js" {
   namespace JSX {
     interface Directives {
-      dndzone: SolidOptions;
+      dndzone: SolidOptions & {
+        useCursorForDetection?: boolean | (() => boolean);
+      };
 
       scrollable:
         | true
