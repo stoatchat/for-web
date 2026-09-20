@@ -10,6 +10,7 @@ import {
 } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
+import { BiSolidFolderOpen } from "solid-icons/bi";
 import { Channel, Server, User } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -26,7 +27,6 @@ import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
 
 import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
 import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdFolderOpen from "@material-design-icons/svg/filled/folder_open.svg?component-solid";
 import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
 import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
@@ -661,10 +661,13 @@ function FolderEntry(props: {
                   <Unreads.Graphic count={mentions()} unread />
                 </Show>
               }
+              fallbackBackground={Boolean(
+                collapsed() && props.entry.servers.length,
+              )}
               fallback={
                 <Show
                   when={collapsed() && props.entry.servers.length}
-                  fallback={<MdFolderOpen />}
+                  fallback={<BiSolidFolderOpen size={24} />}
                 >
                   <FolderPreview
                     servers={props.entry.servers}
