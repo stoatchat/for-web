@@ -1,9 +1,10 @@
-import { JSXElement } from "solid-js";
+import { JSXElement, Show, splitProps } from "solid-js";
 
 import "mdui/components/list-item.js";
 import "mdui/components/list-subheader.js";
 import "mdui/components/list.js";
 import { cva } from "styled-system/css";
+import { Collapse } from "../utils";
 
 /**
  * Lists are continuous, vertical indexes of text and images
@@ -53,3 +54,26 @@ const listitem = cva({
     minHeight: 0,
   },
 });
+
+function CollapseListItem(props: {
+  children: JSXElement;
+  header?: JSXElement;
+  rounded?: boolean,
+  disabled?: boolean,
+  onClick?: () => void;
+}) {
+  const [local, remote] = splitProps(props, ["children", "header"])
+
+  return (
+    <Collapse.Item>
+      <Show when={local.header}>
+        <mdui-list-item slot="header" {...remote}>
+          {local.header}
+        </mdui-list-item>
+      </Show>
+      {local.children}
+    </Collapse.Item>
+  );
+}
+
+List.Collapse = CollapseListItem;
