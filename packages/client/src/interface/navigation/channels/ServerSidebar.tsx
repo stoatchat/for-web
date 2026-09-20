@@ -29,11 +29,11 @@ import {
   OverflowingText,
   Row,
   Tooltip,
-  UnreadCallout,
   iconSize,
   symbolSize,
   typography,
 } from "@revolt/ui";
+import { UnreadCallout } from "@revolt/ui/components/features/navigation/UnreadCallout";
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
