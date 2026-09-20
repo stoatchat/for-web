@@ -1,13 +1,5 @@
 import { BiRegularCheckCircle, BiSolidCheckCircle } from "solid-icons/bi";
-import {
-  Accessor,
-  JSX,
-  Match,
-  Setter,
-  Show,
-  Switch,
-  createMemo,
-} from "solid-js";
+import { Accessor, JSX, Match, Show, Switch, createMemo } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
 import type { Channel, Server, ServerFlags } from "stoat.js";
@@ -175,8 +167,10 @@ export const ServerSidebar = (props: Props) => {
     }
 
     if (event.type === "categories") {
+      const ids = event.ids.filter((id) => id !== "default");
+
       props.server.edit({
-        categories: event.ids
+        categories: ["default", ...ids]
           .map((id) => categories().find((category) => category.id === id)!)
           .filter((category) => category)
           .map(({ id, title, channelIds }) => ({
@@ -252,13 +246,28 @@ export const ServerSidebar = (props: Props) => {
         style={{ "flex-grow": 1, "margin-bottom": "var(--gap-md)" }}
         use:floating={props.menuGenerator(props.server)}
       >
+        <Show when={categories().find((category) => category.id === "default")}>
+          {(category) => (
+            <Category
+              server={props.server}
+              category={category()}
+              channelId={props.channelId}
+              menuGenerator={props.menuGenerator}
+              dragDisabled={() => true}
+              setDragDisabled={() => void 0}
+              noOrdering={noOrdering}
+              handleOrdering={handleOrdering}
+            />
+          )}
+        </Show>
         <Draggable
           dragHandles
+          dropIndicator
           type="category"
           //TODO - No channel ordering on mobile due to usability issue
           //Consider adding a way to enable reordering with dragHandles in server settings
           disabled={isMobile || noOrdering()}
-          items={categories()}
+          items={categories().filter((category) => category.id !== "default")}
           onChange={(ids) => handleOrdering({ type: "categories", ids })}
         >
           {(entry) => (
@@ -355,7 +364,7 @@ function Category(
     handleOrdering: (event: OrderingEvent) => void;
   } & Pick<Props, "menuGenerator"> & {
       dragDisabled: Accessor<boolean>;
-      setDragDisabled: Setter<boolean>;
+      setDragDisabled: (value: boolean) => void;
     },
 ) {
   const state = useState();
@@ -389,6 +398,7 @@ function Category(
         </div>
       </Show>
       <Draggable
+        dropIndicator
         type="channels"
         items={channels()}
         onChange={(reorderedIds) => {
@@ -404,7 +414,7 @@ function Category(
         //TODO - No channel ordering on mobile due to usability issue
         //Consider adding a way to enable reordering with dragHandles in server settings
         disabled={isMobile || props.noOrdering() || !isOpen()}
-        minimumDropAreaHeight="32px"
+        minimumDropAreaHeight="42px"
       >
         {(entry) => (
           <Entry
@@ -421,7 +431,7 @@ function Category(
 const CategorySection = styled("div", {
   base: {
     display: "flex",
-    gap: "var(--gap-md)",
+    gap: "var(--gap-sm)",
     flexDirection: "column",
     paddingBlock: "var(--gap-sm)",
     borderRadius: "var(--borderRadius-sm)",
@@ -444,7 +454,7 @@ const CategoryBase = styled("div", {
 
     padding: "0 var(--gap-sm)",
     paddingLeft: "calc(var(--gap-lg) + 5px)",
-    paddingTop: "10px",
+    paddingBlock: "var(--gap-sm)",
 
     cursor: "pointer",
     userSelect: "none",
