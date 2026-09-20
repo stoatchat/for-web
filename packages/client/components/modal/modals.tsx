@@ -25,12 +25,14 @@ import { CustomStatusModal } from "./modals/CustomStatus";
 import { DeleteBotModal } from "./modals/DeleteBot";
 import { DeleteCategoryModal } from "./modals/DeleteCategory";
 import { DeleteChannelModal } from "./modals/DeleteChannel";
+import { DeleteEmojiModal } from "./modals/DeleteEmoji";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
 import { EditBotUsernameModal } from "./modals/EditBotUsername";
 import { EditCategoryModal } from "./modals/EditCategory";
 import { EditEmailModal } from "./modals/EditEmail";
+import { EditEmojiModal } from "./modals/EditEmoji";
 import { EditPasswordModal } from "./modals/EditPassword";
 import { EditUsernameModal } from "./modals/EditUsername";
 import { EmojiPreviewModal } from "./modals/EmojiPreview";
@@ -204,6 +206,10 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <TimeoutMemberModal {...modalProps} />;
     case "remove_timeout":
       return <RemoveTimeoutModal {...modalProps} />;
+    case "edit_emoji":
+      return <EditEmojiModal {...modalProps} />;
+    case "delete_emoji":
+      return <DeleteEmojiModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",
