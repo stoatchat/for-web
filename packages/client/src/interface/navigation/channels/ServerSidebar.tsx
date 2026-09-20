@@ -10,7 +10,7 @@ import {
 } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
-import type { API, Channel, Server, ServerFlags } from "stoat.js";
+import type { Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useDevice } from "@revolt/common";
@@ -41,6 +41,11 @@ import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?
 import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
+import {
+  OrderedCategory,
+  applyChannelOrdering,
+  orderedCategories,
+} from "./ordering";
 
 interface Props {
   /**
@@ -72,7 +77,7 @@ interface Props {
 /**
  * Ordered category data returned from server
  */
-type CategoryData = Omit<API.Category, "channels"> & { channels: Channel[] };
+type CategoryData = OrderedCategory & { channels: Channel[] };
 
 type OrderingEvent =
   | {
@@ -82,7 +87,8 @@ type OrderingEvent =
   | {
       type: "category";
       id: string;
-      channelIds: string[];
+      reorderedIds: string[];
+      visibleIds: string[];
       moved: boolean;
     };
 
@@ -102,10 +108,26 @@ export const ServerSidebar = (props: Props) => {
       "ManagePermissions",
     );
 
+  const categories = createMemo<CategoryData[]>(() => {
+    const channels = new Map(
+      props.server.channels.map((channel) => [channel.id, channel]),
+    );
+
+    return orderedCategories(
+      props.server.categories,
+      props.server.channels.map((channel) => channel.id),
+    ).map((category) => ({
+      ...category,
+      channels: category.channelIds
+        .map((id) => channels.get(id)!)
+        .filter((channel) => channel),
+    }));
+  });
+
   // TODO: this does not filter visible channels at the moment because the state for categories is not stored anywhere
   /** Gets a list of channels that are currently not hidden inside a closed category */
   const visibleChannels = () =>
-    props.server.orderedChannels.flatMap((category) => category.channels);
+    categories().flatMap((category) => category.channels);
 
   // TODO: when navigating channels, we want to add aria-keyshortcuts={localized-shortcut} to the next/previous channels
   // https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-keyshortcuts
@@ -152,35 +174,38 @@ export const ServerSidebar = (props: Props) => {
       return;
     }
 
-    const normalisedCategories = props.server.orderedChannels.map(
-      (category) => ({
-        ...category,
-        channels: category.channels.map((channel) => channel.id),
-      }),
-    );
-
     if (event.type === "categories") {
       props.server.edit({
         categories: event.ids
-          .map((id) => normalisedCategories.find((cat) => cat.id === id)!)
-          .filter((cat) => cat),
+          .map((id) => categories().find((category) => category.id === id)!)
+          .filter((category) => category)
+          .map(({ id, title, channelIds }) => ({
+            id,
+            title,
+            channels: channelIds,
+          })),
       });
     } else {
       props.server.edit({
-        categories: normalisedCategories.map((category) => {
-          if (heldEvent && category.id === heldEvent.id) {
-            return {
-              ...category,
-              channels: heldEvent.channelIds,
-            };
-          } else if (category.id === event.id) {
-            return {
-              ...category,
-              channels: event.channelIds,
-            };
-          } else {
-            return category;
-          }
+        categories: categories().map(({ id, title, channelIds }) => {
+          const reordered =
+            heldEvent?.id === id
+              ? heldEvent
+              : event.id === id
+                ? event
+                : undefined;
+
+          return {
+            id,
+            title,
+            channels: reordered
+              ? applyChannelOrdering(
+                  channelIds,
+                  reordered.visibleIds,
+                  reordered.reorderedIds,
+                )
+              : channelIds,
+          };
         }),
       });
 
@@ -233,7 +258,7 @@ export const ServerSidebar = (props: Props) => {
           //TODO - No channel ordering on mobile due to usability issue
           //Consider adding a way to enable reordering with dragHandles in server settings
           disabled={isMobile || noOrdering()}
-          items={props.server.orderedChannels}
+          items={categories()}
           onChange={(ids) => handleOrdering({ type: "categories", ids })}
         >
           {(entry) => (
@@ -366,13 +391,14 @@ function Category(
       <Draggable
         type="channels"
         items={channels()}
-        onChange={(channelIds) => {
+        onChange={(reorderedIds) => {
           const current = channels();
           props.handleOrdering({
             type: "category",
             id: props.category.id,
-            channelIds,
-            moved: channelIds.length !== current.length,
+            reorderedIds,
+            visibleIds: current.map((channel) => channel.id),
+            moved: reorderedIds.length !== current.length,
           });
         }}
         //TODO - No channel ordering on mobile due to usability issue

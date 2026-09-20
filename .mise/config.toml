@@ -23,6 +23,7 @@ run = [
         "*:check",
     ] },
     { task = "format" },
+    { task = "test:unit" },
     { task = "test:e2e:install-deps" },
     { tasks = [
         "test:e2e",
