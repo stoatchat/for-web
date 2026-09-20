@@ -106,7 +106,7 @@ export function RenderAnchor(
       const client = useClient(),
         params = paramsFromPathname(url.pathname);
 
-      params.host ||= STOAT_HOST;
+      params.host ||= instance.host || DefaultHost;
       const remote = params.host !== (instance.host || DefaultHost);
 
       if (params.exactChannel) {
