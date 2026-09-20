@@ -19,8 +19,10 @@ import {
   Avatar,
   CategoryButton,
   CircularProgress,
+  Collapse,
   Column,
   Deferred,
+  List,
   Row,
   Symbol,
   Time,
@@ -217,44 +219,47 @@ export function AuditLog(props: { server: Server }) {
         atEnd={atEnd}
         permitFetching={() => typeof fetching() !== "string"}
       >
-        <CategoryButton.Group>
-          <Deferred>
-            <For each={logs()}>
-              {(entry) => {
-                if (
-                  (entry.action.type === "MemberEdit" &&
-                    entry.action.user === entry.user) ||
-                  (
-                    [
-                      "ChannelEdit",
-                      "ChannelRolePermissionsEdit",
-                      "ServerEdit",
-                      "RoleEdit",
-                      "RolesReorder",
-                    ] as API.AuditLogEntryAction["type"][]
-                  ).includes(entry.action.type)
-                ) {
+        <List>
+          <Collapse accordion>
+            <Deferred>
+              <For each={logs()}>
+                {(entry) => {
+                  if (
+                    (entry.action.type === "MemberEdit" &&
+                      entry.action.user === entry.user) ||
+                    (
+                      [
+                        "ChannelEdit",
+                        "ChannelRolePermissionsEdit",
+                        "ServerEdit",
+                        "RoleEdit",
+                        "RolesReorder",
+                      ] as API.AuditLogEntryAction["type"][]
+                    ).includes(entry.action.type)
+                  ) {
+                    return (
+                      <List.Collapse
+                        header={<>
+                          <ActionIcon slot="icon" type={entry.action.type} />
+                          <EntryTitle entry={entry} />
+                        </>}
+                      >
+
+                        <EditViewer action={entry.action} />
+                      </List.Collapse>
+                    );
+                  }
                   return (
-                    <CategoryButton.Collapse
-                      icon={<ActionIcon type={entry.action.type} />}
-                      title={<EntryTitle entry={entry} />}
-                    >
-                      <EditViewer action={entry.action} />
-                    </CategoryButton.Collapse>
+                    <List.Item>
+                      <ActionIcon slot="icon" type={entry.action.type} />
+                      <EntryTitle entry={entry} />
+                    </List.Item>
                   );
-                }
-                return (
-                  <CategoryButton
-                    ignoreClick
-                    icon={<ActionIcon type={entry.action.type} />}
-                  >
-                    <EntryTitle entry={entry} />
-                  </CategoryButton>
-                );
-              }}
-            </For>
-          </Deferred>
-        </CategoryButton.Group>
+                }}
+              </For>
+            </Deferred>
+          </Collapse>
+        </List>
       </ListView2>
     </>
   );
@@ -542,6 +547,7 @@ function diffPerms(
 }
 
 type ActionIconProps = {
+  slot?: string,
   type: API.AuditLogEntryAction["type"];
 };
 
@@ -550,72 +556,74 @@ type ActionIconProps = {
  */
 function ActionIcon(props: ActionIconProps) {
   return (
-    <Switch fallback={<Symbol>question_mark</Symbol>}>
-      <Match
-        when={
-          props.type === "MessageDelete" ||
-          props.type === "ChannelDelete" ||
-          props.type === "RoleDelete" ||
-          props.type === "WebhookDelete" ||
-          props.type === "EmojiDelete"
-        }
-      >
-        <Symbol>delete</Symbol>
-      </Match>
-      <Match when={props.type === "MessageBulkDelete"}>
-        <Symbol>delete_sweep</Symbol>
-      </Match>
-      <Match when={props.type === "MessagePin"}>
-        <Symbol>keep</Symbol>
-      </Match>
-      <Match when={props.type === "MessageUnpin"}>
-        <Symbol>keep_off</Symbol>
-      </Match>
-      <Match when={props.type === "BanCreate"}>
-        <Symbol>gavel</Symbol>
-      </Match>
-      <Match when={props.type === "BanDelete"}>
-        <Symbol>person_check</Symbol>
-      </Match>
-      <Match when={props.type === "ChannelCreate"}>
-        <Symbol>tag</Symbol>
-      </Match>
-      <Match when={props.type === "RoleCreate"}>
-        <Symbol>new_label</Symbol>
-      </Match>
-      <Match
-        when={
-          props.type === "ChannelEdit" ||
-          props.type === "ChannelRolePermissionsEdit" ||
-          props.type === "RoleEdit" ||
-          props.type === "EmojiUpdate" ||
-          props.type === "ServerEdit"
-        }
-      >
-        <Symbol>edit</Symbol>
-      </Match>
-      <Match when={props.type === "MemberEdit"}>
-        <Symbol>person_edit</Symbol>
-      </Match>
-      <Match when={props.type === "WebhookCreate"}>
-        <Symbol>webhook</Symbol>
-      </Match>
-      <Match when={props.type === "MemberKick"}>
-        <Symbol>person_remove</Symbol>
-      </Match>
-      <Match when={props.type === "RolesReorder"}>
-        <Symbol>reorder</Symbol>
-      </Match>
-      <Match when={props.type === "InviteCreate"}>
-        <Symbol>add_link</Symbol>
-      </Match>
-      <Match when={props.type === "InviteDelete"}>
-        <Symbol>link_off</Symbol>
-      </Match>
-      <Match when={props.type === "EmojiCreate"}>
-        <Symbol>add_reaction</Symbol>
-      </Match>
-    </Switch>
+    <div slot={props.slot}>
+      <Switch fallback={<Symbol>question_mark</Symbol>}>
+        <Match
+          when={
+            props.type === "MessageDelete" ||
+            props.type === "ChannelDelete" ||
+            props.type === "RoleDelete" ||
+            props.type === "WebhookDelete" ||
+            props.type === "EmojiDelete"
+          }
+        >
+          <Symbol>delete</Symbol>
+        </Match>
+        <Match when={props.type === "MessageBulkDelete"}>
+          <Symbol>delete_sweep</Symbol>
+        </Match>
+        <Match when={props.type === "MessagePin"}>
+          <Symbol>keep</Symbol>
+        </Match>
+        <Match when={props.type === "MessageUnpin"}>
+          <Symbol>keep_off</Symbol>
+        </Match>
+        <Match when={props.type === "BanCreate"}>
+          <Symbol>gavel</Symbol>
+        </Match>
+        <Match when={props.type === "BanDelete"}>
+          <Symbol>person_check</Symbol>
+        </Match>
+        <Match when={props.type === "ChannelCreate"}>
+          <Symbol>tag</Symbol>
+        </Match>
+        <Match when={props.type === "RoleCreate"}>
+          <Symbol>new_label</Symbol>
+        </Match>
+        <Match
+          when={
+            props.type === "ChannelEdit" ||
+            props.type === "ChannelRolePermissionsEdit" ||
+            props.type === "RoleEdit" ||
+            props.type === "EmojiUpdate" ||
+            props.type === "ServerEdit"
+          }
+        >
+          <Symbol>edit</Symbol>
+        </Match>
+        <Match when={props.type === "MemberEdit"}>
+          <Symbol>person_edit</Symbol>
+        </Match>
+        <Match when={props.type === "WebhookCreate"}>
+          <Symbol>webhook</Symbol>
+        </Match>
+        <Match when={props.type === "MemberKick"}>
+          <Symbol>person_remove</Symbol>
+        </Match>
+        <Match when={props.type === "RolesReorder"}>
+          <Symbol>reorder</Symbol>
+        </Match>
+        <Match when={props.type === "InviteCreate"}>
+          <Symbol>add_link</Symbol>
+        </Match>
+        <Match when={props.type === "InviteDelete"}>
+          <Symbol>link_off</Symbol>
+        </Match>
+        <Match when={props.type === "EmojiCreate"}>
+          <Symbol>add_reaction</Symbol>
+        </Match>
+      </Switch>
+    </div>
   );
 }
 
