@@ -15,6 +15,7 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { flip, offset, shift } from "@floating-ui/dom";
+import type { Channel } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -46,6 +47,11 @@ interface Props {
    * Text replacement
    */
   onTextReplacement: (node: string) => void;
+
+  /**
+   * Channel to pick emoji for
+   */
+  channel?: Channel;
 }
 
 export const CompositionMediaPickerContext = createContext(
@@ -95,6 +101,7 @@ export function CompositionMediaPicker(props: Props) {
                 setShow={setShow}
                 onMessage={props.onMessage}
                 onTextReplacement={props.onTextReplacement}
+                channel={props.channel}
               />
             </Motion>
           </Portal>
@@ -105,7 +112,7 @@ export function CompositionMediaPicker(props: Props) {
 }
 
 function Picker(
-  props: Pick<Props, "onMessage" | "onTextReplacement"> & {
+  props: Pick<Props, "onMessage" | "onTextReplacement" | "channel"> & {
     anchor: Accessor<HTMLElement | undefined>;
     show: Accessor<"gif" | "emoji" | undefined>;
     setShow: Setter<"gif" | "emoji" | undefined>;
@@ -176,7 +183,7 @@ function Picker(
             <GifPicker />
           </Match>
           <Match when={props.show() === "emoji"}>
-            <EmojiPicker />
+            <EmojiPicker channel={props.channel} />
           </Match>
         </Switch>
       </Container>
