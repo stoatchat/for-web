@@ -59,6 +59,10 @@ export function GifPicker() {
   const [filter, setFilter] = createSignal("");
   const [debouncedFilter, setDebouncedFilter] = createSignal("");
 
+  const clearFilter = () => {
+    setFilter("");
+    setDebouncedFilter("");
+  };
   const delayedSetFilter = debounce(setDebouncedFilter, 250);
   createEffect(() => {
     delayedSetFilter(filter());
@@ -81,7 +85,7 @@ export function GifPicker() {
             <IconButton
               variant="standard"
               aria-label="Back to categories"
-              onPress={() => setFilter("")}
+              onPress={clearFilter}
             >
               <Symbol>arrow_back</Symbol>
             </IconButton>
