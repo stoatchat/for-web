@@ -1,5 +1,13 @@
 import { BiRegularCheckCircle, BiSolidCheckCircle } from "solid-icons/bi";
-import { Accessor, JSX, Match, Show, Switch, createMemo } from "solid-js";
+import {
+  Accessor,
+  JSX,
+  Match,
+  Show,
+  Switch,
+  createMemo,
+  createSignal,
+} from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
 import type { Channel, Server, ServerFlags } from "stoat.js";
@@ -25,6 +33,7 @@ import {
   symbolSize,
   typography,
 } from "@revolt/ui";
+import { UnreadCallout } from "@revolt/ui/components/features/navigation/UnreadCallout";
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -159,6 +168,8 @@ export const ServerSidebar = (props: Props) => {
 
   const noOrdering = () => !props.server.havePermission("ManageChannel");
 
+  const [list, setList] = createSignal<HTMLDivElement>();
+
   let heldEvent: OrderingEvent & { type: "category" } = null!;
   function handleOrdering(event: OrderingEvent) {
     if (event.type === "category" && event.moved && !heldEvent) {
@@ -241,52 +252,67 @@ export const ServerSidebar = (props: Props) => {
           </Header>
         </Match>
       </Switch>
-      <div
-        use:invisibleScrollable
-        style={{ "flex-grow": 1, "margin-bottom": "var(--gap-md)" }}
-        use:floating={props.menuGenerator(props.server)}
-      >
-        <Show when={categories().find((category) => category.id === "default")}>
-          {(category) => (
-            <Category
-              server={props.server}
-              category={category()}
-              channelId={props.channelId}
-              menuGenerator={props.menuGenerator}
-              dragDisabled={() => true}
-              setDragDisabled={() => void 0}
-              noOrdering={noOrdering}
-              handleOrdering={handleOrdering}
-            />
-          )}
-        </Show>
-        <Draggable
-          dragHandles
-          dropIndicator
-          type="category"
-          //TODO - No channel ordering on mobile due to usability issue
-          //Consider adding a way to enable reordering with dragHandles in server settings
-          disabled={isMobile || noOrdering()}
-          items={categories().filter((category) => category.id !== "default")}
-          onChange={(ids) => handleOrdering({ type: "categories", ids })}
+      <ChannelList>
+        <UnreadCallout list={list} />
+        <div
+          ref={setList}
+          use:invisibleScrollable
+          style={{ height: "100%" }}
+          use:floating={props.menuGenerator(props.server)}
         >
-          {(entry) => (
-            <Category
-              server={props.server}
-              category={entry.item}
-              channelId={props.channelId}
-              menuGenerator={props.menuGenerator}
-              dragDisabled={entry.dragDisabled}
-              setDragDisabled={entry.setDragDisabled}
-              noOrdering={noOrdering}
-              handleOrdering={handleOrdering}
-            />
-          )}
-        </Draggable>
-      </div>
+          <Show
+            when={categories().find((category) => category.id === "default")}
+          >
+            {(category) => (
+              <Category
+                server={props.server}
+                category={category()}
+                channelId={props.channelId}
+                menuGenerator={props.menuGenerator}
+                dragDisabled={() => true}
+                setDragDisabled={() => void 0}
+                noOrdering={noOrdering}
+                handleOrdering={handleOrdering}
+              />
+            )}
+          </Show>
+          <Draggable
+            dragHandles
+            dropIndicator
+            type="category"
+            //TODO - No channel ordering on mobile due to usability issue
+            //Consider adding a way to enable reordering with dragHandles in server settings
+            disabled={isMobile || noOrdering()}
+            items={categories().filter((category) => category.id !== "default")}
+            onChange={(ids) => handleOrdering({ type: "categories", ids })}
+          >
+            {(entry) => (
+              <Category
+                server={props.server}
+                category={entry.item}
+                channelId={props.channelId}
+                menuGenerator={props.menuGenerator}
+                dragDisabled={entry.dragDisabled}
+                setDragDisabled={entry.setDragDisabled}
+                noOrdering={noOrdering}
+                handleOrdering={handleOrdering}
+              />
+            )}
+          </Draggable>
+        </div>
+      </ChannelList>
     </SidebarBase>
   );
 };
+
+const ChannelList = styled("div", {
+  base: {
+    position: "relative",
+    flexGrow: 1,
+    minHeight: 0,
+    marginBottom: "var(--gap-md)",
+  },
+});
 
 /**
  * Server Information
@@ -534,6 +560,8 @@ function Entry(
         href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}
         use:floating={props.menuGenerator(props.channel)}
         size="normal"
+        data-unread={props.channel.unread ? "" : undefined}
+        data-mentions={props.channel.mentions?.size || undefined}
         alert={alertState()}
         attention={attentionState()}
         icon={
