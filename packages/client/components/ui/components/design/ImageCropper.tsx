@@ -50,7 +50,7 @@ export interface ImageCropperProps {
   ref?: (handle: ImageCropperHandle) => void;
 }
 
-type HandleId = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+type HandleId = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw" | "rad";
 
 interface Rect {
   x: number;
@@ -98,6 +98,13 @@ const CropBox = styled("div", {
     border: "2px solid var(--md-sys-color-primary)",
     cursor: "move",
     touchAction: "none",
+  },
+  variants: {
+    circle: {
+      true: {
+        borderRadius: "100%",
+      },
+    },
   },
 });
 
@@ -153,6 +160,10 @@ const Handle = styled("div", {
       nw: { top: "-7px", left: "-7px", cursor: "nwse-resize" },
       se: { bottom: "-7px", right: "-7px", cursor: "nwse-resize" },
       sw: { bottom: "-7px", left: "-7px", cursor: "nesw-resize" },
+      rad: {
+        bottom: "calc(50% - 7px + sin(45deg) * 50%)",
+        left: "calc(50% - 7px + cos(45deg) * 50%)",
+      },
     },
   },
 });
@@ -365,8 +376,8 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
     const r = ratio();
 
     const left = handle.includes("w");
-    const right = handle.includes("e");
-    const top = handle.includes("n");
+    const right = handle.includes("e") || handle === "rad";
+    const top = handle.includes("n") || handle === "rad";
     const bottom = handle.includes("s");
 
     let newX = x;
@@ -463,7 +474,9 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
 
   const handles = (): HandleId[] =>
     mode() === "ratio"
-      ? ["ne", "nw", "se", "sw"]
+      ? props.circularMask
+        ? ["rad"]
+        : ["ne", "nw", "se", "sw"]
       : ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
 
   return (
@@ -507,8 +520,15 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
               height: `${rect().h}px`,
             }}
             onPointerDown={onPointerDownMove}
+            circle={props.circularMask && mode() !== "freeform"}
           >
-            <GridLines />
+            <GridLines
+              style={
+                props.circularMask && mode() !== "freeform"
+                  ? { "clip-path": `circle(${rect().w / 2}px)` }
+                  : {}
+              }
+            />
             <For each={handles()}>
               {(h) => (
                 <Handle position={h} onPointerDown={onPointerDownHandle(h)} />
