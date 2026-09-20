@@ -45,6 +45,8 @@ export interface ImageCropperProps {
   maxSize?: number;
   /** Include CropResult.dataUrl. Off by default. */
   includeDataUrl?: boolean;
+  /** Show a circular mask instead of a polygon mask. Off by default */
+  circularMask?: boolean;
   ref?: (handle: ImageCropperHandle) => void;
 }
 
@@ -76,15 +78,15 @@ const CroppedImage = styled("img", {
     top: 0,
     left: 0,
     userSelect: "none",
+    filter: "opacity(45%) brightness(45%)",
   },
 });
 
-const Mask = styled("div", {
+const Mask = styled("img", {
   base: {
     position: "absolute",
     top: 0,
     left: 0,
-    background: "rgba(0, 0, 0, 0.55)",
     pointerEvents: "none",
   },
 });
@@ -477,10 +479,6 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
         <CroppedImage
           ref={imgRef}
           src={props.src}
-          style={{
-            width: `${displaySize().w}px`,
-            height: `${displaySize().h}px`,
-          }}
           onLoad={handleImgLoad}
           onError={() => setLoadFailed(true)}
           draggable={false}
@@ -493,17 +491,12 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
         </Show>
         <Show when={displaySize().w > 0}>
           <Mask
+            src={props.src}
             style={{
-              width: `${displaySize().w}px`,
-              height: `${displaySize().h}px`,
-              "clip-path": `polygon(
-                0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%,
-                ${rect().x}px ${rect().y}px,
-                ${rect().x}px ${rect().y + rect().h}px,
-                ${rect().x + rect().w}px ${rect().y + rect().h}px,
-                ${rect().x + rect().w}px ${rect().y}px,
-                ${rect().x}px ${rect().y}px
-              )`,
+              "clip-path":
+                props.circularMask && mode() !== "freeform"
+                  ? `circle(${rect().w / 2}px at ${rect().x + rect().w / 2}px ${rect().y + rect().h / 2}px)`
+                  : `inset(${rect().y}px ${displaySize().w - (rect().x + rect().w)}px ${displaySize().h - (rect().y + rect().h)}px ${rect().x}px)`,
             }}
           />
           <CropBox

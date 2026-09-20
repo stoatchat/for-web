@@ -197,6 +197,7 @@ export function UserProfileEditor(props: Props) {
             ratioLabel: t`Square`,
             allowModeToggle: false,
             dialogTitle: t`Crop Avatar`,
+            circularMask: true,
           })}
         />
         <Form2.FileInput

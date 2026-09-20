@@ -15,6 +15,7 @@ export interface CropProcessOptions {
   ratioLabel: string;
   /** Defaults to true — the mode toggle is always shown, there's just no way to skip cropping entirely. */
   allowModeToggle?: boolean;
+  circularMask?: boolean;
   dialogTitle?: JSX.Element;
 }
 
@@ -101,6 +102,7 @@ export function cropProcess(options: CropProcessOptions) {
           maxSize={maxSize}
           ratio={options.ratio}
           ratioLabel={options.ratioLabel}
+          circularMask={options.circularMask}
           allowModeToggle={options.allowModeToggle ?? true}
           ref={(h) => (cropHandle = h)}
         />

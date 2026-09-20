@@ -229,7 +229,8 @@ export default function ServerOverview(props: ServerSettingsProps) {
             process={cropProcess({
               ratio: 1,
               ratioLabel: t`Square`,
-              dialogTitle: <Trans>Crop Server Icon</Trans>,
+              circularMask: true,
+              dialogTitle: t`Crop Server Icon`,
             })}
           />
           <Form2.FileInput
@@ -243,7 +244,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             process={cropProcess({
               ratio: 232 / 100,
               ratioLabel: t`Banner`,
-              dialogTitle: <Trans>Crop Server Banner</Trans>,
+              dialogTitle: t`Crop Server Banner`,
             })}
           />
           <Form2.TextField
