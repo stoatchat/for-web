@@ -96,6 +96,11 @@ export function Draggable<T>(props: Props<T>) {
     setContainerItems(newContainerItems);
 
     if (e.type === "finalize") {
+      if (zone) {
+        zone.style.minHeight = "";
+        zone.style.minWidth = "";
+      }
+
       props.onChange(
         newContainerItems.map((containerItems) => containerItems.id),
       );
