@@ -142,7 +142,7 @@ function Reaction(props: {
   removeReaction(id: string): void;
 }) {
   const { t } = useLingui();
-  const users = useUsers(() => [...(props.users?.values() ?? [])]);
+  const users = useUsers(() => [...(props.users?.values() ?? [])], false, true);
 
   /**
    * Handle toggling reaction

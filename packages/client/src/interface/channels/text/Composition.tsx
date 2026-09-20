@@ -1,11 +1,11 @@
 import {
-  For,
-  Show,
   createEffect,
   createMemo,
   createSignal,
+  For,
   on,
   onCleanup,
+  Show,
 } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
@@ -13,8 +13,9 @@ import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { debounce } from "@revolt/common";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { useInstance } from "@revolt/instance";
-import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -22,10 +23,10 @@ import {
   FileCarousel,
   FileDropAnywhereCollector,
   FilePasteCollector,
+  humanFileSize,
   IconButton,
   MessageBox,
   MessageReplyPreview,
-  humanFileSize,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
@@ -51,6 +52,10 @@ export function MessageComposition(props: Props) {
   const client = useClient();
   const { limits } = useInstance();
   const { openModal } = useModals();
+
+  const isTimedOut = createIsTimedOut(
+    () => props.channel.server?.member?.timeout,
+  );
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
@@ -93,7 +98,8 @@ export function MessageComposition(props: Props) {
     return (
       !tooLong &&
       (draftContent.trim().length > 0 || draftFiles.length > 0) &&
-      !isSlowmode
+      !isSlowmode &&
+      !isTimedOut()
     );
   });
 
@@ -305,6 +311,22 @@ export function MessageComposition(props: Props) {
     state.draft.removeFile(props.channel.id, fileId);
   }
 
+  /**
+   * Check if a file is marked as a spoiler
+   * @param fileId File ID
+   */
+  function isSpoiler(fileId: string) {
+    return state.draft.isFileSpoiler(fileId);
+  }
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId File ID
+   */
+  function toggleSpoiler(fileId: string) {
+    state.draft.toggleFileSpoiler(fileId);
+  }
+
   const searchSpace = useSearchSpace(() => props.channel, client);
 
   return (
@@ -320,6 +342,8 @@ export function MessageComposition(props: Props) {
         getFile={state.draft.getFile}
         addFile={addFile}
         removeFile={removeFile}
+        isSpoiler={isSpoiler}
+        toggleSpoiler={toggleSpoiler}
       />
       <For each={draft().replies ?? []}>
         {(reply) => {
@@ -415,7 +439,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !isTimedOut()
+        }
+        timeoutActive={isTimedOut()}
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)

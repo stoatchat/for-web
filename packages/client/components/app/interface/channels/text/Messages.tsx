@@ -31,11 +31,12 @@ import {
   JumpToBottom,
   MessageDivider,
 } from "@revolt/ui";
-
 import {
   ListView2,
   ListView2Update,
 } from "@revolt/ui/components/utils/ListView2";
+
+import { CompositionInfo } from "./CompositionInfo";
 import { Message } from "./Message";
 import { useMessageCache } from "./MessageCache";
 
@@ -143,7 +144,7 @@ export function Messages(props: Props) {
   /**
    * Reference for the list container so we can scroll to elements
    */
-  let listRef: HTMLDivElement | undefined;
+  const [listRef, setListRef] = createSignal<HTMLDivElement>();
 
   /**
    * Whether we can fetch
@@ -185,6 +186,21 @@ export function Messages(props: Props) {
     setMessages(
       messagesArr.flat().toSorted((a, b) => b.id.localeCompare(a.id)),
     );
+  }
+
+  /**
+   * Helper function to find the closest parent scroll container
+   * @param el Element
+   * @returns Element
+   */
+  function findScrollContainer(el: Element | null | undefined) {
+    if (!el) {
+      return null;
+    } else if (["scroll", "auto"].includes(getComputedStyle(el).overflowY)) {
+      return el;
+    } else {
+      return findScrollContainer(el.parentElement);
+    }
   }
 
   /**
@@ -277,7 +293,7 @@ export function Messages(props: Props) {
       // If we're not at the end, restore scroll position
       if (existingState && !existingState.atEnd) {
         setTimeout(() =>
-          listRef?.scrollTo({
+          findScrollContainer(listRef())?.scrollTo({
             top: existingState.scrollTop!,
             behavior: "instant",
           }),
@@ -286,7 +302,7 @@ export function Messages(props: Props) {
       // Or... reset scroll to the end
       else if (atEnd()) {
         setTimeout(() =>
-          listRef?.scrollTo({
+          findScrollContainer(listRef())?.scrollTo({
             top: 9999999,
             behavior: "instant",
           }),
@@ -441,25 +457,9 @@ export function Messages(props: Props) {
    * Jump to the present messages
    */
   async function caseJumpToBottom() {
-    /**
-     * Helper function to find the closest parent scroll container
-     * @param el Element
-     * @returns Element
-     */
-    function findScrollContainer(el: Element | null) {
-      if (!el) {
-        return null;
-      } else if (getComputedStyle(el).overflowY === "scroll") {
-        return el;
-      } else {
-        return el.parentElement;
-      }
-    }
-
     // Scroll to the bottom if we're already at the end
     if (atEnd()) {
-      const containerChild = findScrollContainer(listRef!)!.children[0];
-      containerChild!.scrollIntoView({
+      listRef()!.scrollIntoView({
         behavior: "smooth",
         block: "end",
       });
@@ -512,15 +512,13 @@ export function Messages(props: Props) {
 
         // Animate scroll to bottom
         setTimeout(() => {
-          const containerChild = findScrollContainer(listRef!)!.children[0];
-
-          containerChild!.scrollIntoView({
+          listRef()!.scrollIntoView({
             behavior: "instant",
             block: "start",
           });
 
           setTimeout(() => {
-            containerChild!.scrollIntoView({
+            listRef()!.scrollIntoView({
               behavior: "smooth",
               block: "end",
             });
@@ -550,7 +548,7 @@ export function Messages(props: Props) {
         (entry) => entry.t === 0 && entry.message.id === messageId,
       ); // use localeCompare
 
-      listRef!.children[index + (atStart() ? 1 : 0)].scrollIntoView({
+      listRef()!.children[index + (atStart() ? 1 : 0)].scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
@@ -623,7 +621,7 @@ export function Messages(props: Props) {
               messages: messages(),
               atStart: atStart(),
               atEnd: atEnd(),
-              scrollTop: listRef?.scrollTop,
+              scrollTop: findScrollContainer(listRef())?.scrollTop,
             });
           }
         });
@@ -929,41 +927,49 @@ export function Messages(props: Props) {
         permitFetching={() => typeof fetching() !== "string"}
       >
         <Deferred>
-          <div>
-            <div ref={listRef}>
-              <Show when={atStart()}>
-                <ConversationStart channel={props.channel} />
-              </Show>
-              {/* TODO: else show (loading icon) OR (load more) */}
-              <For each={messagesWithTail()}>
-                {(entry) => (
-                  <Entry
-                    {...entry}
-                    highlightedMessageId={props.highlightedMessageId}
-                    editingMessageId={
-                      typeof state.draft.editingMessageId === "string"
-                        ? state.draft.editingMessageId
-                        : undefined
-                    }
-                  />
-                )}
-              </For>
-              {/* TODO: show (loading icon) OR (load more) */}
-              <Show when={atEnd()}>
-                {props.pendingMessages?.({
-                  tail: pendingMessageIsTrailing(),
-                  ids: sentMessageIdempotency(),
-                })}
-              </Show>
-            </div>
+          <div ref={setListRef}>
+            <Show when={atStart()}>
+              <ConversationStart channel={props.channel} />
+            </Show>
+            {/* TODO: else show (loading icon) OR (load more) */}
+            <For each={messagesWithTail()}>
+              {(entry) => (
+                <Entry
+                  {...entry}
+                  highlightedMessageId={props.highlightedMessageId}
+                  editingMessageId={
+                    typeof state.draft.editingMessageId === "string"
+                      ? state.draft.editingMessageId
+                      : undefined
+                  }
+                />
+              )}
+            </For>
+            {/* TODO: show (loading icon) OR (load more) */}
+            <Show when={atEnd()}>
+              {props.pendingMessages?.({
+                tail: pendingMessageIsTrailing(),
+                ids: sentMessageIdempotency(),
+              })}
+              <Padding />
+            </Show>
           </div>
         </Deferred>
       </ListView2>
-      <Show when={!atEnd()}>
-        <AnchorToEnd>
-          <JumpToBottom onClick={jumpToBottom} />
-        </AnchorToEnd>
-      </Show>
+      <AnchorToEnd>
+        <div>
+          <Show when={!atEnd()}>
+            <JumpToBottom onClick={jumpToBottom} />
+          </Show>
+          <CompositionInfo
+            channel={props.channel}
+            scrollRef={
+              listRef()?.parentElement?.parentElement?.parentElement
+                ?.parentElement
+            }
+          />
+        </div>
+      </AnchorToEnd>
     </>
   );
 }
@@ -979,8 +985,17 @@ const AnchorToEnd = styled("div", {
     "& > div": {
       width: "100%",
       position: "absolute",
-      bottom: "var(--gap-md)",
+      bottom: 0,
     },
+  },
+});
+
+/**
+ * Container padding
+ */
+const Padding = styled("div", {
+  base: {
+    height: "26px",
   },
 });
 
