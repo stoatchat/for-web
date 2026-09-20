@@ -20,12 +20,9 @@ import {
   OverflowingText,
   Tooltip,
   UserStatus,
-  iconSize,
   typography,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
 
 import { SidebarBase } from "./common";
 
@@ -339,21 +336,6 @@ function Entry(
             />
           </Match>
         </Switch>
-      }
-      actions={
-        <Show when={!local.isMobile}>
-          <a
-            onClick={(e) => {
-              e.preventDefault();
-              openModal({
-                type: "delete_channel",
-                channel: local.channel,
-              });
-            }}
-          >
-            <MdClose {...iconSize("18px")} />
-          </a>
-        </Show>
       }
       use:floating={{
         contextMenu: () =>
