@@ -14,7 +14,7 @@ declare module "solid-js" {
   namespace JSX {
     interface Directives {
       dndzone: SolidOptions & {
-        transformDraggedElement?: (element?: HTMLElement) => void;
+        transformDraggedElement?: () => (element?: HTMLElement) => void;
         useCursorForDetection?: boolean | (() => boolean);
         dropAnimationDisabled?: boolean | (() => boolean);
       };
