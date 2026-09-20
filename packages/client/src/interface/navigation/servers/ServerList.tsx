@@ -89,7 +89,6 @@ export const ServerList = (props: Props) => {
   const { openModal } = useModals();
   const { t } = useLingui();
   const instance = useInstance();
-  const { t } = useLingui();
 
   const navigateServer = (byOffset: number) => {
     const serverId = props.selectedServer();
