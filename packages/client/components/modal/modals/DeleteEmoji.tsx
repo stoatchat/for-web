@@ -22,7 +22,7 @@ export function DeleteEmojiModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Delete {props.emoji.name}?</Trans>}
+      title={<Trans>Delete :{props.emoji.name}:?</Trans>}
       actions={[
         { text: <Trans>Cancel</Trans> },
         {
