@@ -116,33 +116,31 @@ export function RenderAnchor(
 
       if (params.exactChannel) {
         const channel = () => client().channels.get(params.channelId!);
-        const internalUrl = () =>
+        const internalUrl = () => {
           // HOTFIX: See above
           // Override remote links until multi-tenant implemented.
-          remote
-            ? new URL(
-                `https://${params.host}` +
-                  (channel()?.serverId
-                    ? `/server/${channel()!.serverId}`
-                    : "") +
-                  `/channel/${params.channelId}` +
-                  (params.exactMessage && params.messageId
-                    ? `/${params.messageId}`
-                    : ""),
-                location.origin,
-              ).href
-            : new URL(
-                `/i/${params.host}` +
-                  (channel()?.serverId
-                    ? `/server/${channel()!.serverId}`
-                    : "") +
-                  `/channel/${params.channelId}` +
-                  (params.exactMessage && params.messageId
-                    ? `/${params.messageId}`
-                    : ""),
-                location.origin,
-              ).href;
-        // END HOTFIX
+          if (remote) {
+            return new URL(
+              `https://${params.host}` +
+                (channel()?.serverId ? `/server/${channel()!.serverId}` : "") +
+                `/channel/${params.channelId}` +
+                (params.exactMessage && params.messageId
+                  ? `/${params.messageId}`
+                  : ""),
+              location.origin,
+            ).href;
+          }
+          // END HOTFIX
+          return new URL(
+            `/i/${params.host}` +
+              (channel()?.serverId ? `/server/${channel()!.serverId}` : "") +
+              `/channel/${params.channelId}` +
+              (params.exactMessage && params.messageId
+                ? `/${params.messageId}`
+                : ""),
+            location.origin,
+          ).href;
+        };
         return (
           <Show
             when={remote || channel()}
@@ -158,7 +156,7 @@ export function RenderAnchor(
               disabled={props.disabled}
               href={internalUrl()}
               // HOTFIX: See above
-              target={remote ? "_blank" : void 0}
+              target={remote ? "_blank" : "_self"}
               // END HOTFIX
             >
               <Symbol>tag</Symbol>
