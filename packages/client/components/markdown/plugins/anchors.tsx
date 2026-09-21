@@ -156,7 +156,7 @@ export function RenderAnchor(
               disabled={props.disabled}
               href={internalUrl()}
               // HOTFIX: See above
-              target={remote ? "_blank" : "_self"}
+              target={remote ? "_blank" : void 0}
               // END HOTFIX
             >
               <Symbol>tag</Symbol>
