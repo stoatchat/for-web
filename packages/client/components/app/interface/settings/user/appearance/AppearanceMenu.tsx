@@ -10,6 +10,7 @@ import {
   UnicodeEmoji,
   UnicodeEmojiPacks,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
   Avatar,
@@ -34,6 +35,10 @@ import {
 } from "@revolt/ui/themes/fonts";
 
 import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+import SDCornerCircular from "../../../../../../public/assets/icons/corner_circular.svg?component-solid";
+import SDCornerOther from "../../../../../../public/assets/icons/corner_other.svg?component-solid";
+import SDCornerRounded from "../../../../../../public/assets/icons/corner_rounded.svg?component-solid";
+import SDCornerSharp from "../../../../../../public/assets/icons/corner_sharp.svg?component-solid";
 
 /**
  * All appearance options for the client
@@ -43,6 +48,7 @@ export function AppearanceMenu() {
   const state = useState();
   const { t } = useLingui();
   const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
+  const { openModal } = useModals();
 
   function loadFonts() {
     for (const f in FONTS) FONTS[f as Fonts].load();
@@ -360,6 +366,58 @@ export function AppearanceMenu() {
         }
       />
 
+      <Text class="label">
+        <Trans>Profile Picture shape</Trans>
+      </Text>
+      <Row justify="stretch">
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 0}
+          onPress={() => (state.theme.avatarRadius = 0)}
+        >
+          <Row align>
+            <SDCornerSharp width={25} height={25} />
+            <Trans>Sharp</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 15}
+          onPress={() => (state.theme.avatarRadius = 15)}
+        >
+          <Row align>
+            <SDCornerRounded width={25} height={25} />
+            <Trans>Rounded</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 50}
+          onPress={() => (state.theme.avatarRadius = 50)}
+        >
+          <Row align>
+            <SDCornerCircular width={25} height={25} />
+            <Trans>Circular</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={
+            (state.theme.avatarRadius > 0 && state.theme.avatarRadius < 15) ||
+            (state.theme.avatarRadius > 15 && state.theme.avatarRadius < 50)
+          }
+          onPress={() => openModal({ type: "avatar_radius" })}
+        >
+          <Row align>
+            <SDCornerOther width={25} height={25} />
+            <Trans>Custom</Trans>
+          </Row>
+        </Button>
+      </Row>
+
+      <Text class="label">
+        <Trans>Interface Font</Trans>
+      </Text>
       <FloatingSelect
         label={t`Interface Font`}
         value={state.theme.interfaceFont}
