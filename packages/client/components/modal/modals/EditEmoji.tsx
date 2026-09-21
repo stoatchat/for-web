@@ -37,7 +37,7 @@ export function EditEmojiModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Edit emoji</Trans>}
+      title={<Trans>Rename emoji</Trans>}
       actions={[
         { text: <Trans>Close</Trans> },
         {

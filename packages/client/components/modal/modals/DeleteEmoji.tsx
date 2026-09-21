@@ -32,7 +32,10 @@ export function DeleteEmojiModal(
       ]}
       isDisabled={deleteEmoji.isPending}
     >
-      <Trans>Once it's deleted, there's no going back.</Trans>
+      <Trans>
+        Deleteing this emoji will disallow future use. All past uses will
+        remain.
+      </Trans>
     </Dialog>
   );
 }
