@@ -34,6 +34,11 @@ export type Props = {
   primaryContrast?: boolean;
 
   /**
+   * Whether the fallback content is drawn on a background circle (default true)
+   */
+  fallbackBackground?: boolean;
+
+  /**
    * Punch a hole through the avatar
    */
   holepunch?:
@@ -103,6 +108,10 @@ const FallbackBase = styled("div", {
         color: "var(--md-sys-color-on-surface)",
         background: "var(--md-sys-color-surface-container-low)",
       },
+      bare: {
+        fill: "var(--md-sys-color-on-surface)",
+        color: "var(--md-sys-color-on-surface)",
+      },
     },
   },
   defaultVariants: {
@@ -149,7 +158,13 @@ export function Avatar(props: Props) {
               when={props.src}
               keyed
               fallback={
-                <FallbackBase contrast={props.primaryContrast}>
+                <FallbackBase
+                  contrast={
+                    props.fallbackBackground === false
+                      ? "bare"
+                      : props.primaryContrast
+                  }
+                >
                   {typeof props.fallback === "string" ? (
                     <Initials input={props.fallback} maxLength={2} />
                   ) : (
