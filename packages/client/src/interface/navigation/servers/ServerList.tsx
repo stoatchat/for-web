@@ -10,11 +10,11 @@ import {
 } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
-import { BiSolidFolderOpen } from "solid-icons/bi";
 import { Channel, Server, User } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { ServerFolderContextMenu } from "@revolt/app/menus";
 import { useClient } from "@revolt/client";
 import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
@@ -22,16 +22,18 @@ import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
 import { ResolvedEntry, useState } from "@revolt/state";
-import { Avatar, Column, Text, Time, Unreads, UserStatus } from "@revolt/ui";
+import {
+  Avatar,
+  Column,
+  Symbol,
+  Text,
+  Time,
+  Unreads,
+  UserStatus,
+} from "@revolt/ui";
 import { VoiceStatus } from "@revolt/ui/components/design/VoiceStatus";
+import { Tooltip } from "@revolt/ui/components/floating";
 
-import MdAdd from "@material-design-icons/svg/filled/add.svg?component-solid";
-import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
-
-import { ServerFolderContextMenu } from "../../../../components/app/menus";
-import { Tooltip } from "../../../../components/ui/components/floating";
 import { UserMenu } from "./UserMenu";
 import { RailEntry, createRailDrag } from "./railDrag";
 
@@ -281,7 +283,7 @@ export const ServerList = (props: Props) => {
         >
           <Avatar
             size={42}
-            fallback={<MdHome />}
+            fallback={<Symbol fill>home</Symbol>}
             holepunch={homeNotifications() ? "top-right" : undefined}
             overlay={
               <Show when={homeNotifications()}>
@@ -435,7 +437,7 @@ export const ServerList = (props: Props) => {
             class={entryContainer()}
             onClick={() => props.onCreateOrJoinServer()}
           >
-            <Avatar size={42} fallback={<MdAdd />} />
+            <Avatar size={42} fallback={<Symbol>add</Symbol>} />
           </a>
         </Tooltip>
         <Show when={instance.isStoat}>
@@ -444,7 +446,7 @@ export const ServerList = (props: Props) => {
               href={state.layout.getLastActiveDiscoverPath()}
               class={entryContainer()}
             >
-              <Avatar size={42} fallback={<MdExplore />} />
+              <Avatar size={42} fallback={<Symbol fill>explore</Symbol>} />
             </a>
           </Tooltip>
         </Show>
@@ -457,7 +459,11 @@ export const ServerList = (props: Props) => {
           class={entryContainer()}
           onClick={() => openModal({ type: "settings", config: "user" })}
         >
-          <Avatar size={42} fallback={<MdSettings />} interactive />
+          <Avatar
+            size={42}
+            fallback={<Symbol fill>settings</Symbol>}
+            interactive
+          />
         </a>
       </Tooltip>
     </ServerListBase>
@@ -661,13 +667,15 @@ function FolderEntry(props: {
                   <Unreads.Graphic count={mentions()} unread />
                 </Show>
               }
-              fallbackBackground={Boolean(
-                collapsed() && props.entry.servers.length,
-              )}
+              fallbackBackground={collapsed() && !!props.entry.servers.length}
               fallback={
                 <Show
                   when={collapsed() && props.entry.servers.length}
-                  fallback={<BiSolidFolderOpen size={24} />}
+                  fallback={
+                    <Symbol size={24} fill>
+                      folder_open
+                    </Symbol>
+                  }
                 >
                   <FolderPreview
                     servers={props.entry.servers}
