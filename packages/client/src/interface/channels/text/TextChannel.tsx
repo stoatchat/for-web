@@ -32,6 +32,7 @@ import { ChannelPageProps } from "../ChannelPage";
 
 import { Channel } from "stoat.js";
 import { MessageComposition } from "./Composition";
+import { isLargeServer } from "./largeServer";
 import { MemberSidebar } from "./MemberSidebar";
 import { TextSearchSidebar } from "./TextSearchSidebar";
 
@@ -53,21 +54,6 @@ export type SidebarState =
 export function canIHasSidebar(ch: Channel) {
   return !["SavedMessages", "DirectMessage"].includes(ch.type);
 }
-
-/**
- * Servers to not fetch all members for
- */
-const LARGE_SERVERS = [
-  "01F7ZSBSFHQ8TA81725KQCSDDP",
-  "01G3PKD1YJ2H484MDX6KP9WRBN",
-  // top servers on discover
-  "01K313D0VP0HPNG30DNZ4Q672H",
-  "01J31CCMTYKFPGCM13VRP3B289",
-  "01H2Y4Y97PW6584PHN1TAVN5WR",
-  "01HVKQBBQ3DQVVNK3M8DHXV30D",
-  "01GDS83RMZW89AV0BZG24NEXYC",
-  "01J5W0XERBBGK77BMDVPZJ20JW",
-];
 
 /**
  * Channel component
@@ -184,9 +170,7 @@ export function TextChannel(props: ChannelPageProps) {
         // is not the same as the current serverId
         prevServerId !== serverId &&
         props.channel.type === "TextChannel" &&
-        props.channel.server?.syncMembers(
-          LARGE_SERVERS.includes(serverId) ? true : false,
-        ),
+        props.channel.server?.syncMembers(isLargeServer(props.channel.server)),
     ),
   );
 
@@ -265,7 +249,7 @@ export function TextChannel(props: ChannelPageProps) {
                 <MemberSidebar
                   channel={props.channel}
                   scrollTargetElement={sidebarScrollTargetElement}
-                  isLargeServer={LARGE_SERVERS.includes(props.channel.serverId)}
+                  isLargeServer={isLargeServer(props.channel.server)}
                 />
               }
             >
