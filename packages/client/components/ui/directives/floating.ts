@@ -47,8 +47,7 @@ export function unregisterFloatingElement(element: HTMLElement) {
  * @param accessor Parameters
  */
 export function floating(element: HTMLElement, accessor: Accessor<Props>) {
-  const config = accessor();
-  if (!config) return;
+  if (!accessor()) return;
 
   const { isIOSTouch } = useDevice();
 
@@ -187,8 +186,8 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
           onCleanup(() => {
             element.removeEventListener("mouseenter", onMouseEnter);
             element.removeEventListener("mouseleave", onMouseLeave);
-            element.addEventListener("touchstart", onTouch);
-            element.addEventListener("touchend", onTouch);
+            element.removeEventListener("touchstart", onTouch);
+            element.removeEventListener("touchend", onTouch);
           });
         }
       },
@@ -218,7 +217,7 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
               element.removeEventListener("long-press", onContextMenu);
             }
             element.removeEventListener(
-              config.contextMenuHandler ?? "contextmenu",
+              accessor().contextMenuHandler ?? "contextmenu",
               onContextMenu,
             );
           });
