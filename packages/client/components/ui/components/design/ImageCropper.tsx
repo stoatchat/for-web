@@ -10,6 +10,9 @@ import {
 import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
+import { Form2 } from "@revolt/ui";
+import { createFormControl } from "solid-forms";
+import { css } from "styled-system/css";
 import {
   type CropResult,
   cropImage,
@@ -168,50 +171,6 @@ const Handle = styled("div", {
   },
 });
 
-const Segmented = styled("div", {
-  base: {
-    display: "inline-flex",
-    marginBlockStart: "16px",
-    border: "1px solid var(--md-sys-color-outline)",
-    borderRadius: "var(--md-sys-shape-corner-full)",
-    overflow: "hidden",
-  },
-});
-
-const Segment = styled("button", {
-  base: {
-    appearance: "none",
-    border: "none",
-    background: "transparent",
-    color: "var(--md-sys-color-on-surface)",
-    font: "inherit",
-    fontSize: "14px",
-    fontWeight: 500,
-    padding: "8px 16px",
-    cursor: "pointer",
-    transition: "background-color 120ms ease, color 120ms ease",
-    _hover: {
-      background:
-        "color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent)",
-    },
-    "&:not(:first-child)": {
-      borderInlineStart: "1px solid var(--md-sys-color-outline)",
-    },
-  },
-  variants: {
-    selected: {
-      true: {
-        background: "var(--md-sys-color-secondary-container)",
-        color: "var(--md-sys-color-on-secondary-container)",
-        _hover: {
-          background: "var(--md-sys-color-secondary-container)",
-          opacity: 1,
-        },
-      },
-    },
-  },
-});
-
 const ErrorMessage = styled("div", {
   base: {
     position: "absolute",
@@ -230,7 +189,8 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
   let containerRef: HTMLDivElement | undefined;
   let imgRef: HTMLImageElement | undefined;
 
-  const [mode, setMode] = createSignal<CropMode>(props.initialMode ?? "ratio");
+  const modeControl = createFormControl<CropMode>(props.initialMode ?? "ratio");
+  const mode = () => modeControl.value;
   const [displaySize, setDisplaySize] = createSignal({ w: 0, h: 0 });
   const [loadFailed, setLoadFailed] = createSignal(false);
   const [rect, setRect] = createSignal<Rect>({ x: 0, y: 0, w: 0, h: 0 });
@@ -295,29 +255,6 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
     x = Math.max(0, Math.min(x, boxW - w));
     y = Math.max(0, Math.min(y, boxH - h));
     return { x, y, w, h };
-  }
-
-  function switchMode(next: CropMode) {
-    if (next === mode()) return;
-    setMode(next);
-    const { w, h } = displaySize();
-    if (w && h) {
-      const prev = rect();
-      const cx = prev.x + prev.w / 2;
-      const cy = prev.y + prev.h / 2;
-      if (next === "ratio") {
-        const r = ratio();
-        let cw = Math.min(prev.w, w);
-        let ch = cw / r;
-        if (ch > h) {
-          ch = h;
-          cw = ch * r;
-        }
-        setRect(clampRect({ x: cx - cw / 2, y: cy - ch / 2, w: cw, h: ch }));
-      } else {
-        setRect(clampRect(prev));
-      }
-    }
   }
 
   function onPointerDownMove(e: PointerEvent) {
@@ -539,26 +476,15 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
       </Stage>
 
       <Show when={props.allowModeToggle ?? true}>
-        <Segmented role="tablist" aria-label="Crop mode">
-          <Segment
-            type="button"
-            role="tab"
-            aria-selected={mode() === "ratio"}
-            selected={mode() === "ratio"}
-            onClick={() => switchMode("ratio")}
-          >
-            {props.ratioLabel ?? "Fixed ratio"}
-          </Segment>
-          <Segment
-            type="button"
-            role="tab"
-            aria-selected={mode() === "freeform"}
-            selected={mode() === "freeform"}
-            onClick={() => switchMode("freeform")}
-          >
-            Freeform
-          </Segment>
-        </Segmented>
+        <div class={css({ marginBlockStart: "16px" })}>
+          <Form2.ButtonGroup
+            control={modeControl}
+            buttonDefinitions={[
+              { value: "ratio", children: props.ratioLabel ?? "Fixed ratio" },
+              { value: "freeform", children: "Freeform" },
+            ]}
+          />
+        </div>
       </Show>
     </div>
   );
