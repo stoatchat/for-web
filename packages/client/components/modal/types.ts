@@ -363,4 +363,12 @@ export type Modals =
   | {
       type: "edit_bot_username";
       bot: Bot;
+    }
+  | {
+      type: "edit_emoji";
+      emoji: Emoji;
+    }
+  | {
+      type: "delete_emoji";
+      emoji: Emoji;
     };

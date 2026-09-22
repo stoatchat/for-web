@@ -11,11 +11,13 @@ import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   Avatar,
-  CategoryButton,
+  Button,
   CircularProgress,
   Column,
   Form2,
+  List,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
 
@@ -125,40 +127,75 @@ export function EmojiList(props: { server: Server }) {
         </Column>
       </form>
 
-      <Column gap="sm">
+      <List>
         <For
           each={props.server.emojis.toSorted((b, a) =>
             a.id.localeCompare(b.id),
           )}
         >
           {(emoji) => (
-            <CategoryButton
-              roundedIcon={false}
-              icon={<Avatar src={emoji.url} shape="rounded-square" />}
+            <List.Item
               onClick={() => openModal({ type: "emoji_preview", emoji })}
             >
-              <Column gap="none">
-                <span class={css({ flex: 1 })}>:{emoji.name}:</span>
-                <span
-                  class={css({
-                    flex: 1,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "var(--gap-sm)",
-                  })}
-                >
-                  <Avatar
-                    size={12}
-                    fallback={emoji.creator?.displayName}
-                    src={emoji.creator?.animatedAvatarURL}
-                  />
-                  <Text class="label">{emoji.creator?.displayName}</Text>
-                </span>
-              </Column>
-            </CategoryButton>
+              <Row align>
+                <Column gap="none">
+                  <Row align>
+                    <Avatar src={emoji.url} size={32} shape="rounded-square" />
+                  </Row>
+                </Column>
+                <Column gap="none" grow>
+                  <span class={css({ flex: 1 })}>:{emoji.name}:</span>
+                  <span
+                    class={css({
+                      flex: 1,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "var(--gap-sm)",
+                    })}
+                  >
+                    <Avatar
+                      size={12}
+                      fallback={emoji.creator?.displayName}
+                      src={emoji.creator?.animatedAvatarURL}
+                    />
+                    <Text class="label">{emoji.creator?.displayName}</Text>
+                  </span>
+                </Column>
+                <Column gap="none">
+                  <Row>
+                    <Button
+                      size="icon"
+                      variant="text"
+                      use:floating={{
+                        tooltip: {
+                          placement: "bottom",
+                          content: t`Edit Emoji`,
+                        },
+                      }}
+                      onPress={() => openModal({ type: "edit_emoji", emoji })}
+                    >
+                      <Symbol>edit</Symbol>
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="text"
+                      use:floating={{
+                        tooltip: {
+                          placement: "bottom",
+                          content: t`Delete Emoji`,
+                        },
+                      }}
+                      onPress={() => openModal({ type: "delete_emoji", emoji })}
+                    >
+                      <Symbol>delete</Symbol>
+                    </Button>
+                  </Row>
+                </Column>
+              </Row>
+            </List.Item>
           )}
         </For>
-      </Column>
+      </List>
     </Column>
   );
 }
