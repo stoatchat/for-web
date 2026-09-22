@@ -5,6 +5,7 @@ import {
   Suspense,
   Switch,
   createContext,
+  createEffect,
   createMemo,
   createSignal,
   useContext,
@@ -27,6 +28,7 @@ import {
 } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { debounce } from "@revolt/common";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
 /**
@@ -55,8 +57,18 @@ const FilterContext = createContext<(value: string) => void>();
 
 export function GifPicker() {
   const [filter, setFilter] = createSignal("");
+  const [debouncedFilter, setDebouncedFilter] = createSignal("");
 
-  const fliterLowercase = () => filter().toLowerCase();
+  const clearFilter = () => {
+    setFilter("");
+    setDebouncedFilter("");
+  };
+  const delayedSetFilter = debounce(setDebouncedFilter, 250);
+  createEffect(() => {
+    delayedSetFilter(filter());
+  });
+
+  const debouncedFilterLowercase = () => debouncedFilter().toLowerCase();
 
   return (
     <Stack>
@@ -73,7 +85,7 @@ export function GifPicker() {
             <IconButton
               variant="standard"
               aria-label="Back to categories"
-              onPress={() => setFilter("")}
+              onPress={clearFilter}
             >
               <Symbol>arrow_back</Symbol>
             </IconButton>
@@ -84,7 +96,7 @@ export function GifPicker() {
           variant="outlined"
           placeholder="Search for GIFs..."
           value={filter()}
-          onChange={(e) => setFilter(e.currentTarget.value)}
+          onInput={(e) => setFilter(e.currentTarget.value)}
         />
       </SearchArea>
       <Suspense fallback={<Loader />}>
@@ -95,8 +107,8 @@ export function GifPicker() {
             </FilterContext.Provider>
           }
         >
-          <Match when={fliterLowercase()}>
-            <GifSearch query={fliterLowercase()} />
+          <Match when={debouncedFilterLowercase()}>
+            <GifSearch query={debouncedFilterLowercase()} />
           </Match>
         </Switch>
       </Suspense>
