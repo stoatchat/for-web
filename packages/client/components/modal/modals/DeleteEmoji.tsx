@@ -33,8 +33,7 @@ export function DeleteEmojiModal(
       isDisabled={deleteEmoji.isPending}
     >
       <Trans>
-        Deleteing this emoji will disallow future use. All past uses will
-        remain.
+        Deleting this emoji will disallow future use. All past uses will remain.
       </Trans>
     </Dialog>
   );
