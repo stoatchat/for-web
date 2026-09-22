@@ -230,6 +230,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
               ratio: 1,
               ratioLabel: t`Square`,
               circularMask: true,
+              allowModeToggle: false,
               dialogTitle: t`Crop Server Icon`,
             })}
           />
@@ -244,6 +245,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             process={cropProcess({
               ratio: 232 / 100,
               ratioLabel: t`Banner`,
+              allowModeToggle: false,
               dialogTitle: t`Crop Server Banner`,
             })}
           />
