@@ -108,16 +108,6 @@ const Config: SettingsConfiguration<Server> = {
               icon: <Symbol size={20}>public</Symbol>,
               title: <Trans>Discover</Trans>,
             },
-            {
-              // TODO: Hide when user does not have ViewAuditLogs perm
-              id: "audit",
-              icon: (
-                <Symbol fill size={20}>
-                  assignment
-                </Symbol>
-              ),
-              title: <Trans>Audit Log</Trans>,
-            },
           ],
         },
         {
@@ -163,6 +153,16 @@ const Config: SettingsConfiguration<Server> = {
               id: "bans",
               icon: <Symbol size={20}>gavel</Symbol>,
               title: <Trans>Bans</Trans>,
+            },
+            {
+              id: "audit",
+              hidden: !server.havePermission("ViewAuditLogs"),
+              icon: (
+                <Symbol size={20}>
+                  assignment
+                </Symbol>
+              ),
+              title: <Trans>Audit Log</Trans>,
             },
           ],
         },
