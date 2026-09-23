@@ -18,6 +18,7 @@ import {
 
 import MdBadge from "@material-design-icons/svg/filled/badge.svg?component-solid";
 
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { useSettingsNavigation } from "../../Settings";
 
 type AttachedControl<T> = {
@@ -191,6 +192,13 @@ export function UserProfileEditor(props: Props) {
           label={t`Avatar`}
           imageJustify={false}
           maxSize={instance.limits().file_upload_size_limits["avatars"]}
+          process={cropProcess({
+            ratio: 1,
+            ratioLabel: t`Square`,
+            allowModeToggle: false,
+            dialogTitle: t`Crop Avatar`,
+            circularMask: true,
+          })}
         />
         <Form2.FileInput
           control={editGroup.controls.banner}
@@ -200,6 +208,11 @@ export function UserProfileEditor(props: Props) {
           imageRounded={false}
           imageJustify={false}
           maxSize={instance.limits().file_upload_size_limits["backgrounds"]}
+          process={cropProcess({
+            ratio: 232 / 100,
+            ratioLabel: t`Banner`,
+            dialogTitle: t`Crop Banner`,
+          })}
         />
         <Form2.TextField
           minlength={2}
