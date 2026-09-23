@@ -118,7 +118,6 @@ const FallbackBase = styled("div", {
 export function Avatar(props: Props) {
   return (
     <ParentBase
-      // @ts-expect-error not typed for some reason
       slot={props.slot}
       style={{
         width: props.size + "px",

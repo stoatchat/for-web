@@ -11,7 +11,7 @@ import {
 
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Emoji, Server } from "stoat.js";
-import { cva } from "styled-system/css";
+import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
@@ -167,6 +167,7 @@ export function EmojiPicker() {
         placeholder="Search for emojis..."
         value={filter()}
         onInput={(e) => setFilter(e.currentTarget.value)}
+        class={searchBar}
       />
       <Row gap={"none"} class={compositionContent()}>
         <div
@@ -306,6 +307,10 @@ const Stack = styled("div", {
     flexDirection: "column",
     gap: "var(--gap-md)",
   },
+});
+
+const searchBar = css({
+  paddingInline: "var(--gap-md)",
 });
 
 const scrollContainer = cva({

@@ -52,6 +52,7 @@ export class Device {
   private pMedia;
   private tMedia;
   private setLayout;
+  private wakeLock: WakeLockSentinel | undefined;
 
   constructor() {
     this.isMobile = isMobileBrowser();
@@ -88,6 +89,38 @@ export class Device {
 
   destroy = () => {
     this.pMedia.onchange = this.tMedia.onchange = null;
+  };
+
+  get isWakeLocked(): boolean {
+    return !!this.wakeLock && !this.wakeLock.released;
+  }
+
+  /**
+   * Create a wake lock on the host device. The promise will reject if
+   * acquiring the wake lock fails. You should release the lock after it is no
+   * longer needed. Setting a wake lock will noop if there is already a wake
+   * lock on the device.
+   */
+  setWakeLocked = async () => {
+    // Noop if already wake locked
+    if (this.isWakeLocked) {
+      return;
+    }
+
+    this.wakeLock = await navigator.wakeLock.request("screen");
+  };
+
+  /**
+   * Release the wake lock on the host device. Releasing the wake lock will
+   * noop if there is no current wake lock.
+   */
+  releaseWakeLock = async () => {
+    // Noop if no wake lock
+    if (!this.isWakeLocked) {
+      return;
+    }
+
+    return this.wakeLock!.release();
   };
 }
 

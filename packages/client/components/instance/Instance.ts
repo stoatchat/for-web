@@ -5,15 +5,15 @@ import { CONFIGURATION } from "@revolt/common";
 import { AppConfig, STOAT_HOST } from "@revolt/common/lib/env";
 import { Client, UserLimits } from "stoat.js";
 
-import { DefaultHost, StoatOrigin } from ".";
+import { DefaultHost } from ".";
 
 const R_RelPath = /^\/i\/[^/]+/;
 
 export default class Instance {
+  /** Undefined on default host */
   readonly host?: string;
   readonly origin: string;
   readonly isStoat: boolean;
-  readonly #base;
   readonly #nav;
 
   readonly apiUrl: string;
@@ -57,7 +57,6 @@ export default class Instance {
     const hostUrl = new URL(`https://${host}`);
     this.origin = hostUrl.origin;
     this.isStoat = host === STOAT_HOST;
-    this.#base = this.isStoat ? "" : `/i/${host}`;
     this.#nav = nav;
   }
 
@@ -74,21 +73,28 @@ export default class Instance {
   }
 
   /** Prepend a relative path with instance base URL
-   * @param pathOnly Get only the path component and not URL
-   * @param base Defaults to the base path of this instance
+   * @param absPath Get path component relative to base
+   * @param base Defaults to this instance's host
    */
-  href = (path: string, pathOnly?: boolean, base?: string) =>
-    (pathOnly ? "" : StoatOrigin) + (base ? `/i/${base}` : this.#base) + path;
+  href(path: string, absPath?: boolean, base = this.host) {
+    return (
+      (absPath ? "" : this.origin) +
+      (absPath && base ? `/i/${base}` : "") +
+      path
+    );
+  }
 
   /** Convert path to relative form, stripping instance prefix (if any)
    * @param path Defaults to `location.pathname` (non-reactive,
    * try `useLocation().pathname` if you need reactivity)
    */
-  static relPath = (path = location.pathname) => path.replace(R_RelPath, "");
+  static relPath = (path = location.pathname) =>
+    path.replace(R_RelPath, "") || "/";
 
   /** Switch to a new instance and redirect the client */
-  switchTo = (host: string) =>
+  switchTo(host: string) {
     this.#nav(this.href(Instance.relPath(), true, host));
+  }
 
   /** Create a new Stoat.js client, disposing the old one */
   newClient() {

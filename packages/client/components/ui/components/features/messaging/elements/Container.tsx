@@ -286,6 +286,9 @@ const infoText = cva({
         width: "calc(7ch * var(--gap-sm))",
         fontSize: "0.7em",
 
+        overflow: "hidden",
+        overflowWrap: "none",
+
         display: "block",
         textAlign: "right",
         marginTop: "0.15em",
@@ -448,13 +451,17 @@ export function MessageContainer(props: Props) {
                   },
                 }}
               >
-                <Show when={props.edited}>(edited)</Show>
-                <Show when={!props.edited}>
-                  <Time
-                    value={props.timestamp}
-                    format="time"
-                    referenceTime={props._referenceTime}
-                  />
+                <Show
+                  when={props.edited}
+                  fallback={
+                    <Time
+                      value={props.timestamp}
+                      format="time"
+                      referenceTime={props._referenceTime}
+                    />
+                  }
+                >
+                  (edited)
                 </Show>
               </div>
             </Match>

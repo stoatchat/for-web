@@ -396,8 +396,7 @@ const button = cva({
       css: {
         "--color":
           "color-mix(in srgb, 38% var(--md-sys-color-on-surface), transparent)",
-        background:
-          "color-mix(in srgb, 10% var(--md-sys-color-on-surface), transparent)",
+        background: "transparent",
       },
     },
 

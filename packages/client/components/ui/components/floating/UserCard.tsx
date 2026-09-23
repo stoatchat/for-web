@@ -65,7 +65,6 @@ export function UserCard(
             bannerUrl={query.data?.animatedBannerURL}
             onClick={openFull}
           />
-
           <Profile.Actions
             user={props.user}
             member={props.member}
@@ -75,11 +74,11 @@ export function UserCard(
           <Profile.Roles member={props.member} />
           <Profile.Badges user={props.user} />
           <Profile.Status user={props.user} />
-          <Profile.Joined user={props.user} member={props.member} />
-          <Profile.Bio content={query.data?.content} onClick={openFull} />
+          <Profile.Joined user={props.user} member={props.member} />{" "}
           <Show when={props.bot}>
             <Profile.Owner bot={props.bot!} />
           </Show>
+          <Profile.Bio content={query.data?.content} onClick={openFull} />
         </Grid>
       </div>
     </Show>

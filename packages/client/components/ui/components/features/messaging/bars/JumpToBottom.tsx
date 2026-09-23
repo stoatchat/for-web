@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/solid/macro";
+import { css } from "styled-system/css";
 
 import { iconSize } from "@revolt/ui";
 
 import MdArrowForward from "@material-design-icons/svg/filled/arrow_forward.svg?component-solid";
 
 import { Ripple } from "../../../../components/design";
-
 import { FloatingIndicator } from "./FloatingIndicator";
 
 interface Props {
@@ -15,12 +15,18 @@ interface Props {
   onClick: () => void;
 }
 
+const indStyle = css({ marginBottom: "var(--gap-md)" });
+
 /**
  * Component indicating user can jump back to present messages
  */
 export function JumpToBottom(props: Props) {
   return (
-    <FloatingIndicator position="bottom" onClick={props.onClick}>
+    <FloatingIndicator
+      position="bottom"
+      class={indStyle}
+      onClick={props.onClick}
+    >
       <Ripple />
       <span style={{ "flex-grow": 1 }}>
         <Trans>Viewing older messages</Trans>

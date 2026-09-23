@@ -1,13 +1,14 @@
 import {
   Accessor,
+  createContext,
+  createMemo,
+  createSignal,
   For,
   JSX,
   Match,
+  onMount,
   Show,
   Switch,
-  createContext,
-  createSignal,
-  onMount,
   useContext,
 } from "solid-js";
 
@@ -45,6 +46,7 @@ import {
   floatingUserMenusFromMessage,
 } from "../../../menus/UserContextMenu";
 
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { EditMessage } from "./EditMessage";
 
 /**
@@ -143,6 +145,15 @@ export function Message(props: Props) {
   // Derive pronouns member takes precedence over author
   const pronouns = () =>
     props.message.member?.pronouns ?? props.message.author?.pronouns;
+
+  const timedOut = createIsTimedOut(() => props.message.member?.timeout);
+
+  const moderationPerms = createMemo(() =>
+    props.message.member?.server?.member?.hasPermission(
+      props.message.member!.server! ?? props.message.channel!,
+      "TimeoutMembers",
+    ),
+  );
 
   return (
     <MessageContext message={props.message} reactPicker={reactPicker}>
@@ -268,6 +279,16 @@ export function Message(props: Props) {
               <Tooltip content={t`Silent`} placement="top">
                 <Symbol size={16} fill>
                   notifications_off
+                </Symbol>
+              </Tooltip>
+            </Match>
+            <Match when={timedOut() && moderationPerms()}>
+              <Tooltip
+                content={t`Timed Out until ${props.message.member!.timeout!.toLocaleString()}`}
+                placement="top"
+              >
+                <Symbol size={16} color="var(--md-sys-color-error)">
+                  timer_off
                 </Symbol>
               </Tooltip>
             </Match>
