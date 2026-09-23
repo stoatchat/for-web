@@ -1,3 +1,4 @@
+export { Collapse } from "./Collapse";
 export { ColouredText } from "./ColouredText";
 export { cropImage } from "./cropProcessor";
 export { Deferred } from "./Deferred";
@@ -14,6 +15,5 @@ export { Spacer } from "./Spacer";
 export { Spoiler } from "./Spoiler";
 export { Symbol } from "./Symbol";
 export { Time, formatTime } from "./Time";
-export { Collapse } from "./Collapse";
 
 export * from "./files";

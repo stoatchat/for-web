@@ -157,11 +157,7 @@ const Config: SettingsConfiguration<Server> = {
             {
               id: "audit",
               hidden: !server.havePermission("ViewAuditLogs"),
-              icon: (
-                <Symbol size={20}>
-                  assignment
-                </Symbol>
-              ),
+              icon: <Symbol size={20}>assignment</Symbol>,
               title: <Trans>Audit Log</Trans>,
             },
           ],

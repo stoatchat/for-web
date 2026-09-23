@@ -59,11 +59,11 @@ function CollapseListItem(props: {
   id?: string;
   children: JSXElement;
   header?: JSXElement;
-  rounded?: boolean,
-  disabled?: boolean,
+  rounded?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 }) {
-  const [local, remote] = splitProps(props, ["children", "header"])
+  const [local, remote] = splitProps(props, ["children", "header"]);
 
   return (
     <Collapse.Item value={props.id}>
