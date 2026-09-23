@@ -6,6 +6,7 @@ import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
 import { AddMembersToGroupModal } from "./modals/AddMembersToGroup";
+import { AdvancedLoginModal } from "./modals/AdvancedLoginModal";
 import { BanMemberModal } from "./modals/BanMember";
 import { BanNonMemberModal } from "./modals/BanNonMember";
 import { ChangelogModal } from "./modals/Changelog";
@@ -62,6 +63,7 @@ import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
+import { SwapUserModal } from "./modals/SwapUser";
 import { TimeoutMemberModal } from "./modals/TimeoutMember";
 import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
@@ -213,6 +215,11 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <EditEmojiModal {...modalProps} />;
     case "delete_emoji":
       return <DeleteEmojiModal {...modalProps} />;
+    case "swap_user":
+      return <SwapUserModal {...modalProps} />;
+    case "login_advanced":
+      return <AdvancedLoginModal {...modalProps} />;
+
     default:
       console.error(
         "Failed to create modal for",

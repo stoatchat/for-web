@@ -7,9 +7,13 @@ import { useState } from "@revolt/state";
 import { useSnackbar } from "@revolt/ui";
 
 import { IS_DEV, useClient } from ".";
+import pushWorker from "/src/pushWorker?worker&url";
+
+const PushPrefix = "/?@";
+const pwPath = pushWorker.slice(0, pushWorker.lastIndexOf("/")) + PushPrefix;
 
 export function useNotifications() {
-  const { settings } = useState();
+  const { settings, auth } = useState();
   const { t } = useLingui();
   const getClient = useClient();
   const snackbar = useSnackbar();
@@ -27,7 +31,7 @@ export function useNotifications() {
     await killServiceWorkerSubscription(getClient());
   };
 
-  const notificationStateMismatch = (): boolean => {
+  const notificationStateMismatch = async () => {
     const areNotificationsAllowed =
       settings.desktopNotificationsState === "allowed" ||
       settings.pushNotificationsState === "allowed";
@@ -35,13 +39,16 @@ export function useNotifications() {
     const notificationPermissionGranted =
       !supportsNotification || Notification.permission === "granted";
 
-    return areNotificationsAllowed && !notificationPermissionGranted;
+    return (
+      areNotificationsAllowed &&
+      (!notificationPermissionGranted || !(await getPushWorker(getClient())))
+    );
   };
 
   const initNotifications = async () => {
     if (
       settings.desktopNotificationsState === "default" ||
-      notificationStateMismatch()
+      (await notificationStateMismatch())
     ) {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
       if (supportsNotification) {
@@ -72,6 +79,20 @@ export function useNotifications() {
         }
       } else {
         await enablePushSubscription();
+      }
+    }
+
+    //Unproductive workers will not be tolerated in Soviet Russia
+    const sesList = auth.getSessions().map((s) => pwPath + s.userId);
+    for (const worker of await navigator.serviceWorker.getRegistrations()) {
+      if (worker.scope.indexOf(PushPrefix) !== -1) {
+        const wUrl = new URL(worker.scope);
+        if (!sesList.includes(wUrl.pathname + wUrl.search)) {
+          console.warn(
+            `[push] Unregistered dead worker for ${wUrl.search.slice(1)}`,
+          );
+          worker.unregister();
+        }
       }
     }
   };
@@ -132,20 +153,31 @@ async function setUpServiceWorkerSubscription(client: Client) {
     return;
   }
 
-  if (!client.configured() || !client.configuration) {
+  if (!client.configured() || !client.user) {
     throw "Client not configured";
   }
 
-  const registration = await navigator.serviceWorker.getRegistration(
-    import.meta.env.BASE_URL ?? undefined,
-  );
-  if (!registration) {
-    throw "Failed to get service worker";
+  const worker = await navigator.serviceWorker.register(pushWorker, {
+    scope: pwPath + client.user.id,
+    type: "module",
+  });
+
+  if (!worker) {
+    throw "Failed to add push worker";
   }
 
+  if (!worker.active)
+    await new Promise<void>((res, rej) => {
+      const sw = (worker.installing || worker.waiting)!;
+      sw.addEventListener("statechange", () => {
+        if (sw.state === "activated") res();
+        if (sw.state === "redundant") rej("Failed to activate push worker");
+      });
+    });
+
   const subscription =
-    (await registration.pushManager.getSubscription()) ||
-    (await registration.pushManager.subscribe({
+    (await worker.pushManager.getSubscription()) ||
+    (await worker.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: client.configuration!.vapid,
     }));
@@ -166,6 +198,16 @@ function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
   return intArray.toBase64({ alphabet: "base64url" });
 }
 
+async function getPushWorker(client: Client) {
+  const scope = client.user && pwPath + client.user.id;
+  if (!scope) return;
+  const worker = await navigator.serviceWorker.getRegistration(scope);
+  if (!worker) return;
+  const wUrl = new URL(worker.scope);
+  //Check if scope *actually* matches, because root worker may be returned
+  if (wUrl.pathname + wUrl.search === scope) return worker;
+}
+
 /** Exported for the client controller. Don't use this unless you have to. */
 export async function killServiceWorkerSubscription(
   client: Client,
@@ -176,12 +218,11 @@ export async function killServiceWorkerSubscription(
     return;
   }
 
-  const registration = await navigator.serviceWorker.getRegistration(
-    import.meta.env.BASE_URL ?? undefined,
-  );
-  if (!registration) return;
-  const subscription = await registration.pushManager.getSubscription();
-  if (await subscription?.unsubscribe()) {
-    if (!loggingOut) await client.api.post("/push/unsubscribe");
+  const worker = await getPushWorker(client);
+  if (!worker) return;
+  const subscription = await worker.pushManager.getSubscription();
+  if ((await subscription?.unsubscribe()) && !loggingOut) {
+    await client.api.post("/push/unsubscribe");
   }
+  await worker.unregister();
 }

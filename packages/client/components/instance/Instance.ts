@@ -21,6 +21,9 @@ export default class Instance {
   readonly proxyUrl: string;
   readonly gifboxUrl: string;
 
+  /** Wordmark SVG content */
+  wordmark!: string;
+
   #cli;
   #setCli;
   #firstInit = true;
