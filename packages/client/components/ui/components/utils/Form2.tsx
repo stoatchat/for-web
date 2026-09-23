@@ -307,7 +307,7 @@ const FormButtonGroup = (props: {
 }) => {
   return (
     <>
-      <Row justify="stretch">
+      <Row gap="xs" justify="stretch">
         <For each={props.buttonDefinitions}>
           {(buttonDef, index) => (
             <Button
