@@ -408,21 +408,35 @@ const button = cva({
     // border radius for different squared sizes
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       css: {
-        borderRadius: "var(--borderRadius-md)",
+        borderRadius: "var(--borderRadius-xs)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      css: {
+        borderRadius: "var(--borderRadius-sm)",
       },
     },
     {
       shape: "square",
       size: "md",
       css: {
+        borderRadius: "var(--borderRadius-md)",
+      },
+    },
+    {
+      shape: "square",
+      size: "lg",
+      css: {
         borderRadius: "var(--borderRadius-lg)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "xl",
       css: {
         borderRadius: "var(--borderRadius-xl)",
       },
@@ -439,11 +453,20 @@ const button = cva({
     // left-side connected group
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       group: "connected-start",
       css: {
         borderRadius:
-          "var(--max-radius) var(--borderRadius-md) var(--borderRadius-md) var(--max-radius)",
+          "var(--max-radius) var(--borderRadius-xs) var(--borderRadius-xs) var(--max-radius)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      group: "connected-start",
+      css: {
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-sm) var(--borderRadius-sm) var(--max-radius)",
       },
     },
     {
@@ -452,12 +475,21 @@ const button = cva({
       group: "connected-start",
       css: {
         borderRadius:
+          "var(--max-radius) var(--borderRadius-md) var(--borderRadius-md) var(--max-radius)",
+      },
+    },
+    {
+      shape: "square",
+      size: "lg",
+      group: "connected-start",
+      css: {
+        borderRadius:
           "var(--max-radius) var(--borderRadius-lg) var(--borderRadius-lg) var(--max-radius)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "xl",
       group: "connected-start",
       css: {
         borderRadius:
@@ -468,11 +500,20 @@ const button = cva({
     // right-side connected group
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       group: "connected-end",
       css: {
         borderRadius:
-          "var(--borderRadius-md) var(--max-radius) var(--max-radius) var(--borderRadius-md)",
+          "var(--borderRadius-xs) var(--max-radius) var(--max-radius) var(--borderRadius-xs)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      group: "connected-end",
+      css: {
+        borderRadius:
+          "var(--borderRadius-sm) var(--max-radius) var(--max-radius) var(--borderRadius-sm)",
       },
     },
     {
@@ -481,12 +522,21 @@ const button = cva({
       group: "connected-end",
       css: {
         borderRadius:
+          "var(--borderRadius-md) var(--max-radius) var(--max-radius) var(--borderRadius-md)",
+      },
+    },
+    {
+      shape: "square",
+      size: "lg",
+      group: "connected-end",
+      css: {
+        borderRadius:
           "var(--borderRadius-lg) var(--max-radius) var(--max-radius) var(--borderRadius-lg)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "xl",
       group: "connected-end",
       css: {
         borderRadius:
