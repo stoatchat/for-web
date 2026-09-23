@@ -60,8 +60,10 @@ import { ScreenShareSettingsModal } from "./modals/ScreenShareSettings";
 import { ServerIdentityModal } from "./modals/ServerIdentity";
 import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
+import { ShareToModal } from "./modals/ShareToModal";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
+import { SwapUserModal } from "./modals/SwapUser";
 import { TimeoutMemberModal } from "./modals/TimeoutMember";
 import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
@@ -213,6 +215,11 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <EditEmojiModal {...modalProps} />;
     case "delete_emoji":
       return <DeleteEmojiModal {...modalProps} />;
+    case "swap_user":
+      return <SwapUserModal {...modalProps} />;
+    case "share_to":
+      return <ShareToModal {...modalProps} />;
+
     default:
       console.error(
         "Failed to create modal for",

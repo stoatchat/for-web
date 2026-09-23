@@ -65,16 +65,12 @@ export default function FlowVerify() {
    */
   async function performLogin() {
     const v = state();
-    if (v.state === "success" && v.mfa_ticket) {
-      await login(
-        {
-          mfa_ticket: v.mfa_ticket,
-        },
-        modals,
-      );
-
+    if (
+      v.state === "success" &&
+      v.mfa_ticket &&
+      (await login({ mfa_ticket: v.mfa_ticket }, modals))
+    )
       navigate("/login/auth", { replace: true });
-    }
   }
 
   return (
