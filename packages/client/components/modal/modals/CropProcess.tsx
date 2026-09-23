@@ -41,11 +41,6 @@ export function cropProcess(options: CropProcessOptions) {
     const [hardError, setHardError] = createSignal<string | null>(null);
     let cropHandle: ImageCropperHandle | undefined;
 
-    function cancel() {
-      URL.revokeObjectURL(objectUrl);
-      resolve(null);
-    }
-
     onCleanup(() => {
       URL.revokeObjectURL(objectUrl);
     });
@@ -75,11 +70,11 @@ export function cropProcess(options: CropProcessOptions) {
     return (
       <Dialog
         show
-        onClose={cancel}
+        onClose={() => resolve(null)}
         title={options.dialogTitle ?? <Trans>Crop image</Trans>}
         minWidth={360}
         actions={[
-          { text: <Trans>Cancel</Trans>, onClick: cancel },
+          { text: <Trans>Cancel</Trans> },
           {
             text: <Trans>Crop</Trans>,
             onClick: async () => {

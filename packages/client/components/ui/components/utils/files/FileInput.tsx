@@ -113,9 +113,6 @@ export function FileInput(props: Props) {
 
   function resolveProcess(result: File[] | null) {
     setPendingProcess(null);
-    // Reset the native input regardless of outcome, so picking the exact
-    // same file again still fires a change event.
-    if (inputRef) inputRef.value = "";
     if (result) {
       local.onFiles(null);
       local.onFiles(result);
