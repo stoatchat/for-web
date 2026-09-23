@@ -1,3 +1,4 @@
+import type { JSX } from "solid-js";
 import {
   batch,
   createEffect,
@@ -6,18 +7,18 @@ import {
   For,
   Match,
   on,
+  children as resolveChildren,
   Show,
   Suspense,
   Switch,
 } from "solid-js";
 
 import { plural } from "@lingui/core/macro";
-import { Trans, useLingui } from "@lingui/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { useUser } from "@revolt/markdown/users";
 import {
   Avatar,
-  CategoryButton,
   CircularProgress,
   Collapse,
   Column,
@@ -220,7 +221,7 @@ export function AuditLog(props: { server: Server }) {
         permitFetching={() => typeof fetching() !== "string"}
       >
         <List>
-          <Collapse accordion>
+          <Collapse>
             <Deferred>
               <For each={logs()}>
                 {(entry) => {
@@ -233,19 +234,25 @@ export function AuditLog(props: { server: Server }) {
                         "ChannelRolePermissionsEdit",
                         "ServerEdit",
                         "RoleEdit",
+                        "MemberEdit",
                         "RolesReorder",
                       ] as API.AuditLogEntryAction["type"][]
                     ).includes(entry.action.type)
                   ) {
                     return (
                       <List.Collapse
-                        header={<>
-                          <ActionIcon slot="icon" type={entry.action.type} />
-                          <EntryTitle entry={entry} />
-                        </>}
+                        id={entry._id}
+                        header={
+                          <>
+                            <ActionIcon slot="icon" type={entry.action.type} />
+                            <EntryTitle entry={entry} />
+                          </>
+                        }
                       >
-
-                        <EditViewer action={entry.action} />
+                        <EditViewer
+                          action={entry.action}
+                          server={props.server}
+                        />
                       </List.Collapse>
                     );
                   }
@@ -357,7 +364,8 @@ function useActionTranslation() {
         if (entry.user === action.user) {
           return t`@${user?.username} changed their server identity`;
         }
-        return t`@${user?.username} changed @${member?.username}'s nickname to ${action.after.nickname}`;
+
+        return t`@${user?.username} edited @${member?.username}`;
       }
       case "MemberKick": {
         const kickedUser = client().users.get(action.user);
@@ -394,16 +402,241 @@ function useActionTranslation() {
   };
 }
 
-function EditViewer(props: { action: API.AuditLogEntryAction }) {
+function EditViewer(props: {
+  action: API.AuditLogEntryAction;
+  server: Server;
+}) {
+  switch (props.action.type) {
+    case "ChannelEdit":
+    case "ServerEdit":
+      return <ObjectDiff action={props.action} />;
+    case "MemberEdit":
+      return <MemberDiff action={props.action} server={props.server} />;
+    case "ChannelRolePermissionsEdit":
+      return <ChannelRolePermissionsDiff action={props.action} />;
+    case "RoleEdit":
+      return <RoleEditDiff action={props.action} />;
+    case "RolesReorder":
+      return <RoleReorderDiff action={props.action} server={props.server} />;
+  }
+}
+
+type ObjectEditAction =
+  | Extract<API.AuditLogEntryAction, { type: "ChannelEdit" }>
+  | Extract<API.AuditLogEntryAction, { type: "MemberEdit" }>
+  | Extract<API.AuditLogEntryAction, { type: "ServerEdit" }>;
+
+function ObjectDiff(props: { action: ObjectEditAction }) {
+  const changes = createMemo(() =>
+    diffObjects(props.action.before, props.action.after),
+  );
+
   return (
-    <Show
-      fallback={<span>TODO</span>}
-      when={["RoleEdit"].includes(props.action.type)}
+    <DiffList>
+      <For each={Object.entries(changes())}>
+        {([name, change]) => <DiffValue name={name} change={change} />}
+      </For>
+    </DiffList>
+  );
+}
+
+function MemberDiff(props: {
+  action: Extract<API.AuditLogEntryAction, { type: "MemberEdit" }>;
+  server: Server;
+}) {
+  const changes = createMemo(() => {
+    const { roles: _beforeRoles, ...before } = props.action.before;
+    const { roles: _afterRoles, ...after } = props.action.after;
+    return diffObjects(before, after);
+  });
+
+  const roleChanges = createMemo(() => {
+    const before = new Set(props.action.before.roles ?? []);
+    const after = new Set(props.action.after.roles ?? []);
+    return {
+      added: [...after].filter((role) => !before.has(role)),
+      removed: [...before].filter((role) => !after.has(role)),
+    };
+  });
+
+  const roleName = (id: string) => props.server.roles.get(id)?.name ?? id;
+  const hasChanges = createMemo(
+    () =>
+      Object.keys(changes()).length > 0 ||
+      roleChanges().added.length > 0 ||
+      roleChanges().removed.length > 0,
+  );
+
+  return (
+    <DiffList>
+      <Show when={!hasChanges()}>
+        <DiffListItem>No member changes recorded</DiffListItem>
+      </Show>
+      <For each={Object.entries(changes())}>
+        {([name, change]) => (
+          <DiffValue name={memberFieldName(name)} change={change} />
+        )}
+      </For>
+      <Show when={roleChanges().added.length !== 0}>
+        <RoleChangeList
+          variant="allow"
+          title="Added roles"
+          roles={roleChanges().added.map(roleName)}
+        />
+      </Show>
+      <Show when={roleChanges().removed.length !== 0}>
+        <RoleChangeList
+          variant="deny"
+          title="Removed roles"
+          roles={roleChanges().removed.map(roleName)}
+        />
+      </Show>
+    </DiffList>
+  );
+}
+
+function memberFieldName(name: string) {
+  return (
+    {
+      nickname: "nickname",
+      pronouns: "pronouns",
+      avatar: "avatar",
+      timeout: "timeout",
+      can_publish: "publish permission",
+      can_receive: "receive permission",
+    }[name] ?? name
+  );
+}
+
+function RoleChangeList(props: {
+  variant: "allow" | "deny";
+  title: string;
+  roles: string[];
+}) {
+  return (
+    <DiffListItem variant={props.variant}>
+      {props.title}
+      <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
+        <For each={props.roles}>
+          {(role) => <li class={typography({ class: "label" })}>{role}</li>}
+        </For>
+      </ul>
+    </DiffListItem>
+  );
+}
+
+function DiffList(props: { children: JSX.Element }) {
+  const content = resolveChildren(() => props.children);
+
+  return (
+    <div class={typography({ class: "body", size: "large" })}>
+      <ol class={css({ listStyleType: "decimal", paddingLeft: "1.2em" })}>
+        {content()}
+      </ol>
+    </div>
+  );
+}
+
+function DiffValue(props: {
+  name: string;
+  change: { before?: unknown; after?: unknown };
+}) {
+  const beforeMissing = () => props.change.before === undefined;
+  const afterMissing = () => props.change.after === undefined;
+
+  return (
+    <Switch
+      fallback={
+        <DiffListItem>
+          Changed {props.name} to {formatDiffValue(props.change.after)}
+        </DiffListItem>
+      }
     >
-      <RoleEditDiff
-        action={props.action as API.AuditLogEntryAction & { type: "RoleEdit" }}
-      />
+      <Match when={afterMissing()}>
+        <DiffListItem variant="deny">Removed {props.name}</DiffListItem>
+      </Match>
+      <Match when={beforeMissing()}>
+        <DiffListItem variant="allow">
+          Set {props.name} to {formatDiffValue(props.change.after)}
+        </DiffListItem>
+      </Match>
+    </Switch>
+  );
+}
+
+function formatDiffValue(value: unknown) {
+  if (typeof value === "string") return '"' + value + '"';
+  if (value === null) return "null";
+  if (typeof value === "bigint") return value.toString();
+  return JSON.stringify(value);
+}
+
+function ChannelRolePermissionsDiff(props: {
+  action: Extract<
+    API.AuditLogEntryAction,
+    { type: "ChannelRolePermissionsEdit" }
+  >;
+}) {
+  const permissions = createMemo(() => ({
+    allow: diffPerms(0n, BigInt(props.action.permissions.allow)),
+    deny: diffPerms(0n, BigInt(props.action.permissions.deny)),
+  }));
+
+  return (
+    <DiffList>
+      <PermissionDiff variant="allow" permissions={permissions().allow.after}>
+        Allowed permissions
+      </PermissionDiff>
+      <PermissionDiff variant="deny" permissions={permissions().deny.after}>
+        Denied permissions
+      </PermissionDiff>
+    </DiffList>
+  );
+}
+
+function PermissionDiff(props: {
+  variant: "allow" | "deny";
+  permissions: Set<keyof typeof Permission>;
+  children: JSX.Element;
+}) {
+  return (
+    <Show when={props.permissions.size !== 0}>
+      <DiffListItem variant={props.variant}>
+        {props.children}
+        <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
+          <For each={[...props.permissions]}>
+            {(permission) => (
+              <li class={typography({ class: "label" })}>{permission}</li>
+            )}
+          </For>
+        </ul>
+      </DiffListItem>
     </Show>
+  );
+}
+
+function RoleReorderDiff(props: {
+  action: Extract<API.AuditLogEntryAction, { type: "RolesReorder" }>;
+  server: Server;
+}) {
+  const moved = createMemo(() => {
+    const before = props.action.before;
+    return props.action.after
+      .map((role, index) => ({ role, index, previous: before.indexOf(role) }))
+      .filter(({ index, previous }) => previous !== -1 && index !== previous);
+  });
+
+  return (
+    <DiffList>
+      <For each={moved()}>
+        {(change) => (
+          <DiffListItem>
+            Moved {props.server.roles.get(change.role)?.name ?? change.role}{" "}
+            from position {change.previous + 1} to position {change.index + 1}
+          </DiffListItem>
+        )}
+      </For>
+    </DiffList>
   );
 }
 
@@ -433,62 +666,19 @@ function RoleEditDiff<
   });
 
   return (
-    <div class={typography({ class: "body", size: "large" })}>
-      <ol class={css({ listStyleType: "decimal", paddingLeft: "1.2em" })}>
-        <For each={Object.entries(metaDiff())}>
-          {([name, perm]) => {
-            return (
-              <Switch
-                fallback={
-                  <DiffListItem>
-                    <Trans>
-                      Changed {name} to {JSON.stringify(perm.after)}
-                    </Trans>
-                  </DiffListItem>
-                }
-              >
-                <Match when={perm.before && !perm.after}>
-                  <DiffListItem variant="deny">
-                    <Trans>Removed {name}</Trans>
-                  </DiffListItem>
-                </Match>
-                <Match when={!perm.before && perm.after}>
-                  <DiffListItem variant="allow">
-                    <Trans>
-                      Set {name} to {JSON.stringify(perm.after)}
-                    </Trans>
-                  </DiffListItem>
-                </Match>
-              </Switch>
-            );
-          }}
-        </For>
-        <Show when={permsDiff().allow.size !== 0}>
-          <DiffListItem variant="allow">
-            <Trans>Allowed permissions</Trans>
-            <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
-              <For each={[...permsDiff().allow]}>
-                {(perm) => {
-                  return <li class={typography({ class: "label" })}>{perm}</li>;
-                }}
-              </For>
-            </ul>
-          </DiffListItem>
-        </Show>
-        <Show when={permsDiff().deny.size !== 0}>
-          <DiffListItem variant="deny">
-            <Trans>Removed Permissions</Trans>
-            <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
-              <For each={[...permsDiff().deny]}>
-                {(perm) => {
-                  return <li class={typography({ class: "label" })}>{perm}</li>;
-                }}
-              </For>
-            </ul>
-          </DiffListItem>{" "}
-        </Show>
-      </ol>
-    </div>
+    <DiffList>
+      <For each={Object.entries(metaDiff())}>
+        {([name, perm]) => {
+          return <DiffValue name={name} change={perm} />;
+        }}
+      </For>
+      <PermissionDiff variant="allow" permissions={permsDiff().allow}>
+        Allowed permissions
+      </PermissionDiff>
+      <PermissionDiff variant="deny" permissions={permsDiff().deny}>
+        Denied permissions
+      </PermissionDiff>
+    </DiffList>
   );
 }
 
@@ -506,10 +696,9 @@ function diffObjects<T extends object>(
     const previousValue = before[key];
     const newValue = after[key];
 
-    acc[key] = {
-      before: previousValue,
-      after: newValue,
-    };
+    if (JSON.stringify(previousValue) !== JSON.stringify(newValue)) {
+      acc[key] = { before: previousValue, after: newValue };
+    }
   }
 
   return acc;
@@ -547,7 +736,7 @@ function diffPerms(
 }
 
 type ActionIconProps = {
-  slot?: string,
+  slot?: string;
   type: API.AuditLogEntryAction["type"];
 };
 

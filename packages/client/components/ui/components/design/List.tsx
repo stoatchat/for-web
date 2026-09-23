@@ -56,6 +56,7 @@ const listitem = cva({
 });
 
 function CollapseListItem(props: {
+  id?: string;
   children: JSXElement;
   header?: JSXElement;
   rounded?: boolean,
@@ -65,7 +66,7 @@ function CollapseListItem(props: {
   const [local, remote] = splitProps(props, ["children", "header"])
 
   return (
-    <Collapse.Item>
+    <Collapse.Item value={props.id}>
       <Show when={local.header}>
         <mdui-list-item slot="header" {...remote}>
           {local.header}
