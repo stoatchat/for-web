@@ -165,7 +165,7 @@ function Picker(
       }
     >
       <Container>
-        <Row justify class="CompositionButton">
+        <Row gap="xs" justify class="CompositionButton">
           <Button
             groupActive={props.show() === "gif"}
             onPress={() => props.setShow("gif")}

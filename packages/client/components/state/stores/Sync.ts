@@ -11,12 +11,17 @@ import { TypeNotificationOptions } from "./NotificationOptions";
 import { TypeOrdering } from "./Ordering";
 import { TypeReleaseNotes } from "./ReleaseNotes";
 
-type SynchronisedStores = "ordering" | "notifications" | "release-notes";
+type SynchronisedStores =
+  | "ordering"
+  | "notifications"
+  | "release-notes"
+  | "server-folders";
 
 const STORE_KEYS: SynchronisedStores[] = [
   "ordering",
   "notifications",
   "release-notes",
+  "server-folders",
 ];
 
 export interface TypeSynchronisation {
@@ -61,6 +66,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
         ordering: 0,
         notifications: 0,
         "release-notes": 0,
+        "server-folders": 0,
       },
     };
   }
@@ -173,8 +179,8 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
       console.info(`[sync] merge ${key} at ${ts} with`, data);
 
     const parsed = this.state[key].clean(JSON.parse(data));
-    if (ts > this.ts(key)) {
-      // if ts is newer, hydrate the store with it
+    if (!this.ts(key) || ts > this.ts(key)) {
+      // if ts is newer or this value does not exist on the local store, hydrate the store with it
       this.set("revision", key, ts);
       this.#blockSync.add(key);
       this.state.set(key, parsed);

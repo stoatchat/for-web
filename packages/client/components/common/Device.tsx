@@ -49,6 +49,13 @@ export class Device {
    */
   readonly isIOSTouch = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
+  /**
+   * Whether this device supports touch input.
+   */
+  readonly hasTouch =
+    typeof window !== "undefined" &&
+    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
   private pMedia;
   private tMedia;
   private setLayout;

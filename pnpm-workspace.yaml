@@ -16,6 +16,10 @@ nodeLinker: isolated
 overrides:
   "prettier": "^3.8.1"
   "solid-js": "1.9.14"
+  # solid-dnd-directive pins an old version
+  # newer versions support scrolling ancestors in DOM
+  # future todo: drop or fork solid-dnd-directive
+  "svelte-dnd-action": "^0.9.79"
 
 patchedDependencies:
   livekit-client: patches/livekit-client.patch

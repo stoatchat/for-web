@@ -9,12 +9,13 @@ import {
   useContext,
 } from "solid-js";
 
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Emoji, Server } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Trans, useLingui } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { useDevice } from "@revolt/common";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
@@ -22,9 +23,8 @@ import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
-import { createResizeObserver } from "@solid-primitives/resize-observer";
+import { EMOJI_MAP, EMOJI_MAP_DEDUPE } from "@revolt/ui/emojis";
 
-import emojiMapping from "../../../../../emojiMapping.json";
 import {
   CompositionMediaPickerContext,
   compositionContent,
@@ -102,9 +102,15 @@ export function EmojiPicker() {
               .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
               .map((emoji) => ({ t: 2, emoji })),
           ),
-        ...Object.entries(emojiMapping)
-          .filter(([name]) => name.toLowerCase().includes(filterText))
-          .map(([name, text]) => ({ t: 4, name, text })),
+        ...EMOJI_MAP_DEDUPE.filter(
+          (ed) =>
+            ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
+              .length > 0,
+        ).map((ed) => ({
+          t: 4,
+          name: ed.shorthands[0],
+          text: ed.emoji,
+        })),
       ] as Item[];
     }
 
@@ -142,11 +148,11 @@ export function EmojiPicker() {
       items.push({ t: 1 });
     }
 
-    for (const emoji of Object.entries(emojiMapping)) {
+    for (const emoji of EMOJI_MAP) {
       items.push({
         t: 4,
-        name: emoji[0],
-        text: emoji[1] as string,
+        name: emoji.shorthands[0],
+        text: emoji.emoji,
       });
     }
 
