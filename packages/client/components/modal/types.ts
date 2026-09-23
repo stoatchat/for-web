@@ -371,4 +371,7 @@ export type Modals =
   | {
       type: "delete_emoji";
       emoji: Emoji;
+    }
+  | {
+      type: "swap_user";
     };

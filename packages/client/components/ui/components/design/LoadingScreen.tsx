@@ -241,7 +241,7 @@ const Notice = styled("div", {
     maxWidth: "42ch",
     marginInline: "auto",
     paddingInline: "var(--gap-lg)",
-    color: "var(--md-sys-color-on-surface-variant)",
+    color: "var(--md-sys-color-on-surface-variant, #777)",
   },
 });
 
@@ -267,6 +267,5 @@ const Impact = styled("div", {
     alignItems: "center",
     gap: "var(--gap-md)",
     letterSpacing: "0.05em",
-    color: "var(--md-sys-color-on-surface-variant)",
   },
 });
