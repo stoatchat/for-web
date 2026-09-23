@@ -1,15 +1,15 @@
-import { Accessor, JSX, createSignal, onCleanup } from "solid-js";
+import { Accessor, createSignal, JSX, onCleanup } from "solid-js";
 
 import { Channel, Client, ServerMember, ServerRole, User } from "stoat.js";
 
-import emojiMapping from "../emojiMapping.json";
-
+import { EMOJI_KEYS, getEmojiByShorthand, MAPPED_EMOJI_KEYS } from "../emojis";
 import { registerFloatingElement, unregisterFloatingElement } from "./floating";
 
-const EMOJI_KEYS = Object.keys(emojiMapping).sort();
-const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map((id) => ({ id, name: id }));
-
 type Operator = "@" | ":" | "#" | "%";
+
+// TODO: This file isn't used, and is broken, and got even more broken by the emoji extensions update. Fix it and use it in bios and descriptions and stuff.
+
+// Usage: `use:autoComplete` on a component
 
 export type AutoCompleteState =
   | {
@@ -274,13 +274,11 @@ function searchMatches(
         i++;
       }
     } else {
-      let i = 0;
-      while (matches.length < 10 && i < EMOJI_KEYS.length) {
-        if (EMOJI_KEYS[i].includes(query)) {
-          matches.push(EMOJI_KEYS[i]);
+      const emojiKeySet = EMOJI_KEYS.values().toArray();
+      for (let i = 0; i < emojiKeySet.length && matches.length < 10; i++) {
+        if (emojiKeySet[i].includes(query)) {
+          matches.push(emojiKeySet[i]);
         }
-
-        i++;
       }
     }
 
@@ -305,8 +303,8 @@ function searchMatches(
           : {
               type: "unicode",
               shortcode: id,
-              codepoint: emojiMapping[id as keyof typeof emojiMapping],
-              replacement: emojiMapping[id as keyof typeof emojiMapping],
+              codepoint: getEmojiByShorthand(id)?.emoji ?? "",
+              replacement: getEmojiByShorthand(id)?.emoji ?? "",
             },
       ),
     };
