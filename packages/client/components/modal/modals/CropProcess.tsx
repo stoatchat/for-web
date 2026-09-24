@@ -36,6 +36,11 @@ export function cropProcess(options: CropProcessOptions) {
     maxSize: number | undefined,
   ): JSX.Element => {
     const file = files[0];
+
+    if (file && file.type === "image/gif") {
+      resolve([file]);
+    }
+
     const objectUrl = URL.createObjectURL(file);
     const [sizeError, setSizeError] = createSignal<CropSizeError | null>(null);
     const [hardError, setHardError] = createSignal<string | null>(null);
