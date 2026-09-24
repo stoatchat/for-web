@@ -1,7 +1,8 @@
 import "mdui/components/collapse";
 import "mdui/components/collapse-item";
+import type { CollapseItem as MduiCollapseItem } from "mdui/components/collapse-item";
 
-import { JSX, splitProps } from "solid-js";
+import { createEffect, createSignal, JSX, on, onCleanup, splitProps } from "solid-js";
 
 type Props = {
   children: JSX.Element;
@@ -34,12 +35,41 @@ type ItemProps = {
    */
   value?: string;
   disabled?: boolean;
+
+  onOpen?: () => void;
+  onClose?: () => void;
 };
 
 function CollapseItem(props: ItemProps) {
-  const [local, remote] = splitProps(props, ["children"]);
+  const [local, remote] = splitProps(props, ["children", "onOpen", "onClose"]);
+  const [ref, setRef] = createSignal<MduiCollapseItem>();
 
-  return <mdui-collapse-item {...remote}>{local.children}</mdui-collapse-item>;
+  createEffect(
+    on(ref, (ref) => {
+      console.log("Mounted")
+      if (local.onOpen) {
+        ref!.addEventListener("open", local.onOpen);
+      }
+      if (local.onClose) {
+        ref!.addEventListener("close", local.onClose);
+      }
+    }),
+  );
+
+  onCleanup(() => {
+    if (local.onOpen) {
+      ref()!.removeEventListener("open", local.onOpen);
+    }
+    if (local.onClose) {
+      ref()!.removeEventListener("close", local.onClose);
+    }
+  });
+
+  return (
+    <mdui-collapse-item ref={setRef} {...remote}>
+      {local.children}
+    </mdui-collapse-item>
+  );
 }
 
 Collapse.Item = CollapseItem;
