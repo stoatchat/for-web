@@ -1,4 +1,5 @@
 import { Trans, useLingui } from "@lingui/solid/macro";
+import { useDurationFormat } from "@revolt/i18n/durations";
 import { typography } from "@revolt/ui";
 import {
   createMemo,
@@ -10,8 +11,7 @@ import {
   Switch,
 } from "solid-js";
 import { API, Permission, Server } from "stoat.js";
-import { css } from "styled-system/css";
-import { styled } from "styled-system/jsx";
+import { css, cva } from "styled-system/css";
 
 type WeakRecord<T extends string | number | symbol, ReturnValue> =
   | {
@@ -62,17 +62,29 @@ export function EditViewer(props: {
           }
         />
       </Match>
-      <Match when={props.action.type === "RolesReorder"}>
-        <RoleReorderDiff
-          action={
-            props.action as API.AuditLogEntryAction & { type: "RolesReorder" }
-          }
-          server={props.server}
-        />
-      </Match>
     </Switch>
   );
 }
+
+const listItem = cva({
+  base: {
+    "&::marker": { fontWeight: 600 },
+  },
+  variants: {
+    variant: {
+      allow: {
+        "&::marker": {
+          color: "var(--md-sys-color-primary)",
+        },
+      },
+      deny: {
+        "&::marker": {
+          color: "var(--md-sys-color-error)",
+        },
+      },
+    },
+  },
+});
 
 type ObjectEditAction =
   | Extract<API.AuditLogEntryAction, { type: "ChannelEdit" }>
@@ -87,7 +99,9 @@ function ObjectDiff(props: { action: ObjectEditAction }) {
   return (
     <DiffList>
       <For each={Object.entries(changes())}>
-        {([name, change]) => <DiffValue field={name} change={change} />}
+        {([name, change]) => (
+          <DiffField key={name} before={change.before} after={change.after} />
+        )}
       </For>
     </DiffList>
   );
@@ -123,11 +137,11 @@ function MemberDiff(props: {
   return (
     <DiffList>
       <Show when={!hasChanges()}>
-        <DiffListItem>No member changes recorded</DiffListItem>
+        <li>No member changes recorded</li>
       </Show>
       <For each={Object.entries(changes())}>
         {([name, change]) => (
-          <DiffValue field={translateFieldName(name)} change={change} />
+          <DiffField key={name} before={change.before} after={change.after} />
         )}
       </For>
       <Show when={roleChanges().added.length !== 0}>
@@ -154,22 +168,39 @@ type ValidFieldNames =
   | keyof API.PartialChannel
   | keyof API.PartialMember;
 
-function translateFieldName(name: string): string {
+function translateFieldName(
+  name: string,
+  context?: "server" | "channel" | "role",
+): string {
   const { t } = useLingui();
   const translationMap: WeakRecord<ValidFieldNames, string> = {
-    description: t`description`,
-    name: t`name`,
-    banner: t`banner`,
-    colour: t`colour`,
-    hoist: t`display in sidebar`,
+    description: t`the server description`,
+    name:
+      context === "server"
+        ? t`the server name`
+        : context === "channel"
+          ? t`the channel name`
+          : context === "role"
+            ? t`the role name`
+            : t`the name`,
+    banner: t`the server banner`,
+    colour: t`the role colour`,
+    hoist: t`display role separately in members list`,
     discoverable: t`discoverable`,
-    nickname: t`nickname`,
-    pronouns: t`pronouns`,
+    nickname: t`their nickname`,
+    pronouns: t`their pronouns`,
     nsfw: t`not safe for work`,
-    slowmode: t`slowmode duration`,
-    timeout: t`timeout duration`,
-    icon: t`icon`,
-    avatar: t`avatar`,
+    slowmode: t`the slowmode duration`,
+    timeout: t`the timeout duration`,
+    icon:
+      context === "server"
+        ? t`the server icon`
+        : context === "channel"
+          ? t`the channel icon`
+          : context === "role"
+            ? t`the role icon`
+            : t`the icon`,
+    avatar: t`their avatar`,
   };
   return translationMap[name] ?? name;
 }
@@ -180,14 +211,14 @@ function RoleChangeList(props: {
   roles: string[];
 }) {
   return (
-    <DiffListItem variant={props.variant}>
+    <li class={listItem({ variant: props.variant })}>
       {props.title}
       <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
         <For each={props.roles}>
           {(role) => <li class={typography({ class: "label" })}>{role}</li>}
         </For>
       </ul>
-    </DiffListItem>
+    </li>
   );
 }
 
@@ -195,7 +226,7 @@ function DiffList(props: { children: JSX.Element }) {
   const content = resolveChildren(() => props.children);
 
   return (
-    <div class={typography({ class: "body", size: "large" })}>
+    <div class={typography({ class: "body", size: "medium" })}>
       <ol class={css({ listStyleType: "decimal", paddingLeft: "1.2em" })}>
         {content()}
       </ol>
@@ -203,46 +234,90 @@ function DiffList(props: { children: JSX.Element }) {
   );
 }
 
-function DiffValue(props: {
-  field: string;
-  change: { before?: unknown; after?: unknown };
-}) {
-  const beforeMissing = () => props.change.before === undefined;
-  const afterMissing = () => props.change.after === undefined;
+type FormatValueProps<T> = {
+  key: string;
+  before?: T;
+  after?: T;
+};
 
-  return (
-    <Switch
-      fallback={
-        <DiffListItem>
-          <Trans>
-            Changed {translateFieldName(props.field)} from{" "}
-            {formatDiffValue(props.change.before)} to{" "}
-            {formatDiffValue(props.change.after)}
-          </Trans>
-        </DiffListItem>
-      }
-    >
-      <Match when={afterMissing()}>
-        <DiffListItem variant="deny">
-          <Trans>Removed {props.field}</Trans>
-        </DiffListItem>
+/**
+ * Display the value of a diff
+ */
+function DiffField<T>(props: FormatValueProps<T>) {
+  const duration = useDurationFormat();
+  const computedContext = createMemo(() => {
+    switch (props.key) {
+      case "colour":
+        return "colour";
+      case "slowmode":
+      case "timeout":
+        return "duration";
+      case "system_messages":
+      case "categories":
+        return "complex";
+      default:
+        return undefined;
+    }
+  });
+
+  const Item = (props: { value: T }) => (
+    <Switch fallback={<code>{JSON.stringify(props.value)}</code>}>
+      <Match when={computedContext() === "colour"}>
+        <span
+          class={css({
+            display: "inline-block",
+            borderRadius: "var(--borderRadius-xs)",
+            paddingInline: ".5ch",
+          })}
+          style={{
+            background: props.value as string,
+            color: `contrast-color(oklch(from ${props.value} l 0 0))`,
+          }}
+        >
+          {props.value as string}
+        </span>
       </Match>
-      <Match when={beforeMissing()}>
-        <DiffListItem variant="allow">
-          <Trans>
-            Set {props.field} to {formatDiffValue(props.change.after)}
-          </Trans>
-        </DiffListItem>
+      <Match when={computedContext() === "duration"}>
+        {duration({ seconds: props.value as number })}
       </Match>
     </Switch>
   );
-}
 
-function formatDiffValue(value: unknown) {
-  if (typeof value === "string") return '"' + value + '"';
-  if (value === null) return "null";
-  if (typeof value === "bigint") return value.toString();
-  return JSON.stringify(value);
+  return (
+    <li class={listItem()}>
+      <Switch
+        fallback={
+          <Show
+            fallback={
+              <Trans>
+                Changed {translateFieldName(props.key)} to{" "}
+                {<Item value={props.after!} />}
+              </Trans>
+            }
+            when={computedContext() === "complex"}
+          >
+            <Switch>
+              <Match when={props.key === "categories"}>
+                <Trans>Reorganized channels</Trans>
+              </Match>
+              <Match when={props.key === "system_messages"}>
+                <Trans>Changed system message channels</Trans>
+              </Match>
+            </Switch>
+          </Show>
+        }
+      >
+        <Match when={props.before && !props.after}>
+          <Trans>Cleared {translateFieldName(props.key)}</Trans>
+        </Match>
+        <Match when={!props.before && props.after}>
+          <Trans>
+            Set {translateFieldName(props.key)} to <Item value={props.after!} />
+          </Trans>
+        </Match>
+      </Switch>
+    </li>
+  );
 }
 
 function ChannelRolePermissionsDiff(props: {
@@ -386,7 +461,7 @@ function PermissionDiff(props: {
 }) {
   return (
     <Show when={props.permissions.size !== 0}>
-      <DiffListItem variant={props.variant}>
+      <li class={listItem({ variant: props.variant })}>
         {props.children}
         <ul class={css({ listStyleType: "disc", paddingLeft: "1em" })}>
           <For each={[...props.permissions]}>
@@ -397,33 +472,8 @@ function PermissionDiff(props: {
             )}
           </For>
         </ul>
-      </DiffListItem>
+      </li>
     </Show>
-  );
-}
-
-function RoleReorderDiff(props: {
-  action: Extract<API.AuditLogEntryAction, { type: "RolesReorder" }>;
-  server: Server;
-}) {
-  const moved = createMemo(() => {
-    const before = props.action.before;
-    return props.action.after
-      .map((role, index) => ({ role, index, previous: before.indexOf(role) }))
-      .filter(({ index, previous }) => previous !== -1 && index !== previous);
-  });
-
-  return (
-    <DiffList>
-      <For each={moved()}>
-        {(change) => (
-          <DiffListItem>
-            Moved {props.server.roles.get(change.role)?.name ?? change.role}{" "}
-            from position {change.previous + 1} to position {change.index + 1}
-          </DiffListItem>
-        )}
-      </For>
-    </DiffList>
   );
 }
 
@@ -456,7 +506,9 @@ function RoleEditDiff<
     <DiffList>
       <For each={Object.entries(metaDiff())}>
         {([name, perm]) => {
-          return <DiffValue field={name} change={perm} />;
+          return (
+            <DiffField key={name} before={perm.before} after={perm.after} />
+          );
         }}
       </For>
       <PermissionDiff variant="allow" permissions={permsDiff().allow}>
@@ -469,6 +521,7 @@ function RoleEditDiff<
   );
 }
 
+// Diffing functions
 function diffObjects<T extends object>(
   before: T,
   after: T,
@@ -521,20 +574,3 @@ function diffPerms(
     after: new Set(acc.after),
   };
 }
-
-const DiffListItem = styled("li", {
-  variants: {
-    variant: {
-      allow: {
-        "&::marker": {
-          color: "var(--md-sys-color-primary)",
-        },
-      },
-      deny: {
-        "&::marker": {
-          color: "var(--md-sys-color-error)",
-        },
-      },
-    },
-  },
-});

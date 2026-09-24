@@ -4,7 +4,7 @@ import { Collapse, Symbol } from "@revolt/ui";
 import "mdui/components/list-item.js";
 import "mdui/components/list-subheader.js";
 import "mdui/components/list.js";
-import { cva } from "styled-system/css";
+import { css, cva } from "styled-system/css";
 
 /**
  * Lists are continuous, vertical indexes of text and images
@@ -89,9 +89,22 @@ function CollapseListItem(props: {
         console.log("close");
         setOpen(false);
       }}
+      class={
+        open()
+          ? css({
+              backgroundColor: "var(--md-sys-color-secondary-container)",
+              color: "var(--md-sys-color-on-secondary-container)",
+            })
+          : ""
+      }
     >
       <Show when={local.header}>
-        <mdui-list-item class={collapseList()} slot="header" {...remote}>
+        <mdui-list-item
+          active={open()}
+          class={collapseList()}
+          slot="header"
+          {...remote}
+        >
           {local.header}
           <div class={open() ? "open" : ""} slot="end-icon">
             <Symbol>arrow_drop_down</Symbol>

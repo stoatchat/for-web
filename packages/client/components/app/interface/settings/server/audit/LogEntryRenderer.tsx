@@ -15,6 +15,7 @@ import {
 } from "@revolt/ui";
 import { Match, Show, Suspense, Switch } from "solid-js";
 import { API, Server } from "stoat.js";
+import { css } from "styled-system/css";
 import { decodeTime } from "ulid";
 import { EditViewer } from "./Diff";
 
@@ -39,7 +40,6 @@ export function EntryRenderer(props: EntryProps) {
           "ServerEdit",
           "RoleEdit",
           "MemberEdit",
-          "RolesReorder",
         ] as API.AuditLogEntryAction["type"][]
       ).includes(props.entry.action.type)}
     >
@@ -52,7 +52,9 @@ export function EntryRenderer(props: EntryProps) {
           </>
         }
       >
-        <EditViewer action={props.entry.action} server={props.server} />
+        <div class={css({ paddingInline: "3rem", paddingBlock: "0.625rem" })}>
+          <EditViewer action={props.entry.action} server={props.server} />
+        </div>
       </List.Collapse>
     </Show>
   );
@@ -177,7 +179,7 @@ function useActionTranslation() {
         return t`@${user?.username} deleted the "${role?.name}" role`;
       }
       case "RolesReorder":
-        return t`@${user?.username} changed the position of roles`;
+        return t`@${user?.username} reorganized roles`;
       case "InviteCreate":
         return t`@${user?.username} created an invite`;
       case "InviteDelete":

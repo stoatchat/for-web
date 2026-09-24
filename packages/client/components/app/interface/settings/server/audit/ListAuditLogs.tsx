@@ -22,7 +22,7 @@ export function ListAuditLogs(props: Props) {
   >();
   const [failure, setFailure] = createSignal(false);
   const [atStart, setStart] = createSignal(true);
-  const [atEnd, setEnd] = createSignal(true);
+  const [atEnd, setEnd] = createSignal(false);
 
   let preemptFetch: () => void | undefined;
 
@@ -48,11 +48,15 @@ export function ListAuditLogs(props: Props) {
   }
 
   async function caseInitialLoad() {
+    console.log("[lv2] initial load");
     preempt();
     setFetching("initial");
     const preempted = newPreempted();
 
     setLogs([]);
+    setStart(true);
+    setEnd(false);
+
     try {
       const logs = await props.server
         .getAuditLogs({
@@ -73,12 +77,13 @@ export function ListAuditLogs(props: Props) {
   async function caseFetchUpwards(): Promise<ListView2Update | undefined> {
     if (atStart() || !canFetch()) return;
 
+    console.debug("[lv2] Fetching upwards");
     setFetching("upwards");
     const preempted = newPreempted();
     try {
       const res = await props.server.getAuditLogs({
         limit: FETCH_LIMIT,
-        before: logs().slice(-1)[0]._id,
+        after: logs().slice(-1)[0]._id,
       });
 
       if (preempted()) return;
@@ -126,10 +131,12 @@ export function ListAuditLogs(props: Props) {
     setFetching("downwards");
     const preempted = newPreempted();
 
+    console.debug("[lv2] Fetching downwards");
+
     try {
       const result = await props.server.getAuditLogs({
         limit: FETCH_LIMIT,
-        after: logs()[0]._id,
+        before: logs()[0]._id,
       });
 
       if (preempted()) return;
@@ -180,23 +187,29 @@ export function ListAuditLogs(props: Props) {
     ),
   );
 
+  createEffect(() => {
+    console.log(
+      `start: ${atStart()} | end: ${atEnd()} | fetching ${fetching()}`,
+    );
+  });
+
   return (
-    <ListView2
-      fetchTop={caseFetchUpwards}
-      fetchBottom={caseFetchDownwards}
-      atStart={atStart}
-      atEnd={atEnd}
-      permitFetching={() => typeof fetching() !== "string"}
-    >
-      <List>
-        <Collapse>
+    <List>
+      <Collapse accordion>
+        <ListView2
+          fetchTop={caseFetchUpwards}
+          fetchBottom={caseFetchDownwards}
+          atStart={atStart}
+          atEnd={atEnd}
+          permitFetching={() => typeof fetching() !== "string"}
+        >
           <Deferred>
             <For each={logs()}>
               {(entry) => <EntryRenderer server={props.server} entry={entry} />}
             </For>
           </Deferred>
-        </Collapse>
-      </List>
-    </ListView2>
+        </ListView2>
+      </Collapse>
+    </List>
   );
 }
