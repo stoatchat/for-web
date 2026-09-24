@@ -1,17 +1,32 @@
 import { Trans } from "@lingui/solid/macro";
 import { Show } from "solid-js";
+import { styled } from "styled-system/jsx";
 
 import { useApi, useClientLifecycle } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
-import { useNavigate, useParams } from "@revolt/routing";
-import { Button, iconSize, Row } from "@revolt/ui";
+import { A, useNavigate, useParams } from "@revolt/routing";
+import { Button, iconSize } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
 import { FlowTitle } from "./Flow";
 import { setFlowCheckEmail } from "./FlowCheck";
 import { Fields, Form } from "./Form";
+
+const BackAction = styled("div", {
+  base: {
+    width: "100%",
+
+    "& a, & button": {
+      width: "100%",
+    },
+
+    "& button": {
+      gap: "4px",
+    },
+  },
+});
 
 /**
  * Flow for creating a new account
@@ -58,24 +73,27 @@ export default function FlowCreate() {
 
   return (
     <>
-      <FlowTitle subtitle={<Trans>Create an account</Trans>} emoji="wave">
-        <Trans>Hello!</Trans>
+      <FlowTitle
+        subtitle={<Trans>Set up your account and make yourself at home.</Trans>}
+        emoji="wave"
+      >
+        <Trans>Join Stoat</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={config.features.captcha.key}>
         <Fields fields={["email", "new-password"]} />
         <Show when={config.features.invite_only}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>
-        <Row justify>
-          <a href="..">
+        <Button type="submit" size="md">
+          <Trans>Create account</Trans>
+        </Button>
+        <BackAction>
+          <A href="..">
             <Button variant="text">
               <MdArrowBack {...iconSize("1.2em")} /> <Trans>Back</Trans>
             </Button>
-          </a>
-          <Button type="submit">
-            <Trans>Register</Trans>
-          </Button>
-        </Row>
+          </A>
+        </BackAction>
       </Form>
       {import.meta.env.DEV && (
         <div

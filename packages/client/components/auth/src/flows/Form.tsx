@@ -9,6 +9,8 @@ import { styled } from "styled-system/jsx";
 import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
 import { TranslatedError } from "@revolt/i18n/errors";
 
+import { useFlowBubble } from "./Flow";
+
 const ErrorContainer = styled("span", {
   base: {
     color: "var(--md-sys-color-error)",
@@ -159,6 +161,7 @@ interface Props {
  */
 export function Form(props: Props) {
   const [error, setError] = createSignal();
+  const bubble = useFlowBubble();
   let hcaptcha: HCaptchaFunctions | undefined;
 
   /**
@@ -168,19 +171,41 @@ export function Form(props: Props) {
   async function onSubmit(event: Event) {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const form = event.currentTarget as HTMLFormElement;
 
-    if (props.captcha) {
-      if (!hcaptcha) return alert("hCaptcha not loaded!");
-      const response = await hcaptcha.execute();
-      formData.set("captcha", response!.response);
+    // mdui text fields aren't native form controls, so the browser doesn't
+    // stop the submission when they're empty or invalid; check them here
+    const invalidField = [...form.querySelectorAll("mdui-text-field")].find(
+      (field) => !field.checkValidity(),
+    );
+
+    if (invalidField) {
+      invalidField.reportValidity();
+      invalidField.focus();
+      bubble?.flashError();
+      return;
     }
 
+    const formData = new FormData(form);
+    const finishSubmit = bubble?.beginSubmit();
+
     try {
-      await props.onSubmit(formData);
-    } catch (err) {
-      console.error(err);
-      setError(err);
+      if (props.captcha) {
+        if (!hcaptcha) return alert("hCaptcha not loaded!");
+        const response = await hcaptcha.execute();
+        formData.set("captcha", response!.response);
+      }
+
+      try {
+        await props.onSubmit(formData);
+        bubble?.flashSuccess();
+      } catch (err) {
+        console.error(err);
+        setError(err);
+        bubble?.flashError();
+      }
+    } finally {
+      finishSubmit?.();
     }
   }
 

@@ -10,6 +10,7 @@ import { useLocation } from "@solidjs/router";
  * a new library that is used in multiple components.
  */
 export {
+  A,
   Navigate,
   Route,
   Router,
