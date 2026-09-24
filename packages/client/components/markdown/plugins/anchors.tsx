@@ -5,6 +5,7 @@ import { cva } from "styled-system/css";
 
 import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
+import { getChannelIcon } from "@revolt/common";
 import { DefaultHost, useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
@@ -159,7 +160,7 @@ export function RenderAnchor(
               target={remote ? "_blank" : void 0}
               // END HOTFIX
             >
-              <Symbol>tag</Symbol>
+              <Symbol>{getChannelIcon(channel(), "mention")}</Symbol>
               {remote ? <Trans>Remote Channel</Trans> : channel()!.name}
               {params.exactMessage && (
                 <>
