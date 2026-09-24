@@ -34,7 +34,7 @@ export function TextSearchSidebar(props: {
   return (
     <>
       <Show when={!props.query.sort}>
-        <Row justify="stretch">
+        <Row gap="xs" justify="stretch">
           <Button
             group="connected-start"
             groupActive={sort() === "Relevance"}

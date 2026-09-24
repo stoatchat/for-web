@@ -1,4 +1,5 @@
 export { ColouredText } from "./ColouredText";
+export { cropImage } from "./cropProcessor";
 export { Deferred } from "./Deferred";
 export { Draggable } from "./Draggable";
 export { Form2 } from "./Form2";

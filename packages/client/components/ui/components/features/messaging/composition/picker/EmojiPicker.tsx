@@ -5,24 +5,26 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  onMount,
   useContext,
 } from "solid-js";
 
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Emoji, Server } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
 import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
+import { EMOJI_MAP, EMOJI_MAP_DEDUPE } from "@revolt/ui/emojis";
 
-import emojiMapping from "../../../../../emojiMapping.json";
-
-import { Trans, useLingui } from "@lingui/solid/macro";
 import {
   CompositionMediaPickerContext,
   compositionContent,
@@ -65,21 +67,30 @@ type Item =
       text: string;
     };
 
-const COLUMNS = 9;
-
 const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
 
 export function EmojiPicker() {
   const client = useClient();
   const { ordering, settings } = useState();
+  const { isMobile } = useDevice();
   const { t } = useLingui();
 
   const [filter, setFilter] = createSignal("");
+  const [colCount, setColCount] = createSignal(0);
 
   let serverScrollTargetElement!: HTMLDivElement;
   let emojiScrollTargetElement!: HTMLDivElement;
 
+  onMount(() =>
+    createResizeObserver(emojiScrollTargetElement, ({ width }) =>
+      setColCount(Math.floor(width / 40)),
+    ),
+  );
+
   const items = createMemo(() => {
+    const cols = colCount();
+    if (!cols) return [];
+
     const filterText = filter().toLowerCase();
 
     if (filterText) {
@@ -91,9 +102,15 @@ export function EmojiPicker() {
               .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
               .map((emoji) => ({ t: 2, emoji })),
           ),
-        ...Object.entries(emojiMapping)
-          .filter(([name]) => name.toLowerCase().includes(filterText))
-          .map(([name, text]) => ({ t: 4, name, text })),
+        ...EMOJI_MAP_DEDUPE.filter(
+          (ed) =>
+            ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
+              .length > 0,
+        ).map((ed) => ({
+          t: 4,
+          name: ed.shorthands[0],
+          text: ed.emoji,
+        })),
       ] as Item[];
     }
 
@@ -109,7 +126,7 @@ export function EmojiPicker() {
         server,
       });
 
-      while (items.length % COLUMNS) {
+      while (items.length % cols) {
         items.push({ t: 1 });
       }
 
@@ -117,7 +134,7 @@ export function EmojiPicker() {
         items.push({ t: 2, emoji });
       }
 
-      while (items.length % COLUMNS) {
+      while (items.length % cols) {
         items.push({ t: 1 });
       }
     }
@@ -127,15 +144,15 @@ export function EmojiPicker() {
       title: "Default",
     });
 
-    while (items.length % COLUMNS) {
+    while (items.length % cols) {
       items.push({ t: 1 });
     }
 
-    for (const emoji of Object.entries(emojiMapping)) {
+    for (const emoji of EMOJI_MAP) {
       items.push({
         t: 4,
-        name: emoji[0],
-        text: emoji[1] as string,
+        name: emoji.shorthands[0],
+        text: emoji.emoji,
       });
     }
 
@@ -151,7 +168,7 @@ export function EmojiPicker() {
   return (
     <Stack>
       <TextField
-        autoFocus
+        autoFocus={!isMobile}
         variant="outlined"
         placeholder="Search for emojis..."
         value={filter()}
@@ -183,7 +200,7 @@ export function EmojiPicker() {
                   );
                   if (idx !== -1 && emojiScrollTargetElement) {
                     emojiScrollTargetElement.scrollTop =
-                      Math.floor(idx / COLUMNS) * 40;
+                      Math.floor(idx / colCount()) * 40;
                   }
                 }}
               />
@@ -202,7 +219,7 @@ export function EmojiPicker() {
               items={items()}
               scrollTarget={emojiScrollTargetElement}
               itemSize={{ height: 40, width: 40 }}
-              crossAxisCount={() => COLUMNS}
+              crossAxisCount={colCount}
             >
               {EmojiItem}
             </VirtualContainer>
@@ -330,12 +347,10 @@ const ServerItem = (props: {
     style={props.style as never}
     tabIndex={props.tabIndex}
     role="listitem"
-    onMouseDown={(e) => {
-      e.preventDefault();
+    onClick={(e) => {
       e.stopPropagation();
-      e.stopImmediatePropagation();
+      props.onClick(e);
     }}
-    onClick={props.onClick}
   >
     <Avatar
       size={32}

@@ -153,7 +153,12 @@ const FormFileInput = (
     hideErrors?: boolean;
   } & Pick<
     ComponentProps<typeof FileInput>,
-    "accept" | "imageAspect" | "imageRounded" | "imageJustify" | "allowRemoval"
+    | "accept"
+    | "imageAspect"
+    | "imageRounded"
+    | "imageJustify"
+    | "allowRemoval"
+    | "process"
   >,
 ) => {
   const [local, remote] = splitProps(props, [
@@ -174,6 +179,7 @@ const FormFileInput = (
       <FileInput
         {...remote}
         file={local.control.value}
+        maxSize={local.maxSize}
         onFiles={(files) => {
           if (
             files &&
@@ -301,7 +307,7 @@ const FormButtonGroup = (props: {
 }) => {
   return (
     <>
-      <Row justify="stretch">
+      <Row gap="xs" justify="stretch">
         <For each={props.buttonDefinitions}>
           {(buttonDef, index) => (
             <Button

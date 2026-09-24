@@ -21,6 +21,7 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { createMaterialColourVariables } from "@revolt/ui/themes";
 
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { useSettingsNavigation } from "../../Settings";
 import { ChannelPermissionsEditor } from "../../channel/permissions/ChannelPermissionsEditor";
 
@@ -204,8 +205,13 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             label={t`Role Icon`}
             imageJustify={false}
             maxSize={instance.limits().file_upload_size_limits["icons"]}
+            process={cropProcess({
+              ratio: 1,
+              ratioLabel: t`Square`,
+              allowModeToggle: false,
+              dialogTitle: t`Crop Role Icon`,
+            })}
           />
-
           <Column>
             <Text class="label">
               <Trans>Hoist Role</Trans>
