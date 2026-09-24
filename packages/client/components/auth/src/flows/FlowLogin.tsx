@@ -20,7 +20,8 @@ import { Fields, Form } from "./Form";
 export default function FlowLogin() {
   const state = useState();
   const modals = useModals();
-  const { lifecycle, isLoggedIn, login, selectUsername } = useClientLifecycle();
+  const { lifecycle, isLoggedIn, isError, login, selectUsername } =
+    useClientLifecycle();
 
   /**
    * Log into account
@@ -42,6 +43,15 @@ export default function FlowLogin() {
   }
 
   /**
+   * Leave the error state so the login form works again
+   */
+  function dismissError() {
+    lifecycle.transition({
+      type: TransitionType.Dismiss,
+    });
+  }
+
+  /**
    * Select a new username
    * @param data Form Data
    */
@@ -59,7 +69,6 @@ export default function FlowLogin() {
               subtitle={
                 <Trans>Log in to pick up right where you left off.</Trans>
               }
-              emoji="wave"
             >
               <Trans>Welcome back</Trans>
             </FlowTitle>
@@ -86,6 +95,40 @@ export default function FlowLogin() {
       >
         <Match when={isLoggedIn()}>
           <Navigate href={state.layout.popNextPath() ?? "/app"} />
+        </Match>
+        <Match
+          when={isError() && lifecycle.permanentError === "InvalidSession"}
+        >
+          <FlowTitle
+            subtitle={
+              <Trans>
+                Your session ended, possibly because you logged out on another
+                device. Log in again to continue.
+              </Trans>
+            }
+          >
+            <Trans>You've been logged out</Trans>
+          </FlowTitle>
+
+          <Button variant="filled" onPress={dismissError}>
+            <Trans>Log in again</Trans>
+          </Button>
+        </Match>
+        <Match when={isError()}>
+          <FlowTitle
+            subtitle={
+              <Trans>
+                We couldn't finish logging you in. Try again, and if it keeps
+                happening, check Stoat's status.
+              </Trans>
+            }
+          >
+            <Trans>Something went wrong</Trans>
+          </FlowTitle>
+
+          <Button variant="filled" onPress={dismissError}>
+            <Trans>Try again</Trans>
+          </Button>
         </Match>
         <Match when={lifecycle.state() === State.LoggingIn}>
           {/* the shared bubble shows the loading state */}

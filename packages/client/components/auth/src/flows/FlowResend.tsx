@@ -40,7 +40,6 @@ export default function FlowResend() {
         subtitle={
           <Trans>Enter your email and we'll send you a fresh link.</Trans>
         }
-        emoji="mail"
       >
         <Trans>Resend verification</Trans>
       </FlowTitle>

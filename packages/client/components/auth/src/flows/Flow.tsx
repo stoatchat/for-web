@@ -57,21 +57,6 @@ export const FlowBase = styled("div", {
     "& > a > button": {
       width: "100%",
     },
-
-    "& .auth-choice-actions": {
-      display: "grid",
-      gap: "12px",
-    },
-
-    "& .auth-choice-actions a": {
-      textDecoration: "none",
-    },
-
-    "& .auth-choice-actions button": {
-      width: "100%",
-      borderRadius: "999px",
-      fontWeight: 700,
-    },
   },
 });
 
@@ -648,7 +633,6 @@ export function FlowBubble(props: {
 export function FlowTitle(props: {
   children: JSX.Element;
   subtitle?: JSX.Element;
-  emoji?: "wave" | "mail";
 }) {
   return (
     <Heading>

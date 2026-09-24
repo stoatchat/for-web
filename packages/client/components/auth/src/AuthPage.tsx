@@ -27,7 +27,7 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdDarkMode from "@material-design-icons/svg/filled/dark_mode.svg?component-solid";
 
-import Wordmark from "../../../assets/web/wordmark.svg?component-solid";
+import Wordmark from "../../../public/assets/web/wordmark.svg?component-solid";
 import { AppUpsell } from "./AppUpsell";
 import { BubbleMood, BubbleProvider, FlowBase, FlowBubble } from "./flows/Flow";
 
@@ -377,9 +377,6 @@ export function AuthPage(props: { children: JSX.Element }) {
   };
 
   /**
-   * Treat any input inside the current flow as typing
-   */
-  /**
    * Dev-only: keep typing for a couple of seconds
    */
   function debugType() {
@@ -415,6 +412,9 @@ export function AuthPage(props: { children: JSX.Element }) {
     }, 900);
   }
 
+  /**
+   * Treat any input inside the current flow as typing
+   */
   function onFlowInput() {
     setTyping(true);
     clearTimeout(typingTimer);

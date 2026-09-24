@@ -75,7 +75,6 @@ export default function FlowCreate() {
     <>
       <FlowTitle
         subtitle={<Trans>Set up your account and make yourself at home.</Trans>}
-        emoji="wave"
       >
         <Trans>Join Stoat</Trans>
       </FlowTitle>

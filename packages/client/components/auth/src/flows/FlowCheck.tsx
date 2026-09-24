@@ -37,7 +37,6 @@ export default function FlowCheck() {
             for it to arrive.
           </Trans>
         }
-        emoji="mail"
       >
         <Trans>Check your email</Trans>
       </FlowTitle>
