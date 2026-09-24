@@ -11,6 +11,7 @@ import { Text } from "@revolt/ui/components/design";
 import { Column } from "@revolt/ui/components/layout";
 import { OverflowingText, SizedContent } from "@revolt/ui/components/utils";
 
+import { MessageContextMenu } from "@revolt/app";
 import { Attachment } from "./Attachment";
 import { SpecialEmbed } from "./SpecialEmbed";
 
@@ -167,6 +168,13 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                   controls
                   playsinline
                   preload="metadata"
+                  use:floating={{
+                    contextMenu: () => (
+                      <MessageContextMenu
+                        file={(props.embed as WebsiteEmbed).video!}
+                      />
+                    ),
+                  }}
                   src={(props.embed as WebsiteEmbed).video!.proxiedURL}
                 />
               </SizedContent>
@@ -180,6 +188,13 @@ export function TextEmbed(props: { embed: TextEmbedClass | WebsiteEmbed }) {
                   src={(props.embed as WebsiteEmbed).image!.proxiedURL}
                   loading="lazy"
                   class={css({ cursor: "pointer" })}
+                  use:floating={{
+                    contextMenu: () => (
+                      <MessageContextMenu
+                        file={(props.embed as WebsiteEmbed).image!}
+                      />
+                    ),
+                  }}
                   onClick={() =>
                     openModal({
                       type: "image_viewer",

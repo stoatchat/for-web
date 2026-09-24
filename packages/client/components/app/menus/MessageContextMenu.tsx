@@ -207,7 +207,7 @@ export function MessageContextMenu(props: {
         } else {
           // Workaround for copying unsupported formats to the clipboard
           // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-          _writeBlob(blob, `web ${blob.type}`);
+          await _writeBlob(blob, `web ${blob.type}`);
         }
       }
     } catch (error) {
