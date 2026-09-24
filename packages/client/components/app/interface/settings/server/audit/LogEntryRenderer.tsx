@@ -2,6 +2,7 @@ import { plural } from "@lingui/core/macro";
 import { useLingui } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { useUser } from "@revolt/markdown/users";
+import { useState } from "@revolt/state";
 import {
   Avatar,
   CircularProgress,
@@ -57,6 +58,8 @@ function Title(props: { entry: API.AuditLogEntry }) {
   const userID = () => props.entry.user;
   const user = useUser(userID);
 
+  const { datePerSecond } = useState();
+
   return (
     <Row align>
       <Suspense fallback={<CircularProgress />}>
@@ -66,7 +69,7 @@ function Title(props: { entry: API.AuditLogEntry }) {
           fallback={user()?.username ?? "Unknown"}
         />
       </Suspense>
-      <Column>
+      <Column gap="none">
         <span class={typography({ class: "title", size: "small" })}>
           {title(props.entry)}
         </span>
@@ -74,7 +77,11 @@ function Title(props: { entry: API.AuditLogEntry }) {
           <Show when={props.entry.reason}>
             <span>{props.entry.reason} - </span>
           </Show>
-          <Time format="relative" value={decodeTime(props.entry._id)} />
+          <Time
+            format="relative"
+            value={decodeTime(props.entry._id)}
+            referenceTime={datePerSecond()}
+          />
         </span>
       </Column>
     </Row>
