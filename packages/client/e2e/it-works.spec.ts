@@ -4,9 +4,14 @@ test("shows a working login page", async ({ page }) => {
   await page.goto("");
   await expect(page).toHaveTitle(/Stoat/);
 
-  const login = page.getByRole("button", { name: "Log In" });
-  await expect(login).toBeVisible();
-  await login.click();
+  await expect(
+    page.getByRole("heading", { name: "Welcome back" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Log in", exact: true }),
+  ).toBeVisible();
 
-  await expect(page.getByText(/Sign into Stoat/)).toBeVisible();
+  await page.getByRole("link", { name: "Create account" }).click();
+
+  await expect(page.getByRole("heading", { name: "Join Stoat" })).toBeVisible();
 });
