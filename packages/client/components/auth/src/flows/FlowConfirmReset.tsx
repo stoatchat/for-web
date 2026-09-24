@@ -1,7 +1,7 @@
 import { Trans } from "@lingui/solid/macro";
 
 import { useApi } from "@revolt/client";
-import { useNavigate, useParams } from "@revolt/routing";
+import { A, useNavigate, useParams } from "@revolt/routing";
 import { Button } from "@revolt/ui";
 
 import { FlowTitle } from "./Flow";
@@ -34,20 +34,22 @@ export default function FlowConfirmReset() {
 
   return (
     <>
-      <FlowTitle>
+      <FlowTitle
+        subtitle={<Trans>Choose a new password for your Stoat account.</Trans>}
+      >
         <Trans>Reset password</Trans>
       </FlowTitle>
       <Form onSubmit={reset}>
         <Fields fields={["new-password", "log-out"]} />
-        <Button type="submit">
+        <Button type="submit" size="md">
           <Trans>Reset</Trans>
         </Button>
       </Form>
-      <a href="/login/auth">
+      <A href="/login/auth">
         <Button variant="text">
           <Trans>Go back to login</Trans>
         </Button>
-      </a>
+      </A>
     </>
   );
 }

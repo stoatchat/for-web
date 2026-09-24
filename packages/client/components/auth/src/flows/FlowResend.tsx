@@ -2,7 +2,7 @@ import { Trans } from "@lingui/solid/macro";
 
 import { useApi } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
-import { useNavigate } from "@revolt/routing";
+import { A, useNavigate } from "@revolt/routing";
 import { Button } from "@revolt/ui";
 
 import { FlowTitle } from "./Flow";
@@ -36,20 +36,24 @@ export default function FlowResend() {
 
   return (
     <>
-      <FlowTitle>
+      <FlowTitle
+        subtitle={
+          <Trans>Enter your email and we'll send you a fresh link.</Trans>
+        }
+      >
         <Trans>Resend verification</Trans>
       </FlowTitle>
       <Form onSubmit={resend} captcha={config.features.captcha.key}>
         <Fields fields={["email"]} />
-        <Button type="submit">
+        <Button type="submit" size="md">
           <Trans>Resend</Trans>
         </Button>
       </Form>
-      <a href="/login/auth">
+      <A href="/login/auth">
         <Button variant="text">
           <Trans>Go back to login</Trans>
         </Button>
-      </a>
+      </A>
     </>
   );
 }
