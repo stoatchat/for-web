@@ -8,7 +8,7 @@ import { ColouredText, Symbol } from "@revolt/ui";
 
 import { SettingsConfiguration } from ".";
 import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissionsEditor";
-import { AuditLog } from "./server/AuditLog";
+import { ListAuditLogs } from "./server/audit/ListAuditLogs";
 import Overview from "./server/Overview";
 import { ListServerBans } from "./server/bans/ListBans";
 import { EmojiList } from "./server/emojis/EmojiList";
@@ -74,7 +74,7 @@ const Config: SettingsConfiguration<Server> = {
       case "bans":
         return <ListServerBans server={server} />;
       case "audit":
-        return <AuditLog server={server} />;
+        return <ListAuditLogs server={server} />;
 
       default:
         return null;
