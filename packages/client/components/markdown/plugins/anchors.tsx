@@ -20,7 +20,10 @@ import MdPeople from "@material-design-icons/svg/outlined/people.svg?component-s
 const link = cva({
   base: {
     cursor: "pointer",
-    color: "var(--md-sys-color-primary) !important",
+    color: "var(--md-sys-color-primary)",
+    _hover: {
+      textDecorationColor: "currentColor",
+    },
   },
 });
 
@@ -38,9 +41,9 @@ const internalLink = cva({
     cursor: "pointer",
     fontWeight: 600,
     borderRadius: "var(--borderRadius-lg)",
-    fill: "var(--md-sys-color-on-primary)",
-    color: "var(--md-sys-color-on-primary)",
-    background: "var(--md-sys-color-primary)",
+    fill: "var(--md-sys-color-on-primary-fixed)",
+    color: "var(--md-sys-color-on-primary-fixed)",
+    background: "var(--md-sys-color-primary-fixed-dim)",
   },
 });
 
@@ -255,7 +258,7 @@ export function RenderAnchor(
         fallback={
           <LinkComponent
             {...remoteProps}
-            class={link()}
+            class={link() + " " + remoteProps.class}
             dest={localProps.href}
             disabled={localProps.disabled}
             onClick={onHandleWarning}
@@ -265,7 +268,7 @@ export function RenderAnchor(
       >
         <LinkComponent
           {...remoteProps}
-          class={link()}
+          class={link() + " " + remoteProps.class}
           disabled={localProps.disabled}
           dest={localProps.href}
           href={localProps.href}

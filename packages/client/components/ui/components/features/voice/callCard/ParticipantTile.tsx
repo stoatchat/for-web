@@ -186,8 +186,9 @@ export const tile = cva({
     maxWidth: "calc(var(--vc-h) * 16 / 9)",
     cursor: "pointer",
 
-    color: "var(--md-sys-color-on-surface)",
-    background: "#0002",
+    color: "var(--md-sys-color-on-secondary-container)",
+    background:
+      "color-mix(in srgb, var(--md-sys-color-secondary-container), black 10%)",
 
     overflow: "hidden",
     outlineWidth: "3px",
