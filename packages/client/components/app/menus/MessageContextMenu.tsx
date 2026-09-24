@@ -161,6 +161,20 @@ export function MessageContextMenu(props: {
     navigator.clipboard.writeText(getFileUrl());
   }
 
+  async function _writeBlob(blob: Blob | null, type?: string) {
+    if (!blob) return;
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        // Workaround for the clipboard API being extremely picky
+        // https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+        [type ?? blob.type]: blob,
+      }),
+    ]);
+
+    snackbar.show({ message: t`Copied file to clipboard` });
+  }
+
   /**
    * Download the file and insert it to the user's clipboard
    */
@@ -171,17 +185,31 @@ export function MessageContextMenu(props: {
         throw new Error(`Failed to download file: ${res.statusText}.`);
 
       const blob = await res.blob();
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          // Workaround for the clipboard API being extremely picky
-          // https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-          [`web ${blob.type}`]: blob,
-        }),
-      ]);
+      if (ClipboardItem.supports(blob.type)) {
+        await _writeBlob(blob);
+      } else {
+        if (blob.type.startsWith("image/")) {
+          // Naively convert to PNG
+          const c = document.createElement("canvas"),
+            ctx = c.getContext("2d"),
+            img = new Image();
 
-      snackbar.show({
-        message: t`Copied file to clipboard`,
-      });
+          img.onload = () => {
+            c.width = img.width;
+            c.height = img.height;
+            ctx!.drawImage(img, 0, 0);
+            URL.revokeObjectURL(img.src);
+            c.toBlob(_writeBlob, "image/png");
+          };
+
+          img.onerror = showError;
+          img.src = URL.createObjectURL(blob);
+        } else {
+          // Workaround for copying unsupported formats to the clipboard
+          // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+          _writeBlob(blob, `web ${blob.type}`);
+        }
+      }
     } catch (error) {
       showError(error);
     }
