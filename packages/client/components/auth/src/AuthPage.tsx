@@ -41,12 +41,8 @@ const Root = styled("div", {
     minHeight: 0,
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface)",
-    overflow: "hidden",
     overflowX: "hidden",
-
-    "@media (max-width: 900px)": {
-      overflowY: "auto",
-    },
+    overflowY: "auto",
   },
 });
 

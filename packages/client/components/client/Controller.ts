@@ -534,7 +534,7 @@ export default class ClientController {
     if (session.result === "Disabled") {
       // TODO
       alert("Account is disabled, run special logic here.");
-      return;
+      return false;
     }
 
     const createdSession = {

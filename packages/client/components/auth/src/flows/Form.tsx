@@ -254,8 +254,10 @@ interface Props {
 
   /**
    * Submission handler
+   *
+   * Resolve to false when nothing was actually submitted, so no success is shown
    */
-  onSubmit: (data: FormData) => Promise<void> | void;
+  onSubmit: (data: FormData) => Promise<void | boolean> | void | boolean;
 }
 
 /**
@@ -299,8 +301,7 @@ export function Form(props: Props) {
       }
 
       try {
-        await props.onSubmit(formData);
-        bubble?.flashSuccess();
+        if ((await props.onSubmit(formData)) !== false) bubble?.flashSuccess();
       } catch (err) {
         console.error(err);
         setError(err);
