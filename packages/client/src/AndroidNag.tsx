@@ -1,4 +1,5 @@
 import { Trans } from "@lingui/solid/macro";
+import { PLAY_STORE_URL } from "@revolt/common/lib/links";
 import { useState } from "@revolt/state";
 import { Button, Text } from "@revolt/ui";
 import { Show, createSignal } from "solid-js";
@@ -9,12 +10,6 @@ import AndroidPromo from "../public/assets/inapp-promotion/web/android-phone.png
  * Section ID used to persist permanent dismissal of the nag screen
  */
 const ANDROID_NAG_DISMISS_KEY = "android-nag-dismissed";
-
-/**
- * Google Play listing for the Stoat app
- */
-const PLAY_STORE_URL =
-  "https://play.google.com/store/apps/details?id=chat.revolt";
 
 /**
  * Whether the current device is running Android

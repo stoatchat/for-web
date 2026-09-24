@@ -5,15 +5,8 @@ import { Trans } from "@lingui/solid/macro";
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { useModals } from "@revolt/modal";
-import { Navigate } from "@revolt/routing";
-import {
-  Button,
-  CircularProgress,
-  Column,
-  Row,
-  Text,
-  iconSize,
-} from "@revolt/ui";
+import { A, Navigate } from "@revolt/routing";
+import { Button, Column, Row, Text, iconSize } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
@@ -27,7 +20,8 @@ import { Fields, Form } from "./Form";
 export default function FlowLogin() {
   const state = useState();
   const modals = useModals();
-  const { lifecycle, isLoggedIn, login, selectUsername } = useClientLifecycle();
+  const { lifecycle, isLoggedIn, isError, login, selectUsername } =
+    useClientLifecycle();
 
   /**
    * Log into account
@@ -37,15 +31,24 @@ export default function FlowLogin() {
     const email = data.get("email") as string;
     const password = data.get("password") as string;
 
-    if (!email || !password) return;
+    if (!email || !password) return false;
 
-    await login(
+    return login(
       {
         email,
         password,
       },
       modals,
     );
+  }
+
+  /**
+   * Leave the error state so the login form works again
+   */
+  function dismissError() {
+    lifecycle.transition({
+      type: TransitionType.Dismiss,
+    });
   }
 
   /**
@@ -62,33 +65,30 @@ export default function FlowLogin() {
       <Switch
         fallback={
           <>
-            <FlowTitle subtitle={<Trans>Sign into Stoat</Trans>} emoji="wave">
-              <Trans>Welcome!</Trans>
+            <FlowTitle
+              subtitle={
+                <Trans>Log in to pick up right where you left off.</Trans>
+              }
+            >
+              <Trans>Welcome back</Trans>
             </FlowTitle>
             <Form onSubmit={performLogin}>
               <Fields fields={["email", "password"]} />
-              <Column gap="xl" align>
-                <a href="/login/reset">
+              <Column gap="sm" align class="auth-help-links">
+                <A href="/login/reset">
                   <Button variant="text">
-                    <Trans>Reset password</Trans>
+                    <Trans>Forgot password?</Trans>
                   </Button>
-                </a>
-                <a href="/login/resend">
+                </A>
+                <A href="/login/resend">
                   <Button variant="text">
                     <Trans>Resend verification</Trans>
                   </Button>
-                </a>
+                </A>
               </Column>
-              <Row align justify>
-                <a href="..">
-                  <Button variant="text">
-                    <MdArrowBack {...iconSize("1.2em")} /> <Trans>Back</Trans>
-                  </Button>
-                </a>
-                <Button type="submit">
-                  <Trans>Login</Trans>
-                </Button>
-              </Row>
+              <Button type="submit" size="md">
+                <Trans>Log in</Trans>
+              </Button>
             </Form>
           </>
         }
@@ -96,8 +96,45 @@ export default function FlowLogin() {
         <Match when={isLoggedIn()}>
           <Navigate href={state.layout.popNextPath() ?? "/app"} />
         </Match>
+        <Match
+          when={isError() && lifecycle.permanentError === "InvalidSession"}
+        >
+          <FlowTitle
+            subtitle={
+              <Trans>
+                Your session ended, possibly because you logged out on another
+                device. Log in again to continue.
+              </Trans>
+            }
+          >
+            <Trans>You've been logged out</Trans>
+          </FlowTitle>
+
+          <Button variant="filled" onPress={dismissError}>
+            <Trans>Log in again</Trans>
+          </Button>
+        </Match>
+        <Match when={isError()}>
+          <FlowTitle
+            subtitle={
+              <Trans>
+                We couldn't finish logging you in. Try again, and if it keeps
+                happening, check Stoat's status.
+              </Trans>
+            }
+          >
+            <Trans>Something went wrong</Trans>
+          </FlowTitle>
+
+          <Button variant="filled" onPress={dismissError}>
+            <Trans>Try again</Trans>
+          </Button>
+        </Match>
         <Match when={lifecycle.state() === State.LoggingIn}>
-          <CircularProgress />
+          {/* the shared bubble shows the loading state */}
+          <FlowTitle>
+            <Trans>Logging you in…</Trans>
+          </FlowTitle>
         </Match>
         <Match when={lifecycle.state() === State.Onboarding}>
           <FlowTitle>
@@ -124,7 +161,7 @@ export default function FlowLogin() {
               >
                 <MdArrowBack {...iconSize("1.2em")} /> <Trans>Cancel</Trans>
               </Button>
-              <Button type="submit">
+              <Button type="submit" size="md">
                 <Trans>Confirm</Trans>
               </Button>
             </Row>

@@ -17,7 +17,6 @@ import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
 import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
 import FlowDeleteAccount from "@revolt/auth/src/flows/FlowDelete";
-import FlowHome from "@revolt/auth/src/flows/FlowHome";
 import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
 import FlowReset from "@revolt/auth/src/flows/FlowReset";
@@ -155,7 +154,7 @@ const routes = () => (
       <Route path="/reset" component={FlowReset} />
       <Route path="/verify/:token" component={FlowVerify} />
       <Route path="/reset/:token" component={FlowConfirmReset} />
-      <Route path="/*" component={FlowHome} />
+      <Route path="/*" component={FlowLogin} />
     </Route>
     <Route path="/" component={Interface as never}>
       <Route path="/pwa" component={PWARedirect} />
