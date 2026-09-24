@@ -21,6 +21,7 @@ import { CreateOrJoinServerModal } from "./modals/CreateOrJoinServer";
 import { CreateRoleModal } from "./modals/CreateRole";
 import { CreateServerModal } from "./modals/CreateServer";
 import { CreateWebhookModal } from "./modals/CreateWebhook";
+import { CropModal } from "./modals/CropProcess";
 import { CustomStatusModal } from "./modals/CustomStatus";
 import { DeleteBotModal } from "./modals/DeleteBot";
 import { DeleteCategoryModal } from "./modals/DeleteCategory";
@@ -213,6 +214,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <EditEmojiModal {...modalProps} />;
     case "delete_emoji":
       return <DeleteEmojiModal {...modalProps} />;
+    case "crop":
+      return <CropModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",

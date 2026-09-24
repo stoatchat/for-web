@@ -1,5 +1,11 @@
-import type { JSX } from "solid-js";
-import { Match, Show, Switch, createSignal, splitProps } from "solid-js";
+import {
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createSignal,
+  splitProps,
+} from "solid-js";
 
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
@@ -59,7 +65,7 @@ interface Props {
     files: File[],
     resolve: (files: File[] | null) => void,
     maxSize: number | undefined,
-  ) => JSX.Element;
+  ) => void;
 }
 
 /**
@@ -139,6 +145,13 @@ export function FileInput(props: Props) {
     }
   }
 
+  createEffect(() => {
+    const filesToProcess = pendingProcess();
+    if (local.process && filesToProcess) {
+      local.process!(filesToProcess, resolveProcess, local.maxSize);
+    }
+  });
+
   return (
     <>
       <Switch
@@ -196,10 +209,6 @@ export function FileInput(props: Props) {
           </Row>
         </Match>
       </Switch>
-
-      <Show when={local.process && pendingProcess()}>
-        {(files) => local.process!(files(), resolveProcess, local.maxSize)}
-      </Show>
     </>
   );
 }

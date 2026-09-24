@@ -6,11 +6,14 @@ import {
   type ImageCropperHandle,
   CropSizeError,
   Dialog,
+  DialogProps,
   humanFileSize,
   ImageCropper,
 } from "@revolt/ui";
 
+import { useModals } from "..";
 import { isAnimatedWebP } from "../../ui/components/utils/isAnimatedWebp";
+import { Modals } from "../types";
 
 export interface CropProcessOptions {
   ratio: number;
@@ -36,123 +39,128 @@ export function cropProcess(options: CropProcessOptions) {
     files: File[],
     resolve: (files: File[] | null) => void,
     maxSize: number | undefined,
-  ): JSX.Element => {
+  ): void => {
     const file = files[0];
+    const { openModal } = useModals();
 
-    const [skip, setSkip] = createSignal<boolean>(false);
     if (file && file.type === "image/gif") {
       resolve([file]);
-      setSkip(true);
+      return;
     }
 
     if (file && file.type === "image/webp") {
       isAnimatedWebP(file).then((animated) => {
         if (animated) {
           resolve([file]);
-          setSkip(true);
+          return;
         }
       });
     }
 
-    const objectUrl = URL.createObjectURL(file);
-    const [sizeError, setSizeError] = createSignal<CropSizeError | null>(null);
-    const [hardError, setHardError] = createSignal<string | null>(null);
-    let cropHandle: ImageCropperHandle | undefined;
-
-    onCleanup(() => {
-      URL.revokeObjectURL(objectUrl);
-    });
-
-    async function confirm() {
-      if (!cropHandle) return;
-      try {
-        const { file: cropped } = await cropHandle.crop();
-        URL.revokeObjectURL(objectUrl);
-        resolve([cropped]);
-      } catch (e: unknown) {
-        if (e instanceof CropSizeError) {
-          // Keep the dialog open (don't resolve) so the user can shrink
-          // the crop area and try again instead of starting the pick over.
-          setSizeError(e);
-          return;
-        }
-        if (e instanceof Error) {
-          setHardError(e.message);
-        } else {
-          setHardError("An unknown error occurred");
-        }
-        throw e;
-      }
-    }
-
-    return (
-      <Show when={!skip()}>
-        <Dialog
-          show
-          onClose={() => resolve(null)}
-          title={options.dialogTitle ?? <Trans>Crop image</Trans>}
-          minWidth={360}
-          actions={[
-            { text: <Trans>Cancel</Trans> },
-            {
-              text: <Trans>Crop</Trans>,
-              onClick: async () => {
-                try {
-                  await confirm();
-                } catch (e: unknown) {
-                  if (e instanceof Error) {
-                    setHardError(e.message);
-                  } else {
-                    setHardError("An unknown error occurred");
-                  }
-                }
-              },
-            },
-          ]}
-        >
-          <ImageCropper
-            src={objectUrl}
-            sourceFile={file}
-            maxSize={maxSize}
-            ratio={options.ratio}
-            ratioLabel={options.ratioLabel}
-            circularMask={options.circularMask}
-            allowModeToggle={options.allowModeToggle ?? true}
-            ref={(h) => (cropHandle = h)}
-          />
-          <Show when={sizeError()}>
-            {(e) => (
-              <p
-                style={{
-                  color: "var(--md-sys-color-error)",
-                  "font-size": "13px",
-                  "margin-top": "8px",
-                }}
-              >
-                <Trans>
-                  Cropped image is too large — try a smaller crop area (max.{" "}
-                  {humanFileSize(e().maxSize)})
-                </Trans>
-              </p>
-            )}
-          </Show>
-          <Show when={hardError()}>
-            {(e) => (
-              <p
-                style={{
-                  color: "var(--md-sys-color-error)",
-                  "font-size": "13px",
-                  "margin-top": "8px",
-                }}
-              >
-                <Trans>
-                  An error occurred while processing the image: {e()}
-                </Trans>
-              </p>
-            )}
-          </Show>
-        </Dialog>
-      </Show>
-    );
+    openModal({ type: "crop", options, files, resolve, maxSize });
   };
+}
+
+export function CropModal(props: DialogProps & Modals & { type: "crop" }) {
+  const file = props.files[0];
+
+  const objectUrl = URL.createObjectURL(file);
+  const [sizeError, setSizeError] = createSignal<CropSizeError | null>(null);
+  const [hardError, setHardError] = createSignal<string | null>(null);
+  let cropHandle: ImageCropperHandle | undefined;
+
+  onCleanup(() => {
+    URL.revokeObjectURL(objectUrl);
+  });
+
+  async function confirm() {
+    if (!cropHandle) return;
+    try {
+      const { file: cropped } = await cropHandle.crop();
+      URL.revokeObjectURL(objectUrl);
+      props.resolve([cropped]);
+    } catch (e: unknown) {
+      if (e instanceof CropSizeError) {
+        // Keep the dialog open (don't resolve) so the user can shrink
+        // the crop area and try again instead of starting the pick over.
+        setSizeError(e);
+        return;
+      }
+      if (e instanceof Error) {
+        setHardError(e.message);
+      } else {
+        setHardError("An unknown error occurred");
+      }
+      throw e;
+    }
+  }
+
+  return (
+    <Dialog
+      show={props.show}
+      onClose={() => {
+        props.resolve(null);
+        props.onClose();
+      }}
+      title={props.options.dialogTitle ?? <Trans>Crop image</Trans>}
+      minWidth={360}
+      actions={[
+        { text: <Trans>Cancel</Trans> },
+        {
+          text: <Trans>Crop</Trans>,
+          onClick: async () => {
+            try {
+              await confirm();
+            } catch (e: unknown) {
+              if (e instanceof Error) {
+                setHardError(e.message);
+              } else {
+                setHardError("An unknown error occurred");
+              }
+            }
+          },
+        },
+      ]}
+    >
+      <ImageCropper
+        src={objectUrl}
+        sourceFile={file}
+        maxSize={props.maxSize}
+        ratio={props.options.ratio}
+        ratioLabel={props.options.ratioLabel}
+        circularMask={props.options.circularMask}
+        allowModeToggle={props.options.allowModeToggle ?? true}
+        ref={(h) => (cropHandle = h)}
+      />
+      <Show when={sizeError()}>
+        {(e) => (
+          <p
+            style={{
+              color: "var(--md-sys-color-error)",
+              "font-size": "13px",
+              "margin-top": "8px",
+            }}
+          >
+            <Trans>
+              Cropped image is too large — try a smaller crop area (max.{" "}
+              {humanFileSize(e().maxSize)})
+            </Trans>
+          </p>
+        )}
+      </Show>
+      <Show when={hardError()}>
+        {(e) => (
+          <p
+            style={{
+              color: "var(--md-sys-color-error)",
+              "font-size": "13px",
+              "margin-top": "8px",
+            }}
+          >
+            <Trans>An error occurred while processing the image: {e()}</Trans>
+          </p>
+        )}
+      </Show>
+    </Dialog>
+  );
 }
