@@ -7,6 +7,7 @@ import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { A, useNavigate, useParams } from "@revolt/routing";
 import { Button, iconSize } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
@@ -29,6 +30,36 @@ const BackAction = styled("div", {
 });
 
 /**
+ * Reassurance shown while typing an email address to sign up with
+ */
+function EmailPrivacyHint() {
+  return (
+    <>
+      <Symbol size={20}>lock</Symbol>
+      <div>
+        <strong>
+          <Trans>Your email stays private</Trans>
+        </strong>
+        <p>
+          <Trans>
+            We only use it to verify your account and help you get back in if
+            you're ever locked out. We'll never sell it or send you spam.
+          </Trans>
+        </p>
+        <a
+          href="https://stoat.chat/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={-1} // redundant for kb nav -> another link in footer
+        >
+          <Trans>Privacy policy</Trans>
+        </a>
+      </div>
+    </>
+  );
+}
+
+/**
  * Flow for creating a new account
  */
 export default function FlowCreate() {
@@ -37,7 +68,7 @@ export default function FlowCreate() {
   const { code } = useParams();
   const modals = useModals();
   const { login } = useClientLifecycle();
-  const { config } = useInstance();
+  const { config, isStoat } = useInstance();
 
   /**
    * Create an account
@@ -79,7 +110,13 @@ export default function FlowCreate() {
         <Trans>Join Stoat</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={config.features.captcha.key}>
-        <Fields fields={["email", "new-password"]} />
+        <Fields
+          fields={[
+            // Stoat's privacy policy doesn't cover third party instances
+            isStoat ? { field: "email", hint: <EmailPrivacyHint /> } : "email",
+            "new-password",
+          ]}
+        />
         <Show when={config.features.invite_only}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>
