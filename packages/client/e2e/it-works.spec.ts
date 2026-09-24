@@ -4,14 +4,15 @@ test("shows a working login page", async ({ page }) => {
   await page.goto("");
   await expect(page).toHaveTitle(/Stoat/);
 
-  await expect(
-    page.getByRole("heading", { name: "Welcome back" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Log in", exact: true }),
-  ).toBeVisible();
+  const form = page.locator("form");
+  await expect(form.locator('mdui-text-field[name="email"]')).toBeVisible();
+  await expect(form.locator('mdui-text-field[name="password"]')).toBeVisible();
+  await expect(form.locator('button[type="submit"]')).toBeVisible();
 
-  await page.getByRole("link", { name: "Create account" }).click();
+  await page.locator('a[href$="/login/create"]').first().click();
 
-  await expect(page.getByRole("heading", { name: "Join Stoat" })).toBeVisible();
+  await expect(page).toHaveURL(/\/login\/create$/);
+  await expect(
+    page.locator('mdui-text-field[name="new-password"]'),
+  ).toBeVisible();
 });
