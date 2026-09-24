@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-25 00:03+0000\n"
+"PO-Revision-Date: 2026-09-24 08:18+0000\n"
 "Last-Translator: World170_ <world170_@users.noreply.translate.stoat.chat>\n"
-"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/revolt-for-web/es/>\n"
+"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -376,7 +377,7 @@ msgstr "Todos los mensajes"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "All roles have overrides."
-msgstr "Todos los roles tienen excepciones."
+msgstr "Todos los roles tienen permisos personalizados."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "All Systems Operational"
@@ -1592,7 +1593,7 @@ msgstr "Entendido"
 #. placeholder {1}: countBits(props.context.rolePermissions![role.id].d)
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Grants {0} permissions and denies {1} permissions"
-msgstr "Da permisos de {0} y niega permisos de {1}"
+msgstr "Concede {0} permisos y deniega {1} permisos"
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Group Name"
@@ -2171,7 +2172,7 @@ msgstr "Sin permisos establecidos aún"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
-msgstr "No se han configurado excepciones de rol."
+msgstr "No se han configurado permisos personalizados para ningún rol."
 
 #: src/interface/Friends.tsx
 msgid "Nobody here right now!"
@@ -2331,7 +2332,8 @@ msgstr "Permisos"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Permissions available when no role overrides apply"
-msgstr "Permisos aplicables cuando no hay excepciones de rol"
+msgstr ""
+"Permisos predeterminados cuando no hay ningún rol con permisos personalizados"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Permissions available without any role"
@@ -2670,7 +2672,7 @@ msgstr "Nombre de rol"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Role Overrides"
-msgstr "Excepciones de rol"
+msgstr "Roles con permisos personalizados"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
@@ -2679,7 +2681,7 @@ msgstr "Roles"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Roles with No Overrides"
-msgstr "Roles sin excepciones"
+msgstr "Roles sin permisos personalizados"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
