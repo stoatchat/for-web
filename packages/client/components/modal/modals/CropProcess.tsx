@@ -10,6 +10,8 @@ import {
   ImageCropper,
 } from "@revolt/ui";
 
+import { isAnimatedWebP } from "../../ui/components/utils/isAnimatedWebp";
+
 export interface CropProcessOptions {
   ratio: number;
   ratioLabel: string;
@@ -39,6 +41,12 @@ export function cropProcess(options: CropProcessOptions) {
 
     if (file && file.type === "image/gif") {
       resolve([file]);
+    }
+
+    if (file && file.type === "image/webp") {
+      isAnimatedWebP(file).then((animated) => {
+        if (animated) resolve([file]);
+      });
     }
 
     const objectUrl = URL.createObjectURL(file);
