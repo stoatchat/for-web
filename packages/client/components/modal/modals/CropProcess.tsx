@@ -39,13 +39,18 @@ export function cropProcess(options: CropProcessOptions) {
   ): JSX.Element => {
     const file = files[0];
 
+    const [skip, setSkip] = createSignal<boolean>(false);
     if (file && file.type === "image/gif") {
       resolve([file]);
+      setSkip(true);
     }
 
     if (file && file.type === "image/webp") {
       isAnimatedWebP(file).then((animated) => {
-        if (animated) resolve([file]);
+        if (animated) {
+          resolve([file]);
+          setSkip(true);
+        }
       });
     }
 
@@ -81,69 +86,73 @@ export function cropProcess(options: CropProcessOptions) {
     }
 
     return (
-      <Dialog
-        show
-        onClose={() => resolve(null)}
-        title={options.dialogTitle ?? <Trans>Crop image</Trans>}
-        minWidth={360}
-        actions={[
-          { text: <Trans>Cancel</Trans> },
-          {
-            text: <Trans>Crop</Trans>,
-            onClick: async () => {
-              try {
-                await confirm();
-              } catch (e: unknown) {
-                if (e instanceof Error) {
-                  setHardError(e.message);
-                } else {
-                  setHardError("An unknown error occurred");
+      <Show when={!skip()}>
+        <Dialog
+          show
+          onClose={() => resolve(null)}
+          title={options.dialogTitle ?? <Trans>Crop image</Trans>}
+          minWidth={360}
+          actions={[
+            { text: <Trans>Cancel</Trans> },
+            {
+              text: <Trans>Crop</Trans>,
+              onClick: async () => {
+                try {
+                  await confirm();
+                } catch (e: unknown) {
+                  if (e instanceof Error) {
+                    setHardError(e.message);
+                  } else {
+                    setHardError("An unknown error occurred");
+                  }
                 }
-              }
+              },
             },
-          },
-        ]}
-      >
-        <ImageCropper
-          src={objectUrl}
-          sourceFile={file}
-          maxSize={maxSize}
-          ratio={options.ratio}
-          ratioLabel={options.ratioLabel}
-          circularMask={options.circularMask}
-          allowModeToggle={options.allowModeToggle ?? true}
-          ref={(h) => (cropHandle = h)}
-        />
-        <Show when={sizeError()}>
-          {(e) => (
-            <p
-              style={{
-                color: "var(--md-sys-color-error)",
-                "font-size": "13px",
-                "margin-top": "8px",
-              }}
-            >
-              <Trans>
-                Cropped image is too large — try a smaller crop area (max.{" "}
-                {humanFileSize(e().maxSize)})
-              </Trans>
-            </p>
-          )}
-        </Show>
-        <Show when={hardError()}>
-          {(e) => (
-            <p
-              style={{
-                color: "var(--md-sys-color-error)",
-                "font-size": "13px",
-                "margin-top": "8px",
-              }}
-            >
-              <Trans>An error occurred while processing the image: {e()}</Trans>
-            </p>
-          )}
-        </Show>
-      </Dialog>
+          ]}
+        >
+          <ImageCropper
+            src={objectUrl}
+            sourceFile={file}
+            maxSize={maxSize}
+            ratio={options.ratio}
+            ratioLabel={options.ratioLabel}
+            circularMask={options.circularMask}
+            allowModeToggle={options.allowModeToggle ?? true}
+            ref={(h) => (cropHandle = h)}
+          />
+          <Show when={sizeError()}>
+            {(e) => (
+              <p
+                style={{
+                  color: "var(--md-sys-color-error)",
+                  "font-size": "13px",
+                  "margin-top": "8px",
+                }}
+              >
+                <Trans>
+                  Cropped image is too large — try a smaller crop area (max.{" "}
+                  {humanFileSize(e().maxSize)})
+                </Trans>
+              </p>
+            )}
+          </Show>
+          <Show when={hardError()}>
+            {(e) => (
+              <p
+                style={{
+                  color: "var(--md-sys-color-error)",
+                  "font-size": "13px",
+                  "margin-top": "8px",
+                }}
+              >
+                <Trans>
+                  An error occurred while processing the image: {e()}
+                </Trans>
+              </p>
+            )}
+          </Show>
+        </Dialog>
+      </Show>
     );
   };
 }
