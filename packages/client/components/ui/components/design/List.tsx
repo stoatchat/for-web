@@ -42,6 +42,7 @@ function ListItem(props: {
   children: JSXElement;
   rounded?: boolean;
   disabled?: boolean;
+  nonclickable?: boolean;
   onClick?: () => void;
 }) {
   return <mdui-list-item class={listitem()} {...props} />;
