@@ -3,10 +3,11 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-02-22 12:43+0000\n"
-"Last-Translator: Erma Hume <m9rc0010@gmail.com>\n"
-"Language-Team: Chinese (Traditional Han script) <https://translate.stoat.chat/projects/revolt/revolt-for-web/zh_Hant/>\n"
-"Language: zh_Hant\n"
+"PO-Revision-Date: 2026-09-21 10:17+0000\n"
+"Last-Translator: redbean0721 <redbean0721@redbean0721.com>\n"
+"Language-Team: Chinese (Traditional Han script) <https://translate.stoat."
+"chat/projects/revolt/revolt-for-web/zh_Hant/>\n"
+"Language: zh-Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,17 +17,17 @@ msgstr ""
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Yesterday at] LT"
-msgstr ""
+msgstr "[昨天] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Today at] LT"
-msgstr ""
+msgstr "[今天] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Tomorrow at] LT"
-msgstr ""
+msgstr "[明天] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -36,11 +37,11 @@ msgstr "[上]ddddLT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "dddd [at] LT"
-msgstr ""
+msgstr "dddd [在] LT"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "(changes are being saved…)"
-msgstr ""
+msgstr "(正在儲存變更…)"
 
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
@@ -59,37 +60,37 @@ msgstr ""
 #. placeholder {1}: users().slice(-1)[0]!.username
 #: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} and {1} are typing…"
-msgstr ""
+msgstr "{0} 和 {1} 正在輸入…"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel description"
-msgstr ""
+msgstr "{0} 更改了頻道描述"
 
 #. placeholder {0}: (message.systemMessage as ChannelEditSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} changed the channel icon"
-msgstr ""
+msgstr "{0} 更改了頻道圖標"
 
 #. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "{0} emoji slots remaining"
-msgstr ""
+msgstr "剩餘 0 個表情符號槽位"
 
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr ""
+msgstr "{0} 個檔案超過了 {maxSizeFormatted} 的大小限制，因此未上傳。"
 
 #. placeholder {0}: users()[0]!.username
 #: src/interface/channels/text/CompositionInfo.tsx
 msgid "{0} is typing…"
-msgstr ""
+msgstr "{0} 正在輸入…"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} joined"
-msgstr ""
+msgstr "{0} 已加入"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
@@ -110,12 +111,12 @@ msgstr "{0} 釘選了一則訊息"
 #. placeholder {0}: (message.systemMessage as ChannelRenamedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} renamed the channel"
-msgstr ""
+msgstr "{0} 重新命名了頻道"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} unpinned a message"
-msgstr ""
+msgstr "{0} 取消釘選了一則訊息"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
@@ -126,18 +127,18 @@ msgstr ""
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was banned"
-msgstr ""
+msgstr "{0} 被封禁"
 
 #. placeholder {0}: (message.systemMessage as UserSystemMessage).user?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was kicked"
-msgstr ""
+msgstr "{0} 被踢出"
 
 #. placeholder {0}: (message.systemMessage as UserModeratedSystemMessage).user?.username
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr ""
+msgstr "{0} 被 {1} 移除"
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -151,15 +152,12 @@ msgstr ""
 msgid "{0}'s roles"
 msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{h} hours"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{m} minutes"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "{sec} seconds"
 #~ msgstr ""
 
@@ -169,7 +167,7 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr ""
+msgstr "{usernames} 和其他 {unknown} 人做出了反應"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
@@ -189,27 +187,27 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr ""
+msgstr "<0/> 已被 <1/> 移除"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
-msgstr ""
+msgstr "<0/> 加入了伺服器"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the group"
-msgstr ""
+msgstr "<0/> 離開了群組"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> left the server"
-msgstr ""
+msgstr "<0/> 離開了伺服器"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> pinned <1/>"
-msgstr ""
+msgstr "<0/> 已釘選 <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call"
-msgstr ""
+msgstr "<0/> 開始了通話"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> started a call that lasted "
@@ -217,15 +215,15 @@ msgstr ""
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> transferred group ownership to <1/>"
-msgstr ""
+msgstr "<0/> 已將群組所有權轉移給 <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> unpinned <1/>"
-msgstr ""
+msgstr "<0/> 取消釘選 <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
-msgstr ""
+msgstr "<0/> 更新了群組描述"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group icon "
@@ -240,18 +238,12 @@ msgstr ""
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
 msgstr ""
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "1 day"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 hour"
 #~ msgstr ""
 
-#: src/interface/channels/text/Composition.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "1 minute"
 #~ msgstr ""
 
@@ -259,70 +251,58 @@ msgstr ""
 msgid "1 person reacted"
 msgstr "1 人做出反應"
 
-#: src/interface/channels/text/Composition.tsx
 #~ msgid "1 second"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "10 seconds"
 #~ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
-msgstr ""
+msgstr "12 小時"
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "2 hours"
 #~ msgstr ""
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "24 hours"
-msgstr ""
+msgstr "24 小時"
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "3 days"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "30 seconds"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 minutes"
 #~ msgstr ""
 
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "5 seconds"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
-#: components/app/interface/settings/channel/Overview.tsx
 #~ msgid "6 hours"
 #~ msgstr ""
 
-#: components/modal/modals/BanMember.tsx
 #~ msgid "7 days"
 #~ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr ""
+msgstr "能夠存取此伺服器上的頻道"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
-msgstr ""
+msgstr "能夠存取此頻道"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr ""
+msgstr "能夠進行語音通話"
 
 #: components/auth/src/AuthPage.tsx
 msgid "About"
@@ -343,7 +323,7 @@ msgstr ""
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: components/modal/modals/AddFriend.tsx
 #: src/interface/Friends.tsx
@@ -369,31 +349,29 @@ msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr ""
+msgstr "添加狀態文字"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
-msgstr ""
+msgstr "管理權"
 
 #: components/app/menus/ChannelContextMenu.tsx
 #: components/app/menus/MessageContextMenu.tsx
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/UserContextMenu.tsx
 msgid "Admin Panel"
-msgstr ""
+msgstr "管理面板"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Advanced"
 msgstr "進階"
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Affects all roles and users"
 #~ msgstr ""
 
 #: src/interface/Friends.tsx
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -459,17 +437,17 @@ msgstr ""
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to pin this message?"
-msgstr ""
+msgstr "你確定要釘選這則訊息嗎？"
 
 #. placeholder {0}: props.user?.displayName ?? props.user.username
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr ""
+msgstr "你確定要從 {1} 刪除 {0} 嗎？"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
-msgstr ""
+msgstr "你確定要取消釘選這則訊息嗎？"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
@@ -503,7 +481,7 @@ msgstr "頭像"
 #: components/modal/modals/MFAFlow.tsx
 #: src/interface/channels/AgeGate.tsx
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Badges"
@@ -568,13 +546,12 @@ msgstr "機器人"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser"
-msgstr ""
+msgstr "瀏覽器"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Browser Echo Cancellation"
-msgstr ""
+msgstr "瀏覽器迴聲消除"
 
-#: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 #~ msgid "Browser Noise Supression"
 #~ msgstr ""
 
@@ -717,7 +694,6 @@ msgstr ""
 msgid "Change your profile per-server"
 msgstr ""
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Changelog"
 #~ msgstr ""
 
@@ -999,7 +975,6 @@ msgstr ""
 msgid "Create a new group"
 msgstr ""
 
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 #~ msgid "Create a new role"
 #~ msgstr "新建身份組"
 
@@ -1128,10 +1103,6 @@ msgstr "靜音成員"
 msgid "Default"
 msgstr "預設"
 
-#: components/app/interface/settings/ServerSettings.tsx
-#: components/app/interface/settings/ChannelSettings.tsx
-#: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
-#: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 #~ msgid "Default Permissions"
 #~ msgstr ""
 
@@ -1707,7 +1678,6 @@ msgstr "閒置"
 msgid "Illegal hacking or cracking"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Image by @fakurian"
 #~ msgstr ""
 
@@ -2489,7 +2459,6 @@ msgstr ""
 msgid "Read Message History"
 msgstr "閱讀訊息歷史"
 
-#: components/modal/modals/Changelog.tsx
 #~ msgid "Read More"
 #~ msgstr ""
 
@@ -3458,11 +3427,9 @@ msgstr ""
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
 msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default microphone"
 #~ msgstr ""
 
-#: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 #~ msgid "Using default speaker"
 #~ msgstr ""
 
@@ -3588,8 +3555,6 @@ msgstr ""
 msgid "with {0}"
 msgstr ""
 
-#. placeholder {0}: names.join(", ")
-#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 #~ msgid "With {0}"
 #~ msgstr ""
 

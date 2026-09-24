@@ -122,9 +122,8 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
           icon={<MdContentCopy />}
           onClick={() =>
             navigator.clipboard.writeText(
-              instance.href(
+              client().options.baseURL +
                 `/webhooks/${props.webhook.id}/${props.webhook.token}`,
-              ),
             )
           }
         >

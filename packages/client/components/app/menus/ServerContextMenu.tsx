@@ -1,3 +1,4 @@
+import MdFolder from "@material-design-icons/svg/outlined/folder.svg?component-solid";
 import { For, Show } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
@@ -5,13 +6,16 @@ import dayjs from "dayjs";
 import { Server } from "stoat.js";
 
 import { useClient } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Column, Text, Time } from "@revolt/ui";
 
 import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
 import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
+import MdCreateNewFolder from "@material-design-icons/svg/outlined/create_new_folder.svg?component-solid";
 import MdFace from "@material-design-icons/svg/outlined/face.svg?component-solid";
+import MdFolderOff from "@material-design-icons/svg/outlined/folder_off.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMarkChatRead from "@material-design-icons/svg/outlined/mark_chat_read.svg?component-solid";
 import MdNotificationsActive from "@material-design-icons/svg/outlined/notifications_active.svg?component-solid";
@@ -40,6 +44,7 @@ import {
 export function ServerContextMenu(props: { server: Server }) {
   const state = useState();
   const client = useClient();
+  const device = useDevice();
   const { openModal } = useModals();
 
   /**
@@ -232,6 +237,49 @@ export function ServerContextMenu(props: { server: Server }) {
           </For>
         </ContextMenuSubMenu>
       </Show>
+
+      <ContextMenuSubMenu
+        onClick={
+          device.layout() === "desktop" && !device.isMobile && !device.hasTouch
+            ? () => state.ordering.createFolder("New Folder", [props.server.id])
+            : undefined
+        }
+        icon={MdFolder}
+        buttonContent={<Trans>Add to folder</Trans>}
+      >
+        <For each={state.ordering.folders()}>
+          {(folder) => (
+            <ContextMenuButton
+              onClick={() =>
+                state.ordering.addToFolder(folder.id, props.server.id)
+              }
+            >
+              <Show when={folder.name} fallback={<Trans>Unnamed folder</Trans>}>
+                {folder.name}
+              </Show>
+            </ContextMenuButton>
+          )}
+        </For>
+        <ContextMenuButton
+          icon={MdCreateNewFolder}
+          onClick={() =>
+            state.ordering.createFolder("New Folder", [props.server.id])
+          }
+        >
+          <Trans>New folder</Trans>
+        </ContextMenuButton>
+      </ContextMenuSubMenu>
+
+      <Show when={state.ordering.folderOf(props.server.id)}>
+        <ContextMenuButton
+          icon={MdFolderOff}
+          onClick={() => state.ordering.removeFromFolder(props.server.id)}
+        >
+          <Trans>Remove from folder</Trans>
+        </ContextMenuButton>
+      </Show>
+
+      <ContextMenuDivider />
 
       <ContextMenuSubMenu
         symbol={MdNotificationSettings}

@@ -23,6 +23,7 @@ import {
 
 import type { SettingsConfigurations } from "@revolt/app";
 import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
+import { ServerFolder } from "@revolt/state/stores/ServerFolders";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
 
 import type { ChangelogResponse } from "./modals/Changelog";
@@ -319,6 +320,10 @@ export type Modals =
       category: CategoryData;
     }
   | {
+      type: "edit_server_folder";
+      folder: ServerFolder;
+    }
+  | {
       type: "remove_member";
       group: Channel;
       user: User;
@@ -358,4 +363,12 @@ export type Modals =
   | {
       type: "edit_bot_username";
       bot: Bot;
+    }
+  | {
+      type: "edit_emoji";
+      emoji: Emoji;
+    }
+  | {
+      type: "delete_emoji";
+      emoji: Emoji;
     };

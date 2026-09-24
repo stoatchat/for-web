@@ -13,7 +13,11 @@ declare global {
 declare module "solid-js" {
   namespace JSX {
     interface Directives {
-      dndzone: SolidOptions;
+      dndzone: SolidOptions & {
+        transformDraggedElement?: () => (element?: HTMLElement) => void;
+        useCursorForDetection?: boolean | (() => boolean);
+        dropAnimationDisabled?: boolean | (() => boolean);
+      };
 
       scrollable:
         | true
