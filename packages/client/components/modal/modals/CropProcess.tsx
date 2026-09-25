@@ -52,13 +52,25 @@ export function cropProcess(options: CropProcessOptions) {
     }
 
     if (file && file.type === "image/webp") {
-      isAnimatedWebP(file).then((animated) => {
-        if (animated) {
-          resolve([file]);
-        } else {
-          options.openModal({ type: "crop", options, files, resolve, maxSize });
-        }
-      });
+      isAnimatedWebP(file)
+        .then((animated) => {
+          if (animated) {
+            resolve([file]);
+          } else {
+            options.openModal({
+              type: "crop",
+              options,
+              files,
+              resolve,
+              maxSize,
+            });
+          }
+        })
+        // If for some reason the animated webp check fails, just fall back to using the cropper modal.
+        // This may cause bugs with a small subset of webp's, so future readers beware. Here be dragons.
+        .catch(() =>
+          options.openModal({ type: "crop", options, files, resolve, maxSize }),
+        );
       return;
     }
 
