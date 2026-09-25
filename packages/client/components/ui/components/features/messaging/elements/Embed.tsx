@@ -89,7 +89,7 @@ export function Embed(props: { embed: MessageEmbed }) {
             }
             use:floating={{
               contextMenu: () => (
-                <MessageContextMenu file={props.embed as ImageEmbed} />
+                <MessageContextMenu file={props.embed as WebsiteEmbed} />
               ),
             }}
             class={css({ cursor: isGIF() ? "pointer" : "unset" })}

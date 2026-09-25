@@ -1,7 +1,7 @@
 import { Accessor, For, Match, Show, Switch } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
-import { File, ImageEmbed, Message, VideoEmbed } from "stoat.js";
+import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
@@ -42,7 +42,7 @@ import {
 export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
-  file?: File | ImageEmbed | VideoEmbed;
+  file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
   link?: string;
 }) {
   const user = useUser();
@@ -229,9 +229,11 @@ export function MessageContextMenu(props: {
       url = props.file.previewUrl;
     } else if (
       props.file instanceof ImageEmbed ||
-      props.file instanceof VideoEmbed
+      props.file instanceof VideoEmbed ||
+      (props.file instanceof WebsiteEmbed &&
+        props.file.specialContent?.type === "GIF")
     ) {
-      url = props.file.url;
+      url = props.file.url!;
     }
 
     return url;
@@ -268,9 +270,7 @@ export function MessageContextMenu(props: {
           </ContextMenuButton>
         </Show>
 
-        <Show when={Object.keys(props).some((key) => key !== "file")}>
-          <ContextMenuDivider />
-        </Show>
+        <ContextMenuDivider />
       </Show>
       <Show when={props.link}>
         <ContextMenuButton icon={MdLink} onClick={copyLink}>
