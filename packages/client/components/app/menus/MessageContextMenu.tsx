@@ -1,6 +1,5 @@
 import { Accessor, For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
 import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
@@ -26,7 +25,7 @@ import MdReport from "@material-design-icons/svg/outlined/report.svg?component-s
 import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
 import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
 
-import { useLingui } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
 import { useSnackbar } from "@revolt/ui";
 import {
