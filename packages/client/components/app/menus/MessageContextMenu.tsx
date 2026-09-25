@@ -165,7 +165,7 @@ export function MessageContextMenu(props: {
    * Write a blob to the navigator clipboard
    * @param [type] - The blob's MIME type, optional
    */
-  async function _writeBlob(blob: Blob | null, type?: string) {
+  async function writeBlobToClipboard(blob: Blob | null, type?: string) {
     if (!blob) throw new Error("Can't write nothing to the clipboard");
 
     await navigator.clipboard.write([
@@ -190,7 +190,7 @@ export function MessageContextMenu(props: {
 
       const blob = await res.blob();
       if (ClipboardItem.supports(blob.type)) {
-        await _writeBlob(blob);
+        await writeBlobToClipboard(blob);
       } else {
         if (blob.type.startsWith("image/")) {
           // Naively convert to PNG
@@ -205,7 +205,7 @@ export function MessageContextMenu(props: {
             URL.revokeObjectURL(img.src);
             c.toBlob((b) => {
               try {
-                _writeBlob(b, "image/png");
+                writeBlobToClipboard(b, "image/png");
               } catch (error) {
                 showError(error);
               }
@@ -217,7 +217,7 @@ export function MessageContextMenu(props: {
         } else {
           // Workaround for copying unsupported formats to the clipboard
           // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-          await _writeBlob(blob, `web ${blob.type}`);
+          await writeBlobToClipboard(blob, `web ${blob.type}`);
         }
       }
     } catch (error) {
