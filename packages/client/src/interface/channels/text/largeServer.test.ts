@@ -12,14 +12,14 @@ describe("isLargeServer", () => {
   });
 
   test("is false for a server under the threshold", () => {
-    expect(isLargeServer(server(4999))).toBe(false);
+    expect(isLargeServer(server(999))).toBe(false);
   });
 
   test("is false exactly at the threshold", () => {
-    expect(isLargeServer(server(5000))).toBe(false);
+    expect(isLargeServer(server(1000))).toBe(false);
   });
 
   test("is true once a server crosses the threshold", () => {
-    expect(isLargeServer(server(5001))).toBe(true);
+    expect(isLargeServer(server(1001))).toBe(true);
   });
 });
