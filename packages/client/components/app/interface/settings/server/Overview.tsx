@@ -15,6 +15,7 @@ import {
   Text,
 } from "@revolt/ui";
 
+import { useModals } from "@revolt/modal";
 import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { ServerSettingsProps } from "../ServerSettings";
 
@@ -25,6 +26,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
   const { t } = useLingui();
   const client = useClient();
   const instance = useInstance();
+  const { openModal } = useModals();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -229,6 +231,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             process={cropProcess({
               ratio: 1,
               ratioLabel: t`Square`,
+              openModal,
               circularMask: true,
               allowModeToggle: false,
               dialogTitle: t`Crop Server Icon`,
@@ -245,6 +248,7 @@ export default function ServerOverview(props: ServerSettingsProps) {
             process={cropProcess({
               ratio: 232 / 100,
               ratioLabel: t`Banner`,
+              openModal,
               allowModeToggle: false,
               dialogTitle: t`Crop Server Banner`,
             })}

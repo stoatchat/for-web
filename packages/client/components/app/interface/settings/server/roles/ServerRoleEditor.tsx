@@ -208,6 +208,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
             process={cropProcess({
               ratio: 1,
               ratioLabel: t`Square`,
+              openModal,
               allowModeToggle: false,
               dialogTitle: t`Crop Role Icon`,
             })}

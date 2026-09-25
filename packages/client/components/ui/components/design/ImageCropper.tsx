@@ -27,6 +27,11 @@ export type CropMode = "ratio" | "freeform";
 export interface ImageCropperHandle {
   /** Loads the source image fresh and resolves the cropped file. Rejects with CropSizeError if `maxSize` is set and exceeded. */
   crop: () => Promise<CropResult>;
+
+  displaySize: () => {
+    w: number;
+    h: number;
+  };
 }
 
 export interface ImageCropperProps {
@@ -407,7 +412,7 @@ export function ImageCropper(props: ImageCropperProps): JSX.Element {
     );
   }
 
-  props.ref?.({ crop });
+  props.ref?.({ crop, displaySize });
 
   const handles = (): HandleId[] =>
     mode() === "ratio"

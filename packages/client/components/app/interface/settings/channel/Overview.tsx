@@ -118,6 +118,7 @@ export default function ChannelOverview(props: ChannelSettingsProps) {
             process={cropProcess({
               ratio: 1,
               ratioLabel: t`Square`,
+              openModal,
               allowModeToggle: false,
               dialogTitle: t`Crop Channel Icon`,
             })}
