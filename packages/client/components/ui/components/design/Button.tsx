@@ -318,6 +318,7 @@ const button = cva({
       icon: {
         width: "36px",
         height: "36px",
+        "--max-radius": "18px",
       },
       /**
        * @deprecated
