@@ -11,13 +11,13 @@ import {
   ImageCropper,
 } from "@revolt/ui";
 
-import { useModals } from "..";
-import { isAnimatedWebP } from "../../ui/components/utils/isAnimatedWebp";
+import { isAnimatedWebP } from "@revolt/ui/components/utils/isAnimatedWebp";
 import { Modals } from "../types";
 
 export interface CropProcessOptions {
   ratio: number;
   ratioLabel: string;
+  openModal: (props: Modals) => void;
   /** Defaults to true — the mode toggle is always shown, there's just no way to skip cropping entirely. */
   allowModeToggle?: boolean;
   circularMask?: boolean;
@@ -40,8 +40,11 @@ export function cropProcess(options: CropProcessOptions) {
     resolve: (files: File[] | null) => void,
     maxSize: number | undefined,
   ): void => {
+    // Safeguard bad usage
+    if (files.length === 0) {
+      return;
+    }
     const file = files[0];
-    const { openModal } = useModals();
 
     if (file && file.type === "image/gif") {
       resolve([file]);
@@ -52,12 +55,14 @@ export function cropProcess(options: CropProcessOptions) {
       isAnimatedWebP(file).then((animated) => {
         if (animated) {
           resolve([file]);
-          return;
+        } else {
+          options.openModal({ type: "crop", options, files, resolve, maxSize });
         }
       });
+      return;
     }
 
-    openModal({ type: "crop", options, files, resolve, maxSize });
+    options.openModal({ type: "crop", options, files, resolve, maxSize });
   };
 }
 

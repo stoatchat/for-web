@@ -90,6 +90,7 @@ export function EmojiList(props: { server: Server }) {
                 process={cropProcess({
                   ratio: 1,
                   ratioLabel: t`Square`,
+                  openModal,
                   dialogTitle: t`Crop Emoji`,
                 })}
               />
