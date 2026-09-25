@@ -68,6 +68,7 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
+import { ViewReactionsModal } from "./modals/ViewReactions";
 
 /**
  * Render the modal
@@ -200,6 +201,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <RemoveMemberModal {...modalProps} />;
     case "pin_message":
       return <PinMessageModal {...modalProps} />;
+    case "view_reactions":
+      return <ViewReactionsModal {...modalProps} />;
     case "edit_bot_username":
       return <EditBotUsernameModal {...modalProps} />;
     case "screen_share_settings":

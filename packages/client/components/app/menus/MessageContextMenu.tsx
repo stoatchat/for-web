@@ -26,6 +26,7 @@ import MdReport from "@material-design-icons/svg/outlined/report.svg?component-s
 import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
 import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
 
+import MdFormatListBulleted from "@material-symbols/svg-400/outlined/format_list_bulleted.svg?component-solid";
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
 
 import {
@@ -215,6 +216,17 @@ export function MessageContextMenu(props: {
             onClick={(e) => props.reactPicker!()?.onClickEmoji(e)}
           >
             <Trans>React</Trans>
+          </ContextMenuButton>
+        </Show>
+
+        <Show when={props.message!.reactions.size}>
+          <ContextMenuButton
+            symbol={MdFormatListBulleted}
+            onClick={() =>
+              openModal({ type: "view_reactions", message: props.message! })
+            }
+          >
+            <Trans>View reactions</Trans>
           </ContextMenuButton>
         </Show>
 
