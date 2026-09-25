@@ -166,7 +166,7 @@ export function MessageContextMenu(props: {
    * @param [type] - The blob's MIME type, optional
    */
   async function _writeBlob(blob: Blob | null, type?: string) {
-    if (!blob) return;
+    if (!blob) throw new Error("Can't write nothing to the clipboard");
 
     await navigator.clipboard.write([
       new ClipboardItem({
@@ -203,7 +203,13 @@ export function MessageContextMenu(props: {
             c.height = img.height;
             ctx!.drawImage(img, 0, 0);
             URL.revokeObjectURL(img.src);
-            c.toBlob(_writeBlob, "image/png");
+            c.toBlob((b) => {
+              try {
+                _writeBlob(b, "image/png");
+              } catch (error) {
+                showError(error);
+              }
+            }, "image/png");
           };
 
           img.onerror = showError;
