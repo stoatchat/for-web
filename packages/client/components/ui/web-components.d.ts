@@ -3,6 +3,8 @@ import type { ComponentProps } from "solid-js";
 import type { Badge } from "mdui/components/badge";
 import type { Checkbox } from "mdui/components/checkbox";
 import type { CircularProgress } from "mdui/components/circular-progress";
+import type { Collapse } from "mdui/components/collapse";
+import type { CollapseItem } from "mdui/components/collapse-item";
 import type { Fab } from "mdui/components/fab";
 import type { List } from "mdui/components/list";
 import type { ListItem } from "mdui/components/list-item";
@@ -42,6 +44,8 @@ declare module "solid-js" {
       "mdui-radio": ComponentProps<Radio>;
       "mdui-radio-group": ComponentProps<RadioGroup>;
       "mdui-snackbar": ComponentProps<Snackbar>;
+      "mdui-collapse": ComponentProps<Collapse>;
+      "mdui-collapse-item": ComponentProps<CollapseItem>;
     }
   }
 }
