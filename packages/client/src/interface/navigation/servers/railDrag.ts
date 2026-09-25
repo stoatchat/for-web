@@ -318,6 +318,8 @@ export function createRailDrag(options: {
   window.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("blur", onWindowBlur);
+  // Capture and passive are required here. Capture because scroll events don't bubble
+  // and passive because the handler doesn't prevent scrolling.
   window.addEventListener("scroll", onScroll, { capture: true, passive: true });
 
   onCleanup(() => {
