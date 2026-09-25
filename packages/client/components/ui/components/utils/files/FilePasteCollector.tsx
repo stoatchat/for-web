@@ -1,3 +1,4 @@
+import { useModals } from "@revolt/modal";
 import { onCleanup, onMount } from "solid-js";
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
  * Utility for capturing pasted files
  */
 export function FilePasteCollector(props: Props) {
+  const { showError } = useModals();
   /**
    * Read clipboard items using the async clipboard API
    * See: @link{https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api}
@@ -34,6 +36,10 @@ export function FilePasteCollector(props: Props) {
           for (const type of item.types) {
             if (!type.startsWith("web ")) continue;
             const blob = await item.getType(type);
+
+            // Ignore zero-size blobs
+            if (blob.size === 0) continue;
+
             res.push(
               new File([blob], "file", {
                 type: blob.type.replace("web ", ""),
@@ -55,7 +61,12 @@ export function FilePasteCollector(props: Props) {
     const items = event.clipboardData?.items;
     let files: File[] = [];
     if (typeof items === "undefined" || items.length === 0) {
-      files = await getFromClipboardFallback();
+      try {
+        files = await getFromClipboardFallback();
+      } catch (error) {
+        showError(error);
+        return;
+      }
     } else {
       files = [...items]
         .filter((item) => !item.type.startsWith("text/"))

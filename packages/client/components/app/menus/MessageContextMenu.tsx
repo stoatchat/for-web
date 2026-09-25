@@ -161,6 +161,10 @@ export function MessageContextMenu(props: {
     navigator.clipboard.writeText(getFileUrl());
   }
 
+  /**
+   * Write a blob to the navigator clipboard
+   * @param [type] - The blob's MIME type, optional
+   */
   async function _writeBlob(blob: Blob | null, type?: string) {
     if (!blob) return;
 
@@ -176,7 +180,7 @@ export function MessageContextMenu(props: {
   }
 
   /**
-   * Download the file and insert it to the user's clipboard
+   * Download the file from `url` and insert it to the user's clipboard
    */
   async function copyFile(url: string) {
     try {
