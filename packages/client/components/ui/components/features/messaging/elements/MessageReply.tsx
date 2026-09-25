@@ -8,6 +8,7 @@ import { styled } from "styled-system/jsx";
 
 import { floatingUserMenusFromMessage } from "@revolt/app/menus/UserContextMenu";
 import { renderSimpleMarkdown } from "@revolt/markdown";
+import { truncateKeepingEmoji } from "@revolt/markdown/emoji/util";
 import { Avatar, typography } from "@revolt/ui/components/design";
 import { NonBreakingText } from "@revolt/ui/components/utils";
 
@@ -108,7 +109,7 @@ const Link = styled("a", {
 export function MessageReply(props: Props) {
   const renderReplyContent = (content: string) => {
     if (content.length > 128) {
-      content = content.slice(0, 128) + "...";
+      content = truncateKeepingEmoji(content, 128) + "...";
     }
 
     return renderSimpleMarkdown(content.replace(/\n/g, " "));
@@ -129,7 +130,13 @@ export function MessageReply(props: Props) {
             <NonBreakingText>
               <Username
                 colour={props.message!.roleColour!}
-                username={(props.mention ? "@" : "") + props.message!.username}
+                username={
+                  (props.mention ? "@" : "") +
+                  (props.message!.masquerade?.name ??
+                    props.message!.member?.nickname ??
+                    props.message!.author?.displayName ??
+                    props.message!.username)
+                }
               />
             </NonBreakingText>
           </div>

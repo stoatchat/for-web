@@ -12,7 +12,7 @@ import {
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
-import { Emoji, Server } from "stoat.js";
+import type { Channel, Emoji, Server } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -69,7 +69,10 @@ type Item =
 
 const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
 
-export function EmojiPicker() {
+/**
+ * Emoji picker
+ */
+export function EmojiPicker(props: { channel?: Channel }) {
   const client = useClient();
   const { ordering, settings } = useState();
   const { isMobile } = useDevice();
@@ -87,6 +90,13 @@ export function EmojiPicker() {
     ),
   );
 
+  // emoji from other servers need permission
+  const servers = createMemo(() =>
+    props.channel?.server && !props.channel.havePermission("UseExternalEmojis")
+      ? [props.channel.server]
+      : ordering.orderedServers(client()),
+  );
+
   const items = createMemo(() => {
     const cols = colCount();
     if (!cols) return [];
@@ -95,13 +105,11 @@ export function EmojiPicker() {
 
     if (filterText) {
       return [
-        ...ordering
-          .orderedServers(client())
-          .flatMap((server) =>
-            server.emojis
-              .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
-              .map((emoji) => ({ t: 2, emoji })),
-          ),
+        ...servers().flatMap((server) =>
+          server.emojis
+            .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
+            .map((emoji) => ({ t: 2, emoji })),
+        ),
         ...EMOJI_MAP_DEDUPE.filter(
           (ed) =>
             ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
@@ -116,7 +124,7 @@ export function EmojiPicker() {
 
     const items: Item[] = [];
 
-    for (const server of ordering.orderedServers(client())) {
+    for (const server of servers()) {
       const emojis = server.emojis;
 
       if (emojis.length === 0) continue;
@@ -183,9 +191,7 @@ export function EmojiPicker() {
           }}
         >
           <VirtualContainer
-            items={ordering
-              .orderedServers(client())
-              .filter((s) => s.emojis.length > 0)}
+            items={servers().filter((s) => s.emojis.length > 0)}
             scrollTarget={serverScrollTargetElement}
             itemSize={{ height: 40 }}
           >

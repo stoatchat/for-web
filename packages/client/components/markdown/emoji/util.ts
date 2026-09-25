@@ -12,6 +12,29 @@ export const RE_ANY_EMOJI = new RegExp(
 );
 
 /**
+ * Truncate text without cutting a custom emoji in half
+ *
+ * Cutting one leaves a fragment which renders as text instead of an image.
+ *
+ * @param text Text to truncate
+ * @param limit Maximum number of characters to keep
+ * @returns Truncated text
+ */
+export function truncateKeepingEmoji(text: string, limit: number) {
+  if (text.length <= limit) return text;
+
+  for (const match of text.matchAll(RE_CUSTOM_EMOJI)) {
+    const start = match.index!;
+
+    if (start < limit && start + match[0].length > limit) {
+      return text.slice(0, start);
+    }
+  }
+
+  return text.slice(0, limit);
+}
+
+/**
  * Check if a piece of text is only comprised of emoji
  * @param text Text
  * @returns Whether it is only emoji
