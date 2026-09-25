@@ -52,20 +52,20 @@ export function ImageViewerModal(
 
           panzoom = zoom;
 
-          ref.addEventListener("pointerdown", onPointerDown);
-          ref.addEventListener("pointermove", panzoom.handleMove);
-          ref.addEventListener("pointerup", panzoom.handleUp);
-          ref.addEventListener("pointerleave", panzoom.handleUp);
-
+          document.addEventListener("pointerdown", onPointerDown);
+          document.addEventListener("pointermove", panzoom.handleMove);
+          document.addEventListener("pointerup", panzoom.handleUp);
+          document.addEventListener("pointerleave", panzoom.handleUp);
+          document.addEventListener("pointercancel", panzoom.handleUp);
           document.addEventListener("mousewheel", onMouseWheel as never);
 
           onCleanup(() => {
             document.removeEventListener("mousewheel", onMouseWheel as never);
-
-            ref.removeEventListener("pointermove", panzoom.handleMove);
-            ref.removeEventListener("pointerup", panzoom.handleUp);
-            ref.removeEventListener("pointerleave", panzoom.handleUp);
-            ref.removeEventListener("pointerdown", onPointerDown);
+            document.removeEventListener("pointercancel", panzoom.handleUp);
+            document.removeEventListener("pointermove", panzoom.handleMove);
+            document.removeEventListener("pointerup", panzoom.handleUp);
+            document.removeEventListener("pointerleave", panzoom.handleUp);
+            document.removeEventListener("pointerdown", onPointerDown);
           });
         }
       },
