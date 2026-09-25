@@ -8,6 +8,7 @@ import {
   createMemo,
   createSignal,
 } from "solid-js";
+import { Portal } from "solid-js/web";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel, Server, User } from "stoat.js";
@@ -395,41 +396,43 @@ export const ServerList = (props: Props) => {
         </div>
         <Show when={heldEntry()}>
           {(held) => (
-            <div
-              class={railGhost}
-              style={{
-                left: `${(drag.pointer()?.x ?? 0) - 21}px`,
-                top: `${(drag.pointer()?.y ?? 0) - 21}px`,
-              }}
-            >
-              <Switch>
-                <Match when={held().type === "server" && held()}>
-                  {(item) => (
-                    <Avatar
-                      size={42}
-                      src={(item() as { server: Server }).server.iconURL}
-                      fallback={(item() as { server: Server }).server.name}
-                    />
-                  )}
-                </Match>
-                <Match when={held().type === "folder" && held()}>
-                  {(item) => (
-                    <Avatar
-                      size={42}
-                      fallback={
-                        <FolderPreview
-                          servers={(item() as { servers: Server[] }).servers}
-                          colour={
-                            (item() as { folder: { colour?: string } }).folder
-                              .colour
-                          }
-                        />
-                      }
-                    />
-                  )}
-                </Match>
-              </Switch>
-            </div>
+            <Portal mount={document.getElementById("floating")!}>
+              <div
+                class={railGhost}
+                style={{
+                  left: `${(drag.pointer()?.x ?? 0) - 21}px`,
+                  top: `${(drag.pointer()?.y ?? 0) - 21}px`,
+                }}
+              >
+                <Switch>
+                  <Match when={held().type === "server" && held()}>
+                    {(item) => (
+                      <Avatar
+                        size={42}
+                        src={(item() as { server: Server }).server.iconURL}
+                        fallback={(item() as { server: Server }).server.name}
+                      />
+                    )}
+                  </Match>
+                  <Match when={held().type === "folder" && held()}>
+                    {(item) => (
+                      <Avatar
+                        size={42}
+                        fallback={
+                          <FolderPreview
+                            servers={(item() as { servers: Server[] }).servers}
+                            colour={
+                              (item() as { folder: { colour?: string } }).folder
+                                .colour
+                            }
+                          />
+                        }
+                      />
+                    )}
+                  </Match>
+                </Switch>
+              </div>
+            </Portal>
           )}
         </Show>
         <Tooltip placement="right" content={"Create or join a server"}>

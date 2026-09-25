@@ -306,11 +306,21 @@ export function createRailDrag(options: {
     }
   }
 
+  function onScroll() {
+    const held = dragging();
+    const pos = pointer();
+    if (!held || !pos) return;
+    setIntent(intentAt(pos.x, pos.y, held));
+  }
+
   window.addEventListener("pointermove", onPointerMove);
   window.addEventListener("pointerup", onPointerUp);
   window.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("blur", onWindowBlur);
+  // Capture and passive are required here. Capture because scroll events don't bubble
+  // and passive because the handler doesn't prevent scrolling.
+  window.addEventListener("scroll", onScroll, { capture: true, passive: true });
 
   onCleanup(() => {
     window.removeEventListener("click", swallowClick, { capture: true });
@@ -319,6 +329,7 @@ export function createRailDrag(options: {
     window.removeEventListener("pointercancel", onPointerUp);
     window.removeEventListener("keydown", onKeyDown);
     window.removeEventListener("blur", onWindowBlur);
+    window.removeEventListener("scroll", onScroll, { capture: true });
   });
 
   return {
