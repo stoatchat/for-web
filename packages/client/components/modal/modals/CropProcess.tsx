@@ -97,11 +97,10 @@ export function CropModal(props: DialogProps & Modals & { type: "crop" }) {
       URL.revokeObjectURL(objectUrl);
       props.resolve([cropped]);
     } catch (e: unknown) {
+      // Keep the dialog open (don't resolve) so the user can shrink
+      // the crop area and try again instead of starting the pick over.
       if (e instanceof CropSizeError) {
-        // Keep the dialog open (don't resolve) so the user can shrink
-        // the crop area and try again instead of starting the pick over.
         setSizeError(e);
-        return;
       }
       if (e instanceof Error) {
         setHardError(e.message);
@@ -134,6 +133,7 @@ export function CropModal(props: DialogProps & Modals & { type: "crop" }) {
               } else {
                 setHardError("An unknown error occurred");
               }
+              throw e;
             }
           },
         },
@@ -156,6 +156,7 @@ export function CropModal(props: DialogProps & Modals & { type: "crop" }) {
               color: "var(--md-sys-color-error)",
               "font-size": "13px",
               "margin-top": "8px",
+              "max-width": cropHandle?.displaySize().w + "px",
             }}
           >
             <Trans>
@@ -172,6 +173,7 @@ export function CropModal(props: DialogProps & Modals & { type: "crop" }) {
               color: "var(--md-sys-color-error)",
               "font-size": "13px",
               "margin-top": "8px",
+              "max-width": cropHandle?.displaySize().w + "px",
             }}
           >
             <Trans>An error occurred while processing the image: {e()}</Trans>
