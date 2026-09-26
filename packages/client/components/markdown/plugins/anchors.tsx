@@ -1,4 +1,4 @@
-import { JSX, Show, splitProps } from "solid-js";
+import { JSX, Match, Show, Switch, splitProps } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
@@ -151,23 +151,30 @@ export function RenderAnchor(
               </span>
             }
           >
-            <LinkComponent
-              class={internalLink()}
-              disabled={props.disabled}
-              href={internalUrl()}
-              // HOTFIX: See above
-              target={remote ? "_blank" : void 0}
-              // END HOTFIX
-            >
-              <Symbol>tag</Symbol>
-              {remote ? <Trans>Remote Channel</Trans> : channel()!.name}
-              {params.exactMessage && (
-                <>
-                  <MdChevronRight {...iconSize("1em")} />
-                  <MdChat {...iconSize("1em")} />
-                </>
-              )}
-            </LinkComponent>
+              <LinkComponent
+                class={internalLink()}
+                disabled={props.disabled}
+                href={internalUrl()}
+                // HOTFIX: See above
+                target={remote ? "_blank" : void 0}
+                // END HOTFIX
+              >
+                <Switch fallback={<Symbol>tag</Symbol>}>
+                  <Match when={channel()?.icon}>
+                    <Avatar size={16} src={channel()!.iconURL} />
+                  </Match>
+                  <Match when={channel()?.isVoice}>
+                    <Symbol>headset_mic</Symbol>
+                  </Match>
+                </Switch>
+                {remote ? <Trans>Remote Channel</Trans> : channel()!.name}
+                {params.exactMessage && (
+                  <>
+                    <MdChevronRight {...iconSize("1em")} />
+                    <MdChat {...iconSize("1em")} />
+                  </>
+                )}
+              </LinkComponent>
           </Show>
         );
       } else if (params.exactServer) {
