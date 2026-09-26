@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-26 15:27+0000\n"
+"PO-Revision-Date: 2026-09-26 16:18+0000\n"
 "Last-Translator: Lumixo <tc371946@proton.me>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
@@ -785,8 +785,9 @@ msgid "Channel Description"
 msgstr "Description du salon"
 
 #: components/app/interface/settings/channel/Overview.tsx
+#, fuzzy
 msgid "Channel Icon"
-msgstr ""
+msgstr "Icône du salon"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Info"
@@ -815,19 +816,20 @@ msgstr "Saisie dans le chat"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Check back often to see if your {0} has been approved!"
-msgstr ""
+msgstr "Revenez régulièrement pour vérifier si votre {0} a été approuvé !"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your email"
-msgstr ""
+msgstr "Consultez vos e-mails"
 
 #~ msgid "Check your mail!"
 #~ msgstr "Vérifiez vos e-mails !"
 
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Choose a new password for your Stoat account."
-msgstr ""
+msgstr "Choisissez un nouveau mot de passe pour votre compte Stoat."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
@@ -904,8 +906,9 @@ msgid "Code"
 msgstr "Code"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
+#, fuzzy
 msgid "Collapse call window"
-msgstr ""
+msgstr "Réduire la fenêtre d'appel"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
@@ -946,8 +949,11 @@ msgstr "Connexion en cours"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Contact support to remove this {0} from discover"
 msgstr ""
+"Contactez le service d'assistance pour supprimer ce {0} de la section "
+"discover"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
@@ -996,7 +1002,7 @@ msgstr "Copier l'ID"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Copy invite link"
-msgstr ""
+msgstr "Copier le lien d'invitation"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
@@ -1054,8 +1060,9 @@ msgid "Couldn't fetch Stoat configuration from {hStr}."
 msgstr "Impossible de récupérer la configuration de Stoat depuis {hStr}."
 
 #: components/ui/components/design/ImageCropper.tsx
+#, fuzzy
 msgid "Couldn't load this image."
-msgstr ""
+msgstr "Impossible de charger cette image."
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/CreateBot.tsx
@@ -1102,7 +1109,7 @@ msgstr "Créer un webhook"
 #: components/auth/src/AuthPage.tsx
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Create account"
-msgstr ""
+msgstr "Créer un compte"
 
 #~ msgid "Create an account"
 #~ msgstr "Créer un compte"
@@ -1168,11 +1175,11 @@ msgstr "Créé <0/>"
 
 #: components/modal/modals/CropProcess.tsx
 msgid "Crop"
-msgstr ""
+msgstr "Recadrer"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Avatar"
-msgstr ""
+msgstr "Recadrer l'avatar"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Banner"
@@ -1183,12 +1190,13 @@ msgid "Crop Channel Icon"
 msgstr ""
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
+#, fuzzy
 msgid "Crop Emoji"
-msgstr ""
+msgstr "Recadrer l'emoji"
 
 #: components/modal/modals/CropProcess.tsx
 msgid "Crop image"
-msgstr ""
+msgstr "Recadrer l'image"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Crop Role Icon"
@@ -1204,8 +1212,11 @@ msgstr ""
 
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
+#, fuzzy
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
 msgstr ""
+"L'image recadrée est trop grande — essayez de réduire la zone de recadrage ("
+"max. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1285,7 +1296,7 @@ msgstr "Supprimer"
 #. placeholder {0}: props.emoji.name
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Delete :{0}:?"
-msgstr ""
+msgstr "Supprimer :{0}:?"
 
 #. placeholder {0}: props.bot.user?.displayName ?? props.bot.id
 #. placeholder {0}: props.channel.name
@@ -1324,11 +1335,11 @@ msgstr "Supprimer le Salon"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Delete Emoji"
-msgstr ""
+msgstr "Supprimer l'emoji"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 msgid "Delete folder"
-msgstr ""
+msgstr "Supprimer le dossier"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Delete Invite"
@@ -1353,8 +1364,11 @@ msgid "Delete Server"
 msgstr "Supprimer le serveur"
 
 #: components/modal/modals/DeleteEmoji.tsx
+#, fuzzy
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
 msgstr ""
+"La suppression de cet emoji empêchera toute utilisation future. Toutes les "
+"utilisations passées seront conservées."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1392,8 +1406,9 @@ msgstr "Discord RPC"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Discover"
-msgstr ""
+msgstr "Découvrir"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1452,8 +1467,9 @@ msgid "Done"
 msgstr "Terminé"
 
 #: components/auth/src/AppUpsell.tsx
+#, fuzzy
 msgid "Download for desktop"
-msgstr ""
+msgstr "Télécharger pour ordinateur de bureau"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Drugs or illegal goods"
@@ -1461,7 +1477,7 @@ msgstr "Drogues ou marchandises illégales"
 
 #: components/modal/modals/TimeoutMember.tsx
 msgid "Duration"
-msgstr ""
+msgstr "Durée"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
@@ -1482,12 +1498,13 @@ msgstr "Modifier les permissions par défaut et spécifiques à certains rôles 
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Edit Emoji"
-msgstr ""
+msgstr "Modifier l'emoji"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 #: components/modal/modals/EditServerFolder.tsx
+#, fuzzy
 msgid "Edit folder"
-msgstr ""
+msgstr "Modifier le dossier"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
@@ -1538,7 +1555,7 @@ msgstr "Adresse e-mail"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Emoji"
-msgstr ""
+msgstr "Emoji"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/EditEmoji.tsx
@@ -1614,7 +1631,7 @@ msgstr "Entrez votre mot de passe actuel..."
 
 #: components/auth/src/flows/FlowResend.tsx
 msgid "Enter your email and we'll send you a fresh link."
-msgstr ""
+msgstr "Entrez votre adresse e-mail et nous vous enverrons un nouveau lien."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your invite code."
@@ -1689,11 +1706,11 @@ msgstr "Concentré"
 
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Folder colour"
-msgstr ""
+msgstr "Couleur du dossier"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1722,7 +1739,7 @@ msgstr "Pendant 8 heures"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Forgot password?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -1765,10 +1782,14 @@ msgstr "Téléchargez-le sur Google Play"
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
 msgstr ""
+"Téléchargez Stoat pour Android et restez en contact avec vos amis où que "
+"vous soyez."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
 msgstr ""
+"Téléchargez l'application de bureau pour Windows, macOS et Linux et accédez "
+"à vos conversations en un seul clic."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -1853,7 +1874,7 @@ msgstr "Écouter les autres et regarder leur flux vidéo"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Help contribute to an existing or new language"
@@ -1984,8 +2005,9 @@ msgid "Join a server"
 msgstr "Rejoindre un serveur"
 
 #: components/auth/src/flows/FlowCreate.tsx
+#, fuzzy
 msgid "Join Stoat"
-msgstr ""
+msgstr "Rejoignez Stoat"
 
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
@@ -2104,18 +2126,19 @@ msgstr "Charger le fichier ({0})"
 #: components/auth/src/AuthPage.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in"
-msgstr ""
+msgstr "Se connecter"
 
 #~ msgid "Log In"
 #~ msgstr "Se Connecter"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in again"
-msgstr ""
+msgstr "Se reconnecter"
 
 #: components/auth/src/flows/FlowLogin.tsx
+#, fuzzy
 msgid "Log in to pick up right where you left off."
-msgstr ""
+msgstr "Connectez-vous pour reprendre là où vous vous étiez arrêté."
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -2132,7 +2155,7 @@ msgstr "Déconnecter les Autres Sessions"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Logging you in…"
-msgstr ""
+msgstr "Connexion en cours…"
 
 #~ msgid "Login"
 #~ msgstr "Connexion"
@@ -2213,7 +2236,7 @@ msgstr "Identité par message"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Maximize call window"
-msgstr ""
+msgstr "Agrandir la fenêtre d'appel"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
@@ -2396,7 +2419,7 @@ msgstr "NOUVEAU"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "New folder"
-msgstr ""
+msgstr "Nouveau dossier"
 
 #. placeholder {0}: dayjs(decodeTime(props.lastId()!)).fromNow()
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
@@ -2417,16 +2440,18 @@ msgid "New to Stoat"
 msgstr "Nouveau sur Stoat"
 
 #: components/auth/src/AuthPage.tsx
+#, fuzzy
 msgid "New to Stoat?"
-msgstr ""
+msgstr "Vous découvrez Stoat ?"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "New to the server"
 msgstr "Nouveau sur le serveur"
 
 #: components/ui/components/features/navigation/UnreadCallout.tsx
+#, fuzzy
 msgid "New unreads"
-msgstr ""
+msgstr "Nouveaux messages non lus"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Nickname"
@@ -2675,7 +2700,7 @@ msgstr "Confidentialité"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Privacy policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #~ msgid "Privacy Policy"
 #~ msgstr "Politique de confidentialité"
@@ -2743,13 +2768,15 @@ msgstr "Motif du signalement"
 
 #. placeholder {0}: (dr.status as { Denied: string | null }) .Denied
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Reason: {0}"
-msgstr ""
+msgstr "Motif : {0}"
 
 #. placeholder {0}: (dr.status as { Removed: string | null }) .Removed
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Reason: {0} Contact support for more information."
-msgstr ""
+msgstr "Motif : {0} Contactez le service d'assistance pour plus d'informations."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2824,7 +2851,7 @@ msgstr "Retirer l'ami"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Remove from folder"
-msgstr ""
+msgstr "Supprimer du dossier"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveMember.tsx
@@ -2857,7 +2884,7 @@ msgstr "Renommer la catégorie"
 
 #: components/modal/modals/EditEmoji.tsx
 msgid "Rename emoji"
-msgstr ""
+msgstr "Renommer un emoji"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
@@ -2934,7 +2961,7 @@ msgstr "Problèmes de sécurité divulgués de manière responsable"
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Restore call window"
-msgstr ""
+msgstr "Restaurer la fenêtre d'appel"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
@@ -3015,8 +3042,9 @@ msgid "Scams or fraud"
 msgstr "Escroqueries ou fraudes"
 
 #: components/auth/src/AppUpsell.tsx
+#, fuzzy
 msgid "Scan with your phone, or"
-msgstr ""
+msgstr "Scannez avec votre téléphone, ou"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
@@ -3123,7 +3151,7 @@ msgstr "A envoyé plusieurs pièces jointes"
 
 #: src/interface/navigation/servers/railDrag.ts
 msgid "Server"
-msgstr ""
+msgstr "Serveur"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Server Avatar"
@@ -3164,19 +3192,20 @@ msgstr "Sessions"
 
 #: components/ui/components/design/ColourPicker.tsx
 msgid "Set colour to {colour}"
-msgstr ""
+msgstr "Définir la couleur sur {colour}"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Set folder colour to {value}"
-msgstr ""
+msgstr "Définir la couleur du dossier sur {value}"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Set role colour to {colour}"
 msgstr "Définir la couleur du rôle sur {colour}"
 
 #: components/auth/src/flows/FlowCreate.tsx
+#, fuzzy
 msgid "Set up your account and make yourself at home."
-msgstr ""
+msgstr "Créez votre compte et faites comme chez vous."
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Set your status"
@@ -3260,7 +3289,7 @@ msgstr "Il y a un problème avec votre demande, {0}."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Something went wrong"
-msgstr ""
+msgstr "Une erreur s'est produite"
 
 #: components/i18n/errors.tsx
 msgid "Something went wrong! {error}"
@@ -3292,7 +3321,7 @@ msgstr "Correcteur orthographique"
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Square"
-msgstr ""
+msgstr "Carré"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Start camera"
@@ -3342,8 +3371,9 @@ msgid "Stoat works best as an app"
 msgstr "Stoat fonctionne mieux en tant qu'application"
 
 #: components/auth/src/AppUpsell.tsx
+#, fuzzy
 msgid "Stoat, right on <0>your desktop.</0>"
-msgstr ""
+msgstr "Stoat, directement sur <0>votre bureau.</0>"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Stop camera"
