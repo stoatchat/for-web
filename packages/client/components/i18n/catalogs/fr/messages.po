@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-02 05:34+0000\n"
-"Last-Translator: Niridya <niridya@users.noreply.translate.stoat.chat>\n"
-"Language-Team: French <https://translate.stoat.chat/projects/revolt/revolt-for-web/fr/>\n"
+"PO-Revision-Date: 2026-09-26 15:27+0000\n"
+"Last-Translator: Lumixo <tc371946@proton.me>\n"
+"Language-Team: French <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -77,7 +78,7 @@ msgstr "{0} a changé l'icône du salon"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} dropped"
-msgstr ""
+msgstr "{0} a été supprimé"
 
 #. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
@@ -91,13 +92,15 @@ msgstr "Les fichiers {0} dépassent la taille maximale autorisée de {maxSizeFor
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
+#, fuzzy
 msgid "{0} is already at the bottom"
-msgstr ""
+msgstr "{0} se trouve déjà tout en bas"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
+#, fuzzy
 msgid "{0} is already at the top"
-msgstr ""
+msgstr "{0} se trouve déjà en haut"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -124,8 +127,9 @@ msgstr "{0} a fait de {1} le nouveau propriétaire du groupe"
 #. placeholder {1}: to + 1
 #. placeholder {2}: list.length
 #: src/interface/navigation/servers/railDrag.ts
+#, fuzzy
 msgid "{0} moved to position {1} of {2}"
-msgstr ""
+msgstr "{0} est passé à la position {1} sur {2}"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
@@ -171,8 +175,11 @@ msgstr "{0} a été retiré par {1}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/TimeoutMember.tsx
+#, fuzzy
 msgid "{0} will not be able to interact with the server until the timeout expires."
 msgstr ""
+"{0} ne pourra pas communiquer avec le serveur tant que le délai d'attente ne "
+"sera pas écoulé."
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -188,8 +195,11 @@ msgstr "Rôles de {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
+#, fuzzy
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr ""
+"Le délai d'expiration de {0} sera levé et il pourra à nouveau interagir avec "
+"le serveur."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} heures"
@@ -343,7 +353,6 @@ msgstr "Peut accéder à ce salon"
 msgid "Able to speak in voice call"
 msgstr "Capable de parler lors d'un appel vocal"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "About"
 #~ msgstr "À propos"
 
@@ -392,7 +401,7 @@ msgstr "Ajouter un texte au statut"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Add to folder"
-msgstr ""
+msgstr "Ajouter au dossier"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
@@ -438,20 +447,23 @@ msgid "Allow others to add your bot to their servers from Discover"
 msgstr "Autoriser les autres utilisateurs à ajouter votre bot à leurs serveurs depuis la Découverte"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
+#, fuzzy
 msgid "Allow others to invite your bot"
-msgstr ""
+msgstr "Autoriser d'autres personnes à inviter votre bot"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to join your server from Discover"
 msgstr ""
+"Autoriser d'autres utilisateurs à rejoindre votre serveur depuis Discover"
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
 msgstr "Vous êtes déjà ami avec cet utilisateur."
 
 #: components/auth/src/AuthPage.tsx
+#, fuzzy
 msgid "Already have an account?"
-msgstr ""
+msgstr "Vous avez déjà un compte ?"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
@@ -463,8 +475,9 @@ msgstr "Américain (MM/JJ/AAAA)"
 
 #. placeholder {0}: e()
 #: components/modal/modals/CropProcess.tsx
+#, fuzzy
 msgid "An error occurred while processing the image: {0}"
-msgstr ""
+msgstr "Une erreur s'est produite lors du traitement de l'image : {0}"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
@@ -640,8 +653,9 @@ msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyo
 msgstr "Vous ne trouvez pas le GIF idéal ? Rendez-vous sur Gifbox et importez le vôtre pour que tout le monde puisse l'utiliser."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Can't get discover request status right now"
-msgstr ""
+msgstr "Impossible d'obtenir l'état de la demande de discover pour le moment"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -808,7 +822,6 @@ msgstr ""
 msgid "Check your email"
 msgstr ""
 
-#: components/auth/src/flows/FlowCheck.tsx
 #~ msgid "Check your mail!"
 #~ msgstr "Vérifiez vos e-mails !"
 
@@ -1091,7 +1104,6 @@ msgstr "Créer un webhook"
 msgid "Create account"
 msgstr ""
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Create an account"
 #~ msgstr "Créer un compte"
 
@@ -1665,7 +1677,6 @@ msgstr "Le fichier doit être plus petit que {0}"
 msgid "Find a community based on your hobbies or interests."
 msgstr "Trouvez une communauté basée sur vos passe-temps ou sur vos intérêts."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Find your com<0/>munity,<1/>connect with the world."
 #~ msgstr "Trouvez votre com<0/>munauté,<1/>connectez-vous avec le monde."
 
@@ -1837,7 +1848,6 @@ msgstr "Accélération matérielle"
 msgid "Hear other people and see their video"
 msgstr "Écouter les autres et regarder leur flux vidéo"
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Hello!"
 #~ msgstr "Bonjour !"
 
@@ -2096,7 +2106,6 @@ msgstr "Charger le fichier ({0})"
 msgid "Log in"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Log In"
 #~ msgstr "Se Connecter"
 
@@ -2125,7 +2134,6 @@ msgstr "Déconnecter les Autres Sessions"
 msgid "Logging you in…"
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Login"
 #~ msgstr "Connexion"
 
@@ -2669,7 +2677,6 @@ msgstr "Confidentialité"
 msgid "Privacy policy"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Privacy Policy"
 #~ msgstr "Politique de confidentialité"
 
@@ -2772,7 +2779,6 @@ msgstr "Codes de récupération"
 msgid "Reduced"
 msgstr "Réduit"
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Register"
 #~ msgstr "S'inscrire"
 
@@ -3217,11 +3223,9 @@ msgstr "Afficher les autres"
 msgid "Show send message button"
 msgstr "Afficher le bouton « Envoyer un message »"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Sign into Stoat"
 #~ msgstr "Connectez-vous à Stoat"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Sign Up"
 #~ msgstr "S'inscrire"
 
@@ -3322,7 +3326,6 @@ msgstr "Stoat pour ordinateur de bureau"
 msgid "Stoat Founder"
 msgstr "Fondateur de Stoat"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 #~ msgstr "Stoat est l'un des meilleurs moyens de rester en contact avec vos amis et votre communauté, partout et à tout moment."
 
@@ -3431,7 +3434,6 @@ msgstr "Empêcher temporairement les membres de rang inférieur d'interagir"
 msgid "Terms"
 msgstr "Conditions d'utilisation"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Terms of Service"
 #~ msgstr "Conditions d’utilisation"
 
@@ -3915,7 +3917,6 @@ msgstr ""
 #~ msgid "Welcome to"
 #~ msgstr "Bienvenue sur"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome!"
 #~ msgstr "Bienvenue !"
 
@@ -4073,7 +4074,6 @@ msgstr ""
 msgid "You muted this user."
 msgstr "Vous avez rendu muet cet utilisateur."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "You were logged out!"
 #~ msgstr "Vous avez été déconnecté !"
 
