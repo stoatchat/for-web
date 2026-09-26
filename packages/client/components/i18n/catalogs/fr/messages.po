@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-26 16:18+0000\n"
-"Last-Translator: Lumixo <tc371946@proton.me>\n"
+"Last-Translator: Lepaon Colombet <diegolepaoncolombet@gmail.com>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
 "Language: fr\n"
@@ -51,7 +51,7 @@ msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr ""
+msgstr "{0, plural one {# nouvelle mention} other {# nouvelles mentions}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -92,15 +92,13 @@ msgstr "Les fichiers {0} dépassent la taille maximale autorisée de {maxSizeFor
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
-#, fuzzy
 msgid "{0} is already at the bottom"
-msgstr "{0} se trouve déjà tout en bas"
+msgstr "{0} est déjà en bas"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
-#, fuzzy
 msgid "{0} is already at the top"
-msgstr "{0} se trouve déjà en haut"
+msgstr "{0} est déjà en haut"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -129,12 +127,15 @@ msgstr "{0} a fait de {1} le nouveau propriétaire du groupe"
 #: src/interface/navigation/servers/railDrag.ts
 #, fuzzy
 msgid "{0} moved to position {1} of {2}"
-msgstr "{0} est passé à la position {1} sur {2}"
+msgstr "{0} est déplacé à la position {1} sur {2}"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
+#, fuzzy
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
 msgstr ""
+"{0} a décrocher, utilise les flèches directionnelles pour le déplacer et "
+"espace pour le relacher"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -3441,7 +3442,7 @@ msgstr "Salon de messages système"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Take your communities <0>with you.</0>"
-msgstr ""
+msgstr "Emporte tes communautés <0>avec toi.</0>"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Tell us what's wrong with this message"
@@ -3478,18 +3479,26 @@ msgstr "Cette action n'a eu aucun effet."
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
 msgstr ""
+"Le bot a été supprimé du Discover par les modérateurs, l'utilisateur doit "
+"contacter le support."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
 msgstr ""
+"Le bot est déjà sur le Discover, L'utilisateur doit contacter le support "
+"pour le supprimer"
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
 msgstr ""
+"La requête pour le Discover a été approuvé ou l'objet a été supprimé du "
+"Discover. Dans les deux cas, l'utilisateur doit contacter le support."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
 msgstr ""
+"La requête pour le Discover a été refusée. Les requêtes refusées ne peuvent "
+"pas être supprimées, mais l'utilisateur peut en soumettre une nouvelle."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
