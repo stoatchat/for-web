@@ -24,9 +24,10 @@ const Code = styled("code", {
 const Qr = styled("div", {
   base: {
     borderRadius: "4px",
+    padding: "8px",
     background: "white",
-    width: "140px",
-    height: "140px",
+    width: "156px",
+    height: "156px",
     display: "grid",
     placeItems: "center",
   },
