@@ -565,23 +565,18 @@ function Entry(
         alert={alertState()}
         attention={attentionState()}
         icon={
-          <>
+          <Icon>
             <Switch fallback={<Symbol>grid_3x3</Symbol>}>
+              <Match when={props.channel.icon}>
+                <CustomIcon src={props.channel.iconURL} />
+              </Match>
               <Match when={props.channel.isVoice}>
-                <Symbol
-                  color={inCall() ? "var(--md-sys-color-primary)" : undefined}
-                >
+                <Symbol color={inCall() ? "var(--md-sys-color-primary)" : undefined}>
                   headset_mic
                 </Symbol>
               </Match>
             </Switch>
-            <Show when={props.channel.icon}>
-              <ChannelIcon
-                src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
-              />
-            </Show>
-          </>
+          </Icon>
         }
         actions={
           <Show when={!isMobile}>
@@ -638,10 +633,23 @@ function Entry(
 /**
  * Channel icon styling
  */
-const ChannelIcon = styled("img", {
-  base: {
-    width: "16px",
-    height: "16px",
-    objectFit: "contain",
-  },
-});
+ const Icon = styled("div", {
+   base: {
+     width: "32px",
+         height: "32px",
+     display: "flex",
+     alignItems: "center",
+     justifyContent: "center",
+     flexShrink: 0,
+   },
+ });
+
+ const CustomIcon = styled("img", {
+   base: {
+     display: "block",
+     width: "32px",
+     height: "32px",
+     objectFit: "cover",
+     borderRadius: "50%",
+   },
+ });
