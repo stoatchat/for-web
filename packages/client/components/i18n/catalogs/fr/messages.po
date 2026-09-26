@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-26 18:51+0000\n"
+"PO-Revision-Date: 2026-09-27 01:25+0000\n"
 "Last-Translator: Lumixo <tc371946@proton.me>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
@@ -125,17 +125,15 @@ msgstr "{0} a fait de {1} le nouveau propriétaire du groupe"
 #. placeholder {1}: to + 1
 #. placeholder {2}: list.length
 #: src/interface/navigation/servers/railDrag.ts
-#, fuzzy
 msgid "{0} moved to position {1} of {2}"
-msgstr "{0} est déplacé à la position {1} sur {2}"
+msgstr "{0} a été déplacé à la position {1} sur {2}"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
-#, fuzzy
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
 msgstr ""
-"{0} a décrocher, utilise les flèches directionnelles pour le déplacer et "
-"espace pour le relacher"
+"{0} a été sélectionné. Utilisez les touches fléchées pour le déplacer et la "
+"barre d’espace pour le déposer"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -176,11 +174,10 @@ msgstr "{0} a été retiré par {1}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/TimeoutMember.tsx
-#, fuzzy
 msgid "{0} will not be able to interact with the server until the timeout expires."
 msgstr ""
-"{0} ne pourra pas communiquer avec le serveur tant que le délai d'attente ne "
-"sera pas écoulé."
+"{0} ne pourra pas interagir avec le serveur avant l’expiration du délai "
+"d’attente."
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -196,11 +193,10 @@ msgstr "Rôles de {0}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
-#, fuzzy
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr ""
-"Le délai d'expiration de {0} sera levé et il pourra à nouveau interagir avec "
-"le serveur."
+"Le délai d’attente de {0} sera supprimé et cette personne pourra à nouveau "
+"interagir avec le serveur."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} heures"
@@ -474,7 +470,6 @@ msgstr "Américain (MM/JJ/AAAA)"
 
 #. placeholder {0}: e()
 #: components/modal/modals/CropProcess.tsx
-#, fuzzy
 msgid "An error occurred while processing the image: {0}"
 msgstr "Une erreur s'est produite lors du traitement de l'image : {0}"
 
@@ -652,9 +647,9 @@ msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyo
 msgstr "Vous ne trouvez pas le GIF idéal ? Rendez-vous sur Gifbox et importez le vôtre pour que tout le monde puisse l'utiliser."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Can't get discover request status right now"
-msgstr "Impossible d'obtenir l'état de la demande de discover pour le moment"
+msgstr ""
+"Impossible de récupérer le statut de la demande de Discover pour le moment"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -705,6 +700,8 @@ msgstr "Annuler le message"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Cancel your discover request and remove it from the review queue"
 msgstr ""
+"Annulez votre demande de découvrir et retirez-la de la file d’attente de "
+"vérification"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
@@ -784,7 +781,6 @@ msgid "Channel Description"
 msgstr "Description du salon"
 
 #: components/app/interface/settings/channel/Overview.tsx
-#, fuzzy
 msgid "Channel Icon"
 msgstr "Icône du salon"
 
@@ -815,7 +811,6 @@ msgstr "Saisie dans le chat"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Check back often to see if your {0} has been approved!"
 msgstr "Revenez régulièrement pour vérifier si votre {0} a été approuvé !"
 
@@ -905,7 +900,6 @@ msgid "Code"
 msgstr "Code"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
-#, fuzzy
 msgid "Collapse call window"
 msgstr "Réduire la fenêtre d'appel"
 
@@ -948,11 +942,8 @@ msgstr "Connexion en cours"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Contact support to remove this {0} from discover"
-msgstr ""
-"Contactez le service d'assistance pour supprimer ce {0} de la section "
-"discover"
+msgstr "Contactez le support pour retirer ce {0} de la section découvrir"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
@@ -1059,7 +1050,6 @@ msgid "Couldn't fetch Stoat configuration from {hStr}."
 msgstr "Impossible de récupérer la configuration de Stoat depuis {hStr}."
 
 #: components/ui/components/design/ImageCropper.tsx
-#, fuzzy
 msgid "Couldn't load this image."
 msgstr "Impossible de charger cette image."
 
@@ -1182,14 +1172,13 @@ msgstr "Recadrer l'avatar"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Banner"
-msgstr ""
+msgstr "Recadrer la bannière"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Crop Channel Icon"
-msgstr ""
+msgstr "Recadrer l’icône du salon"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
-#, fuzzy
 msgid "Crop Emoji"
 msgstr "Recadrer l'emoji"
 
@@ -1199,23 +1188,22 @@ msgstr "Recadrer l'image"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Crop Role Icon"
-msgstr ""
+msgstr "Recadrer l’icône du rôle"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Banner"
-msgstr ""
+msgstr "Recadrer la bannière du serveur"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Icon"
-msgstr ""
+msgstr "Recadrer l’icône du serveur"
 
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
-#, fuzzy
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
 msgstr ""
-"L'image recadrée est trop grande — essayez de réduire la zone de recadrage ("
-"max. {0})"
+"L’image recadrée est trop grande — essayez une zone de recadrage plus petite "
+"(max. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1363,11 +1351,10 @@ msgid "Delete Server"
 msgstr "Supprimer le serveur"
 
 #: components/modal/modals/DeleteEmoji.tsx
-#, fuzzy
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
 msgstr ""
-"La suppression de cet emoji empêchera toute utilisation future. Toutes les "
-"utilisations passées seront conservées."
+"Supprimer cet emoji empêchera toute utilisation future. Toutes les "
+"utilisations précédentes resteront."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1405,7 +1392,6 @@ msgstr "Discord RPC"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Discover"
 msgstr "Découvrir"
 
@@ -1466,9 +1452,8 @@ msgid "Done"
 msgstr "Terminé"
 
 #: components/auth/src/AppUpsell.tsx
-#, fuzzy
 msgid "Download for desktop"
-msgstr "Télécharger pour ordinateur de bureau"
+msgstr "Télécharger pour ordinateur"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Drugs or illegal goods"
@@ -1501,7 +1486,6 @@ msgstr "Modifier l'emoji"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 #: components/modal/modals/EditServerFolder.tsx
-#, fuzzy
 msgid "Edit folder"
 msgstr "Modifier le dossier"
 
@@ -2004,9 +1988,8 @@ msgid "Join a server"
 msgstr "Rejoindre un serveur"
 
 #: components/auth/src/flows/FlowCreate.tsx
-#, fuzzy
 msgid "Join Stoat"
-msgstr "Rejoignez Stoat"
+msgstr "Rejoindre Stoat"
 
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
@@ -2135,9 +2118,8 @@ msgid "Log in again"
 msgstr "Se reconnecter"
 
 #: components/auth/src/flows/FlowLogin.tsx
-#, fuzzy
 msgid "Log in to pick up right where you left off."
-msgstr "Connectez-vous pour reprendre là où vous vous étiez arrêté."
+msgstr "Connectez-vous pour reprendre là où vous vous êtes arrêté."
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -2439,16 +2421,14 @@ msgid "New to Stoat"
 msgstr "Nouveau sur Stoat"
 
 #: components/auth/src/AuthPage.tsx
-#, fuzzy
 msgid "New to Stoat?"
-msgstr "Vous découvrez Stoat ?"
+msgstr "Nouveau sur Stoat ?"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "New to the server"
 msgstr "Nouveau sur le serveur"
 
 #: components/ui/components/features/navigation/UnreadCallout.tsx
-#, fuzzy
 msgid "New unreads"
 msgstr "Nouveaux messages non lus"
 
@@ -2767,15 +2747,13 @@ msgstr "Motif du signalement"
 
 #. placeholder {0}: (dr.status as { Denied: string | null }) .Denied
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Reason: {0}"
-msgstr "Motif : {0}"
+msgstr "Raison : {0}"
 
 #. placeholder {0}: (dr.status as { Removed: string | null }) .Removed
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "Reason: {0} Contact support for more information."
-msgstr "Motif : {0} Contactez le service d'assistance pour plus d'informations."
+msgstr "Raison : {0} Contactez le support pour plus d’informations."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2868,7 +2846,7 @@ msgstr "Supprimer la réaction"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "Remove Timeout"
-msgstr ""
+msgstr "Retirer la restriction temporaire"
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/modal/modals/EditCategory.tsx
@@ -3041,7 +3019,6 @@ msgid "Scams or fraud"
 msgstr "Escroqueries ou fraudes"
 
 #: components/auth/src/AppUpsell.tsx
-#, fuzzy
 msgid "Scan with your phone, or"
 msgstr "Scannez avec votre téléphone, ou"
 
@@ -3202,9 +3179,8 @@ msgid "Set role colour to {colour}"
 msgstr "Définir la couleur du rôle sur {colour}"
 
 #: components/auth/src/flows/FlowCreate.tsx
-#, fuzzy
 msgid "Set up your account and make yourself at home."
-msgstr "Créez votre compte et faites comme chez vous."
+msgstr "Configurez votre compte et installez-vous confortablement."
 
 #: components/modal/modals/CustomStatus.tsx
 msgid "Set your status"
@@ -3370,9 +3346,8 @@ msgid "Stoat works best as an app"
 msgstr "Stoat fonctionne mieux en tant qu'application"
 
 #: components/auth/src/AppUpsell.tsx
-#, fuzzy
 msgid "Stoat, right on <0>your desktop.</0>"
-msgstr "Stoat, directement sur <0>votre bureau.</0>"
+msgstr "Stoat, directement sur <0>votre ordinateur.</0>"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Stop camera"
@@ -3439,7 +3414,6 @@ msgid "System message channels"
 msgstr "Salon de messages système"
 
 #: components/auth/src/AppUpsell.tsx
-#, fuzzy
 msgid "Take your communities <0>with you.</0>"
 msgstr "Emportez vos communautés <0>avec vous.</0>"
 
@@ -3533,9 +3507,8 @@ msgstr "Thème"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "This {0} is discoverable"
-msgstr "Ce {0} peut être mis sur le Discover"
+msgstr "{0} est disponible dans Discover"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3636,25 +3609,22 @@ msgstr "Format de l'heure"
 
 #. placeholder {0}: props.member!.timeout!.toLocaleString()
 #: src/interface/channels/text/MemberSidebar.tsx
-#, fuzzy
 msgid "Timed out until {0}"
-msgstr "Délai d'attente écoulé jusqu'à {0}"
+msgstr "Restreint jusqu’au {0}"
 
 #. placeholder {0}: props.message.member!.timeout!.toLocaleString()
 #: components/app/interface/channels/text/Message.tsx
-#, fuzzy
 msgid "Timed Out until {0}"
-msgstr "Délai d'attente écoulé jusqu'à {0}"
+msgstr "En restriction temporaire jusqu’au {0}"
 
 #: components/modal/modals/TimeoutMember.tsx
-#, fuzzy
 msgid "Timeout"
-msgstr "Délai d'attente"
+msgstr "Restriction temporaire"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/TimeoutMember.tsx
 msgid "Timeout Member"
-msgstr ""
+msgstr "Mettre un membre en sourdine"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Timeout Members"
@@ -3927,14 +3897,12 @@ msgid "We are working hard on optimising our web app for mobile."
 msgstr "Nous travaillons d'arrache-pieds à optimiser notre application web pour mobile."
 
 #: components/auth/src/flows/FlowLogin.tsx
-#, fuzzy
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
 msgstr ""
 "Nous n'avons pas pu finaliser votre connexion. Veuillez réessayer. Si le "
-"problème persiste, vérifiez l'état de Stoat."
+"problème persiste, consultez le statut de Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
-#, fuzzy
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
 msgstr ""
 "Nous l'utilisons uniquement pour vérifier votre compte et vous aider à y "
@@ -4034,6 +4002,8 @@ msgstr "Vous êtes banni de ce serveur."
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You are timed out and can't send messages right now."
 msgstr ""
+"Vous êtes temporairement restreint et ne pouvez pas envoyer de messages pour "
+"le moment."
 
 #: src/interface/Home.tsx
 msgid "You can also click the gear icon in the bottom left."
@@ -4052,9 +4022,8 @@ msgid "You can report issues and discuss improvements with us directly here."
 msgstr "Vous pouvez signaler des problèmes et discuter des améliorations avec nous directement ici."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
-#, fuzzy
 msgid "You can request again below"
-msgstr "Vous pouvez refaire une demande ci-dessous"
+msgstr "Vous pouvez faire une nouvelle demande ci-dessous"
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -4198,11 +4167,11 @@ msgstr "Votre compte a bien été vérifié !"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Your discover request has been denied"
-msgstr ""
+msgstr "Votre demande à découvrir a été refusée"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Your discover request has been removed"
-msgstr ""
+msgstr "Votre demande à découvrir a été supprimée"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
@@ -4221,7 +4190,6 @@ msgid "Your recovery codes"
 msgstr "Vos codes de récupération"
 
 #: components/i18n/errors.tsx
-#, fuzzy
 msgid "Your request failed. Please contact support."
 msgstr "Votre demande a échoué. Veuillez contacter le support."
 
