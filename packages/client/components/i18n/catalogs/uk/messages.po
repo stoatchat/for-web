@@ -3,14 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-25 00:03+0000\n"
-"Last-Translator: Not Available <musicgamesandwhatever@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/revolt-for-web/uk/>\n"
+"PO-Revision-Date: 2026-09-27 01:25+0000\n"
+"Last-Translator: Valera <kot-valera123@proton.me>\n"
+"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -31,7 +33,7 @@ msgstr "[Завтра о] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[Востаннє:] dddd [о] LT"
+msgstr "dddd [о] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -54,6 +56,8 @@ msgstr "{0, plural, one {# заблоковане повідомлення} few 
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
 msgstr ""
+"{0, plural, one {# нове згадування} few {# нові згадування} other {# нових "
+"згадувань}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -346,7 +350,6 @@ msgstr "Має доступ до цього каналу"
 msgid "Able to speak in voice call"
 msgstr "Може розмовляти в голосовому дзвінку"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "About"
 #~ msgstr "Про нас"
 
@@ -442,7 +445,7 @@ msgstr "Дозволити іншим додавати вашого бота д�
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to invite your bot"
-msgstr ""
+msgstr "Дозволити іншим запрошувати вашого бота"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to join your server from Discover"
@@ -454,7 +457,7 @@ msgstr "Ви вже дружите з цим користувачем."
 
 #: components/auth/src/AuthPage.tsx
 msgid "Already have an account?"
-msgstr ""
+msgstr "Вже є акаунт?"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
@@ -467,7 +470,7 @@ msgstr "Американський (MM/DD/YYYY)"
 #. placeholder {0}: e()
 #: components/modal/modals/CropProcess.tsx
 msgid "An error occurred while processing the image: {0}"
-msgstr ""
+msgstr "Шеф, усе пропало! Не вдалося обробити зображення: {0}"
 
 #: components/modal/modals/Error2.tsx
 msgid "An error occurred."
@@ -522,7 +525,7 @@ msgstr "Призначення ролей"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
-msgstr ""
+msgstr "Браузер вимкнув звук"
 
 #: components/app/interface/settings/user/Account.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -784,7 +787,7 @@ msgstr "Опис каналу"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Icon"
-msgstr ""
+msgstr "Іконка каналу"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Channel Info"
@@ -818,15 +821,14 @@ msgstr ""
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your email"
-msgstr ""
+msgstr "Перевірте пошту! (Сподіваємося, вона у вас не голубина)"
 
-#: components/auth/src/flows/FlowCheck.tsx
 #~ msgid "Check your mail!"
 #~ msgstr "Перевірте свою електронну пошту!"
 
 #: components/auth/src/flows/FlowConfirmReset.tsx
 msgid "Choose a new password for your Stoat account."
-msgstr ""
+msgstr "Оберіть новий пароль для вашого акаунту Stoat."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Choose a username"
@@ -904,7 +906,7 @@ msgstr "Код"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Collapse call window"
-msgstr ""
+msgstr "Згорнути вікно виклику"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Coming soon! 👀"
@@ -995,7 +997,7 @@ msgstr "Скопіювати ID"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Copy invite link"
-msgstr ""
+msgstr "Скопіювати посилання на запрошення"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy Invite URL"
@@ -1103,7 +1105,6 @@ msgstr "Створити вебхук"
 msgid "Create account"
 msgstr ""
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Create an account"
 #~ msgstr "Створити акаунт"
 
@@ -1273,7 +1274,7 @@ msgstr "За замовчуванням"
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Degraded Performance"
-msgstr ""
+msgstr "Знижена продуктивність"
 
 #: components/modal/modals/DeleteBot.tsx
 #: components/modal/modals/DeleteCategory.tsx
@@ -1288,7 +1289,7 @@ msgstr "Видалити"
 #. placeholder {0}: props.emoji.name
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Delete :{0}:?"
-msgstr ""
+msgstr "Видалити :{0}:?"
 
 #. placeholder {0}: props.bot.user?.displayName ?? props.bot.id
 #. placeholder {0}: props.channel.name
@@ -1327,7 +1328,7 @@ msgstr "Видалити Канал"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Delete Emoji"
-msgstr ""
+msgstr "Видалити емодзі"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 msgid "Delete folder"
@@ -1578,6 +1579,7 @@ msgstr "Увімкнути пуш-сповіщення"
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr ""
+"Увімкнути ефекти прозорості та розмиття (повільно працює на старих пристроях)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1683,7 +1685,6 @@ msgstr "Файл має бути не більшим, ніж {0}"
 msgid "Find a community based on your hobbies or interests."
 msgstr "Знайдіть спільноту за вашими хобі та інтересами."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Find your com<0/>munity,<1/>connect with the world."
 #~ msgstr "Знайдіть свою спіль<0/>ноту, <1/> будьте на зв'язку зі світом."
 
@@ -1772,10 +1773,14 @@ msgstr "Завантажте з Google Play"
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
 msgstr ""
+"Встановіть Stoat на Android та залишайтеся на зв'язку з друзями, де б ви не "
+"були (ну, якщо є інтернет, звісно)"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
 msgstr ""
+"Завантажте десктопний застосунок для Windows, macOS та Linux і тримайте свої "
+"спількування на відстані одного кліку."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -1855,13 +1860,12 @@ msgstr "Апаратне прискорення"
 msgid "Hear other people and see their video"
 msgstr "Чути інших людей і бачити їхні відео"
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Hello!"
 #~ msgstr "Привіт!"
 
 #: components/auth/src/AuthPage.tsx
 msgid "Help"
-msgstr ""
+msgstr "Довідка"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Help contribute to an existing or new language"
@@ -2120,7 +2124,6 @@ msgstr "Завантажити файл ({0})"
 msgid "Log in"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Log In"
 #~ msgstr "Увійти"
 
@@ -2149,7 +2152,6 @@ msgstr "Завершити інші сеанси"
 msgid "Logging you in…"
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Login"
 #~ msgstr "Увійти"
 
@@ -2693,7 +2695,6 @@ msgstr "Приватність"
 msgid "Privacy policy"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Privacy Policy"
 #~ msgstr "Політика конфіденційності"
 
@@ -2799,7 +2800,6 @@ msgstr "Коди відновлення"
 msgid "Reduced"
 msgstr ""
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Register"
 #~ msgstr "Зареєструватися"
 
@@ -3250,11 +3250,9 @@ msgstr "Показати інших"
 msgid "Show send message button"
 msgstr "Показати кнопку надсилання повідомлення"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Sign into Stoat"
 #~ msgstr "Увійти в Stoat"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Sign Up"
 #~ msgstr "Зареєструватися"
 
@@ -3361,7 +3359,6 @@ msgstr "Stoat для ПК"
 msgid "Stoat Founder"
 msgstr "Засновник Stoat"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 #~ msgstr "Stoat - один з найкращих способів залишатися на зв'язку з друзями та спільнотою, будь-де, будь-коли."
 
@@ -3470,7 +3467,6 @@ msgstr "Тимчасово забороняти нижчим за рангом �
 msgid "Terms"
 msgstr "Умови"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Terms of Service"
 #~ msgstr "Умови надання послуг"
 
@@ -3960,7 +3956,6 @@ msgstr ""
 #~ msgid "Welcome to"
 #~ msgstr "Ласкаво просимо до"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome!"
 #~ msgstr "Ласкаво просимо!"
 
@@ -4118,7 +4113,6 @@ msgstr ""
 msgid "You muted this user."
 msgstr "Ви замутили цього користувача."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "You were logged out!"
 #~ msgstr "Вас відлогінило!"
 
