@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-26 16:21+0000\n"
-"Last-Translator: Lumixo <tc371946@proton.me>\n"
+"PO-Revision-Date: 2026-09-26 18:51+0000\n"
+"Last-Translator: Lepaon Colombet <diegolepaoncolombet@gmail.com>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
 "Language: fr\n"
@@ -694,7 +694,7 @@ msgstr "Annuler"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Cancel discover request"
-msgstr ""
+msgstr "Annuler la requête pour le Discover"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
@@ -3507,10 +3507,9 @@ msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeF
 msgstr "Le fichier \"{0}\" ({fileSize}) dépasse la taille maximale autorisée de {maxSizeFormatted}."
 
 #: components/i18n/errors.tsx
-#, fuzzy
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
 msgstr ""
-"Cette annonce a été supprimée par les modérateurs ; par conséquent, toute "
+"Cette objet a été supprimée par les modérateurs, par conséquence, toute "
 "nouvelle publication est interdite. Contactez le service d'assistance pour "
 "plus d'informations."
 
@@ -3527,6 +3526,8 @@ msgstr ""
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
 msgstr ""
+"Le serveur est déjà sur le Discover, l'utilisateur doit contacter le service "
+"d'assistance pour le supprimer."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3534,8 +3535,9 @@ msgstr "Thème"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "This {0} is discoverable"
-msgstr ""
+msgstr "Ce {0} peut être mis sur le Discover"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -4114,7 +4116,7 @@ msgstr "Vous rencontrez peut-être des problèmes de connexion."
 
 #: components/i18n/errors.tsx
 msgid "You may not submit this item to discover."
-msgstr ""
+msgstr "Vous ne pouvez pas soumettre cette objet pour le Discover."
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
