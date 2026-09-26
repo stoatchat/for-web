@@ -19,7 +19,11 @@ import { styled } from "styled-system/jsx";
 import { useClient } from "@revolt/client";
 import { useDevice } from "@revolt/common";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
-import { UNICODE_EMOJI_PACK_PUA } from "@revolt/markdown/emoji/UnicodeEmoji";
+import {
+  UNICODE_EMOJI_PACK_PUA,
+  UNICODE_ZWNJ,
+  isRegionalIndicator,
+} from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
@@ -447,7 +451,7 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
 
         if (props.item.t === 4) {
           onTextReplacement(
-            `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${props.item.text}`,
+            `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${isRegionalIndicator(props.item.text) ? UNICODE_ZWNJ + props.item.text : props.item.text}`,
           );
         }
       }}
