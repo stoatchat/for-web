@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.16.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.0...stoat-for-web-v0.16.1) (2026-09-26)
+
+
+### Bug Fixes
+
+* add "quiet zone" for TOTP QR code ([#1671](https://github.com/stoatchat/for-web/issues/1671)) ([48b1fcd](https://github.com/stoatchat/for-web/commit/48b1fcd7f299abeba86977ce6cb49c42bf191a9b))
+* Standalone Regional indicators stay separate now due to ZWNJ ([#1666](https://github.com/stoatchat/for-web/issues/1666)) ([1bcd45c](https://github.com/stoatchat/for-web/commit/1bcd45c5e4366c69f0871ba71c10b476e8bec684))
+
 ## [0.16.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.3...stoat-for-web-v0.16.0) (2026-09-25)
 
 
