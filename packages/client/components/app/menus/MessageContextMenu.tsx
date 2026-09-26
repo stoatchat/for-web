@@ -1,7 +1,6 @@
 import { Accessor, For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
-import { File, Message } from "stoat.js";
+import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
@@ -26,8 +25,9 @@ import MdReport from "@material-design-icons/svg/outlined/report.svg?component-s
 import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
 import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
 
+import { Trans, useLingui } from "@lingui/solid/macro";
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
-
+import { useSnackbar } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -41,13 +41,15 @@ import {
 export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
-  file?: File;
+  file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
   link?: string;
 }) {
   const user = useUser();
   const state = useState();
   const instance = useInstance();
   const client = useClient();
+  const snackbar = useSnackbar();
+  const { t } = useLingui();
   const { openModal, showError } = useModals();
 
   /**
@@ -148,14 +150,98 @@ export function MessageContextMenu(props: {
    * Opens the file preview in a new tab
    */
   function openFile() {
-    window.open(props.file?.previewUrl, "_blank");
+    window.open(getFileUrl(), "_blank");
   }
 
   /**
    * Copies the link to the original url of the file
    */
   function copyFileLink() {
-    navigator.clipboard.writeText(props.file?.previewUrl ?? "");
+    navigator.clipboard.writeText(getFileUrl());
+  }
+
+  /**
+   * Write a blob to the navigator clipboard
+   * @param [type] - The blob's MIME type, optional
+   */
+  async function writeBlobToClipboard(blob: Blob | null, type?: string) {
+    if (!blob) throw new Error("Can't write nothing to the clipboard");
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        // Workaround for the clipboard API being extremely picky
+        // https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+        [type ?? blob.type]: blob,
+      }),
+    ]);
+
+    snackbar.show({ message: t`Copied file to clipboard` });
+  }
+
+  /**
+   * Download the file from `url` and insert it to the user's clipboard
+   */
+  async function copyFile(url: string) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok)
+        throw new Error(`Failed to download file: ${res.statusText}.`);
+
+      const blob = await res.blob();
+      if (ClipboardItem.supports(blob.type)) {
+        await writeBlobToClipboard(blob);
+      } else {
+        if (blob.type.startsWith("image/")) {
+          // Naively convert to PNG
+          const c = document.createElement("canvas"),
+            ctx = c.getContext("2d"),
+            img = new Image();
+
+          img.onload = () => {
+            c.width = img.width;
+            c.height = img.height;
+            ctx!.drawImage(img, 0, 0);
+            URL.revokeObjectURL(img.src);
+            c.toBlob((b) => {
+              try {
+                writeBlobToClipboard(b, "image/png");
+              } catch (error) {
+                showError(error);
+              }
+            }, "image/png");
+          };
+
+          img.onerror = showError;
+          img.src = URL.createObjectURL(blob);
+        } else {
+          // Workaround for copying unsupported formats to the clipboard
+          // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+          await writeBlobToClipboard(blob, `web ${blob.type}`);
+        }
+      }
+    } catch (error) {
+      showError(error);
+    }
+  }
+
+  /**
+   * Get the preview URL of a file or embed.
+   */
+  function getFileUrl(): string {
+    let url: string = "";
+
+    if (props.file instanceof File) {
+      url = props.file.previewUrl;
+    } else if (
+      props.file instanceof ImageEmbed ||
+      props.file instanceof VideoEmbed ||
+      (props.file instanceof WebsiteEmbed &&
+        props.file.specialContent?.type === "GIF")
+    ) {
+      url = props.file.url!;
+    }
+
+    return url;
   }
 
   function copyLink() {
@@ -169,17 +255,25 @@ export function MessageContextMenu(props: {
           <Trans>Open file</Trans>
         </ContextMenuButton>
         <ContextMenuButton icon={MdLink} onClick={copyFileLink}>
-          <Trans>Copy file link</Trans>
+          <Trans>Copy link to file</Trans>
         </ContextMenuButton>
-        <a
-          target="_blank"
-          download={props.file?.filename}
-          href={props.file?.originalUrl}
-        >
-          <ContextMenuButton icon={MdDownload}>
-            <Trans>Save file</Trans>
+        <Show when={props.file instanceof File}>
+          <a
+            target="_blank"
+            download={(props.file as File)?.filename}
+            href={(props.file as File)?.originalUrl}
+          >
+            <ContextMenuButton icon={MdDownload}>
+              <Trans>Save file</Trans>
+            </ContextMenuButton>
+          </a>
+          <ContextMenuButton
+            icon={MdContentCopy}
+            onClick={() => copyFile((props.file as File)!.originalUrl)}
+          >
+            <Trans>Copy file</Trans>
           </ContextMenuButton>
-        </a>
+        </Show>
 
         <ContextMenuDivider />
       </Show>

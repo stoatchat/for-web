@@ -228,7 +228,6 @@ export function MessageComposition(props: Props) {
    */
   function onFiles(files: File[]) {
     if (!canUploadFiles()) return;
-
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
     const maxSize = limits().file_upload_size_limits.attachments;

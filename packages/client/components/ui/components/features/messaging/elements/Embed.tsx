@@ -13,6 +13,7 @@ import { isGifBox, isGif as isGifLib } from "@revolt/common/lib/gifs";
 import { useModals } from "@revolt/modal";
 import { SizedContent } from "@revolt/ui/components/utils";
 
+import { MessageContextMenu } from "@revolt/app";
 import { TextEmbed } from "./TextEmbed";
 
 /**
@@ -54,6 +55,11 @@ export function Embed(props: { embed: MessageEmbed }) {
                 ? image()!.url
                 : image()!.proxiedURL
             }
+            use:floating={{
+              contextMenu: () => (
+                <MessageContextMenu file={props.embed as ImageEmbed} />
+              ),
+            }}
             loading="lazy"
             class={css({ cursor: "pointer" })}
             onClick={() =>
@@ -81,6 +87,11 @@ export function Embed(props: { embed: MessageEmbed }) {
                 ? video()!.url
                 : video()!.proxiedURL
             }
+            use:floating={{
+              contextMenu: () => (
+                <MessageContextMenu file={props.embed as WebsiteEmbed} />
+              ),
+            }}
             class={css({ cursor: isGIF() ? "pointer" : "unset" })}
             onClick={() =>
               isGIF() &&
