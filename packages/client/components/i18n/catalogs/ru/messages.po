@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-27 01:25+0000\n"
-"Last-Translator: someoneodd <someoneodd@proton.me>\n"
+"Last-Translator: Valera <kot-valera123@proton.me>\n"
 "Language-Team: Russian <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/ru/>\n"
 "Language: ru\n"
@@ -33,7 +33,7 @@ msgstr "[Завтра в] LT"
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
 msgid "[Last] dddd [at] LT"
-msgstr "[В прошлое] dddd [в] LT"
+msgstr "[В прошл.] dddd [в] LT"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -53,6 +53,8 @@ msgstr "{0, plural, one {# заблокированное сообщение} fe
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
 msgstr ""
+"{0, plural, one {# новое упоминание} few {# новых упоминания} other {# новых "
+"упоминаний}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -99,7 +101,7 @@ msgstr "{0} уже внизу"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the top"
-msgstr ""
+msgstr "{0} уже в самом верху"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -127,7 +129,7 @@ msgstr "{0} назначил {1} владельцем группы"
 #. placeholder {2}: list.length
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} moved to position {1} of {2}"
-msgstr ""
+msgstr "Сервер «{0}» перемещён на позицию {1} из {2}"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
@@ -1173,31 +1175,31 @@ msgstr "Обрезка аватара"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Banner"
-msgstr ""
+msgstr "Кадрирование баннера"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Crop Channel Icon"
-msgstr ""
+msgstr "Обрезать значок канала"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Crop Emoji"
-msgstr ""
+msgstr "Обрезать эмодзи"
 
 #: components/modal/modals/CropProcess.tsx
 msgid "Crop image"
-msgstr ""
+msgstr "Обрезать изображение"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Crop Role Icon"
-msgstr ""
+msgstr "Обрезать значок роли"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Banner"
-msgstr ""
+msgstr "Обрезать баннер сервера"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Icon"
-msgstr ""
+msgstr "Обрезать значок сервера"
 
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
@@ -1489,7 +1491,7 @@ msgstr "Редактировать эмодзи"
 #: components/app/menus/ServerFolderContextMenu.tsx
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Edit folder"
-msgstr ""
+msgstr "Редактировать папку"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
@@ -1695,7 +1697,7 @@ msgstr "Папка"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Folder colour"
-msgstr ""
+msgstr "Цвет папки"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1724,7 +1726,7 @@ msgstr "На 8 часов"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Forgot password?"
-msgstr ""
+msgstr "Забыли пароль?"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -3623,7 +3625,7 @@ msgstr "Тайм-аут до {0}"
 #. placeholder {0}: props.message.member!.timeout!.toLocaleString()
 #: components/app/interface/channels/text/Message.tsx
 msgid "Timed Out until {0}"
-msgstr ""
+msgstr "Тайм-аут до {0}"
 
 #: components/modal/modals/TimeoutMember.tsx
 msgid "Timeout"
@@ -4032,7 +4034,7 @@ msgstr "Вы можете сообщать об ошибках и обсужда
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "You can request again below"
-msgstr ""
+msgstr "Отправить повторный запрос можно ниже"
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -4090,6 +4092,8 @@ msgstr "У вас нет прав на отправку сообщений в э
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "You have {0} pending friend requests."
 msgstr ""
+"{0, plural, one {У вас # неотвеченная заявка в друзья.} few {У вас # "
+"неотвеченные заявки в друзья.} other {У вас # неотвеченных заявок в друзья.}}"
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
@@ -4105,7 +4109,7 @@ msgstr "Кажется, интернет решил немного отдохн�
 
 #: components/i18n/errors.tsx
 msgid "You may not submit this item to discover."
-msgstr ""
+msgstr "Вы не можете опубликовать этот элемент в каталоге."
 
 #: components/ui/components/features/voice/VoiceStatefulUserIcons.tsx
 msgid "You muted this user."
@@ -4146,7 +4150,7 @@ msgstr "Вы были приглашены на сервер.<0/>Не хотит
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "You've been logged out"
-msgstr ""
+msgstr "Вы вышли из аккаунта"
 
 #: components/modal/modals/SignedOut.tsx
 msgid "You've been signed out of Stoat!"
@@ -4164,7 +4168,7 @@ msgstr "Вы отправили слишком много запросов в д
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Your {0} is under review"
-msgstr ""
+msgstr "Ваш {0} находится на рассмотрении"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
@@ -4176,11 +4180,11 @@ msgstr "Ваш аккаунт проверен!"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Your discover request has been denied"
-msgstr ""
+msgstr "Ваша заявка на размещение в каталоге отклонена"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Your discover request has been removed"
-msgstr ""
+msgstr "Ваша запись удалена из каталога"
 
 #: components/i18n/errors.tsx
 msgid "Your discriminator change has been ratelimited, please try again later."
@@ -4188,7 +4192,7 @@ msgstr "Изменение вашего дискриминатора было о
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Your email stays private"
-msgstr ""
+msgstr "Ваш адрес электронной почты остается скрыт"
 
 #: components/i18n/errors.tsx
 msgid "Your message is too long, please remove some characters and try again."
@@ -4200,7 +4204,7 @@ msgstr "Ваши резервные коды"
 
 #: components/i18n/errors.tsx
 msgid "Your request failed. Please contact support."
-msgstr ""
+msgstr "Не удалось выполнить запрос. Обратитесь в службу поддержки."
 
 #: components/i18n/errors.tsx
 msgid "Your role ranking is too low to take this action."
@@ -4209,6 +4213,9 @@ msgstr "Ваша роль слишком низкая чтобы сделать 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
 msgstr ""
+"Сеанс завершён — возможно, вы вышли из аккаунта на другом устройстве. "
+"Войдите снова, чтобы продолжить. Если это были не вы, рекомендуем сменить "
+"пароль."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
