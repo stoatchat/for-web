@@ -48,11 +48,8 @@ export function SystemMessage(props: Props) {
   const params = useSmartParams();
   const dayjs = useTime();
 
-  // Break the lazy load chain. This is required to allow deletion of a
-  // message. Having reactivity with this value will result in undefined errors
-  // specifically in the delete message modal. Losing reactivity here is fine
-  // and expected, the markdown renderer also loses reactivity when rendering
-  // messages.
+  // Break the lazy load chain. Since system messages bypass the markdown
+  // renderer we need to lose reactivity to match behaviour.
   // eslint-disable-next-line solid/reactivity
   const sm = props.systemMessage;
 
