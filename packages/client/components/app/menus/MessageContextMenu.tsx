@@ -202,9 +202,9 @@ export function MessageContextMenu(props: {
             c.height = img.height;
             ctx!.drawImage(img, 0, 0);
             URL.revokeObjectURL(img.src);
-            c.toBlob((b) => {
+            c.toBlob(async (b) => {
               try {
-                writeBlobToClipboard(b, "image/png");
+                await writeBlobToClipboard(b, "image/png");
               } catch (error) {
                 showError(error);
               }
