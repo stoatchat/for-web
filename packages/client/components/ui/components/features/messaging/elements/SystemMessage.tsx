@@ -48,174 +48,127 @@ export function SystemMessage(props: Props) {
   const params = useSmartParams();
   const dayjs = useTime();
 
+  // Break the lazy load chain. This is required to allow deletion of a
+  // message. Having reactivity with this value will result in undefined errors
+  // specifically in the delete message modal. Losing reactivity here is fine
+  // and expected, the markdown renderer also loses reactivity when rendering
+  // messages.
+  // eslint-disable-next-line solid/reactivity
+  const sm = props.systemMessage;
+
   return (
     <Base>
-      <Switch fallback={props.systemMessage.type}>
-        <Match when={props.systemMessage.type === "user_added"}>
+      <Switch fallback={sm.type}>
+        <Match when={sm.type === "user_added"}>
           <Trans>
-            <UserMention
-              userId={
-                (props.systemMessage as UserModeratedSystemMessage).userId
-              }
-            />{" "}
+            <UserMention userId={(sm as UserModeratedSystemMessage).userId} />{" "}
             has been added by{" "}
-            <UserMention
-              userId={(props.systemMessage as UserModeratedSystemMessage).byId}
-            />
+            <UserMention userId={(sm as UserModeratedSystemMessage).byId} />
           </Trans>
         </Match>
-        <Match
-          when={props.systemMessage.type === "user_left" && !props.isServer}
-        >
+        <Match when={sm.type === "user_left" && !props.isServer}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as UserSystemMessage).userId}
-            />{" "}
-            left the group
+            <UserMention userId={(sm as UserSystemMessage).userId} /> left the
+            group
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "user_remove"}>
+        <Match when={sm.type === "user_remove"}>
           <Trans>
-            <UserMention
-              userId={
-                (props.systemMessage as UserModeratedSystemMessage).userId
-              }
-            />{" "}
+            <UserMention userId={(sm as UserModeratedSystemMessage).userId} />{" "}
             has been removed by{" "}
-            <UserMention
-              userId={(props.systemMessage as UserModeratedSystemMessage).byId}
-            />
+            <UserMention userId={(sm as UserModeratedSystemMessage).byId} />
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "user_kicked"}>
+        <Match when={sm.type === "user_kicked"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as UserSystemMessage).userId}
-            />{" "}
-            has been kicked from the server
+            <UserMention userId={(sm as UserSystemMessage).userId} /> has been
+            kicked from the server
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "user_banned"}>
+        <Match when={sm.type === "user_banned"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as UserSystemMessage).userId}
-            />{" "}
-            has been banned from the server
+            <UserMention userId={(sm as UserSystemMessage).userId} /> has been
+            banned from the server
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "user_joined"}>
+        <Match when={sm.type === "user_joined"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as UserSystemMessage).userId}
-            />{" "}
-            joined the server
+            <UserMention userId={(sm as UserSystemMessage).userId} /> joined the
+            server
           </Trans>
         </Match>
-        <Match
-          when={props.systemMessage.type === "user_left" && props.isServer}
-        >
+        <Match when={sm.type === "user_left" && props.isServer}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as UserSystemMessage).userId}
-            />{" "}
-            left the server
+            <UserMention userId={(sm as UserSystemMessage).userId} /> left the
+            server
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "channel_renamed"}>
+        <Match when={sm.type === "channel_renamed"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as ChannelRenamedSystemMessage).byId}
-            />{" "}
+            <UserMention userId={(sm as ChannelRenamedSystemMessage).byId} />{" "}
             updated the group name to{" "}
-            <strong>
-              {(props.systemMessage as ChannelRenamedSystemMessage).name}
-            </strong>
+            <strong>{(sm as ChannelRenamedSystemMessage).name}</strong>
           </Trans>
         </Match>
-        <Match
-          when={props.systemMessage.type === "channel_description_changed"}
-        >
+        <Match when={sm.type === "channel_description_changed"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as ChannelEditSystemMessage).byId}
-            />{" "}
+            <UserMention userId={(sm as ChannelEditSystemMessage).byId} />{" "}
             updated the group description
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "channel_icon_changed"}>
+        <Match when={sm.type === "channel_icon_changed"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as ChannelEditSystemMessage).byId}
-            />{" "}
+            <UserMention userId={(sm as ChannelEditSystemMessage).byId} />{" "}
             updated the group icon{" "}
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "channel_ownership_changed"}>
+        <Match when={sm.type === "channel_ownership_changed"}>
           <Trans>
             <UserMention
-              userId={
-                (props.systemMessage as ChannelOwnershipChangeSystemMessage)
-                  .fromId
-              }
+              userId={(sm as ChannelOwnershipChangeSystemMessage).fromId}
             />{" "}
             transferred group ownership to{" "}
             <UserMention
-              userId={
-                (props.systemMessage as ChannelOwnershipChangeSystemMessage)
-                  .toId
-              }
+              userId={(sm as ChannelOwnershipChangeSystemMessage).toId}
             />
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "message_pinned"}>
+        <Match when={sm.type === "message_pinned"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as MessagePinnedSystemMessage).byId}
-            />{" "}
+            <UserMention userId={(sm as MessagePinnedSystemMessage).byId} />{" "}
             pinned{" "}
             <RenderAnchor
               href={instance.href(
                 (params().serverId ? `/server/${params().serverId}` : "") +
-                  `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`,
+                  `/channel/${params().channelId}/${(sm as MessagePinnedSystemMessage).messageId}`,
               )}
             />
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "message_unpinned"}>
+        <Match when={sm.type === "message_unpinned"}>
           <Trans>
-            <UserMention
-              userId={(props.systemMessage as MessagePinnedSystemMessage).byId}
-            />{" "}
+            <UserMention userId={(sm as MessagePinnedSystemMessage).byId} />{" "}
             unpinned{" "}
             <RenderAnchor
               href={instance.href(
                 (params().serverId ? `/server/${params().serverId}` : "") +
-                  `/channel/${params().channelId}/${(props.systemMessage as MessagePinnedSystemMessage).messageId}`,
+                  `/channel/${params().channelId}/${(sm as MessagePinnedSystemMessage).messageId}`,
               )}
             />
           </Trans>
         </Match>
-        <Match when={props.systemMessage.type === "call_started"}>
+        <Match when={sm.type === "call_started"}>
           <Show
-            when={
-              (props.systemMessage as CallStartedSystemMessage).finishedAt !=
-              null
-            }
+            when={(sm as CallStartedSystemMessage).finishedAt != null}
             fallback={
               <Trans>
-                <UserMention
-                  userId={
-                    (props.systemMessage as CallStartedSystemMessage).byId
-                  }
-                />{" "}
+                <UserMention userId={(sm as CallStartedSystemMessage).byId} />{" "}
                 started a call
               </Trans>
             }
           >
             <Trans>
-              <UserMention
-                userId={(props.systemMessage as CallStartedSystemMessage).byId}
-              />{" "}
+              <UserMention userId={(sm as CallStartedSystemMessage).byId} />{" "}
               started a call that lasted{" "}
             </Trans>
             <span
@@ -226,35 +179,27 @@ export function SystemMessage(props: Props) {
                   content: () => (
                     <Time
                       format="datetime"
-                      value={
-                        (props.systemMessage as CallStartedSystemMessage)
-                          .finishedAt
-                      }
+                      value={(sm as CallStartedSystemMessage).finishedAt}
                     />
                   ),
                   aria: formatTime(dayjs, {
                     format: "datetime",
-                    value: (props.systemMessage as CallStartedSystemMessage)
-                      .finishedAt,
+                    value: (sm as CallStartedSystemMessage).finishedAt,
                   }) as string,
                 },
               }}
             >
               <Time
-                value={
-                  (props.systemMessage as CallStartedSystemMessage).finishedAt
-                }
-                referenceTime={
-                  (props.systemMessage as CallStartedSystemMessage).startedAt
-                }
+                value={(sm as CallStartedSystemMessage).finishedAt}
+                referenceTime={(sm as CallStartedSystemMessage).startedAt}
                 hideSuffix={true}
                 format="relative"
               />
             </span>
           </Show>
         </Match>
-        <Match when={props.systemMessage.type === "text"}>
-          {(props.systemMessage as TextSystemMessage).content}
+        <Match when={sm.type === "text"}>
+          {(sm as TextSystemMessage).content}
         </Match>
       </Switch>
     </Base>
