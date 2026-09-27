@@ -452,7 +452,11 @@ export const ServerList = (props: Props) => {
               href={state.layout.getLastActiveDiscoverPath()}
               class={entryContainer()}
             >
-              <Avatar size={42} fallback={<Symbol fill>explore</Symbol>} shape="circle" />
+              <Avatar
+                size={42}
+                fallback={<Symbol fill>explore</Symbol>}
+                shape="circle"
+              />
             </a>
           </Tooltip>
         </Show>
