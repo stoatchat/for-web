@@ -375,8 +375,12 @@ export function AppearanceMenu() {
           groupActive={state.theme.avatarRadius === 0}
           onPress={() => (state.theme.avatarRadius = 0)}
         >
-          <Row align>
-            <SDCornerSharp width={25} height={25} />
+          <Row justify align>
+            <SDCornerSharp
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
             <Trans>Sharp</Trans>
           </Row>
         </Button>
@@ -385,8 +389,12 @@ export function AppearanceMenu() {
           groupActive={state.theme.avatarRadius === 15}
           onPress={() => (state.theme.avatarRadius = 15)}
         >
-          <Row align>
-            <SDCornerRounded width={25} height={25} />
+          <Row justify align>
+            <SDCornerRounded
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
             <Trans>Rounded</Trans>
           </Row>
         </Button>
@@ -395,8 +403,12 @@ export function AppearanceMenu() {
           groupActive={state.theme.avatarRadius === 50}
           onPress={() => (state.theme.avatarRadius = 50)}
         >
-          <Row align>
-            <SDCornerCircular width={25} height={25} />
+          <Row justify align>
+            <SDCornerCircular
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
             <Trans>Circular</Trans>
           </Row>
         </Button>
@@ -408,8 +420,12 @@ export function AppearanceMenu() {
           }
           onPress={() => openModal({ type: "avatar_radius" })}
         >
-          <Row align>
-            <SDCornerOther width={25} height={25} />
+          <Row justify align>
+            <SDCornerOther
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
             <Trans>Custom</Trans>
           </Row>
         </Button>
