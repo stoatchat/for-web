@@ -223,6 +223,7 @@ const Shape = styled("div", {
     overflow: "hidden",
     width: "100%",
     height: "100%",
+    transition: "border-radius var(--transitions-fast)",
   },
   variants: {
     shape: {
