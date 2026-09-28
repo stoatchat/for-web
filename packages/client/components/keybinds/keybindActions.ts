@@ -60,6 +60,11 @@ export enum KeybindAction {
    * Close the open and ephemeral sidebar
    */
   CLOSE_SIDEBAR = "close_sidebar",
+
+  /**
+   * Global search
+   */
+  SEARCH = "search",
 }
 
 /**
@@ -83,6 +88,7 @@ export const ACTION_PRIORITY: KeybindAction[] = [
 
   // ... all others
   KeybindAction.CHAT_FOCUS_COMPOSITION,
+  KeybindAction.SEARCH,
 ];
 
 /**

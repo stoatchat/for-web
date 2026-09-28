@@ -53,6 +53,13 @@ export function KeybindContext(props: { children: JSXElement }) {
    * Get the currently firing keybind
    */
   function firing() {
+    // Detect if the user is currently focused on a typing field
+    const isInput =
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable);
+
     return (
       ACTION_PRIORITY
         // filter to those keybinds that are bound
@@ -61,13 +68,29 @@ export function KeybindContext(props: { children: JSXElement }) {
         .filter((keybind) =>
           keybindFilter(keybind, activeKeys, currentlyBound, target),
         )
-        // check whether the keybind is being pressed
-        .filter((keybind) =>
-          sequences[keybind].every((key) =>
-            key instanceof RegExp
-              ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
-              : activeKeys.has(key),
-          ),
+        // prevent standard character keybinds from firing inside inputs
+        .filter((keybind) => {
+          if (!isInput) return true;
+
+          // If we're in an input, ONLY allow keybinds that use a modifier or are special control keys
+          return sequences[keybind].some(
+            (k) =>
+              k === "Control" ||
+              k === "Meta" ||
+              k === "Alt" ||
+              k === "Escape" ||
+              k === "Enter",
+          );
+        })
+        // check whether the keybind is being pressed EXACTLY (no extra keys)
+        .filter(
+          (keybind) =>
+            sequences[keybind].length === activeKeys.size &&
+            sequences[keybind].every((key) =>
+              key instanceof RegExp
+                ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
+                : activeKeys.has(key),
+            ),
         )
         // return the highest priority keybind
         .shift()
@@ -120,8 +143,10 @@ export function KeybindContext(props: { children: JSXElement }) {
   function onKeyDown(event: KeyboardEvent) {
     target = event.target as HTMLElement;
     activeKeys.add(event.key);
+    if (firing()) {
+      event.preventDefault();
+    }
   }
-
   /**
    * Handle key up event by removing it from active keys
    */
