@@ -39,6 +39,7 @@ import { EditServerFolderModal } from "./modals/EditServerFolder";
 import { EditUsernameModal } from "./modals/EditUsername";
 import { EmojiPreviewModal } from "./modals/EmojiPreview";
 import { Error2Modal } from "./modals/Error2";
+import { GlobalSearchModal } from "./modals/GlobalSearch";
 import { ImageViewerModal } from "./modals/ImageViewer";
 import { InviteModal } from "./modals/Invite";
 import { JoinServerModal } from "./modals/JoinServer";
@@ -216,6 +217,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <DeleteEmojiModal {...modalProps} />;
     case "crop":
       return <CropModal {...modalProps} />;
+    case "search":
+      return <GlobalSearchModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",

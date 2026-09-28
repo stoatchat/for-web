@@ -49,6 +49,7 @@ export { MenuItem } from "./Menu";
 export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";
 export { Ripple } from "./Ripple";
+export { Searchbar } from "./Searchbar";
 export { Slider } from "./Slider";
 export {
   type ShowSnackbarOptions,
