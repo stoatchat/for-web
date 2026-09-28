@@ -22,6 +22,7 @@ import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import { LoadingScreen } from "@revolt/ui";
 
+import { Keybind, KeybindAction } from "@revolt/keybinds";
 import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
 import { Sidebar } from "./interface/Sidebar";
 
@@ -31,7 +32,7 @@ import { Sidebar } from "./interface/Sidebar";
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
-  const { openModal } = useModals();
+  const { openModal, modals, pop } = useModals();
   const { isLoggedIn, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
@@ -96,6 +97,21 @@ const Interface = (props: { children: JSX.Element }) => {
             <Navigate href="/login" />
           </Match>
           <Match when={lifecycle.loadedOnce()}>
+            <Keybind
+              keybind={KeybindAction.SEARCH}
+              onPressed={() => {
+                const isSearchOpen = modals.some(
+                  (m) => m.props.type === "search",
+                );
+
+                if (isSearchOpen) {
+                  pop();
+                  return;
+                }
+
+                openModal({ type: "search" });
+              }}
+            />
             <Layout
               disconnected={isDisconnected()}
               style={{ "flex-grow": 1, "min-height": 0 }}
