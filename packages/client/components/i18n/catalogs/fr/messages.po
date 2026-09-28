@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-27 01:25+0000\n"
-"Last-Translator: Lumixo <tc371946@proton.me>\n"
+"PO-Revision-Date: 2026-09-28 20:18+0000\n"
+"Last-Translator: Niridya <niridya@users.noreply.translate.stoat.chat>\n"
 "Language-Team: French <https://translate.stoat.chat/projects/revolt/"
 "revolt-for-web/fr/>\n"
 "Language: fr\n"
@@ -51,7 +51,7 @@ msgstr "{0, plural, one {# message bloqué} other {# messages bloqués}}"
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr "{0, plural one {# nouvelle mention} other {# nouvelles mentions}}"
+msgstr "{0, plural, one {# nouvelle mention} other {# nouvelles mentions}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -88,17 +88,19 @@ msgstr "{0} emplacements d'émoji disponibles"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "Les fichiers {0} dépassent la taille maximale autorisée de {maxSizeFormatted} et n'ont pas été téléchargés."
+msgstr ""
+"{0} fichiers dépassent la taille maximale autorisée de {maxSizeFormatted} et "
+"n’ont pas été téléversés."
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the bottom"
-msgstr "{0} est déjà en bas"
+msgstr "{0} est déjà tout en bas"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the top"
-msgstr "{0} est déjà en haut"
+msgstr "{0} est déjà tout en haut"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -119,7 +121,7 @@ msgstr "{0} est parti"
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0} a fait de {1} le nouveau propriétaire du groupe"
+msgstr "{0} a désigné {1} comme nouveau propriétaire du groupe"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -170,7 +172,7 @@ msgstr "{0} a été expulsé"
 #. placeholder {1}: (message.systemMessage as UserModeratedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} was removed by {1}"
-msgstr "{0} a été retiré par {1}"
+msgstr "{0} a été supprimé par {1}"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/TimeoutMember.tsx
@@ -213,7 +215,7 @@ msgstr "{unknown} a réagi"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} and {unknown} others reacted"
-msgstr "{usernames} et {unknown} autres ont réagi"
+msgstr "{usernames} et {unknown} autres personnes ont réagi"
 
 #: components/ui/components/features/messaging/elements/Reactions.tsx
 msgid "{usernames} reacted"
@@ -233,7 +235,7 @@ msgstr "<0/> a été expulsé du serveur"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> has been removed by <1/>"
-msgstr "<0/> a été retiré par <1/>"
+msgstr "<0/> a été supprimé par <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> joined the server"
@@ -269,11 +271,11 @@ msgstr "<0/> a désépinglé <1/>"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group description"
-msgstr "<0/> a changé la description du groupe"
+msgstr "<0/> a mis à jour la description du groupe"
 
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group icon "
-msgstr "<0/> a mis a jour l’icône du groupe "
+msgstr "<0/> a mis à jour l’icône du groupe "
 
 #. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
@@ -282,7 +284,8 @@ msgstr "<0/> a mis à jour le nom du groupe en <1>{0}</1>"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "<0>Be careful!</0><1/>This is not the same as the link that was displayed:"
-msgstr "<0>Attention !</0><1/>Ce n'est pas le même lien que celui qui était affiché :"
+msgstr ""
+"<0>Attention !</0><1/>Ce lien n’est pas le même que celui qui était affiché :"
 
 #~ msgid "1 day"
 #~ msgstr "1 jour"
@@ -340,7 +343,7 @@ msgstr "24 heures"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access channels on this server"
-msgstr "Peut accéder aux salons sur ce serveur"
+msgstr "Peut accéder aux salons de ce serveur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to access this channel"
@@ -348,7 +351,7 @@ msgstr "Peut accéder à ce salon"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Able to speak in voice call"
-msgstr "Capable de parler lors d'un appel vocal"
+msgstr "Peut parler lors d’un appel vocal"
 
 #~ msgid "About"
 #~ msgstr "À propos"
@@ -363,7 +366,7 @@ msgstr "Accepter la demande d'ami"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Acknowledge"
-msgstr "Reconnaître"
+msgstr "Accuser réception"
 
 #: components/modal/modals/AddBot.tsx
 #: components/modal/modals/AddMembersToGroup.tsx
@@ -394,7 +397,7 @@ msgstr "Ajouter de nouveaux membres au groupe"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Add status text"
-msgstr "Ajouter un texte au statut"
+msgstr "Ajouter un texte de statut"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Add to folder"
@@ -437,24 +440,27 @@ msgstr "Tous les systèmes sont opérationnels"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr "Permettre aux membres de changer leur nom et leur avatar pour chaque message"
+msgstr ""
+"Autoriser les membres à modifier leur nom et leur avatar pour chaque message"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr "Autoriser les autres utilisateurs à ajouter votre bot à leurs serveurs depuis la Découverte"
+msgstr ""
+"Autoriser d’autres personnes à ajouter votre bot à leurs serveurs depuis la "
+"Découverte"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to invite your bot"
-msgstr "Autoriser d'autres personnes à inviter votre bot"
+msgstr "Autoriser d’autres personnes à inviter votre bot"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to join your server from Discover"
 msgstr ""
-"Autoriser d'autres utilisateurs à rejoindre votre serveur depuis Discover"
+"Autoriser d’autres personnes à rejoindre votre serveur depuis la Découverte"
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
-msgstr "Vous êtes déjà ami avec cet utilisateur."
+msgstr "Vous êtes déjà amis avec cet utilisateur."
 
 #: components/auth/src/AuthPage.tsx
 msgid "Already have an account?"
@@ -462,7 +468,7 @@ msgstr "Vous avez déjà un compte ?"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
-msgstr "Toujours demander la qualité du partage d'écran"
+msgstr "Toujours demander la qualité du partage d’écran"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "American (MM/DD/YYYY)"
@@ -515,11 +521,11 @@ msgstr "Êtes-vous sûr de vouloir désépingler ce message ?"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign lower-ranked roles to lower-ranking members"
-msgstr "Attribuer des rôles de rang inférieur aux membres de rang inférieur"
+msgstr "Attribuer les rôles de rang inférieur aux membres de rang inférieur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Assign Roles"
-msgstr "Assigner des rôles"
+msgstr "Attribuer des rôles"
 
 #: components/modal/modals/ScreenShareSettings.tsx
 msgid "Audio disabled by browser"
@@ -561,15 +567,15 @@ msgstr "Contournement de bannissement"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban lower-ranking members from the server"
-msgstr "Bannir les membres de rang inférieur du serveur"
+msgstr "Bannir du serveur les membres de rang inférieur"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Ban member"
-msgstr "Bannir un membre"
+msgstr "Bannir le membre"
 
 #: components/modal/modals/BanMember.tsx
 msgid "Ban Member"
-msgstr "Bannir le membre"
+msgstr "Bannir un membre"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Ban Members"
@@ -628,11 +634,11 @@ msgstr "Occupé"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "En créant ce bot, vous acceptez la <0>Politique d'utilisation</0>."
+msgstr "En créant ce bot, vous acceptez la <0>Politique d’utilisation</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "En créant ce serveur, vous acceptez la <0>Politique d'utilisation</0>."
+msgstr "En créant ce serveur, vous acceptez la <0>Politique d’utilisation</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -644,12 +650,15 @@ msgstr "Contourne le mode lent dans les salons"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr "Vous ne trouvez pas le GIF idéal ? Rendez-vous sur Gifbox et importez le vôtre pour que tout le monde puisse l'utiliser."
+msgstr ""
+"Vous ne trouvez pas le GIF parfait ? Rendez-vous sur Gifbox et importez le "
+"vôtre pour que tout le monde puisse l’utiliser."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
 msgstr ""
-"Impossible de récupérer le statut de la demande de Discover pour le moment"
+"Impossible d’obtenir le statut de la demande de publication dans Découverte "
+"pour le moment"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -687,7 +696,7 @@ msgstr "Annuler"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Cancel discover request"
-msgstr "Annuler la requête pour le Discover"
+msgstr "Annuler la demande de publication dans Découverte"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
