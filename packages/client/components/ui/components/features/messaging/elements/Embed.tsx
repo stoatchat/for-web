@@ -57,7 +57,7 @@ export function Embed(props: { embed: MessageEmbed }) {
             }
             use:floating={{
               contextMenu: () => (
-                <MessageContextMenu file={props.embed as ImageEmbed} />
+                <MessageContextMenu file={image()} />
               ),
             }}
             loading="lazy"
@@ -89,7 +89,7 @@ export function Embed(props: { embed: MessageEmbed }) {
             }
             use:floating={{
               contextMenu: () => (
-                <MessageContextMenu file={props.embed as WebsiteEmbed} />
+                <MessageContextMenu file={video()} />
               ),
             }}
             class={css({ cursor: isGIF() ? "pointer" : "unset" })}
