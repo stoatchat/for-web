@@ -10,7 +10,7 @@ overrides:
   svelte-dnd-action: ^0.9.79
 
 patchedDependencies:
-  livekit-client: aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959
+  livekit-client: 89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2
 
 importers:
 
@@ -147,7 +147,7 @@ importers:
         version: 6.6.0(@babel/core@7.29.7)(@babel/types@7.29.8)(babel-plugin-macros@3.1.0)(solid-js@1.9.14)
       '@livekit/components-core':
         specifier: ^0.12.14
-        version: 0.12.14(livekit-client@2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
+        version: 0.12.14(livekit-client@2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
       '@material-design-icons/svg':
         specifier: ^0.14.15
         version: 0.14.15
@@ -239,8 +239,8 @@ importers:
         specifier: ^5.0.0
         version: 5.0.0
       livekit-client:
-        specifier: ~2.20.2
-        version: 2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22)
+        specifier: ~2.22.3
+        version: 2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22)
       livekit-rnnoise-processor:
         specifier: 3.0.2
         version: 3.0.2
@@ -487,7 +487,7 @@ importers:
     dependencies:
       '@livekit/components-core':
         specifier: ^0.12.14
-        version: 0.12.14(livekit-client@2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
+        version: 0.12.14(livekit-client@2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)
       '@solid-primitives/intersection-observer':
         specifier: ^2.2.2
         version: 2.2.2(solid-js@1.9.14)
@@ -499,7 +499,7 @@ importers:
         version: 1.5.3(solid-js@1.9.14)
       livekit-client:
         specifier: ^2.20.2
-        version: 2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22)
+        version: 2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -2383,8 +2383,8 @@ packages:
   '@livekit/mutex@1.1.1':
     resolution: {integrity: sha512-EsshAucklmpuUAfkABPxJNhzj9v2sG7JuzFDL4ML1oJQSV14sqrpTYnsaOudMAw9yOaW53NU3QQTlUQoRs4czw==}
 
-  '@livekit/protocol@1.46.6':
-    resolution: {integrity: sha512-upzlHP1vi/kZ/QqALZTFskQ0ifqc2f15RKucHYOsIHJsaXvEYanG75mAb7o+Yomfs4XhQ4BaRsdY+TFHXpaqrg==}
+  '@livekit/protocol@1.50.4':
+    resolution: {integrity: sha512-L1uggNQAqyY21smQY8AllyOYbcv9Me9TaxwuLytL1R8ck9nbYPmQLNwEDi3pOFGAMa5F8I2nUi2Jc59W5awxlA==}
 
   '@marijn/find-cluster-break@1.0.2':
     resolution: {integrity: sha512-l0h88YhZFyKdXIFNfSWpyjStDjGHwZ/U7iobcK1cQQD8sejsONdQtTVU+1wVN1PBw40PiiHB1vA5S7VTfQiP9g==}
@@ -5090,8 +5090,8 @@ packages:
   lit@3.3.0:
     resolution: {integrity: sha512-DGVsqsOIHBww2DqnuZzW7QsuCdahp50ojuDaBPC7jUDRpYoH0z7kHBBYZewRzer75FwtrkmkKk7iOAwSaWdBmw==}
 
-  livekit-client@2.20.2:
-    resolution: {integrity: sha512-rGV0Y+HgqI4yROq/4Get7wZ62DbYI55GumrI7FHJsUNFzPCl6xSqYBVlkVaCEvyOk14PdANLK/EHgMPJbvD68w==}
+  livekit-client@2.22.3:
+    resolution: {integrity: sha512-jw9zBKXY5Gtr5MZ7vEON3QhMNccuDvYHck1PFSyG1aaateQPqgKZFBMgZkFZaXHIf9RV4MDW5xpTK2b/+qbwOg==}
     peerDependencies:
       '@types/dom-mediacapture-record': ^1
 
@@ -5177,6 +5177,10 @@ packages:
 
   lunr@2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
+
+  machina@7.0.1:
+    resolution: {integrity: sha512-0Xkgs8NeBvO2hW6bjJT8ewLWrMfh1haMPstaghpASWjXkLjRhtDiaJG1Kb7mslaOHxZYxpH7PIjpmirRVYbMMA==}
+    engines: {node: '>=22.22'}
 
   magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
@@ -6199,6 +6203,7 @@ packages:
   solid-headless@0.13.1:
     resolution: {integrity: sha512-FZJai49YmdBu6oEo8aJGPMQ1Qn8xiW0cnD6vNFDIQWMKJdXEUtDEwz0hTR9aZ7Epq3IkrZs+98E0vNiv1+pZpA==}
     engines: {node: '>=10'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     peerDependencies:
       solid-js: 1.9.14
 
@@ -8993,17 +8998,17 @@ snapshots:
     dependencies:
       '@lit-labs/ssr-dom-shim': 1.3.0
 
-  '@livekit/components-core@0.12.14(livekit-client@2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)':
+  '@livekit/components-core@0.12.14(livekit-client@2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22))(tslib@2.8.1)':
     dependencies:
       '@floating-ui/dom': 1.7.6
-      livekit-client: 2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22)
+      livekit-client: 2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22)
       loglevel: 1.9.1
       rxjs: 7.8.2
       tslib: 2.8.1
 
   '@livekit/mutex@1.1.1': {}
 
-  '@livekit/protocol@1.46.6':
+  '@livekit/protocol@1.50.4':
     dependencies:
       '@bufbuild/protobuf': 1.10.1
 
@@ -12375,14 +12380,15 @@ snapshots:
       lit-element: 4.2.0
       lit-html: 3.3.0
 
-  livekit-client@2.20.2(patch_hash=aaa5857885c579bb42546763169fbc579a0428c99138d5b40a69a040c8a32959)(@types/dom-mediacapture-record@1.0.22):
+  livekit-client@2.22.3(patch_hash=89c117764eb3347ddbeb7a7290b55b5ff09becd8ec55b100d6f9024fd578f5d2)(@types/dom-mediacapture-record@1.0.22):
     dependencies:
       '@livekit/mutex': 1.1.1
-      '@livekit/protocol': 1.46.6
+      '@livekit/protocol': 1.50.4
       '@types/dom-mediacapture-record': 1.0.22
       events: 3.3.0
       jose: 6.1.0
       loglevel: 1.9.2
+      machina: 7.0.1
       sdp-transform: 2.15.0
       tslib: 2.8.1
       typed-emitter: 2.1.0
@@ -12457,6 +12463,8 @@ snapshots:
       yallist: 3.1.1
 
   lunr@2.3.9: {}
+
+  machina@7.0.1: {}
 
   magic-string@0.25.9:
     dependencies:
