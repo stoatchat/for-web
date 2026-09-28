@@ -1,4 +1,5 @@
 import { useModals } from "@revolt/modal";
+import { mimes } from "mrmime";
 import { onCleanup, onMount } from "solid-js";
 
 interface Props {
@@ -39,10 +40,14 @@ export function FilePasteCollector(props: Props) {
 
             // Ignore zero-size blobs
             if (blob.size === 0) continue;
+            const mimeType = blob.type.replace(/web /, "");
+            const extension = Object.keys(mimes).find(
+              (ext) => mimes[ext] === mimeType,
+            );
 
             res.push(
-              new File([blob], "file", {
-                type: blob.type.replace("web ", ""),
+              new File([blob], `file.${extension ?? "txt"}`, {
+                type: mimeType,
               }),
             );
           }

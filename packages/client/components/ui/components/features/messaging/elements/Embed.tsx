@@ -56,9 +56,7 @@ export function Embed(props: { embed: MessageEmbed }) {
                 : image()!.proxiedURL
             }
             use:floating={{
-              contextMenu: () => (
-                <MessageContextMenu file={image()} />
-              ),
+              contextMenu: () => <MessageContextMenu file={image()} />,
             }}
             loading="lazy"
             class={css({ cursor: "pointer" })}
@@ -88,9 +86,7 @@ export function Embed(props: { embed: MessageEmbed }) {
                 : video()!.proxiedURL
             }
             use:floating={{
-              contextMenu: () => (
-                <MessageContextMenu file={video()} />
-              ),
+              contextMenu: () => <MessageContextMenu file={video()} />,
             }}
             class={css({ cursor: isGIF() ? "pointer" : "unset" })}
             onClick={() =>
