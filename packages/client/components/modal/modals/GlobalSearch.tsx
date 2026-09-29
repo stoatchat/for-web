@@ -4,14 +4,7 @@ import type { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useNavigate } from "@revolt/routing";
-import {
-  Avatar,
-  Column,
-  Dialog,
-  DialogProps,
-  Searchbar,
-  Text,
-} from "@revolt/ui";
+import { Avatar, Column, Dialog, DialogProps, Searchbar } from "@revolt/ui";
 
 import { useLingui } from "@lingui/solid/macro";
 import { useState } from "@revolt/state";
@@ -118,9 +111,7 @@ export function GlobalSearchModal(
         </Show>
 
         <ResultList>
-          <For
-            each={results()}
-          >
+          <For each={results()}>
             {(channel) => (
               <Row onClick={() => select(channel)}>
                 <Show
