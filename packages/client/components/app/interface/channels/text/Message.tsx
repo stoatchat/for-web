@@ -354,6 +354,7 @@ export function Message(props: Props) {
           />
         </Show>
         <CompositionMediaPicker
+          channel={props.message.channel}
           onMessage={(content) =>
             props.message?.channel?.sendMessage({
               content,
