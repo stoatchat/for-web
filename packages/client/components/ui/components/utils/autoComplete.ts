@@ -2,6 +2,7 @@ import { Accessor, createMemo } from "solid-js";
 import {
   Channel,
   Client,
+  Emoji,
   Message,
   Server,
   ServerMember,
@@ -14,6 +15,7 @@ export interface AutoCompleteSearchSpace {
   members?: ServerMember[];
   channels?: Channel[];
   roles?: ServerRole[];
+  emojis?: Emoji[];
 }
 
 function generateSearchSpaceFrom(
@@ -23,7 +25,15 @@ function generateSearchSpaceFrom(
   if (object instanceof Message) {
     if (object.channel) return generateSearchSpaceFrom(object.channel, client);
   } else if (object instanceof Channel) {
-    if (object.server) return generateSearchSpaceFrom(object.server, client);
+    if (object.server) {
+      return {
+        ...generateSearchSpaceFrom(object.server, client),
+        // without the permission only this server's emoji can be used
+        emojis: object.havePermission("UseExternalEmojis")
+          ? undefined
+          : object.server.emojis,
+      };
+    }
     if (object.type === "Group" || object.type === "DirectMessage") {
       return {
         users: object.recipients,

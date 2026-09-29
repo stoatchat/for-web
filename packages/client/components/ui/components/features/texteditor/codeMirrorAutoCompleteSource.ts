@@ -52,7 +52,7 @@ export function codeMirrorAutoCompleteSource(
           emoji.apply as string,
         ),
       })),
-      client().emojis.map((emoji) => ({
+      (searchSpace()?.emojis ?? client().emojis.toList()).map((emoji) => ({
         type: "emoji",
         label: `:${emoji.name}:`,
         apply: `:${emoji.id}: `,

@@ -23,6 +23,7 @@ import { isGif } from "@revolt/common/lib/gifs";
 import { useTime } from "@revolt/i18n";
 import { Markdown } from "@revolt/markdown";
 import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
   Attachment,
@@ -115,6 +116,7 @@ export function Message(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
+  const { showError } = useModals();
 
   const [isHovering, setIsHovering] = createSignal(false);
   const [reactPicker, setReactPicker] = createSignal<MediaPickerProps>();
@@ -134,13 +136,14 @@ export function Message(props: Props) {
    * React with an emoji
    * @param emoji Emoji
    */
-  const react = (emoji: string) => props.message.react(emoji);
+  const react = (emoji: string) => props.message.react(emoji).catch(showError);
 
   /**
    * Remove emoji reaction
    * @param emoji Emoji
    */
-  const unreact = (emoji: string) => props.message.unreact(emoji);
+  const unreact = (emoji: string) =>
+    props.message.unreact(emoji).catch(showError);
 
   // Derive pronouns member takes precedence over author
   const pronouns = () =>
@@ -354,6 +357,7 @@ export function Message(props: Props) {
           />
         </Show>
         <CompositionMediaPicker
+          channel={props.message.channel}
           onMessage={(content) =>
             props.message?.channel?.sendMessage({
               content,
