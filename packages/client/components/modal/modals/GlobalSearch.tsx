@@ -14,6 +14,7 @@ import {
 } from "@revolt/ui";
 
 import { useLingui } from "@lingui/solid/macro";
+import { useState } from "@revolt/state";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { styled } from "styled-system/jsx";
 import { Modals } from "../types";
@@ -25,6 +26,7 @@ export function GlobalSearchModal(
   const client = useClient();
   const navigate = useNavigate();
   const [query, setQuery] = createSignal("");
+  const state = useState();
 
   let searchRef: HTMLInputElement | undefined;
   createEffect(() => {
@@ -35,7 +37,6 @@ export function GlobalSearchModal(
     }
   });
 
-  // Include SavedMessages as a DM so it gets an Avatar fallback instead of a '#'
   function isDM(channel: Channel) {
     return (
       channel.type === "DirectMessage" ||
@@ -44,7 +45,6 @@ export function GlobalSearchModal(
     );
   }
 
-  // Explicitly label SavedMessages
   function channelLabel(channel: Channel) {
     if (channel.type === "SavedMessages") return t`Saved Notes`;
     return isDM(channel)
@@ -58,6 +58,15 @@ export function GlobalSearchModal(
 
   const results = createMemo(() => {
     const q = query().trim().toLowerCase();
+
+    if (!q) {
+      return state.layout
+        .getRecentChannelIds()
+        .map((id) => client().channels.get(id))
+        .filter((c): c is Channel => !!c)
+        .slice(0, 20);
+    }
+
     const all = [...client().channels.values()];
     const matches = q
       ? all.filter((c) => channelLabel(c).toLowerCase().includes(q))
@@ -70,10 +79,11 @@ export function GlobalSearchModal(
   });
 
   function select(channel: Channel) {
+    state.layout.pushRecentChannel(channel.id);
     if (channel.type === "TextChannel") {
       navigate(`/server/${channel.serverId}/channel/${channel.id}`);
     } else {
-      navigate(`/channel/${channel}`);
+      navigate(`/channel/${channel.id}`);
     }
     props.onClose();
   }
@@ -98,18 +108,18 @@ export function GlobalSearchModal(
 
         <Show when={!query()}>
           <SectionLabel>
-            <Trans>PREVIOUS CHANNELS</Trans>
+            <Show
+              when={results().length}
+              fallback={<Trans>No recent channels</Trans>}
+            >
+              <Trans>PREVIOUS CHANNELS</Trans>
+            </Show>
           </SectionLabel>
         </Show>
 
         <ResultList>
           <For
             each={results()}
-            fallback={
-              <EmptyText>
-                <Trans>No results</Trans>
-              </EmptyText>
-            }
           >
             {(channel) => (
               <Row onClick={() => select(channel)}>
@@ -202,8 +212,4 @@ const RowServer = styled("div", {
     color: "var(--md-sys-color-on-surface-variant)",
     fontSize: "0.8rem",
   },
-});
-
-const EmptyText = styled(Text, {
-  base: { padding: "16px", textAlign: "center" },
 });
