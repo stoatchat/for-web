@@ -410,10 +410,15 @@ export function MessageComposition(props: Props) {
               <CompositionMediaPicker
                 onMessage={sendMessage}
                 onTextReplacement={(text) => setNodeReplacement([text])}
+                channel={props.channel}
               >
                 {(triggerProps) => (
                   <>
-                    <Show when={!canSend()}>
+                    <Show
+                      when={
+                        !canSend() && props.channel.havePermission("SendEmbeds")
+                      }
+                    >
                       <MessageBox.InlineIcon>
                         <IconButton onPress={triggerProps.onClickGif}>
                           <Symbol>gif</Symbol>
