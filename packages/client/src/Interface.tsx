@@ -17,7 +17,12 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
-import { Navigate, useBeforeLeave, useLocation } from "@revolt/routing";
+import {
+  Navigate,
+  paramsFromPathname,
+  useBeforeLeave,
+  useLocation,
+} from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import { LoadingScreen } from "@revolt/ui";
@@ -43,6 +48,8 @@ const Interface = (props: { children: JSX.Element }) => {
         openModal({ type: "settings", config: "user" });
       } else if (typeof e.to === "string") {
         state.layout.setLastActivePath(e.to);
+        const params = paramsFromPathname(e.to);
+        if (params.channelId) state.layout.pushRecentChannel(params.channelId);
       }
     }
   });
