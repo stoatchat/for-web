@@ -36,6 +36,11 @@ export interface TypeLayout {
    * Only the contrary is ever stored
    */
   openSections: Record<string, boolean>;
+
+  /**
+   * Last visited channels
+   */
+  recentChannelIds: string[];
 }
 
 /**
@@ -65,6 +70,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
       activeInterface: "home",
       activePath: {},
       openSections: {},
+      recentChannelIds: [],
     };
   }
 
@@ -94,6 +100,12 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
           layout.openSections[section] = input.openSections[section];
         }
       }
+    }
+
+    if (Array.isArray(input.recentChannelIds)) {
+      layout.recentChannelIds = input.recentChannelIds.filter(
+        (id) => typeof id === "string",
+      );
     }
 
     return layout;
@@ -171,5 +183,23 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
       !this.getSectionState(id, defaultValue),
       defaultValue,
     );
+  }
+
+  /**
+   * Set recent channels up to 20 of them
+   * @param id channel ID
+   */
+  pushRecentChannel(id: string) {
+    const MAX = 20;
+    const current = this.get().recentChannelIds;
+    const next = [id, ...current.filter((x) => x !== id)].slice(0, MAX);
+    this.set("recentChannelIds", next);
+  }
+
+  /**
+   * Get the list of recently visited channel IDs, most recent first
+   */
+  getRecentChannelIds() {
+    return this.get().recentChannelIds;
   }
 }
