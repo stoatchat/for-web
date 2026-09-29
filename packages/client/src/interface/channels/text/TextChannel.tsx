@@ -125,8 +125,24 @@ export function TextChannel(props: ChannelPageProps) {
     }
   }
 
+  function onVisibilityChange() {
+    if (document.visibilityState === "visible") onFocus();
+  }
+
+  // Chromium + webkit
+  window.addEventListener("focus", onFocus);
+  // Gecko
   document.addEventListener("focus", onFocus);
-  onCleanup(() => document.removeEventListener("focus", onFocus));
+  // Mobile (eg. unlock screen)
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  onCleanup(() => {
+    // Mobile
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    // Gecko
+    document.removeEventListener("focus", onFocus);
+    // Chromium + webkit
+    window.removeEventListener("focus", onFocus);
+  });
 
   // Register ack/jump latest
   createKeybind(KeybindAction.CHAT_JUMP_END, () => {
