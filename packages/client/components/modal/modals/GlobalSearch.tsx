@@ -1,4 +1,4 @@
-import { Trans } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
 import type { Channel } from "stoat.js";
 
@@ -6,7 +6,6 @@ import { useClient } from "@revolt/client";
 import { useNavigate } from "@revolt/routing";
 import { Avatar, Column, Dialog, DialogProps, Searchbar } from "@revolt/ui";
 
-import { useLingui } from "@lingui/solid/macro";
 import { useState } from "@revolt/state";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { styled } from "styled-system/jsx";
@@ -20,6 +19,7 @@ export function GlobalSearchModal(
   const navigate = useNavigate();
   const [query, setQuery] = createSignal("");
   const state = useState();
+  const [selected, setSelected] = createSignal(0);
 
   let searchRef: HTMLInputElement | undefined;
   createEffect(() => {
@@ -40,13 +40,7 @@ export function GlobalSearchModal(
 
   function channelLabel(channel: Channel) {
     if (channel.type === "SavedMessages") return t`Saved Notes`;
-    return isDM(channel)
-      ? (channel.recipient?.username ?? channel.name ?? "Unknown")
-      : (channel.name ?? "");
-  }
-
-  function serverLabel(channel: Channel) {
-    return channel.server?.name;
+    return channel.displayName;
   }
 
   const results = createMemo(() => {
@@ -62,7 +56,7 @@ export function GlobalSearchModal(
 
     const all = [...client().channels.values()];
     const matches = q
-      ? all.filter((c) => channelLabel(c).toLowerCase().includes(q))
+      ? all.filter((c) => channelLabel(c)?.toLowerCase().includes(q))
       : all;
 
     // channels first, DMs after
@@ -71,13 +65,45 @@ export function GlobalSearchModal(
     return [...channels, ...dms].slice(0, 20);
   });
 
+  createEffect(() => {
+    results();
+    setSelected(0);
+  });
+  createEffect(() => {
+    document
+      .getElementById(`search-opt-${selected()}`)
+      ?.scrollIntoView({ block: "nearest" });
+  });
+  createEffect(() => {
+    searchRef?.setAttribute("role", "combobox");
+    searchRef?.setAttribute("aria-label", t`Search channels`);
+    searchRef?.setAttribute("aria-controls", "search-results");
+    searchRef?.setAttribute("aria-expanded", "true");
+    searchRef?.setAttribute(
+      "aria-activedescendant",
+      `search-opt-${selected()}`,
+    );
+  });
+
+  function onKeyDown(e: KeyboardEvent) {
+    const count = results().length;
+    if (!count) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelected((i) => (i + 1) % count);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelected((i) => (i - 1 + count) % count);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const channel = results()[selected()];
+      if (channel) select(channel);
+    }
+  }
+
   function select(channel: Channel) {
     state.layout.pushRecentChannel(channel.id);
-    if (channel.type === "TextChannel") {
-      navigate(`/server/${channel.serverId}/channel/${channel.id}`);
-    } else {
-      navigate(`/channel/${channel.id}`);
-    }
+    navigate(channel.path);
     props.onClose();
   }
 
@@ -89,7 +115,7 @@ export function GlobalSearchModal(
       minWidth={480}
     >
       <Column gap="none">
-        <PaddedTop>
+        <PaddedTop onKeyDown={onKeyDown}>
           <Searchbar
             ref={(el) => (searchRef = el)}
             value={query()}
@@ -110,23 +136,30 @@ export function GlobalSearchModal(
           </SectionLabel>
         </Show>
 
-        <ResultList>
+        <ResultList id="search-results" role="listbox">
           <For each={results()}>
-            {(channel) => (
-              <Row onClick={() => select(channel)}>
+            {(channel, i) => (
+              <Row
+                id={`search-opt-${i()}`}
+                role="option"
+                aria-selected={selected() === i()}
+                data-selected={selected() === i()}
+                onMouseMove={() => setSelected(i())}
+                onClick={() => select(channel)}
+              >
                 <Show
                   when={isDM(channel)}
                   fallback={<Symbol size={24}>grid_3x3</Symbol>}
                 >
                   <Avatar
                     size={24}
-                    src={channel.recipient?.avatarURL}
+                    src={channel.iconURL}
                     fallback={channelLabel(channel)}
                   />
                 </Show>
                 <RowLabel>{channelLabel(channel)}</RowLabel>
-                <Show when={serverLabel(channel)}>
-                  <RowServer>{serverLabel(channel)}</RowServer>
+                <Show when={channel.server?.name}>
+                  <RowServer>{channel.server?.name}</RowServer>
                 </Show>
               </Row>
             )}
@@ -176,7 +209,7 @@ const Row = styled("div", {
     cursor: "pointer",
     minWidth: 0,
     transition: "background 0.1s ease-in-out",
-    "&:hover": {
+    "&:hover, &[data-selected='true']": {
       background: "var(--md-sys-color-surface-container-highest)",
     },
   },
