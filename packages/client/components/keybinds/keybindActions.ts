@@ -87,8 +87,8 @@ export const ACTION_PRIORITY: KeybindAction[] = [
   KeybindAction.NAVIGATION_CHANNEL_DOWN,
 
   // ... all others
-  KeybindAction.CHAT_FOCUS_COMPOSITION,
   KeybindAction.SEARCH,
+  KeybindAction.CHAT_FOCUS_COMPOSITION,
 ];
 
 /**
@@ -114,12 +114,7 @@ export function keybindFilter(
       return false;
 
     // don't allow focusing if another input element is currently being typed into
-    if (
-      target instanceof HTMLInputElement ||
-      target instanceof HTMLTextAreaElement ||
-      target?.nodeName === "MDUI-TEXT-FIELD"
-    )
-      return false;
+    if (isTypingContext(target)) return false;
 
     // don't allow focusing if modifier key is pressed... except for paste
     if (
@@ -130,4 +125,14 @@ export function keybindFilter(
   }
 
   return true;
+}
+
+export function isTypingContext(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  return (
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    target.isContentEditable ||
+    target.nodeName === "MDUI-TEXT-FIELD"
+  );
 }
