@@ -275,7 +275,9 @@ export function MessageContextMenu(props: {
           </ContextMenuButton>
         </Show>
 
-        <ContextMenuDivider />
+        <Show when={props.link || props.message}>
+          <ContextMenuDivider />
+        </Show>
       </Show>
       <Show when={props.link}>
         <ContextMenuButton icon={MdLink} onClick={copyLink}>
