@@ -40,7 +40,18 @@ export function GlobalSearchModal(
 
   function channelLabel(channel: Channel) {
     if (channel.type === "SavedMessages") return t`Saved Notes`;
+    if (channel.type === "DirectMessage") {
+      return channel.recipient?.displayName ?? channel.displayName;
+    }
     return channel.displayName;
+  }
+
+  function dmUsername(channel: Channel) {
+    if (channel.type !== "DirectMessage") return undefined;
+    const username = channel.recipient?.username;
+    return username && username !== channelLabel(channel)
+      ? username
+      : undefined;
   }
 
   const results = createMemo(() => {
@@ -56,7 +67,12 @@ export function GlobalSearchModal(
 
     const all = [...client().channels.values()];
     const matches = q
-      ? all.filter((c) => channelLabel(c)?.toLowerCase().includes(q))
+      ? all.filter(
+          (c) =>
+            channelLabel(c)?.toLowerCase().includes(q) ||
+            (c.type === "DirectMessage" &&
+              c.recipient?.username?.toLowerCase().includes(q)),
+        )
       : all;
 
     // channels first, DMs after
@@ -157,7 +173,12 @@ export function GlobalSearchModal(
                     fallback={channelLabel(channel)}
                   />
                 </Show>
-                <RowLabel>{channelLabel(channel)}</RowLabel>
+                <RowText>
+                  <RowLabel>{channelLabel(channel)}</RowLabel>
+                  <Show when={dmUsername(channel)}>
+                    <RowUsername>{dmUsername(channel)}</RowUsername>
+                  </Show>
+                </RowText>
                 <Show when={channel.server?.name}>
                   <RowServer>{channel.server?.name}</RowServer>
                 </Show>
@@ -215,14 +236,36 @@ const Row = styled("div", {
   },
 });
 
-const RowLabel = styled("div", {
+const RowText = styled("div", {
   base: {
     flex: 1,
+    minWidth: 0,
+    display: "flex",
+    alignItems: "baseline",
+    gap: "8px",
+  },
+});
+
+const RowLabel = styled("div", {
+  base: {
+    flex: "0 1 auto",
     minWidth: 0,
     overflow: "hidden",
     textOverflow: "ellipsis",
     whiteSpace: "nowrap",
     fontWeight: 500,
+  },
+});
+
+const RowUsername = styled("div", {
+  base: {
+    flex: "0 1 auto",
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: "var(--md-sys-color-on-surface-variant)",
+    fontSize: "0.8rem",
   },
 });
 
