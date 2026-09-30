@@ -37,7 +37,7 @@ import { Sidebar } from "./interface/Sidebar";
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
-  const { openModal, modals, pop } = useModals();
+  const { openModal, pop, isOpen } = useModals();
   const { isLoggedIn, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
@@ -107,11 +107,7 @@ const Interface = (props: { children: JSX.Element }) => {
             <Keybind
               keybind={KeybindAction.SEARCH}
               onPressed={() => {
-                const isSearchOpen = modals.some(
-                  (m) => m.props.type === "search",
-                );
-
-                if (isSearchOpen) {
+                if (isOpen("search")) {
                   pop();
                   return;
                 }
