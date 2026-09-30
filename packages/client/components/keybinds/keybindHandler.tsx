@@ -11,6 +11,7 @@ import { ReactiveSet } from "@solid-primitives/set";
 
 import {
   ACTION_PRIORITY,
+  isTypingContext,
   KeybindAction,
   keybindFilter,
 } from "./keybindActions";
@@ -49,16 +50,15 @@ export function KeybindContext(props: { children: JSXElement }) {
     ? DEFAULT_MAC_SEQUENCES
     : DEFAULT_SEQUENCES;
 
+  const normalize = (key: string) =>
+    key.length === 1 ? key.toLowerCase() : key;
+
   /**
    * Get the currently firing keybind
    */
   function firing() {
     // Detect if the user is currently focused on a typing field
-    const isInput =
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.isContentEditable);
+    const isInput = isTypingContext(target);
 
     return (
       ACTION_PRIORITY
@@ -83,14 +83,12 @@ export function KeybindContext(props: { children: JSXElement }) {
           );
         })
         // check whether the keybind is being pressed EXACTLY (no extra keys)
-        .filter(
-          (keybind) =>
-            sequences[keybind].length === activeKeys.size &&
-            sequences[keybind].every((key) =>
-              key instanceof RegExp
-                ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
-                : activeKeys.has(key),
-            ),
+        .filter((keybind) =>
+          sequences[keybind].every((key) =>
+            key instanceof RegExp
+              ? [...activeKeys].some((item) => key.test(item))
+              : activeKeys.has(key),
+          ),
         )
         // return the highest priority keybind
         .shift()
@@ -142,7 +140,7 @@ export function KeybindContext(props: { children: JSXElement }) {
    */
   function onKeyDown(event: KeyboardEvent) {
     target = event.target as HTMLElement;
-    activeKeys.add(event.key);
+    activeKeys.add(normalize(event.key));
     if (firing()) {
       event.preventDefault();
     }
@@ -152,7 +150,7 @@ export function KeybindContext(props: { children: JSXElement }) {
    */
   function onKeyUp(event: KeyboardEvent) {
     target = event.target as HTMLElement;
-    activeKeys.delete(event.key);
+    activeKeys.delete(normalize(event.key));
   }
 
   function onFocusDropped(_: FocusEvent) {
