@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-27 01:25+0000\n"
 "Last-Translator: Valera <kot-valera123@proton.me>\n"
-"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/ru/>\n"
+"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/revolt-for-web/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -52,9 +50,7 @@ msgstr "{0, plural, one {# заблокированное сообщение} fe
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr ""
-"{0, plural, one {# новое упоминание} few {# новых упоминания} other {# новых "
-"упоминаний}}"
+msgstr "{0, plural, one {# новое упоминание} few {# новых упоминания} other {# новых упоминаний}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -134,9 +130,7 @@ msgstr "Сервер «{0}» перемещён на позицию {1} из {2}
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr ""
-"{0} удерживается. Используйте стрелки для перемещения и пробел, чтобы "
-"сбросить"
+msgstr "{0} удерживается. Используйте стрелки для перемещения и пробел, чтобы сбросить"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -195,9 +189,7 @@ msgstr "{0} ролей"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr ""
-"{0} больше не имеет ограничений по тайм-ауту и снова сможет "
-"взаимодействовать с сервером."
+msgstr "{0} больше не имеет ограничений по тайм-ауту и снова сможет взаимодействовать с сервером."
 
 #~ msgid "{h} hours"
 #~ msgstr "Часы"
@@ -276,7 +268,7 @@ msgstr "<0/> обновил описание группы"
 msgid "<0/> updated the group icon "
 msgstr "<0/> обновил иконку группы "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> обновил название группы на <1>{0}</1>"
@@ -973,6 +965,10 @@ msgstr "Помощь в переводе"
 msgid "Conversations"
 msgstr "Беседы"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "Скопировано!"
@@ -986,8 +982,12 @@ msgid "Copy channel ID"
 msgstr "Скопировать ID канала"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Скопировать ссылку на файл"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Скопировать ссылку на файл"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1009,6 +1009,10 @@ msgstr "Скопировать ссылку"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Скопировать Ссылку"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1204,9 +1208,7 @@ msgstr "Обрезать значок сервера"
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
-msgstr ""
-"Обрезанное изображение слишком большое — попробуйте уменьшить область "
-"обрезки (макс. {0})"
+msgstr "Обрезанное изображение слишком большое — попробуйте уменьшить область обрезки (макс. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1768,15 +1770,11 @@ msgstr "Доступно в Google Play"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
-msgstr ""
-"Установите Stoat на Android и оставайтесь на связи с друзьями, где бы вы ни "
-"были (ну, если есть интернет, конечно)."
+msgstr "Установите Stoat на Android и оставайтесь на связи с друзьями, где бы вы ни были (ну, если есть интернет, конечно)."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"Скачайте приложение для Windows, macOS и Linux, чтобы ваши чаты всегда были "
-"под рукой."
+msgstr "Скачайте приложение для Windows, macOS и Linux, чтобы ваши чаты всегда были под рукой."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -2763,9 +2761,7 @@ msgstr "Причина: {0}"
 #. placeholder {0}: (dr.status as { Removed: string | null }) .Removed
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Reason: {0} Contact support for more information."
-msgstr ""
-"Причина: {0}. Обратитесь в службу поддержки для получения дополнительной "
-"информации."
+msgstr "Причина: {0}. Обратитесь в службу поддержки для получения дополнительной информации."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -3466,9 +3462,7 @@ msgstr "Это действие ни к чему не привело."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"Бот был удалён из каталога модераторами. Для получения дополнительной "
-"информации свяжитесь с поддержкой."
+msgstr "Бот был удалён из каталога модераторами. Для получения дополнительной информации свяжитесь с поддержкой."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
@@ -3476,15 +3470,11 @@ msgstr "Бот уже добавлен в каталог. Чтобы удали�
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr ""
-"Заявка на размещение в каталоге уже одобрена или объект был удалён из "
-"каталога. В обоих случаях свяжитесь с поддержкой."
+msgstr "Заявка на размещение в каталоге уже одобрена или объект был удалён из каталога. В обоих случаях свяжитесь с поддержкой."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr ""
-"Заявка на публикацию в каталоге была отклонена. Отклонённые заявки нельзя "
-"удалить, но вы можете подать новую."
+msgstr "Заявка на публикацию в каталоге была отклонена. Отклонённые заявки нельзя удалить, но вы можете подать новую."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
@@ -3493,9 +3483,7 @@ msgstr "Размер файла \"{0}\" ({fileSize}) первышает лими
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr ""
-"Элемент был заблокирован модерацией. Повторная подача заявок невозможна. "
-"Обратитесь в службу поддержки для уточнения деталей."
+msgstr "Элемент был заблокирован модерацией. Повторная подача заявок невозможна. Обратитесь в службу поддержки для уточнения деталей."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3503,9 +3491,7 @@ msgstr "Пароль слишком короткий."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"Сервер был удалён из каталога модераторами. Для получения дополнительной "
-"информации свяжитесь с поддержкой."
+msgstr "Сервер был удалён из каталога модераторами. Для получения дополнительной информации свяжитесь с поддержкой."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
@@ -3914,15 +3900,11 @@ msgstr "Мы активно работаем над оптимизацией в�
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
-"Не удалось выполнить вход в аккаунт. Повторите попытку позже или проверьте "
-"статус работы Stoat."
+msgstr "Не удалось выполнить вход в аккаунт. Повторите попытку позже или проверьте статус работы Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr ""
-"Мы используем эти данные только для подтверждения аккаунта и восстановления "
-"доступа. Мы никогда не продадим их и не будем присылать спам."
+msgstr "Мы используем эти данные только для подтверждения аккаунта и восстановления доступа. Мы никогда не продадим их и не будем присылать спам."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
@@ -4091,9 +4073,7 @@ msgstr "У вас нет прав на отправку сообщений в э
 #. placeholder {0}: homeNotifications()
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "You have {0} pending friend requests."
-msgstr ""
-"{0, plural, one {У вас # неотвеченная заявка в друзья.} few {У вас # "
-"неотвеченные заявки в друзья.} other {У вас # неотвеченных заявок в друзья.}}"
+msgstr "{0, plural, one {У вас # неотвеченная заявка в друзья.} few {У вас # неотвеченные заявки в друзья.} other {У вас # неотвеченных заявок в друзья.}}"
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
@@ -4212,10 +4192,7 @@ msgstr "Ваша роль слишком низкая чтобы сделать 
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr ""
-"Сеанс завершён — возможно, вы вышли из аккаунта на другом устройстве. "
-"Войдите снова, чтобы продолжить. Если это были не вы, рекомендуем сменить "
-"пароль."
+msgstr "Сеанс завершён — возможно, вы вышли из аккаунта на другом устройстве. Войдите снова, чтобы продолжить. Если это были не вы, рекомендуем сменить пароль."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."

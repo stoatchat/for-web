@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.16.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.0...stoat-for-web-v0.16.1) (2026-10-01)
+
+
+### Bug Fixes
+
+* Ack on refocus ([#1681](https://github.com/stoatchat/for-web/issues/1681)) ([74f8a6d](https://github.com/stoatchat/for-web/commit/74f8a6d91a985785a9c8ca4c6072569010dbdb06))
+* add "quiet zone" for TOTP QR code ([#1671](https://github.com/stoatchat/for-web/issues/1671)) ([48b1fcd](https://github.com/stoatchat/for-web/commit/48b1fcd7f299abeba86977ce6cb49c42bf191a9b))
+* Autocomplete now adds ZWNJ on regional indicators ([#1686](https://github.com/stoatchat/for-web/issues/1686)) ([c3c43a4](https://github.com/stoatchat/for-web/commit/c3c43a4828d05b294242b84148c10b7eb1a2fb27))
+* Delete modal no longer crashes when deleting system messages ([#1674](https://github.com/stoatchat/for-web/issues/1674)) ([eec37d5](https://github.com/stoatchat/for-web/commit/eec37d5b7f7237ffd14bf5b233f191758c47c8e8))
+* Dialog buttons round again ([#1680](https://github.com/stoatchat/for-web/issues/1680)) ([494b73e](https://github.com/stoatchat/for-web/commit/494b73ea0e33db8fb77dd6966a1a0c6fd1b32e77))
+* Disable gifbox if no embed perms ([#1682](https://github.com/stoatchat/for-web/issues/1682)) ([05f9300](https://github.com/stoatchat/for-web/commit/05f93002605afe0cef0e7e6e45bff2598996bfbd))
+* image/video lightbox has context menu now ([#1619](https://github.com/stoatchat/for-web/issues/1619)) ([380f059](https://github.com/stoatchat/for-web/commit/380f059f065e5affac851d0a9998f0f50885d471))
+* Standalone Regional indicators stay separate now due to ZWNJ ([#1666](https://github.com/stoatchat/for-web/issues/1666)) ([1bcd45c](https://github.com/stoatchat/for-web/commit/1bcd45c5e4366c69f0871ba71c10b476e8bec684))
+* **voice:** prevent call drops on screen share ([#1679](https://github.com/stoatchat/for-web/issues/1679)) ([b8aa4fb](https://github.com/stoatchat/for-web/commit/b8aa4fbfb6978a5dce20cde9e1c756d087120fc5))
+* **voice:** prevent calls dropping on screen share by updating livekit-client to 2.22.3 ([b8aa4fb](https://github.com/stoatchat/for-web/commit/b8aa4fbfb6978a5dce20cde9e1c756d087120fc5))
+
 ## [0.16.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.15.3...stoat-for-web-v0.16.0) (2026-09-25)
 
 

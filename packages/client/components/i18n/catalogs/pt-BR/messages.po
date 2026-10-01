@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-28 20:18+0000\n"
 "Last-Translator: Peedro <peedroplays2022@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) <https://translate.stoat.chat/projects/"
-"revolt/revolt-for-web/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) <https://translate.stoat.chat/projects/revolt/revolt-for-web/pt_BR/>\n"
 "Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -88,9 +87,7 @@ msgstr "{0} espaços de emoji restantes"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr ""
-"{0} arquivos excedem o limite máximo de tamanho de {maxSizeFormatted} e não "
-"foram enviados."
+msgstr "{0} arquivos excedem o limite máximo de tamanho de {maxSizeFormatted} e não foram enviados."
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
@@ -133,8 +130,7 @@ msgstr "{0} movido para a posição {1} de {2}"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr ""
-"{0} selecionado, use as setas para movê-lo e a barra de espaço para soltá-lo"
+msgstr "{0} selecionado, use as setas para movê-lo e a barra de espaço para soltá-lo"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -193,8 +189,7 @@ msgstr "Cargos de {0}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr ""
-"O castigo de {0} será removido, e poderá voltar a interagir com o servidor."
+msgstr "O castigo de {0} será removido, e poderá voltar a interagir com o servidor."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} horas"
@@ -273,7 +268,7 @@ msgstr "<0/> atualizou a descrição do grupo"
 msgid "<0/> updated the group icon "
 msgstr "<0/> atualizou o ícone do grupo "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> atualizou o nome do grupo para <1>{0}</1>"
@@ -628,13 +623,11 @@ msgstr "Ocupado"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Ao criar este bot, você concorda com a <0>Política de Uso Aceitável</0>."
+msgstr "Ao criar este bot, você concorda com a <0>Política de Uso Aceitável</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Ao criar este servidor, você concorda com a <0>Política de Uso Aceitável</0>."
+msgstr "Ao criar este servidor, você concorda com a <0>Política de Uso Aceitável</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -650,8 +643,7 @@ msgstr "Não consegue encontrar o GIF perfeito? Vá para o Gifbox e envie o seu 
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
-msgstr ""
-"Não foi possível verificar o status da solicitação do Descobrir no momento"
+msgstr "Não foi possível verificar o status da solicitação do Descobrir no momento"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -973,6 +965,10 @@ msgstr "Contribuir ao idioma"
 msgid "Conversations"
 msgstr "Conversas"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "Copiado!"
@@ -986,8 +982,12 @@ msgid "Copy channel ID"
 msgstr "Copiar ID do canal"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Copiar link do arquivo"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Copiar link do arquivo"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1009,6 +1009,10 @@ msgstr "Copiar link"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Copiar link"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1204,8 +1208,7 @@ msgstr "Recortar ícone do servidor"
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
-msgstr ""
-"A imagem recortada é muito grande. Tente uma área de recorte menor (máx. {0})"
+msgstr "A imagem recortada é muito grande. Tente uma área de recorte menor (máx. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1354,9 +1357,7 @@ msgstr "Excluir Servidor"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
-msgstr ""
-"Excluir este emoji impedirá novos usos. Todos os usos anteriores serão "
-"mantidos."
+msgstr "Excluir este emoji impedirá novos usos. Todos os usos anteriores serão mantidos."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1770,9 +1771,7 @@ msgstr "Baixe o Stoat para Android e fique com seus amigos por onde você for."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"Baixe o aplicativo desktop para Windows, macOS ou Linux e continue com suas "
-"conversas em um clique."
+msgstr "Baixe o aplicativo desktop para Windows, macOS ou Linux e continue com suas conversas em um clique."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -3457,27 +3456,19 @@ msgstr "Essa ação não teve efeito."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"O bot foi removido do Discover pelos moderadores, o usuário deverá entrar em "
-"contato com o suporte."
+msgstr "O bot foi removido do Discover pelos moderadores, o usuário deverá entrar em contato com o suporte."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
-msgstr ""
-"O bot já está no Discover, o usuário deve entrar em contato com o suporte "
-"para que ele seja removido"
+msgstr "O bot já está no Discover, o usuário deve entrar em contato com o suporte para que ele seja removido"
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr ""
-"O pedido para o Descobrir foi aprovado ou o item foi removido. Em outro "
-"caso, o usuário deve entrar em contato com o suporte."
+msgstr "O pedido para o Descobrir foi aprovado ou o item foi removido. Em outro caso, o usuário deve entrar em contato com o suporte."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr ""
-"A solicitação para o Descobrir foi recusada. Solicitações negadas não podem "
-"ser removidas, mas o usuário pode enviar novamente."
+msgstr "A solicitação para o Descobrir foi recusada. Solicitações negadas não podem ser removidas, mas o usuário pode enviar novamente."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
@@ -3486,9 +3477,7 @@ msgstr "O Arquivo \"{0}\" ({fileSize}) excede o tamanho limite de {maxSizeFormat
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr ""
-"O item foi removido pelos moderadores, e, portanto, novas solicitações estão "
-"proibidas. Entre em contato com o suporte para mais informações."
+msgstr "O item foi removido pelos moderadores, e, portanto, novas solicitações estão proibidas. Entre em contato com o suporte para mais informações."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3496,15 +3485,11 @@ msgstr "Essa senha é pequena demais."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"O servidor foi removido do Descobrir pelos moderadores, o usuário deve "
-"entrar em contato com o suporte."
+msgstr "O servidor foi removido do Descobrir pelos moderadores, o usuário deve entrar em contato com o suporte."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
-msgstr ""
-"O servidor já está no Descobrir, o usuário deve entrar em contato com o "
-"suporte para remove-lo."
+msgstr "O servidor já está no Descobrir, o usuário deve entrar em contato com o suporte para remove-lo."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3903,15 +3888,11 @@ msgstr "Estamos trabalhando duro para otimizar nosso aplicativo web para disposi
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
-"Nós não conseguimos concluir seu log-in. Tente novamente, e se isso "
-"persistir, verifique o status do Stoat."
+msgstr "Nós não conseguimos concluir seu log-in. Tente novamente, e se isso persistir, verifique o status do Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr ""
-"Nós podemos usar isso para verificar sua conta e ajudar você a voltar caso "
-"tenha sido bloqueado. Nós nunca as venderemos ou enviaremos a você spam."
+msgstr "Nós podemos usar isso para verificar sua conta e ajudar você a voltar caso tenha sido bloqueado. Nós nunca as venderemos ou enviaremos a você spam."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
@@ -4199,9 +4180,7 @@ msgstr "Seu cargo é muito baixo para realizar esta ação."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr ""
-"Sua sessão encerrou, provavelmente porque você conectou em outro "
-"dispositivo. Entre novamente para continuar."
+msgstr "Sua sessão encerrou, provavelmente porque você conectou em outro dispositivo. Entre novamente para continuar."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."

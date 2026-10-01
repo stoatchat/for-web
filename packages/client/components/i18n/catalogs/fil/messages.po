@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-25 13:51+0000\n"
 "Last-Translator: searinminecraft <scripterrookie12@gmail.com>\n"
-"Language-Team: Filipino <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/fil/>\n"
+"Language-Team: Filipino <https://translate.stoat.chat/projects/revolt/revolt-for-web/fil/>\n"
 "Language: fil\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 "
-"|| n % 10 == 6 || n % 10 == 9);\n"
+"Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9);\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -47,9 +45,7 @@ msgstr ""
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr ""
-"{0, plural, one {# naka-block na mensahe} other {# (na) naka-block na "
-"mensahe}}"
+msgstr "{0, plural, one {# naka-block na mensahe} other {# (na) naka-block na mensahe}}"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -275,7 +271,7 @@ msgstr ""
 msgid "<0/> updated the group icon "
 msgstr ""
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr ""
@@ -975,6 +971,10 @@ msgstr ""
 msgid "Conversations"
 msgstr "Mga usapan"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr ""
@@ -988,8 +988,12 @@ msgid "Copy channel ID"
 msgstr "Kopyahin itong channel ID"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
+msgid "Copy file"
 msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1010,6 +1014,10 @@ msgstr "Kopyahin ang link"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
 msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
