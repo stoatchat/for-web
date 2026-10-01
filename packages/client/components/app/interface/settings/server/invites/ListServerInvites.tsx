@@ -1,4 +1,4 @@
-import { For, Match, Switch } from "solid-js";
+import { For, Match, Show, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
@@ -72,14 +72,20 @@ export function ListServerInvites(props: { server: Server }) {
         <Trans>Create invite</Trans>
       </Button>
       <DataTable
-        columns={[<Trans>Inviter</Trans>, <Trans>Invite Code</Trans>, <></>]}
+        columns={[
+          <Trans>Inviter</Trans>,
+          <Trans>Invite Code</Trans>,
+          <Trans>Uses</Trans>,
+          <Trans>Expires</Trans>,
+          <></>,
+        ]}
         itemCount={query.data?.length}
       >
         {(page, itemsPerPage) => (
           <Switch>
             <Match when={query.isLoading}>
               <DataTable.Row>
-                <DataTable.Cell colspan={3}>
+                <DataTable.Cell colspan={5}>
                   <CircularProgress />
                 </DataTable.Cell>
               </DataTable.Row>
@@ -126,6 +132,15 @@ export function ListServerInvites(props: { server: Server }) {
                       >
                         <Symbol size={20}>content_copy</Symbol>
                       </Button>
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      {item.uses ?? 0}
+                      {item.maxUses ? ` / ${item.maxUses}` : ""}
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      <Show when={item.expires} fallback={<Trans>Never</Trans>}>
+                        {new Date(item.expires!).toLocaleString()}
+                      </Show>
                     </DataTable.Cell>
                     <DataTable.Cell width="40px">
                       <Button
