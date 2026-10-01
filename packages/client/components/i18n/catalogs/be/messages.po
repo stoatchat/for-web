@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-28 20:18+0000\n"
 "Last-Translator: Valera <kot-valera123@proton.me>\n"
-"Language-Team: Belarusian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/be/>\n"
+"Language-Team: Belarusian <https://translate.stoat.chat/projects/revolt/revolt-for-web/be/>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -55,9 +53,7 @@ msgstr "{0, plural, one {# заблакіраванае паведамленне
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr ""
-"{0, plural, one {# новае згадванне} few {# новыя згадванні} many {# новы "
-"згадванняў} other {# новага згадвання}}"
+msgstr "{0, plural, one {# новае згадванне} few {# новыя згадванні} many {# новы згадванняў} other {# новага згадвання}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -137,9 +133,7 @@ msgstr "Элемент {0} перамешчаны на пазіцыю {1} з {2}
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr ""
-"Элемент {0} захоплены, выкарыстоўвайце стрэлкі для перамяшчэння і Прагал для "
-"скідання"
+msgstr "Элемент {0} захоплены, выкарыстоўвайце стрэлкі для перамяшчэння і Прагал для скідання"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -198,9 +192,7 @@ msgstr "Ролі {0}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr ""
-"Тайм-аўт для {0} будзе скасаваны, і карыстальнік зноў зможа ўзаемадзейнічаць "
-"з серверам."
+msgstr "Тайм-аўт для {0} будзе скасаваны, і карыстальнік зноў зможа ўзаемадзейнічаць з серверам."
 
 #~ msgid "{h} hours"
 #~ msgstr ""
@@ -279,7 +271,7 @@ msgstr "<0/> абнавілі апісанне групы"
 msgid "<0/> updated the group icon "
 msgstr "<0/> абнавілі значок групы "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> абнавілі назву групы на <1>{0}</1>"
@@ -637,15 +629,11 @@ msgstr "Заняты"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Ствараючы гэтага бота, вы згаджаецеся з <0>Палітыкай дапушчальнага "
-"выкарыстання</0>."
+msgstr "Ствараючы гэтага бота, вы згаджаецеся з <0>Палітыкай дапушчальнага выкарыстання</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr ""
-"Ствараючы гэты сервер, вы згаджаецеся з <0>Палітыкай дапушчальнага "
-"выкарыстання</0>."
+msgstr "Ствараючы гэты сервер, вы згаджаецеся з <0>Палітыкай дапушчальнага выкарыстання</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -657,9 +645,7 @@ msgstr "азваляе абыходзіць павольны рэжым у ка�
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr ""
-"Не можаце знайсці ідэальную GIF? Перайдзіце ў Gifbox і запампуйце сваю, каб "
-"ёю маглі карыстацца ўсе."
+msgstr "Не можаце знайсці ідэальную GIF? Перайдзіце ў Gifbox і запампуйце сваю, каб ёю маглі карыстацца ўсе."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
@@ -985,6 +971,10 @@ msgstr ""
 msgid "Conversations"
 msgstr "Гутаркі"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr ""
@@ -998,8 +988,12 @@ msgid "Copy channel ID"
 msgstr "Скапіяваць ID канала"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
+msgid "Copy file"
 msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr ""
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1020,6 +1014,10 @@ msgstr "Скапіяваць спасылку"
 
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
 msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx

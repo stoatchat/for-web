@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-29 22:15+0000\n"
 "Last-Translator: Steven Felix <stevenfelix505@gmail.com>\n"
-"Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/id/>\n"
+"Language-Team: Indonesian <https://translate.stoat.chat/projects/revolt/revolt-for-web/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -134,9 +133,7 @@ msgstr "{0} pindah ke posisi {1} dari {2}"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr ""
-"{0} diambil, gunakan tombol panah untuk memindahkannya dan spasi untuk "
-"menjatuhkannya"
+msgstr "{0} diambil, gunakan tombol panah untuk memindahkannya dan spasi untuk menjatuhkannya"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -178,8 +175,7 @@ msgstr "{0} dikeluarkan oleh {1}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/TimeoutMember.tsx
 msgid "{0} will not be able to interact with the server until the timeout expires."
-msgstr ""
-"{0} tidak akan dapat berinteraksi dengan server sampai batas waktu habis."
+msgstr "{0} tidak akan dapat berinteraksi dengan server sampai batas waktu habis."
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -196,9 +192,7 @@ msgstr "Peran {0}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr ""
-"Batas waktu {0} akan dihapus dan mereka akan dapat berinteraksi dengan "
-"server lagi."
+msgstr "Batas waktu {0} akan dihapus dan mereka akan dapat berinteraksi dengan server lagi."
 
 #~ msgid "{h} hours"
 #~ msgstr ""
@@ -277,7 +271,7 @@ msgstr "<0/> mengubah deskripsi grup"
 msgid "<0/> updated the group icon "
 msgstr "<0/> mengganti ikon grup "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> mengubah nama grup ke <1>{0}</1>"
@@ -819,9 +813,7 @@ msgstr "Masukan Obrolan"
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Check back often to see if your {0} has been approved!"
-msgstr ""
-"Periksa kembali sesering mungkin untuk melihat apakah {0} Anda telah "
-"disetujui!"
+msgstr "Periksa kembali sesering mungkin untuk melihat apakah {0} Anda telah disetujui!"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your email"
@@ -979,6 +971,10 @@ msgstr "Kontribusikan bahasa"
 msgid "Conversations"
 msgstr "Percakapan"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "Disalin!"
@@ -992,8 +988,12 @@ msgid "Copy channel ID"
 msgstr "Salin ID saluran"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Salin tautan berkas"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Salin tautan berkas"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1015,6 +1015,10 @@ msgstr "Salin tautan"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Salin Tautan"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1210,9 +1214,7 @@ msgstr "Pangkas Ikon Server"
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
-msgstr ""
-"Gambar yang dipangkas terlalu besar — coba area pemangkasan yang lebih kecil "
-"(maks. {0})"
+msgstr "Gambar yang dipangkas terlalu besar — coba area pemangkasan yang lebih kecil (maks. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1364,9 +1366,7 @@ msgstr "Hapus Server"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
-msgstr ""
-"Menghapus emoji ini akan mencegah penggunaan di masa mendatang. Semua "
-"penggunaan di masa lalu akan tetap ada."
+msgstr "Menghapus emoji ini akan mencegah penggunaan di masa mendatang. Semua penggunaan di masa lalu akan tetap ada."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1779,15 +1779,11 @@ msgstr "Dapatkan di Google Play"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
-msgstr ""
-"Dapatkan Stoat untuk Android dan tetap terhubung dengan teman-teman Anda "
-"dimana pun Anda berada."
+msgstr "Dapatkan Stoat untuk Android dan tetap terhubung dengan teman-teman Anda dimana pun Anda berada."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"Dapatkan aplikasi desktop untuk Windows, macOS dan Linux dan akses "
-"percakapan Anda hanya dengan satu klik."
+msgstr "Dapatkan aplikasi desktop untuk Windows, macOS dan Linux dan akses percakapan Anda hanya dengan satu klik."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -3487,27 +3483,19 @@ msgstr "Tindakan tersebut tidak memberikan dampak apapun."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"Bot telah dihapus dari jelajahi oleh moderator, pengguna harus menghubungi "
-"dukungan."
+msgstr "Bot telah dihapus dari jelajahi oleh moderator, pengguna harus menghubungi dukungan."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
-msgstr ""
-"Bot sudah ada di jelajahi, pengguna harus menghubungi dukungan untuk "
-"menghapusnya"
+msgstr "Bot sudah ada di jelajahi, pengguna harus menghubungi dukungan untuk menghapusnya"
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr ""
-"Permintaan Jelajahi disetujui atau item tersebut telah dihapus dari "
-"jelajahi. Apapun kasusnya, pengguna harus menghubungi dukungan."
+msgstr "Permintaan Jelajahi disetujui atau item tersebut telah dihapus dari jelajahi. Apapun kasusnya, pengguna harus menghubungi dukungan."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr ""
-"Permintaan Jelajahi ditolak. Permintaan yang ditolak tidak dapat dihapus, "
-"tetapi pengguna dapat mengirimkannya lagi."
+msgstr "Permintaan Jelajahi ditolak. Permintaan yang ditolak tidak dapat dihapus, tetapi pengguna dapat mengirimkannya lagi."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
@@ -3516,9 +3504,7 @@ msgstr "Berkas \"{0}\" ({fileSize}) melebihi batas ukuran maksimum {maxSizeForma
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr ""
-"Item tersebut telah dihapus oleh moderator, dan oleh karena itu pengajuan di "
-"masa mendatang dilarang. Hubungi dukungan untuk informasi lebih lanjut."
+msgstr "Item tersebut telah dihapus oleh moderator, dan oleh karena itu pengajuan di masa mendatang dilarang. Hubungi dukungan untuk informasi lebih lanjut."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3526,15 +3512,11 @@ msgstr "Kata sandi terlalu singkat."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"Server telah dihapus dari jelajahi oleh moderator, pengguna harus "
-"menghubungi dukungan."
+msgstr "Server telah dihapus dari jelajahi oleh moderator, pengguna harus menghubungi dukungan."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
-msgstr ""
-"Server sudah ada di jelajahi, pengguna harus menghubungi dukungan untuk "
-"menghapusnya."
+msgstr "Server sudah ada di jelajahi, pengguna harus menghubungi dukungan untuk menghapusnya."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3939,22 +3921,15 @@ msgstr "Kami sedang bekerja keras untuk mengoptimalkan aplikasi web kami untuk p
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
-"Kami tidak dapat menyelesaikan proses masuk Anda. Coba lagi, dan jika ini "
-"terus terjadi, periksa status Stoat."
+msgstr "Kami tidak dapat menyelesaikan proses masuk Anda. Coba lagi, dan jika ini terus terjadi, periksa status Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr ""
-"Kami hanya menggunakannya untuk memverifikasi akun Anda dan membantu Anda "
-"masuk kembali jika suatu saat akun Anda terkunci. Kami tidak akan pernah "
-"menjualnya atau mengirimi Anda spam."
+msgstr "Kami hanya menggunakannya untuk memverifikasi akun Anda dan membantu Anda masuk kembali jika suatu saat akun Anda terkunci. Kami tidak akan pernah menjualnya atau mengirimi Anda spam."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
-msgstr ""
-"Kami akan mengirimi Anda email yang berisi tautan aman untuk memilih kata "
-"sandi baru."
+msgstr "Kami akan mengirimi Anda email yang berisi tautan aman untuk memilih kata sandi baru."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
@@ -4238,9 +4213,7 @@ msgstr "Peringkat peran kamu terlalu rendah untuk mengambil tindakan ini."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr ""
-"Sesi Anda berakhir, kemungkinan karena Anda keluar di perangkat lain. Masuk "
-"lagi untuk melanjutkan."
+msgstr "Sesi Anda berakhir, kemungkinan karena Anda keluar di perangkat lain. Masuk lagi untuk melanjutkan."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."

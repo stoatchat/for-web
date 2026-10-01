@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-28 20:18+0000\n"
 "Last-Translator: Hugo Jiménez Sesma <hjises07+stoat@protonmail.com>\n"
-"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/es/>\n"
+"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/revolt-for-web/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -173,8 +172,7 @@ msgstr "{1} eliminó a {0}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/TimeoutMember.tsx
 msgid "{0} will not be able to interact with the server until the timeout expires."
-msgstr ""
-"{0} no podrá interactuar con el servidor hasta que expire su aislamiento."
+msgstr "{0} no podrá interactuar con el servidor hasta que expire su aislamiento."
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -191,9 +189,7 @@ msgstr "Roles de {0}"
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr ""
-"Se retirará el aislamiento de {0} y podrá volver a interactuar con el "
-"servidor."
+msgstr "Se retirará el aislamiento de {0} y podrá volver a interactuar con el servidor."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} horas"
@@ -272,7 +268,7 @@ msgstr "<0/> actualizó la descripción del grupo"
 msgid "<0/> updated the group icon "
 msgstr "<0/> actualizó el icono del grupo "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> actualizó el nombre del grupo a <1>{0}</1>"
@@ -701,8 +697,7 @@ msgstr "Cancela tu solicitud de Discover y elimínala de la lista de revisión"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
-msgstr ""
-"No puedes eliminar tu cuenta hasta que elimines o transfieras tus servidores"
+msgstr "No puedes eliminar tu cuenta hasta que elimines o transfieras tus servidores"
 
 #: components/i18n/errors.tsx
 msgid "Cannot edit this message."
@@ -839,9 +834,7 @@ msgstr "Borrar estado personalizado"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
-msgstr ""
-"¡Haz click en los objetos de abajo para aprender más sobre los diferentes "
-"cambios!"
+msgstr "¡Haz click en los objetos de abajo para aprender más sobre los diferentes cambios!"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
@@ -911,9 +904,7 @@ msgstr "¡Próximamente! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr ""
-"Configura un método para recuperar tu cuenta en caso de que pierdas acceso a "
-"tu autenticación de dos factores"
+msgstr "Configura un método para recuperar tu cuenta en caso de que pierdas acceso a tu autenticación de dos factores"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
@@ -974,6 +965,10 @@ msgstr "Contribuir a un idioma"
 msgid "Conversations"
 msgstr "Conversaciones"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "¡Copiado!"
@@ -987,8 +982,12 @@ msgid "Copy channel ID"
 msgstr "Copiar ID del canal"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Copiar enlace del archivo"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Copiar enlace del archivo"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1010,6 +1009,10 @@ msgstr "Copiar enlace"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Copiar enlace"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1205,9 +1208,7 @@ msgstr "Recortar icono del servidor"
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
-msgstr ""
-"La imagen recortada es demasiado grande, prueba con un área más pequeña ("
-"máx. {0})"
+msgstr "La imagen recortada es demasiado grande, prueba con un área más pequeña (máx. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1359,9 +1360,7 @@ msgstr "Borrar servidor"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
-msgstr ""
-"Si eliminas este emoji, no se podrá volver a usar. Los que ya se hayan "
-"enviado se mantendrán."
+msgstr "Si eliminas este emoji, no se podrá volver a usar. Los que ya se hayan enviado se mantendrán."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1771,15 +1770,11 @@ msgstr "Descárgala en Google Play"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
-msgstr ""
-"Descarga Stoat para Android y sigue en contacto con tus amigos estés donde "
-"estés."
+msgstr "Descarga Stoat para Android y sigue en contacto con tus amigos estés donde estés."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"Descarga la aplicación de escritorio para Windows, macOS y Linux y ten tus "
-"conversaciones a un solo clic."
+msgstr "Descarga la aplicación de escritorio para Windows, macOS y Linux y ten tus conversaciones a un solo clic."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -3467,26 +3462,19 @@ msgstr "Esta acción no tuvo efecto."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"El bot ha sido eliminado de Discover por los moderadores; ponte en contacto "
-"con nosotros."
+msgstr "El bot ha sido eliminado de Discover por los moderadores; ponte en contacto con nosotros."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
-msgstr ""
-"El bot ya está en Discover; ponte en contacto con nosotros para quitarlo"
+msgstr "El bot ya está en Discover; ponte en contacto con nosotros para quitarlo"
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr ""
-"La solicitud de Discover ha sido aprobada o el elemento se ha eliminado de "
-"Discover. En cualquier caso, ponte en contacto con nosotros."
+msgstr "La solicitud de Discover ha sido aprobada o el elemento se ha eliminado de Discover. En cualquier caso, ponte en contacto con nosotros."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr ""
-"La solicitud de Discover ha sido rechazada. Las solicitudes rechazadas no se "
-"pueden quitar, pero puedes volver a enviar otra."
+msgstr "La solicitud de Discover ha sido rechazada. Las solicitudes rechazadas no se pueden quitar, pero puedes volver a enviar otra."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
@@ -3495,9 +3483,7 @@ msgstr "El archivo \"{0}\" ({fileSize}) excede el límite máximo de tamaño de 
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr ""
-"El elemento ha sido eliminado por los moderadores, por lo que no se permiten "
-"más solicitudes. Ponte en contacto con nosotros para obtener más información."
+msgstr "El elemento ha sido eliminado por los moderadores, por lo que no se permiten más solicitudes. Ponte en contacto con nosotros para obtener más información."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3505,15 +3491,11 @@ msgstr "La contraseña es demasiado corta."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"El servidor ha sido eliminado de Discover por los moderadores; ponte en "
-"contacto con nosotros."
+msgstr "El servidor ha sido eliminado de Discover por los moderadores; ponte en contacto con nosotros."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
-msgstr ""
-"El servidor ya está en Discover; ponte en contacto con nosotros para "
-"quitarlo."
+msgstr "El servidor ya está en Discover; ponte en contacto con nosotros para quitarlo."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3918,21 +3900,15 @@ msgstr "Estamos trabajando duro para optimizar nuestra aplicación web en móvil
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
-"No hemos podido acabar de iniciar sesión. Inténtalo de nuevo y, si el "
-"problema persiste, comprueba el estado de Stoat."
+msgstr "No hemos podido acabar de iniciar sesión. Inténtalo de nuevo y, si el problema persiste, comprueba el estado de Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr ""
-"Solo lo usamos para verificar tu cuenta y ayudarte a entrar si alguna vez te "
-"quedas sin acceso. Nunca lo venderemos ni te enviaremos spam."
+msgstr "Solo lo usamos para verificar tu cuenta y ayudarte a entrar si alguna vez te quedas sin acceso. Nunca lo venderemos ni te enviaremos spam."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
-msgstr ""
-"Te enviaremos un enlace seguro por correo electrónico para eligir una nueva "
-"contraseña."
+msgstr "Te enviaremos un enlace seguro por correo electrónico para eligir una nueva contraseña."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
@@ -4128,9 +4104,7 @@ msgstr "No recibirás ninguna notificación"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
-msgstr ""
-"No podrás acceder a tu cuenta a menos que te pongas en contacto con nosotros "
-"- sin embargo, tus datos no serán eliminados."
+msgstr "No podrás acceder a tu cuenta a menos que te pongas en contacto con nosotros - sin embargo, tus datos no serán eliminados."
 
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
@@ -4178,10 +4152,7 @@ msgstr "Tu {0} está en revisión"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr ""
-"Tu cuenta y toda tu información (incluyendo tus mensajes y lista de amigos) "
-"se programará para su eliminación. Se enviará un mensaje de confirmación. "
-"Puedes cancelar esto en los próximos 7 días contactando con nosotros."
+msgstr "Tu cuenta y toda tu información (incluyendo tus mensajes y lista de amigos) se programará para su eliminación. Se enviará un mensaje de confirmación. Puedes cancelar esto en los próximos 7 días contactando con nosotros."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -4221,9 +4192,7 @@ msgstr "Tu rol no tiene el rango suficiente para realizar esta acción."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr ""
-"Tu sesión ha finalizado, probablemente porque has cerrado sesión en otro "
-"dispositivo. Vuelve a iniciar sesión para continuar."
+msgstr "Tu sesión ha finalizado, probablemente porque has cerrado sesión en otro dispositivo. Vuelve a iniciar sesión para continuar."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."

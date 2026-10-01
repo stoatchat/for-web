@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-27 17:49+0000\n"
 "Last-Translator: Daze Dazey <lingangu123waza@gmail.com>\n"
-"Language-Team: Arabic <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/ar/>\n"
+"Language-Team: Arabic <https://translate.stoat.chat/projects/revolt/revolt-for-web/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -273,7 +271,7 @@ msgstr "<0/> عدل وصف المجموعة"
 msgid "<0/> updated the group icon "
 msgstr "<0/> حدث ايقونة المجموعة "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "قام <0/> بتحديث اسم المجموعة الى <1>{0}</1>"
@@ -973,6 +971,10 @@ msgstr "ساهم بلغة"
 msgid "Conversations"
 msgstr "المحادثات"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "تم النسخ!"
@@ -986,8 +988,12 @@ msgid "Copy channel ID"
 msgstr "انسخ معرّف القناة"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "نسخ رابط الملف"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "نسخ رابط الملف"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1009,6 +1015,10 @@ msgstr "انسخ الرابط"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "نسخ الرابط"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1356,9 +1366,7 @@ msgstr "حذف الخادم"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
-msgstr ""
-"سيؤدي حذف هذا الرمز التعبيري إلى منع استخدامه مستقبلاً، مع بقاء جميع مرات "
-"استخدامه السابقة."
+msgstr "سيؤدي حذف هذا الرمز التعبيري إلى منع استخدامه مستقبلاً، مع بقاء جميع مرات استخدامه السابقة."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1775,9 +1783,7 @@ msgstr "احصل على Stoat لنظام أندرويد وابقَ على توا
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"احصل على تطبيق سطح المكتب لأنظمة Windows وmacOS وLinux، واجعل محادثاتك على بُ"
-"عد نقرة واحدة."
+msgstr "احصل على تطبيق سطح المكتب لأنظمة Windows وmacOS وLinux، واجعل محادثاتك على بُعد نقرة واحدة."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
@@ -3477,27 +3483,19 @@ msgstr "لم يكن لهذا الإجراء أي تأثير."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"قام المشرفون بإزالة البوت من قسم \"الاكتشاف\" (Discover)، ويتعين على "
-"المستخدم التواصل مع فريق الدعم."
+msgstr "قام المشرفون بإزالة البوت من قسم \"الاكتشاف\" (Discover)، ويتعين على المستخدم التواصل مع فريق الدعم."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
-msgstr ""
-"البوت موجود بالفعل في قسم \"الاكتشاف\" (Discover)، ويجب على المستخدم التواصل "
-"مع الدعم الفني لإزالته."
+msgstr "البوت موجود بالفعل في قسم \"الاكتشاف\" (Discover)، ويجب على المستخدم التواصل مع الدعم الفني لإزالته."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr ""
-"تمت الموافقة على طلب الإدراج في ميزة \"Discover\" أو تمت إزالة العنصر منها؛ "
-"وفي كلتا الحالتين، يتعين على المستخدم التواصل مع فريق الدعم."
+msgstr "تمت الموافقة على طلب الإدراج في ميزة \"Discover\" أو تمت إزالة العنصر منها؛ وفي كلتا الحالتين، يتعين على المستخدم التواصل مع فريق الدعم."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr ""
-"تم رفض طلب Discover. لا يمكن حذف الطلبات المرفوضة، ولكن يمكن للمستخدم إعادة "
-"تقديم الطلب."
+msgstr "تم رفض طلب Discover. لا يمكن حذف الطلبات المرفوضة، ولكن يمكن للمستخدم إعادة تقديم الطلب."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
@@ -3506,9 +3504,7 @@ msgstr "الملف \"{0}\" ({fileSize}) يتعدى الحجم الأقصى ال�
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr ""
-"تمت إزالة العنصر من قِبَل المشرفين، وعليه يُحظر تقديم طلبات مستقبلية. يرجى "
-"التواصل مع الدعم الفني لمزيد من المعلومات."
+msgstr "تمت إزالة العنصر من قِبَل المشرفين، وعليه يُحظر تقديم طلبات مستقبلية. يرجى التواصل مع الدعم الفني لمزيد من المعلومات."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3516,15 +3512,11 @@ msgstr "كلمة المرور أقصر من الحد الادنى."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr ""
-"تمت إزالة الخادم من قسم \"الاكتشاف\" (Discover) بواسطة المشرفين، ويجب على "
-"المستخدم التواصل مع فريق الدعم."
+msgstr "تمت إزالة الخادم من قسم \"الاكتشاف\" (Discover) بواسطة المشرفين، ويجب على المستخدم التواصل مع فريق الدعم."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
-msgstr ""
-"الخادم مدرج بالفعل في قائمة \"الاكتشاف\" (Discover)، ويجب على المستخدم "
-"التواصل مع الدعم لإزالته."
+msgstr "الخادم مدرج بالفعل في قائمة \"الاكتشاف\" (Discover)، ويجب على المستخدم التواصل مع الدعم لإزالته."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3929,15 +3921,11 @@ msgstr "نحن نعمل بجد على تحسين تطبيق الويب الخا�
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
-"تعذّر إكمال عملية تسجيل الدخول. حاول مرة أخرى، وإذا استمرت المشكلة، فتحقق من "
-"حالة Stoat."
+msgstr "تعذّر إكمال عملية تسجيل الدخول. حاول مرة أخرى، وإذا استمرت المشكلة، فتحقق من حالة Stoat."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr ""
-"نحن نستخدمه فقط للتحقق من حسابك ومساعدتك في استعادة الوصول إليه إذا تعذر "
-"عليك الدخول. لن نقوم أبداً ببيعه أو إرسال رسائل مزعجة إليك."
+msgstr "نحن نستخدمه فقط للتحقق من حسابك ومساعدتك في استعادة الوصول إليه إذا تعذر عليك الدخول. لن نقوم أبداً ببيعه أو إرسال رسائل مزعجة إليك."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
@@ -4225,8 +4213,7 @@ msgstr "تصنيفك الوظيفي منخفض للغاية بحيث لا يمك
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr ""
-"انتهت جلستك، ربما لأنك سجلت الخروج من جهاز آخر. سجّل الدخول مجدداً للمتابعة."
+msgstr "انتهت جلستك، ربما لأنك سجلت الخروج من جهاز آخر. سجّل الدخول مجدداً للمتابعة."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."

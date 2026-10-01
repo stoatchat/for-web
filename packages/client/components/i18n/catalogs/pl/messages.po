@@ -271,7 +271,7 @@ msgstr "<0/> zaktualizował opis grupy"
 msgid "<0/> updated the group icon "
 msgstr "<0/> zaktualizował ikonę grupy "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> zaktualizował nazwę grupy na <1>{0}</1>"
@@ -973,6 +973,10 @@ msgstr "Pomóż w tłumaczeniu"
 msgid "Conversations"
 msgstr "Rozmowy"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "Skopiowano!"
@@ -986,8 +990,12 @@ msgid "Copy channel ID"
 msgstr "Skopiuj ID kanału"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Skopiuj link do pliku"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Skopiuj link do pliku"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1009,6 +1017,10 @@ msgstr "Skopiuj link"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Skopiuj Link"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"

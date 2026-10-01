@@ -5,14 +5,12 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-09-27 01:25+0000\n"
 "Last-Translator: Omi <heyitsominouscry@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
-"revolt-for-web/uk/>\n"
+"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/revolt-for-web/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.9.1\n"
 
 #. js-lingui-explicit-id
@@ -55,9 +53,7 @@ msgstr "{0, plural, one {# заблоковане повідомлення} few 
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr ""
-"{0, plural, one {# нове згадування} few {# нові згадування} other {# нових "
-"згадувань}}"
+msgstr "{0, plural, one {# нове згадування} few {# нові згадування} other {# нових згадувань}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -275,7 +271,7 @@ msgstr "<0/> оновив(ла) опис групи"
 msgid "<0/> updated the group icon "
 msgstr "<0/> оновив(ла) іконку групи "
 
-#. placeholder {0}: (props.systemMessage as ChannelRenamedSystemMessage).name
+#. placeholder {0}: (sm as ChannelRenamedSystemMessage).name
 #: components/ui/components/features/messaging/elements/SystemMessage.tsx
 msgid "<0/> updated the group name to <1>{0}</1>"
 msgstr "<0/> оновив(ла) назву групи на <1>{0}</1>"
@@ -975,6 +971,10 @@ msgstr "Долучитися до перекладу мови"
 msgid "Conversations"
 msgstr "Розмови"
 
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copied file to clipboard"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
 msgstr "Скопійовано!"
@@ -988,8 +988,12 @@ msgid "Copy channel ID"
 msgstr "Скопіювати ID каналу"
 
 #: components/app/menus/MessageContextMenu.tsx
-msgid "Copy file link"
-msgstr "Скопіювати посилання на файл"
+msgid "Copy file"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#~ msgid "Copy file link"
+#~ msgstr "Скопіювати посилання на файл"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Copy ID"
@@ -1011,6 +1015,10 @@ msgstr "Скопіювати посилання"
 #: components/modal/modals/CreateInvite.tsx
 msgid "Copy Link"
 msgstr "Скопіювати Посилання"
+
+#: components/app/menus/MessageContextMenu.tsx
+msgid "Copy link to file"
+msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1578,8 +1586,7 @@ msgstr "Увімкнути пуш-сповіщення"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr ""
-"Увімкнути ефекти прозорості та розмиття (повільно працює на старих пристроях)"
+msgstr "Увімкнути ефекти прозорості та розмиття (повільно працює на старих пристроях)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1772,15 +1779,11 @@ msgstr "Завантажте з Google Play"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
-msgstr ""
-"Встановіть Stoat на Android та залишайтеся на зв'язку з друзями, де б ви не "
-"були (ну, якщо є інтернет, звісно)"
+msgstr "Встановіть Stoat на Android та залишайтеся на зв'язку з друзями, де б ви не були (ну, якщо є інтернет, звісно)"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr ""
-"Завантажте десктопний застосунок для Windows, macOS та Linux і тримайте свої "
-"спількування на відстані одного кліку."
+msgstr "Завантажте десктопний застосунок для Windows, macOS та Linux і тримайте свої спількування на відстані одного кліку."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
