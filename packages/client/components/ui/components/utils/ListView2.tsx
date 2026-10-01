@@ -168,6 +168,7 @@ function Skeleton(props: {
         if (ref && containerRef && permitFetching) {
           const observer = new IntersectionObserver(onEvent, {
             root: containerRef,
+            rootMargin: "0px",
           });
 
           observer.observe(ref);

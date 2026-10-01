@@ -3,7 +3,7 @@ import {
   type ListView2Update,
   ListView2,
 } from "@revolt/ui/components/utils/ListView2";
-import { batch, createEffect, createSignal, For, on } from "solid-js";
+import { batch, createSignal, For, onMount } from "solid-js";
 import { API, Server } from "stoat.js";
 import { EntryRenderer } from "./LogEntryRenderer";
 
@@ -23,11 +23,27 @@ export function ListAuditLogs(props: Props) {
   const [failure, setFailure] = createSignal(false);
   const [atStart, setStart] = createSignal(true);
   const [atEnd, setEnd] = createSignal(false);
+  const [listRef, setListRef] = createSignal<HTMLDivElement>();
 
   let preemptFetch: () => void | undefined;
 
   function canFetch() {
-    return !fetching || failure();
+    return !fetching() || failure();
+  }
+
+  /**
+   * Helper function to find the closest parent scroll container
+   * @param el Element
+   * @returns Element
+   */
+  function findScrollContainer(el: Element | null | undefined) {
+    if (!el) {
+      return null;
+    } else if (["scroll", "auto"].includes(getComputedStyle(el).overflowY)) {
+      return el;
+    } else {
+      return findScrollContainer(el.parentElement);
+    }
   }
 
   function preempt() {
@@ -63,10 +79,22 @@ export function ListAuditLogs(props: Props) {
           limit: INITIAL_FETCH_LIMIT,
         })
         .then(({ audit_logs }) => audit_logs);
+      console.log(`[logs] got ${logs.length} logs`);
 
       if (preempted()) return;
-
+      if (logs.length < INITIAL_FETCH_LIMIT) {
+        console.log(`[lv2] is at end`);
+        setEnd(true);
+      }
       setLogs(logs);
+
+      setTimeout(() => {
+        findScrollContainer(listRef())?.scrollTo({
+          top: -9999999,
+          behavior: "instant",
+        });
+      });
+
       setFetching();
     } catch {
       setFailure(true);
@@ -74,43 +102,48 @@ export function ListAuditLogs(props: Props) {
     }
   }
 
-  async function caseFetchUpwards(): Promise<ListView2Update | undefined> {
+  async function caseFetchTop(): Promise<ListView2Update | undefined> {
+    console.log(`[lv2] is at start? ${atStart()}\ncan fetch? ${canFetch()}`);
     if (atStart() || !canFetch()) return;
 
-    console.debug("[lv2] Fetching upwards");
     setFetching("upwards");
     const preempted = newPreempted();
+
+    console.log("[lv2] trying to fetch entries at the top");
+
     try {
-      const res = await props.server.getAuditLogs({
+      const result = await props.server.getAuditLogs({
         limit: FETCH_LIMIT,
-        after: logs().slice(-1)[0]._id,
+        after: logs()[0]._id,
       });
 
+      console.log(`[logs] got ${result.audit_logs.length} entries up`);
+
       if (preempted()) return;
-      if (res.audit_logs.length < FETCH_LIMIT) {
+
+      if (result.audit_logs.length < FETCH_LIMIT - 1) {
+        console.log(`[lv2] is at start of list`);
         setStart(true);
       }
 
-      if (res.audit_logs.length) {
+      if (result.audit_logs.length) {
         const tooManyBy = Math.max(
           0,
-          res.audit_logs.length + logs().length - DISPLAY_LIMIT,
+          result.audit_logs.length + logs().length - DISPLAY_LIMIT,
         );
 
         if (tooManyBy > 0) {
-          setEnd(false);
+          console.log(`[lv2] is at middle of list, too many by ${tooManyBy}`);
+          setStart(false);
         }
 
-        const alogs = logs();
         return {
-          scrollAnchorId: alogs[alogs.length - 1]._id,
+          scrollAnchorId: logs()[0]._id,
           commitToDOM() {
-            setLogs([...alogs, ...res.audit_logs]);
+            setLogs(result.audit_logs);
 
             if (tooManyBy) {
-              setLogs((prev) => {
-                return prev.slice(tooManyBy);
-              });
+              setLogs((prev) => prev.slice(tooManyBy));
             }
 
             setFetching();
@@ -125,42 +158,45 @@ export function ListAuditLogs(props: Props) {
     }
   }
 
-  async function caseFetchDownwards(): Promise<ListView2Update | undefined> {
+  async function caseFetchBottom(): Promise<ListView2Update | undefined> {
+    console.log(`[lv2] is at end? ${atEnd()}\ncan fetch? ${canFetch()}`);
     if (atEnd() || !canFetch()) return;
 
     setFetching("downwards");
     const preempted = newPreempted();
 
-    console.debug("[lv2] Fetching downwards");
+    console.log("[lv2] Fetching entries at the bottom");
 
     try {
       const result = await props.server.getAuditLogs({
         limit: FETCH_LIMIT,
-        before: logs()[0]._id,
+        before: logs().splice(-1)[0]._id,
       });
+
+      console.log(`[logs] got ${result.audit_logs.length} entries down`);
 
       if (preempted()) return;
 
-      if (result.audit_logs.length < FETCH_LIMIT) {
+      if (result.audit_logs.length < FETCH_LIMIT - 1) {
+        console.log(`[lv2] is at bottom of list`);
         setEnd(true);
       }
 
-      if (result.audit_logs.length) {
+      if (result && result.audit_logs.length) {
         const tooManyBy = Math.max(
           0,
           result.audit_logs.length + logs().length - DISPLAY_LIMIT,
         );
 
         if (tooManyBy > 0) {
+          console.log(`[lv2] is at middle of list, too many by ${tooManyBy}`);
           setStart(false);
         }
 
         return {
-          scrollAnchorId: logs()[0]._id,
+          scrollAnchorId: result.audit_logs[result.audit_logs.length - 1]._id,
           commitToDOM() {
-            setLogs(() => {
-              return [...result.audit_logs.reverse(), ...logs()];
-            });
+            setLogs((logs) => logs.concat(result.audit_logs));
 
             if (tooManyBy) {
               setLogs((prev) => prev.slice(0, -tooManyBy));
@@ -178,38 +214,31 @@ export function ListAuditLogs(props: Props) {
     }
   }
 
-  createEffect(
-    on(
-      () => props.server,
-      () => {
-        caseInitialLoad();
-      },
-    ),
-  );
-
-  createEffect(() => {
-    console.log(
-      `start: ${atStart()} | end: ${atEnd()} | fetching ${fetching()}`,
-    );
+  onMount(() => {
+    caseInitialLoad();
   });
 
   return (
-    <List>
-      <Collapse accordion>
-        <ListView2
-          fetchTop={caseFetchUpwards}
-          fetchBottom={caseFetchDownwards}
-          atStart={atStart}
-          atEnd={atEnd}
-          permitFetching={() => typeof fetching() !== "string"}
-        >
-          <Deferred>
-            <For each={logs()}>
-              {(entry) => <EntryRenderer server={props.server} entry={entry} />}
-            </For>
-          </Deferred>
-        </ListView2>
-      </Collapse>
-    </List>
+    <ListView2
+      fetchTop={caseFetchTop}
+      fetchBottom={caseFetchBottom}
+      atStart={atStart}
+      atEnd={atEnd}
+      permitFetching={() => typeof fetching() !== "string"}
+    >
+      <Deferred>
+        <div ref={setListRef}>
+          <List>
+            <Collapse accordion>
+              <For each={logs()}>
+                {(entry) => (
+                  <EntryRenderer server={props.server} entry={entry} />
+                )}
+              </For>
+            </Collapse>
+          </List>
+        </div>{" "}
+      </Deferred>
+    </ListView2>
   );
 }
