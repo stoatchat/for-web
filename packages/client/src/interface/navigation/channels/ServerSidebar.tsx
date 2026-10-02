@@ -561,11 +561,7 @@ function Entry(
         use:floating={props.menuGenerator(props.channel)}
         size="normal"
         data-unread={props.channel.unread ? "" : undefined}
-        data-mentions={
-          state.notifications.isChannelMuted(props.channel)
-            ? undefined
-            : props.channel.mentions?.size || undefined
-        }
+        data-mentions={props.channel.mentions?.size || undefined}
         alert={alertState()}
         attention={attentionState()}
         icon={

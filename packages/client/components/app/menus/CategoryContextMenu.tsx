@@ -90,7 +90,7 @@ export function CategoryContextMenu(props: {
   }
 
   /**
-   * Determine if any channel in category has unread messages
+   * Determine if any channel in category has unread messages or pending mentions
    */
   const hasUnread = () => {
     return props.category.channels.some(
