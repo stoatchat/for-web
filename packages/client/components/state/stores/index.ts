@@ -1,3 +1,4 @@
+import isEqual from "lodash.isequal";
 import { SetStoreFunction } from "solid-js/store";
 
 import { State } from "..";
@@ -19,7 +20,9 @@ import { TypeSynchronisation } from "./Sync";
 import { TypeTheme } from "./Theme";
 import { TypeVoice } from "./Voice";
 
-export type Store = {
+export type Store = UnsycnedStore & SyncedStore;
+
+export type UnsycnedStore = {
   auth: TypeAuth;
   draft: TypeDraft;
   experiments: TypeExperiments;
@@ -27,10 +30,6 @@ export type Store = {
   layout: TypeLayout;
   linkSafety: TypeLinkSafety;
   locale: TypeLocale;
-  notifications: TypeNotificationOptions;
-  ordering: TypeOrdering;
-  "release-notes": TypeReleaseNotes;
-  "server-folders": TypeServerFolders;
   settings: TypeSettings;
   sounds: TypeSounds;
   sync: TypeSynchronisation;
@@ -38,10 +37,28 @@ export type Store = {
   voice: TypeVoice;
 };
 
+export type SyncedStore = {
+  notifications: TypeNotificationOptions;
+  ordering: TypeOrdering;
+  "release-notes": TypeReleaseNotes;
+  "server-folders": TypeServerFolders;
+};
+
+/**
+ * An array of each key of SyncedStore. Required for cleaning. When adding a
+ * store into the SyncedStore type above, add it's string key value here.
+ */
+export const SYNCED_KEYS: (keyof SyncedStore)[] = [
+  "notifications",
+  "ordering",
+  "release-notes",
+  "server-folders",
+];
+
 /**
  * Abstract store implementation
  */
-export abstract class AbstractStore<T extends keyof Store, D> {
+export abstract class AbstractStore<T extends keyof Store, D extends Store[T]> {
   /**
    * Marker used to determine whether this is a store
    */
@@ -106,4 +123,33 @@ export abstract class AbstractStore<T extends keyof Store, D> {
    * Validate the given data to see if it is compliant and return a compliant object
    */
   abstract clean(input: Partial<D>): D;
+}
+
+export abstract class AbstractSyncedStore<
+  T extends keyof SyncedStore,
+  D extends Store[T],
+> extends AbstractStore<T, D> {
+  protected readonly isSyncable = true;
+
+  /**
+   * Whether the stored value in this Synced Store is equal to the passed store type.
+   */
+  equals(other: D): boolean {
+    return isEqual(this.get(), other);
+  }
+
+  /**
+   * Whether the stored value in this Synced Store is equal to the passed unparsed store
+   * type. This function calls clean on the data passed before checking equality.
+   */
+  equalsClean(data: string): boolean {
+    return this.equals(this.clean(JSON.parse(data)));
+  }
+
+  /**
+   * Set the state to the data passed, cleaning it first.
+   */
+  setFromSync(data: string) {
+    this.state.set(this.getKey(), this.clean(JSON.parse(data)));
+  }
 }
