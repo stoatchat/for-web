@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.2](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.1...stoat-for-web-v0.16.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* **ui:** suppress ping badges in muted channels  ([#1688](https://github.com/stoatchat/for-web/issues/1688)) ([398c8a5](https://github.com/stoatchat/for-web/commit/398c8a51d57100af522bcbc583190c26009c1e9c))
+
 ## [0.16.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.0...stoat-for-web-v0.16.1) (2026-10-01)
 
 
