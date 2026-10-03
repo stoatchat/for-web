@@ -102,10 +102,6 @@ class Lifecycle {
     this.#controller = controller;
     this.#nav = useNavigate();
 
-    this.onState = this.onState.bind(this);
-    this.onReady = this.onReady.bind(this);
-    this.onPolicyChanges = this.onPolicyChanges.bind(this);
-
     const [state, setState] = createSignal(State.Ready);
     this.state = state;
     this.#setStateSetter = setState;
@@ -122,10 +118,10 @@ class Lifecycle {
     this.#policyAttentionRequired = setPolicyAttentionRequired;
 
     this.client = null!;
-    this.dispose();
+    this.reset();
   }
 
-  private dispose() {
+  private reset() {
     this.client = this.#controller.instance.newClient();
 
     this.client.options.channelIsMuted = (ch) =>
@@ -165,6 +161,7 @@ class Lifecycle {
             else this.client.connect();
           })
           .catch((e) => {
+            //TODO Once we fix HTTP errors not being JSON, make sure this catches JSON 401 errors
             if (typeof e === "string" && e.includes("401")) {
               //Try to connect anyways (will likely fail; but show more accurate error)
               return this.client.connect();
@@ -184,7 +181,7 @@ class Lifecycle {
         this.#connectionFailures = 0;
         break;
       case State.Dispose:
-        this.dispose();
+        this.reset();
         if (this.#controller.state.auth.getSession()) {
           this.#controller._login();
         } else {
@@ -222,8 +219,15 @@ class Lifecycle {
     }
   }
 
-  private logout() {
-    this.client.logout();
+  private dispose(logout = false) {
+    if (logout) {
+      this.client.logout();
+    } else {
+      //TODO Client.dispose() method
+      this.client.events.removeAllListeners();
+      this.client.removeAllListeners();
+      this.client.events.disconnect();
+    }
     this.#enter(State.Dispose);
   }
 
@@ -232,13 +236,13 @@ class Lifecycle {
 
     switch (transition.type) {
       case TransitionType.DisposeOnly:
-        this.dispose();
+        this.reset();
         return;
       case TransitionType.Dispose:
         this.#enter(State.Dispose);
         return;
       case TransitionType.Logout:
-        this.logout();
+        this.dispose(true);
         return;
       case TransitionType.PermanentFailure:
         this.#permanentError = transition.error;
@@ -284,11 +288,11 @@ class Lifecycle {
         if (transition.type === TransitionType.UserCreated) {
           this.#enter(State.Connecting);
         } else if (transition.type === TransitionType.Cancel) {
-          this.logout();
+          this.dispose();
         }
         break;
       case State.Error:
-        if (transition.type === TransitionType.Dismiss) this.logout();
+        if (transition.type === TransitionType.Dismiss) this.dispose();
         break;
       case State.Connecting:
         switch (transition.type) {
@@ -349,23 +353,21 @@ class Lifecycle {
     }
   }
 
-  private onReady() {
+  private onReady = () =>
     this.transition({
       type: TransitionType.SocketConnected,
     });
-  }
 
-  private onPolicyChanges(
+  private onPolicyChanges = (
     changes: ProtocolV1["types"]["policyChange"][],
     ack: () => Promise<void>,
-  ) {
+  ) =>
     this.#policyAttentionRequired([
       changes,
       () => ack().then(() => this.#policyAttentionRequired(undefined)),
     ]);
-  }
 
-  private onState(state: ConnectionState) {
+  private onState = (state: ConnectionState) => {
     if (state === ConnectionState.Disconnected) {
       //Stoat error
       if (this.client.events.lastError?.type === "revolt")
@@ -377,7 +379,7 @@ class Lifecycle {
       //Temporary disconnect
       this.transition({ type: TransitionType.TemporaryFailure });
     }
-  }
+  };
 
   /**
    * Get the permanent error
@@ -438,14 +440,6 @@ export default class ClientController {
 
     this.lifecycle = new Lifecycle(this);
 
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-    this.stow = this.stow.bind(this);
-    this.swapAccount = this.swapAccount.bind(this);
-    this.selectUsername = this.selectUsername.bind(this);
-    this.isError = this.isError.bind(this);
-    this.isSwapping = this.isSwapping.bind(this);
-
     //A memo to prevent isLoggedIn from bouncing when reconnecting
     this.isLoggedIn = createMemo(() =>
       [
@@ -477,9 +471,7 @@ export default class ClientController {
     this._login(true);
   }
 
-  isError() {
-    return this.lifecycle.state() === State.Error;
-  }
+  isError = () => this.lifecycle.state() === State.Error;
 
   /** Session login */
   _login(cached = false, unhold = false) {
@@ -500,7 +492,10 @@ export default class ClientController {
    * Login given a set of credentials
    * @param credentials Credentials
    */
-  async login(credentials: API.DataLogin, modals: ModalControllerExtended) {
+  login = async (
+    credentials: API.DataLogin,
+    modals: ModalControllerExtended,
+  ) => {
     const browser = detect();
 
     // Generate a friendly name for this browser
@@ -579,19 +574,18 @@ export default class ClientController {
       });
       return true;
     } catch (e) {
-      modals.openModal({ type: "error2", error: e });
+      modals.showError(e);
     }
-  }
+  };
 
-  async selectUsername(username: string) {
+  selectUsername = async (username: string) => {
     await this.instance.client.api.post("/onboard/complete", {
       username,
     });
-
     this.lifecycle.transition({
       type: TransitionType.UserCreated,
     });
-  }
+  };
 
   #cacheUserInfo() {
     const user = this.instance.client.user;
@@ -599,9 +593,7 @@ export default class ClientController {
   }
 
   /** True if the user session is about to be swapped */
-  isSwapping() {
-    return this.#swapping;
-  }
+  isSwapping = () => this.#swapping;
 
   _rstSwap() {
     this.#swapping = false;
@@ -618,31 +610,31 @@ export default class ClientController {
     }
   }
 
-  swapAccount(userId: string) {
+  swapAccount = (userId: string) => {
     this.#swapSession(userId);
     this.lifecycle.transition({
       type: TransitionType.Dispose,
     });
-  }
+  };
 
   /** Stow current session and display the login screen */
-  stow(dispose = true) {
+  stow = (dispose = true) => {
     this.#cacheUserInfo();
     this.state.auth.holdSession();
     if (dispose)
       this.lifecycle.transition({
         type: TransitionType.Dispose,
       });
-  }
+  };
 
-  logout() {
+  logout = () => {
     this.state.settings.resetNotificationsState();
     killServiceWorkerSubscription(this.instance.client, true);
     this.state.auth.removeSession();
     this.lifecycle.transition({
       type: TransitionType.Logout,
     });
-  }
+  };
 
   dispose() {
     this.#cacheUserInfo();

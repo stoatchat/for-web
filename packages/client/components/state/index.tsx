@@ -15,7 +15,7 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
-import { LoadingScreen } from "@revolt/ui";
+import { LoadingScreen, useSnackbar } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { AbstractStore, Store } from "./stores";
@@ -300,8 +300,16 @@ const stateContext = createContext<State>(null! as State);
 export function StateContext(props: { children: JSX.Element }) {
   const state = new State();
   const [ready, setReady] = createSignal(false);
+  const snackbar = useSnackbar();
 
-  onMount(() => state.hydrate(true).then(() => setReady(true)));
+  onMount(async () => {
+    try {
+      await state.hydrate(true);
+      setReady(true);
+    } catch (e) {
+      snackbar.showError(e);
+    }
+  });
 
   return (
     <stateContext.Provider value={state}>

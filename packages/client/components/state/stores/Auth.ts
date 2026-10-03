@@ -74,14 +74,17 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * Hydrate external context
    */
   hydrate(): void {
-    if (CONFIGURATION.DEVELOPMENT_TOKEN && CONFIGURATION.DEVELOPMENT_USER_ID) {
-      this.addSession({
-        _id: CONFIGURATION.DEVELOPMENT_SESSION_ID ?? "0",
-        token: CONFIGURATION.DEVELOPMENT_TOKEN,
-        userId: CONFIGURATION.DEVELOPMENT_USER_ID,
-        valid: true,
-      });
-    }
+    if (CONFIGURATION.DEVELOPMENT_TOKEN && CONFIGURATION.DEVELOPMENT_USER_ID)
+      try {
+        this.addSession({
+          _id: CONFIGURATION.DEVELOPMENT_SESSION_ID ?? "0",
+          token: CONFIGURATION.DEVELOPMENT_TOKEN,
+          userId: CONFIGURATION.DEVELOPMENT_USER_ID,
+          valid: true,
+        });
+      } catch (e) {
+        if ((e as AuthError).name !== "dup_login") throw e;
+      }
   }
 
   /**
@@ -196,6 +199,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   swapSession(userId: string) {
     const data = this.#read(),
       saved = data.saved;
+    if (data.session?.userId === userId) return; //Y'all good
     for (let i = 0, l = saved.length; i < l; ++i)
       if (saved[i].userId === userId) {
         const old = data.session;

@@ -11,6 +11,8 @@ import { Portal } from "solid-js/web";
 
 import "mdui/components/snackbar.js";
 
+import { useError } from "@revolt/i18n";
+
 export type SnackbarItem = {
   id: string;
   message: string;
@@ -45,13 +47,13 @@ export class SnackbarController {
   items: Accessor<SnackbarItem[]>;
   setItems: Setter<SnackbarItem[]>;
 
+  /** Error provider */
+  _err!: ReturnType<typeof useError>;
+
   constructor() {
     const [items, setItems] = createSignal<SnackbarItem[]>([]);
     this.items = items;
     this.setItems = setItems;
-
-    this.show = this.show.bind(this);
-    this.dismiss = this.dismiss.bind(this);
   }
 
   /**
@@ -60,7 +62,7 @@ export class SnackbarController {
    * default to 5 seconds.
    * @returns The id of the new snackbar
    */
-  show(opts: ShowSnackbarOptions): string {
+  show = (opts: ShowSnackbarOptions): string => {
     const { replaceActive, ...rest } = opts;
     const id = Math.random().toString(36).slice(2);
     const autoCloseDelay = rest.autoCloseDelay ?? (rest.action ? 0 : 5000);
@@ -71,16 +73,26 @@ export class SnackbarController {
     } else {
       this.setItems((items) => [...items, item]);
     }
-
     return id;
-  }
+  };
+
+  /**
+   * Show translated error as snackbar, for when modals are unavailable
+   */
+  showError = (e: unknown) => {
+    this.show({
+      message: this._err(e),
+      placement: "bottom",
+      closeable: true,
+      autoCloseDelay: 30000,
+    });
+  };
 
   /**
    * Remove a snackbar by id
    */
-  dismiss(id: string): void {
+  dismiss = (id: string) =>
     this.setItems((items) => items.filter((item) => item.id !== id));
-  }
 }
 
 export const SnackbarContext = createContext<SnackbarController>();
@@ -111,7 +123,11 @@ type ProviderProps = {
  * ```
  */
 export function SnackbarProvider(props: ProviderProps) {
+  // eslint-disable-next-line solid/reactivity
+  props.controller._err = useError();
+
   return (
+    // eslint-disable-next-line solid/reactivity
     <SnackbarContext.Provider value={props.controller}>
       {props.children}
       <Portal mount={document.getElementById("floating")!}>
