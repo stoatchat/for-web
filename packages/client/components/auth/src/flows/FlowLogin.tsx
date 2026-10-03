@@ -22,7 +22,7 @@ export default function FlowLogin() {
   const state = useState();
   const modals = useModals();
   const error = useError();
-  const { lifecycle, isLoggedIn, isError, login, selectUsername } =
+  const { lifecycle, isLoggedIn, isError, login, selectUsername, logout } =
     useClientLifecycle();
 
   /**
@@ -45,15 +45,6 @@ export default function FlowLogin() {
   }
 
   /**
-   * Leave the error state so the login form works again
-   */
-  function dismissError() {
-    lifecycle.transition({
-      type: TransitionType.Dismiss,
-    });
-  }
-
-  /**
    * Select a new username
    * @param data Form Data
    */
@@ -61,6 +52,9 @@ export default function FlowLogin() {
     const username = data.get("username") as string;
     await selectUsername(username);
   }
+
+  const invalSession = () =>
+    (lifecycle.permanentError as { type: string })?.type === "InvalidSession";
 
   return (
     <>
@@ -101,16 +95,33 @@ export default function FlowLogin() {
         <Match when={isError()}>
           <FlowTitle subtitle={error(lifecycle.permanentError)}>
             <Show
-              when={lifecycle.permanentError === "InvalidSession"}
+              when={invalSession()}
               fallback={<Trans>Something went wrong</Trans>}
             >
               <Trans>You've been logged out</Trans>
             </Show>
           </FlowTitle>
 
-          <Button variant="filled" onPress={dismissError}>
-            <Trans>Try again</Trans>
-          </Button>
+          <Show
+            when={!invalSession()}
+            fallback={
+              <Button variant="filled" onPress={logout}>
+                <Trans>Log in</Trans>
+              </Button>
+            }
+          >
+            <Button
+              variant="filled"
+              onPress={() =>
+                lifecycle.transition({ type: TransitionType.Dismiss })
+              }
+            >
+              <Trans>Try again</Trans>
+            </Button>
+            <Button variant="text" onPress={logout}>
+              <Trans>Delete session</Trans>
+            </Button>
+          </Show>
         </Match>
         <Match when={lifecycle.state() === State.LoggingIn}>
           {/* the shared bubble shows the loading state */}

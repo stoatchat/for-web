@@ -20,6 +20,7 @@ import {
 } from "@revolt/app/menus/ContextMenu";
 import { useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
+import { useModals } from "@revolt/modal";
 import { A, useLocation } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { IconButton, Symbol } from "@revolt/ui";
@@ -304,7 +305,9 @@ const SUCCESS_FLASH_MS = 1400;
 export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
   const location = useLocation();
-  const ctrl = useClientLifecycle();
+  const { lifecycle } = useClientLifecycle();
+  const { openModal } = useModals();
+
   const isCreate = () => location.pathname.includes("/login/create");
 
   const [typing, setTyping] = createSignal(false);
@@ -325,7 +328,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   // most important first: errors, waiting on the server, success, typing
   const bubbleMood = createMemo<BubbleMood>(() => {
     if (erroring()) return "error";
-    if (pendingSubmits() > 0 || ctrl.lifecycle.state() === State.LoggingIn)
+    if (pendingSubmits() > 0 || lifecycle.state() === State.LoggingIn)
       return "submitting";
     if (succeeding()) return "success";
     if (typing()) return "typing";
@@ -518,14 +521,15 @@ export function AuthPage(props: { children: JSX.Element }) {
             <Brand header>
               <Show
                 when={
-                  ctrl.lifecycle.state() === State.Ready &&
+                  (lifecycle.state() === State.Error ||
+                    lifecycle.state() === State.Ready) &&
                   state.auth.hasMultiSession()
                 }
               >
                 <IconButton
                   variant="tonal"
                   aria-label="Cancel login"
-                  onPress={() => ctrl.loginCached(true)}
+                  onPress={() => openModal({ type: "swap_user" })}
                 >
                   <Symbol size={24}>arrow_back</Symbol>
                 </IconButton>

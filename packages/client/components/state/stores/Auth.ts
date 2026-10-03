@@ -150,7 +150,7 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   }
 
   /**
-   * True if there are multiple saved sessions
+   * True if there are multiple saved sessions or a pending one
    */
   hasMultiSession() {
     return this.get().saved.length > 0;
@@ -172,11 +172,10 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
 
   /**
    * Remove existing session
-   * @param unhold Try to resume held session
    */
-  removeSession(unhold = false) {
+  removeSession() {
     const data = this.#read();
-    data.session = unhold ? data.saved.shift() : undefined;
+    data.session = undefined;
     this.set(data);
   }
 

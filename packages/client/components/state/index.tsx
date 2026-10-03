@@ -52,7 +52,7 @@ const DISK_WRITE_WAIT_MS = 1200;
  */
 const IGNORE_WRITE_DELAY = ["auth"];
 
-const WriteQueue = new Map<string, NodeJS.Timeout>();
+const WriteQueue = new Map<string, [NodeJS.Timeout, () => Promise<void>]>();
 
 /**
  * Global application state
@@ -163,30 +163,32 @@ export class State {
     const db = global ? this.dbGlobal : dbLocal!,
       qKey = (db.config().storeName || "") + "|" + key;
 
+    const writeFn = async () => {
+      // remove from write queue
+      WriteQueue.delete(qKey);
+
+      // write the entire key to storage
+      const dataStr = JSON.stringify(
+        (this.store as Record<string, unknown>)[key],
+      );
+      await db.setItem(key, JSON.parse(dataStr));
+      //Backup for auth
+      if (key === "auth") localStorage.setItem(key, dataStr);
+
+      if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
+    };
+
     // remove existing queued task if it exists
-    clearTimeout(WriteQueue.get(qKey));
+    clearTimeout(WriteQueue.get(qKey)?.[0]);
 
     // queue for writing to disk
-    WriteQueue.set(
-      qKey,
+    WriteQueue.set(qKey, [
       setTimeout(
-        () => {
-          // remove from write queue
-          WriteQueue.delete(qKey);
-
-          // write the entire key to storage
-          const dataStr = JSON.stringify(
-            (this.store as Record<string, unknown>)[key],
-          );
-          db.setItem(key, JSON.parse(dataStr));
-          //Backup for auth
-          if (key === "auth") localStorage.setItem(key, dataStr);
-
-          if (import.meta.env.DEV) console.info(`[store] Wrote ${key} to disk`);
-        },
+        writeFn,
         IGNORE_WRITE_DELAY.includes(key) ? 0 : DISK_WRITE_WAIT_MS,
       ),
-    );
+      writeFn,
+    ]);
   };
 
   /**
@@ -214,17 +216,17 @@ export class State {
    * Global should only run on init; Local runs whenever session changes
    */
   async hydrate(global = false) {
-    if (global) {
-      //Wait for write queue to finish
-      if (WriteQueue.size)
-        await new Promise<void>((res) => {
-          const tmr = setInterval(() => {
-            if (WriteQueue.size) return;
-            clearInterval(tmr);
-            res();
-          }, 50);
-        });
-    } else {
+    //Wait for write queue to finish
+    if ((global || this.db) && WriteQueue.size) {
+      const p = [];
+      for (const w of WriteQueue.values()) {
+        clearTimeout(w[0]);
+        p.push(w[1]());
+      }
+      await Promise.all(p);
+    }
+
+    if (!global) {
       //Reset defaults
       if (this.db)
         for (const [key, data] of Object.entries(this.defaults(true)))
