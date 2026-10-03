@@ -3,6 +3,7 @@ import { Accessor, Setter, createMemo, createSignal } from "solid-js";
 
 import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 
+import { useError } from "@revolt/i18n";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
@@ -48,6 +49,7 @@ export type Transition =
   | {
       type: TransitionType.LoginUncached | TransitionType.LoginCached;
       session: Session;
+      noOnboard?: boolean;
     }
   | {
       type: TransitionType.PermanentFailure;
@@ -135,9 +137,11 @@ class Lifecycle {
     this.client.events.on("state", this.onState);
     this.client.on("ready", this.onReady);
     this.client.on("policyChanges", this.onPolicyChanges);
+    this.#controller._rstSwap();
+    this.#setLoadedOnce(false);
   }
 
-  #enter(nextState: State) {
+  #enter(nextState: State, noOnboard = false) {
     if (import.meta.env.DEV) {
       console.info("[lifecycle] entering state", nextState);
     }
@@ -153,13 +157,20 @@ class Lifecycle {
     switch (nextState) {
       case State.LoggingIn:
         this.#controller.initUserState();
+        if (noOnboard) return this.client.connect();
         this.client.api
           .get("/onboard/hello")
           .then(({ onboarding }) => {
             if (onboarding) this.transition({ type: TransitionType.NoUser });
             else this.client.connect();
           })
-          .catch((e) => this.showError(e));
+          .catch((e) => {
+            if (typeof e === "string" && e.includes("401")) {
+              //Try to connect anyways (will likely fail; but show more accurate error)
+              return this.client.connect();
+            }
+            this.showError(e);
+          });
         break;
       case State.Connecting:
         this.#controller.initUserState();
@@ -175,10 +186,9 @@ class Lifecycle {
       case State.Dispose:
         this.dispose();
         if (this.#controller.state.auth.getSession()) {
-          this.#controller.loginCached();
+          this.#controller._login();
         } else {
           this.transition({ type: TransitionType.Ready });
-          this.#setLoadedOnce(false);
         }
         break;
       case State.Disconnected:
@@ -250,15 +260,13 @@ class Lifecycle {
               ...transition.session,
               user_id: transition.session.userId,
             });
-
-            this.#enter(State.LoggingIn);
+            this.#enter(State.LoggingIn, transition.noOnboard);
             break;
           case TransitionType.LoginCached:
             this.client.useExistingSession({
               ...transition.session,
               user_id: transition.session.userId,
             });
-
             this.#enter(State.Connecting);
         }
         break;
@@ -280,13 +288,7 @@ class Lifecycle {
         }
         break;
       case State.Error:
-        if (transition.type === TransitionType.Dismiss) {
-          if (
-            (this.permanentError as { type: string })?.type === "InvalidSession"
-          )
-            this.#controller.state.auth.removeSession(true);
-          this.logout();
-        }
+        if (transition.type === TransitionType.Dismiss) this.logout();
         break;
       case State.Connecting:
         switch (transition.type) {
@@ -365,15 +367,14 @@ class Lifecycle {
 
   private onState(state: ConnectionState) {
     if (state === ConnectionState.Disconnected) {
-      if (this.client.events.lastError) {
-        const revolt = this.client.events.lastError.type === "revolt";
-        if (revolt || !this.loadedOnce())
-          return this.showError(
-            revolt
-              ? this.client.events.lastError.data
-              : { type: "SocketError" },
-          );
-      }
+      //Stoat error
+      if (this.client.events.lastError?.type === "revolt")
+        return this.showError(this.client.events.lastError.data);
+
+      //Disconnect during early init
+      if (!this.loadedOnce()) return this.showError({ type: "SocketError" });
+
+      //Temporary disconnect
       this.transition({ type: TransitionType.TemporaryFailure });
     }
   }
@@ -458,33 +459,36 @@ export default class ClientController {
 
     //User switch request
     if (location.hash.startsWith("#uid=")) {
+      const error = useError();
       try {
         this.state.auth.swapSession(location.hash.slice(5));
         location.hash = "";
       } catch (e) {
         useSnackbar().show({
-          message: `${e}`,
+          message: error(e),
           placement: "bottom",
           closeable: true,
           autoCloseDelay: 30000,
         });
+        this.state.auth.holdSession();
       }
-      this.state.auth.holdSession();
     }
 
-    this.loginCached(false, true);
+    this._login(true);
   }
 
   isError() {
     return this.lifecycle.state() === State.Error;
   }
 
-  loginCached(unhold = false, cached = unhold) {
+  /** Session login */
+  _login(cached = false, unhold = false) {
     const session = this.state.auth.getSession(unhold);
     if (!session) return this.initUserState();
     this.lifecycle.transition({
       type: cached ? TransitionType.LoginCached : TransitionType.LoginUncached,
       session,
+      noOnboard: true,
     });
   }
 
@@ -597,6 +601,10 @@ export default class ClientController {
   /** True if the user session is about to be swapped */
   isSwapping() {
     return this.#swapping;
+  }
+
+  _rstSwap() {
+    this.#swapping = false;
   }
 
   #swapSession(userId: string) {
