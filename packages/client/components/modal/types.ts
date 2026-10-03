@@ -168,6 +168,7 @@ export type Modals =
   | {
       type: "image_viewer";
       embed?: ImageEmbed;
+      gifURL?: string;
       gif?: VideoEmbed;
       file?: StoatFile;
       originalUrl?: string;

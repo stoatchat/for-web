@@ -9,6 +9,8 @@ import { visit } from "unist-util-visit";
 import { useClient } from "@revolt/client";
 import { Avatar, Column, Row } from "@revolt/ui";
 
+import { Trans } from "@lingui/solid/macro";
+import { useState } from "@revolt/state";
 import { CustomEmoji, Emoji } from "../emoji";
 
 /**
@@ -20,6 +22,7 @@ export function RenderCustomEmoji(props: { id: string }) {
   const [exists, setExists] = createSignal(true);
 
   const client = useClient();
+  const { favourites } = useState();
 
   /**
    * Resolve emoji
@@ -38,6 +41,12 @@ export function RenderCustomEmoji(props: { id: string }) {
     <Switch fallback={<span>{`:${emoji()?.name ?? props.id}:`}</span>}>
       <Match when={exists()}>
         <div
+          onClick={(e) => {
+            // Yoink logic
+            if (e.altKey && !favourites.emojis().includes(props.id)) {
+              favourites.toggleEmoji(props.id);
+            }
+          }}
           class={tooltipTrigger()}
           use:floating={{
             tooltip: {
@@ -69,6 +78,9 @@ export function RenderCustomEmoji(props: { id: string }) {
                             </Row>
                           </Match>
                         </Switch>
+                        <span>
+                          <Trans>Alt+Click to yoink</Trans>
+                        </span>
                       </Column>
                     </Match>
                   </Switch>

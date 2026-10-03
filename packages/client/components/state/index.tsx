@@ -22,6 +22,7 @@ import { AbstractStore, Store } from "./stores";
 import { Auth, TypeAuth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
 import { Experiments } from "./stores/Experiments";
+import { Favourites } from "./stores/Favourites";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
 import { LinkSafety } from "./stores/LinkSafety";
@@ -87,6 +88,7 @@ export class State {
   auth = new Auth(this);
   draft = new Draft(this);
   experiments = new Experiments(this);
+  favourites = new Favourites(this);
   keybinds = new Keybinds(this);
   layout = new Layout(this);
   linkSafety = new LinkSafety(this);
