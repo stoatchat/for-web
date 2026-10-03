@@ -47,7 +47,7 @@ self.addEventListener("push", (event) => {
 
   //Redirect instance URL
   const url = notification.url && new URL(notification.url);
-  notification.url = `${root}${url ? `/i/${url.host}${url.pathname}` : ""}#uid=${userId}`;
+  notification.url = `${root}${url ? `/i/${url.host}${url.pathname}/` : "/app"}#uid=${userId}`;
 
   event.waitUntil(
     self.registration.showNotification(notification.title || "Stoat", {

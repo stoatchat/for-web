@@ -161,9 +161,7 @@ export type Modals =
     }
   | {
       type: "error2";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
+      error: unknown;
     }
   | {
       type: "image_viewer";
