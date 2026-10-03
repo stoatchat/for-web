@@ -20,9 +20,9 @@ import { TypeSynchronisation } from "./Sync";
 import { TypeTheme } from "./Theme";
 import { TypeVoice } from "./Voice";
 
-export type Store = UnsycnedStore & SyncedStore;
+export type Store = UnsyncedStore & SyncedStore;
 
-export type UnsycnedStore = {
+export type UnsyncedStore = {
   auth: TypeAuth;
   draft: TypeDraft;
   experiments: TypeExperiments;
@@ -46,7 +46,7 @@ export type SyncedStore = {
 
 /**
  * An array of each key of SyncedStore. Required for cleaning. When adding a
- * store into the SyncedStore type above, add it's string key value here.
+ * store into the SyncedStore type above, add its string key value here.
  */
 export const SYNCED_KEYS: (keyof SyncedStore)[] = [
   "notifications",
@@ -129,8 +129,6 @@ export abstract class AbstractSyncedStore<
   T extends keyof SyncedStore,
   D extends Store[T],
 > extends AbstractStore<T, D> {
-  protected readonly isSyncable = true;
-
   /**
    * Whether the stored value in this Synced Store is equal to the passed store type.
    */
@@ -142,14 +140,14 @@ export abstract class AbstractSyncedStore<
    * Whether the stored value in this Synced Store is equal to the passed unparsed store
    * type. This function calls clean on the data passed before checking equality.
    */
-  equalsClean(data: string): boolean {
-    return this.equals(this.clean(JSON.parse(data)));
+  equalsClean(data: Partial<D>): boolean {
+    return this.equals(this.clean(data));
   }
 
   /**
    * Set the state to the data passed, cleaning it first.
    */
-  setFromSync(data: string) {
-    this.state.set(this.getKey(), this.clean(JSON.parse(data)));
+  setFromSync(data: Partial<D>) {
+    this.state.set(this.getKey(), this.clean(data));
   }
 }

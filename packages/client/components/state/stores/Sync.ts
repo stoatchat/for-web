@@ -160,14 +160,17 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
   merge(ts: number, key: keyof SyncedStore, data: string) {
     if (import.meta.env.DEV)
       console.info(`[sync] merge ${key} at ${ts} with`, data);
+
+    // Parse the json blob before in-case the data is malformed.
+    const blob = JSON.parse(data);
     if (!this.ts(key) || ts > this.ts(key)) {
       // if ts is newer or this value does not exist on the local store, hydrate the store with it
       this.set("revision", key, ts);
       this.#blockSync.add(key);
-      this.state[key].setFromSync(data);
+      this.state[key].setFromSync(blob);
     } else if (ts !== this.ts(key)) {
       // if ts is old, trigger write to synchronise to remote, but only if the data has been updated
-      if (!this.state[key].equalsClean(data)) {
+      if (!this.state[key].equalsClean(blob)) {
         this.touch(key);
       }
     }
