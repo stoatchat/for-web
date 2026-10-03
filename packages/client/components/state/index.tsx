@@ -67,6 +67,7 @@ export class State {
 
   /** A reactive Date() that updates once per minute */
   datePerMinute: Accessor<Date> = createDateNow(6e4)[0];
+  datePerSecond: Accessor<Date> = createDateNow(1000)[0];
 
   /** A reactive Date() that updates only when the day changes */
   datePerDay: Accessor<Date> = (() => {
