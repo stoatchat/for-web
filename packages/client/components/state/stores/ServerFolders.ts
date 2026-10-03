@@ -1,8 +1,7 @@
 import { ulid } from "ulid";
 
+import { AbstractSyncedStore } from ".";
 import { State } from "..";
-
-import { AbstractStore } from ".";
 
 /**
  * A group of servers shown as a single entry in the server list
@@ -60,7 +59,7 @@ const FOLDER_PREFIX = "folder-";
  * untouched; only their position in `ordering.serverSidebar` is lost, which
  * falls back to member server positions.
  */
-export class ServerFolders extends AbstractStore<
+export class ServerFolders extends AbstractSyncedStore<
   "server-folders",
   TypeServerFolders
 > {
@@ -76,15 +75,6 @@ export class ServerFolders extends AbstractStore<
     this.toggle = this.toggle.bind(this);
     this.addServer = this.addServer.bind(this);
     this.removeServer = this.removeServer.bind(this);
-  }
-
-  /**
-   * Get this store's value
-   *
-   * Reexported to allow equals checking for syncing
-   */
-  get() {
-    return super.get();
   }
 
   /**

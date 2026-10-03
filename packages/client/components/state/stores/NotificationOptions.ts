@@ -2,7 +2,7 @@ import { Accessor, createMemo } from "solid-js";
 
 import { Channel, Server } from "stoat.js";
 
-import { AbstractStore } from ".";
+import { AbstractSyncedStore } from ".";
 import { State } from "..";
 
 /**
@@ -61,7 +61,7 @@ export interface TypeNotificationOptions {
 /**
  * Manages the user's notification preferences.
  */
-export class NotificationOptions extends AbstractStore<
+export class NotificationOptions extends AbstractSyncedStore<
   "notifications",
   TypeNotificationOptions
 > {
@@ -75,15 +75,6 @@ export class NotificationOptions extends AbstractStore<
 
     // update every minute
     this.#now = createMemo(() => +state.datePerMinute());
-  }
-
-  /**
-   * Get this store's value
-   *
-   * Reexported to allow equals checking for syncing
-   */
-  get() {
-    return super.get();
   }
 
   /**

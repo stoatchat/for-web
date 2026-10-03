@@ -1,6 +1,6 @@
 import { State } from "..";
 
-import { AbstractStore } from ".";
+import { AbstractSyncedStore } from ".";
 
 export type TypeReleaseNotes = {
   /**
@@ -14,16 +14,12 @@ export type TypeReleaseNotes = {
   lastSeenAt: string;
 };
 
-export class ReleaseNotes extends AbstractStore<
+export class ReleaseNotes extends AbstractSyncedStore<
   "release-notes",
   TypeReleaseNotes
 > {
   constructor(state: State) {
     super(state, "release-notes");
-  }
-
-  get() {
-    return super.get();
   }
 
   hydrate(): void {}

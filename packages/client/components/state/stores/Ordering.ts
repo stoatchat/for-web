@@ -2,7 +2,7 @@ import { Client, Server } from "stoat.js";
 
 import { State } from "..";
 
-import { AbstractStore } from ".";
+import { AbstractSyncedStore } from ".";
 import { ServerFolder } from "./ServerFolders";
 
 /**
@@ -58,7 +58,7 @@ function cleanIds(input: unknown): string[] {
 /**
  * Handles ordering of items in the app interface.
  */
-export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
+export class Ordering extends AbstractSyncedStore<"ordering", TypeOrdering> {
   /**
    * Construct store
    * @param state State
@@ -72,15 +72,6 @@ export class Ordering extends AbstractStore<"ordering", TypeOrdering> {
     this.toggleFolder = this.toggleFolder.bind(this);
     this.addToFolder = this.addToFolder.bind(this);
     this.removeFromFolder = this.removeFromFolder.bind(this);
-  }
-
-  /**
-   * Get this store's value
-   *
-   * Reexported to allow equals checking for syncing
-   */
-  get() {
-    return super.get();
   }
 
   /**
