@@ -25,7 +25,8 @@ export const EmojiBase = styled("img", {
       position: "absolute",
       height: "50px",
       width: "50px",
-      backgroundImage: "url(ishere.jpg)",
+      // I don't think this is needed? Is it debug? Only insert knows...
+      // backgroundImage: "url(ishere.jpg)",
     },
   },
 });

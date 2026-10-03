@@ -1,7 +1,24 @@
 import { RE_CUSTOM_EMOJI } from "stoat.js";
 
+import emojiRegex from "emoji-regex";
+
 import { MarkdownProps } from "..";
-import { RE_UNICODE_EMOJI } from "./UnicodeEmoji";
+
+const UNICODE_EMOJI_REGIONAL_INDICATORS =
+  "\u{1f1e6}|\u{1f1e7}|\u{1f1e8}|\u{1f1e9}|\u{1f1ea}|\u{1f1eb}|\u{1f1ec}|\u{1f1ed}|\u{1f1ee}|\u{1f1ef}|\u{1f1f0}|\u{1f1f1}|\u{1f1f2}|\u{1f1f3}|\u{1f1f4}|\u{1f1f5}|\u{1f1f6}|\u{1f1f7}|\u{1f1f8}|\u{1f1f9}|\u{1f1fa}|\u{1f1fb}|\u{1f1fc}|\u{1f1fd}|\u{1f1fe}|\u{1f1ff}";
+export const UNICODE_ZWNJ = "\u200C";
+
+export const RE_UNICODE_EMOJI_REGIONAL_INDICATOR = new RegExp(
+  `^(?:${UNICODE_EMOJI_REGIONAL_INDICATORS})$`,
+);
+
+/**
+ * Regex for matching emoji
+ */
+export const RE_UNICODE_EMOJI = new RegExp(
+  `([\uE0E0-\uE0E6]?(?:${emojiRegex().source}|(?:${UNICODE_ZWNJ}?(?:${UNICODE_EMOJI_REGIONAL_INDICATORS}))))`,
+  "g",
+);
 
 /**
  * Regex for any emoji

@@ -11,13 +11,13 @@ import { useClient } from "@revolt/client";
 import {
   isRegionalIndicator,
   UNICODE_EMOJI_PACK_PUA,
-  UNICODE_ZWNJ,
   unicodeEmojiUrl,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { useState } from "@revolt/state";
 
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
+import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
 import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 import { isInCodeBlock } from "./codeMirrorCommon";
 

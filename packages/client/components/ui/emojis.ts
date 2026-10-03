@@ -5,8 +5,9 @@ type EmojiDefinition = {
   shorthands: string[];
 };
 
-export const EMOJI_MAP: EmojiDefinition[] = [];
-export const EMOJI_MAP_DEDUPE: EmojiDefinition[] = [];
+export const EMOJI_LIST: EmojiDefinition[] = [];
+export const EMOJI_SET: EmojiDefinition[] = [];
+export const CODEPOINT_TO_EMOJI: Record<string, EmojiDefinition> = {};
 export const EMOJI_KEYS: Set<string> = new Set();
 export const SHORTHAND_TO_EMOJI: Record<string, EmojiDefinition> = {};
 export const MAPPED_EMOJI_KEYS: {
@@ -20,10 +21,11 @@ for (let i = 0; i < emojiMapping.length; i++) {
     emoji: emojiMapping[i][0],
     shorthands: shorthands,
   };
-  EMOJI_MAP.push(ed);
-  if (!EMOJI_MAP_DEDUPE.find((e) => e.emoji === ed.emoji)) {
-    EMOJI_MAP_DEDUPE.push(ed);
+  EMOJI_LIST.push(ed);
+  if (!EMOJI_SET.find((e) => e.emoji === ed.emoji)) {
+    EMOJI_SET.push(ed);
   }
+  CODEPOINT_TO_EMOJI[ed.emoji] = ed;
   for (let j = 0; j < shorthands.length; j++) {
     EMOJI_KEYS.add(shorthands[j]);
     SHORTHAND_TO_EMOJI[shorthands[j]] = ed;
@@ -33,4 +35,8 @@ for (let i = 0; i < emojiMapping.length; i++) {
 
 export function getEmojiByShorthand(sh: string): EmojiDefinition | undefined {
   return SHORTHAND_TO_EMOJI[sh];
+}
+
+export function getEmojiByCodepoint(cp: string): EmojiDefinition | undefined {
+  return CODEPOINT_TO_EMOJI[cp];
 }
