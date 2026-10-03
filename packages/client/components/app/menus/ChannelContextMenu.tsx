@@ -132,10 +132,12 @@ export function ChannelContextMenu(props: { channel: Channel }) {
     <ContextMenu>
       <Show
         when={
-          props.channel.unread || props.channel.havePermission("InviteOthers")
+          props.channel.unread ||
+          !!props.channel.mentions?.size ||
+          props.channel.havePermission("InviteOthers")
         }
       >
-        <Show when={props.channel.unread}>
+        <Show when={props.channel.unread || !!props.channel.mentions?.size}>
           <ContextMenuButton icon={MdMarkChatRead} onClick={markAsRead}>
             <Trans>Mark as read</Trans>
           </ContextMenuButton>

@@ -484,6 +484,17 @@ function ServerEntry(props: {
 }) {
   const state = useState();
 
+  // Mention count for the server badge, excluding channel-muted channels
+  const mentions = () =>
+    props.server.channels.reduce(
+      (count, channel) =>
+        count +
+        (state.notifications.isChannelMuted(channel)
+          ? 0
+          : (channel.mentions?.size ?? 0)),
+      0,
+    );
+
   return (
     <Tooltip
       placement="right"
@@ -547,7 +558,7 @@ function ServerEntry(props: {
             size={42}
             src={props.server.iconURL}
             holepunch={
-              props.server.mentions.length
+              mentions()
                 ? props.server.voiceStatus !== "none"
                   ? "right"
                   : "top-right"
@@ -557,15 +568,8 @@ function ServerEntry(props: {
             }
             overlay={
               <>
-                <Show
-                  when={
-                    props.server.mentions.length /* as opposed to item.unread */
-                  }
-                >
-                  <Unreads.Graphic
-                    count={props.server.mentions.length}
-                    unread
-                  />
+                <Show when={mentions() /* as opposed to item.unread */}>
+                  <Unreads.Graphic count={mentions()} unread />
                 </Show>
                 <Show when={props.server.voiceStatus !== "none"}>
                   <VoiceStatus.Graphic status={props.server.voiceStatus} />
@@ -597,9 +601,19 @@ function FolderEntry(props: {
 
   const folderName = () => props.entry.folder.name || t`Folder`;
 
+  // Mention count for the badge, excluding channel-muted channels
   const mentions = () =>
     props.entry.servers.reduce(
-      (count, server) => count + server.mentions.length,
+      (count, server) =>
+        count +
+        server.channels.reduce(
+          (n, channel) =>
+            n +
+            (state.notifications.isChannelMuted(channel)
+              ? 0
+              : (channel.mentions?.size ?? 0)),
+          0,
+        ),
       0,
     );
 
