@@ -29,6 +29,7 @@ import {
   Avatar,
   CompositionMediaPicker,
   Embed,
+  getEmojiByCodepoint,
   MessageContainer,
   MessageReply,
   Reactions,
@@ -133,8 +134,18 @@ export function Message(props: Props) {
   /**
    * React with an emoji
    * @param emoji Emoji
+   * @param track Whether to track this as a usage
    */
-  const react = (emoji: string) => props.message.react(emoji);
+  const react = (emoji: string, track = true) => {
+    if (track) {
+      let id = emoji;
+      if (emoji.length !== 26) {
+        id = getEmojiByCodepoint(emoji)!.shorthands[0];
+      }
+      state.favourites.recordUse(id);
+    }
+    return props.message.react(emoji);
+  };
 
   /**
    * Remove emoji reaction
@@ -368,6 +379,7 @@ export function Message(props: Props) {
                 : startsWithPackPUA(emoji)
                   ? emoji.slice(1)
                   : emoji,
+              false,
             )
           }
         >

@@ -6,6 +6,7 @@ import {
 import { EditorView, keymap } from "@codemirror/view";
 import { Accessor } from "solid-js";
 
+import { getEmojiByShorthand } from "@revolt/ui/emojis";
 import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 import { codeMirrorAutoCompleteSource } from "./codeMirrorAutoCompleteSource";
@@ -80,6 +81,7 @@ const completionTheme = EditorView.theme({
 
 export function codeMirrorAutoComplete(
   searchSpace?: Accessor<AutoCompleteSearchSpace>,
+  onEmojiAccept?: (emoji: string) => void,
 ) {
   const autocompleteScrollbarClasses = scrollableStyles();
 
@@ -160,6 +162,28 @@ export function codeMirrorAutoComplete(
       key === ":" ? completions[0]?.type === "emoji" : completions.length > 0
     ) {
       acceptCompletion(view as never);
+      if (completions[0]?.type === "emoji" && onEmojiAccept) {
+        // Send the emoji completion to the recency tracker. This relies on the
+        // structure of the autocomplete source. If that is changed, this must
+        // be udpated.
+        if ((completions[0].apply as string).startsWith(":")) {
+          onEmojiAccept(
+            (completions[0].apply as string).substring(
+              1,
+              (completions[0].apply as string).length - 1,
+            ),
+          );
+        } else {
+          onEmojiAccept(
+            getEmojiByShorthand(
+              (completions[0].label as string).substring(
+                1,
+                (completions[0].label as string).length - 1,
+              ),
+            )!.shorthands[0],
+          );
+        }
+      }
       return true;
     }
     return false;
