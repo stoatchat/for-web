@@ -51,7 +51,7 @@ export function MessageComposition(props: Props) {
   const { t } = useLingui();
   const client = useClient();
   const { limits } = useInstance();
-  const { openModal } = useModals();
+  const { showError } = useModals();
 
   const isTimedOut = createIsTimedOut(
     () => props.channel.server?.member?.timeout,
@@ -243,28 +243,21 @@ export function MessageComposition(props: Props) {
 
     if (rejectedFiles.length > 0) {
       const maxSizeFormatted = humanFileSize(maxSize);
-
+      let error;
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];
         const fileSize = humanFileSize(file.size);
-        const error = new Error(
+        error = new Error(
           t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`,
         );
         error.name = "File too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       } else {
-        const error = new Error(
+        error = new Error(
           t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`,
         );
         error.name = "Files too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       }
+      showError(error);
     }
 
     for (const file of validFiles) {

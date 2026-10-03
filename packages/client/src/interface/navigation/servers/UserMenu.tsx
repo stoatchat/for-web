@@ -27,6 +27,7 @@ import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Avatar, Column, Row, Text, UserStatus, iconSize } from "@revolt/ui";
 
+import MdSwap from "@material-design-icons/svg/outlined/autorenew.svg?component-solid";
 import MdContactPage from "@material-design-icons/svg/outlined/contact_page.svg?component-solid";
 import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 import MdEditNote from "@material-design-icons/svg/outlined/edit_note.svg?component-solid";
@@ -139,6 +140,14 @@ export function UserMenu(props: Props) {
                   </Column>
                 </Row>
               </ContextMenuItem>
+              <Show when={state.auth.hasMultiSession()}>
+                <ContextMenuButton
+                  icon={MdSwap}
+                  onClick={() => openModal({ type: "swap_user" })}
+                >
+                  <Trans>Switch Accounts</Trans>
+                </ContextMenuButton>
+              </Show>
 
               <ContextMenuDivider />
 
