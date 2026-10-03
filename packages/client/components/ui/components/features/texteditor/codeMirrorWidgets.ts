@@ -10,14 +10,12 @@ import {
 import { Channel, ServerMember, ServerRole, User } from "stoat.js";
 
 import { getChannelIcon } from "@revolt/common";
-import {
-  RE_UNICODE_EMOJI,
-  unicodeEmojiUrl,
-} from "@revolt/markdown/emoji/UnicodeEmoji";
+import { unicodeEmojiUrl } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { userInformation } from "@revolt/markdown/users";
 import { useSmartParams } from "@revolt/routing";
 
 import { useInstance } from "@revolt/instance";
+import { RE_UNICODE_EMOJI } from "@revolt/markdown/emoji/util";
 import { parseUnicodeEmoji } from "@revolt/markdown/plugins/unicodeEmoji";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
