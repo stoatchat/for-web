@@ -196,7 +196,13 @@ export function ImageViewerModal(
                     ref={setRef}
                     use:floating={{
                       contextMenu: () => (
-                        <MessageContextMenu file={props.gif} />
+                        <MessageContextMenu
+                          file={props.gif}
+                          favourite={{
+                            url: props.gif!.url,
+                            preview: props.gif!.url,
+                          }}
+                        />
                       ),
                     }}
                     playsinline
