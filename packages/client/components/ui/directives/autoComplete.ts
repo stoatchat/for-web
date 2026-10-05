@@ -274,7 +274,7 @@ function searchMatches(
         i++;
       }
     } else {
-      const emojiKeySet = EMOJI_KEYS.values().toArray();
+      const emojiKeySet = [...EMOJI_KEYS.values()];
       for (let i = 0; i < emojiKeySet.length && matches.length < 10; i++) {
         if (emojiKeySet[i].includes(query)) {
           matches.push(emojiKeySet[i]);
