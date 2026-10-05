@@ -324,6 +324,12 @@ export function Messages(props: Props) {
     // - Must not already be fetching (or otherwise the fetch must have failed)
     if (atStart() || !canFetch()) return;
 
+    // In-case initial load failed and left us with an empty message list
+    if (messages().length === 0) {
+      caseInitialLoad(props.highlightedMessageId());
+      return;
+    }
+
     // Indicate we are fetching upwards
     setFetching("upwards");
 
@@ -392,6 +398,12 @@ export function Messages(props: Props) {
     // - Must not already be at the end
     // - Must not already be fetching (or otherwise the fetch must have failed)
     if (atEnd() || !canFetch()) return;
+
+    // In-case initial load failed and left us with an empty message list
+    if (messages().length === 0) {
+      caseInitialLoad(props.highlightedMessageId());
+      return;
+    }
 
     // Indicate we are fetching downwards
     setFetching("downwards");
