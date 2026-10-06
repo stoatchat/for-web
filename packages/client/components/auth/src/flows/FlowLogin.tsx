@@ -34,14 +34,7 @@ export default function FlowLogin() {
     const password = data.get("password") as string;
 
     if (!email || !password) return false;
-
-    return login(
-      {
-        email,
-        password,
-      },
-      modals,
-    );
+    return login({ email, password }, modals);
   }
 
   /**
@@ -90,7 +83,7 @@ export default function FlowLogin() {
         }
       >
         <Match when={isLoggedIn()}>
-          <Navigate href={state.layout.popNextPath() ?? "/app"} />
+          <Navigate href={state.auth.popNextPath()} />
         </Match>
         <Match when={isError()}>
           <FlowTitle subtitle={error(lifecycle.permanentError)}>

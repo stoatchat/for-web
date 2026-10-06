@@ -10,6 +10,7 @@ import {
 } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
@@ -32,16 +33,12 @@ import { BubbleMood, BubbleProvider, FlowBase, FlowBubble } from "./flows/Flow";
 import Bluesky from "./flows/bluesky.svg?component-solid";
 import GitHub from "./flows/github.svg?component-solid";
 
-const Root = styled("div", {
-  base: {
-    width: "100%",
-    height: "100%",
-    minHeight: 0,
-    color: "var(--md-sys-color-on-surface)",
-    background: "var(--md-sys-color-surface)",
-    overflowX: "hidden",
-    overflowY: "auto",
-  },
+const root = css({
+  width: "100%",
+  height: "100%",
+  minHeight: 0,
+  color: "var(--md-sys-color-on-surface)",
+  background: "var(--md-sys-color-surface)",
 });
 
 const Page = styled("main", {
@@ -210,18 +207,16 @@ const AccountSwitch = styled("div", {
   },
 });
 
-const FlowWrap = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: 0,
-    overflowY: "auto",
-    padding: "32px 0",
+const flowWrap = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 0,
+  overflowY: "auto",
+  padding: "32px 0",
 
-    "@media (max-width: 900px)": {
-      padding: "42px 0",
-    },
+  "@media (max-width: 900px)": {
+    padding: "42px 0",
   },
 });
 
@@ -506,7 +501,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   );
 
   return (
-    <Root>
+    <div use:scrollable={{ class: root }}>
       <Titlebar />
       <Page>
         <Hero>
@@ -575,7 +570,7 @@ export function AuthPage(props: { children: JSX.Element }) {
             </AccountSwitch>
           </Topbar>
 
-          <FlowWrap>
+          <div use:scrollable={{ class: flowWrap }}>
             <FlowStack>
               <FlowBubble
                 ref={bubbleElement}
@@ -631,7 +626,7 @@ export function AuthPage(props: { children: JSX.Element }) {
                 </BubbleProvider>
               </div>
             </FlowStack>
-          </FlowWrap>
+          </div>
 
           <Footer>
             <nav aria-label="Legal">
@@ -664,6 +659,6 @@ export function AuthPage(props: { children: JSX.Element }) {
           </Footer>
         </Content>
       </Page>
-    </Root>
+    </div>
   );
 }

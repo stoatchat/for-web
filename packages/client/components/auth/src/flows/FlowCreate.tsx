@@ -88,13 +88,7 @@ export default function FlowCreate() {
     });
 
     if (!config.features.email) {
-      await login(
-        {
-          email,
-          password,
-        },
-        modals,
-      );
+      await login({ email, password }, modals);
       navigate("/login/auth", { replace: true });
     } else {
       setFlowCheckEmail(email);

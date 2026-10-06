@@ -36,7 +36,7 @@ const Interface = (props: { children: JSX.Element }) => {
   const { pathname } = useLocation();
 
   useBeforeLeave((e) => {
-    if (!e.defaultPrevented && !isSwapping()) {
+    if (!e.defaultPrevented) {
       if (e.to === "/settings") {
         e.preventDefault();
         openModal({ type: "settings", config: "user" });
@@ -47,9 +47,8 @@ const Interface = (props: { children: JSX.Element }) => {
   });
 
   createEffect(() => {
-    if (!isLoggedIn()) {
-      state.layout.setNextPath(pathname);
-      console.debug("WAITING... currently", lifecycle.state());
+    if (!isLoggedIn() && !isSwapping()) {
+      state.auth.setNextPath(pathname);
     }
   });
 
