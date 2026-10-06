@@ -14,11 +14,12 @@ export type Session = {
 };
 
 export type TypeAuth = {
-  /**
-   * Session information
-   */
+  /** Current active session */
   session?: Session;
+  /** Saved inactive sessions */
   saved: Array<Session>;
+  /** Redirect path after login */
+  nextPath?: string;
 };
 
 type AuthErrType = "save_fail" | "dup_login" | "ses_not_found";
@@ -63,9 +64,11 @@ function cleanSes(inSes?: Session): Session | undefined {
  */
 export class Auth extends AbstractStore<"auth", TypeAuth> {
   /**
-   * Construct store
-   * @param state State
+   * Trip immediate PermanentError on load if set.
+   * This is not saved
    */
+  globalError?: unknown;
+
   constructor(state: State) {
     super(state, "auth", true);
   }
@@ -82,8 +85,8 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
           userId: CONFIGURATION.DEVELOPMENT_USER_ID,
           valid: true,
         });
-      } catch (e) {
-        if ((e as AuthError).name !== "dup_login") throw e;
+      } catch {
+        /* empty */
       }
   }
 
@@ -112,6 +115,9 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
     return {
       session: cleanSes(input.session),
       saved,
+      ...(typeof input.nextPath === "string"
+        ? { nextPath: input.nextPath }
+        : {}),
     };
   }
 
@@ -230,5 +236,21 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
   markValid() {
     const ses = this.get().session;
     if (ses && !ses.valid) this.set("session", "valid", true);
+  }
+
+  /**
+   * Set login redirect path
+   */
+  setNextPath(path: string) {
+    this.set("nextPath", path === "/" || path === "/app" ? undefined : path);
+  }
+
+  /**
+   * Pop login redirect path; falls back to last active
+   */
+  popNextPath() {
+    const path = this.get().nextPath;
+    if (path) this.set("nextPath", undefined);
+    return path ?? this.state.layout.getLastActivePath();
   }
 }

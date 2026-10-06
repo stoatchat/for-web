@@ -153,7 +153,7 @@ async function setUpServiceWorkerSubscription(client: Client) {
     return;
   }
 
-  if (!client.configured() || !client.user) {
+  if (!client.ready() || !client.user) {
     throw "Client not configured";
   }
 

@@ -30,30 +30,23 @@ self.addEventListener("notificationclick", (event) => {
 
 self.addEventListener("push", (event) => {
   if (!event.data) return;
-  const payload = event.data.text();
-  const notification: StoatPushNotification = JSON.parse(payload);
+  const notif: StoatPushNotification = JSON.parse(event.data.text());
 
-  if (!notification.title) {
-    if (notification.channel) {
-      if (notification.channel.channel_type === "DirectMessage") {
-        notification.title = notification.author || "Stoat";
-      } else {
-        notification.title = `${notification.author} in ${notification.channel.name}`;
-      }
-    } else {
-      notification.title = "Stoat";
-    }
-  }
+  notif.title ||= notif.channel
+    ? notif.channel.channel_type === "DirectMessage"
+      ? notif.author || "Stoat"
+      : `${notif.author} in ${notif.channel.name}`
+    : "Stoat";
 
   //Redirect instance URL
-  const url = notification.url && new URL(notification.url);
-  notification.url = `${root}${url ? `/i/${url.host}${url.pathname}/` : "/app"}#uid=${userId}`;
+  const url = notif.url && new URL(notif.url);
+  notif.url = `${root}${url ? `/i/${url.host}${url.pathname}/` : "/app"}#uid=${userId}`;
 
   event.waitUntil(
-    self.registration.showNotification(notification.title || "Stoat", {
-      icon: notification.icon,
-      body: notification.body,
-      data: notification.url,
+    self.registration.showNotification(notif.title, {
+      icon: notif.icon,
+      body: notif.body,
+      data: notif.url,
     }),
   );
 });

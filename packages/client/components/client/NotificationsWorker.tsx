@@ -1,4 +1,4 @@
-import { createEffect, onCleanup, onMount } from "solid-js";
+import { createEffect, onCleanup } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
 import {
@@ -232,8 +232,8 @@ export function NotificationsWorker() {
     initNotifications();
   }
 
-  onMount(() => {
-    document.addEventListener("click", tryRequest);
+  createEffect(() => {
+    if (client().ready()) document.addEventListener("click", tryRequest);
   });
 
   onCleanup(() => document.removeEventListener("click", tryRequest));
