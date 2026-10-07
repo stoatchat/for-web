@@ -463,7 +463,7 @@ export default class ClientController {
     }
 
     if (location.hash.startsWith("#uid=")) {
-      //User sw1tch request
+      //User switch request
       const error = useError();
       try {
         this.state.auth.swapSession(location.hash.slice(5));
