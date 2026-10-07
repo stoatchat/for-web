@@ -134,13 +134,8 @@ export class Auth extends AbstractStore<"auth", TypeAuth> {
    * @param unhold Try to resume held session
    * @returns Session
    */
-  getSession(unhold = false) {
-    const data = unhold ? this.#read() : this.get();
-    if (unhold && !data.session) {
-      data.session = data.saved.shift();
-      this.set(data);
-    }
-    return data.session;
+  getSession() {
+    return this.get().session;
   }
 
   /**

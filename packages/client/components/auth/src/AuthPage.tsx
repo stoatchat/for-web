@@ -524,7 +524,10 @@ export function AuthPage(props: { children: JSX.Element }) {
                 <IconButton
                   variant="tonal"
                   aria-label="Cancel login"
-                  onPress={() => openModal({ type: "swap_user" })}
+                  onPress={() => {
+                    state.auth.popNextPath();
+                    openModal({ type: "swap_user" });
+                  }}
                 >
                   <Symbol size={24}>arrow_back</Symbol>
                 </IconButton>

@@ -153,10 +153,11 @@ class Lifecycle {
     switch (nextState) {
       case State.LoggingIn:
         this.#controller.initUserState();
-        //Wait for client to configure, then connect
-        return this.client.initConfig().then(async () => {
-          if (noOnboard) return this.client.connect();
+        return (async () => {
           try {
+            //Wait for client to configure, then connect
+            await this.client.initConfig();
+            if (noOnboard) return this.client.connect();
             const { onboarding } = await this.client.api.get("/onboard/hello");
             if (onboarding) this.transition({ type: TransitionType.NoUser });
             else this.client.connect();
@@ -168,7 +169,7 @@ class Lifecycle {
             }
             this.showError(e);
           }
-        });
+        })();
       case State.Connecting:
         this.#controller.initUserState();
       // eslint-disable-next-line no-fallthrough
@@ -221,7 +222,7 @@ class Lifecycle {
 
   private dispose(logout = false) {
     if (logout) {
-      this.client.logout();
+      this.client.logout().catch(() => {});
     } else {
       //TODO Client.dispose() method
       this.client.events.removeAllListeners();
@@ -279,7 +280,8 @@ class Lifecycle {
           case TransitionType.SocketConnected:
             return this.#controller
               .afterState()
-              .then(() => this.#enter(State.Connected));
+              .then(() => this.#enter(State.Connected))
+              .catch(() => {});
           case TransitionType.NoUser:
             this.#enter(State.Onboarding);
             break;
@@ -300,7 +302,8 @@ class Lifecycle {
           case TransitionType.SocketConnected:
             return this.#controller
               .afterState()
-              .then(() => this.#enter(State.Connected));
+              .then(() => this.#enter(State.Connected))
+              .catch(() => {});
           case TransitionType.TemporaryFailure:
             this.#enter(State.Disconnected);
             break;
@@ -460,7 +463,7 @@ export default class ClientController {
     }
 
     if (location.hash.startsWith("#uid=")) {
-      //User switch request
+      //User sw1tch request
       const error = useError();
       try {
         this.state.auth.swapSession(location.hash.slice(5));
@@ -482,8 +485,8 @@ export default class ClientController {
   isError = () => this.lifecycle.state() === State.Error;
 
   /** Session login */
-  _login(cached = false, unhold = false) {
-    const session = this.state.auth.getSession(unhold);
+  _login(cached = false) {
+    const session = this.state.auth.getSession();
     if (!session) return this.initUserState();
     this.lifecycle.transition({
       type: cached ? TransitionType.LoginCached : TransitionType.LoginUncached,
