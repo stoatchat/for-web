@@ -176,23 +176,41 @@ const routes = () => (
 
 const snackbarCtrl = new SnackbarController();
 
-render(
-  () => (
-    <DeviceContext>
-      <I18nProvider>
-        <SnackbarProvider controller={snackbarCtrl}>
-          <Router>
-            <Route path="/i/:host" component={InstanceContext}>
-              {routes()}
-            </Route>
-            <Route path="/" component={InstanceContext}>
-              {routes()}
-            </Route>
-          </Router>
-          {/* <ReportBug /> */}
-        </SnackbarProvider>
-      </I18nProvider>
-    </DeviceContext>
-  ),
-  document.getElementById("root") as HTMLElement,
-);
+/**
+ * Move into top window if the client was loaded inside itself
+ */
+function escapeSelfEmbed() {
+  if (window.self === window.top) return false;
+
+  try {
+    // reading a cross-origin parent's location throws, leave those embeds be
+    if (window.top!.location.origin !== window.location.origin) return false;
+  } catch {
+    return false;
+  }
+
+  window.top!.location.href = window.location.href;
+  return true;
+}
+
+if (!escapeSelfEmbed())
+  render(
+    () => (
+      <DeviceContext>
+        <I18nProvider>
+          <SnackbarProvider controller={snackbarCtrl}>
+            <Router>
+              <Route path="/i/:host" component={InstanceContext}>
+                {routes()}
+              </Route>
+              <Route path="/" component={InstanceContext}>
+                {routes()}
+              </Route>
+            </Router>
+            {/* <ReportBug /> */}
+          </SnackbarProvider>
+        </I18nProvider>
+      </DeviceContext>
+    ),
+    document.getElementById("root") as HTMLElement,
+  );
