@@ -10,6 +10,13 @@
   box-sizing: border-box;
 }
 
+/* The app never scrolls the page itself, so stop scroll gestures from
+   chaining up to it, otherwise iOS Safari can pull-to-refresh mid-scroll */
+html,
+body {
+  overscroll-behavior-y: none;
+}
+
 body {
   margin: 0;
   background: #191919;
