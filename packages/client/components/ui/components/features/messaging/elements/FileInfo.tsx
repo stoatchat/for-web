@@ -15,13 +15,6 @@ import { Column, Row } from "@revolt/ui/components/layout";
 import { humanFileSize } from "@revolt/ui/components/utils";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-/**
- * Base container
- */
-const Base = styled(Row, {
-  base: {},
-});
-
 const FilenameContainer = styled("span", {
   base: {
     textOverflow: "ellipsis",
@@ -47,7 +40,7 @@ interface Props {
  */
 export function FileInfo(props: Props) {
   return (
-    <Base align>
+    <Row align>
       <Switch fallback={<BiSolidFile size={24} />}>
         <Match
           when={
@@ -91,6 +84,6 @@ export function FileInfo(props: Props) {
           </IconButton>
         </a>
       </Show>
-    </Base>
+    </Row>
   );
 }
