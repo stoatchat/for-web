@@ -141,8 +141,12 @@ const base = cva({
       textDecoration: "underline",
     },
 
-    "&:hover .Toolbar": {
-      display: "flex",
+    // Touch devices keep :hover applied after a tap, which leaves
+    // whatever message was touched highlighted while scrolling
+    "@media (hover: hover)": {
+      "&:hover .Toolbar": {
+        display: "flex",
+      },
     },
   },
   variants: {
@@ -185,8 +189,10 @@ const base = cva({
       false: {
         marginTop: "var(--message-group-spacing) !important",
 
-        "&:hover": {
-          background: "var(--md-sys-color-surface-container)",
+        "@media (hover: hover)": {
+          "&:hover": {
+            background: "var(--md-sys-color-surface-container)",
+          },
         },
       },
       hide: {},

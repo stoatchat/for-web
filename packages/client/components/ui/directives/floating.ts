@@ -8,6 +8,8 @@ import {
   onCleanup,
 } from "solid-js";
 
+import { addLongPressListener } from "./longPress";
+
 type Props = JSX.Directives["floating"] & object;
 
 export type FloatingElement = {
@@ -127,30 +129,21 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     trigger("contextMenu");
   }
 
-  let isTouching = false,
-    tTmr: NodeJS.Timeout | undefined;
-
   /**
-   * Handle mouse entering
+   * Handle pointer entering
+   *
+   * Touch is ignored, iOS sends a compatibility mouseenter after a tap
+   * that never gets a matching mouseleave, leaving the tooltip stuck open
    */
-  function onMouseEnter() {
-    if (!isTouching) trigger("tooltip", true);
+  function onPointerEnter(event: PointerEvent) {
+    if (event.pointerType !== "touch") trigger("tooltip", true);
   }
 
   /**
-   * Handle mouse leaving
+   * Handle pointer leaving
    */
-  function onMouseLeave() {
+  function onPointerLeave() {
     trigger("tooltip", false);
-  }
-
-  function onTouch() {
-    isTouching = true;
-    clearTimeout(tTmr);
-    tTmr = setTimeout(() => {
-      isTouching = false;
-      tTmr = undefined;
-    }, 100);
   }
 
   createEffect(
@@ -178,16 +171,12 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
               ? tooltip.content
               : tooltip!.aria!;
 
-          element.addEventListener("mouseenter", onMouseEnter);
-          element.addEventListener("mouseleave", onMouseLeave);
-          element.addEventListener("touchstart", onTouch);
-          element.addEventListener("touchend", onTouch);
+          element.addEventListener("pointerenter", onPointerEnter);
+          element.addEventListener("pointerleave", onPointerLeave);
 
           onCleanup(() => {
-            element.removeEventListener("mouseenter", onMouseEnter);
-            element.removeEventListener("mouseleave", onMouseLeave);
-            element.removeEventListener("touchstart", onTouch);
-            element.removeEventListener("touchend", onTouch);
+            element.removeEventListener("pointerenter", onPointerEnter);
+            element.removeEventListener("pointerleave", onPointerLeave);
           });
         }
       },
@@ -199,28 +188,15 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
       () => accessor().contextMenu,
       (contextMenu) => {
         if (contextMenu) {
-          if (
-            (accessor().contextMenuHandler ?? "contextmenu") ===
-              "contextmenu" &&
-            isIOSTouch
-          ) {
-            element.addEventListener("long-press", onContextMenu);
-          } else {
-            element.addEventListener(
-              accessor().contextMenuHandler ?? "contextmenu",
-              onContextMenu,
-            );
-          }
+          const handler = accessor().contextMenuHandler ?? "contextmenu";
 
-          onCleanup(() => {
-            if (isIOSTouch) {
-              element.removeEventListener("long-press", onContextMenu);
-            }
-            element.removeEventListener(
-              accessor().contextMenuHandler ?? "contextmenu",
-              onContextMenu,
-            );
-          });
+          element.addEventListener(handler, onContextMenu);
+          onCleanup(() => element.removeEventListener(handler, onContextMenu));
+
+          // iOS Safari never fires contextmenu for touch, so emulate it with a long press
+          if (handler === "contextmenu" && isIOSTouch) {
+            onCleanup(addLongPressListener(element, onContextMenu));
+          }
         }
       },
     ),

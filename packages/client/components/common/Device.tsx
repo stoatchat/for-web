@@ -47,7 +47,11 @@ export class Device {
    * **Warning:** Don't use unless absolutely necessary.
    * Granular feature-detection is preferred when possible.
    */
-  readonly isIOSTouch = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  readonly isIOSTouch =
+    /iphone|ipad|ipod/i.test(window.navigator.userAgent) ||
+    // iPadOS reports itself as a Mac
+    (/macintosh/i.test(window.navigator.userAgent) &&
+      navigator.maxTouchPoints > 1);
 
   /**
    * Whether this device supports touch input.
@@ -63,13 +67,6 @@ export class Device {
 
   constructor() {
     this.isMobile = isMobileBrowser();
-
-    if (this.isIOSTouch) {
-      // Load a long press event library to replace context menus on IOS touch
-      //@ts-expect-error There are no types for this library.
-      import("long-press-event");
-      document.getElementsByTagName("body")[0].dataset.longPressDelay = "1000";
-    }
 
     const [lo, setLo] = createSignal<Layout>("desktop");
     this.layout = lo;
