@@ -29,7 +29,6 @@ export function addFontPreload(): Plugin {
   return {
     name: "vite-add-font-preload",
     transformIndexHtml: {
-      order: "post",
       handler: (_, ctx) => {
         if (ctx.bundle == null) {
           return [];

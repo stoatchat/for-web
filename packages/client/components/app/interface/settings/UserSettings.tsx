@@ -5,6 +5,7 @@ import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
+import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
@@ -15,6 +16,7 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
 import MdCampaign from "@material-design-icons/svg/outlined/campaign.svg?component-solid";
 import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
+import MdInstallMobile from "@material-design-icons/svg/outlined/install_mobile.svg?component-solid";
 import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
 import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
@@ -30,6 +32,7 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import InstallInstructions from "./InstallInstructions";
 import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
@@ -100,6 +103,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <VoiceSettings />;
       case "notifications":
         return <Notifications isDesktop={!!window.native} />;
+      case "install":
+        return <InstallInstructions />;
       default:
         return null;
     }
@@ -115,6 +120,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
     const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
     const { limits, config } = useInstance();
+    const device = useDevice();
 
     return {
       context: null!,
@@ -225,6 +231,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         {
           title: "Stoat",
           entries: [
+            {
+              id: "install",
+              icon: <MdInstallMobile {...iconSize(20)} />,
+              title: <Trans>Install</Trans>,
+              hidden: !device.isMobile || device.isPWA || device.pwaInstalled(),
+            },
             {
               id: "bots",
               icon: <MdSmartToy {...iconSize(20)} />,
