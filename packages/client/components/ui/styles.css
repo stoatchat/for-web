@@ -18,10 +18,12 @@ body {
 
 #root {
   position: fixed;
-  top: env(safe-area-inset-top);
+  /* --viewport-offset-top and --keyboard-inset are set on iOS, where the
+     keyboard covers the page instead of resizing it (see Device.tsx) */
+  top: calc(env(safe-area-inset-top) + var(--viewport-offset-top, 0px));
   left: env(safe-area-inset-left);
   right: env(safe-area-inset-right);
-  bottom: env(safe-area-inset-bottom);
+  bottom: max(env(safe-area-inset-bottom), var(--keyboard-inset, 0px));
   background: #191919;
 }
 
