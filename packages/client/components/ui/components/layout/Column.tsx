@@ -11,7 +11,6 @@ export const Column = styled("div", {
     margin: "0",
     alignItems: "initial",
     justifyContent: "initial",
-    overflow: "hidden",
   },
   variants: {
     grow: {

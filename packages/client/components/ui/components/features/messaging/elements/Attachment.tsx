@@ -24,6 +24,7 @@ export const AttachmentContainer = styled(Column, {
     alignSelf: "start",
     width: "420px",
     maxWidth: "100%",
+    overflow: "hidden",
 
     "& audio": {
       width: "100%",
