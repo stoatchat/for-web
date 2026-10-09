@@ -16,7 +16,7 @@ import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
 export function EditMessage(props: { message: Message }) {
   const state = useState();
   const client = useClient();
-  const { openModal, isOpen, pop } = useModals();
+  const { openModal, showError, isOpen, pop } = useModals();
 
   const initialValue = [state.draft.editingMessageContent || ""] as const;
 
@@ -25,9 +25,7 @@ export function EditMessage(props: { message: Message }) {
     onSuccess() {
       state.draft.setEditingMessage(undefined);
     },
-    onError(error) {
-      openModal({ type: "error2", error });
-    },
+    onError: showError,
   }));
 
   function saveMessage() {

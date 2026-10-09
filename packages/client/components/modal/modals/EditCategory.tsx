@@ -1,8 +1,7 @@
-import { Trans } from "@lingui/solid/macro";
-
-import { t } from "@lingui/core/macro";
-import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
+
+import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 import { useModals } from "..";
 import { Modals } from "../types";
 
@@ -12,6 +11,7 @@ import { Modals } from "../types";
 export function EditCategoryModal(
   props: DialogProps & Modals & { type: "edit_category" },
 ) {
+  const { t } = useLingui();
   const { showError } = useModals();
 
   /* eslint-disable solid/reactivity */

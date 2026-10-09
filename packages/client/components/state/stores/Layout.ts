@@ -16,11 +16,6 @@ export enum LAYOUT_SECTIONS {
 
 export interface TypeLayout {
   /**
-   * URL to redirect to after login
-   */
-  nextPath?: string;
-
-  /**
    * The current section of the program we are in
    *
    * This can currently either be:
@@ -79,10 +74,6 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   clean(input: Partial<TypeLayout>): TypeLayout {
     const layout: TypeLayout = this.default();
 
-    if (typeof input.nextPath === "string") {
-      layout.nextPath = input.nextPath;
-    }
-
     if (typeof input.activeInterface === "string") {
       layout.activeInterface = input.activeInterface;
     }
@@ -109,15 +100,6 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   }
 
   /**
-   * Pop the next redirect path
-   */
-  popNextPath() {
-    const nextUrl = this.get().nextPath;
-    this.set("nextPath", undefined);
-    return nextUrl;
-  }
-
-  /**
    * Get the last active path in the app
    */
   getLastActivePath() {
@@ -140,17 +122,14 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   }
 
   /**
-   * Set the next redirect path
-   */
-  setNextPath(pathname: string) {
-    this.set("nextPath", pathname);
-  }
-
-  /**
    * Set the last active path in the app
    */
   setLastActivePath(pathname: string) {
-    if (pathname.startsWith("/settings") || pathname.startsWith("/invite"))
+    if (
+      pathname.startsWith("/settings") ||
+      pathname.startsWith("/invite") ||
+      pathname.startsWith("/login")
+    )
       return;
 
     const params = paramsFromPathname(pathname);
