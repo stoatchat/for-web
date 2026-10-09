@@ -48,19 +48,13 @@ export class ModalController {
     // eslint-disable-next-line solid/reactivity
     this.modals = modals;
     this.setModals = setModals;
-
-    this.openModal = this.openModal.bind(this);
-    this.pop = this.pop.bind(this);
-    this.remove = this.remove.bind(this);
-    this.isOpen = this.isOpen.bind(this);
-    this.closeAll = this.closeAll.bind(this);
   }
 
   /**
    * Add a modal to the stack
    * @param props Modal parameters
    */
-  openModal(props: Modals) {
+  openModal = (props: Modals) => {
     //Unique ID from clock that can't run backwards
     const id = performance.now().toString();
     this.setModals((modals) => [
@@ -83,50 +77,50 @@ export class ModalController {
     //     ),
     //   0,
     // );
-  }
+  };
 
   /**
    * Remove the top modal
    */
-  pop() {
+  pop = () => {
     const modal = [...this.modals].reverse().find((modal) => modal.show);
 
     if (modal) {
       this.remove(modal.id);
     }
-  }
+  };
 
   /**
    * Remove all modals
    */
-  closeAll() {
+  closeAll = () => {
     batch(() => {
       for (const modal of this.modals) {
         this.remove(modal.id);
       }
     });
-  }
+  };
 
   /**
    * Close modal by id
    */
-  remove(id: string) {
+  remove = (id: string) => {
     this.setModals((entry) => entry.id === id, "show", false);
 
     setTimeout(() => {
       this.setModals(this.modals.filter((entry) => entry.id !== id));
     }, 500); /** FIXME / TODO: set to motion anim time + 100ms */
-  }
+  };
 
   /**
    * Whether a modal is currently open
    * @returns Boolean
    */
-  isOpen(type?: string) {
+  isOpen = (type?: string) => {
     return type
       ? !!this.modals.find((x) => x.show && x.props.type === type)
       : !!this.modals.find((x) => x.show);
-  }
+  };
 }
 
 /**
@@ -134,22 +128,10 @@ export class ModalController {
  */
 export class ModalControllerExtended extends ModalController {
   /**
-   * Construct controller
-   */
-  constructor() {
-    super();
-
-    this.mfaFlow = this.mfaFlow.bind(this);
-    this.mfaEnableTOTP = this.mfaEnableTOTP.bind(this);
-    this.showError = this.showError.bind(this);
-    this.openLink = this.openLink.bind(this);
-  }
-
-  /**
    * Perform MFA flow
    * @param mfa MFA helper
    */
-  mfaFlow(mfa: MFA) {
+  mfaFlow = (mfa: MFA) => {
     return new Promise((callback: (ticket?: MFATicket) => void) =>
       this.openModal({
         type: "mfa_flow",
@@ -158,7 +140,7 @@ export class ModalControllerExtended extends ModalController {
         callback,
       }),
     );
-  }
+  };
 
   /**
    * Open TOTP secret modal
@@ -170,11 +152,11 @@ export class ModalControllerExtended extends ModalController {
    * @param enable Called with the entered code, should throw if it is rejected
    * @returns Whether the authenticator was enabled
    */
-  mfaEnableTOTP(
+  mfaEnableTOTP = (
     secret: string,
     identifier: string,
     enable: (code: string) => Promise<void>,
-  ) {
+  ) => {
     return new Promise((resolve: (value: boolean) => void, reject) =>
       this.openModal({
         type: "mfa_enable_totp",
@@ -188,28 +170,13 @@ export class ModalControllerExtended extends ModalController {
         reject,
       }),
     );
-  }
+  };
 
   /**
    * Show any error
    * @param error Error
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  showError(error: any) {
-    this.openModal({
-      type: "error2",
-      error,
-    });
-  }
-
-  /**
-   * Write text to the clipboard
-   * @param text Text to write
-   * @deprecated use navigator clipboard directly
-   */
-  writeText(text: string) {
-    navigator.clipboard.writeText(text);
-  }
+  showError = (error: unknown) => this.openModal({ type: "error2", error });
 
   /**
    * Safely open external or internal link
@@ -217,7 +184,7 @@ export class ModalControllerExtended extends ModalController {
    * @param trusted Whether we trust this link
    * @returns Whether to cancel default event
    */
-  openLink(/*href?: string, trusted?: boolean*/) {
+  openLink = (/*href?: string, trusted?: boolean*/) => {
     /*const link = determineLink(href);
     const settings = getApplicationState().settings;
 
@@ -238,9 +205,8 @@ export class ModalControllerExtended extends ModalController {
         }
       }
     }*/
-
     return true;
-  }
+  };
 }
 
 const ModalControllerContext = createContext<ModalControllerExtended>(

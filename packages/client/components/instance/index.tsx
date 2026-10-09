@@ -36,17 +36,11 @@ export function InstanceContext(props: { children?: JSXElement }) {
   const host = normalizeHost(params.host);
 
   function onError(e: unknown) {
-    console.error(e);
     if ((e as Error).message === "Failed to fetch") {
       const hStr = `'${host || DefaultHost}'`;
       e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
     }
-    snackbar.show({
-      message: t`Oops, something went wrong! ${e}`,
-      placement: "bottom",
-      closeable: true,
-      autoCloseDelay: 30000,
-    });
+    snackbar.showError(e);
     if (appLoadedOnce) nav(-1);
   }
 

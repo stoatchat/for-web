@@ -104,6 +104,7 @@ export default class Instance {
       return this.client;
     }
 
+    //TODO Client.dispose() method
     this.client.events.removeAllListeners();
     this.client.removeAllListeners();
     this.client.events.disconnect();

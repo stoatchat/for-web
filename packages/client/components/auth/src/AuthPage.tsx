@@ -1,15 +1,16 @@
 import {
-  JSX,
-  Show,
   createEffect,
   createMemo,
   createSignal,
+  JSX,
   on,
   onCleanup,
   onMount,
+  Show,
 } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { Titlebar } from "@revolt/app/interface/desktop/Titlebar";
@@ -20,12 +21,10 @@ import {
 } from "@revolt/app/menus/ContextMenu";
 import { useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
+import { useModals } from "@revolt/modal";
 import { A, useLocation } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { IconButton, iconSize } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdDarkMode from "@material-design-icons/svg/filled/dark_mode.svg?component-solid";
+import { IconButton, Symbol } from "@revolt/ui";
 
 import Wordmark from "../../../public/assets/web/wordmark.svg?component-solid";
 import { AppUpsell } from "./AppUpsell";
@@ -34,16 +33,12 @@ import { BubbleMood, BubbleProvider, FlowBase, FlowBubble } from "./flows/Flow";
 import Bluesky from "./flows/bluesky.svg?component-solid";
 import GitHub from "./flows/github.svg?component-solid";
 
-const Root = styled("div", {
-  base: {
-    width: "100%",
-    height: "100%",
-    minHeight: 0,
-    color: "var(--md-sys-color-on-surface)",
-    background: "var(--md-sys-color-surface)",
-    overflowX: "hidden",
-    overflowY: "auto",
-  },
+const root = css({
+  width: "100%",
+  height: "100%",
+  minHeight: 0,
+  color: "var(--md-sys-color-on-surface)",
+  background: "var(--md-sys-color-surface)",
 });
 
 const Page = styled("main", {
@@ -103,6 +98,9 @@ const Brand = styled("div", {
     width: "132px",
     height: "auto",
 
+    display: "flex",
+    gap: "14px",
+
     "& svg": {
       width: "100%",
       height: "auto",
@@ -110,18 +108,22 @@ const Brand = styled("div", {
     },
   },
   variants: {
-    mobile: {
+    header: {
       true: {
-        display: "none",
+        width: "auto",
 
-        "@media (max-width: 900px)": {
-          display: "block",
-          width: "104px",
-          color: "var(--md-sys-color-on-surface)",
-        },
+        "& svg": {
+          display: "none",
 
-        "@media (max-width: 460px)": {
-          width: "92px",
+          "@media (max-width: 900px)": {
+            display: "block",
+            width: "104px",
+            color: "var(--md-sys-color-on-surface)",
+          },
+
+          "@media (max-width: 460px)": {
+            width: "92px",
+          },
         },
       },
     },
@@ -156,23 +158,7 @@ const Topbar = styled("header", {
     display: "flex",
     alignItems: "center",
     minHeight: "48px",
-    justifyContent: "flex-end",
-
-    "@media (max-width: 900px)": {
-      justifyContent: "space-between",
-    },
-  },
-});
-
-const TopbarActions = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-
-    "@media (max-width: 460px)": {
-      gap: "8px",
-    },
+    justifyContent: "space-between",
   },
 });
 
@@ -180,16 +166,19 @@ const AccountSwitch = styled("div", {
   base: {
     display: "flex",
     alignItems: "center",
-    gap: "12px",
     fontSize: "0.875rem",
     whiteSpace: "nowrap",
 
-    "& span": {
+    "& > span": {
       color: "var(--md-sys-color-on-surface-variant)",
+      marginRight: "12px",
     },
 
     "& a": {
-      padding: "10px 16px",
+      display: "flex",
+      alignItems: "center",
+      padding: "0 16px",
+      height: "40px",
       color: "var(--md-sys-color-primary)",
       border: "1px solid var(--md-sys-color-outline-variant)",
       borderRadius: "999px",
@@ -203,36 +192,31 @@ const AccountSwitch = styled("div", {
       borderColor: "var(--md-sys-color-primary)",
     },
 
-    "@media (max-width: 900px)": {
-      "& span": {
-        display: "none",
-      },
+    "& button": {
+      marginLeft: "14px",
+    },
 
-      "& a": {
-        padding: "8px 12px",
-      },
+    "@media (max-width: 900px)": {
+      "& > span": { display: "none" },
+      "& a": { padding: "0 12px" },
     },
 
     "@media (max-width: 460px)": {
-      "& a": {
-        fontSize: "0.78rem",
-      },
+      "& button": { marginLeft: "8px" },
     },
   },
 });
 
-const FlowWrap = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: 0,
-    overflowY: "auto",
-    padding: "32px 0",
+const flowWrap = css({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: 0,
+  overflowY: "auto",
+  padding: "32px 0",
 
-    "@media (max-width: 900px)": {
-      padding: "42px 0",
-    },
+  "@media (max-width: 900px)": {
+    padding: "42px 0",
   },
 });
 
@@ -317,6 +301,8 @@ export function AuthPage(props: { children: JSX.Element }) {
   const state = useState();
   const location = useLocation();
   const { lifecycle } = useClientLifecycle();
+  const { openModal } = useModals();
+
   const isCreate = () => location.pathname.includes("/login/create");
 
   const [typing, setTyping] = createSignal(false);
@@ -515,7 +501,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   );
 
   return (
-    <Root>
+    <div use:scrollable={{ class: root }}>
       <Titlebar />
       <Page>
         <Hero>
@@ -527,33 +513,49 @@ export function AuthPage(props: { children: JSX.Element }) {
 
         <Content>
           <Topbar>
-            <Brand mobile>
+            <Brand header>
+              <Show
+                when={
+                  (lifecycle.state() === State.Error ||
+                    lifecycle.state() === State.Ready) &&
+                  state.auth.hasMultiSession()
+                }
+              >
+                <IconButton
+                  variant="tonal"
+                  aria-label="Cancel login"
+                  onPress={() => {
+                    state.auth.popNextPath();
+                    openModal({ type: "swap_user" });
+                  }}
+                >
+                  <Symbol size={24}>arrow_back</Symbol>
+                </IconButton>
+              </Show>
               <Wordmark />
             </Brand>
 
-            <TopbarActions>
-              <AccountSwitch>
-                <Show
-                  when={isCreate()}
-                  fallback={
-                    <>
-                      <span>
-                        <Trans>New to Stoat?</Trans>
-                      </span>
-                      <A href="/login/create">
-                        <Trans>Create account</Trans>
-                      </A>
-                    </>
-                  }
-                >
-                  <span>
-                    <Trans>Already have an account?</Trans>
-                  </span>
-                  <A href="/login/auth">
-                    <Trans>Log in</Trans>
-                  </A>
-                </Show>
-              </AccountSwitch>
+            <AccountSwitch>
+              <Show
+                when={isCreate()}
+                fallback={
+                  <>
+                    <span>
+                      <Trans>New to Stoat?</Trans>
+                    </span>
+                    <A href="/login/create">
+                      <Trans>Create account</Trans>
+                    </A>
+                  </>
+                }
+              >
+                <span>
+                  <Trans>Already have an account?</Trans>
+                </span>
+                <A href="/login/auth">
+                  <Trans>Log in</Trans>
+                </A>
+              </Show>
 
               <IconButton
                 variant="tonal"
@@ -564,12 +566,14 @@ export function AuthPage(props: { children: JSX.Element }) {
                   )
                 }
               >
-                <MdDarkMode {...iconSize("20px")} />
+                <Symbol size={20} fill>
+                  dark_mode
+                </Symbol>
               </IconButton>
-            </TopbarActions>
+            </AccountSwitch>
           </Topbar>
 
-          <FlowWrap>
+          <div use:scrollable={{ class: flowWrap }}>
             <FlowStack>
               <FlowBubble
                 ref={bubbleElement}
@@ -625,7 +629,7 @@ export function AuthPage(props: { children: JSX.Element }) {
                 </BubbleProvider>
               </div>
             </FlowStack>
-          </FlowWrap>
+          </div>
 
           <Footer>
             <nav aria-label="Legal">
@@ -658,6 +662,6 @@ export function AuthPage(props: { children: JSX.Element }) {
           </Footer>
         </Content>
       </Page>
-    </Root>
+    </div>
   );
 }

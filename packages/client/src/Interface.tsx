@@ -32,7 +32,7 @@ const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
   const { openModal } = useModals();
-  const { isLoggedIn, lifecycle } = useClientLifecycle();
+  const { isLoggedIn, isSwapping, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
   useBeforeLeave((e) => {
@@ -47,9 +47,8 @@ const Interface = (props: { children: JSX.Element }) => {
   });
 
   createEffect(() => {
-    if (!isLoggedIn()) {
-      state.layout.setNextPath(pathname);
-      console.debug("WAITING... currently", lifecycle.state());
+    if (!isLoggedIn() && !isSwapping()) {
+      state.auth.setNextPath(pathname);
     }
   });
 
