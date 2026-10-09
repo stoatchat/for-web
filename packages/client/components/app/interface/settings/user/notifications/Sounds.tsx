@@ -15,6 +15,8 @@ import {
 
 import MdVolumeUp from "@material-design-icons/svg/outlined/volume_up.svg?component-solid";
 
+const categoryIconButton = { fill: "var(--md-sys-color-on-surface-container)" };
+
 export default function Sounds() {
   const { settings, sounds } = useState();
   const soundController = useSound();
@@ -37,6 +39,7 @@ export default function Sounds() {
             <Content>
               <Trans>Message Received</Trans>{" "}
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("message", true)}
                 use:floating={{
                   tooltip: {
@@ -57,6 +60,7 @@ export default function Sounds() {
             <Content>
               <Trans>Mute</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("mute", true)}
                 use:floating={{
                   tooltip: {
@@ -77,6 +81,7 @@ export default function Sounds() {
             <Content>
               <Trans>Unmute</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("unmute", true)}
                 use:floating={{
                   tooltip: {
@@ -97,6 +102,7 @@ export default function Sounds() {
             <Content>
               <Trans>Deafen</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("deafen", true)}
                 use:floating={{
                   tooltip: {
@@ -117,6 +123,7 @@ export default function Sounds() {
             <Content>
               <Trans>Undeafen</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("undeafen", true)}
                 use:floating={{
                   tooltip: {
@@ -147,6 +154,7 @@ export default function Sounds() {
             <Content>
               <Trans>User Joined Call</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("userJoinVoice", true)}
                 use:floating={{
                   tooltip: {
@@ -167,6 +175,7 @@ export default function Sounds() {
             <Content>
               <Trans>User Left Call</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() =>
                   soundController.playSound("userLeaveVoice", true)
                 }
@@ -189,6 +198,7 @@ export default function Sounds() {
             <Content>
               <Trans>Stream Start</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("streamStart", true)}
                 use:floating={{
                   tooltip: {
@@ -209,6 +219,7 @@ export default function Sounds() {
             <Content>
               <Trans>Stream End</Trans>
               <IconButton
+                style={categoryIconButton}
                 onPress={() => soundController.playSound("streamEnd", true)}
                 use:floating={{
                   tooltip: {
