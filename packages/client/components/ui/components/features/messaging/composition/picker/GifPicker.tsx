@@ -1,17 +1,17 @@
 import {
   For,
   Match,
+  Setter,
   Show,
   Suspense,
   Switch,
-  createContext,
   createEffect,
   createMemo,
   createSignal,
   useContext,
 } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
 import { styled } from "styled-system/jsx";
 
@@ -29,6 +29,7 @@ import {
 } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { GifFavouriter, GifFavouriterHolder } from "../../elements/Embed";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
 /**
@@ -53,16 +54,18 @@ type GifResult = {
   media_formats: Record<"webm" | "tinywebm", { url: string }>;
 };
 
-const FilterContext = createContext<(value: string) => void>();
-
 export function GifPicker() {
   const { isMobile } = useDevice();
+  const { favourites } = useState();
+  const { t } = useLingui();
   const [filter, setFilter] = createSignal("");
   const [debouncedFilter, setDebouncedFilter] = createSignal("");
+  const [showFavourites, setShowFavourites] = createSignal(false);
 
   const clearFilter = () => {
     setFilter("");
     setDebouncedFilter("");
+    setShowFavourites(false);
   };
   const delayedSetFilter = debounce(setDebouncedFilter, 250);
   createEffect(() => {
@@ -75,7 +78,7 @@ export function GifPicker() {
     <Stack>
       <GifboxExplainer />
       <SearchArea>
-        <Show when={filter()}>
+        <Show when={filter() || showFavourites()}>
           <span
             onMouseDown={(e) => {
               e.preventDefault();
@@ -92,24 +95,46 @@ export function GifPicker() {
             </IconButton>
           </span>
         </Show>
-        <TextField
-          autoFocus={!isMobile}
-          variant="outlined"
-          placeholder="Search for GIFs..."
-          value={filter()}
-          onInput={(e) => setFilter(e.currentTarget.value)}
-        />
+        <Show
+          when={!showFavourites()}
+          fallback={
+            <Text class="title" size="medium">
+              <Trans>Favourites</Trans>
+            </Text>
+          }
+        >
+          <TextField
+            autoFocus={!isMobile}
+            variant="outlined"
+            placeholder={t`Search for GIFs...`}
+            value={filter()}
+            onInput={(e) => setFilter(e.currentTarget.value)}
+          />
+        </Show>
       </SearchArea>
       <Suspense fallback={<Loader />}>
         <Switch
           fallback={
-            <FilterContext.Provider value={setFilter}>
-              <Categories />
-            </FilterContext.Provider>
+            <Categories
+              setFilter={setFilter}
+              setShowFavourites={setShowFavourites}
+            />
           }
         >
           <Match when={debouncedFilterLowercase()}>
             <GifSearch query={debouncedFilterLowercase()} />
+          </Match>
+          <Match when={showFavourites()}>
+            <GifLayout
+              data={favourites.gifs().map((gif) => ({
+                url: gif.url,
+                media_formats: {
+                  webm: { url: gif.preview },
+                  tinywebm: { url: gif.preview },
+                },
+              }))}
+              showingFavourites={showFavourites()}
+            />
           </Match>
         </Switch>
       </Suspense>
@@ -221,6 +246,8 @@ const SearchArea = styled("div", {
     alignItems: "center",
     gap: "var(--gap-sm)",
     paddingInline: "var(--gap-md)",
+    // Size of text field, put here to make favourites title take same height
+    minHeight: "54px",
 
     "& > *:last-child": {
       flexGrow: 1,
@@ -324,16 +351,18 @@ type CategoryItem =
     }
   | {
       /**
-       * Trending entry
+       * Trending or Favourites entry
        */
       t: 1;
+      id: string;
     };
 
-function Categories() {
+function Categories(props: {
+  setFilter: Setter<string>;
+  setShowFavourites: Setter<boolean>;
+}) {
   const client = useClient();
   const instance = useInstance();
-
-  const setFilter = useContext(FilterContext);
 
   const trendingCategories = useQuery<GifCategory[]>(() => ({
     queryKey: ["trendingGifCategories"],
@@ -356,7 +385,8 @@ function Categories() {
   const items = createMemo(
     () =>
       [
-        { t: 1 },
+        { t: 1, id: "favourites" },
+        { t: 1, id: "trending" },
         ...(Array.isArray(trendingCategories.data)
           ? trendingCategories.data.map((category) => ({ t: 0, category }))
           : []),
@@ -378,7 +408,11 @@ function Categories() {
                   : undefined
               }
               onClick={() =>
-                setFilter!(item.t === 0 ? item.category.title : "trending")
+                item.t === 1 && item.id === "favourites"
+                  ? props.setShowFavourites(true)
+                  : props.setFilter!(
+                      item.t === 0 ? item.category.title : "trending",
+                    )
               }
               onMouseDown={(e) => {
                 e.preventDefault();
@@ -390,6 +424,9 @@ function Categories() {
                 <Switch fallback={<Trans>Trending GIFs</Trans>}>
                   <Match when={item.t === 0}>
                     {(item as CategoryItem & { t: 0 }).category.title}
+                  </Match>
+                  <Match when={item.t === 1 && item.id === "favourites"}>
+                    <Trans>Favourites</Trans>
                   </Match>
                 </Switch>
               </Label>
@@ -452,8 +489,6 @@ function GifSearch(props: { query: string }) {
   const client = useClient();
   const instance = useInstance();
 
-  const { onMessage } = useContext(CompositionMediaPickerContext);
-
   const search = useQuery<GifResult[]>(() => ({
     queryKey: ["gifs", props.query],
     queryFn: () => {
@@ -513,37 +548,69 @@ function GifSearch(props: { query: string }) {
         </Centered>
       }
     >
-      <Scroller>
-        <Masonry role="list">
-          <For each={search.data}>
-            {(gif) => (
-              <GifTile
-                role="listitem"
-                tabIndex={0}
-                onClick={() => onMessage(gif.url)}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  e.stopImmediatePropagation();
-                }}
-              >
-                <video
-                  playsinline
-                  loop
-                  autoplay
-                  muted
-                  src={gif.media_formats.tinywebm.url}
+      <GifLayout data={search.data} />
+    </Show>
+  );
+}
+
+function GifLayout(props: { data?: GifResult[]; showingFavourites?: boolean }) {
+  const { onMessage } = useContext(CompositionMediaPickerContext);
+
+  return (
+    <Scroller>
+      <Masonry role="list">
+        <For each={props.data}>
+          {(gif) => (
+            <GifTile
+              role="listitem"
+              tabIndex={0}
+              onClick={() => onMessage(gif.url)}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+              }}
+            >
+              <GifFavouriterHolder>
+                <GifFavouriter
+                  url={gif.url}
+                  preview={gif.media_formats.tinywebm.url}
                 />
-              </GifTile>
-            )}
-          </For>
-        </Masonry>
-        <EndOfResults
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-          }}
+                <Show
+                  when={gif.media_formats.tinywebm.url.includes("/proxy?url=")}
+                  fallback={
+                    <video
+                      playsinline
+                      loop
+                      autoplay
+                      muted
+                      src={gif.media_formats.tinywebm.url}
+                    />
+                  }
+                >
+                  {/* This is a dirty hack to detect proxy. This shouldn't be needed.
+                      TODO: Remove once gifbox embeds are fixed. (53) */}
+                  <img loading="lazy" src={gif.media_formats.tinywebm.url} />
+                </Show>
+              </GifFavouriterHolder>
+            </GifTile>
+          )}
+        </For>
+      </Masonry>
+      <EndOfResults
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+        }}
+      >
+        <Show
+          when={!props.showingFavourites}
+          fallback={
+            <ExplainerBody>
+              <Trans>Click the star on gifs to stash them here.</Trans>
+            </ExplainerBody>
+          }
         >
           <ExplainerBody>
             <Trans>Got a better GIF? Share it with everyone on Gifbox.</Trans>
@@ -558,9 +625,9 @@ function GifSearch(props: { query: string }) {
               <Trans>Upload to Gifbox</Trans>
             </Button>
           </ButtonSpacing>
-        </EndOfResults>
-      </Scroller>
-    </Show>
+        </Show>
+      </EndOfResults>
+    </Scroller>
   );
 }
 
@@ -601,6 +668,12 @@ const GifTile = styled("div", {
     breakInside: "avoid",
 
     "& video": {
+      width: "100%",
+      height: "auto",
+      display: "block",
+    },
+
+    "& img": {
       width: "100%",
       height: "auto",
       display: "block",
