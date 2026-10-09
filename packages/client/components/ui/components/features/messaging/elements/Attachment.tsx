@@ -32,9 +32,13 @@ export const AttachmentContainer = styled(Column, {
   },
   variants: {
     dynamic: {
-      true: {
+      grow: {
         width: "auto",
         minWidth: "min(420px, 100%)",
+      },
+      shrink: {
+        width: "auto",
+        maxWidth: "min(420px, 100%)",
       },
     },
   },
@@ -123,12 +127,12 @@ export function Attachment(props: { file: File; message?: Message }) {
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "File"}>
-        <AttachmentContainer>
+        <AttachmentContainer dynamic="shrink">
           <FileInfo file={props.file} />
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "Text"}>
-        <AttachmentContainer dynamic>
+        <AttachmentContainer dynamic="grow">
           <FileInfo file={props.file} />
           <TextFile file={props.file} />
         </AttachmentContainer>
