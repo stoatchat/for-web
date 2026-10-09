@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.16.2](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.1...stoat-for-web-v0.16.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* break out of nested client when Discover iframe navigates to the app ([#1711](https://github.com/stoatchat/for-web/issues/1711)) ([fba5de3](https://github.com/stoatchat/for-web/commit/fba5de33c3572f3ed5c9d31b00842473c590dc1e))
+* Channel will no longer be stuck when moving back and forth ([#1699](https://github.com/stoatchat/for-web/issues/1699)) ([91397cd](https://github.com/stoatchat/for-web/commit/91397cd6db14ff04b6971643104aef38a50278eb))
+* scrollToNearestMessage handles message not found ([#1718](https://github.com/stoatchat/for-web/issues/1718)) ([8cd4875](https://github.com/stoatchat/for-web/commit/8cd48758a419e1f679c9f12cdb219821c5ca6553))
+* **ui:** suppress ping badges in muted channels  ([#1688](https://github.com/stoatchat/for-web/issues/1688)) ([398c8a5](https://github.com/stoatchat/for-web/commit/398c8a51d57100af522bcbc583190c26009c1e9c))
+* Update stoatjs for better websocket handling, less reconnects ([#1707](https://github.com/stoatchat/for-web/issues/1707)) ([019e27d](https://github.com/stoatchat/for-web/commit/019e27daf4f9987fcca2a28bdd9fb20829b787e2))
+
 ## [0.16.1](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.0...stoat-for-web-v0.16.1) (2026-10-01)
 
 
