@@ -90,7 +90,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    */
   async save(client: Client) {
     // find all keys for sync
-    const keys = [...this.#syncQueue.keys()];
+    const keys = this.#syncQueue.keys().toArray();
 
     // due to API constraints, merge ts down
     const ts = +new Date();

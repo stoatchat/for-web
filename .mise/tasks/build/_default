@@ -4,4 +4,5 @@
 #MISE wait_for=["build:deps"]
 set -e
 
-pnpm --filter client exec vite build
+# plugin-legacy's polyfill detection needs more than Node's default heap
+NODE_OPTIONS=--max-old-space-size=4096 pnpm --filter client exec vite build
