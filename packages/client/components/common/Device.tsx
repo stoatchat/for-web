@@ -82,7 +82,45 @@ export class Device {
     if (this.isPWA && navigator.virtualKeyboard) {
       navigator.virtualKeyboard.overlaysContent = true;
     }
+
+    if (this.isIOSTouch && window.visualViewport) {
+      this.trackKeyboard(window.visualViewport);
+    }
   }
+
+  /**
+   * Track visible viewport on iOS to adjust layout when on-screen keyboard opens
+   */
+  private trackKeyboard(viewport: VisualViewport) {
+    const update = () => {
+      const keyboardHeight = Math.max(
+        0,
+        document.documentElement.clientHeight -
+          viewport.height -
+          viewport.offsetTop,
+      );
+
+      const style = document.documentElement.style;
+      style.setProperty("--keyboard-inset", `${keyboardHeight}px`);
+
+      // Safari may still pan the visible area down when focusing an input,
+      // so follow it rather than letting the header slide off screen
+      style.setProperty(
+        "--viewport-offset-top",
+        `${Math.max(0, viewport.offsetTop)}px`,
+      );
+    };
+
+    viewport.addEventListener("resize", update);
+    viewport.addEventListener("scroll", update);
+
+    this.untrackKeyboard = () => {
+      viewport.removeEventListener("resize", update);
+      viewport.removeEventListener("scroll", update);
+    };
+  }
+
+  private untrackKeyboard?: () => void;
 
   onLayout = () => {
     this.setLayout(
@@ -96,6 +134,7 @@ export class Device {
 
   destroy = () => {
     this.pMedia.onchange = this.tMedia.onchange = null;
+    this.untrackKeyboard?.();
   };
 
   get isWakeLocked(): boolean {
