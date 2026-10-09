@@ -51,7 +51,7 @@ export function MFAFlowModal(
 
   // Fetch available methods if they have not been provided.
   onMount(() => {
-    if (!methods() && props.state === "known") {
+    if (!methods() && props.state !== "unknown") {
       setMethods(props.mfa.availableMethods);
     }
   });
