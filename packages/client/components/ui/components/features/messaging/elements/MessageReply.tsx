@@ -90,28 +90,39 @@ const Attachments = styled("em", {
   },
 });
 
-/**
- * Link styling
- */
 const Link = styled("a", {
   base: {
     display: "flex",
     minWidth: 0,
-    alignItems: "center",
     gap: "var(--gap-md)",
+    marginInlineEnd: "var(--gap-lg)",
   },
 });
+
+const ReplyMax = 128,
+  URLClip = ReplyMax + 8,
+  R_Trim = /\s+/g,
+  R_LastURL = /(?:^|\s)https?:\/\/[\w_.~!*''();:@&=+$,/?#[%-]+([\s\S]{0,7})$/,
+  R_URLEnd = /^[\w_.~!*''();:@&=+$,/?#[%-]+/;
 
 /**
  * Message being replied to
  */
 export function MessageReply(props: Props) {
   const renderReplyContent = (content: string) => {
-    if (content.length > 128) {
-      content = content.slice(0, 128) + "...";
+    if (content.length > ReplyMax) {
+      const cut = content.slice(0, URLClip);
+      let match, len;
+
+      //Clip without interrupting links
+      content =
+        (match = cut.match(R_LastURL)) && //Has URL at end
+        (match[1] || (len = content.slice(URLClip).match(R_URLEnd)?.[0].length)) //Remaining length
+          ? content.slice(0, URLClip + (len || -match[1].length)) + " ..." //Ensure full link
+          : cut.slice(0, ReplyMax) + "..."; //No link
     }
 
-    return renderSimpleMarkdown(content.replace(/\n/g, " "));
+    return renderSimpleMarkdown(content.replace(R_Trim, " "));
   };
 
   return (
