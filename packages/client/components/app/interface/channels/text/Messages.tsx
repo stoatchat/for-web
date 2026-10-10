@@ -129,6 +129,19 @@ export function Messages(props: Props) {
   const [failure, setFailure] = createSignal(false);
 
   /**
+   * Whether the first render pass has settled
+   *
+   * The skeletons in ListView2 are watching for intersections. This flag
+   * prevents them from listening for the first render.
+   */
+  const [renderSettled, setRenderSettled] = createSignal(false);
+
+  // Immediately set render settled to true after first render
+  setTimeout(() => {
+    setRenderSettled(true);
+  });
+
+  /**
    * Collect messages during fetches
    *
    * The new message handler should write into this if it
@@ -947,7 +960,7 @@ export function Messages(props: Props) {
         fetchBottom={caseFetchDownwards}
         atStart={atStart}
         atEnd={atEnd}
-        permitFetching={() => typeof fetching() !== "string"}
+        permitFetching={() => typeof fetching() !== "string" && renderSettled()}
       >
         <Deferred>
           <div ref={setListRef}>
