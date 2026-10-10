@@ -379,4 +379,7 @@ export type Modals =
       files: File[];
       resolve: (files: File[] | null) => void;
       maxSize: number | undefined;
+    }
+  | {
+      type: "search";
     };
