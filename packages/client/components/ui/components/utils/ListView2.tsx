@@ -58,6 +58,8 @@ interface Props {
   permitFetching: Accessor<boolean>;
 }
 
+const SCROLL_SETTLE_MS = 150;
+
 /**
  * Dynamic list view with ability to move through history
  *
@@ -66,8 +68,30 @@ interface Props {
 export function ListView2(props: Props) {
   let ref: HTMLDivElement | undefined;
 
-  function consumeDOMUpdate(update?: ListView2Update) {
+  // Track touch scrolling to avoid programmatic scroll corrections mid-momentum on iOS
+  let activeTouches = 0;
+  let lastTouchScroll = 0;
+
+  function isTouchScrolling() {
+    return (
+      activeTouches > 0 ||
+      performance.now() - lastTouchScroll < SCROLL_SETTLE_MS
+    );
+  }
+
+  async function waitForTouchScrollToSettle() {
+    while (isTouchScrolling()) {
+      await new Promise((resolve) => setTimeout(resolve, SCROLL_SETTLE_MS));
+    }
+  }
+
+  // Stop any pending settle wait from outliving the component
+  onCleanup(() => (activeTouches = 0));
+
+  async function consumeDOMUpdate(update?: ListView2Update) {
     if (!update) return;
+
+    await waitForTouchScrollToSettle();
 
     const currentRect = update.scrollAnchorId
       ? document.getElementById(update.scrollAnchorId)?.getBoundingClientRect()
@@ -114,7 +138,20 @@ export function ListView2(props: Props) {
       // Account for https://issues.chromium.org/issues/40829494
       // Chromium based browsers (read: Chrome and Electron) will overscroll on reverse column flexboxes
       // breaking automatic scrolling when adding new messages. This caps the scrolltop at 0 (it's negative.)
+      onTouchStart={(e) => (activeTouches = e.touches.length)}
+      onTouchEnd={(e) => {
+        activeTouches = e.touches.length;
+        lastTouchScroll = performance.now();
+      }}
+      onTouchCancel={(e) => (activeTouches = e.touches.length)}
       onScroll={(e) => {
+        if (isTouchScrolling()) {
+          // keep extending the settle window while momentum continues,
+          // and leave the scroll position alone so iOS can rubber-band
+          lastTouchScroll = performance.now();
+          return;
+        }
+
         if (e.target.scrollTop > 0) {
           e.target.scrollTop = 0;
         }
@@ -284,6 +321,7 @@ const container = cva({
       true: {
         height: "100%",
         flexGrow: 1,
+        overscrollBehaviorY: "contain",
       },
     },
   },
