@@ -4,6 +4,7 @@ packages:
   - packages/solid-livekit-components
 allowBuilds:
   "@swc/core": true
+  core-js: false
   esbuild: true
 minimumReleaseAgeExclude:
   - stoat-api
