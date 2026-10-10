@@ -69,11 +69,14 @@ export function ListView2(props: Props) {
   let ref: HTMLDivElement | undefined;
 
   // Track touch scrolling to avoid programmatic scroll corrections mid-momentum on iOS
-  let touching = false;
+  let activeTouches = 0;
   let lastTouchScroll = 0;
 
   function isTouchScrolling() {
-    return touching || performance.now() - lastTouchScroll < SCROLL_SETTLE_MS;
+    return (
+      activeTouches > 0 ||
+      performance.now() - lastTouchScroll < SCROLL_SETTLE_MS
+    );
   }
 
   async function waitForTouchScrollToSettle() {
@@ -81,6 +84,9 @@ export function ListView2(props: Props) {
       await new Promise((resolve) => setTimeout(resolve, SCROLL_SETTLE_MS));
     }
   }
+
+  // Stop any pending settle wait from outliving the component
+  onCleanup(() => (activeTouches = 0));
 
   async function consumeDOMUpdate(update?: ListView2Update) {
     if (!update) return;
@@ -132,14 +138,14 @@ export function ListView2(props: Props) {
       // Account for https://issues.chromium.org/issues/40829494
       // Chromium based browsers (read: Chrome and Electron) will overscroll on reverse column flexboxes
       // breaking automatic scrolling when adding new messages. This caps the scrolltop at 0 (it's negative.)
-      onTouchStart={() => (touching = true)}
-      onTouchEnd={() => {
-        touching = false;
+      onTouchStart={(e) => (activeTouches = e.touches.length)}
+      onTouchEnd={(e) => {
+        activeTouches = e.touches.length;
         lastTouchScroll = performance.now();
       }}
-      onTouchCancel={() => (touching = false)}
+      onTouchCancel={(e) => (activeTouches = e.touches.length)}
       onScroll={(e) => {
-        if (touching || isTouchScrolling()) {
+        if (isTouchScrolling()) {
           // keep extending the settle window while momentum continues,
           // and leave the scroll position alone so iOS can rubber-band
           lastTouchScroll = performance.now();
