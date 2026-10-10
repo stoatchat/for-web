@@ -5,4 +5,4 @@
 set -e
 
 # plugin-legacy's polyfill detection needs more than Node's default heap
-NODE_OPTIONS=--max-old-space-size=4096 pnpm --filter client exec vite build
+NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=4096" pnpm --filter client exec vite build

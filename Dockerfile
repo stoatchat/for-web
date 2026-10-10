@@ -46,7 +46,7 @@ ENV BASE_PATH=${BASE_PATH}
 ENV PWA_SCOPE=${PWA_SCOPE}
 
 # plugin-legacy's polyfill detection needs more than Node's default heap
-RUN NODE_OPTIONS=--max-old-space-size=4096 pnpm --filter client exec vite build
+RUN NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--max-old-space-size=4096" pnpm --filter client exec vite build
 
 # ============================================
 # Stage 2: Minimal runtime image

@@ -34,11 +34,12 @@ export default defineConfig({
     }),
     addFontPreload(),
     legacy({
-      // iPad 6 and similar devices can't update past iPadOS 17
+      // Chrome, Edge and Firefox are set by Uint8Array.prototype.toBase64.
+      // Safari stays at 17 on purpose: iPad 6 and similar devices can't update past iPadOS 17
       modernTargets: [
-        "chrome >= 120",
-        "edge >= 120",
-        "firefox >= 120",
+        "chrome >= 140",
+        "edge >= 140",
+        "firefox >= 133",
         "safari >= 17",
         "ios_saf >= 17",
       ],
