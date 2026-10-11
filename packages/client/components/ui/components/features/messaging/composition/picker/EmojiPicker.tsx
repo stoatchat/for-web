@@ -137,6 +137,8 @@ export function EmojiPicker(props: { channel?: Channel }) {
 
     const filterText = filter().toLowerCase();
 
+    const favEmojis = favouriteEmojis();
+
     if (filterText) {
       return [
         ...servers().flatMap((server) =>
@@ -162,8 +164,6 @@ export function EmojiPicker(props: { channel?: Channel }) {
     }
 
     const items: Item[] = [];
-
-    const favEmojis = favouriteEmojis();
 
     if (favEmojis.length > 0) {
       items.push({
