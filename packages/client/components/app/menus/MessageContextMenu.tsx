@@ -27,13 +27,15 @@ import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-s
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
-import { useSnackbar } from "@revolt/ui";
+import { Symbol, useSnackbar } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
   ContextMenuDivider,
   ContextMenuSubMenu,
 } from "./ContextMenu";
+
+// TODO: This context menu should really be split out into two, a message and a file menu.
 
 /**
  * Context menu for messages
@@ -42,6 +44,11 @@ export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
   file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
+  favourite?: {
+    url: string;
+    name: string;
+    preview: string;
+  };
   link?: string;
 }) {
   const user = useUser();
@@ -251,6 +258,37 @@ export function MessageContextMenu(props: {
   return (
     <ContextMenu>
       <Show when={props.file}>
+        <Show when={props.favourite}>
+          {(favourite) => (
+            <>
+              <ContextMenuButton
+                icon={
+                  <Symbol
+                    size={16}
+                    fill={!state.favourites.hasGif(favourite().url)}
+                  >
+                    star
+                  </Symbol>
+                }
+                onClick={() =>
+                  state.favourites.toggleGif(
+                    favourite().url,
+                    favourite().name,
+                    favourite().preview,
+                  )
+                }
+              >
+                <Show
+                  when={state.favourites.hasGif(favourite().url)}
+                  fallback={<Trans>Favourite gif</Trans>}
+                >
+                  <Trans>Unfavourite gif</Trans>
+                </Show>
+              </ContextMenuButton>
+              <ContextMenuDivider />
+            </>
+          )}
+        </Show>
         <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
           <Trans>Open file</Trans>
         </ContextMenuButton>

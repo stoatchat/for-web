@@ -13,7 +13,7 @@ import { isGifBox, isGif as isGifLib } from "@revolt/common/lib/gifs";
 import { useModals } from "@revolt/modal";
 import { SizedContent, Symbol } from "@revolt/ui/components/utils";
 
-import { MessageContextMenu } from "@revolt/app";
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useState } from "@revolt/state";
 import { styled } from "styled-system/jsx";
 import { TextEmbed } from "./TextEmbed";
@@ -23,6 +23,7 @@ import { TextEmbed } from "./TextEmbed";
  */
 export function Embed(props: { embed: MessageEmbed }) {
   const { openModal } = useModals();
+  const { message, reactPicker } = useMessage();
 
   /**
    * Whether the embed is a GIF
@@ -37,6 +38,12 @@ export function Embed(props: { embed: MessageEmbed }) {
         ? asWebsiteEmbed().originalUrl
         : (video()?.url ?? image()?.url)
       : undefined;
+
+  // Needed because gifbox doesn't embed correctly.
+  const gifPreviewURL = () =>
+    isGIF() && !isGifBox(props.embed)
+      ? video()?.url || image()!.url
+      : video()?.proxiedURL || image()!.proxiedURL;
 
   /**
    * Whether there is a video
@@ -59,14 +66,7 @@ export function Embed(props: { embed: MessageEmbed }) {
       <Match when={image()}>
         <SizedContent width={image()!.width} height={image()!.height}>
           <GifFavouriterHolder>
-            <GifFavouriter
-              url={gifFavouriteURL()}
-              preview={
-                isGIF() && !isGifBox(props.embed)
-                  ? image()!.url
-                  : image()!.proxiedURL
-              }
-            />
+            <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
             <img
               // bypass proxy for known GIF providers
               // TODO: Remove the Gifbox check here once gifbox embeds are fixed
@@ -76,7 +76,18 @@ export function Embed(props: { embed: MessageEmbed }) {
                   : image()!.proxiedURL
               }
               use:floating={{
-                contextMenu: () => <MessageContextMenu file={image()} />,
+                contextMenu: () => (
+                  <MessageContextMenu
+                    message={message}
+                    reactPicker={reactPicker}
+                    file={image()}
+                    favourite={{
+                      url: gifFavouriteURL()!,
+                      name: gifFavouriteURL()!,
+                      preview: gifPreviewURL()!,
+                    }}
+                  />
+                ),
               }}
               loading="lazy"
               class={css({ cursor: "pointer" })}
@@ -93,14 +104,7 @@ export function Embed(props: { embed: MessageEmbed }) {
       <Match when={video()}>
         <SizedContent width={video()!.width} height={video()!.height}>
           <GifFavouriterHolder>
-            <GifFavouriter
-              url={gifFavouriteURL()}
-              preview={
-                isGIF() && !isGifBox(props.embed)
-                  ? video()!.url
-                  : video()!.proxiedURL
-              }
-            />
+            <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
             <video
               playsinline
               loop={isGIF()}
@@ -116,7 +120,18 @@ export function Embed(props: { embed: MessageEmbed }) {
                   : video()!.proxiedURL
               }
               use:floating={{
-                contextMenu: () => <MessageContextMenu file={video()} />,
+                contextMenu: () => (
+                  <MessageContextMenu
+                    message={message}
+                    reactPicker={reactPicker}
+                    file={video()}
+                    favourite={{
+                      url: gifFavouriteURL()!,
+                      name: gifFavouriteURL()!,
+                      preview: gifPreviewURL()!,
+                    }}
+                  />
+                ),
               }}
               class={css({ cursor: isGIF() ? "pointer" : "unset" })}
               onClick={() =>
@@ -146,14 +161,7 @@ export function GifFavouriter(props: { url?: string; preview?: string }) {
   return (
     <Show when={props.url}>
       {(url) => (
-        <span
-          style={{
-            position: "absolute",
-            margin: "15px",
-            padding: "var(--gap-sm)",
-            "background-color": "var(--md-sys-color-surface-container-high)",
-            "border-radius": "var(--borderRadius-sm)",
-          }}
+        <GifFavouriterSpan
           onClick={(e) => {
             e.stopPropagation();
             favourites.toggleGif(url(), url(), props.preview);
@@ -165,11 +173,21 @@ export function GifFavouriter(props: { url?: string; preview?: string }) {
           }}
         >
           <Symbol fill={favourites.hasGif(url())}>star</Symbol>
-        </span>
+        </GifFavouriterSpan>
       )}
     </Show>
   );
 }
+
+const GifFavouriterSpan = styled("span", {
+  base: {
+    position: "absolute",
+    margin: "15px",
+    padding: "var(--gap-sm)",
+    backgroundColor: "var(--md-sys-color-surface-container-high)",
+    borderRadius: "var(--borderRadius-sm)",
+  },
+});
 
 export const GifFavouriterHolder = styled("div", {
   base: {
