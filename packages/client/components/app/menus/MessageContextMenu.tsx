@@ -46,8 +46,8 @@ export function MessageContextMenu(props: {
   file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
   favourite?: {
     url: string;
-    name: string;
-    preview: string;
+    name?: string;
+    preview?: string;
   };
   link?: string;
 }) {

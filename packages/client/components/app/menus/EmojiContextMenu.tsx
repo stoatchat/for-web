@@ -10,12 +10,7 @@ export function EmojiContextMenu(props: { id: string }) {
   const { favourites } = useState();
 
   return (
-    <ContextMenu
-      // Prevent context menu closing the picker. This is here to reduce scope
-      // of the change, if it's needed elsewhere it can be lifted into the
-      // ContextMenu Base component.
-      onmousedown={(e) => e.stopPropagation()}
-    >
+    <ContextMenu>
       <ContextMenuButton
         symbol={
           <Symbol fill={!favourites.emojis().includes(props.id)}>star</Symbol>

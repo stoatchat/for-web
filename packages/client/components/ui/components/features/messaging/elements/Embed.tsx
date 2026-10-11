@@ -95,6 +95,7 @@ export function Embed(props: { embed: MessageEmbed }) {
                 openModal({
                   type: "image_viewer",
                   embed: image(),
+                  gifURL: isGifBox(props.embed) ? gifFavouriteURL() : undefined,
                 })
               }
             />
@@ -139,6 +140,7 @@ export function Embed(props: { embed: MessageEmbed }) {
                 openModal({
                   type: "image_viewer",
                   gif: video(),
+                  gifURL: gifFavouriteURL(),
                 })
               }
             />

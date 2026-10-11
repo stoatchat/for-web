@@ -38,6 +38,8 @@ export function ContextMenu(props: ComponentProps<typeof Base>) {
     <Base
       // prevent context menu closing itself before click event
       onpointerdown={(e) => e.stopImmediatePropagation()}
+      // Prevent context menu closing the picker.
+      onmousedown={(e) => e.stopPropagation()}
       {...props}
     />
   );

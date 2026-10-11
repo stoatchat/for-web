@@ -29,6 +29,8 @@ import {
 } from "@revolt/ui/components/design";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
+import { MessageContextMenu } from "@revolt/app/menus/MessageContextMenu";
+import { ImageEmbed, VideoEmbed } from "stoat.js";
 import { GifFavouriter, GifFavouriterHolder } from "../../elements/Embed";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
@@ -555,6 +557,7 @@ function GifSearch(props: { query: string }) {
 
 function GifLayout(props: { data?: GifResult[]; showingFavourites?: boolean }) {
   const { onMessage } = useContext(CompositionMediaPickerContext);
+  const client = useClient();
 
   return (
     <Scroller>
@@ -585,12 +588,50 @@ function GifLayout(props: { data?: GifResult[]; showingFavourites?: boolean }) {
                       autoplay
                       muted
                       src={gif.media_formats.tinywebm.url}
+                      use:floating={{
+                        contextMenu: () => (
+                          <MessageContextMenu
+                            file={
+                              new VideoEmbed(client(), {
+                                url: gif.media_formats.tinywebm.url,
+                                width: 0,
+                                height: 0,
+                              })
+                            }
+                            favourite={{
+                              url: gif.url,
+                              preview: gif.media_formats.tinywebm.url,
+                            }}
+                          />
+                        ),
+                      }}
                     />
                   }
                 >
                   {/* This is a dirty hack to detect proxy. This shouldn't be needed.
                       TODO: Remove once gifbox embeds are fixed. (53) */}
-                  <img loading="lazy" src={gif.media_formats.tinywebm.url} />
+                  <img
+                    loading="lazy"
+                    src={gif.media_formats.tinywebm.url}
+                    use:floating={{
+                      contextMenu: () => (
+                        <MessageContextMenu
+                          file={
+                            new ImageEmbed(client(), {
+                              url: gif.media_formats.tinywebm.url,
+                              width: 0,
+                              height: 0,
+                              size: "Preview",
+                            })
+                          }
+                          favourite={{
+                            url: gif.url,
+                            preview: gif.media_formats.tinywebm.url,
+                          }}
+                        />
+                      ),
+                    }}
+                  />
                 </Show>
               </GifFavouriterHolder>
             </GifTile>
