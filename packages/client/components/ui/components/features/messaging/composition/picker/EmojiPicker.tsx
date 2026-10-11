@@ -107,6 +107,30 @@ export function EmojiPicker(props: { channel?: Channel }) {
       : ordering.orderedServers(client()),
   );
 
+  const favouriteEmojis = () =>
+    favourites.emojis().filter((id) => {
+      if (id.length === 26) {
+        const emoji = client().emojis.get(id);
+        if (!emoji) {
+          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
+          return false;
+        }
+      }
+      return true;
+    });
+
+  const topEmoji = () =>
+    favourites.topEmoji(colCount() * 3).filter((id) => {
+      if (id.length === 26) {
+        const emoji = client().emojis.get(id);
+        if (!emoji) {
+          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
+          return false;
+        }
+      }
+      return true;
+    });
+
   const items = createMemo(() => {
     const cols = colCount();
     if (!cols) return [];
@@ -118,7 +142,11 @@ export function EmojiPicker(props: { channel?: Channel }) {
         ...servers().flatMap((server) =>
           server.emojis
             .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
-            .map((emoji) => ({ t: 2, emoji })),
+            .map((emoji) => ({
+              t: 2,
+              emoji,
+              favourited: favEmojis.includes(emoji.id),
+            })),
         ),
         ...EMOJI_SET.filter(
           (ed) =>
@@ -128,35 +156,16 @@ export function EmojiPicker(props: { channel?: Channel }) {
           t: 4,
           name: ed.shorthands[0],
           text: ed.emoji,
+          favourited: favEmojis.includes(ed.shorthands[0]),
         })),
       ] as Item[];
     }
 
     const items: Item[] = [];
 
-    const favouriteEmojis = favourites.emojis().filter((id) => {
-      if (id.length === 26) {
-        const emoji = client().emojis.get(id);
-        if (!emoji) {
-          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
-          return false;
-        }
-      }
-      return true;
-    });
+    const favEmojis = favouriteEmojis();
 
-    const topEmoji = favourites.topEmoji(cols * 3).filter((id) => {
-      if (id.length === 26) {
-        const emoji = client().emojis.get(id);
-        if (!emoji) {
-          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
-          return false;
-        }
-      }
-      return true;
-    });
-
-    if (favouriteEmojis.length > 0) {
+    if (favEmojis.length > 0) {
       items.push({
         t: 3,
         title: t`Favourites`,
@@ -169,7 +178,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
         items.push({ t: 1 });
       }
 
-      for (const id of favouriteEmojis) {
+      for (const id of favEmojis) {
         if (id.length === 26) {
           const emoji = client().emojis.get(id);
           items.push({
@@ -193,7 +202,9 @@ export function EmojiPicker(props: { channel?: Channel }) {
       }
     }
 
-    if (topEmoji.length > 0) {
+    const top = topEmoji();
+
+    if (top.length > 0) {
       items.push({
         t: 3,
         title: t`Frequently Used`,
@@ -205,13 +216,13 @@ export function EmojiPicker(props: { channel?: Channel }) {
         items.push({ t: 1 });
       }
 
-      for (const id of topEmoji) {
+      for (const id of top) {
         if (id.length === 26) {
           const emoji = client().emojis.get(id);
           items.push({
             t: 2,
             emoji: emoji!,
-            favourited: favouriteEmojis.includes(id),
+            favourited: favEmojis.includes(id),
           });
         } else {
           const emoji = getEmojiByShorthand(id)!;
@@ -219,7 +230,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
             t: 4,
             name: emoji.shorthands[0],
             text: emoji.emoji,
-            favourited: favouriteEmojis.includes(emoji.shorthands[0]),
+            favourited: favEmojis.includes(emoji.shorthands[0]),
           });
         }
       }
@@ -247,7 +258,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
         items.push({
           t: 2,
           emoji,
-          favourited: favouriteEmojis.includes(emoji.id),
+          favourited: favEmojis.includes(emoji.id),
         });
       }
 
@@ -271,7 +282,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
         t: 4,
         name: emoji.shorthands[0],
         text: emoji.emoji,
-        favourited: favouriteEmojis.includes(emoji.shorthands[0]),
+        favourited: favEmojis.includes(emoji.shorthands[0]),
       });
     }
 
@@ -303,8 +314,12 @@ export function EmojiPicker(props: { channel?: Channel }) {
         >
           <VirtualContainer
             items={[
-              { id: "favourites", symbol: "star", fill: true },
-              { id: "top", symbol: "history", fill: false },
+              ...(favouriteEmojis().length > 0
+                ? [{ id: "favourites", symbol: "star", fill: true }]
+                : []),
+              ...(topEmoji().length > 0
+                ? [{ id: "top", symbol: "history", fill: false }]
+                : []),
               ...servers().filter((s) => s.emojis.length > 0),
               // TODO: Set up emoji groupings and put them in the scroller like other platforms do
               { id: "default", symbol: "mood", fill: true },
@@ -395,7 +410,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
                           <Match when={item().t === 4}>
                             <Row align gap="sm">
                               <Show
-                                when={(item() as Item & { t: 2 }).favourited}
+                                when={(item() as Item & { t: 4 }).favourited}
                               >
                                 <Symbol fill={true}>star</Symbol>
                               </Show>

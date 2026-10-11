@@ -13,6 +13,7 @@ import { isGifBox, isGif as isGifLib } from "@revolt/common/lib/gifs";
 import { useModals } from "@revolt/modal";
 import { SizedContent, Symbol } from "@revolt/ui/components/utils";
 
+import { useLingui } from "@lingui/solid/macro";
 import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useState } from "@revolt/state";
 import { styled } from "styled-system/jsx";
@@ -159,11 +160,21 @@ export function Embed(props: { embed: MessageEmbed }) {
 
 export function GifFavouriter(props: { url?: string; preview?: string }) {
   const { favourites } = useState();
+  const { t } = useLingui();
 
   return (
     <Show when={props.url}>
       {(url) => (
         <GifFavouriterSpan
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === " " || e.key === "Enter")
+              favourites.toggleGif(url(), url(), props.preview);
+          }}
+          aria-label={
+            favourites.hasGif(url()) ? t`Unfavourite Gif` : t`Favourite Gif`
+          }
           onClick={(e) => {
             e.stopPropagation();
             favourites.toggleGif(url(), url(), props.preview);
@@ -197,6 +208,11 @@ export const GifFavouriterHolder = styled("div", {
       display: "none",
     },
     _hover: {
+      "& > span": {
+        display: "inline-block",
+      },
+    },
+    _focusWithin: {
       "& > span": {
         display: "inline-block",
       },

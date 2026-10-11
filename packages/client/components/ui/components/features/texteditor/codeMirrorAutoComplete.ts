@@ -170,7 +170,7 @@ export function codeMirrorAutoComplete(
           onEmojiAccept(
             (completions[0].apply as string).substring(
               1,
-              (completions[0].apply as string).length - 1,
+              (completions[0].apply as string).length - 2,
             ),
           );
         } else {
@@ -178,7 +178,7 @@ export function codeMirrorAutoComplete(
             getEmojiByShorthand(
               (completions[0].label as string).substring(
                 1,
-                (completions[0].label as string).length - 1,
+                (completions[0].label as string).length - 2,
               ),
             )!.shorthands[0],
           );
