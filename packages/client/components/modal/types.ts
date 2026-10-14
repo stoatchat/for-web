@@ -394,4 +394,8 @@ export type Modals =
     }
   | {
       type: "avatar_radius";
+    }
+  | {
+      type: "view_as_role";
+      server: Server;
     };

@@ -22,7 +22,11 @@ function cleanError(error: unknown) {
 }
 
 /** Any error we can translate */
-type KnownError = API.Error | AuthError | { type: "SocketError" };
+type KnownError =
+  | API.Error
+  | AuthError
+  | { type: "SocketError" }
+  | { type: "ViewingAsRole" };
 
 /**
  * Translate any error
@@ -147,6 +151,8 @@ export function useError() {
           }
         case "SocketError":
           return t`The web socket was unable to connect to the backend.`;
+        case "ViewingAsRole":
+          return t`You can't make changes while viewing as a role.`;
         case "ContactSupport":
           switch (err.locale) {
             case "discover.bot_removal_approved":

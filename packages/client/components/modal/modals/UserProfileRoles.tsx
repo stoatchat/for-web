@@ -11,7 +11,7 @@ export function UserProfileRolesModal(
   props: DialogProps & Modals & { type: "user_profile_roles" },
 ) {
   const editMode = () =>
-    props.member.server?.owner?.self ||
+    (props.member.server?.owner?.self && !props.member.server.previewRoles) ||
     (props.member.server?.havePermission("AssignRoles") &&
       props.member.inferiorTo(props.member.server.member!));
 
