@@ -188,6 +188,8 @@ export function EmojiPicker(props: { channel?: Channel }) {
           });
         } else {
           const emoji = getEmojiByShorthand(id)!;
+          // Stale emoji shorthand detection
+          if (!emoji) continue;
           items.push({
             t: 4,
             name: emoji.shorthands[0],

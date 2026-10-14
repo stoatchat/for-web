@@ -65,9 +65,9 @@ export function Embed(props: { embed: MessageEmbed }) {
   return (
     <Switch fallback={`Could not render ${props.embed.type}!`}>
       <Match when={image()}>
-        <SizedContent width={image()!.width} height={image()!.height}>
-          <GifFavouriterHolder>
-            <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
+        <GifFavouriterHolder>
+          <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
+          <SizedContent width={image()!.width} height={image()!.height}>
             <img
               // bypass proxy for known GIF providers
               // TODO: Remove the Gifbox check here once gifbox embeds are fixed
@@ -82,11 +82,15 @@ export function Embed(props: { embed: MessageEmbed }) {
                     message={message}
                     reactPicker={reactPicker}
                     file={image()}
-                    favourite={{
-                      url: gifFavouriteURL()!,
-                      name: gifFavouriteURL()!,
-                      preview: gifPreviewURL()!,
-                    }}
+                    favourite={
+                      isGIF()
+                        ? {
+                            url: gifFavouriteURL()!,
+                            name: gifFavouriteURL()!,
+                            preview: gifPreviewURL()!,
+                          }
+                        : undefined
+                    }
                   />
                 ),
               }}
@@ -100,13 +104,13 @@ export function Embed(props: { embed: MessageEmbed }) {
                 })
               }
             />
-          </GifFavouriterHolder>
-        </SizedContent>
+          </SizedContent>
+        </GifFavouriterHolder>
       </Match>
       <Match when={video()}>
-        <SizedContent width={video()!.width} height={video()!.height}>
-          <GifFavouriterHolder>
-            <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
+        <GifFavouriterHolder>
+          <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
+          <SizedContent width={video()!.width} height={video()!.height}>
             <video
               playsinline
               loop={isGIF()}
@@ -127,11 +131,15 @@ export function Embed(props: { embed: MessageEmbed }) {
                     message={message}
                     reactPicker={reactPicker}
                     file={video()}
-                    favourite={{
-                      url: gifFavouriteURL()!,
-                      name: gifFavouriteURL()!,
-                      preview: gifPreviewURL()!,
-                    }}
+                    favourite={
+                      isGIF()
+                        ? {
+                            url: gifFavouriteURL()!,
+                            name: gifFavouriteURL()!,
+                            preview: gifPreviewURL()!,
+                          }
+                        : undefined
+                    }
                   />
                 ),
               }}
@@ -145,8 +153,8 @@ export function Embed(props: { embed: MessageEmbed }) {
                 })
               }
             />
-          </GifFavouriterHolder>
-        </SizedContent>
+          </SizedContent>
+        </GifFavouriterHolder>
       </Match>
       <Match
         when={props.embed.type === "Website" || props.embed.type === "Text"}
@@ -169,8 +177,10 @@ export function GifFavouriter(props: { url?: string; preview?: string }) {
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === " " || e.key === "Enter")
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
               favourites.toggleGif(url(), url(), props.preview);
+            }
           }}
           aria-label={
             favourites.hasGif(url()) ? t`Unfavourite Gif` : t`Favourite Gif`

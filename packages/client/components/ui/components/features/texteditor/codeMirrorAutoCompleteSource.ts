@@ -29,6 +29,7 @@ const MAPPED_EMOJI_KEYS = EMOJI_KEYS.values()
         type: "emoji",
         label: `:${id}:`,
         apply: getEmojiByShorthand(id)?.emoji,
+        id: id,
       }) as Completion,
   );
 
@@ -59,6 +60,7 @@ export function codeMirrorAutoCompleteSource(
         label: `:${emoji.name}:`,
         apply: `:${emoji.id}: `,
         url: emoji.url,
+        id: emoji.id,
       })),
     );
   });

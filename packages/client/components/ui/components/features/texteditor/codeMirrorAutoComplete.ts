@@ -1,12 +1,13 @@
 import {
   acceptCompletion,
   autocompletion,
+  Completion,
   currentCompletions,
+  pickedCompletion,
 } from "@codemirror/autocomplete";
 import { EditorView, keymap } from "@codemirror/view";
 import { Accessor } from "solid-js";
 
-import { getEmojiByShorthand } from "@revolt/ui/emojis";
 import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 import { codeMirrorAutoCompleteSource } from "./codeMirrorAutoCompleteSource";
@@ -162,28 +163,6 @@ export function codeMirrorAutoComplete(
       key === ":" ? completions[0]?.type === "emoji" : completions.length > 0
     ) {
       acceptCompletion(view as never);
-      if (completions[0]?.type === "emoji" && onEmojiAccept) {
-        // Send the emoji completion to the recency tracker. This relies on the
-        // structure of the autocomplete source. If that is changed, this must
-        // be udpated.
-        if ((completions[0].apply as string).startsWith(":")) {
-          onEmojiAccept(
-            (completions[0].apply as string).substring(
-              1,
-              (completions[0].apply as string).length - 2,
-            ),
-          );
-        } else {
-          onEmojiAccept(
-            getEmojiByShorthand(
-              (completions[0].label as string).substring(
-                1,
-                (completions[0].label as string).length - 2,
-              ),
-            )!.shorthands[0],
-          );
-        }
-      }
       return true;
     }
     return false;
@@ -194,5 +173,14 @@ export function codeMirrorAutoComplete(
     { key: "Tab", run: (v) => accept(v, "Tab") },
   ]);
 
-  return [extension, emojiKeymap, completionTheme];
+  const recordAccept = EditorView.updateListener.of((update) => {
+    for (const tr of update.transactions) {
+      const completion = tr.annotation(pickedCompletion);
+      if (completion?.type === "emoji") {
+        onEmojiAccept?.((completion as Completion & { id: string }).id);
+      }
+    }
+  });
+
+  return [extension, emojiKeymap, recordAccept, completionTheme];
 }

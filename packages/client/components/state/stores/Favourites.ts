@@ -53,6 +53,7 @@ export class Favourites extends AbstractSyncedStore<
     const gifs: FavouriteGif[] = [];
     const emojiFavourites: FavouriteEmoji[] = [];
     const emojiUsage: Record<string, EmojiUsage> = {};
+    const now = new Date();
 
     if (Array.isArray(input.gifs)) {
       for (const entry of input.gifs) {
@@ -137,6 +138,10 @@ export class Favourites extends AbstractSyncedStore<
     return !!this.get().gifs.find((gif) => gif.url === url);
   }
 
+  private getScore(score: number, elapsed: number): number {
+    return score * Math.pow(0.5, elapsed / RECENCY_HALFLIFE_MS);
+  }
+
   /**
    * Toggle favourability of a gif
    * @param url Location of the gif to toggle
@@ -191,14 +196,13 @@ export class Favourites extends AbstractSyncedStore<
       }),
     };
     const elapsed = now.getTime() - entry.lastUsed.getTime();
-    entry.score =
-      entry.score * Math.pow(0.5, elapsed / RECENCY_HALFLIFE_MS) + 1;
+    entry.score = this.getScore(entry.score, elapsed) + 1;
     entry.lastUsed = now;
     this.set("emojis", "usageMap", { ...record, [emoji]: entry });
   }
 
   /**
-   * Get the top used emojis according to the recenct algorithm
+   * Get the top used emojis according to the recency algorithm
    * @param n How many emojis to return
    * @returns An ordered list of most used emojis according to the recency algorithm
    */
@@ -208,11 +212,7 @@ export class Favourites extends AbstractSyncedStore<
     return Object.entries(record)
       .map(([emoji, { score, lastUsed }]) => [
         emoji,
-        score *
-          Math.pow(
-            0.5,
-            (now.getTime() - lastUsed.getTime()) / RECENCY_HALFLIFE_MS,
-          ),
+        this.getScore(score, now.getTime() - lastUsed.getTime()),
       ])
       .filter(
         ([emoji]) =>
