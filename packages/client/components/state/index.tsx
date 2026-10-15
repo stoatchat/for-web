@@ -15,6 +15,7 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { useInstance } from "@revolt/instance";
 import { LoadingScreen } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
@@ -329,10 +330,12 @@ const stateContext = createContext<State>(null! as State);
 export function StateContext(props: { children: JSX.Element }) {
   const state = new State();
   const [ready, setReady] = createSignal(false);
+  const instance = useInstance();
 
   onMount(async () => {
     try {
       await state.hydrate(true);
+      if (instance.globalError) throw instance.globalError;
     } catch (e) {
       state.auth.globalError = e;
     }

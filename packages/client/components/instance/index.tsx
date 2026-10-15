@@ -24,7 +24,6 @@ export const DefaultHost = DefaultURL.host;
 const DefRoute = `/i/${DefaultHost}/`;
 
 const instanceContext = createContext<Instance>();
-let appLoadedOnce = false;
 
 export function InstanceContext(props: { children?: JSXElement }) {
   const params = useParams();
@@ -37,28 +36,40 @@ export function InstanceContext(props: { children?: JSXElement }) {
   //Check Stoat instance
   const host = normalizeHost(params.host);
 
-  function onError(e: unknown) {
-    if ((e as Error).message === "Failed to fetch") {
-      const hStr = `'${host || DefaultHost}'`;
-      e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
-    }
-    snackbar.showError(e);
-    if (appLoadedOnce) nav(-1);
-  }
-
   (async () => {
     //Redirect default instance
     if (host === DefaultHost) return nav(Instance.relPath(), { replace: true });
 
+    let inst;
     try {
       const appCfg = await fetchHost(host || DefaultHost);
       const cli = _newClient(appCfg.api);
-      await cli.initConfig();
-      setInst(new Instance(appCfg, cli, host, nav));
+      try {
+        await cli.initConfig();
+      } finally {
+        inst = new Instance(appCfg, cli, host, nav);
+      }
+      setInst(inst);
     } catch (e) {
-      onError(e);
+      if ((e as Error).message === "Failed to fetch") {
+        const hStr = `'${host || DefaultHost}'`;
+        // eslint-disable-next-line no-ex-assign
+        e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
+      }
+
+      if (host) {
+        //Redirect to DefaultHost
+        snackbar.showError(e);
+        return nav("/login");
+      } else if (inst) {
+        //DefaultHost fail - Instance w/ mock client to show error
+        inst.globalError = e;
+        setInst(inst);
+      } else {
+        //Stuck in loop - This shouldn't be possible :(
+        snackbar.showError(e);
+      }
     }
-    appLoadedOnce = true;
   })();
 
   //Finish init in reactive scope
