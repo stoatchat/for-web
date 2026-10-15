@@ -19,13 +19,15 @@ export const EmojiBase = styled("img", {
     // hide alt text
     color: "transparent",
 
+    // I don't think this is needed? Is it debug? Only insert knows...
     "&:before": {
       content: "' '",
       display: "block",
       position: "absolute",
       height: "50px",
       width: "50px",
-      backgroundImage: "url(ishere.jpg)",
+      // Commented out to prevent an error log
+      // backgroundImage: "url(ishere.jpg)",
     },
   },
 });

@@ -72,6 +72,13 @@ export function ImageViewerModal(
     ),
   );
 
+  const gifURL = () =>
+    props.gif
+      ? props.gif.url
+      : props.embed && isGifBox(props.embed)
+        ? props.embed.proxiedURL
+        : undefined;
+
   return (
     <Portal mount={document.getElementById("floating")!}>
       <Dialog.Scrim
@@ -177,7 +184,17 @@ export function ImageViewerModal(
                     ref={setRef}
                     use:floating={{
                       contextMenu: () => (
-                        <MessageContextMenu file={props.embed} />
+                        <MessageContextMenu
+                          file={props.embed}
+                          favourite={
+                            isGifBox(props.embed!)
+                              ? {
+                                  url: props.gifURL ?? gifURL()!,
+                                  preview: gifURL()!,
+                                }
+                              : undefined
+                          }
+                        />
                       ),
                     }}
                     style={{
@@ -193,7 +210,13 @@ export function ImageViewerModal(
                     ref={setRef}
                     use:floating={{
                       contextMenu: () => (
-                        <MessageContextMenu file={props.gif} />
+                        <MessageContextMenu
+                          file={props.gif}
+                          favourite={{
+                            url: props.gifURL ?? gifURL()!,
+                            preview: gifURL()!,
+                          }}
+                        />
                       ),
                     }}
                     playsinline
@@ -203,11 +226,7 @@ export function ImageViewerModal(
                     style={{
                       "aspect-ratio": `${props.gif!.width}/${props.gif!.height}`,
                     }}
-                    src={
-                      isGifBox(props.gif!)
-                        ? props.gif!.proxiedURL
-                        : props.gif!.url
-                    }
+                    src={gifURL()!}
                     onClick={(e) => e.stopPropagation()}
                   />
                 </Match>
