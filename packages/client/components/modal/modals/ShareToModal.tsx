@@ -91,7 +91,6 @@ export function ShareToModal(
           }
         }
 
-        // fData.push(new File(["test data"], "test.txt")); //TODO TEMP
         if (!fData.length) throw t`No file data found`;
         files = fData;
         setStat(1);
@@ -155,7 +154,7 @@ export function ShareToModal(
         ...(state.auth.hasMultiSession()
           ? [
               {
-                text: <Trans>Switch Accounts</Trans>,
+                text: <Trans>Accounts...</Trans>,
                 onClick: () => openModal({ type: "swap_user" }),
                 isDisabled: !stat(),
               },
@@ -164,7 +163,7 @@ export function ShareToModal(
         {
           text: <Trans>Share</Trans>,
           onClick: doShare,
-          isDisabled: !err() && !shares.size,
+          isDisabled: !stat() || !shares.size,
         },
       ]}
       isDisabled={stat() > 1}

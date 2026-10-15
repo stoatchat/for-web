@@ -95,8 +95,6 @@ export function Dialog(props: Props) {
                           variant="text"
                           size="sm"
                           onPress={() => {
-                            if (action.isDisabled) return;
-
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const value = action.onClick?.() as any;
                             if (value instanceof Promise) {
