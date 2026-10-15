@@ -114,6 +114,12 @@ export default function FlowCreate() {
         <Show when={config.features.invite_only}>
           <Fields fields={[{ field: "invite", value: code }]} />
         </Show>
+        <Button
+          variant="text"
+          onPress={() => modals.openModal({ type: "login_advanced" })}
+        >
+          <Trans>Advanced</Trans>
+        </Button>
         <Button type="submit" size="md">
           <Trans>Create account</Trans>
         </Button>

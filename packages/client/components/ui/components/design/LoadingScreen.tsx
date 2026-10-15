@@ -4,6 +4,7 @@ import { styled } from "styled-system/jsx";
 
 import { useInstance } from "@revolt/instance";
 import Instance from "@revolt/instance/Instance";
+import { useModals } from "@revolt/modal";
 import { Button, CircularProgress, Symbol, Text } from "@revolt/ui";
 
 /**
@@ -173,6 +174,8 @@ function NoticeContent(props: {
   url: string;
   action: JSX.Element;
 }) {
+  const modals = useModals();
+
   return (
     <Notice>
       <Header>
@@ -194,6 +197,14 @@ function NoticeContent(props: {
       >
         {props.action}
       </Button>
+      <Show when={modals}>
+        <Button
+          variant="text"
+          onPress={() => modals.openModal({ type: "swap_user" })}
+        >
+          <Trans>Switch Account</Trans>
+        </Button>
+      </Show>
     </Notice>
   );
 }
