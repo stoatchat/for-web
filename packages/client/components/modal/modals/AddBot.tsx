@@ -81,6 +81,8 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
 
   return (
     <Dialog
+      minWidth={320}
+      minHeight={450}
       show={props.show}
       onClose={props.onClose}
       actions={[
@@ -96,72 +98,70 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
         },
       ]}
       isDisabled={group.isPending}
+      hasScroll={true}
     >
       <form onSubmit={submit}>
-        <Column>
-          <Column align>
-            <Avatar
-              size={64}
-              src={props.invite.avatar?.originalUrl} // todo: correct URL
-              fallback={props.invite.username}
-            />
-            <Text class="title">{props.invite.username}</Text>
-            <Text class="label">
-              <Trans>
-                Registered since{" "}
-                <Time format="calendar" value={decodeTime(props.invite.id)} />
-              </Trans>
-            </Text>
-          </Column>
-
-          <Show when={props.invite.description}>
-            <div use:scrollable={{ class: description() }}>
-              <Markdown content={props.invite.description} />
-              <ProvidedBy>
-                <Text class="label" size="small">
-                  <Trans>Description provided by {props.invite.username}</Trans>
-                </Text>
-                <CoverText>
-                  <div />
-                </CoverText>
-              </ProvidedBy>
-            </div>
-          </Show>
-
-          <TextField
-            value={filter()}
-            variant="filled"
-            placeholder={t`Search for groups...`}
-            onKeyUp={(e) => setFilter(e.currentTarget.value)}
+        <Column align>
+          <Avatar
+            size={64}
+            src={props.invite.avatar?.originalUrl} // todo: correct URL
+            fallback={props.invite.username}
           />
+          <Text class="title">{props.invite.username}</Text>
+          <Text class="label">
+            <Trans>
+              Registered since{" "}
+              <Time format="calendar" value={decodeTime(props.invite.id)} />
+            </Trans>
+          </Text>
+        </Column>
 
-          <Form2.VirtualSelect
-            control={group.controls.id}
-            items={availableGroups()}
-            selectHeight="240px"
-          >
-            {(item, selected) => (
-              <Item selected={selected}>
-                <Ripple />
-                <Avatar
-                  src={item.animatedIconURL}
-                  fallback={item.name}
-                  size={24}
-                  shape={item instanceof Server ? "circle" : "rounded-square"}
-                />{" "}
-                <span>{item.name}</span>
-              </Item>
-            )}
-          </Form2.VirtualSelect>
+        <Show when={props.invite.description}>
+          <div use:scrollable={{ class: description() }}>
+            <Markdown content={props.invite.description} />
+            <ProvidedBy>
+              <Text class="label" size="small">
+                <Trans>Description provided by {props.invite.username}</Trans>
+              </Text>
+              <CoverText>
+                <div />
+              </CoverText>
+            </ProvidedBy>
+          </div>
+        </Show>
 
-          <Column gap="sm" align>
-            <Text class="label" size="small">
-              Bots are not verified by Stoat.
-            </Text>
-            <Text class="label" size="small">
-              The bot will not be granted any permissions.
-            </Text>
-          </Column>
+        <TextField
+          value={filter()}
+          variant="filled"
+          placeholder={t`Search for groups...`}
+          onKeyUp={(e) => setFilter(e.currentTarget.value)}
+        />
+
+        <Form2.VirtualSelect
+          control={group.controls.id}
+          items={availableGroups()}
+        >
+          {(item, selected) => (
+            <Item selected={selected}>
+              <Ripple />
+              <Avatar
+                src={item.animatedIconURL}
+                fallback={item.name}
+                size={24}
+                shape={item instanceof Server ? "circle" : "rounded-square"}
+              />{" "}
+              <span>{item.name}</span>
+            </Item>
+          )}
+        </Form2.VirtualSelect>
+
+        <Column gap="sm" align style={{ "text-align": "center" }}>
+          <Text class="label" size="small">
+            Bots are not verified by Stoat.
+          </Text>
+          <Text class="label" size="small">
+            The bot will not be granted any permissions.
+          </Text>
         </Column>
       </form>
     </Dialog>

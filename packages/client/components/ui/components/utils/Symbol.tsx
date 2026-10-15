@@ -1,7 +1,7 @@
 import { createMemo, JSX, splitProps } from "solid-js";
 
 import { css } from "styled-system/css";
-import { splitCssProps, styled } from "styled-system/jsx";
+import { splitCssProps } from "styled-system/jsx";
 import { HTMLStyledProps } from "styled-system/types";
 
 interface Props {
@@ -11,18 +11,14 @@ interface Props {
    */
   fill?: boolean;
   /**
-   * Font size for the symbol. This can be a number (in pixels) or any valid CSS size string (ex: "24px", "1.5em", "2rem").
-   * @deprecated passing to css() does nothing
-   */
-  fontSize?: string | number;
-  /**
    * The grade of the symbol, which adjusts the weight slightly. This can be a number between -25 and 700. To preview use the Google Fonts web app.
    */
   grade?: number;
   /**
-   * The optical size of the symbol, which adjusts the design for different sizes. This should be "auto" unless it causes issues.
+   * The optical size of the symbol, which adjusts the design for different sizes.
+   * Defaults to auto. This should be unset unless it causes issues.
    */
-  opticalSize?: number | "auto";
+  opticalSize?: number;
   /**
    * The type of symbol to use. This can be "outlined", "rounded", or "sharp". Defaults to "outlined".
    */
@@ -53,32 +49,25 @@ export function Symbol(rawProps: Props & HTMLStyledProps<"span">) {
   ]);
 
   const [cssProps, restProps] = splitCssProps(props);
-  const memoClassName = createMemo(() => {
-    return css(
-      {
-        fontSize: local.fontSize ?? "inherit",
-        fontWeight: `${local.weight} !important`,
-        fontOpticalSizing: local.opticalSize === "auto" ? "auto" : undefined,
-        userSelect: "none",
-      },
-      cssProps,
-    );
-  });
-
-  const memoFontVarSettings = createMemo(() => {
-    return `"FILL" ${local.fill ? 1 : 0}, "wght" 400, "GRAD" ${local.grade ?? 0}${
-      (local.opticalSize ?? "auto") === "auto"
-        ? ""
-        : `, "opsz" ${local.opticalSize}`
-    }`;
-  });
+  const className = createMemo(
+    () =>
+      `material-symbols-${local.type ?? "outlined"} ${css(
+        { display: "block !important", userSelect: "none" },
+        cssProps,
+      )}`,
+  );
+  const fontVarSettings = createMemo(
+    () =>
+      `"FILL" ${local.fill ? 1 : 0}, "wght" ${local.weight ?? 400}, "GRAD" ${local.grade ?? 0}${
+        local.opticalSize ? `, "opsz" ${local.opticalSize}` : ""
+      }`,
+  );
 
   return (
-    <styled.span
-      class={`material-symbols-${local.type ?? "outlined"} ${memoClassName()}`}
+    <span
+      class={className()}
       style={{
-        display: "block",
-        "font-variation-settings": memoFontVarSettings(),
+        "font-variation-settings": fontVarSettings(),
         "font-size": local.size ? `${local.size}px` : undefined,
       }}
       aria-hidden="true"
