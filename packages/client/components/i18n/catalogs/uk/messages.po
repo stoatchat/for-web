@@ -3,15 +3,17 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-09-27 01:25+0000\n"
-"Last-Translator: Omi <heyitsominouscry@gmail.com>\n"
-"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/revolt-for-web/uk/>\n"
+"PO-Revision-Date: 2026-10-16 23:49+0000\n"
+"Last-Translator: RubikonFaust <rubikoncrystal0@gmail.com>\n"
+"Language-Team: Ukrainian <https://translate.stoat.chat/projects/revolt/"
+"revolt-for-web/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -80,7 +82,7 @@ msgstr "{0} змінив(ла) іконку каналу"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} dropped"
-msgstr ""
+msgstr "{0} скинутий"
 
 #. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
@@ -95,12 +97,12 @@ msgstr "{0} файлів перевищують ліміт розміру в {ma
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the bottom"
-msgstr ""
+msgstr "{0} вже знаходиться знизу"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the top"
-msgstr ""
+msgstr "{0} вже знаходиться зверху"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -128,12 +130,14 @@ msgstr "{0} зробив(ла) {1} новим власником групи"
 #. placeholder {2}: list.length
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} moved to position {1} of {2}"
-msgstr ""
+msgstr "{0} переміщено до позиції {1} з {2}"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
 msgstr ""
+"{0} піднято, використовуйте клавіші зі стрілками для переміщення та пробіл "
+"для скидання"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -176,6 +180,7 @@ msgstr "{0} усунено {1}"
 #: components/modal/modals/TimeoutMember.tsx
 msgid "{0} will not be able to interact with the server until the timeout expires."
 msgstr ""
+"{0} не зможе взаємодіяти із сервером, доки не закінчиться час очікування."
 
 #. placeholder {0}: page() * itemsPerPage() + 1
 #. placeholder {1}: Math.min( props.itemCount!, page() * itemsPerPage() + itemsPerPage(), )
@@ -193,6 +198,7 @@ msgstr "Ролі {0}"
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr ""
+"Тайм-аут для {0} буде скасовано, і він зможе знову взаємодіяти з сервером."
 
 #~ msgid "{h} hours"
 #~ msgstr ""
@@ -394,7 +400,7 @@ msgstr "Додати статус"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Add to folder"
-msgstr ""
+msgstr "Додати до теки"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Admin"
@@ -446,6 +452,8 @@ msgstr "Дозволити іншим запрошувати вашого бот
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to join your server from Discover"
 msgstr ""
+"Дозвольте іншим користувачам приєднуватися до вашого сервера через "
+"\"Discover\""
 
 #: components/i18n/errors.tsx
 msgid "Already friends with this user."
@@ -530,7 +538,7 @@ msgstr "Застосунок для автентифікації"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Automatic Gain Control"
-msgstr ""
+msgstr "Автоматичне регулювання підсилення"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Avatar"
@@ -649,7 +657,7 @@ msgstr "Не можете знайти ідеальну гіфку? Поділі
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
-msgstr ""
+msgstr "Наразі неможливо отримати статус запиту \"Discover\""
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
@@ -687,7 +695,7 @@ msgstr "Скасувати"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Cancel discover request"
-msgstr ""
+msgstr "Скасувати запит \"Discover\""
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Cancel friend request"
@@ -699,7 +707,7 @@ msgstr "Скасувати повідомлення"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Cancel your discover request and remove it from the review queue"
-msgstr ""
+msgstr "Скасувати запит \"Discover\" та видалити його з черги на перевірку"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Cannot delete account until servers are deleted or transferred"
@@ -808,12 +816,12 @@ msgstr "Канали"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Chat Input"
-msgstr ""
+msgstr "Введення тексту в чаті"
 
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Check back often to see if your {0} has been approved!"
-msgstr ""
+msgstr "Заглядайте сюди частіше, щоб дізнатися, чи був затверджений ваш {0}!"
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "Check your email"
@@ -945,6 +953,7 @@ msgstr "Підключаємо"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Contact support to remove this {0} from discover"
 msgstr ""
+"Зверніться до служби підтримки, щоб видалити {0} із розділу \"Discover\""
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Content breaks one or more laws"
@@ -973,7 +982,7 @@ msgstr "Розмови"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copied file to clipboard"
-msgstr ""
+msgstr "Файл скопійовано до буфера обміну"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Copied!"
@@ -989,9 +998,8 @@ msgstr "Скопіювати ID каналу"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy file"
-msgstr ""
+msgstr "Скопіювати файл"
 
-#: components/app/menus/MessageContextMenu.tsx
 #~ msgid "Copy file link"
 #~ msgstr "Скопіювати посилання на файл"
 
@@ -1018,7 +1026,7 @@ msgstr "Скопіювати Посилання"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy link to file"
-msgstr ""
+msgstr "Скопіювати посилання на файл"
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy message ID"
@@ -1060,11 +1068,11 @@ msgstr "Не змогли знайти те, що ви запросили."
 
 #: components/instance/index.tsx
 msgid "Couldn't fetch Stoat configuration from {hStr}."
-msgstr ""
+msgstr "Не вдалося отримати конфігурацію Stoat з {hStr}."
 
 #: components/ui/components/design/ImageCropper.tsx
 msgid "Couldn't load this image."
-msgstr ""
+msgstr "Не вдалося завантажити це зображення."
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/CreateBot.tsx
@@ -1111,7 +1119,7 @@ msgstr "Створити вебхук"
 #: components/auth/src/AuthPage.tsx
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Create account"
-msgstr ""
+msgstr "Створити обліковий запис"
 
 #~ msgid "Create an account"
 #~ msgstr "Створити акаунт"
@@ -1177,44 +1185,46 @@ msgstr "Створено <0/>"
 
 #: components/modal/modals/CropProcess.tsx
 msgid "Crop"
-msgstr ""
+msgstr "Обрізати"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Avatar"
-msgstr ""
+msgstr "Обрізати Аватарку"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Crop Banner"
-msgstr ""
+msgstr "Обрізати Банер"
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Crop Channel Icon"
-msgstr ""
+msgstr "Обрізати Значок каналу"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Crop Emoji"
-msgstr ""
+msgstr "Обрізати Емодзі"
 
 #: components/modal/modals/CropProcess.tsx
 msgid "Crop image"
-msgstr ""
+msgstr "Обрізати зображення"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Crop Role Icon"
-msgstr ""
+msgstr "Обрізати значок Ролі"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Banner"
-msgstr ""
+msgstr "Обрізати Банер Серверу"
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "Crop Server Icon"
-msgstr ""
+msgstr "Обрізати Значок Серверу"
 
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
 msgstr ""
+"Обрізане зображення занадто велике — спробуйте вибрати меншу область обрізки "
+"(макс. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1236,7 +1246,7 @@ msgstr "Власний статус"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Custom window frame"
-msgstr ""
+msgstr "Власне оформлення вікна"
 
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "Customisation"
@@ -1340,7 +1350,7 @@ msgstr "Видалити емодзі"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 msgid "Delete folder"
-msgstr ""
+msgstr "Видалити теку"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Delete Invite"
@@ -1367,6 +1377,8 @@ msgstr "Видалити Сервер"
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
 msgstr ""
+"Видалення цього емодзі унеможливить його використання в майбутньому. Усі "
+"попередні випадки використання залишаться."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1404,8 +1416,9 @@ msgstr "Discord RPC"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/app/interface/settings/shared/Discoverable.tsx
+#, fuzzy
 msgid "Discover"
-msgstr ""
+msgstr "Discover"
 
 #: src/interface/Home.tsx
 msgid "Discover Stoat"
@@ -1468,7 +1481,7 @@ msgstr "Готово"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Download for desktop"
-msgstr ""
+msgstr "Завантажити для комп’ютера"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Drugs or illegal goods"
@@ -1476,7 +1489,7 @@ msgstr "Наркотики чи незаконні товари"
 
 #: components/modal/modals/TimeoutMember.tsx
 msgid "Duration"
-msgstr ""
+msgstr "Тривалість"
 
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
@@ -1497,12 +1510,12 @@ msgstr "Змінювати локальні дозволи ролі в кана�
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Edit Emoji"
-msgstr ""
+msgstr "Редагувати Емодзі"
 
 #: components/app/menus/ServerFolderContextMenu.tsx
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Edit folder"
-msgstr ""
+msgstr "Редагувати теку"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
@@ -1553,7 +1566,7 @@ msgstr "Електронна адреса"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 msgid "Emoji"
-msgstr ""
+msgstr "Емодзі"
 
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
 #: components/modal/modals/EditEmoji.tsx
@@ -1629,7 +1642,7 @@ msgstr "Введіть свій поточний пароль..."
 
 #: components/auth/src/flows/FlowResend.tsx
 msgid "Enter your email and we'll send you a fresh link."
-msgstr ""
+msgstr "Введіть свою електронну адресу, і ми надішлемо вам нове посилання."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your invite code."
@@ -1704,11 +1717,11 @@ msgstr "Зосереджений"
 
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Folder"
-msgstr ""
+msgstr "Тека"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Folder colour"
-msgstr ""
+msgstr "Колір теки"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1737,7 +1750,7 @@ msgstr "На 8 годин"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Forgot password?"
-msgstr ""
+msgstr "Забули пароль?"
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -2006,7 +2019,7 @@ msgstr "Приєднатися до сервера"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Join Stoat"
-msgstr ""
+msgstr "Приєднуйтесь до Stoat"
 
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
@@ -2125,18 +2138,18 @@ msgstr "Завантажити файл ({0})"
 #: components/auth/src/AuthPage.tsx
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in"
-msgstr ""
+msgstr "Увійти"
 
 #~ msgid "Log In"
 #~ msgstr "Увійти"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in again"
-msgstr ""
+msgstr "Увійти знову"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in to pick up right where you left off."
-msgstr ""
+msgstr "Увійдіть, щоб продовжити з того місця, де ви зупинилися."
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -2153,7 +2166,7 @@ msgstr "Завершити інші сеанси"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Logging you in…"
-msgstr ""
+msgstr "Виконується вхід…"
 
 #~ msgid "Login"
 #~ msgstr "Увійти"
@@ -2234,7 +2247,7 @@ msgstr "Маскарад"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Maximize call window"
-msgstr ""
+msgstr "Розгорнути вікно дзвінка на весь екран"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/interface/settings/ServerSettings.tsx
@@ -2287,7 +2300,7 @@ msgstr "Написати {0}"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Message Group Spacing"
-msgstr ""
+msgstr "Інтервал між групами повідомлень"
 
 #: components/ui/components/features/messaging/elements/MessageReply.tsx
 msgid "Message not loaded, click to jump"
@@ -2417,7 +2430,7 @@ msgstr "НОВЕ"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "New folder"
-msgstr ""
+msgstr "Нова тека"
 
 #. placeholder {0}: dayjs(decodeTime(props.lastId()!)).fromNow()
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
@@ -2439,7 +2452,7 @@ msgstr "Новачок у Stoat"
 
 #: components/auth/src/AuthPage.tsx
 msgid "New to Stoat?"
-msgstr ""
+msgstr "Вперше у Stoat?"
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "New to the server"
@@ -2447,7 +2460,7 @@ msgstr "Новачок на сервері"
 
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "New unreads"
-msgstr ""
+msgstr "Нові непрочитані повідомлення"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Nickname"
@@ -2463,7 +2476,7 @@ msgstr "Наразі жодних дозволів не надано"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
-msgstr ""
+msgstr "Перевизначення ролей не налаштовано."
 
 #: src/interface/Friends.tsx
 msgid "Nobody here right now!"
@@ -2622,7 +2635,7 @@ msgstr "Дозволи"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Permissions available when no role overrides apply"
-msgstr ""
+msgstr "Дозволи, доступні у разі відсутності перекриваючих ролей"
 
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Permissions available without any role"
@@ -2696,7 +2709,7 @@ msgstr "Приватність"
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "Privacy policy"
-msgstr ""
+msgstr "Політика конфіденційності"
 
 #~ msgid "Privacy Policy"
 #~ msgstr "Політика конфіденційності"
@@ -2768,12 +2781,14 @@ msgstr "Причина скарги"
 #. placeholder {0}: (dr.status as { Denied: string | null }) .Denied
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Reason: {0}"
-msgstr ""
+msgstr "Причина: {0}"
 
 #. placeholder {0}: (dr.status as { Removed: string | null }) .Removed
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Reason: {0} Contact support for more information."
 msgstr ""
+"Причина: {0} Зверніться до служби підтримки, щоб отримати додаткову "
+"інформацію."
 
 #: components/app/interface/settings/user/notifications/Notifications.tsx
 msgid "Receive notifications while the app is open and in the background."
@@ -2848,7 +2863,7 @@ msgstr "Видалити з друзів"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Remove from folder"
-msgstr ""
+msgstr "Видалити з теки"
 
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveMember.tsx
@@ -2866,7 +2881,7 @@ msgstr "Прибрати реакцію"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "Remove Timeout"
-msgstr ""
+msgstr "Прибрати Тайм-аут"
 
 #: components/app/interface/settings/user/Sessions.tsx
 #: components/modal/modals/EditCategory.tsx
@@ -2881,7 +2896,7 @@ msgstr "Перейменувати категорію"
 
 #: components/modal/modals/EditEmoji.tsx
 msgid "Rename emoji"
-msgstr ""
+msgstr "Перейменувати емодзі"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Rename Session"
@@ -2958,7 +2973,7 @@ msgstr "Відповідально сповістив/-ла про недолі�
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Restore call window"
-msgstr ""
+msgstr "Відновити вікно дзвінка"
 
 #: components/app/menus/DraftMessageContextMenu.tsx
 msgid "Retry sending"
@@ -2974,7 +2989,7 @@ msgstr "Дитяча порнографія/поширення порногра�
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Review policy changes"
-msgstr ""
+msgstr "Ознайомитися зі змінами в політиці"
 
 #~ msgid "Roadmap"
 #~ msgstr ""
@@ -2994,7 +3009,7 @@ msgstr "Назва ролі"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Role Overrides"
-msgstr ""
+msgstr "Перевизначення Ролей"
 
 #: components/app/interface/settings/ServerSettings.tsx
 #: components/ui/components/features/profiles/ProfileRoles.tsx
@@ -3003,7 +3018,7 @@ msgstr "Ролі"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "Roles with No Overrides"
-msgstr ""
+msgstr "Ролі без перезаписів"
 
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
@@ -3043,7 +3058,7 @@ msgstr "Аферизм/шахрайство"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Scan with your phone, or"
-msgstr ""
+msgstr "Відскануйте за допомогою телефону або"
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 #: components/modal/modals/ScreenShareSettings.tsx
@@ -3072,15 +3087,15 @@ msgstr "Шукати користувачів..."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select audio input"
-msgstr ""
+msgstr "Виберіть аудіовхід"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select audio output"
-msgstr ""
+msgstr "Вибрати аудіовихід"
 
 #: components/modal/modals/CreateGroup.tsx
 msgid "Select members to add"
-msgstr ""
+msgstr "Виберіть учасників для додавання"
 
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Select noise suppression"
@@ -3092,7 +3107,7 @@ msgstr "Оберіть якість трансляції екрану"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Select video input"
-msgstr ""
+msgstr "Виберіть джерело відеосигналу"
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Select your language"
@@ -3109,6 +3124,8 @@ msgstr "Надіслати електронну пошту"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
 msgstr ""
+"Надсилати вбудований контент, наприклад, вбудовані посилання або власні "
+"вбудовані елементи"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
@@ -3153,7 +3170,7 @@ msgstr "Надіслав декілька вкладень"
 
 #: src/interface/navigation/servers/railDrag.ts
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Server Avatar"
