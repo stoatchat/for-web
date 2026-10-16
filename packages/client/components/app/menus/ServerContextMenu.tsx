@@ -151,7 +151,7 @@ export function ServerContextMenu(props: { server: Server }) {
    * Determine whether we can access settings
    */
   const permissionServerSettings = () =>
-    props.server.owner?.self ||
+    (props.server.owner?.self && !props.server.previewRoles) ||
     props.server.havePermission("AssignRoles") ||
     props.server.havePermission("BanMembers") ||
     props.server.havePermission("KickMembers") ||

@@ -8,6 +8,7 @@ import {
   onCleanup,
 } from "solid-js";
 
+import { Trans } from "@lingui/solid/macro";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { decodeTime, ulid } from "ulid";
@@ -218,21 +219,37 @@ export function TextChannel(props: ChannelPageProps) {
             <VoiceChannelCallCardMount channel={props.channel} />
           </Show>
 
-          <Messages
-            channel={props.channel}
-            lastReadId={lastId}
-            pendingMessages={(pendingProps) => (
-              <DraftMessages
-                channel={props.channel}
-                tail={pendingProps.tail}
-                sentIds={pendingProps.ids}
-              />
-            )}
-            highlightedMessageId={highlightMessageId}
-            clearHighlightedMessage={() => navigate(".")}
-            jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
-            atEnd={[atEnd, setEnd]}
-          />
+          <Show
+            when={
+              !props.channel.server?.previewRoles ||
+              props.channel.havePermission("ReadMessageHistory")
+            }
+            fallback={
+              <HistoryHidden>
+                <Text class="body" size="large">
+                  <Trans>
+                    This role can't read the message history in this channel.
+                  </Trans>
+                </Text>
+              </HistoryHidden>
+            }
+          >
+            <Messages
+              channel={props.channel}
+              lastReadId={lastId}
+              pendingMessages={(pendingProps) => (
+                <DraftMessages
+                  channel={props.channel}
+                  tail={pendingProps.tail}
+                  sentIds={pendingProps.ids}
+                />
+              )}
+              highlightedMessageId={highlightMessageId}
+              clearHighlightedMessage={() => navigate(".")}
+              jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+              atEnd={[atEnd, setEnd]}
+            />
+          </Show>
 
           <MessageComposition
             channel={props.channel}
@@ -311,6 +328,17 @@ export function TextChannel(props: ChannelPageProps) {
     </>
   );
 }
+
+const HistoryHidden = styled("div", {
+  base: {
+    flexGrow: 1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "var(--gap-lg)",
+    textAlign: "center",
+  },
+});
 
 /**
  * Main content row layout
