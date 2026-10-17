@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.17.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.3...stoat-for-web-v0.17.0) (2026-10-17)
+
+
+### Features
+
+* add google sans flex variable to font list ([#1608](https://github.com/stoatchat/for-web/issues/1608)) ([f7b2d6c](https://github.com/stoatchat/for-web/commit/f7b2d6cf0c899477373fb3b6178a18fdea541b24))
+* add use external emojis permission ([#1675](https://github.com/stoatchat/for-web/issues/1675)) ([afee74f](https://github.com/stoatchat/for-web/commit/afee74f4e1857f056e107fdf2b34012a33f11e5a))
+* Multi-user account switching ([#1217](https://github.com/stoatchat/for-web/issues/1217)) ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* show headset mic for voice channel mentions ([#1251](https://github.com/stoatchat/for-web/issues/1251)) ([435029d](https://github.com/stoatchat/for-web/commit/435029d5787268b476bf19437c5648480c016cc8))
+* transfer group owner ([#1263](https://github.com/stoatchat/for-web/issues/1263)) ([60ec343](https://github.com/stoatchat/for-web/commit/60ec343007bafb85024a8426eebbf7c30dabd131))
+
+
+### Bug Fixes
+
+* Apply patches from multiuser ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Change for dynamic ClientLoad w/ vitetheme ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Dark mode button not working on login page ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Don't jump back to New Tab page on first-load backend connect error ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Lifecycle transitions slightly borked by PR 1197, causing random logouts ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Make WriteQueue map for performance ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Misc bugfixes for stores, delete old sessions ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Move AUP to Community Guidelines and make it more clickable ([#1266](https://github.com/stoatchat/for-web/issues/1266)) ([9a4d17f](https://github.com/stoatchat/for-web/commit/9a4d17f0fa82ac53914c8de80570f7cf894abe3a))
+* Move unused host var to multi-instance PR ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Multi-user notifications ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* **multi-user:** Weird edge-case localforage race condition ([#1730](https://github.com/stoatchat/for-web/issues/1730)) ([095fe21](https://github.com/stoatchat/for-web/commit/095fe21a483221b951b3aaf63e7e01b3797451e4))
+* Properly handle & translate socket/misc errors on login ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Separate logout wo/ delSes ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Store write fails due to key issue ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Tooltips don't pop in the usercard anymore ([#1737](https://github.com/stoatchat/for-web/issues/1737)) ([36bbfdc](https://github.com/stoatchat/for-web/commit/36bbfdc9ebce9f09bb747d4d50ac762b596bae6c))
+* TS error caused by rebase ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Use localforage directly for global ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+* Username cache applying to wrong user ([da8dd84](https://github.com/stoatchat/for-web/commit/da8dd844cd678fb02fe3c927fdf01bb85af071be))
+
 ## [0.16.3](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.2...stoat-for-web-v0.16.3) (2026-10-13)
 
 
