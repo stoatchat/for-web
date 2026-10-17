@@ -168,6 +168,7 @@ export type Modals =
       embed?: ImageEmbed;
       gif?: VideoEmbed;
       file?: StoatFile;
+      originalUrl?: string;
     }
   | {
       type: "join_server";

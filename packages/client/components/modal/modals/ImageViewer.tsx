@@ -139,7 +139,11 @@ export function ImageViewerModal(
                       <a
                         target="_blank"
                         rel="noreferrer"
-                        href={props.embed?.url || props.gif?.url}
+                        href={
+                          props.originalUrl ||
+                          props.embed?.url ||
+                          props.gif?.url
+                        }
                       >
                         <IconButton>
                           <Symbol>open_in_new</Symbol>

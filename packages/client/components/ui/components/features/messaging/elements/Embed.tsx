@@ -43,6 +43,15 @@ export function Embed(props: { embed: MessageEmbed }) {
       ? (props.embed as ImageEmbed)
       : isGIF() && (props.embed as WebsiteEmbed).image) || undefined;
 
+  /**
+   * Link to the page the embed came from (not the raw media)
+   */
+  const pageUrl = () =>
+    props.embed.type === "Website"
+      ? (props.embed as WebsiteEmbed).originalUrl ||
+        (props.embed as WebsiteEmbed).url
+      : undefined;
+
   return (
     <Switch fallback={`Could not render ${props.embed.type}!`}>
       <Match when={image()}>
@@ -64,6 +73,7 @@ export function Embed(props: { embed: MessageEmbed }) {
               openModal({
                 type: "image_viewer",
                 embed: image(),
+                originalUrl: pageUrl(),
               })
             }
           />
@@ -94,6 +104,7 @@ export function Embed(props: { embed: MessageEmbed }) {
               openModal({
                 type: "image_viewer",
                 gif: video(),
+                originalUrl: pageUrl(),
               })
             }
           />

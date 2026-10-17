@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
-import type { MFA, MFATicket } from "stoat.js";
+import { MFA, MFATicket } from "stoat.js";
 
 import { Keybind, KeybindAction } from "@revolt/keybinds";
 import { dismissFloatingElements } from "@revolt/ui";
