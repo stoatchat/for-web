@@ -66,14 +66,12 @@ export function GlobalSearchModal(
     }
 
     const all = [...client().channels.values()];
-    const matches = q
-      ? all.filter(
-          (c) =>
-            channelLabel(c)?.toLowerCase().includes(q) ||
-            (c.type === "DirectMessage" &&
-              c.recipient?.username?.toLowerCase().includes(q)),
-        )
-      : all;
+    const matches = all.filter(
+      (c) =>
+        channelLabel(c)?.toLowerCase().includes(q) ||
+        (c.type === "DirectMessage" &&
+          c.recipient?.username?.toLowerCase().includes(q)),
+    );
 
     // channels first, DMs after
     const channels = matches.filter((c) => !isDM(c));
@@ -127,7 +125,7 @@ export function GlobalSearchModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      padding={0}
+      padding={12}
       minWidth={480}
     >
       <Column gap="none">
@@ -141,51 +139,56 @@ export function GlobalSearchModal(
           />
         </PaddedTop>
 
-        <Show when={!query()}>
-          <SectionLabel>
-            <Show
-              when={results().length}
-              fallback={<Trans>No recent channels</Trans>}
-            >
-              <Trans>PREVIOUS CHANNELS</Trans>
+        <Show when={!results().length}>
+          <EmptyState>
+            <Show when={query()} fallback={<Trans>No recent channels</Trans>}>
+              <Trans>No results</Trans>
             </Show>
+          </EmptyState>
+        </Show>
+
+        <Show when={!query() && results().length}>
+          <SectionLabel>
+            <Trans>PREVIOUS CHANNELS</Trans>
           </SectionLabel>
         </Show>
 
-        <ResultList id="search-results" role="listbox">
-          <For each={results()}>
-            {(channel, i) => (
-              <Row
-                id={`search-opt-${i()}`}
-                role="option"
-                aria-selected={selected() === i()}
-                data-selected={selected() === i()}
-                onMouseMove={() => setSelected(i())}
-                onClick={() => select(channel)}
-              >
-                <Show
-                  when={isDM(channel)}
-                  fallback={<Symbol size={24}>grid_3x3</Symbol>}
+        <Show when={results().length}>
+          <ResultList id="search-results" role="listbox">
+            <For each={results()}>
+              {(channel, i) => (
+                <Row
+                  id={`search-opt-${i()}`}
+                  role="option"
+                  aria-selected={selected() === i()}
+                  data-selected={selected() === i()}
+                  onMouseMove={() => setSelected(i())}
+                  onClick={() => select(channel)}
                 >
-                  <Avatar
-                    size={24}
-                    src={channel.iconURL}
-                    fallback={channelLabel(channel)}
-                  />
-                </Show>
-                <RowText>
-                  <RowLabel>{channelLabel(channel)}</RowLabel>
-                  <Show when={dmUsername(channel)}>
-                    <RowUsername>{dmUsername(channel)}</RowUsername>
+                  <Show
+                    when={isDM(channel)}
+                    fallback={<Symbol size={24}>grid_3x3</Symbol>}
+                  >
+                    <Avatar
+                      size={24}
+                      src={channel.iconURL}
+                      fallback={channelLabel(channel)}
+                    />
                   </Show>
-                </RowText>
-                <Show when={channel.server?.name}>
-                  <RowServer>{channel.server?.name}</RowServer>
-                </Show>
-              </Row>
-            )}
-          </For>
-        </ResultList>
+                  <RowText>
+                    <RowLabel>{channelLabel(channel)}</RowLabel>
+                    <Show when={dmUsername(channel)}>
+                      <RowUsername>{dmUsername(channel)}</RowUsername>
+                    </Show>
+                  </RowText>
+                  <Show when={channel.server?.name}>
+                    <RowServer>{channel.server?.name}</RowServer>
+                  </Show>
+                </Row>
+              )}
+            </For>
+          </ResultList>
+        </Show>
       </Column>
     </Dialog>
   );
@@ -278,5 +281,14 @@ const RowServer = styled("div", {
     whiteSpace: "nowrap",
     color: "var(--md-sys-color-on-surface-variant)",
     fontSize: "0.8rem",
+  },
+});
+
+const EmptyState = styled("div", {
+  base: {
+    padding: "16px 12px 20px",
+    textAlign: "center",
+    fontSize: "0.9rem",
+    color: "var(--md-sys-color-on-surface-variant)",
   },
 });
