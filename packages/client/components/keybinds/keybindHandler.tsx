@@ -82,7 +82,7 @@ export function KeybindContext(props: { children: JSXElement }) {
               k === "Enter",
           );
         })
-        // check whether the keybind is being pressed EXACTLY (no extra keys)
+        // check that every key in the sequence is currently pressed (extra keys are allowed)
         .filter((keybind) =>
           sequences[keybind].every((key) =>
             key instanceof RegExp
@@ -141,7 +141,9 @@ export function KeybindContext(props: { children: JSXElement }) {
   function onKeyDown(event: KeyboardEvent) {
     target = event.target as HTMLElement;
     activeKeys.add(normalize(event.key));
-    if (firing()) {
+
+    const fired = firing();
+    if (fired && fired !== KeybindAction.CHAT_FOCUS_COMPOSITION) {
       event.preventDefault();
     }
   }
