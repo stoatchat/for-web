@@ -9,7 +9,6 @@ import {
 } from "@codemirror/view";
 import { Channel, ServerMember, ServerRole, User } from "stoat.js";
 
-import { getChannelIcon } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { unicodeEmojiUrl } from "@revolt/markdown/emoji/UnicodeEmoji";
 import { RE_UNICODE_EMOJI } from "@revolt/markdown/emoji/util";
@@ -227,7 +226,7 @@ class ChannelMentionWidget extends WidgetType {
     mention.contentEditable = "false";
 
     const icon = document.createElement("span");
-    icon.innerText = getChannelIcon(this.channel, "mention");
+    icon.innerText = "tag";
     icon.classList.add("material-symbols-outlined");
     mention.appendChild(icon);
 
