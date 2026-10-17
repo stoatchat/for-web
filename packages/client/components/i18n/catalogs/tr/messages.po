@@ -371,6 +371,14 @@ msgstr "Ekle"
 msgid "Add a new friend"
 msgstr "Yeni bir arkadaş ekle"
 
+#: components/app/interface/settings/user/Account.tsx
+msgid "Add an account"
+msgstr ""
+
+#: components/app/interface/settings/user/Account.tsx
+msgid "Add an additional account login for fast-switching"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
 msgstr "Bot ekle"
@@ -507,6 +515,11 @@ msgstr "Bu mesajı sabitlemek istediğine emin misin?"
 msgid "Are you sure you want to remove {0} from {1}?"
 msgstr "{0} Kişisini {1} kaldırmak istediğinize eminmisin?"
 
+#. placeholder {0}: props.user?.username
+#: components/modal/modals/TransferGroup.tsx
+msgid "Are you sure you want to transfer ownership to <0>{0}</0>?"
+msgstr ""
+
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
 msgstr "Bu mesajın sabitlemesini kaldırmak istediğinize emin misiniz?"
@@ -628,12 +641,20 @@ msgid "Busy"
 msgstr "Meşgul"
 
 #: components/modal/modals/CreateBot.tsx
-msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu botu oluşturarak <0>Uygun Kullanım Politikası</0>'nı kabul etmiş olursunuz."
+#~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
+#~ msgstr "Bu botu oluşturarak <0>Uygun Kullanım Politikası</0>'nı kabul etmiş olursunuz."
+
+#: components/modal/modals/CreateBot.tsx
+msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
+msgstr ""
 
 #: components/modal/modals/CreateServer.tsx
-msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu sunucuyu oluşturarak, <0>Adil Kullanım Şartları</0>'nı kabul etmiş olursunuz."
+#~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
+#~ msgstr "Bu sunucuyu oluşturarak, <0>Adil Kullanım Şartları</0>'nı kabul etmiş olursunuz."
+
+#: components/modal/modals/CreateServer.tsx
+msgid "By creating this server, you agree to the <0>Community Guidelines</0>."
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -682,6 +703,7 @@ msgstr "Keşfet isteğinin durumunu alamıyoruz"
 #: components/modal/modals/ServerIdentity.tsx
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/TimeoutMember.tsx
+#: components/modal/modals/TransferGroup.tsx
 msgid "Cancel"
 msgstr "İptal et"
 
@@ -830,6 +852,10 @@ msgstr "Stoat hesabınız için yeni bir şifre belirleyin."
 msgid "Choose a username"
 msgstr "Bir kullanıcı adı seç"
 
+#: components/modal/modals/SwapUser.tsx
+msgid "Choose an account"
+msgstr ""
+
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
 msgstr "Kullanıcı adı seç"
@@ -881,6 +907,7 @@ msgstr "İstemci Ayarları"
 #: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/PolicyChange.tsx
 #: components/modal/modals/ServerInfo.tsx
+#: components/modal/modals/SwapUser.tsx
 #: components/modal/modals/UserProfileMutualFriends.tsx
 #: components/modal/modals/UserProfileMutualGroups.tsx
 #: components/modal/modals/UserProfileRoles.tsx
@@ -918,6 +945,7 @@ msgstr "Tek şifreli kimlik onaylama ayarla"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/TransferGroup.tsx
 msgid "Confirm"
 msgstr "Onayla"
 
@@ -1363,6 +1391,10 @@ msgstr "Rolü Sil"
 msgid "Delete Server"
 msgstr "Sunucuyu Sil"
 
+#: components/auth/src/flows/FlowLogin.tsx
+msgid "Delete session"
+msgstr ""
+
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
 msgstr "Bu emojiyi silerseniz, ileride kullanamazsınız. Geçmişteki tüm kullanımlar kalacaktır."
@@ -1586,6 +1618,10 @@ msgstr "Anlık Bildirimleri Etkinleştir"
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr "Saydamlık/bulanıklaştırma efektlerini etkinleştir (eski cihazlarda yavaş çalışabilir)"
+
+#: components/i18n/errors.tsx
+msgid "Encountered a problem while saving previous session."
+msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -2130,8 +2166,8 @@ msgstr "Giriş Yap"
 #~ msgstr "Giriş Yap"
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid "Log in again"
-msgstr "Tekrar giriş yap"
+#~ msgid "Log in again"
+#~ msgstr "Tekrar giriş yap"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in to pick up right where you left off."
@@ -2548,8 +2584,8 @@ msgid "Only mentions will notify you"
 msgstr "Sadece bahsetmelerden haberdar edileceksin"
 
 #: components/instance/index.tsx
-msgid "Oops, something went wrong! {e}"
-msgstr "Uh oh! Birşeyler yanlış gitti! {e}"
+#~ msgid "Oops, something went wrong! {e}"
+#~ msgstr "Uh oh! Birşeyler yanlış gitti! {e}"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2661,8 +2697,8 @@ msgid "Please enter your email."
 msgstr "Lütfen e-postanızı girin."
 
 #: components/i18n/errors.tsx
-msgid "Please log in again."
-msgstr "Lütfen tekrar giriş yapın."
+#~ msgid "Please log in again."
+#~ msgstr "Lütfen tekrar giriş yapın."
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Please save these to a safe location."
@@ -3420,6 +3456,10 @@ msgstr "GitHub tartışmaları üzerinden, Stoat'a yeni özellikler önerin."
 msgid "Support the project by donating - thank you!"
 msgstr "Bağış yaparak projeyi destekleyin - teşekkürler!"
 
+#: src/interface/navigation/servers/UserMenu.tsx
+msgid "Switch Accounts"
+msgstr ""
+
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
 msgstr "Bu ses kanalına geç"
@@ -3517,6 +3557,10 @@ msgstr "Sunucu, moderatörler tarafından Keşfetten kaldırılmıştır; kullan
 msgid "The server is already on discover, the user must contact support to have it removed."
 msgstr "Sunucu halihazırda keşfet listesinde yer almaktadır; kullanıcının bu sunucunun listeden kaldırılması için destek ekibiyle iletişime geçmesi gerekmektedir."
 
+#: components/i18n/errors.tsx
+msgid "The web socket was unable to connect to the backend."
+msgstr ""
+
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
 msgstr "Tema"
@@ -3525,6 +3569,10 @@ msgstr "Tema"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "This {0} is discoverable"
 msgstr "Bu {0} keşfette"
+
+#: components/client/Controller.ts
+msgid "This account is disabled."
+msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3662,6 +3710,11 @@ msgstr "Vurgulu Tonlar"
 msgid "Traditional (DD/MM/YYYY)"
 msgstr "Geleneksel (GG/AA/YYYY)"
 
+#: components/app/menus/UserContextMenu.tsx
+#: components/modal/modals/TransferGroup.tsx
+msgid "Transfer Ownership"
+msgstr ""
+
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
 msgstr "Popüler GIF'ler"
@@ -3760,6 +3813,14 @@ msgstr "Gifbox'a yükle"
 msgid "Use a code or invite link"
 msgstr "Bir kod veya davet bağlantısı kullan"
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Use emoji from other servers"
+msgstr ""
+
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Use External Emojis"
+msgstr ""
+
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
 msgstr "Ekran kartını kullanarak performansı arttır."
@@ -3800,6 +3861,10 @@ msgstr "Kullanıcı Aramadan Ayrıldı"
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "User Management"
 msgstr "Kullanıcı Yönetimi"
+
+#: components/i18n/errors.tsx
+msgid "User session not found. Try switching users or logging in again."
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "User Settings"
@@ -3919,8 +3984,8 @@ msgid "We are working hard on optimising our web app for mobile."
 msgstr "Web uygulamamızı mobil cihazlar için optimize etmek üzere yoğun bir şekilde çalışıyoruz."
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr "Giriş işleminizi tamamlayamadık. Lütfen tekrar deneyin; sorun devam ederse Stoat'ın durumunu kontrol edin."
+#~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
+#~ msgstr "Giriş işleminizi tamamlayamadık. Lütfen tekrar deneyin; sorun devam ederse Stoat'ın durumunu kontrol edin."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
@@ -3972,6 +4037,10 @@ msgstr "Neler yeni"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
 msgstr "Bu ayarları başka kullanıcıların düzenleyip düzenleyemeceği"
+
+#: components/i18n/errors.tsx
+msgid "Whoops, you're already logged in as this user!"
+msgstr ""
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -4210,7 +4279,7 @@ msgstr "İsteğiniz başarısız oldu. Lütfen destek ekibiyle iletişime geçin
 msgid "Your role ranking is too low to take this action."
 msgstr "Bu eylemi gerçekleştirmek için rol yetkiniz çok düşük."
 
-#: components/auth/src/flows/FlowLogin.tsx
+#: components/i18n/errors.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
 msgstr "Oturumunuz sona erdi; bunun nedeni, muhtemelen başka bir cihazdan oturumunuzu kapatmış olmanızdır. Devam etmek için lütfen tekrar oturum açın."
 
