@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-10-08 13:18+0000\n"
+"PO-Revision-Date: 2026-10-17 22:23+0000\n"
 "Last-Translator: ispik <ispik@team.stoat.chat>\n"
-"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-for-web/tr/>\n"
+"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.1\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -45,7 +46,7 @@ msgstr "(değişiklikler kaydediliyor…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, plural, one {# engellenen mesaj} other {# engellenen mesajlar}}"
+msgstr "{0} engellenen mesaj"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -58,7 +59,7 @@ msgstr "{0} yeni bahsetme"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Bir Dosya Bırak} other {Dosya # Bırak}}"
+msgstr "{0, plural, one {Bir Dosya Bırak} other {# Dosya Bırak}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -90,7 +91,9 @@ msgstr "{0} emoji hakkı kaldı"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "{0} dosya, {maxSizeFormatted} olan maksimum boyut sınırını aştığı için yüklenemedi."
+msgstr ""
+"{0} dosya, {maxSizeFormatted} olan maksimum boyut sınırını aştığı için "
+"yüklenemedi."
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
@@ -121,7 +124,7 @@ msgstr "{0} çıktı"
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0}, {1} adlı kullanıcıyı yeni grup sahibi yaptı"
+msgstr "{0}, {1} kullanıcısını yeni grup sahibi yaptı"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -133,7 +136,9 @@ msgstr "{0}, {2} içindeki {1} numaralı konuma taşındı"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr "{0} alındı; hareket ettirmek için ok tuşlarını, bırakmak için boşluk tuşunu kullanın"
+msgstr ""
+"{0} alındı; hareket ettirmek için ok tuşlarını, bırakmak için boşluk tuşunu "
+"kullanın"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -187,12 +192,14 @@ msgstr "{0}-{1} / {2}"
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr "{0} adlı kullanıcının rolleri"
+msgstr "{0} kullanıcısının rolleri"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr "Zaman aşımı {0} için kaldırılacak ve sunucu ile tekrar etkileşime girebilecek."
+msgstr ""
+"Zaman aşımı {0} için kaldırılacak ve sunucu ile tekrar etkileşime "
+"girebilecek."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} saat"
@@ -433,11 +440,12 @@ msgstr "Tüm sistemler çalışır durumda"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr "Üyelerin her mesaj için ad ve avatar değiştirmesine izin ver"
+msgstr "Üyelerin her mesaj için isim ve profil resmini değiştirmesine izin ver"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr "Başkalarının botunu Keşfet sekmesinden kendi sunucularına eklemesine izin ver"
+msgstr ""
+"Başkalarının botunu Keşfet sekmesinden kendi sunucularına eklemesine izin ver"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to invite your bot"
@@ -475,7 +483,7 @@ msgstr "Bir hata oluştu."
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "An internal error occurred. ({0})"
-msgstr "Dahili bir hata oluştu. ({0})"
+msgstr "Bir sistem hatası oluştu. ({0})"
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -484,7 +492,7 @@ msgstr "Görünüm"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr "Oturumlarınızı temizlemek istediğinizde emin misiniz?"
+msgstr "Oturumlarınızı silmek istediğinizden emin misiniz?"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
@@ -492,7 +500,7 @@ msgstr "Bunu silmek istediğinden emin misin?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr "Gitmek istediğine emin misin "
+msgstr "Şuraya gitmek istediğinizden emin misiniz "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
@@ -505,7 +513,7 @@ msgstr "Bu mesajı sabitlemek istediğine emin misin?"
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr "{0} Kişisini {1} kaldırmak istediğinize eminmisin?"
+msgstr "{0} kullanıcısını {1} grubundan çıkarmak istediğine emin misin?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
@@ -629,15 +637,19 @@ msgstr "Meşgul"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu botu oluşturarak <0>Uygun Kullanım Politikası</0>'nı kabul etmiş olursunuz."
+msgstr ""
+"Bu botu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı kabul "
+"etmiş olursunuz."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu sunucuyu oluşturarak, <0>Adil Kullanım Şartları</0>'nı kabul etmiş olursunuz."
+msgstr ""
+"Bu sunucuyu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı "
+"kabul etmiş olursunuz."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
-msgstr "Yavaş modu atlamak"
+msgstr "Yavaş Modu Atla"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
@@ -645,7 +657,9 @@ msgstr "Kanallardaki yavaş modu atla"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr "Mükemmel bir GİF bulamıyor musunuz? GifBox'a gidin ve kendinizinkini yükleyin ki herkes kullanabilsin."
+msgstr ""
+"Mükemmel GIF'i bulamıyor musunuz? Gifbox'a gidin ve herkesin kullanması için "
+"kendi GIF'inizi yükleyin."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
@@ -719,7 +733,7 @@ msgstr "Değiştir"
 #. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change {0}'s nickname"
-msgstr "{0} Kişinin takma adını değiştir"
+msgstr "{0} kullanıcısının takma adını değiştir"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
@@ -736,7 +750,7 @@ msgstr "{0} sunucusundaki kişiliğini değiştir"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr "Giriş e-mail'ini değiştir"
+msgstr "Giriş e-postasını değiştir"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
@@ -764,7 +778,7 @@ msgstr "Bu botun adını değiştir"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
-msgstr "Kullanıcı adı değiştir"
+msgstr "Kullanıcı adını değiştir"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change Username"
@@ -844,7 +858,7 @@ msgstr "Değişiklikler hakkında bilgi edinmek için aşağıdakilere tıkla!"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
-msgstr "Kopyalamak için kullanıcı adına tıklayın"
+msgstr "Kullanıcı adını kopyalamak için tıklayın"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -910,11 +924,13 @@ msgstr "Çok yakında geliyor! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr "İki aşamalı doğrulamanın kaybolması durumunda hesabına geri dönebilmek için bir yol ayarla"
+msgstr ""
+"İki aşamalı doğrulamanın kaybolması durumunda hesabına geri dönebilmek için "
+"bir yol ayarla"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr "Tek şifreli kimlik onaylama ayarla"
+msgstr "Tek kullanımlık şifreyle kimlik onaylama ayarla"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -931,7 +947,7 @@ msgstr "Bağlan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr "Sesli sohbete bağlan"
+msgstr "Ses kanalına bağlan"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
