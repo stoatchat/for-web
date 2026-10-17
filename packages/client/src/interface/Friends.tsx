@@ -170,7 +170,7 @@ export function Friends() {
               <Switch
                 fallback={
                   <People
-                    title="Online"
+                    title={t`Online`}
                     users={lists().online}
                     scrollTargetElement={targetSignal}
                   />
@@ -178,26 +178,26 @@ export function Friends() {
               >
                 <Match when={page() === "all"}>
                   <People
-                    title="All"
+                    title={t`All`}
                     users={lists().friends}
                     scrollTargetElement={targetSignal}
                   />
                 </Match>
                 <Match when={page() === "pending"}>
                   <People
-                    title="Incoming"
+                    title={t`Incoming`}
                     users={lists().incoming}
                     scrollTargetElement={targetSignal}
                   />
                   <People
-                    title="Outgoing"
+                    title={t`Outgoing`}
                     users={lists().outgoing}
                     scrollTargetElement={targetSignal}
                   />
                 </Match>
                 <Match when={page() === "blocked"}>
                   <People
-                    title="Blocked"
+                    title={t`Blocked`}
                     users={lists().blocked}
                     scrollTargetElement={targetSignal}
                   />
