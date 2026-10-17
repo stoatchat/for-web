@@ -4,15 +4,15 @@ import { Server } from "stoat.js";
 import { useUser } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
-import { ColouredText } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
+import { ColouredText, Symbol } from "@revolt/ui";
 
 import { SettingsConfiguration } from ".";
 import { ChannelPermissionsEditor } from "./channel/permissions/ChannelPermissionsEditor";
-import Overview from "./server/Overview";
+import { ListAuditLogs } from "./server/audit/ListAuditLogs";
 import { ListServerBans } from "./server/bans/ListBans";
 import { EmojiList } from "./server/emojis/EmojiList";
 import { ListServerInvites } from "./server/invites/ListServerInvites";
+import Overview from "./server/Overview";
 import { ServerRoleEditor } from "./server/roles/ServerRoleEditor";
 import { ServerRoleOverview } from "./server/roles/ServerRoleOverview";
 import { Discoverable } from "./shared/Discoverable";
@@ -73,6 +73,8 @@ const Config: SettingsConfiguration<Server> = {
         return <ListServerInvites server={server} />;
       case "bans":
         return <ListServerBans server={server} />;
+      case "audit":
+        return <ListAuditLogs server={server} />;
 
       default:
         return null;
@@ -151,6 +153,12 @@ const Config: SettingsConfiguration<Server> = {
               id: "bans",
               icon: <Symbol size={20}>gavel</Symbol>,
               title: <Trans>Bans</Trans>,
+            },
+            {
+              id: "audit",
+              hidden: !server.havePermission("ViewAuditLogs"),
+              icon: <Symbol size={20}>assignment</Symbol>,
+              title: <Trans>Audit Log</Trans>,
             },
           ],
         },

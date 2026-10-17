@@ -1,3 +1,4 @@
+export { Collapse } from "./Collapse";
 export { ColouredText } from "./ColouredText";
 export { cropImage } from "./cropProcessor";
 export { Deferred } from "./Deferred";
