@@ -37,12 +37,15 @@ export class Device {
   /** If Stoat is running as a web app */
   readonly isPWA =
     //Safari
-    (window.navigator as never as { standalone: boolean }).standalone ||
+    (navigator as never as { standalone: boolean }).standalone ||
     //Other
-    window.matchMedia("(display-mode: standalone)").matches;
+    matchMedia("(display-mode: standalone)").matches;
+
+  pwaPrompt;
+  pwaInstalled;
 
   /**
-   * Whether this device is an IOS Touch device. Relies on useragent.
+   * Whether this device is an iOS touch device. Relies on useragent.
    *
    * **Warning:** Don't use unless absolutely necessary.
    * Granular feature-detection is preferred when possible.
@@ -59,6 +62,9 @@ export class Device {
   readonly hasTouch =
     typeof window !== "undefined" &&
     ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
+  /** If the engine is Firefox-based. Relies on useragent. */
+  readonly isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
 
   private pMedia;
   private tMedia;
@@ -83,6 +89,16 @@ export class Device {
     if (this.isIOSTouch && window.visualViewport) {
       this.trackKeyboard(window.visualViewport);
     }
+
+    const [pp, setPp] = createSignal<BeforeInstallPromptEvent>();
+    if (typeof window._PwaP === "object") setPp(window._PwaP);
+    else window._PwaP = setPp;
+    this.pwaPrompt = pp;
+
+    const [pi, setPi] = createSignal(false);
+    if (typeof window._PwaI === "boolean") setPi(window._PwaI);
+    else window._PwaI = setPi;
+    this.pwaInstalled = pi;
   }
 
   /**
