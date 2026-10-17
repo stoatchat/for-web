@@ -8,7 +8,7 @@ import {
 } from "solid-js";
 import { SetStoreFunction, createStore } from "solid-js/store";
 
-import type { MFA, MFATicket } from "stoat.js";
+import type { API, MFA, MFATicket } from "stoat.js";
 
 import { Keybind, KeybindAction } from "@revolt/keybinds";
 import { dismissFloatingElements } from "@revolt/ui";
@@ -141,6 +141,20 @@ export class ModalControllerExtended extends ModalController {
       }),
     );
   };
+
+  /**
+   * Perform MFA flow but return MFAResponse
+   */
+  mfaFlowResp(mfa: MFA) {
+    return new Promise((callback: (response?: API.MFAResponse) => void) =>
+      this.openModal({
+        type: "mfa_flow",
+        state: "known_resp_only",
+        mfa,
+        callback,
+      }),
+    );
+  }
 
   /**
    * Open TOTP secret modal
