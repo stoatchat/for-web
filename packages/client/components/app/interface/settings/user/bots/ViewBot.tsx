@@ -88,6 +88,16 @@ export function ViewBot(props: { bot: Bot }) {
 
       <CategoryButton.Group>
         <CategoryButton
+          description={
+            <Trans>Permissions this bot is added to servers with</Trans>
+          }
+          icon={<Symbol size={22}>admin_panel_settings</Symbol>}
+          action="chevron"
+          onClick={() => navigate(`bots/${props.bot.id}/permissions`)}
+        >
+          <Trans>Permissions</Trans>
+        </CategoryButton>
+        <CategoryButton
           icon={<Symbol size={22}>person_add</Symbol>}
           action="chevron"
           onClick={() =>

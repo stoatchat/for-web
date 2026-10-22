@@ -1,4 +1,4 @@
-import { For, createMemo } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
@@ -121,6 +121,12 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         (r) => r.id == props.roleId,
       ) as ServerRole,
   );
+
+  const managedBy = () => {
+    const owner = role()?.owner;
+    return owner ? client().users.get(owner) : undefined;
+  };
+  console.log(role());
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -247,19 +253,32 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         >
           <Trans>Copy role ID</Trans>
         </CategoryButton>
-        <CategoryButton
-          action="chevron"
-          icon={<Symbol size={20}>delete</Symbol>}
-          onClick={() =>
-            openModal({
-              type: "delete_role",
-              role: role(),
-              cb: () => navigate("roles"),
-            })
+        <Show
+          when={!role()?.owner}
+          fallback={
+            <Text class="label">
+              <Trans>
+                This role is managed by {managedBy()?.displayName ?? t`a bot`}{" "}
+                and can't be deleted. It goes away when the bot is kicked or
+                deleted.
+              </Trans>
+            </Text>
           }
         >
-          <Trans>Delete Role</Trans>
-        </CategoryButton>
+          <CategoryButton
+            action="chevron"
+            icon={<Symbol size={20}>delete</Symbol>}
+            onClick={() =>
+              openModal({
+                type: "delete_role",
+                role: role(),
+                cb: () => navigate("roles"),
+              })
+            }
+          >
+            <Trans>Delete Role</Trans>
+          </CategoryButton>
+        </Show>
       </Column>
     </Column>
   );
