@@ -1,6 +1,6 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
@@ -29,6 +29,7 @@ import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_pr
 
 import pkg from "../../../../../../package.json";
 
+import { ChannelPermissionsEditor } from "@revolt/app/interface/settings/channel/permissions/ChannelPermissionsEditor";
 import { SettingsConfiguration } from ".";
 import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
@@ -50,6 +51,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * @param key
    */
   title(ctx, key) {
+    const { t } = useLingui();
+
+    if (key.startsWith("bots/") && key.endsWith("/permissions")) {
+      return t`Permissions`;
+    }
+
     if (key.startsWith("bots/")) {
       const user = useUser(key.substring(5));
       return user()!.username;
@@ -69,6 +76,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
   render(props) {
     const id = props.page();
     const client = useClient();
+
+    if (id?.startsWith("bots/") && id.endsWith("/permissions")) {
+      const botId = id.slice("bots/".length, -"/permissions".length);
+      const bot = client().bots.get(botId);
+      return bot ? <ChannelPermissionsEditor type="bot" context={bot} /> : null;
+    }
 
     if (id?.startsWith("bots/")) {
       const bot = client().bots.get(id.substring("bots/".length))!;
