@@ -1,3 +1,4 @@
+export { ActionSheet, useActionSheet } from "./ActionSheet";
 export { FloatingManager } from "./FloatingManager";
 export { Tooltip } from "./Tooltip";
 export { UserCard } from "./UserCard";
