@@ -22,6 +22,7 @@ import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
 import MdToken from "@material-design-icons/svg/outlined/token.svg?component-solid";
 
+import { useSettingsNavigation } from "@revolt/app/interface/settings/Settings";
 import { Discoverable } from "../../shared/Discoverable";
 import { UserSummary } from "../account/index";
 import { UserProfileEditor } from "../profile/UserProfileEditor";
@@ -37,6 +38,7 @@ export function ViewBot(props: { bot: Bot }) {
   const { openModal } = useModals();
   const snackbar = useSnackbar();
   const { t } = useLingui();
+  const { navigate } = useSettingsNavigation();
 
   return (
     <Column gap="lg">
@@ -99,6 +101,16 @@ export function ViewBot(props: { bot: Bot }) {
       </CategoryButton.Group>
 
       <CategoryButton.Group>
+        <CategoryButton
+          description={
+            <Trans>Permissions this bot is added to servers with</Trans>
+          }
+          icon={<Symbol size={22}>admin_panel_settings</Symbol>}
+          action="chevron"
+          onClick={() => navigate(`bots/${props.bot.id}/permissions`)}
+        >
+          <Trans>Permissions</Trans>
+        </CategoryButton>
         <CategoryButton
           icon={<MdPersonAdd {...iconSize(22)} />}
           action="chevron"

@@ -3,6 +3,7 @@ import { For, Match, Show, Switch, createSignal } from "solid-js";
 import { useLingui } from "@lingui/solid/macro";
 import {
   API,
+  Bot,
   Channel,
   DEFAULT_PERMISSION_DIRECT_MESSAGE,
   Server,
@@ -19,6 +20,7 @@ type Props = (
   | { type: "channel_default"; context: Channel }
   | { type: "channel_role"; context: Channel; roleId: string }
   | { type: "group"; context: Channel }
+  | { type: "bot"; context: Bot }
 ) & {
   additionalActions?: {
     isDirty: () => boolean;
@@ -31,143 +33,19 @@ type Props = (
 };
 
 type Context = API.Channel["channel_type"] | "Server";
+export type PermissionEntry = ReturnType<typeof usePermissionEntries>[number];
 
 /**
- * Generic editor for any channel permissions
+ * Metadata for every permission (shared with the add bot modal)
  */
-export function ChannelPermissionsEditor(props: Props) {
+export function usePermissionEntries() {
   const { t } = useLingui();
 
-  const context: Context =
-    // eslint-disable-next-line solid/reactivity
-    props.context instanceof Server ? "Server" : props.context.type;
-
-  /**
-   * Current permission value, normalised to [allow, deny]
-   * @returns [allow, deny] BigInts
-   */
-  function currentValue() {
-    switch (props.type) {
-      case "server_default":
-        return [BigInt(props.context.defaultPermissions), BigInt(0)];
-      case "server_role":
-        return [
-          BigInt(props.context.roles?.get(props.roleId)?.permissions.a || 0),
-          BigInt(props.context.roles?.get(props.roleId)?.permissions.d || 0),
-        ];
-      case "channel_default":
-        return [
-          BigInt(props.context.defaultPermissions?.a || 0),
-          BigInt(props.context.defaultPermissions?.d || 0),
-        ];
-      case "channel_role":
-        return [
-          BigInt(props.context.rolePermissions?.[props.roleId]?.a || 0),
-          BigInt(props.context.rolePermissions?.[props.roleId]?.d || 0),
-        ];
-      case "group":
-        return [
-          BigInt(
-            props.context.permissions ?? DEFAULT_PERMISSION_DIRECT_MESSAGE,
-          ),
-          BigInt(0),
-        ];
-    }
-  }
-
-  /**
-   * Current edited values
-   */
-  const [value, setValue] = createSignal(currentValue());
-  const [isPending, setPending] = createSignal(false);
-
-  /**
-   * Whether there is a pending save
-   */
-  function unsavedChanges() {
-    const [a1, a2] = currentValue(),
-      [b1, b2] = value();
-
-    return a1 !== b1 || a2 !== b2;
-  }
-
-  function hasChanges() {
-    return unsavedChanges() || !!props.additionalActions?.isDirty();
-  }
-
-  function savePending() {
-    return isPending() || !!props.additionalActions?.isPending();
-  }
-
-  /**
-   * Reset to the current value
-   */
-  function resetPermissions() {
-    setValue(currentValue());
-  }
-
-  function reset() {
-    resetPermissions();
-    props.additionalActions?.reset();
-  }
-
-  /**
-   * Commit changes
-   * @todo mutator
-   */
-  function savePermissions() {
-    switch (props.type) {
-      case "server_default":
-        return props.context.setPermissions(undefined, Number(value()[0]));
-      case "server_role":
-        return props.context.setPermissions(props.roleId, {
-          allow: Number(value()[0]),
-          deny: Number(value()[1]),
-        });
-      case "channel_default":
-        return props.context.setPermissions(undefined, {
-          allow: Number(value()[0]),
-          deny: Number(value()[1]),
-        });
-      case "channel_role":
-        return props.context.setPermissions(props.roleId, {
-          allow: Number(value()[0]),
-          deny: Number(value()[1]),
-        });
-      case "group":
-        return props.context.setPermissions(undefined, Number(value()[0]));
-    }
-  }
-
-  async function save() {
-    if (savePending()) return;
-
-    setPending(true);
-    try {
-      if (
-        props.additionalActions?.isDirty() &&
-        !(await props.additionalActions.save())
-      ) {
-        return;
-      }
-
-      if (unsavedChanges()) await savePermissions();
-    } finally {
-      setPending(false);
-    }
-  }
-
-  const Permissions: {
-    heading?: string;
-    key: string;
-    value: bigint;
-    title: string;
-    description: Partial<Record<Context | "Any", string>>;
-  }[] = [
+  return [
     {
       heading: t`Admin`,
       key: "ManageChannel",
-      value: 1n ** 0n,
+      value: 2n ** 0n,
       title: t`Manage Channel`,
       description: {
         Group: t`Edit group name and description`,
@@ -258,7 +136,7 @@ export function ChannelPermissionsEditor(props: Props) {
       },
     },
     {
-      key: "ChangeAvavar",
+      key: "ChangeAvatar",
       value: 2n ** 12n,
       title: t`Change Avatar`,
       description: {
@@ -364,15 +242,6 @@ export function ChannelPermissionsEditor(props: Props) {
         Any: t`React to messages with emoji`,
       },
     },
-    {
-      key: "UseExternalEmojis",
-      value: 2n ** 41n,
-      title: t`Use External Emojis`,
-      description: {
-        Server: t`Use emoji from other servers`,
-        TextChannel: t`Use emoji from other servers`,
-      },
-    },
 
     {
       key: "BypassSlowmode",
@@ -464,7 +333,161 @@ export function ChannelPermissionsEditor(props: Props) {
         Any: t`Mention specific roles`,
       },
     },
-  ];
+  ] as {
+    heading?: string;
+    key: string;
+    value: bigint;
+    title: string;
+    description: Partial<Record<Context | "Any", string>>;
+  }[];
+}
+
+/**
+ * Generic editor for any channel permissions
+ */
+export function ChannelPermissionsEditor(props: Props) {
+  const { t } = useLingui();
+
+  const context: Context =
+    // eslint-disable-next-line solid/reactivity
+    props.type === "bot"
+      ? "Server"
+      : props.context instanceof Server
+        ? "Server"
+        : props.context.type;
+
+  /**
+   * Current permission value, normalised to [allow, deny]
+   * @returns [allow, deny] BigInts
+   */
+  function currentValue() {
+    switch (props.type) {
+      case "server_default":
+        return [BigInt(props.context.defaultPermissions), BigInt(0)];
+      case "server_role":
+        return [
+          BigInt(props.context.roles?.get(props.roleId)?.permissions.a || 0),
+          BigInt(props.context.roles?.get(props.roleId)?.permissions.d || 0),
+        ];
+      case "channel_default":
+        return [
+          BigInt(props.context.defaultPermissions?.a || 0),
+          BigInt(props.context.defaultPermissions?.d || 0),
+        ];
+      case "channel_role":
+        return [
+          BigInt(props.context.rolePermissions?.[props.roleId]?.a || 0),
+          BigInt(props.context.rolePermissions?.[props.roleId]?.d || 0),
+        ];
+      case "group":
+        return [
+          BigInt(
+            props.context.permissions ?? DEFAULT_PERMISSION_DIRECT_MESSAGE,
+          ),
+          BigInt(0),
+        ];
+      case "bot":
+        return [BigInt(props.context.defaultPermissions ?? 0), BigInt(0)];
+    }
+  }
+
+  /**
+   * Current edited values
+   */
+  const [value, setValue] = createSignal(currentValue());
+  const [isPending, setPending] = createSignal(false);
+
+  /**
+   * Whether there is a pending save
+   */
+  function unsavedChanges() {
+    const [a1, a2] = currentValue(),
+      [b1, b2] = value();
+
+    return a1 !== b1 || a2 !== b2;
+  }
+
+  function hasChanges() {
+    return unsavedChanges() || !!props.additionalActions?.isDirty();
+  }
+
+  function savePending() {
+    return isPending() || !!props.additionalActions?.isPending();
+  }
+
+  /**
+   * Reset to the current value
+   */
+  function resetPermissions() {
+    setValue(currentValue());
+  }
+
+  function reset() {
+    resetPermissions();
+    props.additionalActions?.reset();
+  }
+
+  /**
+   * Commit changes
+   * @todo mutator
+   */
+  function savePermissions() {
+    switch (props.type) {
+      case "server_default":
+        return props.context.setPermissions(undefined, Number(value()[0]));
+      case "server_role":
+        return props.context.setPermissions(props.roleId, {
+          allow: Number(value()[0]),
+          deny: Number(value()[1]),
+        });
+      case "channel_default":
+        return props.context.setPermissions(undefined, {
+          allow: Number(value()[0]),
+          deny: Number(value()[1]),
+        });
+      case "channel_role":
+        return props.context.setPermissions(props.roleId, {
+          allow: Number(value()[0]),
+          deny: Number(value()[1]),
+        });
+      case "group":
+        return props.context.setPermissions(undefined, Number(value()[0]));
+      case "bot":
+        return props.context.edit({ default_permissions: Number(value()[0]) });
+    }
+  }
+
+  function havePermission(entry: (typeof Permissions)[number]) {
+    // the owner may configure any permission, since it's applied later at invite time
+    if (props.type === "bot") return true;
+    return (props.context.permission & entry.value) === entry.value;
+  }
+
+  async function save() {
+    if (savePending()) return;
+
+    setPending(true);
+    try {
+      if (
+        props.additionalActions?.isDirty() &&
+        !(await props.additionalActions.save())
+      ) {
+        return;
+      }
+
+      if (unsavedChanges()) await savePermissions();
+    } finally {
+      setPending(false);
+    }
+  }
+
+  const Permissions: {
+    heading?: string;
+    key: string;
+    value: bigint;
+    title: string;
+    description: Partial<Record<Context | "Any", string>>;
+  }[] = usePermissionEntries();
 
   /**
    * Find description for this permission in context
@@ -509,9 +532,7 @@ export function ChannelPermissionsEditor(props: Props) {
                   onChange={() =>
                     setValue((v) => [v[0] ^ BigInt(entry.value), v[1]])
                   }
-                  havePermission={
-                    (props.context.permission & entry.value) === entry.value
-                  }
+                  havePermission={havePermission(entry)}
                 />
               }
             >
@@ -542,9 +563,7 @@ export function ChannelPermissionsEditor(props: Props) {
 
                     setValue([allow, deny]);
                   }}
-                  havePermission={
-                    (props.context.permission & entry.value) === entry.value
-                  }
+                  havePermission={havePermission(entry)}
                 />
               </Match>
             </Switch>

@@ -1,5 +1,13 @@
 import { createFormControl, createFormGroup } from "solid-forms";
-import { Show, createMemo, createSignal } from "solid-js";
+import {
+  For,
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createMemo,
+  createSignal,
+} from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
@@ -7,10 +15,12 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 import { decodeTime } from "ulid";
 
+import { usePermissionEntries } from "@revolt/app/interface/settings/channel/permissions/ChannelPermissionsEditor";
 import { useClient } from "@revolt/client";
 import { Markdown } from "@revolt/markdown";
 import {
   Avatar,
+  Checkbox2,
   Column,
   Dialog,
   DialogProps,
@@ -36,6 +46,13 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
 
   const filterLowercase = createMemo(() => filter().toLowerCase());
 
+  // must be declared before anything that reads it eagerly (createMemo / createEffect)
+  const group = createFormGroup({
+    id: createFormControl([] as string[], {
+      required: true,
+    }),
+  });
+
   const availableGroups = createMemo(() => {
     const instance = client();
 
@@ -53,11 +70,52 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
       .map((item) => ({ item, value: item.id }));
   });
 
-  const group = createFormGroup({
-    id: createFormControl([] as string[], {
-      required: true,
-    }),
+  const entries = usePermissionEntries();
+
+  /**
+   * Permissions the bot asks for (0n if the instance doesn't send any)
+   */
+  const requested = () => BigInt(props.invite.defaultPermissions ?? 0);
+
+  const selectedItem = createMemo(
+    () =>
+      availableGroups().find((e) => e.value === group.controls.id.value[0])
+        ?.item,
+  );
+
+  const selectedServer = createMemo(() => {
+    const item = selectedItem();
+    return item instanceof Server ? item : undefined;
   });
+
+  const canGrant = () => !!selectedServer()?.havePermission("ManageRole");
+
+  /**
+   * What the permission picker is currently able to do
+   */
+  const mode = (): "none" | "group" | "no_role" | "ok" => {
+    if (!selectedItem()) return "none";
+    if (!selectedServer()) return "group";
+    if (!canGrant()) return "no_role";
+    return "ok";
+  };
+
+  /**
+   * Requested permissions the current user is actually allowed to hand out
+   */
+  const grantable = createMemo(() => {
+    const server = selectedServer();
+    if (!server || !canGrant()) return 0n;
+    return requested() & BigInt(server.permission);
+  });
+
+  const [granted, setGranted] = createSignal(0n);
+  createEffect(() => setGranted(grantable())); // reset on server change
+
+  const requestedEntries = () =>
+    entries.filter((e) => (requested() & e.value) === e.value);
+
+  const dropped = () => requested() & ~grantable();
 
   async function onSubmit() {
     try {
@@ -66,7 +124,10 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
       )!;
 
       if (entry.item instanceof Server) {
-        await props.invite.addToServer(entry.item);
+        await props.invite.addToServer(
+          entry.item,
+          granted() !== 0n ? granted() : undefined,
+        );
       } else {
         await props.invite.addToGroup(entry.item);
       }
@@ -154,13 +215,106 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
             )}
           </Form2.VirtualSelect>
 
+          <Show when={requested() !== 0n}>
+            <Column gap="sm">
+              <Text class="label">
+                <Trans>Requested permissions</Trans>
+              </Text>
+
+              <div
+                style={{
+                  opacity: mode() === "ok" ? 1 : 0.5,
+                  "pointer-events": mode() === "ok" ? "auto" : "none",
+                }}
+              >
+                <div use:scrollable={{ class: permissionList() }}>
+                  <For each={requestedEntries()}>
+                    {(entry) => {
+                      const allowed = () => {
+                        const server = selectedServer();
+                        return (
+                          !!server &&
+                          (BigInt(server.permission) & entry.value) ===
+                            entry.value
+                        );
+                      };
+
+                      return (
+                        <Checkbox2
+                          name={entry.key}
+                          checked={(granted() & entry.value) === entry.value}
+                          disabled={mode() !== "ok" || !allowed()}
+                          onChange={(e) =>
+                            setGranted((v) =>
+                              e.currentTarget.checked
+                                ? v | entry.value
+                                : v & ~entry.value,
+                            )
+                          }
+                        >
+                          <Column gap="none">
+                            <Text class="title" size="small">
+                              {entry.title}
+                            </Text>
+                            <Text class="label" size="small">
+                              {entry.description.Server ??
+                                entry.description.Any}
+                            </Text>
+                          </Column>
+                        </Checkbox2>
+                      );
+                    }}
+                  </For>
+                </div>
+              </div>
+
+              <Text class="label" size="small">
+                <Switch>
+                  <Match when={mode() === "none"}>
+                    <Trans>
+                      Select a server to choose which permissions to grant.
+                    </Trans>
+                  </Match>
+                  <Match when={mode() === "group"}>
+                    <Trans>
+                      Permissions can only be granted when adding to a server.
+                    </Trans>
+                  </Match>
+                  <Match when={mode() === "no_role"}>
+                    <Trans>
+                      You need Manage Roles on this server to grant permissions.
+                      The bot will be added without any.
+                    </Trans>
+                  </Match>
+                  <Match when={dropped() !== 0n}>
+                    <Trans>
+                      Some requested permissions can't be granted because you
+                      don't have them.
+                    </Trans>
+                  </Match>
+                </Switch>
+              </Text>
+            </Column>
+          </Show>
+
           <Column gap="sm" align>
             <Text class="label" size="small">
               Bots are not verified by Stoat.
             </Text>
-            <Text class="label" size="small">
-              The bot will not be granted any permissions.
-            </Text>
+            <Show when={requested() === 0n || mode() !== "none"}>
+              <Text class="label" size="small">
+                <Show
+                  when={granted() !== 0n}
+                  fallback={
+                    <Trans>The bot will not be granted any permissions.</Trans>
+                  }
+                >
+                  <Trans>
+                    The bot will be granted the selected permissions.
+                  </Trans>
+                </Show>
+              </Text>
+            </Show>
           </Column>
         </Column>
       </form>
@@ -218,5 +372,13 @@ const Item = styled("div", {
         background: "var(--md-sys-color-primary)",
       },
     },
+  },
+});
+
+const permissionList = cva({
+  base: {
+    maxHeight: "160px",
+    padding: "var(--gap-md)",
+    borderRadius: "var(--borderRadius-lg)",
   },
 });
