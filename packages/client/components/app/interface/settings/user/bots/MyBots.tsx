@@ -65,7 +65,7 @@ function CreateBot() {
         icon={<MdLibraryBooks {...iconSize(22)} />}
         onClick={() => window.open("https://developers.stoat.chat", "_blank")}
         description={
-          <Trans>Learn more about how to create bots on Stoat.</Trans>
+          <Trans>Learn more about how to create bots on Sipher.</Trans>
         }
       >
         <Trans>Developer Documentation</Trans>

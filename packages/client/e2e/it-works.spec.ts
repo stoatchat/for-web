@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("shows a working login page", async ({ page }) => {
   await page.goto("");
-  await expect(page).toHaveTitle(/Stoat/);
+  await expect(page).toHaveTitle(/Sipher/);
 
   const form = page.locator("form");
   await expect(form.locator('mdui-text-field[name="email"]')).toBeVisible();

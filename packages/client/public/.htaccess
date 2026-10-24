@@ -1,0 +1,6 @@
+# InfinityFree / Apache: send every app route to index.html (single page app)
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

@@ -34,9 +34,9 @@ self.addEventListener("push", (event) => {
 
   notif.title ||= notif.channel
     ? notif.channel.channel_type === "DirectMessage"
-      ? notif.author || "Stoat"
+      ? notif.author || "Sipher"
       : `${notif.author} in ${notif.channel.name}`
-    : "Stoat";
+    : "Sipher";
 
   //Redirect instance URL
   const url = notif.url && new URL(notif.url);

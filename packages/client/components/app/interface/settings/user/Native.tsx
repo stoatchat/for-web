@@ -114,7 +114,7 @@ export default function Native() {
           onClick={toggleAutostart}
           icon={<Symbol>exit_to_app</Symbol>}
           description={
-            <Trans>Launch Stoat when you log into your computer.</Trans>
+            <Trans>Launch Sipher when you log into your computer.</Trans>
           }
         >
           <Trans>Start with Computer</Trans>
@@ -124,19 +124,19 @@ export default function Native() {
             "startMinimisedToTray",
             "minimize",
             t`Start Minimised to Tray`,
-            t`Stoat will start in the system tray.`,
+            t`Sipher will start in the system tray.`,
           )}
         {CheckboxButton(
           "minimiseToTray",
           "cancel_presentation",
           t`Minimise to Tray`,
-          t`Instead of closing, Stoat will hide in your tray.`,
+          t`Instead of closing, Sipher will hide in your tray.`,
         )}
         {CheckboxButton(
           "customFrame",
           "web_asset",
           t`Custom window frame`,
-          t`Let Stoat use its own custom titlebar.`,
+          t`Let Sipher use its own custom titlebar.`,
         )}
       </CategoryButton.Group>
 
@@ -145,7 +145,7 @@ export default function Native() {
           "discordRpc",
           "groups_2",
           t`Discord RPC`,
-          t`Rep Stoat using Discord rich presence.`,
+          t`Rep Sipher using Discord rich presence.`,
         )}
         {CheckboxButton(
           "spellchecker",
@@ -170,7 +170,7 @@ export default function Native() {
             </>
           }
         >
-          <Trans>Stoat for Desktop</Trans>
+          <Trans>Sipher for Desktop</Trans>
         </CategoryButton>
       </CategoryButton.Group>
     </Column>

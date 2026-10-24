@@ -101,7 +101,7 @@ export default function FlowCreate() {
       <FlowTitle
         subtitle={<Trans>Set up your account and make yourself at home.</Trans>}
       >
-        <Trans>Join Stoat</Trans>
+        <Trans>Join Sipher</Trans>
       </FlowTitle>
       <Form onSubmit={create} captcha={config.features.captcha.key}>
         <Fields

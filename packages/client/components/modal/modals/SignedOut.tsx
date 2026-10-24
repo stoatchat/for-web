@@ -15,7 +15,7 @@ export function SignedOutModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>You've been signed out of Stoat!</Trans>}
+      title={<Trans>You've been signed out of Sipher!</Trans>}
       actions={[{ text: <Trans>OK</Trans> }]}
     >
       <></>

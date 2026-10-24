@@ -38,7 +38,7 @@ export function InstanceContext(props: { children?: JSXElement }) {
   function onError(e: unknown) {
     if ((e as Error).message === "Failed to fetch") {
       const hStr = `'${host || DefaultHost}'`;
-      e = t`Couldn't fetch Stoat configuration from ${hStr}.`;
+      e = t`Couldn't fetch Sipher configuration from ${hStr}.`;
     }
     snackbar.showError(e);
     if (appLoadedOnce) nav(-1);

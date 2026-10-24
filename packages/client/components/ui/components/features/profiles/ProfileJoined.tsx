@@ -19,7 +19,7 @@ export function ProfileJoined(props: { user: User; member?: ServerMember }) {
         <Trans>Joined</Trans>
       </Text>
       <Text class="label">
-        <OverflowingText>Stoat</OverflowingText>
+        <OverflowingText>Sipher</OverflowingText>
         {/* <Trans>Account Created</Trans> */}
       </Text>
       <Text>
