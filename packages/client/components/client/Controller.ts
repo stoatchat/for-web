@@ -5,6 +5,7 @@ import { Accessor, Setter, createMemo, createSignal } from "solid-js";
 
 import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 
+import { AUTO_JOIN_INVITE } from "@revolt/common/lib/links";
 import { useError } from "@revolt/i18n";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
@@ -605,6 +606,14 @@ export default class ClientController {
     await this.instance.client.api.post("/onboard/complete", {
       username,
     });
+
+    // join the default server, without blocking sign up if it fails
+    if (AUTO_JOIN_INVITE) {
+      await this.instance.client.api
+        .post(`/invites/${AUTO_JOIN_INVITE}`)
+        .catch((err) => console.error("Failed to join default server:", err));
+    }
+
     this.lifecycle.transition({
       type: TransitionType.UserCreated,
     });
