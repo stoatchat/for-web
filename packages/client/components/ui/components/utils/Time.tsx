@@ -26,7 +26,9 @@ interface Props {
 export function formatTime(
   dayjs: ReturnType<typeof useTime>,
   options: Props,
-  date?: Date,
+  // only here so Time() can pass datePerDay() and trigger a daily re-render,
+  // don't use it as "now" below
+  _date?: Date,
 ): JSX.Element | string | undefined | null {
   if (
     options.value instanceof Date ||
@@ -48,11 +50,14 @@ export function formatTime(
         return dayjs(options.value).format("MM/DD/YYYY");
       case "iso8601":
         return dayjs(options.value).format("YYYY-MM-DD");
-      case "relative":
-        return dayjs(options.value).from(
-          options.referenceTime ?? date?.getTime() ?? Date.now(),
-          options.hideSuffix,
-        );
+        case "relative":
+      // datePerDay only updates once a day, so it's not safe to use as
+      // "now" here that's what was making timestamps drift into the
+      // future as the day went on. just use Date.now().
+      return dayjs(options.value).from(
+        options.referenceTime ?? Date.now(),
+        options.hideSuffix,
+      );
       case "time12":
         return dayjs(options.value).format("h:mm A");
       case "time24":
