@@ -1,9 +1,7 @@
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPopup,
   updateProfile,
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 import { saveProfile } from "../api.js";
@@ -15,11 +13,7 @@ const ERRORS = {
   "auth/invalid-email": "That email address doesn't look right.",
   "auth/email-already-in-use": "An account with that email already exists.",
   "auth/weak-password": "Password must be at least 6 characters.",
-  "auth/popup-closed-by-user": "Sign-in popup was closed.",
-  "auth/popup-blocked": "Your browser blocked the sign-in popup.",
   "auth/too-many-requests": "Too many attempts. Try again in a moment.",
-  "auth/unauthorized-domain":
-    "This domain isn't authorized in the Firebase console (Auth → Settings).",
   "auth/operation-not-allowed":
     "This sign-in method isn't enabled in the Firebase console.",
 };
@@ -165,25 +159,6 @@ export function renderAuth(container) {
     forgot,
     error,
     submit,
-    h("div", { class: "divider" }, h("span", null, "or")),
-    h(
-      "button",
-      {
-        type: "button",
-        class: "btn secondary block",
-        onclick: async () => {
-          showError("");
-          busy(true);
-          try {
-            await signInWithPopup(auth, new GoogleAuthProvider());
-          } catch (err) {
-            showError(message(err));
-            busy(false);
-          }
-        },
-      },
-      "Continue with Google",
-    ),
     toggle,
   );
 

@@ -6,7 +6,7 @@ The entry point is **`index.svg`**: an SVG document that hosts the UI in a
 
 ## Features
 
-- Email/password and Google sign-in, password reset
+- Email/password sign-in, password reset
 - Servers: create, rename, delete, leave
 - Invite links/codes to join a server, with reset
 - Text channels: create, rename, delete (server owner)
@@ -35,7 +35,7 @@ firebase.json        Firebase Hosting + Firestore config
 
 In the [Firebase console](https://console.firebase.google.com/project/sipher-e3cfb):
 
-1. **Authentication → Sign-in method:** enable **Email/Password** and **Google**.
+1. **Authentication → Sign-in method:** enable **Email/Password**.
 2. **Authentication → Settings → Authorized domains:** add any domain you serve from
    (`localhost` is there by default).
 3. **Firestore Database:** create a database if you haven't yet.
