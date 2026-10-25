@@ -1,0 +1,31 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": { "port": 9099 },
+    "firestore": { "port": 8080 },
+    "hosting": { "port": 5000 },
+    "ui": { "enabled": true }
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "firestore.indexes.json",
+      "README.md",
+      "**/.*"
+    ],
+    "redirects": [{ "source": "/", "destination": "/index.svg", "type": 302 }],
+    "headers": [
+      {
+        "source": "**/*.svg",
+        "headers": [
+          { "key": "Content-Type", "value": "image/svg+xml; charset=utf-8" }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="css/styles.css"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xhtml="http://www.w3.org/1999/xhtml"
+     width="100%" height="100%">
+  <title>Sipher</title>
+
+  <!-- The whole UI lives in XHTML inside this foreignObject. -->
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml" id="root">
+      <div id="head"></div>
+      <div id="app">
+        <div class="boot">
+          <div class="boot-logo">S</div>
+          <div class="boot-text">Loading Sipher…</div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+
+  <!-- Makes the SVG document behave enough like an HTML one for the Firebase SDK. -->
+  <script href="js/shim.js"></script>
+  <!-- Classic scripts can't be modules inside SVG, so hand off with a dynamic import. -->
+  <script><![CDATA[
+    import("./js/main.js").catch((err) => {
+      console.error(err);
+      const app = document.getElementById("app");
+      app.textContent = "Failed to load Sipher: " + err.message;
+    });
+  ]]></script>
+</svg>

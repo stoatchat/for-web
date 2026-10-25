@@ -1,0 +1,141 @@
+rules_version = '2';
+
+// Security rules for Sipher. Deploy with: firebase deploy --only firestore:rules
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isMe(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function serverPath(sid) {
+      return /databases/$(database)/documents/servers/$(sid);
+    }
+
+    function memberPath(sid, uid) {
+      return /databases/$(database)/documents/servers/$(sid)/members/$(uid);
+    }
+
+    function isMember(sid) {
+      return signedIn() && exists(memberPath(sid, request.auth.uid));
+    }
+
+    // Owner as of before this request (or batch).
+    function isOwner(sid) {
+      return signedIn() && exists(serverPath(sid))
+        && get(serverPath(sid)).data.ownerId == request.auth.uid;
+    }
+
+    // Owner as of after this request; lets the create-server batch add its
+    // first channel and invite before the server doc exists.
+    function isOwnerAfter(sid) {
+      return signedIn() && existsAfter(serverPath(sid))
+        && getAfter(serverPath(sid)).data.ownerId == request.auth.uid;
+    }
+
+    function validName(name, max) {
+      return name is string && name.size() > 0 && name.size() <= max;
+    }
+
+    function onlyChanged(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    // ---- users ----
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isMe(uid)
+        && request.resource.data.uid == uid
+        && validName(request.resource.data.displayName, 64);
+      allow delete: if false;
+
+      // Each user's own list of joined servers (drives the server rail).
+      match /servers/{sid} {
+        allow read, delete: if isMe(uid);
+        allow create: if isMe(uid) && existsAfter(memberPath(sid, uid));
+        allow update: if isMe(uid) && onlyChanged(["name"]);
+      }
+    }
+
+    // ---- invites ----
+
+    match /invites/{code} {
+      // Knowing the code is the secret, so allow get but never list.
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if isOwnerAfter(request.resource.data.serverId)
+        && getAfter(serverPath(request.resource.data.serverId)).data.inviteCode == code;
+      allow update: if isOwner(resource.data.serverId) && onlyChanged(["serverName"]);
+      allow delete: if isOwner(resource.data.serverId);
+    }
+
+    // ---- servers ----
+
+    match /servers/{sid} {
+      allow read: if isMember(sid);
+      allow create: if signedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && validName(request.resource.data.name, 50)
+        && existsAfter(memberPath(sid, request.auth.uid));
+      allow update: if isOwner(sid)
+        && onlyChanged(["name", "inviteCode"])
+        && validName(request.resource.data.name, 50);
+      allow delete: if isOwner(sid);
+
+      match /members/{uid} {
+        allow read: if isMember(sid);
+
+        // Either the owner joining their brand-new server, or someone joining
+        // with a valid invite code for this server.
+        allow create: if isMe(uid)
+          && request.resource.data.uid == uid
+          && validName(request.resource.data.displayName, 64)
+          && (
+            (request.resource.data.role == "owner"
+              && !exists(serverPath(sid))
+              && getAfter(serverPath(sid)).data.ownerId == uid)
+            ||
+            (request.resource.data.role == "member"
+              && exists(/databases/$(database)/documents/invites/$(request.resource.data.invite))
+              && get(/databases/$(database)/documents/invites/$(request.resource.data.invite)).data.serverId == sid)
+          );
+
+        allow update: if isMe(uid)
+          && onlyChanged(["displayName", "photoURL"])
+          && validName(request.resource.data.displayName, 64);
+
+        // Members can leave (the owner can't, they delete the server);
+        // the owner can kick anyone.
+        allow delete: if (isMe(uid) && resource.data.role != "owner") || isOwner(sid);
+      }
+
+      match /channels/{cid} {
+        allow read: if isMember(sid);
+        allow create, update: if isOwnerAfter(sid)
+          && validName(request.resource.data.name, 32)
+          && request.resource.data.name.matches("^[a-z0-9_-]+$");
+        allow delete: if isOwner(sid);
+
+        match /messages/{mid} {
+          allow read: if isMember(sid);
+          allow create: if isMember(sid)
+            && request.resource.data.authorId == request.auth.uid
+            && validName(request.resource.data.text, 2000)
+            && request.resource.data.createdAt == request.time;
+          allow update: if isMember(sid)
+            && resource.data.authorId == request.auth.uid
+            && onlyChanged(["text", "editedAt"])
+            && validName(request.resource.data.text, 2000)
+            && request.resource.data.editedAt == request.time;
+          allow delete: if isMember(sid)
+            && (resource.data.authorId == request.auth.uid || isOwner(sid));
+        }
+      }
+    }
+  }
+}
