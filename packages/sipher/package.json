@@ -1,0 +1,21 @@
+{
+  "name": "sipher",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "firebase": "^11.10.0",
+    "solid-js": "^1.9.14"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "typescript": "^6.0.3",
+    "vite": "^6.4.3",
+    "vite-plugin-solid": "^2.11.14"
+  }
+}

@@ -1,116 +1,86 @@
 # Sipher setup
 
-This repo is a rebranded fork of the Stoat web client. The app's name, logo
-(purple lightning bolt), page title, PWA manifest and app icons now say
-**Sipher**.
+This repo has two versions of Sipher:
 
-## Where the logo files are
+| Folder            | What it is                                                                                                       |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `packages/sipher` | **Sipher on Firebase.** Its own accounts, servers, channels and DMs. Emails say Sipher. This is the one to host. |
+| `packages/client` | The rebranded Stoat web client. Accounts and chats live on Stoat's servers, and its emails come from Stoat.      |
 
-All brand images are in `packages/client/scripts/assets_fallback/web/`:
+## Sipher on Firebase (`packages/sipher`)
 
-| File                   | Used for                                     |
-| ---------------------- | -------------------------------------------- |
-| `wordmark.svg`         | Bolt + "sipher" logo (login, home, titlebar) |
-| `monochrome.svg`       | Single-colour bolt icon                      |
-| `icon.ico`             | Browser tab icon                             |
-| `android-chrome-*.png` | Install / home-screen icons                  |
-| `masking-512x512.png`  | Android adaptive icon                        |
+### Features
 
-Don't run `mise assets` (or `mise install:assets`). It pulls Stoat's private
-brand assets, which replace the Sipher ones.
+- Sign up, log in and password reset, with emails from Firebase that you can
+  brand as Sipher
+- Email verification required before chatting
+- Unique usernames plus a display name you can change
+- Every new account joins **Da Group** automatically. The first account ever
+  created becomes its owner.
+- Servers with text channels and real-time messages
+- Invite links (`https://your-site/#join=CODE`) to join a server
+- Direct messages: click someone in a member list, or use **New message**
+- Server owners can create and delete channels, delete any message and remove
+  members. Everyone can delete their own messages.
 
-## Account emails (why they still come from Stoat)
+Not included: voice or video calls, and image or file uploads (Firebase
+Storage needs a billing account).
 
-The **"verify your account"** and **"reset your password"** emails don't come
-from this repo. Stoat's backend server (`api.stoat.chat`) sends them, using
-Stoat's own mail server and templates. While the app points at `api.stoat.chat`,
-accounts live on Stoat's servers and Stoat sends the emails. Nothing in the
-frontend can change that.
+### One-time Firebase Console setup
 
-You can get Sipher-branded emails in one of two ways:
+Project: `sipher-e3cfb` (https://console.firebase.google.com)
 
-1. **Run your own backend.** Self-host the Stoat backend
-   (https://github.com/stoatchat/self-hosted) on a VPS, set its SMTP settings
-   and email templates to Sipher, then build this client with `VITE_API_URL`
-   and `VITE_HOST` pointing at it. InfinityFree **can't** host the backend.
-   It only serves PHP and static files, with no Docker and no websockets.
-2. **Use Firebase Auth for your own accounts.** Firebase can send
-   Sipher-branded emails (see below). Firebase accounts are separate from the
-   chat accounts, though, so this only helps for features you build on
-   Firebase yourself.
+1. **Authentication → Get started → Sign-in method →** enable
+   **Email/Password**.
+2. **Firestore Database → Create database →** pick a location near you →
+   **Start in production mode**.
+3. **Firestore Database → Rules →** delete what's there, paste the whole of
+   `packages/sipher/firestore.rules` and click **Publish**. Without this step,
+   nothing loads ("You don't have permission").
+4. **Project settings → General → Public-facing name →** `Sipher`. Emails use
+   this name.
+5. **Authentication → Templates →** for **Email address verification** and
+   **Password reset**, click the pencil and set **Sender name** to `Sipher`.
+   You can also edit the subject and wording.
+6. **Authentication → Settings → Authorized domains →** add the domain you
+   host on (for example `sipher.nichesite.org`).
 
-## Linking Firebase
+### Become the owner of Da Group
 
-The Firebase SDK is installed, and `packages/client/components/common/lib/firebase.ts`
-holds the connection code.
+Da Group is created by the first account that finishes signing up, and that
+account is its owner. **Sign up yourself first**, right after the site goes
+live.
 
-1. Go to https://console.firebase.google.com → **Add project** → name it `Sipher`.
-2. **Project settings → General → Your apps →** click the `</>` (Web) icon,
-   name it `Sipher Web` and register it. Firebase shows a `firebaseConfig`
-   object.
-3. Copy `packages/client/.env.example` to `packages/client/.env` and fill in the
-   values from that object:
+If someone else gets there first, open **Firestore Database → Data →
+servers → da-group** in the console and change `ownerId` to your user ID.
+Your user ID is under **Authentication → Users**.
 
-   ```env
-   VITE_FIREBASE_API_KEY=AIza...
-   VITE_FIREBASE_AUTH_DOMAIN=sipher-xxxx.firebaseapp.com
-   VITE_FIREBASE_PROJECT_ID=sipher-xxxx
-   VITE_FIREBASE_STORAGE_BUCKET=sipher-xxxx.firebasestorage.app
-   VITE_FIREBASE_MESSAGING_SENDER_ID=1234567890
-   VITE_FIREBASE_APP_ID=1:1234567890:web:abc123
-   ```
+### Build and host
 
-   These values are public client config, not secrets. They end up in the built
-   JavaScript.
-
-4. **Authentication → Get started → Sign-in method →** enable **Email/Password**.
-5. **Authentication → Settings → Authorized domains →** add your InfinityFree
-   domain (for example `sipher.infinityfreeapp.com`, or your custom domain).
-6. **Authentication → Templates →** for each template (Email address
-   verification, Password reset, Email address change):
-   - click the pencil, set **Sender name** to `Sipher`
-   - set the **Subject** (for example `Verify your Sipher account`) and edit
-     the message text
-   - optional: **Customize domain** to send from `noreply@your-domain`. This
-     needs DNS records at your domain registrar.
-
-To use it in code:
-
-```ts
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import {
-  getFirebaseAuth,
-  sendSipherVerificationEmail,
-} from "@revolt/common/lib/firebase";
-
-const auth = getFirebaseAuth();
-if (auth) {
-  await createUserWithEmailAndPassword(auth, email, password);
-  await sendSipherVerificationEmail(); // sent using your "Sipher" template
-}
+```bash
+pnpm install
+pnpm --filter sipher build    # output: packages/sipher/dist
 ```
 
-## Hosting on InfinityFree
+Upload everything inside `packages/sipher/dist/` to your host's main folder.
+It's six files, and it needs no `.htaccess` or redirect settings.
 
-InfinityFree serves static files, which is all this client needs.
+### Test locally
 
-1. Install the tools (see `README.md`), then build:
+```bash
+cd packages/sipher
+npx firebase-tools emulators:start --project sipher-e3cfb --only auth,firestore
+# in another terminal:
+VITE_USE_EMULATORS=1 pnpm dev   # app against the local emulators
+pnpm test                       # security rule tests
+```
 
-   ```bash
-   mise install:frozen
-   mise build:deps
-   mise build          # output goes to packages/client/dist
-   ```
+## Rebranded Stoat client (`packages/client`)
 
-2. In the InfinityFree control panel, open **File Manager** (or connect with
-   FTP using FileZilla and the FTP details from the panel).
-3. Delete the default files in `htdocs/`, then upload **everything inside**
-   `packages/client/dist/` into `htdocs/`, including the hidden `.htaccess`
-   file. `.htaccess` sends routes like `/login` and `/server/...` to
-   `index.html`. Without it, refreshing those pages gives a 404.
-4. Turn on **SSL** for the domain in the control panel. Login, notifications
-   and installing the app all need HTTPS.
+The Stoat client's brand images are in
+`packages/client/scripts/assets_fallback/web/`. Don't run `mise assets`. It
+pulls Stoat's private brand assets, which replace the Sipher ones.
 
-Note: Firebase values are compiled in at build time. Change `.env`, rebuild,
-and upload again.
+Its sign-up and password emails come from Stoat's servers, and nothing in this
+repo can change them. Build it with `mise build` (output in
+`packages/client/dist`, including an `.htaccess` for page routing).

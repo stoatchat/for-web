@@ -1,0 +1,160 @@
+rules_version = '2';
+
+// Paste this whole file into Firebase Console → Firestore Database → Rules,
+// then click Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function verified() {
+      return signedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isMe(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function doc(p) {
+      return path('/databases/' + database + '/documents/' + p);
+    }
+
+    function profile(uid) {
+      return get(doc('users/' + uid)).data;
+    }
+
+    function profileAfter(uid) {
+      return getAfter(doc('users/' + uid)).data;
+    }
+
+    function isMember(sid) {
+      return exists(doc('servers/' + sid + '/members/' + request.auth.uid));
+    }
+
+    function isOwner(sid) {
+      return get(doc('servers/' + sid)).data.ownerId == request.auth.uid;
+    }
+
+    // ownership as it will be once this write (or batch) is applied
+    function isOwnerAfter(sid) {
+      return getAfter(doc('servers/' + sid)).data.ownerId == request.auth.uid;
+    }
+
+    function validText(value, max) {
+      return value is string && value.size() >= 1 && value.size() <= max;
+    }
+
+    function validMessage() {
+      let data = request.resource.data;
+      return data.keys().hasOnly(['authorId', 'authorName', 'content', 'createdAt'])
+        && data.authorId == request.auth.uid
+        && data.authorName == profile(request.auth.uid).displayName
+        && validText(data.content, 2000)
+        && data.createdAt == request.time;
+    }
+
+    // Usernames are unique: each one is a document keyed by the lowercase name
+    match /usernames/{name} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && name.matches('^[a-z0-9_]{3,20}$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid
+        && !exists(doc('users/' + request.auth.uid));
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create: if isMe(uid)
+        && request.resource.data.keys().hasOnly(['username', 'displayName', 'createdAt'])
+        && getAfter(doc('usernames/' + request.resource.data.username)).data.uid == uid
+        && validText(request.resource.data.displayName, 32)
+        && request.resource.data.createdAt == request.time;
+      allow update: if isMe(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName'])
+        && validText(request.resource.data.displayName, 32);
+
+      // Which servers this user is in, so the app can list them
+      match /servers/{sid} {
+        allow read, delete: if isMe(uid);
+        allow create: if isMe(uid)
+          && request.resource.data.keys().hasOnly(['joinedAt'])
+          && existsAfter(doc('servers/' + sid + '/members/' + uid));
+      }
+    }
+
+    match /servers/{sid} {
+      allow read: if verified();
+      allow create: if verified()
+        && request.resource.data.keys().hasOnly(['name', 'ownerId', 'createdAt'])
+        && request.resource.data.ownerId == request.auth.uid
+        && validText(request.resource.data.name, 50)
+        && request.resource.data.createdAt == request.time;
+      allow update: if verified() && isOwner(sid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name'])
+        && validText(request.resource.data.name, 50);
+
+      match /members/{uid} {
+        allow read: if verified() && (isMember(sid) || isMe(uid));
+        // anyone with the server's code can join
+        allow create: if verified() && isMe(uid)
+          && request.resource.data.keys().hasOnly(['username', 'displayName', 'joinedAt'])
+          && request.resource.data.username == profile(uid).username
+          && request.resource.data.displayName == profile(uid).displayName
+          && request.resource.data.joinedAt == request.time;
+        // keep the member list in step with display name changes
+        allow update: if verified() && isMe(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName'])
+          && request.resource.data.displayName == profileAfter(uid).displayName;
+        // members can leave (owners can't), owners can remove others
+        allow delete: if verified()
+          && ((isMe(uid) && !isOwner(sid)) || (isOwner(sid) && !isMe(uid)));
+      }
+
+      match /channels/{cid} {
+        allow read: if verified() && isMember(sid);
+        allow create: if verified() && isOwnerAfter(sid)
+          && request.resource.data.keys().hasOnly(['name', 'createdAt'])
+          && request.resource.data.name.matches('^[a-z0-9-]{1,32}$')
+          && request.resource.data.createdAt == request.time;
+        allow delete: if verified() && isOwner(sid);
+
+        match /messages/{mid} {
+          allow read: if verified() && isMember(sid);
+          allow create: if verified() && isMember(sid) && validMessage();
+          allow delete: if verified()
+            && (resource.data.authorId == request.auth.uid || isOwner(sid));
+        }
+      }
+    }
+
+    // Direct messages: the id is the two user ids, sorted, joined by "_"
+    match /dms/{dmId} {
+      allow read: if verified()
+        && (resource == null || request.auth.uid in resource.data.members);
+      allow create: if verified()
+        && request.resource.data.keys().hasOnly(['members', 'updatedAt'])
+        && request.resource.data.members.size() == 2
+        && request.auth.uid in request.resource.data.members
+        && request.resource.data.members[0] < request.resource.data.members[1]
+        && dmId == request.resource.data.members[0] + '_' + request.resource.data.members[1]
+        && exists(doc('users/' + request.resource.data.members[0]))
+        && exists(doc('users/' + request.resource.data.members[1]))
+        && request.resource.data.updatedAt == request.time;
+      allow update: if verified()
+        && request.auth.uid in resource.data.members
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['updatedAt'])
+        && request.resource.data.updatedAt == request.time;
+
+      match /messages/{mid} {
+        allow read: if verified()
+          && request.auth.uid in get(doc('dms/' + dmId)).data.members;
+        allow create: if verified()
+          && request.auth.uid in getAfter(doc('dms/' + dmId)).data.members
+          && validMessage();
+        allow delete: if verified() && resource.data.authorId == request.auth.uid;
+      }
+    }
+  }
+}
