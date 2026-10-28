@@ -386,4 +386,7 @@ export type Modals =
     }
   | {
       type: "swap_user";
+    }
+  | {
+      type: "avatar_radius";
     };
