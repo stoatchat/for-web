@@ -10,15 +10,15 @@ import {
 import { Channel, ServerMember, ServerRole, User } from "stoat.js";
 
 import { getChannelIcon } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import {
   RE_UNICODE_EMOJI,
   unicodeEmojiUrl,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { parseUnicodeEmoji } from "@revolt/markdown/plugins/unicodeEmoji";
 import { userInformation } from "@revolt/markdown/users";
 import { useSmartParams } from "@revolt/routing";
 
-import { useInstance } from "@revolt/instance";
-import { parseUnicodeEmoji } from "@revolt/markdown/plugins/unicodeEmoji";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
 export function codeMirrorWidgets() {
@@ -225,12 +225,12 @@ class ChannelMentionWidget extends WidgetType {
 
   toDOM() {
     const mention = document.createElement("span");
-    mention.classList.add("cm-mention-widget");
+    mention.className = "cm-mention-widget";
     mention.contentEditable = "false";
 
     const icon = document.createElement("span");
-    icon.innerText = getChannelIcon(this.channel, "mention");
-    icon.classList.add("material-symbols-outlined");
+    icon.textContent = getChannelIcon(this.channel, "mention");
+    icon.className = "material-symbols-outlined";
     mention.appendChild(icon);
 
     const name = document.createElement("span");
