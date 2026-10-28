@@ -61,6 +61,7 @@ import { ScreenShareSettingsModal } from "./modals/ScreenShareSettings";
 import { ServerIdentityModal } from "./modals/ServerIdentity";
 import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
+import { ShareToModal } from "./modals/ShareToModal";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
 import { SwapUserModal } from "./modals/SwapUser";
@@ -222,6 +223,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <SwapUserModal {...modalProps} />;
     case "transfer_ownership":
       return <TransferOwnershipModal {...modalProps} />;
+    case "share_to":
+      return <ShareToModal {...modalProps} />;
 
     default:
       console.error(

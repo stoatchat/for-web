@@ -26,9 +26,14 @@ type Props = DialogProps & {
   actions?: DialogAction[];
   isDisabled?: boolean;
 
-  scrimBackground?: string;
+  /** Set to true if the dialog body has a scrollable. Do not set height on
+   * the scrollable (use `minHeight` dialog prop), and ensure it is at
+   * root-level of children or wrapped in a `<form>` only. */
+  hasScroll?: boolean;
 
+  scrimBackground?: string;
   minWidth?: number;
+  minHeight?: number;
   padding?: number;
 };
 
@@ -43,7 +48,16 @@ export function Dialog(props: Props) {
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
+        scroll={props.hasScroll}
         style={{
+          "--diag-w":
+            props.minWidth || props.hasScroll
+              ? `${props.minWidth ?? 500}px`
+              : undefined,
+          "--diag-h":
+            props.minHeight || props.hasScroll
+              ? `${props.minHeight ?? 320}px`
+              : undefined,
           "--background": props.scrimBackground
             ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
             : "rgba(0, 0, 0, 0.6)",
@@ -60,9 +74,6 @@ export function Dialog(props: Props) {
             >
               <Container
                 style={{
-                  "min-width": props.minWidth
-                    ? `${props.minWidth}px`
-                    : undefined,
                   padding: props.padding ? `${props.padding}px` : undefined,
                 }}
                 onClick={(e) => e.stopPropagation()}
@@ -75,7 +86,7 @@ export function Dialog(props: Props) {
                     {props.title}
                   </Title>
                 </Show>
-                <Content class={typography()}>{props.children}</Content>
+                {props.children}
                 <Show when={props.actions}>
                   <Actions>
                     <For each={props.actions}>
@@ -84,8 +95,6 @@ export function Dialog(props: Props) {
                           variant="text"
                           size="sm"
                           onPress={() => {
-                            if (action.isDisabled) return;
-
                             // eslint-disable-next-line @typescript-eslint/no-explicit-any
                             const value = action.onClick?.() as any;
                             if (value instanceof Promise) {
@@ -126,11 +135,12 @@ Dialog.Scrim = (
     "children",
     "padding",
     "overflow",
+    "scroll",
   ]);
 
   return (
     <Scrim {...remote} class="dialog_scrim">
-      <ScrimSurface {...local} />
+      <ScrimSurface {...local} class={typography()} />
     </Scrim>
   );
 };
@@ -184,6 +194,17 @@ const ScrimSurface = styled("div", {
     userSelect: "none",
     placeItems: "center",
     pointerEvents: "all",
+    color: "var(--md-sys-color-on-surface-variant)",
+
+    "& > *": {
+      minHeight: "var(--diag-h)",
+    },
+    "& form": {
+      display: "contents",
+    },
+    "& form > *:not(:last-child)": {
+      marginBottom: "var(--gap-md)",
+    },
   },
   variants: {
     padding: {
@@ -195,6 +216,25 @@ const ScrimSurface = styled("div", {
     overflow: {
       true: {
         overflowY: "auto",
+      },
+    },
+    scroll: {
+      true: {
+        alignItems: "stretch",
+        "& > *": {
+          display: "flex",
+          alignItems: "center",
+          width: "min(var(--diag-w), 100%)",
+        },
+        "& > * > *": {
+          maxHeight: "100%",
+          width: "100%",
+        },
+      },
+      false: {
+        "& > *": {
+          minWidth: "var(--diag-w)",
+        },
       },
     },
   },
@@ -241,12 +281,6 @@ const Title = styled("span", {
   },
   defaultVariants: {
     withIcon: false,
-  },
-});
-
-const Content = styled("div", {
-  base: {
-    color: "var(--md-sys-color-on-surface-variant)",
   },
 });
 

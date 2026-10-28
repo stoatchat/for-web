@@ -6,7 +6,6 @@ import { Trans, useLingui } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import {
   Avatar,
-  Column,
   Dialog,
   DialogProps,
   Form2,
@@ -47,18 +46,14 @@ export function CreateGroupModal(
   }
 
   const [filter, setFilter] = createSignal("");
-
-  const filterLowercase = createMemo(() => filter().toLowerCase());
-
-  const users = createMemo(() =>
-    client()
+  const users = createMemo(() => {
+    const filterLower = filter().toLowerCase();
+    return client()
       .users.filter((user) => user.relationship === "Friend")
-      .filter((user) =>
-        user.displayName.toLowerCase().includes(filterLowercase()),
-      )
+      .filter((user) => user.displayName.toLowerCase().includes(filterLower))
       .toSorted((a, b) => a.displayName.localeCompare(b.displayName))
-      .map((user) => ({ item: user, value: user.id })),
-  );
+      .map((user) => ({ item: user, value: user.id }));
+  });
 
   const submit = Form2.useSubmitHandler(group, onSubmit);
 
@@ -80,46 +75,45 @@ export function CreateGroupModal(
         },
       ]}
       isDisabled={group.isPending}
+      hasScroll={true}
     >
       <form onSubmit={submit}>
-        <Column>
-          <Form2.TextField
-            minlength={1}
-            maxlength={32}
-            counter
-            name="name"
-            control={group.controls.name}
-            label={t`Group Name`}
-          />
+        <Form2.TextField
+          minlength={1}
+          maxlength={32}
+          counter
+          name="name"
+          control={group.controls.name}
+          label={t`Group Name`}
+        />
 
-          <Text class="label">
-            <Trans>Select members to add</Trans>
-          </Text>
+        <Text class="label">
+          <Trans>Select members to add</Trans>
+        </Text>
 
-          <TextField
-            value={filter()}
-            variant="filled"
-            placeholder={t`Search for users...`}
-            onKeyUp={(e) => setFilter(e.currentTarget.value)}
-          />
+        <TextField
+          value={filter()}
+          variant="filled"
+          placeholder={t`Search for users...`}
+          onKeyUp={(e) => setFilter(e.currentTarget.value)}
+        />
 
-          <Form2.VirtualSelect
-            items={users()}
-            control={group.controls.users}
-            multiple
-          >
-            {(item) => (
-              <Row align>
-                <Avatar
-                  src={item.animatedAvatarURL}
-                  fallback={item.displayName}
-                  size={24}
-                />{" "}
-                <span>{item.displayName}</span>
-              </Row>
-            )}
-          </Form2.VirtualSelect>
-        </Column>
+        <Form2.VirtualSelect
+          items={users()}
+          control={group.controls.users}
+          multiple
+        >
+          {(item) => (
+            <Row align>
+              <Avatar
+                src={item.animatedAvatarURL}
+                fallback={item.displayName}
+                size={24}
+              />{" "}
+              <span>{item.displayName}</span>
+            </Row>
+          )}
+        </Form2.VirtualSelect>
       </form>
     </Dialog>
   );
