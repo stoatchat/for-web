@@ -1,10 +1,11 @@
 import { onCleanup, onMount, Show } from "solid-js";
 
-import { Trans } from "@lingui/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
+import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import {
   Avatar,
@@ -14,6 +15,7 @@ import {
   Fab,
   Row,
   Text,
+  Tooltip,
 } from "@revolt/ui";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
@@ -28,7 +30,13 @@ import { useSettingsNavigation } from "../../Settings";
  */
 export function ServerRoleOverview(props: { context: Server }) {
   const { navigate, registerAction } = useSettingsNavigation();
-  const { openModal, showError } = useModals();
+  const { openModal, showError, closeAll } = useModals();
+  const { t } = useLingui();
+  const client = useClient();
+
+  // Previewing needs the same access as the server context menu entry
+  const canViewAs = () =>
+    props.context.owner?.self || props.context.havePermission("ManageRole");
 
   const change = useMutation(() => ({
     mutationFn: (order: string[]) => props.context.setRoleOrdering(order),
@@ -102,7 +110,32 @@ export function ServerRoleOverview(props: { context: Server }) {
                     />
                   }
                   iconBackground={!!entry.item.colour}
-                  action="chevron"
+                  action={[
+                    <Show
+                      when={
+                        canViewAs() &&
+                        entry.item.rank! >
+                          (props.context.member?.realRanking ?? Infinity)
+                      }
+                    >
+                      <Tooltip content={t`View server as role`} placement="top">
+                        <ViewAsAction
+                          type="button"
+                          aria-label={t`View server as role`}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            client().setViewAs(props.context.id, [
+                              entry.item.id,
+                            ]);
+                            closeAll();
+                          }}
+                        >
+                          <Symbol size={20}>visibility</Symbol>
+                        </ViewAsAction>
+                      </Tooltip>
+                    </Show>,
+                    "chevron",
+                  ]}
                   onClick={() => navigate(`roles/${entry.item.id}`)}
                 >
                   <Row>
@@ -123,7 +156,24 @@ export function ServerRoleOverview(props: { context: Server }) {
             <DragHandleSpacer />
             <CategoryButton
               icon={<Symbol size={20}>public</Symbol>}
-              action="chevron"
+              action={[
+                <Show when={canViewAs()}>
+                  <Tooltip content={t`View server as role`} placement="top">
+                    <ViewAsAction
+                      type="button"
+                      aria-label={t`View server as role`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        client().setViewAs(props.context.id);
+                        closeAll();
+                      }}
+                    >
+                      <Symbol size={20}>visibility</Symbol>
+                    </ViewAsAction>
+                  </Tooltip>
+                </Show>,
+                "chevron",
+              ]}
               description={
                 <Trans>Permissions available without any role</Trans>
               }
@@ -157,6 +207,21 @@ const ItemContainer = styled("div", {
     // grow the button to full width
     "& > :nth-child(2)": {
       flexGrow: 1,
+    },
+  },
+});
+
+const ViewAsAction = styled("button", {
+  base: {
+    display: "flex",
+    cursor: "pointer",
+    padding: "var(--gap-sm)",
+    border: "none",
+    borderRadius: "var(--borderRadius-full)",
+    color: "inherit",
+    background: "transparent",
+    "&:focus-visible": {
+      outline: "2px solid var(--md-sys-color-primary)",
     },
   },
 });

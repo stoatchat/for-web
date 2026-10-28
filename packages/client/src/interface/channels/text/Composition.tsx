@@ -82,7 +82,8 @@ export function MessageComposition(props: Props) {
   const canUploadFiles = createMemo(() => {
     return (
       props.channel.havePermission("SendMessage") &&
-      props.channel.havePermission("UploadFiles")
+      props.channel.havePermission("UploadFiles") &&
+      !props.channel.server?.previewRoles
     );
   });
 
@@ -437,9 +438,15 @@ export function MessageComposition(props: Props) {
               : t`Message ${props.channel.name}`
         }
         sendingAllowed={
-          props.channel.havePermission("SendMessage") && !isTimedOut()
+          props.channel.havePermission("SendMessage") &&
+          !isTimedOut() &&
+          !props.channel.server?.previewRoles
         }
         timeoutActive={isTimedOut()}
+        previewActive={
+          !!props.channel.server?.previewRoles &&
+          props.channel.havePermission("SendMessage")
+        }
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)

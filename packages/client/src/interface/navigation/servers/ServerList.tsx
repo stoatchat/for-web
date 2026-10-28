@@ -489,7 +489,8 @@ function ServerEntry(props: {
     props.server.channels.reduce(
       (count, channel) =>
         count +
-        (state.notifications.isChannelMuted(channel)
+        (state.notifications.isChannelMuted(channel) ||
+        (channel.server?.previewRoles && !channel.havePermission("ViewChannel"))
           ? 0
           : (channel.mentions?.size ?? 0)),
       0,
@@ -609,7 +610,8 @@ function FolderEntry(props: {
         server.channels.reduce(
           (n, channel) =>
             n +
-            (state.notifications.isChannelMuted(channel)
+            (state.notifications.isChannelMuted(channel) ||
+            (server.previewRoles && !channel.havePermission("ViewChannel"))
               ? 0
               : (channel.mentions?.size ?? 0)),
           0,
