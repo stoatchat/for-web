@@ -6,6 +6,7 @@ import { Accessor, Setter, createMemo, createSignal } from "solid-js";
 import { API, Client, ConnectionState, ProtocolV1 } from "stoat.js";
 
 import { useError } from "@revolt/i18n";
+import { DefaultHost } from "@revolt/instance";
 import { ModalControllerExtended } from "@revolt/modal";
 import type { State as ApplicationState } from "@revolt/state";
 import type { Session } from "@revolt/state/stores/Auth";
@@ -488,6 +489,7 @@ export default class ClientController {
   _login(cached = false) {
     const session = this.state.auth.getSession();
     if (!session) return this.initUserState();
+    if (this.#checkSwapInstance(true, false)) return; //About to switch- Don't initialize app
     this.lifecycle.transition({
       type: cached ? TransitionType.LoginCached : TransitionType.LoginUncached,
       session,
@@ -590,6 +592,7 @@ export default class ClientController {
       _id: session._id,
       token: session.token,
       userId: session.user_id,
+      host: this.instance.host,
       valid: false,
     };
 
@@ -615,6 +618,36 @@ export default class ClientController {
     if (user) this.state.auth.cacheUserInfo(user);
   }
 
+  /** Check if instance matches auth, and switch if it doesn't */
+  #checkSwapInstance(swapUser: boolean, unhold = true) {
+    const host = this.instance.host || DefaultHost,
+      ses = this.state.auth.getSession();
+    if (ses && (ses.host || DefaultHost) !== host) {
+      //First try to find an account that fits this instance
+      if (swapUser) {
+        for (const s of this.state.auth.getSaved())
+          if ((s.host || DefaultHost) === host) {
+            this.#swapSession(s.userId);
+            this.lifecycle.transition({
+              type: TransitionType.LoginCached,
+              session: this.state.auth.getSession()!,
+            });
+            return true;
+          }
+      }
+      //None found? No prob
+      if (unhold) {
+        //Swap to old instance & login
+        setTimeout(() => this.instance.switchTo(ses.host || DefaultHost), 1);
+      } else {
+        //Login to new instance
+        this.stow(false);
+        this.initUserState();
+      }
+      return true;
+    }
+  }
+
   /** True if the user session is about to be swapped */
   isSwapping = () => this.#swapping;
 
@@ -628,6 +661,7 @@ export default class ClientController {
     this.#swapping = true;
     try {
       this.#swapSession(userId);
+      if (this.#checkSwapInstance(false)) return;
       this.lifecycle.transition({
         type: TransitionType.Dispose,
       });

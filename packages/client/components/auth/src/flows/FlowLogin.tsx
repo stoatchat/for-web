@@ -8,7 +8,7 @@ import { useError } from "@revolt/i18n";
 import { useModals } from "@revolt/modal";
 import { A, Navigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { Button, Column, Row, Text, iconSize } from "@revolt/ui";
+import { Button, Column, iconSize, Row, Text } from "@revolt/ui";
 
 import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
@@ -64,6 +64,12 @@ export default function FlowLogin() {
             <Form onSubmit={performLogin}>
               <Fields fields={["email", "password"]} />
               <Column gap="sm" align class="auth-help-links">
+                <Button
+                  variant="text"
+                  onPress={() => modals.openModal({ type: "login_advanced" })}
+                >
+                  <Trans>Advanced</Trans>
+                </Button>
                 <A href="/login/reset">
                   <Button variant="text">
                     <Trans>Forgot password?</Trans>
