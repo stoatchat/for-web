@@ -8,33 +8,56 @@ import { Checkbox, Column, Dialog, DialogProps, Text } from "@revolt/ui";
 
 import { Modals } from "../types";
 
-/**
- * Modal to warn the user about a potentially unsafe link
- */
+const URL_TRIM = /\/+$/;
+
+/** Trim trailing slash from URL
+@param noHash Remove #hash before trimming
+*/
+export function trimURL(url: string | URL, noHash?: boolean) {
+  if (!(url instanceof URL)) {
+    try {
+      url = new URL(url);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {
+      return url as string;
+    }
+  }
+
+  let base = url.protocol + "//";
+  if (url.username || url.password)
+    base += `${url.username}${url.password ? ":" + url.password : ""}@`;
+
+  return (
+    base +
+    url.host +
+    url.pathname.replace(URL_TRIM, "") +
+    url.search +
+    (noHash ? "" : url.hash)
+  );
+}
+
+/** Modal to warn the user about a potentially unsafe link */
 export function LinkWarningModal(
   props: DialogProps & Modals & { type: "link_warning" },
 ) {
   const state = useState();
   const [value, setValue] = createSignal(false);
 
-  const scrutiny = createMemo(() => {
-    const destUrlString = props.url.toString();
-    if (destUrlString !== props.display) {
-      try {
-        const displayUrl = new URL(props.display);
-        if (destUrlString !== displayUrl.toString()) {
-          return 2;
-        } else {
-          return 1;
-        }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (_) {
-        // URL parsing failed; the link is likely not intentionally misleading.
-        return 1;
-      }
-    }
+  // eslint-disable-next-line solid/reactivity
+  const urlStr = trimURL(props.url),
+    // eslint-disable-next-line solid/reactivity
+    dispStr = trimURL(props.display);
 
-    return 0;
+  const scrutiny = createMemo(() => {
+    if (dispStr === urlStr) return 0;
+
+    try {
+      return dispStr === trimURL(new URL(dispStr)) ? 1 : 2;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {
+      // URL parsing failed; the link is likely not intentionally misleading.
+      return 1;
+    }
   });
 
   return (
@@ -47,11 +70,8 @@ export function LinkWarningModal(
         {
           text: <Trans>Continue</Trans>,
           onClick: () => {
-            window.open(props.url, "_blank", "noopener");
-
-            if (value() && scrutiny() === 0) {
-              state.linkSafety.trust(props.url);
-            }
+            open(urlStr, "_blank", "noopener");
+            if (value() && scrutiny() === 0) state.linkSafety.trust(props.url);
           },
           isDisabled: scrutiny() === 2 && !value(),
         },
@@ -60,7 +80,7 @@ export function LinkWarningModal(
       <Column>
         <span>
           <Trans>Are you sure you want to go to </Trans>
-          <Link>{props.url.toString()}</Link>?
+          <Link>{urlStr}</Link>?
         </span>
         <Switch
           fallback={
@@ -73,7 +93,7 @@ export function LinkWarningModal(
           }
         >
           <Match when={scrutiny() === 1}>
-            <Trans>You clicked on "{props.display}"</Trans>
+            <Trans>You clicked on "{dispStr}"</Trans>
           </Match>
           <Match when={scrutiny() === 2}>
             <Scrutinise>
@@ -84,7 +104,7 @@ export function LinkWarningModal(
                   This is not the same as the link that was displayed:
                 </Trans>
               </Text>
-              <Link>{props.display}</Link>
+              <Link>{dispStr}</Link>
               <Checkbox checked={value()} onChange={() => setValue((v) => !v)}>
                 <Trans>I understand the consequences</Trans>
               </Checkbox>
