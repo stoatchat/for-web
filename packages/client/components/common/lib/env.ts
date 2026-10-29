@@ -1,5 +1,6 @@
 export const STOAT_HOST = "stoat.chat";
 const STOAT_API = "https://api.stoat.chat";
+const STOAT_GEO = "https://geo.stoat.chat";
 
 /** App `stoat.json` endpoint format */
 export interface AppConfig {
@@ -45,6 +46,9 @@ const DEFAULT_HOST = normalizeHost(
 const DEFAULT_API_URL =
   getEnv("VITE_DEV_API_URL", true) || getEnv("VITE_API_URL") || STOAT_API;
 
+const DEFAULT_GEO_URL =
+  getEnv("VITE_DEV_GEO_URL", true) || getEnv("VITE_GEO_URL") || STOAT_GEO;
+
 if (!isStoatOfficialAPI(DEFAULT_API_URL) && DEFAULT_HOST === STOAT_HOST)
   console.error("VITE_HOST required when VITE_API_URL is set!");
 
@@ -53,6 +57,8 @@ export default {
   DEFAULT_HOST,
   /** API URL of default instance */
   DEFAULT_API_URL,
+  /** URL of default geoblocking service */
+  DEFAULT_GEO_URL,
   /** WS server override for development */
   DEV_WS_URL: getEnv("VITE_DEV_WS_URL"),
   /** Media server override for development */
