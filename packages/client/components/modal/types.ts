@@ -116,6 +116,7 @@ export type Modals =
   | {
       type: "delete_bot";
       bot: Bot;
+      onDelete: () => void;
     }
   | {
       type: "delete_channel";
@@ -137,6 +138,7 @@ export type Modals =
   | {
       type: "delete_server";
       server: Server;
+      onDelete: () => void;
     }
   | {
       type: "delete_role";

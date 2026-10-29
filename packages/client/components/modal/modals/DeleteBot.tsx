@@ -19,8 +19,11 @@ export function DeleteBotModal(
   const deleteBot = useMutation(() => ({
     mutationFn: async () => {
       const mfa = await client().account.mfa();
-      await mfaFlow(mfa as never);
-      await props.bot.delete(); // TODO: should use ticket in API
+      const ticket = await mfaFlow(mfa);
+      if (ticket) {
+        await ticket.deleteBot(props.bot);
+        props.onDelete();
+      }
     },
     onError: showError,
   }));
