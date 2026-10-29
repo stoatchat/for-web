@@ -21,7 +21,8 @@ export function DeleteServerModal(
       const mfa = await client().account.mfa();
       const ticket = await mfaFlow(mfa);
       if (ticket) {
-        await props.server.delete();
+        await ticket.deleteServer(props.server);
+        props.onDelete();
       }
     },
     onError: showError,
