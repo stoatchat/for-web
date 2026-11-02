@@ -489,6 +489,8 @@ class Voice {
 
       this.sound.playSound("streamEnd");
     } else {
+      // Exit fullscreen before starting a screen share (screen picker cannot show in fullscreen)
+      if (document.fullscreenElement) document.exitFullscreen();
       const qualities = this.getEnabledScreenShareQualities();
       let screenPickerQualityName: ScreenShareQualityName | undefined;
       let screenPickerAudio: boolean | undefined;
