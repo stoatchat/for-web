@@ -1,4 +1,4 @@
-import { Match, Show, Switch } from "solid-js";
+import { Show } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
@@ -166,23 +166,27 @@ export function ChannelContextMenu(props: { channel: Channel }) {
         <ContextMenuButton icon={MdSettings} onClick={editChannel}>
           <Trans>Open channel settings</Trans>
         </ContextMenuButton>
-        <ContextMenuButton
-          icon={props.channel.type === "Group" ? MdLogout : MdDelete}
-          onClick={deleteChannel}
-          destructive
-        >
-          <Switch fallback={<Trans>Delete channel</Trans>}>
-            <Match when={props.channel.type === "Group"}>
-              <Trans>Leave group</Trans>
-            </Match>
-          </Switch>
+        <Show when={props.channel.type !== "Group"}>
+          <ContextMenuButton
+            icon={MdDelete}
+            onClick={deleteChannel}
+            destructive
+          >
+            <Trans>Delete channel</Trans>
+          </ContextMenuButton>
+        </Show>{" "}
+      </Show>
+      <Show when={props.channel.type === "Group"}>
+        <ContextMenuButton icon={MdLogout} onClick={deleteChannel} destructive>
+          <Trans>Leave group</Trans>
         </ContextMenuButton>
       </Show>
 
       <Show
         when={
           props.channel.server?.havePermission("ManageChannel") ||
-          props.channel.havePermission("ManageChannel")
+          props.channel.havePermission("ManageChannel") ||
+          props.channel.type === "Group"
         }
       >
         <ContextMenuDivider />
