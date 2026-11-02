@@ -1,4 +1,4 @@
-import { Match, Show, Switch } from "solid-js";
+import { Match, Show, Switch, createMemo } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
@@ -17,6 +17,10 @@ interface Props {
  * Mark the beginning of a conversation
  */
 export function ConversationStart(props: Props) {
+  const canReadHistory = createMemo(() =>
+    props.channel.havePermission("ReadMessageHistory"),
+  );
+
   return (
     <Base>
       <Show when={props.channel.type !== "SavedMessages"}>
@@ -28,6 +32,9 @@ export function ConversationStart(props: Props) {
         <Switch
           fallback={<Trans>This is the start of your conversation.</Trans>}
         >
+          <Match when={!canReadHistory()}>
+            <Trans>You don't have permission to see past messages.</Trans>
+          </Match>
           <Match when={props.channel.type === "SavedMessages"}>
             <Trans>This is the start of your notes.</Trans>
           </Match>
