@@ -353,10 +353,15 @@ type CategoryItem =
     }
   | {
       /**
-       * Trending or Favourites entry
+       * Trending
        */
       t: 1;
-      id: string;
+    }
+  | {
+      /**
+       * Favourites
+       */
+      t: 2;
     };
 
 function Categories(props: {
@@ -365,6 +370,7 @@ function Categories(props: {
 }) {
   const client = useClient();
   const instance = useInstance();
+  const { favourites } = useState();
 
   const trendingCategories = useQuery<GifCategory[]>(() => ({
     queryKey: ["trendingGifCategories"],
@@ -387,8 +393,8 @@ function Categories(props: {
   const items = createMemo(
     () =>
       [
-        { t: 1, id: "favourites" },
-        { t: 1, id: "trending" },
+        ...(favourites.gifs().length > 0 ? [{ t: 2 }] : []),
+        { t: 1 },
         ...(Array.isArray(trendingCategories.data)
           ? trendingCategories.data.map((category) => ({ t: 0, category }))
           : []),
@@ -410,7 +416,7 @@ function Categories(props: {
                   : undefined
               }
               onClick={() =>
-                item.t === 1 && item.id === "favourites"
+                item.t === 2
                   ? props.setShowFavourites(true)
                   : props.setFilter!(
                       item.t === 0 ? item.category.title : "trending",
@@ -427,7 +433,7 @@ function Categories(props: {
                   <Match when={item.t === 0}>
                     {(item as CategoryItem & { t: 0 }).category.title}
                   </Match>
-                  <Match when={item.t === 1 && item.id === "favourites"}>
+                  <Match when={item.t === 2}>
                     <Trans>Favourites</Trans>
                   </Match>
                 </Switch>
