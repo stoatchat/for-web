@@ -231,4 +231,20 @@ export class Favourites extends AbstractSyncedStore<
   gifs(): FavouriteGif[] {
     return this.get().gifs;
   }
+
+  mostRecentGif(): FavouriteGif | undefined {
+    const gifs = this.gifs();
+    if (gifs.length === 0) {
+      return;
+    }
+    if (gifs.length === 1) {
+      return gifs[0];
+    }
+    return (
+      gifs
+        // Copy the array as it's currently referencing the solid array
+        .map((g) => g)
+        .sort((a, b) => b.favouritedAt.getTime() - a.favouritedAt.getTime())[0]
+    );
+  }
 }
