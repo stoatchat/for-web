@@ -45,5 +45,5 @@ export const DEFAULT_MAC_SEQUENCES: Record<KeybindAction, (string | RegExp)[]> =
     [KeybindAction.CLOSE_MODAL]: ["Escape"],
     [KeybindAction.CLOSE_FLOATING]: ["Escape"],
     [KeybindAction.CLOSE_SIDEBAR]: ["Escape"],
-    [KeybindAction.SEARCH]: ["Alt" /* Command */, "k"],
+    [KeybindAction.SEARCH]: ["Meta" /* Command */, "k"],
   };
