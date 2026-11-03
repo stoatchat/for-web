@@ -100,6 +100,8 @@ export function GlobalSearchModal(
   });
 
   function onKeyDown(e: KeyboardEvent) {
+    if (e.isComposing || e.keyCode === 229) return;
+
     const count = results().length;
     if (!count) return;
     if (e.key === "ArrowDown") {
