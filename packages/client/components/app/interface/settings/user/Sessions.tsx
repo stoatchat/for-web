@@ -16,7 +16,7 @@ import {
 } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
-import { Session } from "stoat.js";
+import { API, Session } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
@@ -129,8 +129,18 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
  * List other logged in sessions
  */
 function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
-  const { openModal, mfaFlow } = useModals();
+  const { openModal, mfaFlowResp } = useModals();
   const client = useClient();
+
+  let mfa, mfa_resp: API.MFAResponse | undefined;
+  async function getTicket() {
+    //Prompt for MFA only first time
+    if (!mfa_resp) {
+      mfa = await client().account.mfa();
+      mfa_resp = await mfaFlowResp(mfa);
+    }
+    return mfa_resp && (await mfa!.createTicket(mfa_resp));
+  }
 
   return (
     <Show when={props.otherSessions().length}>
@@ -150,25 +160,16 @@ function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
                 <CategoryButton
                   icon="blank"
                   action="chevron"
-                  onClick={() =>
-                    openModal({
-                      type: "rename_session",
-                      session,
-                    })
-                  }
+                  onClick={() => openModal({ type: "rename_session", session })}
                 >
                   <Trans>Rename</Trans>
                 </CategoryButton>
                 <CategoryButton
                   icon="blank"
                   action="chevron"
-                  onClick={() => {
-                    (async () => {
-                      const mfa = await client().account.mfa();
-                      const ticket = await mfaFlow(mfa as never);
-                      session.delete(ticket!);
-                    })();
-                  }}
+                  onClick={() =>
+                    getTicket().then((t) => t && session.delete(t))
+                  }
                 >
                   <Trans>Log Out</Trans>
                 </CategoryButton>
