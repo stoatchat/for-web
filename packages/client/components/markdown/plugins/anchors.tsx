@@ -69,6 +69,7 @@ export function RenderAnchor(
 
   const [localProps, remoteProps] = splitProps(props, [
     "href",
+    "title",
     "target",
     "disabled",
   ]);
@@ -228,6 +229,7 @@ export function RenderAnchor(
             class={link()}
             disabled={localProps.disabled}
             href={internalUrl()}
+            title={localProps.title ?? localProps.href}
           />
         );
       }
@@ -262,7 +264,9 @@ export function RenderAnchor(
             dest={localProps.href}
             disabled={localProps.disabled}
             onClick={onHandleWarning}
+            href={localProps.href}
             onAuxClick={onHandleWarning}
+            title={localProps.title ?? localProps.href}
           />
         }
       >
@@ -272,6 +276,7 @@ export function RenderAnchor(
           disabled={localProps.disabled}
           dest={localProps.href}
           href={localProps.href}
+          title={localProps.title ?? localProps.href}
           target={"_blank"}
           rel="noreferrer"
         />
