@@ -102,7 +102,7 @@ const Config: SettingsConfiguration<Server> = {
             },
             {
               id: "discover",
-              hidden: !(server.ownerId === user()?.id),
+              hidden: !(server.ownerId === user()?.id) || !!server.previewRoles,
               icon: <Symbol size={20}>public</Symbol>,
               title: <Trans>Discover</Trans>,
             },
@@ -155,7 +155,7 @@ const Config: SettingsConfiguration<Server> = {
           ],
         },
         {
-          hidden: !(server.ownerId === user()?.id),
+          hidden: !(server.ownerId === user()?.id) || !!server.previewRoles,
           entries: [
             {
               icon: (

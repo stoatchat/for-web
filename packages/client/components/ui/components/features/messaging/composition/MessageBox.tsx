@@ -82,6 +82,11 @@ interface Props {
   timeoutActive?: boolean;
 
   /**
+   * Whether the server is being previewed as a role
+   */
+  previewActive?: boolean;
+
+  /**
    * Auto complete config
    */
   autoCompleteSearchSpace?: Accessor<AutoCompleteSearchSpace>;
@@ -260,6 +265,13 @@ export function MessageBox(props: Props) {
             </>
           }
         >
+          <Match when={props.previewActive}>
+            <Blocked align noPad>
+              <Trans>
+                You're viewing as a role, so messages can't be sent.
+              </Trans>
+            </Blocked>
+          </Match>
           <Match when={props.timeoutActive}>
             <Blocked align noPad>
               <Trans>

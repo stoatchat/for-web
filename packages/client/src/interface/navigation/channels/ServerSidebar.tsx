@@ -47,6 +47,7 @@ import {
   applyChannelOrdering,
   orderedCategories,
 } from "./ordering";
+import { ViewAsBanner } from "./ViewAsBanner";
 
 interface Props {
   /**
@@ -121,7 +122,12 @@ export const ServerSidebar = (props: Props) => {
       ...category,
       channels: category.channelIds
         .map((id) => channels.get(id)!)
-        .filter((channel) => channel),
+        .filter(
+          (channel) =>
+            channel &&
+            (!props.server.previewRoles ||
+              channel.havePermission("ViewChannel")),
+        ),
     }));
   });
 
@@ -166,7 +172,9 @@ export const ServerSidebar = (props: Props) => {
     }
   });
 
-  const noOrdering = () => !props.server.havePermission("ManageChannel");
+  const noOrdering = () =>
+    !props.server.havePermission("ManageChannel") ||
+    !!props.server.previewRoles;
 
   const [list, setList] = createSignal<HTMLDivElement>();
 
@@ -252,6 +260,7 @@ export const ServerSidebar = (props: Props) => {
           </Header>
         </Match>
       </Switch>
+      <ViewAsBanner server={props.server} />
       <ChannelList>
         <UnreadCallout list={list} />
         <div
@@ -409,7 +418,12 @@ function Category(
 
   return (
     <CategorySection>
-      <Show when={props.category.id !== "default"}>
+      <Show
+        when={
+          props.category.id !== "default" &&
+          (!props.server.previewRoles || props.category.channels.length)
+        }
+      >
         <div use:floating={props.menuGenerator(props.category as never)}>
           <CategoryBase
             open={isOpen()}

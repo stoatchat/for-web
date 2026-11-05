@@ -388,4 +388,8 @@ export type Modals =
     }
   | {
       type: "swap_user";
+    }
+  | {
+      type: "view_as_role";
+      server: Server;
     };
