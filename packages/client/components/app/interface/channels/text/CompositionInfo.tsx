@@ -14,6 +14,7 @@ import { Avatar, OverflowingText, Symbol, typography } from "@revolt/ui";
 
 interface Props {
   channel: Channel;
+  infoText?: string;
   scrollRef?: HTMLElement | null;
 }
 
@@ -113,7 +114,14 @@ export function CompositionInfo(props: Props) {
   }
 
   return (
-    <Show when={props.channel.slowmode || users().length || setBarRef()}>
+    <Show
+      when={
+        props.infoText ||
+        props.channel.slowmode ||
+        users().length ||
+        setBarRef()
+      }
+    >
       <Bar ref={setBarRef}>
         <Show when={users().length} fallback={<Dummy />}>
           <Avatars>
@@ -146,19 +154,24 @@ export function CompositionInfo(props: Props) {
             </Switch>
           </OverflowingText>
         </Show>
-        <Show when={props.channel.slowmode}>
+        <Show when={props.infoText || props.channel.slowmode}>
           <div
             class={SlowmodeHolder()}
             use:floating={{
-              tooltip: {
-                placement: "top",
-                content: t`Members can send one message every ${slowmodeWaitTime()}.`,
-              },
+              tooltip: props.infoText
+                ? undefined
+                : {
+                    placement: "top",
+                    content: t`Members can send one message every ${slowmodeWaitTime()}.`,
+                  },
             }}
           >
-            <Symbol style={{ "font-size": "1rem" }}>schedule</Symbol>
+            <Symbol style={{ "font-size": "1rem" }}>
+              {props.infoText ? "info" : "schedule"}
+            </Symbol>
             <SlowmodeText>
               <Switch fallback={t`Slowmode is enabled.`}>
+                <Match when={props.infoText}>{props.infoText}</Match>
                 <Match when={isSlowmodeExempt()}>{t`Slowmode Immune`}</Match>
                 <Match when={cooldownRemaining() > 0}>{slowmodeText()}</Match>
               </Switch>

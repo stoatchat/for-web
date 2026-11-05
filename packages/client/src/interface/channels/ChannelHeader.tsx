@@ -29,7 +29,6 @@ import MdSettings from "@material-design-icons/svg/outlined/settings.svg?compone
 
 import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
-
 import { canIHasSidebar, SidebarState } from "./text/TextChannel";
 
 interface Props {
