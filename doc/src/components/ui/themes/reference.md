@@ -41,6 +41,21 @@ Font values are provided by:
 
 Typography tokens are currently fixed.
 
+## Elevation
+
+Components can use elevation to depict different degrees of importance and separation.
+
+Usually, this is implemented by:
+- Using the `scrim` colour role on a background surface (see [Colour](#Colour))
+- Or adding a drop shadow to the component
+
+Currently, our theme system only provides elevation tokens for drop shadows, while scrims uses different levels of opacity (not tokenized.)
+
+Drop shadow tokens are available as `var(--md-sys-elevation-<level>)`, where
+`<level>` is a number from `0` (lowest resting point, no drop shadow) to `5` (highest resting point).
+
+The Material Design website has guidance on when to use drop shadows for elevation: https://m3.material.io/styles/elevation/overview
+
 ## Transitions
 
 Two transition speeds are specified (in format, `<time> <easing>`):

@@ -17,7 +17,7 @@ const base = cva({
 
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-container-high)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-2)",
 
     width: "340px",
     height: "400px",
