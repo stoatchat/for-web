@@ -17,11 +17,17 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
-import { Navigate, useBeforeLeave, useLocation } from "@revolt/routing";
+import {
+  Navigate,
+  paramsFromPathname,
+  useBeforeLeave,
+  useLocation,
+} from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import { LoadingScreen } from "@revolt/ui";
 
+import { Keybind, KeybindAction } from "@revolt/keybinds";
 import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
 import { Sidebar } from "./interface/Sidebar";
 
@@ -31,7 +37,7 @@ import { Sidebar } from "./interface/Sidebar";
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
-  const { openModal } = useModals();
+  const { openModal, modals, remove } = useModals();
   const { isLoggedIn, isSwapping, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
@@ -42,6 +48,8 @@ const Interface = (props: { children: JSX.Element }) => {
         openModal({ type: "settings", config: "user" });
       } else if (typeof e.to === "string") {
         state.layout.setLastActivePath(e.to);
+        const params = paramsFromPathname(e.to);
+        if (params.channelId) state.layout.pushRecentChannel(params.channelId);
       }
     }
   });
@@ -95,6 +103,19 @@ const Interface = (props: { children: JSX.Element }) => {
             <Navigate href="/login" />
           </Match>
           <Match when={lifecycle.loadedOnce()}>
+            <Keybind
+              keybind={KeybindAction.SEARCH}
+              onPressed={() => {
+                const top = [...modals].reverse().find((m) => m.show);
+                if (top?.props.type === "search") {
+                  remove(top.id);
+                  return;
+                }
+                if (!modals.some((m) => m.show && m.props.type === "search")) {
+                  openModal({ type: "search" });
+                }
+              }}
+            />
             <Layout
               disconnected={isDisconnected()}
               style={{ "flex-grow": 1, "min-height": 0 }}
