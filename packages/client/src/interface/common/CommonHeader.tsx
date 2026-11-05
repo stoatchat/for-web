@@ -2,13 +2,12 @@ import { BiRegularChevronLeft, BiRegularChevronRight } from "solid-icons/bi";
 
 import { JSX, Match, Switch } from "solid-js";
 
-import MdArrowBack from "@material-design-icons/svg/outlined/arrow_back.svg?component-solid";
-
 import { useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
+import { Symbol } from "@revolt/ui";
 
 /**
  * Wrapper for header icons which adds the chevron on the
@@ -47,7 +46,7 @@ export function HeaderIcon(props: { children: JSX.Element }) {
         }
       >
         <Match when={state.appDrawer()}>
-          <MdArrowBack />
+          <Symbol>arrow_back</Symbol>
         </Match>
         <Match
           when={state.layout.getSectionState(

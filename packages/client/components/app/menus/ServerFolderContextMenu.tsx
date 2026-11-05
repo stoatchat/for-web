@@ -3,9 +3,7 @@ import { Trans } from "@lingui/solid/macro";
 import { useModals } from "@revolt/modal";
 import { ServerFolder, useState } from "@revolt/state";
 
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdDriveFileRenameOutline from "@material-design-icons/svg/outlined/drive_file_rename_outline.svg?component-solid";
-
+import { Symbol } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -38,11 +36,18 @@ export function ServerFolderContextMenu(props: { folder: ServerFolder }) {
 
   return (
     <ContextMenu>
-      <ContextMenuButton icon={MdDriveFileRenameOutline} onClick={rename}>
+      <ContextMenuButton
+        icon={<Symbol size={16}>drive_file_rename</Symbol>}
+        onClick={rename}
+      >
         <Trans>Edit folder</Trans>
       </ContextMenuButton>
       <ContextMenuDivider />
-      <ContextMenuButton icon={MdDelete} destructive onClick={remove}>
+      <ContextMenuButton
+        icon={<Symbol size={16}>delete</Symbol>}
+        destructive
+        onClick={remove}
+      >
         <Trans>Delete folder</Trans>
       </ContextMenuButton>
     </ContextMenu>

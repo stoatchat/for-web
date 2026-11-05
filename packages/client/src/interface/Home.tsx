@@ -14,17 +14,9 @@ import {
   CategoryButton,
   Column,
   Header,
-  iconSize,
   main,
+  Symbol,
 } from "@revolt/ui";
-
-import MdAddCircle from "@material-design-icons/svg/filled/add_circle.svg?component-solid";
-import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdGroups3 from "@material-design-icons/svg/filled/groups_3.svg?component-solid";
-import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
-import MdPayments from "@material-design-icons/svg/filled/payments.svg?component-solid";
-import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
 import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
@@ -107,7 +99,9 @@ export function HomePage() {
     <Base>
       <Header placement="primary">
         <HeaderIcon>
-          <MdHome {...iconSize(22)} />
+          <Symbol size={22} fill>
+            home
+          </Symbol>
         </HeaderIcon>
         <Trans>Home</Trans>
       </Header>
@@ -135,7 +129,7 @@ export function HomePage() {
                   party.
                 </Trans>
               }
-              icon={<MdAddCircle />}
+              icon={<Symbol fill>add_circle</Symbol>}
             >
               <Trans>Create a group or server</Trans>
             </CategoryButton>
@@ -149,7 +143,7 @@ export function HomePage() {
                       directly here.
                     </Trans>
                   }
-                  icon={<MdGroups3 />}
+                  icon={<Symbol fill>groups_3</Symbol>}
                 >
                   <Trans>Go to the Stoat Lounge</Trans>
                 </CategoryButton>
@@ -170,7 +164,7 @@ export function HomePage() {
                       directly here.
                     </Trans>
                   }
-                  icon={<MdGroups3 />}
+                  icon={<Symbol fill>groups_3</Symbol>}
                 >
                   <Trans>Join the Stoat Lounge</Trans>
                 </CategoryButton>
@@ -182,7 +176,7 @@ export function HomePage() {
               description={
                 <Trans>Support the project by donating - thank you!</Trans>
               }
-              icon={<MdPayments />}
+              icon={<Symbol fill>payments</Symbol>}
             >
               <Trans>Donate to Stoat</Trans>
             </CategoryButton>
@@ -196,7 +190,7 @@ export function HomePage() {
                     Find a community based on your hobbies or interests.
                   </Trans>
                 }
-                icon={<MdExplore />}
+                icon={<Symbol fill>explore</Symbol>}
               >
                 <Trans>Discover Stoat</Trans>
               </CategoryButton>
@@ -214,7 +208,11 @@ export function HomePage() {
                   Let us know how we can improve our app by giving us feedback.
                 </Trans>
               }
-              icon={<MdRateReview {...iconSize(22)} />}
+              icon={
+                <Symbol size={22} fill>
+                  rate_review
+                </Symbol>
+              }
             >
               <Trans>Give feedback on Stoat</Trans>
             </CategoryButton>
@@ -225,7 +223,7 @@ export function HomePage() {
                   You can also click the gear icon in the bottom left.
                 </Trans>
               }
-              icon={<MdSettings />}
+              icon={<Symbol fill>settings</Symbol>}
             >
               <Trans>Open settings</Trans>
             </CategoryButton>

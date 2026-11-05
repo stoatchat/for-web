@@ -1,4 +1,4 @@
-import { Match, Show, Switch, createSignal } from "solid-js";
+import { createSignal, Match, Show, Switch } from "solid-js";
 import { Motion, Presence } from "solid-motionone";
 
 import { css } from "styled-system/css";
@@ -6,13 +6,7 @@ import { styled } from "styled-system/jsx";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
-import { Button, Ripple, symbolSize, typography } from "@revolt/ui";
-
-import MdBuild from "@material-symbols/svg-400/outlined/build.svg?component-solid";
-import MdClose from "@material-symbols/svg-400/outlined/close.svg?component-solid";
-import MdCollapseContent from "@material-symbols/svg-400/outlined/collapse_content.svg?component-solid";
-import MdExpandContent from "@material-symbols/svg-400/outlined/expand_content.svg?component-solid";
-import MdMinimize from "@material-symbols/svg-400/outlined/minimize.svg?component-solid";
+import { Button, Ripple, Symbol, typography } from "@revolt/ui";
 
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
@@ -68,7 +62,7 @@ export function Titlebar() {
                 })}
               />{" "}
               <Show when={import.meta.env.DEV}>
-                <MdBuild {...symbolSize(16)} />
+                <Symbol size={16}>build</Symbol>
               </Show>
             </Title>
             <DragHandle
@@ -130,20 +124,20 @@ export function Titlebar() {
             <Show when={isNative && !isMacOS}>
               <Action onClick={window.native.minimise}>
                 <Ripple />
-                <MdMinimize {...symbolSize(20)} />
+                <Symbol size={20}>minimize</Symbol>
               </Action>
               <Action onClick={maximise}>
                 <Ripple />
                 <Show
                   when={isMaximised()}
-                  fallback={<MdExpandContent {...symbolSize(20)} />}
+                  fallback={<Symbol size={20}>expand_content</Symbol>}
                 >
-                  <MdCollapseContent {...symbolSize(20)} />
+                  <Symbol size={20}>collapse_content</Symbol>
                 </Show>
               </Action>
               <Action onClick={window.native.close}>
                 <Ripple />
-                <MdClose {...symbolSize(20)} />
+                <Symbol size={20}>close</Symbol>
               </Action>
             </Show>
           </Base>

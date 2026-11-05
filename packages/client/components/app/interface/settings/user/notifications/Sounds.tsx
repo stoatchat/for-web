@@ -9,11 +9,9 @@ import {
   Checkbox,
   Column,
   IconButton,
+  Symbol,
   Text,
-  iconSize,
 } from "@revolt/ui";
-
-import MdVolumeUp from "@material-design-icons/svg/outlined/volume_up.svg?component-solid";
 
 export default function Sounds() {
   const { settings, sounds } = useState();
@@ -45,7 +43,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -65,7 +63,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -85,7 +83,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -105,7 +103,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -125,7 +123,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -155,7 +153,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -177,7 +175,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -197,7 +195,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -217,7 +215,7 @@ export default function Sounds() {
                   },
                 }}
               >
-                <MdVolumeUp {...iconSize(18)} />
+                <Symbol size={18}>volume_up</Symbol>
               </IconButton>
             </Content>
           </CategoryButton>

@@ -5,12 +5,7 @@ import type { Channel } from "stoat.js";
 import { useClient } from "@revolt/client";
 import { useState } from "@revolt/state";
 import type { UnsentMessage } from "@revolt/state/stores/Draft";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdRefresh from "@material-design-icons/svg/outlined/refresh.svg?component-solid";
-
+import { Symbol } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -56,7 +51,11 @@ export function DraftMessageContextMenu(props: Props) {
     <Show when={props.draft.status !== "sending"}>
       <ContextMenu>
         <Show when={false}>
-          <ContextMenuButton icon={MdClose} onClick={deleteMessage} destructive>
+          <ContextMenuButton
+            icon={<Symbol size={16}>close</Symbol>}
+            onClick={deleteMessage}
+            destructive
+          >
             <Trans>Cancel message</Trans>
           </ContextMenuButton>
         </Show>
@@ -65,17 +64,23 @@ export function DraftMessageContextMenu(props: Props) {
             props.draft.status === "failed" || props.draft.status === "unsent"
           }
         >
-          <ContextMenuButton icon={MdRefresh} onClick={retrySend}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>refresh</Symbol>}
+            onClick={retrySend}
+          >
             <Trans>Retry sending</Trans>
           </ContextMenuButton>
           <Show when={props.draft.content}>
-            <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
+            <ContextMenuButton
+              icon={<Symbol size={16}>content_copy</Symbol>}
+              onClick={copyText}
+            >
               <Trans>Copy text</Trans>
             </ContextMenuButton>
           </Show>
           <ContextMenuDivider />
           <ContextMenuButton
-            icon={MdDelete}
+            icon={<Symbol size={16}>delete</Symbol>}
             onClick={deleteMessage}
             destructive
           >

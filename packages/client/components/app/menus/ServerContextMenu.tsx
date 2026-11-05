@@ -1,4 +1,3 @@
-import MdFolder from "@material-design-icons/svg/outlined/folder.svg?component-solid";
 import { For, Show } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
@@ -9,27 +8,7 @@ import { useClient } from "@revolt/client";
 import { useDevice } from "@revolt/common";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Column, Text, Time } from "@revolt/ui";
-
-import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
-import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
-import MdCreateNewFolder from "@material-design-icons/svg/outlined/create_new_folder.svg?component-solid";
-import MdFace from "@material-design-icons/svg/outlined/face.svg?component-solid";
-import MdFolderOff from "@material-design-icons/svg/outlined/folder_off.svg?component-solid";
-import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
-import MdMarkChatRead from "@material-design-icons/svg/outlined/mark_chat_read.svg?component-solid";
-import MdNotificationsActive from "@material-design-icons/svg/outlined/notifications_active.svg?component-solid";
-import MdNotificationsOff from "@material-design-icons/svg/outlined/notifications_off.svg?component-solid";
-import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
-import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/outlined/settings.svg?component-solid";
-import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
-
-import MdDoNotDisturbOff from "@material-symbols/svg-400/outlined/do_not_disturb_off.svg?component-solid";
-import MdDoNotDisturbOn from "@material-symbols/svg-400/outlined/do_not_disturb_on.svg?component-solid";
-import MdNotificationSettings from "@material-symbols/svg-400/outlined/notification_settings.svg?component-solid";
-import MdRadioButtonChecked from "@material-symbols/svg-400/outlined/radio_button_checked-fill.svg?component-solid";
-import MdRadioButtonUnchecked from "@material-symbols/svg-400/outlined/radio_button_unchecked.svg?component-solid";
+import { Column, Symbol, Text, Time } from "@revolt/ui";
 
 import {
   ContextMenu,
@@ -166,7 +145,10 @@ export function ServerContextMenu(props: { server: Server }) {
   return (
     <ContextMenu>
       <Show when={props.server.unread}>
-        <ContextMenuButton icon={MdMarkChatRead} onClick={markAsRead}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>mark_chat_read</Symbol>}
+          onClick={markAsRead}
+        >
           <Trans>Mark as read</Trans>
         </ContextMenuButton>
         <ContextMenuDivider />
@@ -179,7 +161,7 @@ export function ServerContextMenu(props: { server: Server }) {
             onClick={() =>
               state.notifications.setServerMute(props.server, undefined)
             }
-            symbol={MdDoNotDisturbOff}
+            icon={<Symbol size={16}>do_not_disturb_off</Symbol>}
             _titleCase={false}
           >
             <Column gap="none">
@@ -206,7 +188,7 @@ export function ServerContextMenu(props: { server: Server }) {
         <ContextMenuSubMenu
           onClick={() => state.notifications.setServerMute(props.server, {})}
           buttonContent={<Trans>Mute Server</Trans>}
-          symbol={MdDoNotDisturbOn}
+          icon={<Symbol size={16}>do_not_disturb_on</Symbol>}
         >
           <For
             each={
@@ -244,7 +226,7 @@ export function ServerContextMenu(props: { server: Server }) {
             ? () => state.ordering.createFolder("New Folder", [props.server.id])
             : undefined
         }
-        icon={MdFolder}
+        icon={<Symbol size={16}>folder</Symbol>}
         buttonContent={<Trans>Add to folder</Trans>}
       >
         <For each={state.ordering.folders()}>
@@ -261,7 +243,7 @@ export function ServerContextMenu(props: { server: Server }) {
           )}
         </For>
         <ContextMenuButton
-          icon={MdCreateNewFolder}
+          icon={<Symbol size={16}>create_new_folder</Symbol>}
           onClick={() =>
             state.ordering.createFolder("New Folder", [props.server.id])
           }
@@ -272,7 +254,7 @@ export function ServerContextMenu(props: { server: Server }) {
 
       <Show when={state.ordering.folderOf(props.server.id)}>
         <ContextMenuButton
-          icon={MdFolderOff}
+          icon={<Symbol size={16}>folder_off</Symbol>}
           onClick={() => state.ordering.removeFromFolder(props.server.id)}
         >
           <Trans>Remove from folder</Trans>
@@ -282,38 +264,44 @@ export function ServerContextMenu(props: { server: Server }) {
       <ContextMenuDivider />
 
       <ContextMenuSubMenu
-        symbol={MdNotificationSettings}
+        icon={<Symbol size={16}>notification_settings</Symbol>}
         buttonContent={<Trans>Notifications</Trans>}
       >
         <ContextMenuButton
-          icon={MdNotificationsActive}
+          icon={<Symbol size={16}>notifications_active</Symbol>}
           onClick={() => state.notifications.setServer(props.server, "all")}
-          actionSymbol={
-            state.notifications.computeForServer(props.server) === "all"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+          actionIcon={
+            state.notifications.computeForServer(props.server) === "all" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>All Messages</Trans>
         </ContextMenuButton>
         <ContextMenuButton
-          icon={MdAlternateEmail}
+          icon={<Symbol size={16}>alternate_email</Symbol>}
           onClick={() => state.notifications.setServer(props.server, "mention")}
-          actionSymbol={
-            state.notifications.computeForServer(props.server) === "mention"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+          actionIcon={
+            state.notifications.computeForServer(props.server) === "mention" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>Mentions Only</Trans>
         </ContextMenuButton>
         <ContextMenuButton
-          icon={MdNotificationsOff}
+          icon={<Symbol size={16}>notifications_off</Symbol>}
           onClick={() => state.notifications.setServer(props.server, "none")}
-          actionSymbol={
-            state.notifications.computeForServer(props.server) === "none"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+          actionIcon={
+            state.notifications.computeForServer(props.server) === "none" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>None</Trans>
@@ -322,17 +310,26 @@ export function ServerContextMenu(props: { server: Server }) {
       <ContextMenuDivider />
 
       <Show when={permissionInviteOthers()}>
-        <ContextMenuButton icon={MdPersonAdd} onClick={createInvite}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>person_add</Symbol>}
+          onClick={createInvite}
+        >
           <Trans>Create invite</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={permissionEditIdentity()}>
-        <ContextMenuButton icon={MdFace} onClick={editIdentity}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>face</Symbol>}
+          onClick={editIdentity}
+        >
           <Trans>Edit your identity</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={permissionServerSettings()}>
-        <ContextMenuButton icon={MdSettings} onClick={openSettings}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>settings</Symbol>}
+          onClick={openSettings}
+        >
           <Trans>Open server settings</Trans>
         </ContextMenuButton>
       </Show>
@@ -346,11 +343,19 @@ export function ServerContextMenu(props: { server: Server }) {
         <ContextMenuDivider />
       </Show>
 
-      <ContextMenuButton icon={MdReport} onClick={report} destructive>
+      <ContextMenuButton
+        icon={<Symbol size={16}>report</Symbol>}
+        onClick={report}
+        destructive
+      >
         <Trans>Report server</Trans>
       </ContextMenuButton>
       <Show when={!props.server.owner?.self}>
-        <ContextMenuButton icon={MdLogout} onClick={leave} destructive>
+        <ContextMenuButton
+          icon={<Symbol size={16}>logout</Symbol>}
+          onClick={leave}
+          destructive
+        >
           <Trans>Leave server</Trans>
         </ContextMenuButton>
       </Show>
@@ -365,12 +370,18 @@ export function ServerContextMenu(props: { server: Server }) {
       </Show>
 
       <Show when={state.settings.getValue("advanced:admin_panel")}>
-        <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>shield</Symbol>}
+          onClick={openAdminPanel}
+        >
           <Trans>Admin Panel</Trans>
         </ContextMenuButton>
       </Show>
       <Show when={state.settings.getValue("advanced:copy_id")}>
-        <ContextMenuButton icon={MdBadge} onClick={copyId}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>badge</Symbol>}
+          onClick={copyId}
+        >
           <Trans>Copy server ID</Trans>
         </ContextMenuButton>
       </Show>

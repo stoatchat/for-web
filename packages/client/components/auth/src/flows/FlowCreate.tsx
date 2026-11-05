@@ -6,10 +6,8 @@ import { useApi, useClientLifecycle } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { A, useNavigate, useParams } from "@revolt/routing";
-import { Button, iconSize } from "@revolt/ui";
+import { Button } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
 
 import { FlowTitle } from "./Flow";
 import { setFlowCheckEmail } from "./FlowCheck";
@@ -120,7 +118,7 @@ export default function FlowCreate() {
         <BackAction>
           <A href="..">
             <Button variant="text">
-              <MdArrowBack {...iconSize("1.2em")} /> <Trans>Back</Trans>
+              <Symbol size={18}>arrow_back</Symbol> <Trans>Back</Trans>
             </Button>
           </A>
         </BackAction>

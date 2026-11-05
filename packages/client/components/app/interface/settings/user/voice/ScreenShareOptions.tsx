@@ -8,9 +8,9 @@ import {
   CategorySelectOption,
   Checkbox,
   Column,
+  Symbol,
   Text,
 } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 export function ScreenShareOptions() {
   const { voice } = useState();
