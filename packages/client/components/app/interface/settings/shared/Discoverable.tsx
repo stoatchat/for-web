@@ -80,7 +80,7 @@ export function Discoverable(props: {
                   <Text class="title" size="small">
                     <Trans>Can't get discover request status right now</Trans>
                   </Text>
-                  <Text>{err(e.message)}</Text>
+                  <Text>{err(e)}</Text>
                 </MessagePreview>
               );
             }}

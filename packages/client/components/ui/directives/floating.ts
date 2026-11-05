@@ -71,7 +71,11 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
   /**
    * Trigger a floating element
    */
-  function trigger(target: keyof Props, desiredState?: boolean) {
+  function trigger(
+    target: keyof Props,
+    desiredState?: boolean,
+    pointerType?: string,
+  ) {
     const current = show();
     const config = accessor();
 
@@ -99,13 +103,18 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     }
 
     if (target === "contextMenu" && config.contextMenu) {
+      const state = {
+        contextMenu: config.contextMenu,
+        contextMenuPointerType: pointerType,
+      };
+
       if (current?.contextMenu) {
         setShow(undefined);
       } else if (!current) {
-        setShow({ contextMenu: config.contextMenu });
+        setShow(state);
       } else {
         setShow(undefined);
-        setShow({ contextMenu: config.contextMenu });
+        setShow(state);
       }
     }
   }
@@ -126,7 +135,11 @@ export function floating(element: HTMLElement, accessor: Accessor<Props>) {
     event.stopPropagation();
     event.stopImmediatePropagation();
 
-    trigger("contextMenu");
+    trigger(
+      "contextMenu",
+      undefined,
+      event instanceof PointerEvent ? event.pointerType : undefined,
+    );
   }
 
   /**

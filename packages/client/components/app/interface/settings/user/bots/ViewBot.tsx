@@ -22,6 +22,7 @@ import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid
 import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
 import MdToken from "@material-design-icons/svg/outlined/token.svg?component-solid";
 
+import { useSettingsNavigation } from "../../Settings";
 import { Discoverable } from "../../shared/Discoverable";
 import { UserSummary } from "../account/index";
 import { UserProfileEditor } from "../profile/UserProfileEditor";
@@ -37,6 +38,7 @@ export function ViewBot(props: { bot: Bot }) {
   const { openModal } = useModals();
   const snackbar = useSnackbar();
   const { t } = useLingui();
+  const { navigate } = useSettingsNavigation();
 
   return (
     <Column gap="lg">
@@ -158,7 +160,13 @@ export function ViewBot(props: { bot: Bot }) {
         <CategoryButton
           icon={<MdDelete {...iconSize(22)} />}
           action="chevron"
-          onClick={() => openModal({ type: "delete_bot", bot: props.bot })}
+          onClick={() =>
+            openModal({
+              type: "delete_bot",
+              bot: props.bot,
+              onDelete: () => navigate("bots"),
+            })
+          }
         >
           <Trans>Delete Bot</Trans>
         </CategoryButton>

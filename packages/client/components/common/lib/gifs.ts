@@ -36,18 +36,13 @@ export function isGif(embed: MessageEmbed) {
 }
 
 export function isGifBox(embed: MessageEmbed) {
-  if (embed.type === "Website") {
-    const webEmbed = embed as WebsiteEmbed;
-    const chosenURL = webEmbed.originalUrl || webEmbed.url;
-    if (chosenURL) {
-      return new URL(chosenURL).origin === "https://gifbox.me";
-    }
-  }
-
   if (embed.type === "Image" || embed.type === "Video") {
-    const embedWithURL = embed as { url?: string };
-    if (embedWithURL.url)
-      return new URL(embedWithURL.url).origin === "https://gifbox.me";
+    const url = (embed as { url?: string }).url;
+    try {
+      return !!url && new URL(url).origin === "https://gifbox.me";
+    } catch {
+      return false;
+    }
   }
   return false;
 }

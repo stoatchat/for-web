@@ -86,7 +86,7 @@ const Config: SettingsConfiguration<Server> = {
    */
   list(server, onClose) {
     const user = useUser();
-    const { openModal } = useModals();
+    const { openModal, pop } = useModals();
 
     return {
       context: server,
@@ -175,6 +175,7 @@ const Config: SettingsConfiguration<Server> = {
                 openModal({
                   type: "delete_server",
                   server,
+                  onDelete: () => pop(),
                 });
               },
             },

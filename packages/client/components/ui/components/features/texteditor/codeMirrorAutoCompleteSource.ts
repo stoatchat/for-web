@@ -126,7 +126,7 @@ export function codeMirrorAutoCompleteSource(
     }
 
     const token = context.matchBefore(RE_match);
-    if (!token) return null;
+    if (!token || token.text.length <= 2) return null;
     const normalizedText = token.text.normalize("NFKC");
     switch (normalizedText[0]) {
       case ":":

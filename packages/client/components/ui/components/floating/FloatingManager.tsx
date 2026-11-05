@@ -14,11 +14,12 @@ import { Presence } from "solid-motionone";
 
 import { autoUpdate, flip, offset, shift } from "@floating-ui/dom";
 
+import { useDevice } from "@revolt/common";
 import { Keybind, KeybindAction } from "@revolt/keybinds";
 
 import { FloatingElement, floatingElements } from "../../directives";
 
-import { dismissFloatingElements } from ".";
+import { ActionSheet, dismissFloatingElements } from ".";
 import { AutoComplete } from "./AutoComplete";
 import { TooltipBase } from "./Tooltip";
 import { UserCard } from "./UserCard";
@@ -81,6 +82,20 @@ export function FloatingManager() {
  */
 function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
   const [floating, setFloating] = createSignal<HTMLDivElement>();
+  const device = useDevice();
+
+  /**
+   * Whether to present a context menu as a bottom action sheet
+   *
+   * On touch devices the anchored, pointer-positioned menu is both hard to tap
+   * and unfamiliar, so present the same menu as a full-width bottom sheet.
+   */
+  const asActionSheet = () => {
+    const current = props.show();
+    if (!current?.contextMenu) return false;
+
+    return device.layout() !== "desktop";
+  };
 
   /**
    * Figure out placement of the floating element
@@ -171,43 +186,54 @@ function Floating(props: FloatingElement & { mouseX: number; mouseY: number }) {
   }
 
   return (
-    <div
-      ref={setFloating}
-      use:motion={{
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.1, easing: [0.87, 0, 0.13, 1] },
-      }}
-      style={{
-        position: position.strategy,
-        top: `${position.y ?? 0}px`,
-        left: `${position.x ?? 0}px`,
-        "z-index": props.show()?.userCard ? "99" : "999",
-      }}
+    <Show
+      when={asActionSheet()}
+      fallback={
+        <div
+          ref={setFloating}
+          use:motion={{
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { duration: 0.1, easing: [0.87, 0, 0.13, 1] },
+          }}
+          style={{
+            position: position.strategy,
+            top: `${position.y ?? 0}px`,
+            left: `${position.x ?? 0}px`,
+            "z-index": props.show()?.userCard ? "99" : "999",
+          }}
+        >
+          <Switch>
+            <Match when={props.show()?.tooltip}>
+              <TooltipBase>
+                {typeof props.show()!.tooltip!.content === "function"
+                  ? (props.show()!.tooltip!.content as (arg1: object) => void)(
+                      {},
+                    )
+                  : props.show()!.tooltip!.content}
+              </TooltipBase>
+            </Match>
+            <Match when={props.show()?.userCard}>
+              <UserCard
+                user={props.show()!.userCard!.user}
+                member={props.show()!.userCard!.member}
+                bot={props.show()!.userCard!.bot}
+                onClose={props.hide}
+              />
+            </Match>
+            <Match when={props.show()?.contextMenu}>
+              {props.show()!.contextMenu!({})}
+            </Match>
+            <Match when={props.show()?.autoComplete}>
+              <AutoComplete {...props.show()!.autoComplete!} />
+            </Match>
+          </Switch>
+        </div>
+      }
     >
-      <Switch>
-        <Match when={props.show()?.tooltip}>
-          <TooltipBase>
-            {typeof props.show()!.tooltip!.content === "function"
-              ? (props.show()!.tooltip!.content as (arg1: object) => void)({})
-              : props.show()!.tooltip!.content}
-          </TooltipBase>
-        </Match>
-        <Match when={props.show()?.userCard}>
-          <UserCard
-            user={props.show()!.userCard!.user}
-            member={props.show()!.userCard!.member}
-            bot={props.show()!.userCard!.bot}
-            onClose={props.hide}
-          />
-        </Match>
-        <Match when={props.show()?.contextMenu}>
-          {props.show()!.contextMenu!({})}
-        </Match>
-        <Match when={props.show()?.autoComplete}>
-          <AutoComplete {...props.show()!.autoComplete!} />
-        </Match>
-      </Switch>
-    </div>
+      <ActionSheet onClose={props.hide}>
+        {props.show()!.contextMenu!({})}
+      </ActionSheet>
+    </Show>
   );
 }
