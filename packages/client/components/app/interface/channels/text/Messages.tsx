@@ -160,11 +160,18 @@ export function Messages(props: Props) {
   const [listRef, setListRef] = createSignal<HTMLDivElement>();
 
   /**
+   * Whether we're allowed to read messages in this channel
+   */
+  const canReadHistory = createMemo(() =>
+    props.channel.havePermission("ReadMessageHistory"),
+  );
+
+  /**
    * Whether we can fetch
    * @returns Boolean
    */
   function canFetch() {
-    return !fetching() || failure();
+    return canReadHistory() && (!fetching() || failure());
   }
 
   /**
@@ -223,6 +230,7 @@ export function Messages(props: Props) {
   async function caseInitialLoad(nearby?: string) {
     // Pre-empt any fetches
     preempt();
+
     setFetching("initial");
 
     // Handle incoming pre-emptions
@@ -248,13 +256,21 @@ export function Messages(props: Props) {
 
       if (useExistingState) {
         messages = existingState.messages;
-      } else {
+      } else if (canReadHistory()) {
         messages = await props.channel
           .fetchMessagesWithUsers({
             limit: INITIAL_FETCH_LIMIT,
             nearby,
           })
           .then(({ messages }) => messages);
+      } else {
+        collectedMessages = undefined;
+        batch(() => {
+          setStart(true);
+          setEnd(true);
+          setFetching();
+        });
+        return;
       }
 
       // Cancel if we've been pre-empted
@@ -488,6 +504,8 @@ export function Messages(props: Props) {
    * Jump to the present messages
    */
   async function caseJumpToBottom() {
+    if (!canReadHistory()) return;
+
     // Scroll to the bottom if we're already at the end
     if (atEnd()) {
       listRef()!.scrollIntoView({
@@ -571,6 +589,8 @@ export function Messages(props: Props) {
    * @param messageId Message Id
    */
   async function caseJumpToMessage(messageId: string) {
+    if (!canReadHistory()) return;
+
     /**
      * Scroll to the nearest message (to the id) in history
      */
@@ -686,6 +706,20 @@ export function Messages(props: Props) {
     ),
   );
 
+  /*
+   * Recover when permissions change
+   */
+  createEffect(
+    on(
+      canReadHistory,
+      (allowed) => {
+        if (allowed) caseInitialLoad(props.highlightedMessageId());
+        else preempt();
+      },
+      { defer: true },
+    ),
+  );
+
   /**
    * Handle incoming messages
    * @param message Message object
@@ -754,6 +788,7 @@ export function Messages(props: Props) {
         if (
           state === State.Connected &&
           atEnd() &&
+          canReadHistory() &&
           !props.highlightedMessageId()
         ) {
           caseInitialLoad();
@@ -966,7 +1001,9 @@ export function Messages(props: Props) {
         fetchBottom={caseFetchDownwards}
         atStart={atStart}
         atEnd={atEnd}
-        permitFetching={() => typeof fetching() !== "string" && renderSettled()}
+        permitFetching={() =>
+          canReadHistory() && typeof fetching() !== "string" && renderSettled()
+        }
       >
         <Deferred>
           <div ref={setListRef}>
