@@ -108,7 +108,7 @@ const Base = styled("div", {
     display: "none",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-xs)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-2)",
 
     fill: "var(--md-sys-color-on-secondary-container)",
     background: "var(--md-sys-color-secondary-container)",

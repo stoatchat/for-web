@@ -93,6 +93,11 @@ const themeConstants = {
     xl: "32px",
     xxl: "64px",
   },
+  /**
+   * Material shadow elevation tokens
+   *
+   * {@link https://m3.material.io/styles/elevation/applying-elevation}
+   */
   elevation: {
     0: "unset",
     1: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 2px 1px -1px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 1px 1px 0px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 1px 3px 0px",
