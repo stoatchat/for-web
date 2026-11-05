@@ -388,4 +388,7 @@ export type Modals =
     }
   | {
       type: "swap_user";
+    }
+  | {
+      type: "login_advanced";
     };
