@@ -13,12 +13,10 @@ import {
   Draggable,
   Fab,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdDragIndicator from "@material-design-icons/svg/outlined/drag_indicator.svg?component-solid";
 
 import { css } from "styled-system/css";
 import { useSettingsNavigation } from "../../Settings";
@@ -82,13 +80,14 @@ export function ServerRoleOverview(props: { context: Server }) {
           >
             {(entry) => (
               <ItemContainer>
-                <MdDragIndicator
-                  fill="var(--md-sys-color-on-surface)"
+                <Symbol
                   {...createDragHandle(
                     entry.dragDisabled,
                     entry.setDragDisabled,
                   )}
-                />
+                >
+                  drag_indicator
+                </Symbol>
 
                 <CategoryButton
                   icon={

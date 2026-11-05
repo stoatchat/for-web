@@ -22,6 +22,7 @@ import {
   MessageContainer,
   Row,
   Slider,
+  Symbol,
   Text,
 } from "@revolt/ui";
 import {
@@ -32,8 +33,6 @@ import {
   MONOSPACE_FONTS,
   MonospaceFonts,
 } from "@revolt/ui/themes/fonts";
-
-import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
 
 /**
  * All appearance options for the client
@@ -118,7 +117,7 @@ export function AppearanceMenu() {
               size="md"
               onPress={() => pickerRef()?.click()}
             >
-              <MDPalette />
+              <Symbol>palette</Symbol>
             </IconButton>
             <input
               ref={setPickerRef}

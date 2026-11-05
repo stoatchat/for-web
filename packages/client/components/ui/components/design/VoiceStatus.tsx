@@ -3,11 +3,7 @@ import { styled } from "styled-system/jsx";
 
 import { VoiceStatus as APIVoiceStatus } from "stoat.js";
 
-import MdScreenShare from "@material-design-icons/svg/outlined/screen_share.svg?component-solid";
-import MdVideoChat from "@material-design-icons/svg/outlined/video_call.svg?component-solid";
-import MdVoiceChat from "@material-design-icons/svg/outlined/volume_up.svg?component-solid";
-
-import { iconSize } from "../utils";
+import { Symbol } from "../utils";
 
 export type Props = {
   status: APIVoiceStatus;
@@ -42,7 +38,7 @@ function VoiceGraphic(props: Props) {
         <circle cx="27" cy="27" r="5" fill="var(--md-sys-color-surface)" />
         <foreignObject x="22" y="22" width="10" height="10">
           <VoiceStatusSymbol>
-            <MdVoiceChat {...iconSize(10)} />
+            <Symbol size={10}>volume_up</Symbol>
           </VoiceStatusSymbol>
         </foreignObject>
       </Match>
@@ -50,7 +46,7 @@ function VoiceGraphic(props: Props) {
         <circle cx="27" cy="27" r="5" fill="var(--md-sys-color-surface)" />
         <foreignObject x="22" y="22" width="10" height="10">
           <VoiceStatusSymbol>
-            <MdVideoChat {...iconSize(10)} />
+            <Symbol size={10}>video_call</Symbol>
           </VoiceStatusSymbol>
         </foreignObject>
       </Match>
@@ -58,7 +54,7 @@ function VoiceGraphic(props: Props) {
         <circle cx="27" cy="27" r="5" fill="var(--md-sys-color-surface)" />
         <foreignObject x="22" y="22" width="10" height="10">
           <VoiceStatusSymbol>
-            <MdScreenShare {...iconSize(10)} />
+            <Symbol size={10}>screen_share</Symbol>
           </VoiceStatusSymbol>
         </foreignObject>
       </Match>

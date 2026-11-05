@@ -11,7 +11,7 @@ import { Ripple, Text } from "@revolt/ui/components/design";
 import { Tooltip } from "@revolt/ui/components/floating";
 import { Row } from "@revolt/ui/components/layout";
 
-import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
+import { Symbol } from "@revolt/ui/components";
 
 interface Props {
   /**
@@ -123,7 +123,7 @@ export function Reactions(props: Props) {
         >
           <AddReaction class="add">
             <Ripple />
-            <MdAdd />
+            <Symbol>add</Symbol>
           </AddReaction>
         </div>
       </List>

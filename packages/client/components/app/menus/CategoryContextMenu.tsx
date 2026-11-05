@@ -6,13 +6,8 @@ import { Channel, Server } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
+import { Symbol } from "@revolt/ui";
 
-import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdLibraryAdd from "@material-design-icons/svg/outlined/library_add.svg?component-solid";
-import MdMarkChatRead from "@material-design-icons/svg/outlined/mark_chat_read.svg?component-solid";
-
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -101,17 +96,26 @@ export function CategoryContextMenu(props: {
   return (
     <ContextMenu>
       <Show when={hasUnread()}>
-        <ContextMenuButton icon={MdMarkChatRead} onClick={markAsRead}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>mark_chat_read</Symbol>}
+          onClick={markAsRead}
+        >
           <Trans>Mark as read</Trans>
         </ContextMenuButton>
         <ContextMenuDivider />
       </Show>
 
       <Show when={props.server.havePermission("ManageChannel")}>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>library_add</Symbol>}
+          onClick={createChannel}
+        >
           <Trans>Create channel</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>library_add</Symbol>}
+          onClick={createCategory}
+        >
           <Trans>Create category</Trans>
         </ContextMenuButton>
         <ContextMenuButton
@@ -120,7 +124,11 @@ export function CategoryContextMenu(props: {
         >
           <Trans>Rename category</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdDelete} onClick={deleteCategory} destructive>
+        <ContextMenuButton
+          icon={<Symbol size={16}>delete</Symbol>}
+          onClick={deleteCategory}
+          destructive
+        >
           <Trans>Delete category</Trans>
         </ContextMenuButton>
       </Show>
@@ -130,7 +138,10 @@ export function CategoryContextMenu(props: {
       </Show>
 
       <Show when={state.settings.getValue("advanced:copy_id")}>
-        <ContextMenuButton icon={MdBadge} onClick={copyId}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>badge</Symbol>}
+          onClick={copyId}
+        >
           <Trans>Copy category ID</Trans>
         </ContextMenuButton>
       </Show>

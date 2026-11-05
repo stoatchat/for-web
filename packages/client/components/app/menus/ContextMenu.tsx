@@ -13,9 +13,7 @@ import { Motion, Presence } from "solid-motionone";
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
 import { styled } from "styled-system/jsx";
 
-import { iconSize, symbolSize, Text, useActionSheet } from "@revolt/ui";
-
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
+import { iconSize, Symbol, symbolSize, Text, useActionSheet } from "@revolt/ui";
 
 const Base = styled("div", {
   base: {
@@ -196,7 +194,7 @@ export function ContextMenuSubMenu(
       <ContextMenuButton
         ref={setAnchor}
         selected={isShowing()}
-        actionIcon={MdChevronRight}
+        actionIcon={<Symbol>chevron_right</Symbol>}
         onpointerdown={(e) => {
           e.stopImmediatePropagation();
         }}

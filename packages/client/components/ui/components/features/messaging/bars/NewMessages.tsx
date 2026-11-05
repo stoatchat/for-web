@@ -7,9 +7,7 @@ import { decodeTime } from "ulid";
 
 import { useTime } from "@revolt/i18n";
 import { Ripple } from "@revolt/ui/components/design";
-import { iconSize } from "@revolt/ui/components/utils";
-
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
+import { Symbol } from "@revolt/ui/components/utils";
 
 import { FloatingIndicator } from "./FloatingIndicator";
 
@@ -59,7 +57,7 @@ export function NewMessages(props: Props) {
           <Trans>Jump to the beginning</Trans>
         </span>
         <CancelIcon onClick={onCancel}>
-          <MdClose {...iconSize(16)} />
+          <Symbol size={16}>close</Symbol>
         </CancelIcon>
       </FloatingIndicator>
     </Show>

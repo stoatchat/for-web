@@ -2,32 +2,14 @@ import { Accessor, For, Match, Show, Switch } from "solid-js";
 
 import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useClient, useUser } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
+import { Symbol, useSnackbar } from "@revolt/ui";
 import { MediaPickerProps } from "@revolt/ui/components/features/messaging/composition/picker/CompositionMediaPicker";
-
-import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdDeleteSweep from "@material-design-icons/svg/outlined/delete_sweep.svg?component-solid";
-import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
-import MdEmojiEmotions from "@material-design-icons/svg/outlined/emoji_emotions.svg?component-solid";
-import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
-import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
-import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
-import MdPin from "@material-design-icons/svg/outlined/pin_invoke.svg?component-solid";
-import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
-import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
-import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
-import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
-
-import { Trans, useLingui } from "@lingui/solid/macro";
-import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
-import { useSnackbar } from "@revolt/ui";
 import {
   ContextMenu,
   ContextMenuButton,
@@ -251,10 +233,16 @@ export function MessageContextMenu(props: {
   return (
     <ContextMenu>
       <Show when={props.file}>
-        <ContextMenuButton icon={MdOpenInNew} onClick={openFile}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>open_in_new</Symbol>}
+          onClick={openFile}
+        >
           <Trans>Open file</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdLink} onClick={copyFileLink}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>link</Symbol>}
+          onClick={copyFileLink}
+        >
           <Trans>Copy link to file</Trans>
         </ContextMenuButton>
         <Show when={props.file instanceof File}>
@@ -263,12 +251,12 @@ export function MessageContextMenu(props: {
             download={(props.file as File)?.filename}
             href={(props.file as File)?.originalUrl}
           >
-            <ContextMenuButton icon={MdDownload}>
+            <ContextMenuButton icon={<Symbol size={16}>download</Symbol>}>
               <Trans>Save file</Trans>
             </ContextMenuButton>
           </a>
           <ContextMenuButton
-            icon={MdContentCopy}
+            icon={<Symbol size={16}>content_copy</Symbol>}
             onClick={() => copyFile((props.file as File)!.originalUrl)}
           >
             <Trans>Copy file</Trans>
@@ -280,7 +268,10 @@ export function MessageContextMenu(props: {
         </Show>
       </Show>
       <Show when={props.link}>
-        <ContextMenuButton icon={MdLink} onClick={copyLink}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>link</Symbol>}
+          onClick={copyLink}
+        >
           <Trans>Copy link</Trans>
         </ContextMenuButton>
 
@@ -288,14 +279,23 @@ export function MessageContextMenu(props: {
       </Show>
       <Show when={props.message}>
         <Show when={props.message!.channel?.havePermission("SendMessage")}>
-          <ContextMenuButton icon={MdReply} onClick={reply}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>reply</Symbol>}
+            onClick={reply}
+          >
             <Trans>Reply</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuButton icon={MdMarkChatUnread} onClick={markAsUnread}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>mark_chat_unread</Symbol>}
+          onClick={markAsUnread}
+        >
           <Trans>Mark as unread</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>content_copy</Symbol>}
+          onClick={copyText}
+        >
           <Trans>Copy text</Trans>
         </ContextMenuButton>
 
@@ -307,7 +307,7 @@ export function MessageContextMenu(props: {
           }
         >
           <ContextMenuButton
-            icon={MdEmojiEmotions}
+            icon={<Symbol size={16}>mood</Symbol>}
             onClick={(e) => props.reactPicker!()?.onClickEmoji(e)}
           >
             <Trans>React</Trans>
@@ -321,7 +321,7 @@ export function MessageContextMenu(props: {
           }
         >
           <ContextMenuButton
-            icon={MdEdit}
+            icon={<Symbol size={16}>edit</Symbol>}
             onClick={() => state.draft.setEditingMessage(props.message!)}
           >
             <Trans>Edit message</Trans>
@@ -333,7 +333,10 @@ export function MessageContextMenu(props: {
             props.message!.channel?.havePermission("ManageMessages")
           }
         >
-          <ContextMenuButton icon={MdPin} onClick={pinMessage}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>pin_invoke</Symbol>}
+            onClick={pinMessage}
+          >
             <Switch fallback={<Trans>Pin message</Trans>}>
               <Match when={props.message!.pinned}>
                 <Trans>Unpin message</Trans>
@@ -348,7 +351,7 @@ export function MessageContextMenu(props: {
           }
         >
           <ContextMenuSubMenu
-            icon={MdDeleteSweep}
+            icon={<Symbol size={16}>delete_sweep</Symbol>}
             onClick={() => props.message!.clearReactions()}
             destructive
             buttonContent={<Trans>Remove reaction</Trans>}
@@ -375,7 +378,7 @@ export function MessageContextMenu(props: {
           }
         >
           <ContextMenuButton
-            symbol={MdSentimentContent}
+            symbol={<Symbol size={16}>sentiment_content</Symbol>}
             onClick={() => props.message!.clearReactions()}
             destructive
           >
@@ -389,7 +392,7 @@ export function MessageContextMenu(props: {
           }
         >
           <ContextMenuButton
-            icon={MdDelete}
+            icon={<Symbol size={16}>delete</Symbol>}
             onClick={deleteMessage}
             destructive
           >
@@ -399,21 +402,34 @@ export function MessageContextMenu(props: {
         <Show
           when={!props.message!.author?.self && !props.message!.systemMessage}
         >
-          <ContextMenuButton icon={MdReport} onClick={report} destructive>
+          <ContextMenuButton
+            icon={<Symbol size={16}>report</Symbol>}
+            onClick={report}
+            destructive
+          >
             <Trans>Report message</Trans>
           </ContextMenuButton>
         </Show>
         <ContextMenuDivider />
         <Show when={state.settings.getValue("advanced:admin_panel")}>
-          <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>shield</Symbol>}
+            onClick={openAdminPanel}
+          >
             <Trans>Admin Panel</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuButton icon={MdShare} onClick={copyMessageLink}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>share</Symbol>}
+          onClick={copyMessageLink}
+        >
           <Trans>Copy message link</Trans>
         </ContextMenuButton>
         <Show when={state.settings.getValue("advanced:copy_id")}>
-          <ContextMenuButton icon={MdBadge} onClick={copyId}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>badge</Symbol>}
+            onClick={copyId}
+          >
             <Trans>Copy message ID</Trans>
           </ContextMenuButton>
         </Show>

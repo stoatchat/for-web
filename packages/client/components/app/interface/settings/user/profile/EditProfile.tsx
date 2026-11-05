@@ -5,9 +5,7 @@ import { Trans } from "@lingui/solid/macro";
 import { useClient } from "@revolt/client";
 import { createOwnProfileResource } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { Avatar, CategoryButton, Column, Text, iconSize } from "@revolt/ui";
-
-import MdGroups from "@material-design-icons/svg/outlined/groups.svg?component-solid";
+import { Avatar, CategoryButton, Column, Symbol, Text } from "@revolt/ui";
 
 import { UserSummary } from "../account/index";
 
@@ -30,7 +28,7 @@ export function EditProfile() {
 
       <CategoryButton.Group>
         <CategoryButton.Collapse
-          icon={<MdGroups {...iconSize(22)} />}
+          icon={<Symbol size={22}>groups</Symbol>}
           title={<Trans>Server Identities</Trans>}
           description={<Trans>Change your profile per-server</Trans>}
           scrollable

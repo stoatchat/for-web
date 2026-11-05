@@ -4,10 +4,7 @@ import { User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useTime } from "@revolt/i18n";
-import { Avatar, CategoryButton, IconButton, iconSize } from "@revolt/ui";
-
-import MdCakeFill from "@material-design-icons/svg/filled/cake.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
+import { Avatar, CategoryButton, IconButton, Symbol } from "@revolt/ui";
 
 export function UserSummary(props: {
   user: User;
@@ -40,7 +37,7 @@ export function UserSummary(props: {
           </Username>
           <Show when={props.onEdit}>
             <IconButton variant="filled" shape="square" onPress={props.onEdit}>
-              <MdEdit />
+              <Symbol>edit</Symbol>
             </IconButton>
           </Show>
         </ProfileDetails>
@@ -64,7 +61,9 @@ export function UserSummary(props: {
                   },
                 }}
               >
-                <MdCakeFill {...iconSize(14)} />
+                <Symbol size={14} fill={true}>
+                  cake
+                </Symbol>
               </span>
             </ProfileBadges>
           </BottomBar>

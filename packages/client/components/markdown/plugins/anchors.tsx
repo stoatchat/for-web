@@ -10,13 +10,8 @@ import { DefaultHost, useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { Avatar, iconSize } from "@revolt/ui";
+import { Avatar, Symbol } from "@revolt/ui";
 import { Invite } from "@revolt/ui/components/features/messaging/elements/Invite";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdChat from "@material-design-icons/svg/outlined/chat.svg?component-solid";
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
-import MdPeople from "@material-design-icons/svg/outlined/people.svg?component-solid";
 
 const link = cva({
   base: {
@@ -166,8 +161,12 @@ export function RenderAnchor(
               {remote ? <Trans>Remote Channel</Trans> : channel()!.name}
               {params.exactMessage && (
                 <>
-                  <MdChevronRight {...iconSize("1em")} />
-                  <MdChat {...iconSize("1em")} />
+                  <Symbol size={14} position="relative" top="1px">
+                    chevron_right
+                  </Symbol>
+                  <Symbol size={14} position="relative" top="1px">
+                    chat
+                  </Symbol>
                 </>
               )}
             </LinkComponent>
@@ -186,7 +185,9 @@ export function RenderAnchor(
             when={remote || server()}
             fallback={
               <span class={internalLink()}>
-                <MdPeople {...iconSize("1em")} />
+                <Symbol size={14} position="relative" top="1px">
+                  people
+                </Symbol>
                 <Trans>Unknown Server</Trans>
               </span>
             }
@@ -198,7 +199,9 @@ export function RenderAnchor(
             >
               {remote ? (
                 <>
-                  <MdPeople {...iconSize("1em")} />
+                  <Symbol size={14} position="relative" top="1px">
+                    people
+                  </Symbol>
                   <Trans>Remote Server</Trans>
                 </>
               ) : (

@@ -5,17 +5,7 @@ import dayjs from "dayjs";
 import { Channel } from "stoat.js";
 
 import { useState } from "@revolt/state";
-import { Column, Text, Time } from "@revolt/ui";
-
-import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
-import MdNotificationsActive from "@material-design-icons/svg/outlined/notifications_active.svg?component-solid";
-import MdNotificationsOff from "@material-design-icons/svg/outlined/notifications_off.svg?component-solid";
-
-import MdDoNotDisturbOff from "@material-symbols/svg-400/outlined/do_not_disturb_off.svg?component-solid";
-import MdDoNotDisturbOn from "@material-symbols/svg-400/outlined/do_not_disturb_on.svg?component-solid";
-import MdNotificationSettings from "@material-symbols/svg-400/outlined/notification_settings.svg?component-solid";
-import MdRadioButtonChecked from "@material-symbols/svg-400/outlined/radio_button_checked-fill.svg?component-solid";
-import MdRadioButtonUnchecked from "@material-symbols/svg-400/outlined/radio_button_unchecked.svg?component-solid";
+import { Column, Symbol, Text, Time } from "@revolt/ui";
 
 import { ContextMenuButton, ContextMenuSubMenu } from "../ContextMenu";
 
@@ -31,7 +21,7 @@ export function NotificationContextMenu(props: { channel: Channel }) {
             onClick={() =>
               state.notifications.setChannelMute(props.channel, undefined)
             }
-            symbol={MdDoNotDisturbOff}
+            symbol={<Symbol size={16}>do_not_disturb_off</Symbol>}
             _titleCase={false}
           >
             <Column gap="none">
@@ -58,7 +48,7 @@ export function NotificationContextMenu(props: { channel: Channel }) {
         <ContextMenuSubMenu
           onClick={() => state.notifications.setChannelMute(props.channel, {})}
           buttonContent={<Trans>Mute Channel</Trans>}
-          symbol={MdDoNotDisturbOn}
+          symbol={<Symbol size={16}>do_not_disturb_on</Symbol>}
         >
           <For
             each={
@@ -91,7 +81,7 @@ export function NotificationContextMenu(props: { channel: Channel }) {
       </Show>
 
       <ContextMenuSubMenu
-        symbol={MdNotificationSettings}
+        symbol={<Symbol size={16}>notification_settings</Symbol>}
         buttonContent={<Trans>Notifications</Trans>}
       >
         <ContextMenuButton
@@ -99,9 +89,12 @@ export function NotificationContextMenu(props: { channel: Channel }) {
             state.notifications.setChannel(props.channel, undefined)
           }
           actionSymbol={
-            typeof state.notifications.getChannel(props.channel) === "undefined"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+            typeof state.notifications.getChannel(props.channel) ===
+            "undefined" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Column gap="none">
@@ -137,36 +130,42 @@ export function NotificationContextMenu(props: { channel: Channel }) {
         </ContextMenuButton>
 
         <ContextMenuButton
-          icon={MdNotificationsActive}
+          icon={<Symbol size={16}>notifications_active</Symbol>}
           onClick={() => state.notifications.setChannel(props.channel, "all")}
           actionSymbol={
-            state.notifications.getChannel(props.channel) === "all"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+            state.notifications.getChannel(props.channel) === "all" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>All Messages</Trans>
         </ContextMenuButton>
         <ContextMenuButton
-          icon={MdAlternateEmail}
+          icon={<Symbol size={16}>alternate_email</Symbol>}
           onClick={() =>
             state.notifications.setChannel(props.channel, "mention")
           }
           actionSymbol={
-            state.notifications.getChannel(props.channel) === "mention"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+            state.notifications.getChannel(props.channel) === "mention" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>Mentions Only</Trans>
         </ContextMenuButton>
         <ContextMenuButton
-          icon={MdNotificationsOff}
+          icon={<Symbol size={16}>notifications_off</Symbol>}
           onClick={() => state.notifications.setChannel(props.channel, "none")}
           actionSymbol={
-            state.notifications.getChannel(props.channel) === "none"
-              ? MdRadioButtonChecked
-              : MdRadioButtonUnchecked
+            state.notifications.getChannel(props.channel) === "none" ? (
+              <Symbol size={16}>radio_button_checked</Symbol>
+            ) : (
+              <Symbol size={16}>radio_button_unchecked</Symbol>
+            )
           }
         >
           <Trans>None</Trans>

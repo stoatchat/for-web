@@ -1,9 +1,7 @@
 import { Trans } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 
-import { iconSize } from "@revolt/ui";
-
-import MdArrowForward from "@material-design-icons/svg/filled/arrow_forward.svg?component-solid";
+import { Symbol } from "@revolt/ui";
 
 import { Ripple } from "../../../../components/design";
 import { FloatingIndicator } from "./FloatingIndicator";
@@ -34,7 +32,7 @@ export function JumpToBottom(props: Props) {
       <span>
         <Trans>Jump to present</Trans>
       </span>
-      <MdArrowForward {...iconSize(16)} />
+      <Symbol size={16}>arrow_forward</Symbol>
     </FloatingIndicator>
   );
 }

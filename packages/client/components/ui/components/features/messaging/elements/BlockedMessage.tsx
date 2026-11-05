@@ -1,9 +1,7 @@
 import { Plural } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
-import { iconSize } from "@revolt/ui/components/utils";
-
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
+import { Symbol } from "@revolt/ui/components/utils";
 
 import { Ripple } from "../../../design";
 
@@ -42,7 +40,7 @@ export function BlockedMessage(props: Props) {
   return (
     <Base>
       <Ripple />
-      <MdClose {...iconSize(16)} />{" "}
+      <Symbol size={16}>close</Symbol>{" "}
       <Plural
         value={props.count}
         one="# blocked message"

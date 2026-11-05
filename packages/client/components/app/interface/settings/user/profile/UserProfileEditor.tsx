@@ -13,10 +13,9 @@ import {
   Column,
   Form2,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
-
-import MdBadge from "@material-design-icons/svg/filled/badge.svg?component-solid";
 
 import { useModals } from "@revolt/modal";
 import { cropProcess } from "@revolt/modal/modals/CropProcess";
@@ -236,7 +235,7 @@ export function UserProfileEditor(props: Props) {
         />
         <Show when={!props.user.bot}>
           <CategoryButton
-            icon={<MdBadge />}
+            icon={<Symbol>badge</Symbol>}
             action="chevron"
             description={
               <Trans>Go to account settings to edit your username</Trans>

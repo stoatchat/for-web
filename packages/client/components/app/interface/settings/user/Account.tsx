@@ -1,4 +1,4 @@
-import { Match, Show, Switch, createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, Match, Show, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 
@@ -8,16 +8,7 @@ import {
   createOwnProfileResource,
 } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, Row, iconSize, useSnackbar } from "@revolt/ui";
-
-import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
-import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdAddUser from "@material-design-icons/svg/outlined/group_add.svg?component-solid";
-import MdLock from "@material-design-icons/svg/outlined/lock.svg?component-solid";
-import MdMail from "@material-design-icons/svg/outlined/mail.svg?component-solid";
-import MdPassword from "@material-design-icons/svg/outlined/password.svg?component-solid";
-import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
+import { CategoryButton, Column, Row, Symbol, useSnackbar } from "@revolt/ui";
 
 import { useSettingsNavigation } from "../Settings";
 import { UserSummary } from "./account/index";
@@ -62,7 +53,7 @@ function EditAccount(props: { onClose?: () => void }) {
           props.onClose?.();
           stow();
         }}
-        icon={<MdAddUser {...iconSize(22)} />}
+        icon={<Symbol size={22}>group_add</Symbol>}
         description={
           <Trans>Add an additional account login for fast-switching</Trans>
         }
@@ -77,7 +68,7 @@ function EditAccount(props: { onClose?: () => void }) {
             client: client(),
           })
         }
-        icon={<MdAlternateEmail {...iconSize(22)} />}
+        icon={<Symbol size={22}>alternate_email</Symbol>}
         description={client().user?.username}
       >
         <Trans>Username</Trans>
@@ -90,7 +81,7 @@ function EditAccount(props: { onClose?: () => void }) {
             client: client(),
           })
         }
-        icon={<MdMail {...iconSize(22)} />}
+        icon={<Symbol size={22}>mail</Symbol>}
         description={
           <Row>
             {email()}{" "}
@@ -117,7 +108,7 @@ function EditAccount(props: { onClose?: () => void }) {
             client: client(),
           })
         }
-        icon={<MdPassword {...iconSize(22)} />}
+        icon={<Symbol size={22}>password</Symbol>}
         description={"•••••••••"}
       >
         <Trans>Password</Trans>
@@ -207,7 +198,7 @@ function MultiFactorAuth() {
   return (
     <CategoryButton.Group>
       <CategoryButton.Collapse
-        icon={<MdVerifiedUser {...iconSize(22)} />}
+        icon={<Symbol size={22}>verified_user</Symbol>}
         title={<Trans>Recovery Codes</Trans>}
         description={
           <Trans>
@@ -247,7 +238,7 @@ function MultiFactorAuth() {
         </Switch>
       </CategoryButton.Collapse>
       <CategoryButton.Collapse
-        icon={<MdLock {...iconSize(22)} />}
+        icon={<Symbol size={22}>lock</Symbol>}
         title={<Trans>Authenticator App</Trans>}
         description={<Trans>Configure one-time password authentication</Trans>}
       >
@@ -319,7 +310,11 @@ function ManageAccount() {
         action="chevron"
         disabled={mfa.isLoading}
         onClick={disableAccount}
-        icon={<MdBlock {...iconSize(22)} fill="var(--md-sys-color-error)" />}
+        icon={
+          <Symbol size={22} color="var(--md-sys-color-error)">
+            block
+          </Symbol>
+        }
         description={
           <Trans>
             You won't be able to access your account unless you contact support
@@ -333,7 +328,11 @@ function ManageAccount() {
         action={stillOwnServers() ? undefined : "chevron"}
         disabled={mfa.isLoading || stillOwnServers()}
         onClick={deleteAccount}
-        icon={<MdDelete {...iconSize(22)} fill="var(--md-sys-color-error)" />}
+        icon={
+          <Symbol size={22} color="var(--md-sys-color-error)">
+            delete
+          </Symbol>
+        }
         description={
           <Trans>
             Your account and all of your data (including your messages and

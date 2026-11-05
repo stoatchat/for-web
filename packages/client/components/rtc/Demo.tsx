@@ -25,12 +25,8 @@ import {
   IconButton,
   OverflowingText,
   Row,
-  iconSize,
+  Symbol,
 } from "@revolt/ui";
-
-import MdHeadsetOff from "@material-design-icons/svg/outlined/headset_off.svg?component-solid";
-import MdMicOn from "@material-design-icons/svg/outlined/mic.svg?component-solid";
-import MdMicOff from "@material-design-icons/svg/outlined/mic_off.svg?component-solid";
 
 import { InRoom, useVoice } from ".";
 
@@ -203,7 +199,7 @@ export function LeParticipant() {
               padding: "1",
             })}
           >
-            <MdMicOff {...iconSize(20)} />
+            <Symbol size={20}>mic_off</Symbol>
           </div>
         </Show>
       </div>
@@ -311,9 +307,9 @@ export function Demo(props: { channel: Channel }) {
                 isDisabled={!props.channel.havePermission("Speak")}
                 onPress={() => voice.toggleMute()}
               >
-                <Switch fallback={<MdMicOff {...iconSize(20)} />}>
+                <Switch fallback={<Symbol size={20}>mic_off</Symbol>}>
                   <Match when={voice.microphone()}>
-                    <MdMicOn {...iconSize(20)} />
+                    <Symbol size={20}>mic_on</Symbol>
                   </Match>
                 </Switch>
               </IconButton>
@@ -330,7 +326,7 @@ export function Demo(props: { channel: Channel }) {
               }}
             >
               <IconButton variant="tonal" isDisabled>
-                <MdHeadsetOff {...iconSize(20)} />
+                <Symbol size={20}>headset_off</Symbol>
               </IconButton>
             </div>
           </Show>

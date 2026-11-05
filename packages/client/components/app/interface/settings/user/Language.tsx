@@ -1,6 +1,6 @@
 import { Trans, useLingui } from "@lingui/solid/macro";
 
-import { Language, Languages, browserPreferredLanguage } from "@revolt/i18n";
+import { browserPreferredLanguage, Language, Languages } from "@revolt/i18n";
 import type { LanguageEntry } from "@revolt/i18n/Languages";
 import { timeLocale } from "@revolt/i18n/dayjs";
 import { UnicodeEmoji } from "@revolt/markdown/emoji";
@@ -10,16 +10,9 @@ import {
   CategorySelectOption,
   Column,
   Row,
+  Symbol,
   Time,
-  iconSize,
 } from "@revolt/ui";
-
-import MdErrorFill from "@material-design-icons/svg/filled/error.svg?component-solid";
-import MdVerifiedFill from "@material-design-icons/svg/filled/verified.svg?component-solid";
-import MdCalendarMonth from "@material-design-icons/svg/outlined/calendar_month.svg?component-solid";
-import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
-import MdSchedule from "@material-design-icons/svg/outlined/schedule.svg?component-solid";
-import MdTranslate from "@material-design-icons/svg/outlined/translate.svg?component-solid";
 
 /**
  * Language
@@ -74,16 +67,18 @@ function PickLanguage() {
         <Row>
           {lang.display}{" "}
           {lang.verified && (
-            <MdVerifiedFill
-              {...iconSize(18)}
-              fill="var(--md-sys-color-on-surface)"
-            />
+            <Symbol size={18} fill={true}>
+              verified
+            </Symbol>
           )}{" "}
           {lang.incomplete && (
-            <MdErrorFill
-              {...iconSize(18)}
-              fill="var(--md-sys-color-on-surface)"
-            />
+            <Symbol
+              size={18}
+              fill={true}
+              color={"var(--md-sys-color-on-surface-variant)"}
+            >
+              error
+            </Symbol>
           )}
         </Row>
       ),
@@ -94,7 +89,7 @@ function PickLanguage() {
 
   return (
     <CategoryButton.Select
-      icon={<MdLanguage {...iconSize(22)} />}
+      icon={<Symbol size={22}>language</Symbol>}
       title={<Trans>Select your language</Trans>}
       value={i18n().locale as Language}
       options={langOpts}
@@ -113,7 +108,7 @@ function PickDateFormat() {
 
   return (
     <CategoryButton.Select
-      icon={<MdCalendarMonth {...iconSize(22)} />}
+      icon={<Symbol size={22}>calendar_month</Symbol>}
       title={<Trans>Date format</Trans>}
       value={timeLocale()[1].formats.L}
       options={{
@@ -143,7 +138,7 @@ function PickTimeFormat() {
 
   return (
     <CategoryButton.Select
-      icon={<MdSchedule {...iconSize(22)} />}
+      icon={<Symbol size={22}>schedule</Symbol>}
       title={<Trans>Time format</Trans>}
       value={timeLocale()[1].formats.LT}
       options={{
@@ -205,7 +200,7 @@ function ContributeLanguageLink() {
     <a href="https://translate.stoat.chat/projects/revolt/" target="_blank">
       <CategoryButton
         action="external"
-        icon={<MdTranslate {...iconSize(22)} />}
+        icon={<Symbol size={22}>translate</Symbol>}
         ignoreClick
         description={
           <Trans>Help contribute to an existing or new language</Trans>

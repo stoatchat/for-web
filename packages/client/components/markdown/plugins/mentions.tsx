@@ -9,9 +9,7 @@ import { visit } from "unist-util-visit";
 import { UserContextMenu } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { useSmartParams } from "@revolt/routing";
-import { Avatar, ColouredText, iconSize } from "@revolt/ui";
-
-import MdAt from "@material-design-icons/svg/filled/alternate_email.svg?component-solid";
+import { Avatar, ColouredText, Symbol } from "@revolt/ui";
 
 import { useUser } from "../users";
 
@@ -29,13 +27,17 @@ export function RenderMention(props: {
       </Match>
       <Match when={props.mentions === "everyone"}>
         <span class={mention()}>
-          <MdAt {...iconSize(16)} />
+          <Symbol size={16} position="relative" top="1px">
+            alternate_email
+          </Symbol>
           everyone
         </span>
       </Match>
       <Match when={props.mentions === "online"}>
         <span class={mention()}>
-          <MdAt {...iconSize(16)} />
+          <Symbol size={16} position="relative" top="1px">
+            alternate_email
+          </Symbol>
           online
         </span>
       </Match>

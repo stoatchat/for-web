@@ -10,11 +10,8 @@ import {
   CategoryButton,
   CircularProgress,
   Column,
-  iconSize,
+  Symbol,
 } from "@revolt/ui";
-
-import MdLibraryBooks from "@material-design-icons/svg/outlined/library_books.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -42,7 +39,7 @@ function CreateBot() {
     <CategoryButton.Group>
       <CategoryButton
         action="chevron"
-        icon={<MdSmartToy {...iconSize(22)} />}
+        icon={<Symbol size={22}>smart_toy</Symbol>}
         onClick={() =>
           openModal({
             type: "create_bot",
@@ -62,7 +59,7 @@ function CreateBot() {
       </CategoryButton>
       <CategoryButton
         action="external"
-        icon={<MdLibraryBooks {...iconSize(22)} />}
+        icon={<Symbol size={22}>library_books</Symbol>}
         onClick={() => window.open("https://developers.stoat.chat", "_blank")}
         description={
           <Trans>Learn more about how to create bots on Stoat.</Trans>

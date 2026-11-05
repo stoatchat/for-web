@@ -11,9 +11,9 @@ import {
   CategorySelectOption,
   Column,
   Slider,
+  Symbol,
   Text,
 } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 /**
  * Input options

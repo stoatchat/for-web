@@ -8,9 +8,7 @@ import { useError } from "@revolt/i18n";
 import { useModals } from "@revolt/modal";
 import { A, Navigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { Button, Column, Row, Text, iconSize } from "@revolt/ui";
-
-import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
+import { Button, Column, Row, Symbol, Text } from "@revolt/ui";
 
 import { FlowTitle } from "./Flow";
 import { Fields, Form } from "./Form";
@@ -145,7 +143,7 @@ export default function FlowLogin() {
                   })
                 }
               >
-                <MdArrowBack {...iconSize("1.2em")} /> <Trans>Cancel</Trans>
+                <Symbol size={18}>arrow_back</Symbol> <Trans>Cancel</Trans>
               </Button>
               <Button type="submit" size="md">
                 <Trans>Confirm</Trans>

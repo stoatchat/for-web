@@ -5,15 +5,10 @@ import { Trans } from "@lingui/solid/macro";
 import { PublicChannelInvite } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import MdGroups3 from "@material-design-icons/svg/filled/groups_3.svg?component-solid";
-import MdBugReport from "@material-design-icons/svg/outlined/bug_report.svg?component-solid";
-import MdFormatListNumbered from "@material-design-icons/svg/outlined/format_list_numbered.svg?component-solid";
-import MdStar from "@material-design-icons/svg/outlined/star_outline.svg?component-solid";
-
 import { useClient } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, iconSize } from "@revolt/ui";
+import { CategoryButton, Column, Symbol } from "@revolt/ui";
 
 /**
  * Feedback
@@ -50,7 +45,7 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdStar {...iconSize(22)} />}
+            icon={<Symbol size={22}>star</Symbol>}
             ignoreClick
             description={
               <Trans>Suggest new Stoat features on GitHub discussions.</Trans>
@@ -65,7 +60,7 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdFormatListNumbered {...iconSize(22)} />}
+            icon={<Symbol size={22}>format_list_numbered</Symbol>}
             ignoreClick
             description={<Trans>Submit feedback</Trans>}
           >
@@ -78,7 +73,7 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdBugReport {...iconSize(22)} />}
+            icon={<Symbol size={22}>bug_report</Symbol>}
             ignoreClick
             description={<Trans>View currently active bug reports here.</Trans>}
           >
@@ -98,7 +93,7 @@ export function Feedback() {
                   directly here.
                 </Trans>
               }
-              icon={<MdGroups3 />}
+              icon={<Symbol>groups_3</Symbol>}
             >
               <Trans>Go to the Stoat Lounge</Trans>
             </CategoryButton>
@@ -117,7 +112,7 @@ export function Feedback() {
                   directly here.
                 </Trans>
               }
-              icon={<MdGroups3 />}
+              icon={<Symbol>groups_3</Symbol>}
             >
               <Trans>Join the Stoat Lounge</Trans>
             </CategoryButton>

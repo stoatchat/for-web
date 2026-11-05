@@ -9,23 +9,7 @@ import { useInstance } from "@revolt/instance";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
-import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
-import MdCampaign from "@material-design-icons/svg/outlined/campaign.svg?component-solid";
-import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
-import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
-import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
-import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
-import MdMic from "@material-design-icons/svg/outlined/mic.svg?component-solid";
-import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
-import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
-import MdRateReview from "@material-design-icons/svg/outlined/rate_review.svg?component-solid";
-import MdScience from "@material-design-icons/svg/outlined/science.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
-import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
-import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_premium.svg?component-solid";
+import { ColouredText, Column, Symbol, Text } from "@revolt/ui";
 
 import pkg from "../../../../../../package.json";
 
@@ -212,12 +196,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             },
             {
               id: "profile",
-              icon: <MdAccountCircle {...iconSize(20)} />,
+              icon: <Symbol size={20}>account_circle</Symbol>,
               title: <Trans>Profile</Trans>,
             },
             {
               id: "sessions",
-              icon: <MdVerifiedUser {...iconSize(20)} />,
+              icon: <Symbol size={20}>verified_user</Symbol>,
               title: <Trans>Sessions</Trans>,
             },
           ],
@@ -227,12 +211,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           entries: [
             {
               id: "bots",
-              icon: <MdSmartToy {...iconSize(20)} />,
+              icon: <Symbol size={20}>smart_toy</Symbol>,
               title: <Trans>My Bots</Trans>,
             },
             {
               id: "feedback",
-              icon: <MdRateReview {...iconSize(20)} />,
+              icon: <Symbol size={20}>rate_review</Symbol>,
               title: <Trans>Feedback</Trans>,
             },
           ],
@@ -243,7 +227,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           entries: [
             {
               id: "subscribe",
-              icon: <MdWorkspacePremium {...iconSize(20)} />,
+              icon: <Symbol size={20}>workspace_premium</Symbol>,
               title: "[premium]",
             },
           ],
@@ -260,7 +244,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             // },
             {
               id: "voice",
-              icon: <MdMic {...iconSize(20)} />,
+              icon: <Symbol size={20}>mic</Symbol>,
               title: limits().video ? (
                 <Trans>Voice & Video</Trans>
               ) : (
@@ -269,7 +253,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             },
             {
               id: "appearance",
-              icon: <MdPalette {...iconSize(20)} />,
+              icon: <Symbol size={20}>palette</Symbol>,
               title: <Trans>Appearance</Trans>,
             },
             // {
@@ -285,7 +269,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             // },
             {
               id: "notifications",
-              icon: <MdNotifications {...iconSize(20)} />,
+              icon: <Symbol size={20}>notifications</Symbol>,
               title: <Trans>Notifications</Trans>,
             },
             // {
@@ -295,7 +279,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             // },
             {
               id: "language",
-              icon: <MdLanguage {...iconSize(20)} />,
+              icon: <Symbol size={20}>language</Symbol>,
               title: <Trans>Language</Trans>,
             },
             // {
@@ -324,28 +308,30 @@ const Config: SettingsConfiguration<{ server: Server }> = {
                 if (!changelog) return;
                 openModal({ type: "changelog", changelog });
               },
-              icon: <MdCampaign {...iconSize(20)} />,
+              icon: <Symbol size={20}>campaign</Symbol>,
               title: <Trans>What's New</Trans>,
             },
             {
               href: "https://github.com/stoatchat",
-              icon: <MdMemory {...iconSize(20)} />,
+              icon: <Symbol size={20}>memory</Symbol>,
               title: <Trans>Source Code</Trans>,
             },
             {
               id: "advanced",
-              icon: <MdScience {...iconSize(20)} />,
+              icon: <Symbol size={20}>science</Symbol>,
               title: <Trans>Advanced</Trans>,
             },
             {
               href: "https://ko-fi.com/stoatchat",
-              icon: <MdCoffee {...iconSize(20)} />,
+              icon: <Symbol size={20}>coffee</Symbol>,
               title: <Trans>Donate</Trans>,
             },
             {
               id: "logout",
               icon: (
-                <MdLogout {...iconSize(20)} fill="var(--md-sys-color-error)" />
+                <Symbol size={20} color="var(--md-sys-color-error)">
+                  logout
+                </Symbol>
               ),
               title: (
                 <ColouredText colour="var(--md-sys-color-error)">

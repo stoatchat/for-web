@@ -14,10 +14,8 @@ import {
   Column,
   Form2,
   Row,
+  Symbol,
 } from "@revolt/ui";
-
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -119,7 +117,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
       <Column>
         <CategoryButton
           action="chevron"
-          icon={<MdContentCopy />}
+          icon={<Symbol>content_copy</Symbol>}
           onClick={() =>
             navigator.clipboard.writeText(
               client().options.baseURL +
@@ -131,7 +129,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
         </CategoryButton>
         <CategoryButton
           action="chevron"
-          icon={<MdDelete />}
+          icon={<Symbol>delete</Symbol>}
           disabled={deleteWebhook.isPending}
           onClick={() => deleteWebhook.mutate()}
         >
