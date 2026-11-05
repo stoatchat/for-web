@@ -44,9 +44,10 @@ export function Dialog(props: Props) {
         show={props.show}
         onClick={props.onClose}
         style={{
+          "--scrim": "rgba(from var(--md-sys-color-scrim) r g b / 0.32)",
           "--background": props.scrimBackground
-            ? `url('${props.scrimBackground}'), rgba(0, 0, 0, 0.6)`
-            : "rgba(0, 0, 0, 0.6)",
+            ? `url('${props.scrimBackground}'), var(--scrim)`
+            : "var(--scrim)",
         }}
       >
         <Presence>
@@ -163,10 +164,10 @@ const Scrim = styled("div", {
     },
     dark: {
       true: {
-        "--background": "rgba(0, 0, 0, 0.9)",
+        "--background": "rgba(from var(--md-sys-color-scrim) r g b / 0.9)",
       },
       false: {
-        "--background": "rgba(0, 0, 0, 0.6)",
+        "--background": "rgba(from var(--md-sys-color-scrim) r g b / 0.32)",
       },
     },
   },
