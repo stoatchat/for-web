@@ -44,6 +44,7 @@ export function createStoatWebVariables(theme: SelectedTheme) {
     ...reduceWithPrefix(themeConstants.borderRadius, "--borderRadius-"),
     ...reduceWithPrefix(themeConstants.gap, "--gap-"),
     ...reduceWithPrefix(themeConstants.layout, "--layout-"),
+    ...reduceWithPrefix(themeConstants.elevation, "--md-sys-elevation-"),
   };
 }
 
@@ -91,6 +92,14 @@ const themeConstants = {
     x: "28px",
     xl: "32px",
     xxl: "64px",
+  },
+  elevation: {
+    0: "unset",
+    1: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 2px 1px -1px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 1px 1px 0px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 1px 3px 0px",
+    2: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 3px 3px -2px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 3px 4px 0px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 1px 8px 0px",
+    3: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 3px 5px -1px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 6px 10px 0px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 1px 18px 0px",
+    4: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 5px 5px -3px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 8px 10px 1px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 3px 14px 2px",
+    5: "rgba(from var(--md-sys-color-shadow) r g b / 0.2) 0px 7px 8px -4px, rgba(from var(--md-sys-color-shadow) r g b / 0.14) 0px 12px 17px 2px, rgba(from var(--md-sys-color-shadow) r g b / 0.12) 0px 5px 22px 4px",
   },
   layout: {
     "width-channel-sidebar": "248px",

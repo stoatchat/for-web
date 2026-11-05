@@ -27,7 +27,7 @@ const Base = styled("div", {
     background: "var(--md-sys-color-surface-container)",
     color: "var(--md-sys-color-on-surface)",
     fill: "var(--md-sys-color-on-surface)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-2)",
 
     userSelect: "none",
   },
