@@ -34,7 +34,8 @@ export function ServerRoleOverview(props: { context: Server }) {
   const { t } = useLingui();
   const client = useClient();
 
-  // Previewing needs the same access as the server context menu entry
+  // Only checks owner/ManageRole here, the Manage Server / Ban Members
+  // requirement comes from the roles page itself being gated in ServerSettings
   const canViewAs = () =>
     props.context.owner?.self || props.context.havePermission("ManageRole");
 
@@ -111,6 +112,8 @@ export function ServerRoleOverview(props: { context: Server }) {
                   }
                   iconBackground={!!entry.item.colour}
                   action={[
+                    // This ends up as a button inside CategoryButton's <a>, which
+                    // isn't ideal markup; stopPropagation below keeps the row click out
                     <Show
                       when={
                         canViewAs() &&

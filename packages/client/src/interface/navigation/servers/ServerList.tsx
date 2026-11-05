@@ -490,7 +490,7 @@ function ServerEntry(props: {
       (count, channel) =>
         count +
         (state.notifications.isChannelMuted(channel) ||
-        (channel.server?.previewRoles && !channel.havePermission("ViewChannel"))
+        (props.server.previewRoles && !channel.havePermission("ViewChannel"))
           ? 0
           : (channel.mentions?.size ?? 0)),
       0,
