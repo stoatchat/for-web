@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-10-08 13:18+0000\n"
+"PO-Revision-Date: 2026-10-25 23:54+0000\n"
 "Last-Translator: ispik <ispik@team.stoat.chat>\n"
-"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-for-web/tr/>\n"
+"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.1\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -45,7 +46,7 @@ msgstr "(değişiklikler kaydediliyor…)"
 #. placeholder {0}: props.count
 #: components/ui/components/features/messaging/elements/BlockedMessage.tsx
 msgid "{0, plural, one {# blocked message} other {# blocked messages}}"
-msgstr "{0, plural, one {# engellenen mesaj} other {# engellenen mesajlar}}"
+msgstr "{0} engellenen mesaj"
 
 #~ msgid "{0, plural, one {# Member} other {# Members}}"
 #~ msgstr ""
@@ -58,7 +59,7 @@ msgstr "{0} yeni bahsetme"
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
 msgid "{0, plural, one {Drop a file} other {Drop # files}}"
-msgstr "{0, plural, one {Bir Dosya Bırak} other {Dosya # Bırak}}"
+msgstr "{0, plural, one {Bir Dosya Bırak} other {# Dosya Bırak}}"
 
 #. placeholder {0}: users() .slice(0, -1) .map((user) => user!.username) .join(", ")
 #. placeholder {1}: users().slice(-1)[0]!.username
@@ -90,7 +91,9 @@ msgstr "{0} emoji hakkı kaldı"
 #. placeholder {0}: rejectedFiles.length
 #: src/interface/channels/text/Composition.tsx
 msgid "{0} files exceed the maximum size limit of {maxSizeFormatted} and were not uploaded."
-msgstr "{0} dosya, {maxSizeFormatted} olan maksimum boyut sınırını aştığı için yüklenemedi."
+msgstr ""
+"{0} dosya, {maxSizeFormatted} olan maksimum boyut sınırını aştığı için "
+"yüklenemedi."
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
@@ -121,7 +124,7 @@ msgstr "{0} çıktı"
 #. placeholder {1}: (message.systemMessage as ChannelOwnershipChangeSystemMessage).to ?.username
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
-msgstr "{0}, {1} adlı kullanıcıyı yeni grup sahibi yaptı"
+msgstr "{0}, {1} kullanıcısını yeni grup sahibi yaptı"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -133,7 +136,9 @@ msgstr "{0}, {2} içindeki {1} numaralı konuma taşındı"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
-msgstr "{0} alındı; hareket ettirmek için ok tuşlarını, bırakmak için boşluk tuşunu kullanın"
+msgstr ""
+"{0} alındı; hareket ettirmek için ok tuşlarını, bırakmak için boşluk tuşunu "
+"kullanın"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -187,12 +192,14 @@ msgstr "{0}-{1} / {2}"
 #. placeholder {0}: props.member.displayName
 #: components/modal/modals/UserProfileRoles.tsx
 msgid "{0}'s roles"
-msgstr "{0} adlı kullanıcının rolleri"
+msgstr "{0} kullanıcısının rolleri"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/RemoveTimeout.tsx
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
-msgstr "Zaman aşımı {0} için kaldırılacak ve sunucu ile tekrar etkileşime girebilecek."
+msgstr ""
+"Zaman aşımı {0} için kaldırılacak ve sunucu ile tekrar etkileşime "
+"girebilecek."
 
 #~ msgid "{h} hours"
 #~ msgstr "{h} saat"
@@ -433,11 +440,12 @@ msgstr "Tüm sistemler çalışır durumda"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Allow members to change name and avatar per-message"
-msgstr "Üyelerin her mesaj için ad ve avatar değiştirmesine izin ver"
+msgstr "Üyelerin her mesaj için isim ve profil resmini değiştirmesine izin ver"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Allow others to add your bot to their servers from Discover"
-msgstr "Başkalarının botunu Keşfet sekmesinden kendi sunucularına eklemesine izin ver"
+msgstr ""
+"Başkalarının botunu Keşfet sekmesinden kendi sunucularına eklemesine izin ver"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Allow others to invite your bot"
@@ -475,7 +483,7 @@ msgstr "Bir hata oluştu."
 #. placeholder {0}: err.location
 #: components/i18n/errors.tsx
 msgid "An internal error occurred. ({0})"
-msgstr "Dahili bir hata oluştu. ({0})"
+msgstr "Bir sistem hatası oluştu. ({0})"
 
 #: components/app/interface/settings/user/Sync.tsx
 #: components/app/interface/settings/UserSettings.tsx
@@ -484,7 +492,7 @@ msgstr "Görünüm"
 
 #: components/modal/modals/SignOutSessions.tsx
 msgid "Are you sure you want to clear your sessions?"
-msgstr "Oturumlarınızı temizlemek istediğinizde emin misiniz?"
+msgstr "Oturumlarınızı silmek istediğinizden emin misiniz?"
 
 #: components/modal/modals/DeleteMessage.tsx
 msgid "Are you sure you want to delete this?"
@@ -492,7 +500,7 @@ msgstr "Bunu silmek istediğinden emin misin?"
 
 #: components/modal/modals/LinkWarning.tsx
 msgid "Are you sure you want to go to "
-msgstr "Gitmek istediğine emin misin "
+msgstr "Şuraya gitmek istediğinizden emin misiniz "
 
 #~ msgid "Are you sure you want to go to <0>{0}</0>?"
 #~ msgstr ""
@@ -505,7 +513,7 @@ msgstr "Bu mesajı sabitlemek istediğine emin misin?"
 #. placeholder {1}: props.group.name
 #: components/modal/modals/RemoveMember.tsx
 msgid "Are you sure you want to remove {0} from {1}?"
-msgstr "{0} Kişisini {1} kaldırmak istediğinize eminmisin?"
+msgstr "{0} kullanıcısını {1} grubundan çıkarmak istediğine emin misin?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
@@ -629,15 +637,19 @@ msgstr "Meşgul"
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu botu oluşturarak <0>Uygun Kullanım Politikası</0>'nı kabul etmiş olursunuz."
+msgstr ""
+"Bu botu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı kabul "
+"etmiş olursunuz."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "Bu sunucuyu oluşturarak, <0>Adil Kullanım Şartları</0>'nı kabul etmiş olursunuz."
+msgstr ""
+"Bu sunucuyu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı "
+"kabul etmiş olursunuz."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
-msgstr "Yavaş modu atlamak"
+msgstr "Yavaş Modu Atla"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypasses slowmode in channels"
@@ -645,7 +657,9 @@ msgstr "Kanallardaki yavaş modu atla"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Can't find the perfect GIF? Head to Gifbox and upload your own for everyone to use."
-msgstr "Mükemmel bir GİF bulamıyor musunuz? GifBox'a gidin ve kendinizinkini yükleyin ki herkes kullanabilsin."
+msgstr ""
+"Mükemmel GIF'i bulamıyor musunuz? Gifbox'a gidin ve herkesin kullanması için "
+"kendi GIF'inizi yükleyin."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Can't get discover request status right now"
@@ -719,7 +733,7 @@ msgstr "Değiştir"
 #. placeholder {0}: props.member.nickname ?? props.member.user?.displayName ?? props.member.user?.username
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Change {0}'s nickname"
-msgstr "{0} Kişinin takma adını değiştir"
+msgstr "{0} kullanıcısının takma adını değiştir"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Change Avatar"
@@ -736,7 +750,7 @@ msgstr "{0} sunucusundaki kişiliğini değiştir"
 
 #: components/modal/modals/EditEmail.tsx
 msgid "Change login email"
-msgstr "Giriş e-mail'ini değiştir"
+msgstr "Giriş e-postasını değiştir"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Change login password"
@@ -764,7 +778,7 @@ msgstr "Bu botun adını değiştir"
 
 #: components/modal/modals/EditUsername.tsx
 msgid "Change username"
-msgstr "Kullanıcı adı değiştir"
+msgstr "Kullanıcı adını değiştir"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Change Username"
@@ -844,7 +858,7 @@ msgstr "Değişiklikler hakkında bilgi edinmek için aşağıdakilere tıkla!"
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
-msgstr "Kopyalamak için kullanıcı adına tıklayın"
+msgstr "Kullanıcı adını kopyalamak için tıklayın"
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Click to show full description"
@@ -910,11 +924,13 @@ msgstr "Çok yakında geliyor! 👀"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure a way to get back into your account in case your 2FA is lost"
-msgstr "İki aşamalı doğrulamanın kaybolması durumunda hesabına geri dönebilmek için bir yol ayarla"
+msgstr ""
+"İki aşamalı doğrulamanın kaybolması durumunda hesabına geri dönebilmek için "
+"bir yol ayarla"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Configure one-time password authentication"
-msgstr "Tek şifreli kimlik onaylama ayarla"
+msgstr "Tek kullanımlık şifreyle kimlik onaylama ayarla"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx
@@ -931,7 +947,7 @@ msgstr "Bağlan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Connect to voice channel"
-msgstr "Sesli sohbete bağlan"
+msgstr "Ses kanalına bağlan"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardStatus.tsx
 msgid "Connected"
@@ -1213,7 +1229,8 @@ msgstr "Sunucu Simgesini Kırp"
 #. placeholder {0}: humanFileSize(e().maxSize)
 #: components/modal/modals/CropProcess.tsx
 msgid "Cropped image is too large — try a smaller crop area (max. {0})"
-msgstr "Kırpılan görüntü çok büyük — daha küçük bir kırpma alanı deneyin (maks. {0})"
+msgstr ""
+"Kırpılan resim çok büyük — daha küçük bir kırpma alanı deneyin (maks. {0})"
 
 #: components/modal/modals/EditEmail.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1318,7 +1335,7 @@ msgstr "Başkaları tarafından gönderilen mesajları silebilme"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Delete Bot"
-msgstr "Botu Sİl"
+msgstr "Botu Sil"
 
 #: components/app/menus/CategoryContextMenu.tsx
 #: components/modal/modals/DeleteCategory.tsx
@@ -1365,7 +1382,9 @@ msgstr "Sunucuyu Sil"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
-msgstr "Bu emojiyi silerseniz, ileride kullanamazsınız. Geçmişteki tüm kullanımlar kalacaktır."
+msgstr ""
+"Bu emojiyi silerseniz, ileride kullanamazsınız. Geçmişteki tüm kullanımlar "
+"kalacaktır."
 
 #. placeholder {0}: props.invite.username
 #: components/modal/modals/AddBot.tsx
@@ -1505,7 +1524,7 @@ msgstr "Dosyayı Düzenle"
 
 #: components/app/interface/settings/user/profile/EditProfile.tsx
 msgid "Edit Global Profile"
-msgstr "Global Profili Düzenle"
+msgstr "Genel Profili Düzenle"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Edit group name and description"
@@ -1585,7 +1604,9 @@ msgstr "Anlık Bildirimleri Etkinleştir"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
-msgstr "Saydamlık/bulanıklaştırma efektlerini etkinleştir (eski cihazlarda yavaş çalışabilir)"
+msgstr ""
+"Saydamlık/bulanıklaştırma efektlerini etkinleştir (eski cihazlarda yavaş "
+"çalışabilir)"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1601,7 +1622,7 @@ msgstr "Gelişmiş (RNNoise)"
 
 #: components/modal/modals/RenameSession.tsx
 msgid "Enter a new name for this session"
-msgstr "Bu oturuma yeni bir isim gir"
+msgstr "Bu oturum için yeni bir ad girin"
 
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -1632,7 +1653,7 @@ msgstr "E-posta adresinizi girin, size yeni bir bağlantı gönderelim."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your invite code."
-msgstr "Davet kodunuzu girin"
+msgstr "Davet kodunuzu girin."
 
 #: components/auth/src/flows/Form.tsx
 msgid "Enter your preferred username."
@@ -1655,7 +1676,7 @@ msgstr "Gasp veya şantaj"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Extreme violence, gore or animal cruelty"
-msgstr "Aşırı şiddet, vahşet veya hayvan sulmü"
+msgstr "Aşırı şiddet, vahşet veya hayvan zulmü"
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable notifications. Stoat does not have notification permission."
@@ -1663,7 +1684,8 @@ msgstr "Bildirimler etkinleştirilemedi. Stoat'ın bildirim izni yok."
 
 #: components/client/NotificationsController.ts
 msgid "Failed to enable push notifications. Please try again later."
-msgstr "Anlık bildirimler etkinleştirilemedi. Lütfen daha sonra tekrar deneyiniz."
+msgstr ""
+"Anlık bildirimler etkinleştirilemedi. Lütfen daha sonra tekrar deneyiniz."
 
 #: components/i18n/errors.tsx
 msgid "Failed to process the image you provided."
@@ -1685,7 +1707,7 @@ msgstr "Geri Bildirim"
 #. placeholder {0}: humanFileSize(local.maxSize)
 #: components/ui/components/utils/Form2.tsx
 msgid "File must be smaller than {0}"
-msgstr "Dosya {0} küçük olmalıdır"
+msgstr "Dosya, {0}'dan daha küçük olmalıdır"
 
 #: src/interface/Home.tsx
 msgid "Find a community based on your hobbies or interests."
@@ -1707,7 +1729,7 @@ msgstr "Dosya"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Folder colour"
-msgstr "Dosya Resmi"
+msgstr "Dosya Rengi"
 
 #: components/app/menus/ServerContextMenu.tsx
 #: components/app/menus/shared/NotificationContextMenu.tsx
@@ -1753,7 +1775,8 @@ msgstr "Meyve Salatası"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Generate a new token if it gets lost or compromised"
-msgstr "Kaybolması veya başkasının eline geçmesi durumunda yeni bir token oluştur"
+msgstr ""
+"Kaybolması veya başkasının eline geçmesi durumunda yeni bir token oluştur"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Generate Recovery Codes"
@@ -1769,28 +1792,34 @@ msgstr "Yeni kurtarma kodu dizisi oluştur"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Get active recovery codes"
-msgstr "Aktif kurtarma kodu al"
+msgstr "Aktif kurtarma kodlarını al"
 
 #: components/auth/src/AppUpsell.tsx
 #: src/AndroidNag.tsx
 msgid "Get it on Google Play"
-msgstr "Google Play'den alın."
+msgstr "Google Play'den indirin"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get Stoat for Android and keep up with your friends wherever you are."
-msgstr "Android için Stoat’ı indirin ve nerede olursanız olun arkadaşlarınızla iletişimde kalın."
+msgstr ""
+"Android için Stoat’ı indirin ve nerede olursanız olun arkadaşlarınızla "
+"iletişimde kalın."
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
-msgstr "Windows, macOS ve Linux için masaüstü uygulamasını indirin ve sohbetlerinize tek bir tıklamayla ulaşın."
+msgstr ""
+"Windows, macOS ve Linux için masaüstü uygulamasını indirin ve sohbetlerinize "
+"tek bir tıklamayla ulaşın."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Gifbox is our own GIF service, so you can keep sharing GIFs right here on Stoat."
-msgstr "Gifbox, kendi GİF hizmetimizdir, bu nedenle GİF'leri Stoat üzerinden paylaşmaya devam edebilirsiniz."
+msgstr ""
+"Gifbox, kendi GIF hizmetimizdir, bu nedenle GIF'leri Stoat üzerinden "
+"paylaşmaya devam edebilirsiniz."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "GIFs are now powered by Gifbox"
-msgstr "Gif'ler artık Giftbox tarafından sağlanıyor"
+msgstr "GIF'ler artık Gifbox tarafından sağlanıyor"
 
 #: src/interface/Home.tsx
 msgid "Give feedback on Stoat"
@@ -1830,7 +1859,7 @@ msgstr "İyi"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Got a better GIF? Share it with everyone on Gifbox."
-msgstr "Daha iyi bir GİF'iniz mi var? Gifbox'ta herkesle paylaşın."
+msgstr "Daha iyi bir GIF'iniz mi var? Gifbox'ta herkesle paylaşın."
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Got it"
@@ -1884,7 +1913,7 @@ msgstr "İşte yeni davet kodun: <0>{0}</0>"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Hide Others"
-msgstr "Diyerlerini Gizle"
+msgstr "Diğerlerini Gizle"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "High Contrast"
@@ -1910,7 +1939,7 @@ msgstr "Sonuçların farkındayım ve onaylıyorum"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "ID copied to clipboard"
-msgstr "Kimlik panoya kopyalandı"
+msgstr "ID panoya kopyalandı"
 
 #: components/ui/components/features/profiles/ProfileStatus.tsx
 #: src/interface/channels/text/MemberSidebar.tsx
@@ -1932,7 +1961,9 @@ msgstr "Kimlik sahtekarlığı"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
-msgstr "Bu arada, Android için tasarlanmış daha hızlı ve sorunsuz bir deneyim için Google Play'den Stoat uygulamasını yükleyin."
+msgstr ""
+"Bu arada, Android için tasarlanmış daha hızlı ve sorunsuz bir deneyim için "
+"Google Play'den Stoat'ı yükleyin."
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -1969,7 +2000,7 @@ msgstr "Başkalarını Davet Et"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Invite URL copied to clipboard"
-msgstr "Davet bağlantısı panoya kopyalandı."
+msgstr "Davet bağlantısı panoya kopyalandı"
 
 #: components/app/interface/settings/server/invites/ListServerInvites.tsx
 msgid "Inviter"
@@ -2028,11 +2059,11 @@ msgstr "Günümüze dön"
 
 #: components/ui/components/features/messaging/bars/NewMessages.tsx
 msgid "Jump to the beginning"
-msgstr "Başlangıca geri dön"
+msgstr "Başlangıca git"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Keep as is"
-msgstr "Olduğu gibi tut"
+msgstr "Olduğu gibi bırak"
 
 #: components/modal/modals/KickMember.tsx
 msgid "Kick"
@@ -2105,7 +2136,9 @@ msgstr "Stoat'ın kendine ait başlık çubuğunu kullanmasına izin ver."
 
 #: src/interface/Home.tsx
 msgid "Let us know how we can improve our app by giving us feedback."
-msgstr "Bize uygulamamızı nasıl geliştirebileceğimiz hakkında geri bildirimde bulunun."
+msgstr ""
+"Bize uygulamamızı nasıl geliştirebileceğimiz hakkında geri bildirimde "
+"bulunun."
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
@@ -2243,7 +2276,7 @@ msgstr "Üyeler"
 #. placeholder {0}: slowmodeWaitTime()
 #: components/app/interface/channels/text/CompositionInfo.tsx
 msgid "Members can send one message every {0}."
-msgstr "Üyeler her {0}'da bir mesaj gönderebilir."
+msgstr "Üyeler her {0}'de bir mesaj gönderebilir."
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mention"
@@ -2356,7 +2389,7 @@ msgstr "Sustur"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 msgid "Mute Channel"
-msgstr "Kanalı Sessize Al"
+msgstr "Kanalı Sustur"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Mute lower-ranking members in voice call"
@@ -2368,11 +2401,11 @@ msgstr "Üyeleri Susturabilme"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Mute Screen Share"
-msgstr "Ekran paylaşımını sessize al"
+msgstr "Ekran Paylaşımını Sustur"
 
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Mute Server"
-msgstr "Sunucuyu Sessize Al"
+msgstr "Sunucuyu Sustur"
 
 #: src/interface/navigation/servers/ServerList.tsx
 msgid "Muted"
@@ -2425,7 +2458,7 @@ msgstr "{0} itibariyle yeni mesajlar"
 
 #: components/modal/modals/EditCategory.tsx
 msgid "New name"
-msgstr "Yeni ad"
+msgstr "Yeni isim"
 
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/EditPassword.tsx
@@ -2450,11 +2483,11 @@ msgstr "Okunmamış mesajlar"
 
 #: components/modal/modals/ServerIdentity.tsx
 msgid "Nickname"
-msgstr "Kullanıcı Adı"
+msgstr "Takma Ad"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "No GIFs found"
-msgstr "Hiç GİF bulunamadı"
+msgstr "Hiç GIF bulunamadı"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No permissions set yet"
@@ -2549,7 +2582,7 @@ msgstr "Sadece bahsetmelerden haberdar edileceksin"
 
 #: components/instance/index.tsx
 msgid "Oops, something went wrong! {e}"
-msgstr "Uh oh! Birşeyler yanlış gitti! {e}"
+msgstr "Uh oh! Bir şeyler yanlış gitti! {e}"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2558,7 +2591,7 @@ msgstr "Aç"
 #. placeholder {0}: provider()![0]
 #: components/auth/src/flows/MailProvider.tsx
 msgid "Open {0}"
-msgstr "Şunu aç {0}"
+msgstr "{0}'de aç"
 
 #: components/app/menus/ChannelContextMenu.tsx
 msgid "Open channel settings"
@@ -2591,7 +2624,7 @@ msgstr "Genel Bakış"
 
 #: components/ui/components/features/profiles/ProfileOwner.tsx
 msgid "Owner"
-msgstr "Kurucu"
+msgstr "Sahibi"
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 msgid "Pardon User"
@@ -2609,7 +2642,7 @@ msgstr "Şifre"
 
 #: components/modal/modals/EditPassword.tsx
 msgid "Password changed successfully."
-msgstr "Şifre başarıyla değiştirildi"
+msgstr "Şifre başarıyla değiştirildi."
 
 #: src/interface/Friends.tsx
 msgid "Pending"
@@ -2633,7 +2666,9 @@ msgstr "Paylaşmak için ekran seç"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Pick a username that you want people to be able to find you by. This can be changed later in your user settings."
-msgstr "İnsanların seni rahatlıkla bulmasını istediğin bir kullanıcı adı seç. Bu daha sonra ayarlarından değiştirilebilir."
+msgstr ""
+"İnsanların seni rahatlıkla bulmasını istediğin bir kullanıcı adı seç. Bu "
+"daha sonra ayarlarından değiştirilebilir."
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Pin"
@@ -2711,7 +2746,7 @@ msgstr "Profil"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Profile Bio"
-msgstr "Hakkımda"
+msgstr "Profil Biyografisi"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Promotes harm"
@@ -2724,7 +2759,7 @@ msgstr "Zamirlerin"
 
 #: components/i18n/errors.tsx
 msgid "Provided email or password is wrong."
-msgstr "Girilen e-mail veya şifre yanlış."
+msgstr "Girilen e-posta veya şifre yanlış."
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Raid or spam attack"
@@ -2733,7 +2768,7 @@ msgstr "Baskın veya spam saldırısı"
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 #: components/app/menus/MessageContextMenu.tsx
 msgid "React"
-msgstr "Tepki verebilme"
+msgstr "Tepki Ekle"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "React to messages with emoji"
@@ -2752,7 +2787,7 @@ msgstr "Kanal geçmişindeki mesajları okuyabilme"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Read past messages sent in channels"
-msgstr "Kanalların geçmişindeki mesajları okuyabilme"
+msgstr "Kanallarda gönderilen eski mesajları oku"
 
 #: components/app/interface/settings/server/bans/ListBans.tsx
 #: components/modal/modals/BanMember.tsx
@@ -2839,7 +2874,7 @@ msgstr "Kimlik Doğrulayıcıyı Kaldır"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove Avatars"
-msgstr "Profil Resmini Kaldır"
+msgstr "Profil Resimlerini Kaldır"
 
 #: components/app/menus/UserContextMenu.tsx
 msgid "Remove friend"
@@ -2852,7 +2887,7 @@ msgstr "Dosyadan kaldır"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/RemoveMember.tsx
 msgid "Remove Member"
-msgstr "Üyeyi kaldır"
+msgstr "Üyeyi çıkar"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Remove other members' avatars"
@@ -2888,7 +2923,7 @@ msgstr "Oturumu Yeniden Adlandır"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Rep Stoat using Discord rich presence."
-msgstr "Stoat'ı Discord RPC kullanarak temsil et."
+msgstr "Stoat'ı Discord rich presence kullanarak temsil et."
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Reply"
@@ -2952,7 +2987,7 @@ msgstr "Token'i Sıfırla"
 
 #: components/ui/components/features/profiles/ProfileBadges.tsx
 msgid "Responsibly disclosed security issues"
-msgstr "Güvenlik sorunlarını düzgün bir biçimde açığa çıkardı"
+msgstr "Sorumlu bir şekilde bildirilen güvenlik sorunları"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
@@ -2984,7 +3019,7 @@ msgstr "Rol rengi"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Role Icon"
-msgstr "Rol ikonu"
+msgstr "Rol Simgesi"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 #: components/modal/modals/CreateRole.tsx
@@ -3038,7 +3073,7 @@ msgstr "Kaydediliyor…"
 
 #: components/modal/modals/ReportContent.tsx
 msgid "Scams or fraud"
-msgstr "Dolandırıcılık veya sahtekârlık"
+msgstr "Dolandırıcılık veya sahtekarlık"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Scan with your phone, or"
@@ -3059,12 +3094,12 @@ msgstr "Ara"
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
-msgstr "Grup ara..."
+msgstr "Grupları ara..."
 
 #: components/modal/modals/AddMembersToGroup.tsx
 #: components/modal/modals/CreateGroup.tsx
 msgid "Search for users..."
-msgstr "Kullanıcı ara..."
+msgstr "Kullanıcıları ara..."
 
 #~ msgid "See what we're currently working on."
 #~ msgstr ""
@@ -3107,15 +3142,16 @@ msgstr "E-posta gönder"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send embedded content such as link embeds or custom embeds"
-msgstr "Bağlantı ya da özelleştirilişmiş gömüler gibi gömülü içerik yerleştirebilme"
+msgstr ""
+"Bağlantı ya da özelleştirilirmiş gömüler gibi gömülü içerik yerleştirebilme"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Embeds"
-msgstr "Yerleştirmeleri Gönder"
+msgstr "Gömülü İçerikleri Gönder"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send Messages"
-msgstr "Mesaj Göndebilme"
+msgstr "Mesaj Gönderebilme"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Send messages in channel"
@@ -3197,7 +3233,7 @@ msgstr "Rengi {colour} olarak ayarla"
 
 #: components/modal/modals/EditServerFolder.tsx
 msgid "Set folder colour to {value}"
-msgstr "Klasör rengini {değer} olarak ayarla"
+msgstr "Klasör rengini {value} olarak ayarla"
 
 #: components/app/interface/settings/server/roles/ServerRoleEditor.tsx
 msgid "Set role colour to {colour}"
@@ -3246,7 +3282,7 @@ msgstr "Yazarken düzeltme ve önermeleri göster."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActiveRoom.tsx
 msgid "Show Others"
-msgstr "Diğerlerine göster"
+msgstr "Diğerlerini göster"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Show send message button"
@@ -3264,7 +3300,7 @@ msgstr "Sessiz"
 
 #: components/app/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode Immune"
-msgstr "Yavaş mod bağışıklığı"
+msgstr "Yavaş Mod Bağışıklığı"
 
 #: components/app/interface/channels/text/CompositionInfo.tsx
 msgid "Slowmode is enabled."
@@ -3374,7 +3410,7 @@ msgstr "Stoat arka planda çalışmaya başlayacak."
 
 #: src/AndroidNag.tsx
 msgid "Stoat works best as an app"
-msgstr "Stoat uygulma olarak daha iyidir"
+msgstr "Stoat, bir uygulama olarak en iyi şekilde çalışır"
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Stoat, right on <0>your desktop.</0>"
@@ -3386,19 +3422,19 @@ msgstr "Kamerayı kapat"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Stop sharing"
-msgstr "Ekran paylışımını durdur"
+msgstr "Ekran paylaşımını durdur"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Stream End"
-msgstr "Yayın bitti"
+msgstr "Yayın Bitti"
 
 #: components/app/interface/settings/user/notifications/Sounds.tsx
 msgid "Stream Start"
-msgstr "Yayın başladı"
+msgstr "Yayın Başladı"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Submit feature suggestion"
-msgstr "Özellik tavsiyesi gönder"
+msgstr "Özellik önerisi gönder"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Submit feedback"
@@ -3406,7 +3442,7 @@ msgstr "Geri bildirim gönder"
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "Submit to Discover"
-msgstr "Keşfete Sun"
+msgstr "Keşfete Başvur"
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Subscriptions"
@@ -3414,7 +3450,8 @@ msgstr "Abonelikler"
 
 #: components/app/interface/settings/user/Feedback.tsx
 msgid "Suggest new Stoat features on GitHub discussions."
-msgstr "GitHub tartışmaları üzerinden, Stoat'a yeni özellikler önerin."
+msgstr ""
+"GitHub tartışma sayfalarında Stoat için yeni özellik önerilerinde bulunun."
 
 #: src/interface/Home.tsx
 msgid "Support the project by donating - thank you!"
@@ -3426,11 +3463,14 @@ msgstr "Bu ses kanalına geç"
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync appearance options, such as chosen emoji pack and message density."
-msgstr "Seçili olan mesaj yoğunluğu ve emoji paketleri gibi görsel seçenekleri senkronize et."
+msgstr ""
+"Seçili olan mesaj yoğunluğu ve emoji paketleri gibi görsel seçenekleri "
+"senkronize et."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your chosen theme, colours, and any custom CSS."
-msgstr "Seçmiş olduğunuz tema, renk ve CSS kodlarınızı senkronize edin."
+msgstr ""
+"Seçtiğiniz temayı, renkleri ve varsa özel CSS kodlarını senkronize edin."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Sync your currently chosen language."
@@ -3482,28 +3522,41 @@ msgstr "Bu eylem hiçbir şey yapmadı."
 
 #: components/i18n/errors.tsx
 msgid "The bot has been removed from discover by moderators, the user must contact support."
-msgstr "Bot, moderatörler tarafından Keşfetten kaldırılmıştır; kullanıcının destek ekibiyle iletişime geçmesi gerekmektedir."
+msgstr ""
+"Bot, moderatörler tarafından Keşfetten kaldırılmıştır; kullanıcının destek "
+"ekibiyle iletişime geçmesi gerekmektedir."
 
 #: components/i18n/errors.tsx
 msgid "The bot is already on discover, the user must contact support to have it removed"
-msgstr "Bot halihazırda Keşfette, kullanıcının botun kaldırılması için destek ekibiyle iletişime geçmesi gerekiyor"
+msgstr ""
+"Bot halihazırda Keşfette, kullanıcının botun kaldırılması için destek "
+"ekibiyle iletişime geçmesi gerekiyor"
 
 #: components/i18n/errors.tsx
 msgid "The Discover request is approved or the item has been removed from discover. In either case, the user must contact support."
-msgstr "Keşfet talebi onaylandı ya da öğe Keşfetten kaldırıldı. Her iki durumda da kullanıcı destek ekibiyle iletişime geçmelidir."
+msgstr ""
+"Keşfet talebi onaylandı ya da öğe Keşfetten kaldırıldı. Her iki durumda da "
+"kullanıcı destek ekibiyle iletişime geçmelidir."
 
 #: components/i18n/errors.tsx
 msgid "The Discover request was declined. Declined requests cannot be removed, but the user may submit again."
-msgstr "Keşfet talebi reddedildi. Reddedilen talepler silinemez, ancak kullanıcı talebini yeniden gönderebilir."
+msgstr ""
+"Keşfet talebi reddedildi. Reddedilen talepler silinemez, ancak kullanıcı "
+"talebini yeniden gönderebilir."
 
 #. placeholder {0}: file.name
 #: src/interface/channels/text/Composition.tsx
 msgid "The file \"{0}\" ({fileSize}) exceeds the maximum size limit of {maxSizeFormatted}."
-msgstr "\"{0}\" adlı dosya ({fileSize}) maksimum dosya limiti olan {maxSizeFormatted} boyutunu aşıyor."
+msgstr ""
+"\"{0}\" adlı dosya ({fileSize}) maksimum dosya limiti olan "
+"{maxSizeFormatted} boyutunu aşıyor."
 
 #: components/i18n/errors.tsx
 msgid "The item was removed by moderators, and as such future applications are prohibited. Contact support for more information."
-msgstr "Bu gönderi moderatörler tarafından kaldırılmıştır; bu nedenle bundan sonra benzer başvurular yapılamayacaktır. Daha fazla bilgi için destek ekibiyle iletişime geçin."
+msgstr ""
+"Bu gönderi moderatörler tarafından kaldırılmıştır; bu nedenle bundan sonra "
+"benzer başvurular yapılamayacaktır. Daha fazla bilgi için destek ekibiyle "
+"iletişime geçin."
 
 #: components/i18n/errors.tsx
 msgid "The password is too short."
@@ -3511,11 +3564,16 @@ msgstr "Şifre çok kısa."
 
 #: components/i18n/errors.tsx
 msgid "The server has been removed from discover by moderators, the user must contact support."
-msgstr "Sunucu, moderatörler tarafından Keşfetten kaldırılmıştır; kullanıcının destek ekibiyle iletişime geçmesi gerekmektedir."
+msgstr ""
+"Sunucu, moderatörler tarafından Keşfetten kaldırılmıştır; kullanıcının "
+"destek ekibiyle iletişime geçmesi gerekmektedir."
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
-msgstr "Sunucu halihazırda keşfet listesinde yer almaktadır; kullanıcının bu sunucunun listeden kaldırılması için destek ekibiyle iletişime geçmesi gerekmektedir."
+msgstr ""
+"Sunucu halihazırda keşfet listesinde yer almaktadır; kullanıcının bu "
+"sunucunun listeden kaldırılması için destek ekibiyle iletişime geçmesi "
+"gerekmektedir."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3528,11 +3586,14 @@ msgstr "Bu {0} keşfette"
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
-msgstr "Bu hesap aktive edilmemiş! Lütfen hesabının gelenler kutusunu kontrol et ve tekrar dene."
+msgstr ""
+"Bu hesap aktive edilmemiş! Lütfen hesabının gelenler kutusunu kontrol et ve "
+"tekrar dene."
 
 #: components/i18n/errors.tsx
 msgid "This bot is private and can only be added by the creator."
-msgstr "Bu bot kişiye özeldir ve sadece botu oluşturan kişi tarafından eklenebilir."
+msgstr ""
+"Bu bot kişiye özeldir ve sadece botu oluşturan kişi tarafından eklenebilir."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "This channel is about..."
@@ -3544,7 +3605,9 @@ msgstr "Bu kanal yetişkin olarak işaretlendi."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This channel is not available in your region while we review options on legal compliance."
-msgstr "Aldığımız yasal şikayetleri incelediğimiz süreçte, bu kanal bölgende mevcut değil."
+msgstr ""
+"Yasal uyumluluk konusundaki seçenekleri değerlendirirken, bu kanal "
+"bölgenizde kullanılamamaktadır."
 
 #: src/interface/channels/AgeGate.tsx
 msgid "This content is not available in your region."
@@ -3556,7 +3619,7 @@ msgstr "Bu özellik şu anda devre dışı."
 
 #: components/i18n/errors.tsx
 msgid "This file type is not allowed."
-msgstr "Bu dosya tipine izin verilmez."
+msgstr "Bu dosya türü kabul edilmiyor."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -3569,7 +3632,7 @@ msgstr "Bu çoktan gönderildi."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "This is taking longer than usual."
-msgstr "Bu beklediğimizden daha uzun sürüyor..."
+msgstr "Bu, normalden daha uzun sürüyor."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "This is the start of your conversation."
@@ -3589,7 +3652,9 @@ msgstr "Bu mesaj boş ve gönderilemedi."
 
 #: components/i18n/errors.tsx
 msgid "This password has previously appeared in security leaks, please use another password."
-msgstr "Bu şifre daha önce güvenlik sızıntılarına karıştı, lütfen başka bir şifre kullanın."
+msgstr ""
+"Bu şifre daha önce güvenlik sızıntılarına karıştı, lütfen başka bir şifre "
+"kullanın."
 
 #: components/app/interface/settings/server/Overview.tsx
 msgid "This server is about..."
@@ -3597,7 +3662,9 @@ msgstr "Bu sunucunun konusu..."
 
 #: components/i18n/errors.tsx
 msgid "This sign up is marked as spam. Please see <0>this support article.</0>"
-msgstr "Bu kayıt işlemi spam olarak işaretlendi. Lütfen <0>bu destek makalesine</0> göz atın."
+msgstr ""
+"Bu kayıt işlemi spam olarak işaretlendi. Lütfen <0>bu destek makalesine</0> "
+"göz atın."
 
 #: components/i18n/errors.tsx
 msgid "This user has blocked you."
@@ -3617,7 +3684,9 @@ msgstr "Bu kullanıcı adına izin verilmiyor."
 
 #: components/modal/modals/ResetBotToken.tsx
 msgid "This will invalidate the current token and stop any existing instances of the bot from running."
-msgstr "Bu, mevcut tokeni geçersiz kılacak ve botun çalışan tüm örneklerini durduracaktır."
+msgstr ""
+"Bu, mevcut tokeni geçersiz kılacak ve botun çalışan tüm örneklerini "
+"durduracaktır."
 
 #: components/app/interface/settings/user/Language.tsx
 msgid "Time format"
@@ -3652,7 +3721,7 @@ msgstr "Yan çubuğu aç/kapa"
 
 #: components/app/interface/settings/user/bots/ViewBot.tsx
 msgid "Token copied to clipboard"
-msgstr "Jeton panoya kopyalandı"
+msgstr "Token panoya kopyalandı"
 
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Tonal Spot"
@@ -3825,7 +3894,8 @@ msgstr "kullanıcıadı#1234"
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
-msgstr "Kullanıcılar bu kanala katılmadan önce yaşlarını doğrulamaları istenecek."
+msgstr ""
+"Kullanıcılar bu kanala katılmadan önce yaşlarını doğrulamaları istenecek."
 
 #: components/app/interface/settings/channel/Overview.tsx
 msgid "Users will be asked to confirm their age before opening this channel."
@@ -3833,7 +3903,10 @@ msgstr "Kullanıcılar bu kanalı açmadan önce yaşlarını doğrulamaları is
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will no longer be asked to confirm their age before joining this channel.<0/> Please ensure the content is appropriate for all ages."
-msgstr "Kullanıcılar artık bu kanala katıldıklarında yaşlarını doğrulamaları istenmeyecek.<0/> Lütfen içeriğin tüm yaş gruplarına uygun olduğundan emin olun."
+msgstr ""
+"Kullanıcılar artık bu kanala katıldıklarında yaşlarını doğrulamaları "
+"istenmeyecek.<0/> Lütfen içeriğin tüm yaş gruplarına uygun olduğundan emin "
+"olun."
 
 #~ msgid "Using default microphone"
 #~ msgstr ""
@@ -3916,23 +3989,34 @@ msgstr "Kullanıcı adını değiştirmek mi istiyorsun?"
 
 #: src/AndroidNag.tsx
 msgid "We are working hard on optimising our web app for mobile."
-msgstr "Web uygulamamızı mobil cihazlar için optimize etmek üzere yoğun bir şekilde çalışıyoruz."
+msgstr ""
+"Web uygulamamızı mobil cihazlar için optimize etmek üzere yoğun bir şekilde "
+"çalışıyoruz."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr "Giriş işleminizi tamamlayamadık. Lütfen tekrar deneyin; sorun devam ederse Stoat'ın durumunu kontrol edin."
+msgstr ""
+"Giriş işleminizi tamamlayamadık. Lütfen tekrar deneyin; sorun devam ederse "
+"Stoat'ın durumunu kontrol edin."
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
-msgstr "Bu bilgiyi yalnızca hesabınızı doğrulamak ve hesabınıza erişiminiz engellendiğinde tekrar giriş yapmanıza yardımcı olmak için kullanıyoruz. Bu bilgiyi asla satmayız veya size spam göndermeyiz."
+msgstr ""
+"Bu bilgiyi yalnızca hesabınızı doğrulamak ve hesabınıza erişiminiz "
+"engellendiğinde tekrar giriş yapmanıza yardımcı olmak için kullanıyoruz. Bu "
+"bilgiyi asla satmayız veya size spam göndermeyiz."
 
 #: components/auth/src/flows/FlowReset.tsx
 msgid "We'll email you a secure link to choose a new password."
-msgstr "Yeni bir şifre seçebilmeniz için size güvenli bir bağlantı içeren bir e-posta göndereceğiz."
+msgstr ""
+"Yeni bir şifre seçebilmeniz için size güvenli bir bağlantı içeren bir e-"
+"posta göndereceğiz."
 
 #: components/auth/src/flows/FlowCheck.tsx
 msgid "We've sent you a verification email. Please allow up to 10 minutes for it to arrive."
-msgstr "Size bir doğrulama e-postası gönderdik. Lütfen gelmesi için 10 dakikaya kadar bekleyin."
+msgstr ""
+"Size bir doğrulama e-postası gönderdik. Lütfen gelmesi için 10 dakikaya "
+"kadar bekleyin."
 
 #: components/app/interface/channels/text/Message.tsx
 msgid "Webhook"
@@ -3949,7 +4033,7 @@ msgstr "Webhook Adı"
 
 #: components/app/interface/settings/ChannelSettings.tsx
 msgid "Webhooks"
-msgstr "Web kancaları"
+msgstr "Webhooks"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Welcome back"
@@ -3992,23 +4076,25 @@ msgstr "Yeni bir grup ya da sunucu oluşturmak ister misin?"
 
 #: components/modal/modals/CreateOrJoinServer.tsx
 msgid "Would you like to create a new server or join an existing one?"
-msgstr "Yeni bir sunucu oluşturmak mı yoksa var olan bir sunucuya katılmak mı istersin?"
+msgstr ""
+"Yeni bir sunucu oluşturmak mı yoksa var olan bir sunucuya katılmak mı "
+"istersin?"
 
 #: components/app/interface/settings/user/bots/MyBots.tsx
 msgid "You agree that your bot is subject to the Acceptable Usage Policy."
-msgstr "Botunuzun Adil Kullanım Şartlarına dâhil olduğunu kabul ediyorsunuz."
+msgstr "Botunuzun Adil Kullanım Şartlarına dahil olduğunu kabul ediyorsunuz."
 
 #. placeholder {0}: props.member.user?.username
 #. placeholder {0}: props.user?.username
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
 msgid "You are about to ban {0}"
-msgstr "{0}'yı yasaklamak üzeresin"
+msgstr "{0} kullanıcısını yasaklamak üzeresin"
 
 #. placeholder {0}: props.member.user?.username
 #: components/modal/modals/KickMember.tsx
 msgid "You are about to kick {0}"
-msgstr "{0}'yı atmak üzeresin"
+msgstr "{0} kullanıcısını atmak üzeresin"
 
 #: components/i18n/errors.tsx
 msgid "You are banned from this server."
@@ -4032,7 +4118,9 @@ msgstr "Daha sonra tekrar açabilirsin, ancak her iki taraftan da kaybolacaktır
 #: components/app/interface/settings/user/Feedback.tsx
 #: src/interface/Home.tsx
 msgid "You can report issues and discuss improvements with us directly here."
-msgstr "Sorunları bildirebilir ve gelişmeleri bizimle doğrudan buradan paylaşabilirsin."
+msgstr ""
+"Sorunları bildirebilir ve gelişmeleri bizimle doğrudan buradan "
+"paylaşabilirsin."
 
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "You can request again below"
@@ -4041,7 +4129,9 @@ msgstr "Aşağıdan yeniden talepte bulunabilirsiniz"
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
 msgid "You can't be in more than {0} servers, please leave one and try again."
-msgstr "{0}'dan fazla sunucuda bulunamazsınız, lütfen bir sunucuyu terk edip tekrar deneyin."
+msgstr ""
+"{0}'dan fazla sunucuda bulunamazsınız, lütfen bir sunucuyu terk edip tekrar "
+"deneyin."
 
 #. placeholder {0}: err.max
 #: components/i18n/errors.tsx
@@ -4097,11 +4187,13 @@ msgstr "{0} adet bekleyen arkadaşlık isteğiniz var."
 
 #: components/i18n/errors.tsx
 msgid "You have been locked out for entering a wrong password multiple times. Please wait a couple minutes and try again."
-msgstr "Şifreni ardı ardına yanlış girmen sebebi ile kilitlendin. Lütfen bir kaç dakikanın ardından tekrar dene."
+msgstr ""
+"Şifreni ardı ardına yanlış girmen sebebi ile kilitlendin. Lütfen bir kaç "
+"dakikanın ardından tekrar dene."
 
 #: components/i18n/errors.tsx
 msgid "You have this user blocked."
-msgstr "Bu kullanıcı engellemişsiniz."
+msgstr "Bu kullanıcıyı engellemişsiniz."
 
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "You may be experiencing connection issues."
@@ -4124,7 +4216,9 @@ msgstr "Herhangi bir bildirim almayacaksınız"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "You won't be able to access your account unless you contact support - however, your data will not be deleted."
-msgstr "Destek ekibiyle iletişime geçmediğin sürece hesabına erişemezsin - fakat bu süreçte verileriniz silinmeyecek."
+msgstr ""
+"Destek ekibiyle iletişime geçmediğin sürece hesabına erişemezsin - fakat bu "
+"süreçte verileriniz silinmeyecek."
 
 #: components/modal/modals/DeleteChannel.tsx
 #: components/modal/modals/LeaveServer.tsx
@@ -4172,7 +4266,10 @@ msgstr "{0} incelenmektedir"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Your account and all of your data (including your messages and friends list) will be queued for deletion. A confirmation email will be sent - you can cancel this within 7 days by contacting support."
-msgstr "Bütün verileriniz (mesaj ve arkadaş listesi dahil) ve hesabınız silinmeye ayarlandı. Onay için e-posta gönderilecek - bunu 7 gün içerisinde destek ekibimizle iletişime geçerek iptal edebilirsiniz."
+msgstr ""
+"Bütün verileriniz (mesaj ve arkadaş listesi dahil) ve hesabınız silinmeye "
+"ayarlandı. Onay için e-posta gönderilecek - bunu 7 gün içerisinde destek "
+"ekibimizle iletişime geçerek iptal edebilirsiniz."
 
 #: components/auth/src/flows/FlowVerify.tsx
 msgid "Your account has been verified!"
@@ -4212,8 +4309,12 @@ msgstr "Bu eylemi gerçekleştirmek için rol yetkiniz çok düşük."
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
-msgstr "Oturumunuz sona erdi; bunun nedeni, muhtemelen başka bir cihazdan oturumunuzu kapatmış olmanızdır. Devam etmek için lütfen tekrar oturum açın."
+msgstr ""
+"Oturumunuz sona erdi; bunun nedeni, muhtemelen başka bir cihazdan "
+"oturumunuzu kapatmış olmanızdır. Devam etmek için lütfen tekrar oturum açın."
 
 #: components/i18n/errors.tsx
 msgid "Your user has already been created? Try logging in again or refreshing the app."
-msgstr "Kullanıcınız çoktan oluşturuldu mu? Tekrar giriş yapmayı veya uygulamayı yenilemeyi deneyin."
+msgstr ""
+"Kullanıcınız çoktan oluşturuldu mu? Tekrar giriş yapmayı veya uygulamayı "
+"yenilemeyi deneyin."
