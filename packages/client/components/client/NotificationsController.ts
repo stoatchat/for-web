@@ -80,6 +80,13 @@ export function useNotifications() {
       } else {
         await enablePushSubscription();
       }
+    } else if (settings.pushNotificationsState === "allowed") {
+      // re-send it in case the server dropped it or the browser rotated it
+      try {
+        await setUpServiceWorkerSubscription(getClient());
+      } catch (e) {
+        console.error("[push] Failed to refresh push subscription", e);
+      }
     }
 
     //Unproductive workers will not be tolerated in Soviet Russia
@@ -182,7 +189,7 @@ async function setUpServiceWorkerSubscription(client: Client) {
       applicationServerKey: client.configuration!.vapid,
     }));
 
-  client.api.post("/push/subscribe", {
+  await client.api.post("/push/subscribe", {
     endpoint: subscription.endpoint,
     p256dh: arrayBufferToBase64URL(
       subscription.getKey("p256dh") || new ArrayBuffer(),
