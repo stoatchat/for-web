@@ -1,7 +1,9 @@
 import {
   acceptCompletion,
   autocompletion,
+  Completion,
   currentCompletions,
+  pickedCompletion,
 } from "@codemirror/autocomplete";
 import { EditorView, keymap } from "@codemirror/view";
 import { Accessor } from "solid-js";
@@ -80,6 +82,7 @@ const completionTheme = EditorView.theme({
 
 export function codeMirrorAutoComplete(
   searchSpace?: Accessor<AutoCompleteSearchSpace>,
+  onEmojiAccept?: (emoji: string) => void,
 ) {
   const autocompleteScrollbarClasses = scrollableStyles();
 
@@ -170,5 +173,14 @@ export function codeMirrorAutoComplete(
     { key: "Tab", run: (v) => accept(v, "Tab") },
   ]);
 
-  return [extension, emojiKeymap, completionTheme];
+  const recordAccept = EditorView.updateListener.of((update) => {
+    for (const tr of update.transactions) {
+      const completion = tr.annotation(pickedCompletion);
+      if (completion?.type === "emoji") {
+        onEmojiAccept?.((completion as Completion & { id: string }).id);
+      }
+    }
+  });
+
+  return [extension, emojiKeymap, recordAccept, completionTheme];
 }

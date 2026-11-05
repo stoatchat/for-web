@@ -2,14 +2,12 @@ import { Handler } from "mdast-util-to-hast";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
-import { UnicodeEmoji } from "../emoji";
+import { RE_UNICODE_EMOJI, UNICODE_ZWNJ, UnicodeEmoji } from "../emoji";
 import {
   isRegionalIndicator,
-  RE_UNICODE_EMOJI,
   UNICODE_EMOJI_MAX_PACK,
   UNICODE_EMOJI_MIN_PACK,
   UNICODE_EMOJI_PUA_PACK,
-  UNICODE_ZWNJ,
   UnicodeEmojiPacks,
 } from "../emoji/UnicodeEmoji";
 
