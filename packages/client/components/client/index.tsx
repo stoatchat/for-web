@@ -72,15 +72,21 @@ export function ClientContext(props: {
   });
 
   createEffect(() => {
-    if (ready()) {
+    if (instance.client.ready()) {
       const badgeVal =
         //Friend requests
         instance.client.users.filter((user) => user.relationship === "Incoming")
           .length +
-        //Unread DMs
-        instance.client.channels.filter((chan) => chan.unread).length;
-      //TODO This is causing all messages to appear unread wtf
-      //TODO Server unreads?
+        //Unread DMs & Channels
+        instance.client.channels.filter(
+          (chan) =>
+            !chan.muted &&
+            (chan.type === "DirectMessage" ||
+            state.notifications.getChannel(chan) === "all"
+              ? chan.unread
+              : (chan.mentions?.size as number) > 0),
+        ).length;
+
       setBadge(badgeVal);
     }
   });
