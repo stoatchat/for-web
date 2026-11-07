@@ -101,10 +101,11 @@ export function ClientContext(props: {
   );
 }
 
-let origIcon: string;
+let origIcon: string,
+  lastVal = 0;
 
 /** Set the favicon notification badge */
-async function setBadge(value?: number) {
+async function setBadge(value: number) {
   const icon = document.querySelector(
       'link[rel="shortcut icon"]',
     ) as HTMLLinkElement,
@@ -113,6 +114,8 @@ async function setBadge(value?: number) {
     img = new Image(),
     radius = 14;
 
+  if (value === lastVal) return;
+  lastVal = value;
   origIcon ||= icon.href;
   if (!value) {
     icon.href = origIcon;
