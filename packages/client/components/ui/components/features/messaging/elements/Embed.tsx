@@ -9,7 +9,7 @@ import {
 } from "stoat.js";
 import { css } from "styled-system/css";
 
-import { isGifBox, isGif as isGifLib } from "@revolt/common/lib/gifs";
+import { isGif as isGifLib } from "@revolt/common/lib/gifs";
 import { useModals } from "@revolt/modal";
 import { SizedContent } from "@revolt/ui/components/utils";
 
@@ -58,12 +58,7 @@ export function Embed(props: { embed: MessageEmbed }) {
         <SizedContent width={image()!.width} height={image()!.height}>
           <img
             // bypass proxy for known GIF providers
-            // TODO: Remove the Gifbox check here once gifbox embeds are fixed
-            src={
-              isGIF() && !isGifBox(props.embed)
-                ? image()!.url
-                : image()!.proxiedURL
-            }
+            src={isGIF() ? image()!.url : image()!.proxiedURL}
             use:floating={{
               contextMenu: () => <MessageContextMenu file={image()} />,
             }}
@@ -89,12 +84,7 @@ export function Embed(props: { embed: MessageEmbed }) {
             controls={!isGIF()}
             preload="metadata"
             // bypass proxy for known GIF providers
-            // TODO: Remove the Gifbox check here once gifbox embeds are fixed
-            src={
-              isGIF() && !isGifBox(props.embed)
-                ? video()!.url
-                : video()!.proxiedURL
-            }
+            src={isGIF() ? video()!.url : video()!.proxiedURL}
             use:floating={{
               contextMenu: () => <MessageContextMenu file={video()} />,
             }}
