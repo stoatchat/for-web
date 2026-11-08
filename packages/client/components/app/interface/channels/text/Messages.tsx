@@ -246,25 +246,16 @@ export function Messages(props: Props) {
     setEnd(true);
 
     // Start collecting messages
-    collectedMessages = [];
+    const collected: MessageInterface[] = [];
+    collectedMessages = collected;
 
     try {
       // Fetch messages for channel
       let messages;
 
       const existingState = cache!.unmanage(props.channel);
-      const useExistingState = existingState && !nearby;
 
-      if (useExistingState) {
-        messages = existingState.messages;
-      } else if (canReadHistory()) {
-        messages = await props.channel
-          .fetchMessagesWithUsers({
-            limit: INITIAL_FETCH_LIMIT,
-            nearby,
-          })
-          .then(({ messages }) => messages);
-      } else {
+      if (!canReadHistory()) {
         collectedMessages = undefined;
         batch(() => {
           setStart(true);
@@ -274,9 +265,19 @@ export function Messages(props: Props) {
         return;
       }
 
+      const useExistingState = existingState && !nearby;
+
+      if (useExistingState) {
+        messages = existingState.messages;
+      } else {
+        messages = await props.channel
+          .fetchMessagesWithUsers({ limit: INITIAL_FETCH_LIMIT, nearby })
+          .then(({ messages }) => messages);
+      }
+
       // Cancel if we've been pre-empted
       if (preempted()) {
-        collectedMessages = undefined;
+        if (collectedMessages === collected) collectedMessages = undefined;
         return;
       }
 
@@ -303,9 +304,9 @@ export function Messages(props: Props) {
 
       // Merge list with any new ones that have come in if we are at the end
       if (atEnd()) {
-        const knownIds = new Set(collectedMessages!.map((x) => x.id));
+        const knownIds = new Set(collected.map((x) => x.id));
         setMessagesSafely(
-          collectedMessages!,
+          collected,
           messages.filter((x) => !knownIds.has(x.id)),
         );
       }
@@ -315,7 +316,7 @@ export function Messages(props: Props) {
       }
 
       // Stop collecting messages
-      collectedMessages = undefined;
+      if (collectedMessages === collected) collectedMessages = undefined;
 
       // Mark as fetching has ended
       setFetching();
@@ -339,6 +340,8 @@ export function Messages(props: Props) {
         );
       }
     } catch {
+      if (preempted()) return;
+
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
       setFetching();
@@ -417,6 +420,8 @@ export function Messages(props: Props) {
         setFetching();
       }
     } catch {
+      if (preempted()) return;
+
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
       setFetching();
@@ -495,6 +500,8 @@ export function Messages(props: Props) {
         setFetching();
       }
     } catch {
+      if (preempted()) return;
+
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
       setFetching();
@@ -524,7 +531,8 @@ export function Messages(props: Props) {
       const preempted = newPreempted();
 
       // Start collecting messages
-      collectedMessages = [];
+      const collected: MessageInterface[] = [];
+      collectedMessages = collected;
 
       try {
         // Fetch messages for channel
@@ -534,7 +542,7 @@ export function Messages(props: Props) {
 
         // Cancel if we've been pre-empted
         if (preempted()) {
-          collectedMessages = undefined;
+          if (collectedMessages === collected) collectedMessages = undefined;
           return;
         }
 
@@ -551,14 +559,14 @@ export function Messages(props: Props) {
         setEnd(true);
 
         // Merge list with any new ones that have come in
-        const knownIds = new Set(collectedMessages!.map((x) => x.id));
+        const knownIds = new Set(collected.map((x) => x.id));
         setMessagesSafely(
-          collectedMessages!,
+          collected,
           messages.filter((x) => !knownIds.has(x.id)),
         );
 
         // Stop collecting messages
-        collectedMessages = undefined;
+        if (collectedMessages === collected) collectedMessages = undefined;
 
         // Animate scroll to bottom
         setTimeout(() => {
@@ -578,6 +586,8 @@ export function Messages(props: Props) {
           });
         });
       } catch {
+        if (preempted()) return;
+
         // Keep track of any failures (and allow retry / other actions)
         setFailure(true);
         setFetching();
@@ -657,6 +667,8 @@ export function Messages(props: Props) {
         }, 300 /* probably long enough for scroll to finish */);
       });
     } catch {
+      if (preempted()) return;
+
       // Keep track of any failures (and allow retry / other actions)
       setFailure(true);
       setFetching();
@@ -682,7 +694,7 @@ export function Messages(props: Props) {
           const wasInitial = fetching() === "initial";
           preempt();
 
-          if (!wasInitial) {
+          if (!wasInitial && channel.havePermission("ReadMessageHistory")) {
             cache!.manage(channel, {
               messages: messages(),
               atStart: atStart(),
