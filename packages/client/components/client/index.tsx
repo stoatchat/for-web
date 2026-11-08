@@ -11,6 +11,7 @@ import {
 
 import type { Client, User } from "stoat.js";
 
+import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
@@ -35,6 +36,7 @@ export function ClientContext(props: {
   const { openModal } = useModals();
   const state = useState();
   const instance = useInstance();
+  const device = useDevice();
   const [ready, setReady] = createSignal(false);
 
   const controller = new ClientController(state, instance, setReady);
@@ -72,7 +74,7 @@ export function ClientContext(props: {
   });
 
   createEffect(() => {
-    if (instance.client.ready()) {
+    if (!device.isPWA && !window.native && instance.client.ready()) {
       const badgeVal =
         //Friend requests
         instance.client.users.filter((user) => user.relationship === "Incoming")

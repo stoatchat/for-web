@@ -5,7 +5,7 @@ import { API } from "stoat.js";
 import { decodeTime } from "ulid";
 
 import { CONFIGURATION } from "@revolt/common";
-import { Session, TypeAuth } from "@revolt/state/stores/Auth";
+import type { Session, TypeAuth } from "@revolt/state/stores/Auth";
 
 declare let self: ServiceWorkerGlobalScope;
 
