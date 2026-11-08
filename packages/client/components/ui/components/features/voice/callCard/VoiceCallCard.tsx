@@ -226,7 +226,7 @@ const Float = styled("div", {
     },
     fullscreen: {
       true: {
-        zIndex: 100,
+        zIndex: 90,
         height: "100vh",
         top: 0,
         // Width is set by floating logic in effect above
