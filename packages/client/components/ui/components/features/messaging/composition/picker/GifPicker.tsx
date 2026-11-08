@@ -31,6 +31,7 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { Gif } from "@revolt/ui/components/utils/GifEmbed";
 import { VideoEmbed, WebsiteEmbed } from "stoat.js";
+import { css } from "styled-system/css";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
 /**
@@ -406,42 +407,80 @@ function Categories(props: {
         <For each={items()}>
           {(item) => (
             <Category
-              trending={item.t === 1}
-              role="listitem"
-              tabIndex={0}
-              style={
-                item.t === 0
-                  ? { "background-image": `url("${item.category.image}")` }
-                  : undefined
+              item={item}
+              setFilter={props.setFilter}
+              setShowFavourites={props.setShowFavourites}
+              videoUrl={
+                item.t === 2 ? favourites.mostRecentGif()?.preview : undefined
               }
-              onClick={() =>
-                item.t === 2
-                  ? props.setShowFavourites(true)
-                  : props.setFilter!(
-                      item.t === 0 ? item.category.title : "trending",
-                    )
-              }
-              onMouseDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-              }}
-            >
-              <Label>
-                <Switch fallback={<Trans>Trending GIFs</Trans>}>
-                  <Match when={item.t === 0}>
-                    {(item as CategoryItem & { t: 0 }).category.title}
-                  </Match>
-                  <Match when={item.t === 2}>
-                    <Trans>Favourites</Trans>
-                  </Match>
-                </Switch>
-              </Label>
-            </Category>
+            />
           )}
         </For>
       </CategoryGrid>
     </Scroller>
+  );
+}
+
+function Category(props: {
+  item: CategoryItem;
+  setFilter: Setter<string>;
+  setShowFavourites: Setter<boolean>;
+  videoUrl?: string;
+}) {
+  return (
+    <CategoryBox
+      trending={props.item.t === 1}
+      role="listitem"
+      tabIndex={0}
+      style={
+        props.item.t === 0
+          ? { "background-image": `url("${props.item.category.image}")` }
+          : undefined
+      }
+      onClick={() =>
+        props.item.t === 2
+          ? props.setShowFavourites(true)
+          : props.setFilter!(
+              props.item.t === 0 ? props.item.category.title : "trending",
+            )
+      }
+      onMouseDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+      }}
+    >
+      <Show when={props.videoUrl}>
+        {(videoUrl) => (
+          <video
+            playsinline
+            loop
+            muted
+            autoplay
+            preload="metadata"
+            src={videoUrl()!}
+            class={css({
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              minWidth: "100%",
+              minHeight: "100%",
+            })}
+          />
+        )}
+      </Show>
+      <Label>
+        <Switch fallback={<Trans>Trending GIFs</Trans>}>
+          <Match when={props.item.t === 0}>
+            {(props.item as CategoryItem & { t: 0 }).category.title}
+          </Match>
+          <Match when={props.item.t === 2}>
+            <Trans>Favourites</Trans>
+          </Match>
+        </Switch>
+      </Label>
+    </CategoryBox>
   );
 }
 
@@ -454,7 +493,7 @@ const CategoryGrid = styled("div", {
   },
 });
 
-const Category = styled("div", {
+const CategoryBox = styled("div", {
   base: {
     ...tileInteractive,
 
