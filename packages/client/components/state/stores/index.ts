@@ -6,6 +6,7 @@ import { State } from "..";
 import { TypeAuth } from "./Auth";
 import { TypeDraft } from "./Draft";
 import { TypeExperiments } from "./Experiments";
+import { TypeFavourites } from "./Favourites";
 import { TypeKeybinds } from "./Keybinds";
 import { TypeLayout } from "./Layout";
 import { TypeLinkSafety } from "./LinkSafety";
@@ -38,6 +39,7 @@ export type UnsyncedStore = {
 };
 
 export type SyncedStore = {
+  favourites: TypeFavourites;
   notifications: TypeNotificationOptions;
   ordering: TypeOrdering;
   "release-notes": TypeReleaseNotes;
@@ -49,6 +51,7 @@ export type SyncedStore = {
  * store into the SyncedStore type above, add its string key value here.
  */
 export const SYNCED_KEYS: (keyof SyncedStore)[] = [
+  "favourites",
   "notifications",
   "ordering",
   "release-notes",
