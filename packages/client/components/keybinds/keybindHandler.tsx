@@ -135,12 +135,16 @@ export function KeybindContext(props: { children: JSXElement }) {
     return firing() === keybind;
   }
 
+  let lastAdded: string | null = null;
+
   /**
    * Handle key down event by adding it to active keys
    */
   function onKeyDown(event: KeyboardEvent) {
     target = event.target as HTMLElement;
-    activeKeys.add(normalize(event.key));
+    const key = normalize(event.key);
+    lastAdded = activeKeys.has(key) ? null : key;
+    activeKeys.add(key);
 
     const fired = firing();
     if (fired && fired !== KeybindAction.CHAT_FOCUS_COMPOSITION) {
@@ -152,10 +156,12 @@ export function KeybindContext(props: { children: JSXElement }) {
    */
   function onKeyUp(event: KeyboardEvent) {
     target = event.target as HTMLElement;
+    lastAdded = null;
     activeKeys.delete(normalize(event.key));
   }
 
   function onFocusDropped(_: FocusEvent) {
+    lastAdded = null;
     activeKeys.clear();
   }
 
@@ -178,9 +184,16 @@ export function KeybindContext(props: { children: JSXElement }) {
 
           createEffect(() => {
             const _ = [...activeKeys]; // track dependency
-            if (isFired(keybind)) {
-              untrack(callback);
-            }
+            if (!isFired(keybind)) return;
+
+            const key = lastAdded;
+            const completesSequence =
+              key !== null &&
+              sequences[keybind].some((k) =>
+                k instanceof RegExp ? k.test(key) : k === key,
+              );
+
+            if (completesSequence) untrack(callback);
           });
         },
       }}
