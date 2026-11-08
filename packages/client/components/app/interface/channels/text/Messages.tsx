@@ -190,12 +190,13 @@ export function Messages(props: Props) {
    * @returns Function to check if we have been pre-empted
    */
   function newPreempted() {
+    const channel = props.channel;
     let preempted = false;
     preemptFetch = () => {
       preempted = true;
     };
 
-    return () => preempted;
+    return () => preempted || channel !== props.channel;
   }
 
   /**
@@ -678,7 +679,10 @@ export function Messages(props: Props) {
 
         // move state into cache when navigating away
         onCleanup(() => {
-          if (fetching() !== "initial") {
+          const wasInitial = fetching() === "initial";
+          preempt();
+
+          if (!wasInitial) {
             cache!.manage(channel, {
               messages: messages(),
               atStart: atStart(),
