@@ -226,7 +226,7 @@ const Scrim = styled("div", {
       "max(var(--inset-bottom), env(keyboard-inset-height, 0px))",
     paddingBottom: "var(--sheet-bottom)",
 
-    "--background": "rgba(0, 0, 0, 0.4)",
+    "--background": "rgba(from var(--md-sys-color-scrim) r g b / 0.4)",
     animationName: "scrimFadeIn",
     animationDuration: "0.1s",
     animationFillMode: "forwards",
@@ -251,7 +251,7 @@ const Sheet = styled("div", {
     background: "var(--md-sys-color-surface-container-high)",
     color: "var(--md-sys-color-on-surface)",
     fill: "var(--md-sys-color-on-surface)",
-    boxShadow: "0 -2px 8px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-1)",
 
     userSelect: "none",
 
