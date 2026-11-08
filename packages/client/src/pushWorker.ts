@@ -4,6 +4,7 @@ import localforage from "localforage";
 import { API } from "stoat.js";
 import { decodeTime } from "ulid";
 
+import { CONFIGURATION } from "@revolt/common";
 import { Session, TypeAuth } from "@revolt/state/stores/Auth";
 
 declare let self: ServiceWorkerGlobalScope;
@@ -37,11 +38,12 @@ interface TypeCache {
 const UnreadStale = 120000;
 
 const scope = new URL(self.registration.scope),
+  badgePath = new URL("../assets/web/monochrome.svg", scope).pathname,
   root = scope.origin,
   userId = scope.search.slice(2),
   db = localforage.createInstance({ storeName: "global" });
 
-let waitLoad: Promise<void>, session: Session, cache: TypeCache;
+let waitLoad: Promise<void> | null, session: Session, cache: TypeCache;
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
@@ -82,32 +84,38 @@ async function showNotification(notif: StoatPushNotification) {
     body: notif.body,
     data: notif.url,
     timestamp: decodeTime(notif.message._id),
-    badge: "/assets/web/monochrome.svg",
+    badge: badgePath,
   } as never);
 }
 
 /** True if message is unread */
 async function isUnread(chanId: string, msgId: string) {
-  await loadDB();
-  if (!session.token) return true;
+  try {
+    await loadDB();
+    if (!session.token) return true;
 
-  //Load unreads
-  const time = performance.now();
-  if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
-    cache.unreads = await fetchUnreads();
-    cache.unreadTime = time;
-    db.setItem("cache", cache);
+    //Load unreads
+    const time = Date.now();
+    if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
+      cache.unreads = await fetchUnreads();
+      cache.unreadTime = time;
+      db.setItem("cache", cache);
+    }
+
+    //Check if newer
+    const unread = cache.unreads.find((u) => u._id.channel === chanId);
+    return unread && msgId > unread.last_id!;
+  } catch (e) {
+    console.error(e);
+    return true;
   }
-
-  //Check if newer
-  const unread = cache.unreads.find((u) => u._id.channel === chanId);
-  return unread && msgId > unread.last_id!;
 }
 
 /** Fetch unreads list */
 async function fetchUnreads() {
   const req: RequestInit = { headers: { "x-session-token": session.token } };
-  const res = await fetch("https://api.stoat.chat/sync/unreads", req); //TODO Use session.host from PR #999
+  const res = await fetch(CONFIGURATION.DEFAULT_API_URL + "/sync/unreads", req);
+  if (!res.ok) throw "HTTP Error " + res.status;
   return (await res.json()) as API.ChannelUnread[];
 }
 
@@ -115,21 +123,26 @@ async function fetchUnreads() {
 async function loadDB() {
   if (waitLoad) return waitLoad;
   return (waitLoad = (async () => {
-    //Get token
-    const auth = (await db.getItem("auth")) as TypeAuth;
-    if (auth.session) auth.saved.push(auth.session);
-    session = auth.saved.find((s) => s.userId === userId)!;
-    if (!session) throw `Session for @${userId} not found`;
+    try {
+      //Get token
+      const auth = (await db.getItem("auth")) as TypeAuth;
+      if (auth.session) auth.saved.push(auth.session);
+      session = auth.saved.find((s) => s.userId === userId)!;
+      if (!session) throw `Session for @${userId} not found`;
 
-    //Load cache
-    cache = (await db.getItem("cache")) || ({} as TypeCache);
-    cache.unreadTime ||= 0;
+      //Load cache
+      cache = (await db.getItem("cache")) || ({} as TypeCache);
+      cache.unreadTime ||= 0;
 
-    const time = performance.now();
-    if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
-      delete cache.unreads;
-      cache.unreadTime = 0;
-      db.setItem("cache", cache);
+      const time = Date.now();
+      if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
+        delete cache.unreads;
+        cache.unreadTime = 0;
+        db.setItem("cache", cache);
+      }
+    } catch (e) {
+      waitLoad = null;
+      throw e;
     }
   })());
 }
