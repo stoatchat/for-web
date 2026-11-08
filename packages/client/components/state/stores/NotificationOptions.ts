@@ -246,10 +246,7 @@ export class NotificationOptions extends AbstractSyncedStore<
    * @returns Current state
    */
   getChannel(channel: Channel) {
-    const data = this.get(),
-      server = data.server[channel.serverId];
-    if (server) return server;
-    return data.channel[channel.id];
+    return this.get().channel[channel.id];
   }
 
   /**

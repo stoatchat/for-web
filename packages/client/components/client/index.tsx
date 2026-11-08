@@ -82,7 +82,7 @@ export function ClientContext(props: {
           (chan) =>
             !chan.muted &&
             (chan.type === "DirectMessage" ||
-            state.notifications.getChannel(chan) === "all"
+            state.notifications.computeForChannel(chan) === "all"
               ? chan.unread
               : (chan.mentions?.size as number) > 0),
         ).length;
@@ -124,6 +124,9 @@ async function setBadge(value: number) {
 
   return new Promise<void>((res, rej) => {
     img.onload = () => {
+      //Only apply if value is still up-to-date
+      if (value !== lastVal) return;
+
       c.width = img.width;
       c.height = img.height;
       ctx.drawImage(img, 0, 0);
