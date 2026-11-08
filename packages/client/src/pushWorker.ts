@@ -25,7 +25,7 @@ interface StoatPushNotification {
   body: string;
   icon?: string;
   channel?: ChannelPartial;
-  message: MessagePartial;
+  message?: MessagePartial;
   url?: string;
 }
 
@@ -43,7 +43,10 @@ const scope = new URL(self.registration.scope),
   userId = scope.search.slice(2),
   db = localforage.createInstance({ storeName: "global" });
 
-let waitLoad: Promise<void> | null, session: Session, cache: TypeCache;
+let waitDB: Promise<void> | null,
+  waitUnread: Promise<void> | null,
+  session: Session,
+  cache: TypeCache;
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
@@ -60,6 +63,7 @@ self.addEventListener("push", (event) => {
     (async () => {
       if (
         !notif.channel ||
+        !notif.message ||
         (await isUnread(notif.channel._id, notif.message._id))
       )
         await showNotification(notif);
@@ -83,7 +87,7 @@ async function showNotification(notif: StoatPushNotification) {
     icon: notif.icon,
     body: notif.body,
     data: notif.url,
-    timestamp: decodeTime(notif.message._id),
+    timestamp: notif.message ? decodeTime(notif.message._id) : Date.now(),
     badge: badgePath,
   } as never);
 }
@@ -95,15 +99,10 @@ async function isUnread(chanId: string, msgId: string) {
     if (!session.token) return true;
 
     //Load unreads
-    const time = Date.now();
-    if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
-      cache.unreads = await fetchUnreads();
-      cache.unreadTime = time;
-      db.setItem("cache", cache);
-    }
+    await fetchUnreads();
 
     //Check if newer
-    const unread = cache.unreads.find((u) => u._id.channel === chanId);
+    const unread = cache.unreads!.find((u) => u._id.channel === chanId);
     return unread && msgId > unread.last_id!;
   } catch (e) {
     console.error(e);
@@ -113,16 +112,34 @@ async function isUnread(chanId: string, msgId: string) {
 
 /** Fetch unreads list */
 async function fetchUnreads() {
-  const req: RequestInit = { headers: { "x-session-token": session.token } };
-  const res = await fetch(CONFIGURATION.DEFAULT_API_URL + "/sync/unreads", req);
-  if (!res.ok) throw "HTTP Error " + res.status;
-  return (await res.json()) as API.ChannelUnread[];
+  if (waitUnread) return waitUnread;
+  return (waitUnread = (async () => {
+    try {
+      const time = Date.now();
+      if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
+        const res = await fetch(
+          CONFIGURATION.DEFAULT_API_URL + "/sync/unreads",
+          {
+            headers: { "x-session-token": session.token },
+          },
+        );
+        if (!res.ok) throw "HTTP Error " + res.status;
+
+        //Save to DB
+        cache.unreads = await res.json();
+        cache.unreadTime = time;
+        await db.setItem("cache", cache);
+      }
+    } finally {
+      waitUnread = null;
+    }
+  })());
 }
 
 /** Wait for DB to load*/
 async function loadDB() {
-  if (waitLoad) return waitLoad;
-  return (waitLoad = (async () => {
+  if (waitDB) return waitDB;
+  return (waitDB = (async () => {
     try {
       //Get token
       const auth = (await db.getItem("auth")) as TypeAuth;
@@ -138,10 +155,10 @@ async function loadDB() {
       if (!cache.unreads || time - cache.unreadTime > UnreadStale) {
         delete cache.unreads;
         cache.unreadTime = 0;
-        db.setItem("cache", cache);
+        await db.setItem("cache", cache);
       }
     } catch (e) {
-      waitLoad = null;
+      waitDB = null;
       throw e;
     }
   })());
