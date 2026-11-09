@@ -107,12 +107,14 @@ const Interface = (props: { children: JSX.Element }) => {
               keybind={KeybindAction.SEARCH}
               onPressed={() => {
                 const top = [...modals].reverse().find((m) => m.show);
-                if (top?.props.type === "search") {
+                if (top?.props.type === "quick_switch") {
                   remove(top.id);
                   return;
                 }
-                if (!modals.some((m) => m.show && m.props.type === "search")) {
-                  openModal({ type: "search" });
+                if (
+                  !modals.some((m) => m.show && m.props.type === "quick_switch")
+                ) {
+                  openModal({ type: "quick_switch" });
                 }
               }}
             />

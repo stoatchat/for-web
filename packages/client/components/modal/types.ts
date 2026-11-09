@@ -390,5 +390,5 @@ export type Modals =
       type: "swap_user";
     }
   | {
-      type: "search";
+      type: "quick_switch";
     };

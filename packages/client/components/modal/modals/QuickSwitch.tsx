@@ -11,8 +11,8 @@ import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { styled } from "styled-system/jsx";
 import { Modals } from "../types";
 
-export function GlobalSearchModal(
-  props: DialogProps & Modals & { type: "search" },
+export function QuickSwitchModal(
+  props: DialogProps & Modals & { type: "quick_switch" },
 ) {
   const { t } = useLingui();
   const client = useClient();

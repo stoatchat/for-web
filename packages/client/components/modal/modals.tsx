@@ -39,7 +39,6 @@ import { EditServerFolderModal } from "./modals/EditServerFolder";
 import { EditUsernameModal } from "./modals/EditUsername";
 import { EmojiPreviewModal } from "./modals/EmojiPreview";
 import { Error2Modal } from "./modals/Error2";
-import { GlobalSearchModal } from "./modals/GlobalSearch";
 import { ImageViewerModal } from "./modals/ImageViewer";
 import { InviteModal } from "./modals/Invite";
 import { JoinServerModal } from "./modals/JoinServer";
@@ -52,6 +51,7 @@ import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
+import { QuickSwitchModal } from "./modals/QuickSwitch";
 import { RemoveMemberModal } from "./modals/RemoveMember";
 import { RemoveTimeoutModal } from "./modals/RemoveTimeout";
 import { RenameSessionModal } from "./modals/RenameSession";
@@ -224,8 +224,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
     case "transfer_ownership":
       return <TransferOwnershipModal {...modalProps} />;
 
-    case "search":
-      return <GlobalSearchModal {...modalProps} />;
+    case "quick_switch":
+      return <QuickSwitchModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",
