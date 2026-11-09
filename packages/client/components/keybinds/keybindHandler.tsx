@@ -23,6 +23,12 @@ type KeybindContext = {
 
 const keybindContext = createContext<KeybindContext>(null! as KeybindContext);
 
+/**
+ * Keybinds whose browser default must be suppressed
+ * (e.g. Ctrl+K focuses the address/search bar in Firefox)
+ */
+const PREVENT_DEFAULT = new Set<KeybindAction>([KeybindAction.QUICK_SWITCH]);
+
 export function KeybindContext(props: { children: JSXElement }) {
   /**
    * Last event target, used for filtering
@@ -147,7 +153,7 @@ export function KeybindContext(props: { children: JSXElement }) {
     activeKeys.add(key);
 
     const fired = firing();
-    if (fired && fired !== KeybindAction.CHAT_FOCUS_COMPOSITION) {
+    if (fired && PREVENT_DEFAULT.has(fired)) {
       event.preventDefault();
     }
   }

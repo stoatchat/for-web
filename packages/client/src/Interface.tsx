@@ -104,7 +104,7 @@ const Interface = (props: { children: JSX.Element }) => {
           </Match>
           <Match when={lifecycle.loadedOnce()}>
             <Keybind
-              keybind={KeybindAction.SEARCH}
+              keybind={KeybindAction.QUICK_SWITCH}
               onPressed={() => {
                 const top = [...modals].reverse().find((m) => m.show);
                 if (top?.props.type === "quick_switch") {

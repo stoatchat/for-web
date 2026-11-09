@@ -13,6 +13,7 @@ export enum LAYOUT_SECTIONS {
   MENTION_REPLY = "MENTION_REPLY",
   MATURE = "nsfw",
 }
+const MAX_RECENT_CHANNELS = 20;
 
 export interface TypeLayout {
   /**
@@ -103,9 +104,13 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
     }
 
     if (Array.isArray(input.recentChannelIds)) {
-      layout.recentChannelIds = input.recentChannelIds.filter(
-        (id) => typeof id === "string",
-      );
+      layout.recentChannelIds = [
+        ...new Set(
+          input.recentChannelIds.filter(
+            (id): id is string => typeof id === "string",
+          ),
+        ),
+      ].slice(0, MAX_RECENT_CHANNELS);
     }
 
     return layout;
@@ -190,9 +195,11 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    * @param id channel ID
    */
   pushRecentChannel(id: string) {
-    const MAX = 20;
     const current = this.get().recentChannelIds;
-    const next = [id, ...current.filter((x) => x !== id)].slice(0, MAX);
+    const next = [id, ...current.filter((x) => x !== id)].slice(
+      0,
+      MAX_RECENT_CHANNELS,
+    );
     this.set("recentChannelIds", next);
   }
 

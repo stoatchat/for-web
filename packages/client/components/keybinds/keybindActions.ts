@@ -62,9 +62,9 @@ export enum KeybindAction {
   CLOSE_SIDEBAR = "close_sidebar",
 
   /**
-   * Global search
+   * Quick Switch
    */
-  SEARCH = "search",
+  QUICK_SWITCH = "quick_switch",
 }
 
 /**
@@ -87,7 +87,7 @@ export const ACTION_PRIORITY: KeybindAction[] = [
   KeybindAction.NAVIGATION_CHANNEL_DOWN,
 
   // ... all others
-  KeybindAction.SEARCH,
+  KeybindAction.QUICK_SWITCH,
   KeybindAction.CHAT_FOCUS_COMPOSITION,
 ];
 
