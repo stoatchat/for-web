@@ -1,15 +1,23 @@
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { createEffect, createMemo, createSignal, For, Show } from "solid-js";
-import type { Channel } from "stoat.js";
+import type { Channel, Server } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import { useNavigate } from "@revolt/routing";
 import { Avatar, Column, Dialog, DialogProps, Searchbar } from "@revolt/ui";
 
+import { getChannelIcon } from "@revolt/common";
 import { useState } from "@revolt/state";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { styled } from "styled-system/jsx";
 import { Modals } from "../types";
+
+type Filter = "@" | "#" | "!" | "*";
+const FILTERS: Filter[] = ["@", "#", "!", "*"];
+
+type Result =
+  | { type: "channel"; channel: Channel }
+  | { type: "server"; server: Server };
 
 export function QuickSwitchModal(
   props: DialogProps & Modals & { type: "quick_switch" },
@@ -18,6 +26,14 @@ export function QuickSwitchModal(
   const client = useClient();
   const navigate = useNavigate();
   const [query, setQuery] = createSignal("");
+  const parsed = createMemo(() => {
+    const raw = query().trimStart();
+    const first = raw[0] as Filter | undefined;
+    if (first && FILTERS.includes(first)) {
+      return { filter: first as Filter, q: raw.slice(1).trim().toLowerCase() };
+    }
+    return { filter: null, q: raw.trim().toLowerCase() };
+  });
   const state = useState();
   const [selected, setSelected] = createSignal(0);
 
@@ -53,30 +69,83 @@ export function QuickSwitchModal(
       ? username
       : undefined;
   }
+  function channelCategory(channel: Channel) {
+    if (channel.type !== "TextChannel") return undefined;
+    return channel.server?.categories?.find((cat) =>
+      cat.channels.includes(channel.id),
+    )?.title;
+  }
 
-  const results = createMemo(() => {
-    const q = query().trim().toLowerCase();
+  const results = createMemo<Result[]>(() => {
+    const { filter, q } = parsed();
 
-    if (!q) {
+    const toChannel = (channel: Channel): Result => ({
+      type: "channel",
+      channel,
+    });
+    const toServer = (server: Server): Result => ({ type: "server", server });
+
+    const rank = (label?: string) =>
+      q && label?.toLowerCase().startsWith(q) ? 0 : 1;
+
+    const byRank = (a: Channel, b: Channel) =>
+      rank(channelLabel(a)) - rank(channelLabel(b));
+
+    const byServerRank = (a: Server, b: Server) => rank(a.name) - rank(b.name);
+
+    if (!filter && !q) {
       return state.layout
         .getRecentChannelIds()
         .map((id) => client().channels.get(id))
         .filter((c): c is Channel => !!c)
-        .slice(0, 20);
+        .slice(0, 20)
+        .map(toChannel);
     }
 
-    const all = [...client().channels.values()];
-    const matches = all.filter(
-      (c) =>
-        channelLabel(c)?.toLowerCase().includes(q) ||
-        (c.type === "DirectMessage" &&
-          c.recipient?.username?.toLowerCase().includes(q)),
-    );
+    const matchingServers = () =>
+      [...client().servers.values()].filter(
+        (s) => !q || s.name.toLowerCase().includes(q),
+      );
 
-    // channels first, DMs after
-    const channels = matches.filter((c) => !isDM(c));
-    const dms = matches.filter((c) => isDM(c));
-    return [...channels, ...dms].slice(0, 20);
+    if (filter === "*") {
+      return matchingServers().sort(byServerRank).slice(0, 20).map(toServer);
+    }
+
+    const matchesText = (c: Channel) =>
+      !q ||
+      channelLabel(c)?.toLowerCase().includes(q) ||
+      (c.type === "DirectMessage" &&
+        c.recipient?.username?.toLowerCase().includes(q));
+
+    const all = [...client().channels.values()].filter(matchesText);
+
+    if (!filter) {
+      return [
+        ...all
+          .filter((c) => !isDM(c))
+          .sort(byRank)
+          .map(toChannel),
+        ...matchingServers().sort(byServerRank).map(toServer),
+        ...all.filter(isDM).sort(byRank).map(toChannel),
+      ].slice(0, 20);
+    }
+
+    let channels: Channel[];
+    switch (filter) {
+      case "@":
+        channels = all.filter(
+          (c) => c.type === "DirectMessage" || c.type === "Group",
+        );
+        break;
+      case "#":
+        channels = all.filter((c) => c.type === "TextChannel");
+        break;
+      case "!":
+        channels = all.filter((c) => c.type === "TextChannel" && c.isVoice);
+        break;
+    }
+
+    return channels.sort(byRank).slice(0, 20).map(toChannel);
   });
 
   createEffect(() => {
@@ -98,6 +167,21 @@ export function QuickSwitchModal(
       `search-opt-${selected()}`,
     );
   });
+  function rowAriaLabel(result: Result) {
+    if (result.type === "server") {
+      const name = result.server.name;
+      return t`Server: ${name}`;
+    }
+
+    const serverName = result.channel.server?.name;
+    if (!serverName) return undefined;
+
+    const channel = channelLabel(result.channel);
+    const category = channelCategory(result.channel);
+    return category
+      ? t`${channel}, in category ${category}, in server ${serverName}`
+      : t`${channel}, in server ${serverName}`;
+  }
 
   function onKeyDown(e: KeyboardEvent) {
     if (e.isComposing || e.keyCode === 229) return;
@@ -112,14 +196,18 @@ export function QuickSwitchModal(
       setSelected((i) => (i - 1 + count) % count);
     } else if (e.key === "Enter") {
       e.preventDefault();
-      const channel = results()[selected()];
-      if (channel) select(channel);
+      const result = results()[selected()];
+      if (result) select(result);
     }
   }
 
-  function select(channel: Channel) {
-    state.layout.pushRecentChannel(channel.id);
-    navigate(channel.path);
+  function select(result: Result) {
+    if (result.type === "server") {
+      navigate(state.layout.getLastActiveServerPath(result.server.id));
+    } else {
+      state.layout.pushRecentChannel(result.channel.id);
+      navigate(result.channel.path);
+    }
     props.onClose();
   }
 
@@ -136,7 +224,7 @@ export function QuickSwitchModal(
             ref={(el) => (searchRef = el)}
             value={query()}
             onInput={setQuery}
-            placeholder={t`Where would you like to go`}
+            placeholder={t`Where would you like to go?`}
             leadingIcon={<Symbol size={20}>search</Symbol>}
           />
         </PaddedTop>
@@ -158,39 +246,78 @@ export function QuickSwitchModal(
         <Show when={results().length}>
           <ResultList id="search-results" role="listbox">
             <For each={results()}>
-              {(channel, i) => (
+              {(result, i) => (
                 <Row
                   id={`search-opt-${i()}`}
                   role="option"
+                  aria-label={rowAriaLabel(result)}
                   aria-selected={selected() === i()}
                   data-selected={selected() === i()}
                   onMouseMove={() => setSelected(i())}
-                  onClick={() => select(channel)}
+                  onClick={() => select(result)}
                 >
-                  <Show
-                    when={isDM(channel)}
-                    fallback={<Symbol size={24}>grid_3x3</Symbol>}
-                  >
-                    <Avatar
-                      size={24}
-                      src={channel.iconURL}
-                      fallback={channelLabel(channel)}
-                    />
-                  </Show>
-                  <RowText>
-                    <RowLabel>{channelLabel(channel)}</RowLabel>
-                    <Show when={dmUsername(channel)}>
-                      <RowUsername>{dmUsername(channel)}</RowUsername>
-                    </Show>
-                  </RowText>
-                  <Show when={channel.server?.name}>
-                    <RowServer>{channel.server?.name}</RowServer>
-                  </Show>
+                  {result.type === "server" ? (
+                    <>
+                      <Avatar
+                        size={24}
+                        src={result.server.iconURL}
+                        fallback={result.server.name}
+                      />
+                      <RowText>
+                        <RowLabel>{result.server.name}</RowLabel>
+                      </RowText>
+                    </>
+                  ) : (
+                    <>
+                      <Show
+                        when={isDM(result.channel)}
+                        fallback={
+                          <Symbol size={24}>
+                            {getChannelIcon(result.channel)}
+                          </Symbol>
+                        }
+                      >
+                        <Avatar
+                          size={24}
+                          src={result.channel.iconURL}
+                          fallback={channelLabel(result.channel)}
+                        />
+                      </Show>
+                      <RowText>
+                        <RowLabel>{channelLabel(result.channel)}</RowLabel>
+                        <Show when={dmUsername(result.channel)}>
+                          <RowUsername>
+                            {dmUsername(result.channel)}
+                          </RowUsername>
+                        </Show>
+                        <Show when={channelCategory(result.channel)}>
+                          <RowCategory>
+                            {channelCategory(result.channel)}
+                          </RowCategory>
+                        </Show>
+                      </RowText>
+                      <Show when={result.channel.server?.name}>
+                        <RowServer>{result.channel.server?.name}</RowServer>
+                      </Show>
+                    </>
+                  )}
                 </Row>
               )}
             </For>
           </ResultList>
         </Show>
+
+        <Protip>
+          <ProtipLabel>
+            <Trans>Protip:</Trans>
+          </ProtipLabel>
+          <span>
+            <Trans>
+              Start searches with <Kbd>@</Kbd> <Kbd>#</Kbd> <Kbd>!</Kbd>{" "}
+              <Kbd>*</Kbd> to narrow results.
+            </Trans>
+          </span>
+        </Protip>
       </Column>
     </Dialog>
   );
@@ -286,11 +413,54 @@ const RowServer = styled("div", {
   },
 });
 
+const RowCategory = styled("div", {
+  base: {
+    flex: "0 1 auto",
+    minWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color:
+      "color-mix(in srgb, var(--md-sys-color-on-surface-variant) 70%, transparent)",
+    fontSize: "0.7rem",
+    fontWeight: 400,
+  },
+});
+
 const EmptyState = styled("div", {
   base: {
     padding: "16px 12px 20px",
     textAlign: "center",
     fontSize: "0.9rem",
     color: "var(--md-sys-color-on-surface-variant)",
+  },
+});
+
+const Protip = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: "6px",
+    padding: "10px 12px 4px",
+    fontSize: "0.8rem",
+    color: "var(--md-sys-color-on-surface-variant)",
+  },
+});
+
+const ProtipLabel = styled("span", {
+  base: {
+    fontWeight: 700,
+    color: "var(--md-sys-color-primary)",
+  },
+});
+
+const Kbd = styled("kbd", {
+  base: {
+    fontFamily: "monospace",
+    padding: "1px 6px",
+    borderRadius: "var(--borderRadius-sm)",
+    background: "var(--md-sys-color-surface-container-highest)",
+    color: "var(--md-sys-color-on-surface)",
   },
 });
