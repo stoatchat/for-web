@@ -126,7 +126,6 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
     const owner = role()?.owner;
     return owner ? client().users.get(owner) : undefined;
   };
-  console.log(role());
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -189,6 +188,17 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
 
   return (
     <Column>
+      <Show when={role()?.owner}>
+        <Warning role="alert">
+          <Symbol size={24}>warning</Symbol>
+          <Text class="label" size="small">
+            <Trans>
+              This role is managed by {managedBy()?.displayName ?? t`a bot`} and
+              can't be deleted. It goes away when the bot is kicked or deleted.
+            </Trans>
+          </Text>
+        </Warning>
+      </Show>
       <form onSubmit={(event) => event.preventDefault()}>
         <Column gap="lg">
           <Form2.TextField
@@ -253,18 +263,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         >
           <Trans>Copy role ID</Trans>
         </CategoryButton>
-        <Show
-          when={!role()?.owner}
-          fallback={
-            <Text class="label">
-              <Trans>
-                This role is managed by {managedBy()?.displayName ?? t`a bot`}{" "}
-                and can't be deleted. It goes away when the bot is kicked or
-                deleted.
-              </Trans>
-            </Text>
-          }
-        >
+        <Show when={!role()?.owner}>
           <CategoryButton
             action="chevron"
             icon={<Symbol size={20}>delete</Symbol>}
@@ -364,5 +363,17 @@ const PreviewUsername = styled("span", {
 const PreviewBody = styled("span", {
   base: {
     ...typography.raw({ class: "_messages" }),
+  },
+});
+
+const Warning = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "var(--gap-md)",
+    padding: "var(--gap-md) var(--gap-lg)",
+    borderRadius: "var(--borderRadius-lg)",
+    color: "var(--md-sys-color-on-error-container)",
+    background: "var(--md-sys-color-error-container)",
   },
 });
