@@ -309,7 +309,7 @@ export function QuickSwitchModal(
 
         <Protip>
           <ProtipLabel>
-            <Trans>Protip:</Trans>
+            <Trans>Pro tip:</Trans>
           </ProtipLabel>
           <span>
             <Trans>
