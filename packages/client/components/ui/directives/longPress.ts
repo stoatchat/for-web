@@ -85,10 +85,19 @@ export function addLongPressListener(
     }, LONG_PRESS_DELAY);
   }
 
+  // Stop Safari's own link preview and text selection fighting our menu
+  const style = element.style as CSSStyleDeclaration & {
+    webkitTouchCallout: string;
+  };
+  const previous = [style.webkitTouchCallout, style.webkitUserSelect];
+  style.webkitTouchCallout = "none";
+  style.webkitUserSelect = "none";
+
   element.addEventListener("pointerdown", onPointerDown);
 
   return () => {
     element.removeEventListener("pointerdown", onPointerDown);
     stopTracking();
+    [style.webkitTouchCallout, style.webkitUserSelect] = previous;
   };
 }
