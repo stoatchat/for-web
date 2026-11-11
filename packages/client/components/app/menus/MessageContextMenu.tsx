@@ -161,67 +161,65 @@ export function MessageContextMenu(props: {
   }
 
   /**
-   * Write a blob to the navigator clipboard
-   * @param [type] - The blob's MIME type, optional
+   * Re-encode an image as PNG, which every clipboard accepts
    */
-  async function writeBlobToClipboard(blob: Blob | null, type?: string) {
-    if (!blob) throw new Error("Can't write nothing to the clipboard");
+  function convertToPng(blob: Blob) {
+    return new Promise<Blob>((resolve, reject) => {
+      const c = document.createElement("canvas"),
+        ctx = c.getContext("2d"),
+        img = new Image();
 
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        // Workaround for the clipboard API being extremely picky
-        // https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-        [type ?? blob.type]: blob,
-      }),
-    ]);
+      img.onload = () => {
+        c.width = img.width;
+        c.height = img.height;
+        ctx!.drawImage(img, 0, 0);
+        URL.revokeObjectURL(img.src);
+        c.toBlob(
+          (b) =>
+            b ? resolve(b) : reject(new Error("Failed to convert image")),
+          "image/png",
+        );
+      };
 
-    snackbar.show({ message: t`Copied file to clipboard` });
+      img.onerror = reject;
+      img.src = URL.createObjectURL(blob);
+    });
   }
 
   /**
    * Download the file from `url` and insert it to the user's clipboard
    */
-  async function copyFile(url: string) {
-    try {
-      const res = await fetch(url);
-      if (!res.ok)
-        throw new Error(`Failed to download file: ${res.statusText}.`);
+  function copyFile(url: string, type = "application/octet-stream") {
+    // ClipboardItem.supports is missing before iOS 17.4
+    const supported =
+      typeof ClipboardItem.supports === "function"
+        ? ClipboardItem.supports(type)
+        : ["image/png", "text/plain", "text/html"].includes(type);
 
-      const blob = await res.blob();
-      if (ClipboardItem.supports(blob.type)) {
-        await writeBlobToClipboard(blob);
-      } else {
-        if (blob.type.startsWith("image/")) {
-          // Naively convert to PNG
-          const c = document.createElement("canvas"),
-            ctx = c.getContext("2d"),
-            img = new Image();
-
-          img.onload = () => {
-            c.width = img.width;
-            c.height = img.height;
-            ctx!.drawImage(img, 0, 0);
-            URL.revokeObjectURL(img.src);
-            c.toBlob(async (b) => {
-              try {
-                await writeBlobToClipboard(b, "image/png");
-              } catch (error) {
-                showError(error);
-              }
-            }, "image/png");
-          };
-
-          img.onerror = showError;
-          img.src = URL.createObjectURL(blob);
-        } else {
-          // Workaround for copying unsupported formats to the clipboard
+    const clipType = supported
+      ? type
+      : type.startsWith("image/")
+        ? "image/png"
+        : // Workaround for copying unsupported formats to the clipboard
           // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-          await writeBlobToClipboard(blob, `web ${blob.type}`);
-        }
-      }
-    } catch (error) {
-      showError(error);
-    }
+          `web ${type}`;
+
+    const blob = fetch(url)
+      .then((res) => {
+        if (!res.ok)
+          throw new Error(`Failed to download file: ${res.statusText}.`);
+        return res.blob();
+      })
+      .then((b) =>
+        clipType === "image/png" && !supported ? convertToPng(b) : b,
+      );
+
+    // Safari drops the user gesture after an await, so write straight away
+    // and let the clipboard wait for the download
+    navigator.clipboard
+      .write([new ClipboardItem({ [clipType]: blob })])
+      .then(() => snackbar.show({ message: t`Copied file to clipboard` }))
+      .catch(showError);
   }
 
   /**
@@ -269,7 +267,12 @@ export function MessageContextMenu(props: {
           </a>
           <ContextMenuButton
             icon={MdContentCopy}
-            onClick={() => copyFile((props.file as File)!.originalUrl)}
+            onClick={() =>
+              copyFile(
+                (props.file as File)!.originalUrl,
+                (props.file as File)!.contentType,
+              )
+            }
           >
             <Trans>Copy file</Trans>
           </ContextMenuButton>
