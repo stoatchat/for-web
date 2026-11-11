@@ -210,9 +210,14 @@ export function MessageContextMenu(props: {
           throw new Error(`Failed to download file: ${res.statusText}.`);
         return res.blob();
       })
-      .then((b) =>
-        clipType === "image/png" && !supported ? convertToPng(b) : b,
-      );
+      .then((b) => {
+        if (clipType === "image/png" && b.type !== "image/png")
+          return convertToPng(b);
+        // The clipboard rejects a blob whose type doesn't match its key
+        return clipType.startsWith("web ")
+          ? b
+          : new Blob([b], { type: clipType });
+      });
 
     // Safari drops the user gesture after an await, so write straight away
     // and let the clipboard wait for the download
