@@ -171,7 +171,11 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
         if (document.fullscreenElement) {
           document.exitFullscreen();
         }
-        document.getElementById("floating")?.requestFullscreen();
+        // iPhone has no element fullscreen, so stick to the CSS layout there
+        const floating = document.getElementById("floating");
+        if (floating?.requestFullscreen) {
+          floating.requestFullscreen().catch(() => {});
+        }
       }
     } else if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -209,7 +213,10 @@ export function VoiceCallCardContext(props: { children: JSX.Element }) {
 
 const Float = styled("div", {
   base: {
+    // Anchor to the viewport, the transform below does the positioning
     position: "fixed",
+    top: 0,
+    left: 0,
     zIndex: 10,
     pointerEvents: "none",
     transition: "all .3s cubic-bezier(1, 0, 0, 1)",
@@ -227,7 +234,7 @@ const Float = styled("div", {
     fullscreen: {
       true: {
         zIndex: 90,
-        height: "100vh",
+        height: "100dvh",
         top: 0,
         // Width is set by floating logic in effect above
       },
