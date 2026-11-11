@@ -13,7 +13,8 @@ const ANIM_MS = 150,
   VEL_AVG = 5, //Moving avg smoothing
   VEL_TRIG = 0.3, //Override drawer pos if over
   TRIG_X = 10,
-  CANCEL_Y = 20;
+  CANCEL_Y = 20,
+  HOME_BAR = 30; //Fallback when there's no bottom safe area
 
 type TrackTouch = {
   id: number;
@@ -24,6 +25,7 @@ type TrackTouch = {
   prevX?: number;
   prevT?: number;
   trig?: boolean;
+  pos?: number;
   vAvg?: Array<number>;
   vOfs?: number;
 };
@@ -36,12 +38,26 @@ export const enum SlideState {
   MOVING,
 }
 
+let insetProbe: HTMLElement | undefined;
+
+//env() can't be read from JS, so measure it with a hidden element
+function bottomInset() {
+  if (!insetProbe) {
+    insetProbe = document.createElement("div");
+    insetProbe.style.cssText =
+      "position:fixed;visibility:hidden;pointer-events:none;height:env(safe-area-inset-bottom)";
+    document.body.appendChild(insetProbe);
+  }
+  return insetProbe.offsetHeight;
+}
+
 export class SlideDrawer {
   private touch: TrackTouch | null = null;
   private tTmr: NodeJS.Timeout | null = null;
   private vTmr: NodeJS.Timeout | null = null;
   private lShow = true;
   private ofs = 0;
+  private queued?: boolean;
 
   private dispose!: () => void;
   private eGet!: Accessor<boolean>;
@@ -55,11 +71,15 @@ export class SlideDrawer {
   ) {
     this.start = this.start.bind(this);
     this.move = this.move.bind(this);
+    this.onHide = this.onHide.bind(this);
     root.addEventListener("touchstart", this.start);
     root.addEventListener("touchmove", this.move);
     root.addEventListener("touchend", this.move);
     // iOS sends touchcancel instead of touchend when the system takes over a swipe
     root.addEventListener("touchcancel", this.move);
+    //iOS can background the app mid-swipe without sending either
+    document.addEventListener("visibilitychange", this.onHide);
+    window.addEventListener("pagehide", this.onHide);
 
     createRoot((dispose) => {
       this.dispose = dispose;
@@ -82,11 +102,20 @@ export class SlideDrawer {
 
   private start(e: TouchEvent) {
     //Cancel if more than one finger
-    if (e.touches.length > 1) return this.endTouch();
-    if (this.touch || !this.eGet()) return;
+    if (e.touches.length > 1) return this.cancel();
+    if (!this.eGet()) return;
+
+    //Replace a touch that ended without us hearing about it
+    if (this.touch) {
+      for (const cur of e.touches) if (cur.identifier === this.touch.id) return;
+      this.cancel();
+    }
+
+    //Leave swipes on the home indicator to the system
+    const t = e.touches[0];
+    if (t.clientY > innerHeight - (bottomInset() || HOME_BAR)) return;
 
     //Track this touch
-    const t = e.touches[0];
     this.touch = {
       id: t.identifier,
       x: t.screenX,
@@ -103,7 +132,10 @@ export class SlideDrawer {
         tNew = t;
         break;
       }
-    if (!tNew) return;
+    if (!tNew) {
+      if (e.type === "touchcancel") this.cancel();
+      return;
+    }
 
     t = this.touch;
     const dy = tNew.screenY - t.y,
@@ -129,7 +161,7 @@ export class SlideDrawer {
         (document.activeElement as HTMLElement)?.blur();
       }
 
-      dx = Math.max(Math.min(this.ofs + dx, 0), max);
+      dx = t.pos = Math.max(Math.min(this.ofs + dx, 0), max);
       if (!isEnd) ds.transform = `translateX(${dx}px)`;
       e.preventDefault();
       e.stopPropagation();
@@ -189,6 +221,25 @@ export class SlideDrawer {
     this.touch = this.vTmr = null;
   }
 
+  //Drop the current swipe and settle on whichever side is nearer
+  private cancel(animate = true) {
+    const t = this.touch;
+    this.endTouch();
+    if (t?.trig) {
+      const show = (t.pos ?? this.ofs) < -innerWidth / 2;
+      if (animate) this.tfTimer(true, show);
+      else this.finish(show);
+    } else if (this.tTmr && !animate) {
+      this.finish(this.ofs !== 0);
+    }
+  }
+
+  private onHide(e: Event) {
+    if (e.type === "visibilitychange" && !document.hidden) return;
+    //Timers don't run in the background, so skip the animation
+    this.cancel(false);
+  }
+
   private tfTimer(set = false, show = false) {
     //Animate transition
     const ds = this.drawer.style;
@@ -200,18 +251,27 @@ export class SlideDrawer {
       this.sSet(show ? SlideState.SHOWING : SlideState.HIDING);
     } else {
       ds.transition = ds.transform = "";
+      this.queued = undefined;
     }
 
     //Finalize after delay
     clearTimeout(this.tTmr!);
-    this.tTmr = set
-      ? setTimeout(() => {
-          ds.transition = ds.transform = "";
-          this.setElState(show);
-          this.tTmr = null;
-          this.sSet(show ? SlideState.SHOWN : SlideState.HIDDEN);
-        }, ANIM_MS + 50)
-      : null;
+    this.tTmr = set ? setTimeout(() => this.finish(show), ANIM_MS + 50) : null;
+  }
+
+  //Snap to the resting position and run any request made during the animation
+  private finish(show: boolean) {
+    const ds = this.drawer.style;
+    clearTimeout(this.tTmr!);
+    this.tTmr = null;
+    ds.transition = ds.transform = "";
+    this.ofs = show ? -innerWidth : 0;
+    this.setElState(show);
+    this.sSet(show ? SlideState.SHOWN : SlideState.HIDDEN);
+
+    const queued = this.queued;
+    this.queued = undefined;
+    if (queued !== undefined && queued !== show) this.setShown(queued);
   }
 
   private setElState(show: boolean) {
@@ -226,6 +286,8 @@ export class SlideDrawer {
     this.root.removeEventListener("touchmove", this.move);
     this.root.removeEventListener("touchend", this.move);
     this.root.removeEventListener("touchcancel", this.move);
+    document.removeEventListener("visibilitychange", this.onHide);
+    window.removeEventListener("pagehide", this.onHide);
     this.dispose();
   }
 
@@ -252,11 +314,20 @@ export class SlideDrawer {
   }
 
   setShown(show: boolean) {
-    if (!this.eGet() || this.touch?.trig || this.tTmr) return false;
-    if ((this.ofs !== 0) !== show) {
+    if (!this.eGet() || this.touch?.trig) return false;
+    if (this.tTmr) {
+      this.queued = show;
+      return true;
+    }
+    if (this.sGet() === (show ? SlideState.SHOWN : SlideState.HIDDEN)) {
+      this.finish(show);
+    } else {
+      this.ofs = show ? 0 : -innerWidth;
       this.setElState(false);
       this.drawer.style.transform = `translateX(${this.ofs}px)`;
-      setTimeout(() => this.tfTimer(true, show), 1);
+      //Commit the start position now so the slide begins straight away
+      void this.drawer.offsetWidth;
+      this.tfTimer(true, show);
     }
     return true;
   }
