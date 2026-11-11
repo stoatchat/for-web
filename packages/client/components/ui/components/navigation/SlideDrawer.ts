@@ -13,8 +13,7 @@ const ANIM_MS = 150,
   VEL_AVG = 5, //Moving avg smoothing
   VEL_TRIG = 0.3, //Override drawer pos if over
   TRIG_X = 10,
-  CANCEL_Y = 20,
-  HOME_BAR = 30; //Fallback when there's no bottom safe area
+  CANCEL_Y = 20;
 
 type TrackTouch = {
   id: number;
@@ -113,7 +112,8 @@ export class SlideDrawer {
 
     //Leave swipes on the home indicator to the system
     const t = e.touches[0];
-    if (t.clientY > innerHeight - (bottomInset() || HOME_BAR)) return;
+    const inset = bottomInset();
+    if (inset && t.clientY > innerHeight - inset) return;
 
     //Track this touch
     this.touch = {
