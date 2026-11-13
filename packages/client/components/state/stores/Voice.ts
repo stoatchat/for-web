@@ -50,6 +50,8 @@ export interface TypeVoice {
 
   screenShareVolumes: Record<string, number>;
   screenShareMutes: Record<string, boolean>;
+
+  joinOnDoubleClick: boolean;
 }
 
 /**
@@ -90,6 +92,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       userMutes: {},
       screenShareVolumes: {},
       screenShareMutes: {},
+      joinOnDoubleClick: false,
     };
   }
 
@@ -194,6 +197,10 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
           ([userId, muted]) => typeof userId === "string" && muted === true,
         )
         .forEach(([k, v]) => (data.screenShareMutes[k] = v));
+    }
+
+    if (typeof input.joinOnDoubleClick === "boolean") {
+      data.joinOnDoubleClick = input.joinOnDoubleClick;
     }
 
     return data;
@@ -451,5 +458,19 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
    */
   get micOn(): boolean {
     return this.get().micOn;
+  }
+
+  /**
+   * Set whether double-clicking a voice channel joins it
+   */
+  set joinOnDoubleClick(value: boolean) {
+    this.set("joinOnDoubleClick", value);
+  }
+
+  /**
+   * Get whether double-clicking a voice channel joins it
+   */
+  get joinOnDoubleClick(): boolean {
+    return this.get().joinOnDoubleClick;
   }
 }
