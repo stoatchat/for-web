@@ -219,8 +219,14 @@ const Base = styled("div", {
     width: "400px",
     height: "400px",
     maxWidth: "100%",
-    maxHeight: "calc(100% - max(env(keyboard-inset-height), 72px))",
-    marginBottom: "env(keyboard-inset-height)",
+    // Clear the home indicator, and Chrome's keyboard when it overlays content
+    maxHeight:
+      "calc(100% - max(var(--inset-bottom), env(keyboard-inset-height, 0px), 72px))",
+    marginBottom: "max(var(--inset-bottom), env(keyboard-inset-height, 0px))",
+
+    _phone: {
+      width: "100%",
+    },
   },
 });
 
