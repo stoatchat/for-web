@@ -34,15 +34,3 @@ export function isGif(embed: MessageEmbed) {
   }
   return false;
 }
-
-export function isGifBox(embed: MessageEmbed) {
-  if (embed.type === "Image" || embed.type === "Video") {
-    const url = (embed as { url?: string }).url;
-    try {
-      return !!url && new URL(url).origin === "https://gifbox.me";
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
