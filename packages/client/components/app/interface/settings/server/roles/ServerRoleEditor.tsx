@@ -1,4 +1,4 @@
-import { For, createMemo } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
@@ -111,7 +111,7 @@ function RoleColourPicker(props: {
 export function ServerRoleEditor(props: { context: Server; roleId: string }) {
   const { t } = useLingui();
   const client = useClient();
-  const { openModal } = useModals();
+  const { openModal, closeAll } = useModals();
   const { navigate } = useSettingsNavigation();
   const instance = useInstance();
 
@@ -247,6 +247,25 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         >
           <Trans>Copy role ID</Trans>
         </CategoryButton>
+        <Show
+          when={
+            (props.context.owner?.self ||
+              props.context.havePermission("ManageRole")) &&
+            role()?.rank !== undefined &&
+            role().rank! > (props.context.member?.realRanking ?? Infinity)
+          }
+        >
+          <CategoryButton
+            action="chevron"
+            icon={<Symbol size={20}>visibility</Symbol>}
+            onClick={() => {
+              client().setViewAs(props.context.id, [props.roleId]);
+              closeAll();
+            }}
+          >
+            <Trans>View server as role</Trans>
+          </CategoryButton>
+        </Show>
         <CategoryButton
           action="chevron"
           icon={<Symbol size={20}>delete</Symbol>}

@@ -70,6 +70,7 @@ import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
 import { UserProfileRolesModal } from "./modals/UserProfileRoles";
+import { ViewAsRoleModal } from "./modals/ViewAsRole";
 
 /**
  * Render the modal
@@ -220,6 +221,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <CropModal {...modalProps} />;
     case "swap_user":
       return <SwapUserModal {...modalProps} />;
+    case "view_as_role":
+      return <ViewAsRoleModal {...modalProps} />;
     case "transfer_ownership":
       return <TransferOwnershipModal {...modalProps} />;
 
