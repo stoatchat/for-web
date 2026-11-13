@@ -544,6 +544,15 @@ function Entry(
 
   const inCall = () => props.channel.id === voice.channel()?.id;
 
+  /**
+   * Join the voice channel on double click, if enabled in voice settings
+   */
+  function joinOnDoubleClick() {
+    if (!props.channel.isVoice || !state.voice.joinOnDoubleClick) return;
+    if (inCall() || !props.channel.havePermission("Connect")) return;
+    voice.connect(props.channel);
+  }
+
   const attentionState = createMemo(() =>
     props.active
       ? "selected"
@@ -561,6 +570,7 @@ function Entry(
       <MenuButton
         href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}
         use:floating={props.menuGenerator(props.channel)}
+        onDblClick={joinOnDoubleClick}
         size="normal"
         data-unread={props.channel.unread ? "" : undefined}
         data-mentions={props.channel.mentions?.size || undefined}
