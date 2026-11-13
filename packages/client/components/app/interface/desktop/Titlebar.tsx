@@ -22,7 +22,10 @@ const isNative = !!window.native;
 
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
-    isNative ? window.desktopConfig.get().windowState.isMaximised : false,
+    // the desktop app may not have sent its config yet
+    isNative
+      ? (window.desktopConfig.get()?.windowState?.isMaximised ?? false)
+      : false,
   );
   const { lifecycle } = useClientLifecycle();
 
