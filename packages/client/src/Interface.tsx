@@ -62,16 +62,20 @@ const Interface = (props: { children: JSX.Element }) => {
   }
 
   //Drawer slider for mobile
-  let rootRef, sDrawer: SlideDrawer | undefined;
+  let rootRef, sDrawer: SlideDrawer | undefined, sDrawerEl: HTMLElement;
   const [contRef, setContRef] = createSignal<HTMLDivElement>();
   function rstLayout() {
     state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
     state.layout.setSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, false, true);
   }
   createEffect(() => {
-    //Create drawer
+    //Create drawer, again if Content is recreated (e.g. switching accounts)
     const cont = contRef();
-    if (cont && !sDrawer) sDrawer = new SlideDrawer(cont, rootRef!);
+    if (cont && cont !== sDrawerEl) {
+      sDrawer?.delete();
+      sDrawer = new SlideDrawer(cont, rootRef!);
+      sDrawerEl = cont;
+    }
     //Update on layout change
     if (sDrawer) {
       const en = sDrawer.enabled;

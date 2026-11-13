@@ -73,8 +73,30 @@ export function MenuButton(
       ripple?.endPressAnimation();
   });
 
+  let replaying = false;
+
   function onClick(e: Event) {
-    if (!local.noDrawer) appDrawer()?.setShown(true);
+    const drawer = appDrawer();
+    if (
+      !replaying &&
+      !local.noDrawer &&
+      drawer?.setShown(true) &&
+      other.href &&
+      drawer.state === SlideState.SHOWING
+    ) {
+      // Opening a channel can block for a while, so let the slide start first
+      e.preventDefault();
+      const link = e.currentTarget as HTMLElement;
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          replaying = true;
+          link.click();
+          replaying = false;
+        }),
+      );
+      return;
+    }
+
     // @ts-expect-error callable listener
     if (local.onClick) local.onClick(e);
   }
