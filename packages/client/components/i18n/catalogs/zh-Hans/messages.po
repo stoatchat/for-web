@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
 "PO-Revision-Date: 2026-11-08 19:48+0000\n"
 "Last-Translator: Rainy101112 <rainy101112official@gmail.com>\n"
-"Language-Team: Chinese (Simplified Han script) <https://translate.stoat.chat/"
-"projects/revolt/revolt-for-web/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified Han script) <https://translate.stoat.chat/projects/revolt/revolt-for-web/zh_Hans/>\n"
 "Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -123,6 +122,11 @@ msgstr "{0} 离开了"
 #: components/client/NotificationsWorker.tsx
 msgid "{0} made {1} the new group owner"
 msgstr "{0} 将 {1} 设定新群主所有者"
+
+#. placeholder {0}: onlineMembers()
+#: src/interface/channels/text/MemberSidebar.tsx
+msgid "{0} members online"
+msgstr ""
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -372,6 +376,14 @@ msgstr "添加"
 msgid "Add a new friend"
 msgstr "添加一个新好友"
 
+#: components/app/interface/settings/user/Account.tsx
+msgid "Add an account"
+msgstr ""
+
+#: components/app/interface/settings/user/Account.tsx
+msgid "Add an additional account login for fast-switching"
+msgstr ""
+
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
 msgstr "添加机器人"
@@ -508,6 +520,11 @@ msgstr "你确定你要置顶这条消息吗？"
 msgid "Are you sure you want to remove {0} from {1}?"
 msgstr "你确定你要从 {1} 中移除 {0} 吗？"
 
+#. placeholder {0}: props.user?.username
+#: components/modal/modals/TransferGroup.tsx
+msgid "Are you sure you want to transfer ownership to <0>{0}</0>?"
+msgstr ""
+
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
 msgstr "你确定你要取消置顶这条消息吗？"
@@ -629,12 +646,20 @@ msgid "Busy"
 msgstr "正忙"
 
 #: components/modal/modals/CreateBot.tsx
-msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "创建此机器人即意味着你同意 <0>用户许可政策</0>。"
+#~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
+#~ msgstr "创建此机器人即意味着你同意 <0>用户许可政策</0>。"
+
+#: components/modal/modals/CreateBot.tsx
+msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
+msgstr ""
 
 #: components/modal/modals/CreateServer.tsx
-msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
-msgstr "创建此服务器意味着你同意 <0>用户许可政策</0>。"
+#~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
+#~ msgstr "创建此服务器意味着你同意 <0>用户许可政策</0>。"
+
+#: components/modal/modals/CreateServer.tsx
+msgid "By creating this server, you agree to the <0>Community Guidelines</0>."
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -683,6 +708,7 @@ msgstr "目前无法获取发现请求的状态"
 #: components/modal/modals/ServerIdentity.tsx
 #: components/modal/modals/SignOutSessions.tsx
 #: components/modal/modals/TimeoutMember.tsx
+#: components/modal/modals/TransferGroup.tsx
 msgid "Cancel"
 msgstr "取消"
 
@@ -831,6 +857,10 @@ msgstr "为你的 Stoat 账户选择一个新密码。"
 msgid "Choose a username"
 msgstr "选择一个用户名"
 
+#: components/modal/modals/SwapUser.tsx
+msgid "Choose an account"
+msgstr ""
+
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
 msgstr "选择用户名"
@@ -882,6 +912,7 @@ msgstr "客户端设置"
 #: components/modal/modals/LinkWarning.tsx
 #: components/modal/modals/PolicyChange.tsx
 #: components/modal/modals/ServerInfo.tsx
+#: components/modal/modals/SwapUser.tsx
 #: components/modal/modals/UserProfileMutualFriends.tsx
 #: components/modal/modals/UserProfileMutualGroups.tsx
 #: components/modal/modals/UserProfileRoles.tsx
@@ -919,6 +950,7 @@ msgstr "设置一次性密码验证"
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/MFAFlow.tsx
+#: components/modal/modals/TransferGroup.tsx
 msgid "Confirm"
 msgstr "确认"
 
@@ -1361,6 +1393,10 @@ msgstr "删除角色"
 msgid "Delete Server"
 msgstr "删除服务器"
 
+#: components/auth/src/flows/FlowLogin.tsx
+msgid "Delete session"
+msgstr ""
+
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
 msgstr "删除此表情符号后将无法再使用它。此前的使用记录将予以保留。"
@@ -1584,6 +1620,10 @@ msgstr "启用推送通知"
 #: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
 msgid "Enable transparency glass/blur effects (slow on older machines)"
 msgstr "启用透明玻璃/模糊效果（在旧机器上运行较慢）"
+
+#: components/i18n/errors.tsx
+msgid "Encountered a problem while saving previous session."
+msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1930,9 +1970,11 @@ msgstr "冒充"
 
 #: src/AndroidNag.tsx
 msgid "In the meantime, install Stoat from Google Play for a faster, smoother experience designed for Android."
+msgstr "与此同时，请从 Google Play 安装 Stoat，以获得专为 Android 设计、更快捷、更流畅的体验。"
+
+#: src/interface/Friends.tsx
+msgid "Incoming"
 msgstr ""
-"与此同时，请从 Google Play 安装 Stoat，以获得专为 Android 设计、更快捷、更流"
-"畅的体验。"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -2130,8 +2172,8 @@ msgstr "登录"
 #~ msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid "Log in again"
-msgstr "再次登录"
+#~ msgid "Log in again"
+#~ msgstr "再次登录"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Log in to pick up right where you left off."
@@ -2548,8 +2590,8 @@ msgid "Only mentions will notify you"
 msgstr "仅在有提及时通知您"
 
 #: components/instance/index.tsx
-msgid "Oops, something went wrong! {e}"
-msgstr "啊哦，出现了一点问题！{e}"
+#~ msgid "Oops, something went wrong! {e}"
+#~ msgstr "啊哦，出现了一点问题！{e}"
 
 #: components/modal/modals/Invite.tsx
 msgid "Open"
@@ -2579,6 +2621,10 @@ msgstr "打开设置"
 #: components/modal/modals/ReportContent.tsx
 msgid "Other"
 msgstr "其他"
+
+#: src/interface/Friends.tsx
+msgid "Outgoing"
+msgstr ""
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Output Volume"
@@ -2661,8 +2707,8 @@ msgid "Please enter your email."
 msgstr "请输入您的电子邮件地址。"
 
 #: components/i18n/errors.tsx
-msgid "Please log in again."
-msgstr "请再次登录。"
+#~ msgid "Please log in again."
+#~ msgstr "请再次登录。"
 
 #: components/modal/modals/MFARecovery.tsx
 msgid "Please save these to a safe location."
@@ -3420,6 +3466,10 @@ msgstr ""
 msgid "Support the project by donating - thank you!"
 msgstr "捐赠以支持此项目——谢谢！"
 
+#: src/interface/navigation/servers/UserMenu.tsx
+msgid "Switch Accounts"
+msgstr ""
+
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
 msgstr ""
@@ -3517,6 +3567,10 @@ msgstr ""
 msgid "The server is already on discover, the user must contact support to have it removed."
 msgstr ""
 
+#: components/i18n/errors.tsx
+msgid "The web socket was unable to connect to the backend."
+msgstr ""
+
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
 msgstr "主题"
@@ -3524,6 +3578,10 @@ msgstr "主题"
 #. placeholder {0}: props.discoverable instanceof Bot ? "bot" : "server"
 #: components/app/interface/settings/shared/Discoverable.tsx
 msgid "This {0} is discoverable"
+msgstr ""
+
+#: components/client/Controller.ts
+msgid "This account is disabled."
 msgstr ""
 
 #: components/i18n/errors.tsx
@@ -3662,6 +3720,11 @@ msgstr ""
 msgid "Traditional (DD/MM/YYYY)"
 msgstr ""
 
+#: components/app/menus/UserContextMenu.tsx
+#: components/modal/modals/TransferGroup.tsx
+msgid "Transfer Ownership"
+msgstr ""
+
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
 msgstr ""
@@ -3760,6 +3823,14 @@ msgstr ""
 msgid "Use a code or invite link"
 msgstr ""
 
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Use emoji from other servers"
+msgstr ""
+
+#: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
+msgid "Use External Emojis"
+msgstr ""
+
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
 msgstr ""
@@ -3800,6 +3871,10 @@ msgstr "用户离开语音"
 #: components/app/interface/settings/ServerSettings.tsx
 msgid "User Management"
 msgstr "用户管理"
+
+#: components/i18n/errors.tsx
+msgid "User session not found. Try switching users or logging in again."
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "User Settings"
@@ -3919,8 +3994,8 @@ msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
-msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
-msgstr ""
+#~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
+#~ msgstr ""
 
 #: components/auth/src/flows/FlowCreate.tsx
 msgid "We only use it to verify your account and help you get back in if you're ever locked out. We'll never sell it or send you spam."
@@ -3971,6 +4046,10 @@ msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"
+msgstr ""
+
+#: components/i18n/errors.tsx
+msgid "Whoops, you're already logged in as this user!"
 msgstr ""
 
 #. placeholder {0}: names.join(", ")
@@ -4084,6 +4163,10 @@ msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "You do not have permission to do this."
+msgstr ""
+
+#: components/ui/components/features/messaging/elements/ConversationStart.tsx
+msgid "You don't have permission to see past messages."
 msgstr ""
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
@@ -4210,7 +4293,7 @@ msgstr ""
 msgid "Your role ranking is too low to take this action."
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
+#: components/i18n/errors.tsx
 msgid "Your session ended, possibly because you logged out on another device. Log in again to continue."
 msgstr ""
 
