@@ -11,6 +11,7 @@ import { ReactiveSet } from "@solid-primitives/set";
 
 import {
   ACTION_PRIORITY,
+  isTypingContext,
   KeybindAction,
   keybindFilter,
 } from "./keybindActions";
@@ -21,6 +22,12 @@ type KeybindContext = {
 };
 
 const keybindContext = createContext<KeybindContext>(null! as KeybindContext);
+
+/**
+ * Keybinds whose browser default must be suppressed
+ * (e.g. Ctrl+K focuses the address/search bar in Firefox)
+ */
+const PREVENT_DEFAULT = new Set<KeybindAction>([KeybindAction.QUICK_SWITCH]);
 
 export function KeybindContext(props: { children: JSXElement }) {
   /**
@@ -49,10 +56,16 @@ export function KeybindContext(props: { children: JSXElement }) {
     ? DEFAULT_MAC_SEQUENCES
     : DEFAULT_SEQUENCES;
 
+  const normalize = (key: string) =>
+    key.length === 1 ? key.toLowerCase() : key;
+
   /**
    * Get the currently firing keybind
    */
   function firing() {
+    // Detect if the user is currently focused on a typing field
+    const isInput = isTypingContext(target);
+
     return (
       ACTION_PRIORITY
         // filter to those keybinds that are bound
@@ -61,11 +74,25 @@ export function KeybindContext(props: { children: JSXElement }) {
         .filter((keybind) =>
           keybindFilter(keybind, activeKeys, currentlyBound, target),
         )
-        // check whether the keybind is being pressed
+        // prevent standard character keybinds from firing inside inputs
+        .filter((keybind) => {
+          if (!isInput) return true;
+
+          // If we're in an input, ONLY allow keybinds that use a modifier or are special control keys
+          return sequences[keybind].some(
+            (k) =>
+              k === "Control" ||
+              k === "Meta" ||
+              k === "Alt" ||
+              k === "Escape" ||
+              k === "Enter",
+          );
+        })
+        // check that every key in the sequence is currently pressed (extra keys are allowed)
         .filter((keybind) =>
           sequences[keybind].every((key) =>
             key instanceof RegExp
-              ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
+              ? [...activeKeys].some((item) => key.test(item))
               : activeKeys.has(key),
           ),
         )
@@ -114,23 +141,33 @@ export function KeybindContext(props: { children: JSXElement }) {
     return firing() === keybind;
   }
 
+  let lastAdded: string | null = null;
+
   /**
    * Handle key down event by adding it to active keys
    */
   function onKeyDown(event: KeyboardEvent) {
     target = event.target as HTMLElement;
-    activeKeys.add(event.key);
-  }
+    const key = normalize(event.key);
+    lastAdded = activeKeys.has(key) ? null : key;
+    activeKeys.add(key);
 
+    const fired = firing();
+    if (fired && PREVENT_DEFAULT.has(fired)) {
+      event.preventDefault();
+    }
+  }
   /**
    * Handle key up event by removing it from active keys
    */
   function onKeyUp(event: KeyboardEvent) {
     target = event.target as HTMLElement;
-    activeKeys.delete(event.key);
+    lastAdded = null;
+    activeKeys.delete(normalize(event.key));
   }
 
   function onFocusDropped(_: FocusEvent) {
+    lastAdded = null;
     activeKeys.clear();
   }
 
@@ -153,9 +190,16 @@ export function KeybindContext(props: { children: JSXElement }) {
 
           createEffect(() => {
             const _ = [...activeKeys]; // track dependency
-            if (isFired(keybind)) {
-              untrack(callback);
-            }
+            if (!isFired(keybind)) return;
+
+            const key = lastAdded;
+            const completesSequence =
+              key !== null &&
+              sequences[keybind].some((k) =>
+                k instanceof RegExp ? k.test(key) : k === key,
+              );
+
+            if (completesSequence) untrack(callback);
           });
         },
       }}
