@@ -45,6 +45,8 @@ const Container = styled("div", {
     height: "100%",
     display: "grid",
     position: "fixed",
+    top: 0,
+    left: 0,
     placeItems: "center",
     pointerEvents: "none",
 

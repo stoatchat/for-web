@@ -80,6 +80,32 @@ export function LoadTheme() {
 
     for (const meta of document.head.querySelectorAll("meta[name=theme-color]"))
       (meta as HTMLMetaElement).content = color;
+
+    // Shows behind the status bar and home indicator, so match the app's top
+    // and bottom edges (the chat when open, otherwise the sidebar)
+    const props = getCssProps();
+    const top =
+      props[
+        drawerShown
+          ? "--md-sys-color-surface-container-low"
+          : "--md-sys-color-surface-container-high"
+      ];
+    const bottom =
+      props[
+        drawerShown
+          ? "--md-sys-color-surface-container-lowest"
+          : "--md-sys-color-surface-container-high"
+      ];
+    document.documentElement.style.background =
+      document.body.style.background = `linear-gradient(${top} 50%, ${bottom} 50%)`;
+  });
+
+  //Match system UI (keyboard, form controls) to the theme
+  createEffect(() => {
+    document.documentElement.style.colorScheme = state.theme.activeTheme
+      .darkMode
+      ? "dark"
+      : "light";
   });
 
   return <Masks />;

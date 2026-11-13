@@ -68,8 +68,8 @@ export default defineConfig({
         scope: pwaScope,
         display_override: ["window-controls-overlay"],
         display: "standalone",
-        background_color: "#101823",
-        theme_color: "#101823",
+        background_color: "#191919",
+        theme_color: "#191919",
         icons: [
           {
             src: `${base}assets/web/android-chrome-192x192.png`,
