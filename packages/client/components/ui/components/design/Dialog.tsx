@@ -1,11 +1,15 @@
 import type { JSX } from "solid-js";
-import { For, Show, splitProps } from "solid-js";
+import { createUniqueId, For, Show, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { styled } from "styled-system/jsx";
 
+import { Layout, useDevice } from "@revolt/common";
+import { Symbol } from "@revolt/ui";
+import { cva } from "styled-system/css";
 import { Button } from "./Button";
+import { IconButton } from "./IconButton";
 import { typography } from "./Text";
 
 export interface DialogProps {
@@ -27,6 +31,10 @@ type Props = DialogProps & {
   isDisabled?: boolean;
 
   scrimBackground?: string;
+  /**
+   * Minimum breakpoint used to toggle fullscreen dialog.
+   */
+  fullscreen?: Layout;
 
   minWidth?: number;
   padding?: number;
@@ -38,11 +46,27 @@ type Props = DialogProps & {
  * @specification https://m3.material.io/components/dialogs
  */
 export function Dialog(props: Props) {
+  const { layout } = useDevice();
+  const shouldFullscreen = () =>
+    props.fullscreen === "desktop"
+      ? true
+      : props.fullscreen === "tablet"
+        ? layout() === "tablet" || layout() === "phone"
+        : layout() === props.fullscreen;
+
+  // used for labeledby
+  const modalTitleId = createUniqueId();
+
+  const hasCancel = () =>
+    props.actions && props.actions.find((a) => a.onClick === undefined);
+
   return (
     <Portal mount={document.getElementById("floating")!}>
       <Dialog.Scrim
         show={props.show}
         onClick={props.onClose}
+        padding={!shouldFullscreen()}
+        fullscreen={shouldFullscreen()}
         style={{
           "--scrim": "rgba(from var(--md-sys-color-scrim) r g b / 0.32)",
           "--background": props.scrimBackground
@@ -66,19 +90,80 @@ export function Dialog(props: Props) {
                     : undefined,
                   padding: props.padding ? `${props.padding}px` : undefined,
                 }}
+                fullscreen={shouldFullscreen()}
                 onClick={(e) => e.stopPropagation()}
               >
                 <Show when={props.icon}>
                   <Icon>{props.icon}</Icon>
                 </Show>
                 <Show when={props.title}>
-                  <Title withIcon={typeof props.icon !== "undefined"}>
-                    {props.title}
-                  </Title>
+                  <Show
+                    fallback={
+                      <Title withIcon={typeof props.icon !== "undefined"}>
+                        {props.title}
+                      </Title>
+                    }
+                    when={shouldFullscreen()}
+                  >
+                    <div
+                      role="region"
+                      aria-labeledby={modalTitleId}
+                      class={fsDialogHeader()}
+                    >
+                      <Show when={hasCancel()}>
+                        <IconButton onPress={props.onClose}>
+                          <Symbol>close</Symbol>
+                        </IconButton>
+                      </Show>
+                      <h2
+                        class={typography({ class: "headline", size: "small" })}
+                        id={modalTitleId}
+                      >
+                        {props.title}
+                      </h2>
+                      <Show when={props.actions && shouldFullscreen()}>
+                        <Actions fullscreen={shouldFullscreen()}>
+                          <For each={props.actions}>
+                            {(action) => (
+                              <Show
+                                when={
+                                  !shouldFullscreen() ||
+                                  (shouldFullscreen() && action.onClick)
+                                }
+                              >
+                                <Button
+                                  variant="text"
+                                  size="sm"
+                                  onPress={() => {
+                                    if (action.isDisabled) return;
+
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    const value = action.onClick?.() as any;
+                                    if (value instanceof Promise) {
+                                      value.then(props.onClose).catch(() => {});
+                                    } else if (value !== false) {
+                                      props.onClose();
+                                    }
+                                  }}
+                                  isDisabled={
+                                    action.isDisabled || props.isDisabled
+                                  }
+                                >
+                                  {action.text}
+                                </Button>
+                              </Show>
+                            )}
+                          </For>
+                        </Actions>
+                      </Show>
+                    </div>
+                  </Show>
                 </Show>
-                <Content class={typography()}>{props.children}</Content>
-                <Show when={props.actions}>
-                  <Actions>
+                <Content class={typography()} fullscreen={shouldFullscreen()}>
+                  {props.children}
+                </Content>
+                <Show when={props.actions && !shouldFullscreen()}>
+                  <Actions fullscreen={shouldFullscreen()}>
                     <For each={props.actions}>
                       {(action) => (
                         <Button
@@ -131,7 +216,7 @@ Dialog.Scrim = (
 
   return (
     <Scrim {...remote} class="dialog_scrim">
-      <ScrimSurface {...local} />
+      <ScrimSurface fullscreen={remote.fullscreen} {...local} />
     </Scrim>
   );
 };
@@ -170,10 +255,18 @@ const Scrim = styled("div", {
         "--background": "rgba(from var(--md-sys-color-scrim) r g b / 0.32)",
       },
     },
+    fullscreen: {
+      true: {
+        paddingTop: "0",
+        paddingInline: "0",
+        paddingBottom: "0",
+      },
+    },
   },
   defaultVariants: {
     show: true,
     dark: false,
+    fullscreen: false,
   },
 });
 
@@ -198,11 +291,27 @@ const ScrimSurface = styled("div", {
         overflowY: "auto",
       },
     },
+    fullscreen: {
+      true: {
+        display: "block",
+      },
+    },
   },
   defaultVariants: {
     padding: true,
     overflow: true,
+    fullscreen: false,
   },
+  compoundVariants: [
+    {
+      fullscreen: true,
+      overflow: true,
+      css: {
+        overflowX: "clip",
+        overflowY: "clip",
+      },
+    },
+  ],
 });
 
 const Container = styled("div", {
@@ -218,6 +327,22 @@ const Container = styled("div", {
     color: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-container-high)",
   },
+  variants: {
+    fullscreen: {
+      true: {
+        width: "100vw",
+        height: "100dvh",
+        maxWidth: "none",
+        borderRadius: "none",
+        overflow: "hidden",
+        padding: "0px",
+      },
+      false: {},
+    },
+  },
+  defaultVariants: {
+    fullscreen: false,
+  },
 });
 
 const Icon = styled("div", {
@@ -225,6 +350,19 @@ const Icon = styled("div", {
     alignSelf: "center",
     marginBottom: "16px",
     fill: "var(--md-sys-color-on-surface)",
+  },
+});
+
+const fsDialogHeader = cva({
+  base: {
+    height: "3.5rem",
+    marginLeft: "1rem",
+    background: "var(--md-sys-color-surface-container-high)",
+    color: "var(--md-sys-color-on-surface)",
+    display: "flex",
+    gap: "1rem",
+    alignItems: "center",
+    flexShrink: 0,
   },
 });
 
@@ -248,6 +386,19 @@ const Title = styled("span", {
 const Content = styled("div", {
   base: {
     color: "var(--md-sys-color-on-surface-variant)",
+    flex: 1,
+    overflowY: "auto",
+  },
+  variants: {
+    fullscreen: {
+      true: {
+        marginTop: "1.5rem",
+        marginInline: "1.5rem",
+      },
+    },
+  },
+  defaultVariants: {
+    fullscreen: false,
   },
 });
 
@@ -257,5 +408,18 @@ const Actions = styled("div", {
     display: "flex",
     justifyContent: "end",
     marginBlockStart: "24px",
+  },
+
+  variants: {
+    fullscreen: {
+      true: {
+        marginInlineStart: "auto",
+        marginBlockStart: "unset",
+      },
+    },
+  },
+
+  defaultVariants: {
+    fullscreen: false,
   },
 });
