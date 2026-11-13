@@ -24,9 +24,8 @@ import { State } from "@revolt/client/Controller";
 import { useModals } from "@revolt/modal";
 import { A, useLocation } from "@revolt/routing";
 import { useState } from "@revolt/state";
-import { IconButton, Symbol } from "@revolt/ui";
+import { IconButton, Symbol, Wordmark } from "@revolt/ui";
 
-import Wordmark from "../../../public/assets/web/wordmark.svg?component-solid";
 import { AppUpsell } from "./AppUpsell";
 import { BubbleMood, BubbleProvider, FlowBase, FlowBubble } from "./flows/Flow";
 
