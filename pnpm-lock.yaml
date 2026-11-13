@@ -574,8 +574,8 @@ importers:
         specifier: 1.9.14
         version: 1.9.14
       stoat-api:
-        specifier: 0.15.3
-        version: 0.15.3
+        specifier: 0.16.0
+        version: 0.16.0
       ulid:
         specifier: ^3.0.2
         version: 3.0.2
@@ -6332,8 +6332,8 @@ packages:
     resolution: {integrity: sha512-eCPu1qRxPVkl5605OTWF8Wz40b4Mf45NY5LQmVPQ599knfs5QhASUm9GbJ5BDMDOXgrnh0wyEdvzmL//YMlw0A==}
     engines: {node: '>=18'}
 
-  stoat-api@0.15.3:
-    resolution: {integrity: sha512-r08FplgeZWft4Hd2CK1tZ7EEzhocUyy/aeeOGBrKC6vy3ANsDhcMzGdJioYQ3jpzH+jFIPLQJzBaJK27Wf3Vug==}
+  stoat-api@0.16.0:
+    resolution: {integrity: sha512-HC5+UluvnmCPYacuJh3LUh6Lpfe0gLVpoEjRBpt4BzZUPlA7Pe5inuvEYo/a1MLwTmVpzxF4S9D+QFIADHroTg==}
 
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
@@ -10163,10 +10163,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.7.0))(typescript@6.0.3))(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)':
+  '@typescript-eslint/eslint-plugin@8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3))(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.54.0(eslint@9.26.0(jiti@2.7.0))(typescript@6.0.3)
+      '@typescript-eslint/parser': 8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
       '@typescript-eslint/scope-manager': 8.54.0
       '@typescript-eslint/type-utils': 8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
       '@typescript-eslint/utils': 8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
@@ -13931,7 +13931,7 @@ snapshots:
 
   stdin-discarder@0.3.2: {}
 
-  stoat-api@0.15.3:
+  stoat-api@0.16.0:
     dependencies:
       json-with-bigint: 3.4.4
 
@@ -14320,7 +14320,7 @@ snapshots:
 
   typescript-eslint@8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.26.0(jiti@2.7.0))(typescript@6.0.3))(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
+      '@typescript-eslint/eslint-plugin': 8.54.0(@typescript-eslint/parser@8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3))(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
       '@typescript-eslint/parser': 8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
       '@typescript-eslint/typescript-estree': 8.54.0(typescript@5.8.3)
       '@typescript-eslint/utils': 8.54.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.8.3)
