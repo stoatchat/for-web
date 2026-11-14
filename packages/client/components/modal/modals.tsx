@@ -51,6 +51,7 @@ import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
 import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
+import { QuickSwitchModal } from "./modals/QuickSwitch";
 import { RemoveMemberModal } from "./modals/RemoveMember";
 import { RemoveTimeoutModal } from "./modals/RemoveTimeout";
 import { RenameSessionModal } from "./modals/RenameSession";
@@ -223,6 +224,8 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
     case "transfer_ownership":
       return <TransferOwnershipModal {...modalProps} />;
 
+    case "quick_switch":
+      return <QuickSwitchModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",
