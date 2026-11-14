@@ -99,6 +99,8 @@ class Voice {
   private screenShareTracks: Set<string>;
   private voiceProcessor?: VoiceProcessor;
 
+  #microphoneSync: Promise<void> = Promise.resolve();
+
   constructor(
     voiceSettings: VoiceSettings,
     modals: ModalController,
@@ -252,11 +254,7 @@ class Voice {
     room.addListener("connected", () => {
       this.#setState("CONNECTED");
       if (this.speakingPermission)
-        room.localParticipant
-          .setMicrophoneEnabled(this.#settings.micOn)
-          .then((track) => {
-            this.#settings.micOn = track != null;
-          });
+        this.syncMicrophone(room).catch((e) => this.onErr(e));
       for (const p of room.remoteParticipants.values()) {
         const screenShareTrack = p.getTrackPublication(
           Track.Source.ScreenShare,
@@ -346,6 +344,7 @@ class Voice {
       });
 
       this.screenShareTracks = new Set();
+      this.#microphoneSync = Promise.resolve();
 
       this.sound.playSound("userLeaveVoice");
     } catch (e) {
@@ -353,24 +352,57 @@ class Voice {
     }
   }
 
+  /**
+   * Make the published microphone match the settings: live only when
+   * micOn is set and we are not deafened.
+   *
+   * The settings are the source of truth and are read when the call runs,
+   * not when it is queued. Calls run one after another, so the last one
+   * always leaves the microphone in the latest state, even when clicks
+   * arrive while the track is still publishing or restarting.
+   */
+  private syncMicrophone(room: Room) {
+    const run = this.#microphoneSync.then(async () => {
+      if (this.room() !== room) return;
+
+      const enabled = this.#settings.micOn && !this.#settings.deafen;
+      try {
+        await room.localParticipant.setMicrophoneEnabled(enabled);
+      } finally {
+        // Enabling can fail (no permission, no device): don't show the
+        // microphone as on when it isn't.
+        if (
+          enabled &&
+          this.room() === room &&
+          this.#settings.micOn &&
+          !this.#settings.deafen &&
+          !room.localParticipant.isMicrophoneEnabled
+        ) {
+          this.#settings.micOn = false;
+        }
+      }
+    });
+
+    this.#microphoneSync = run.catch(() => {});
+    return run;
+  }
+
   async toggleDeafen(fromMute?: boolean) {
     try {
       const room = this.room();
       if (!room) throw "invalid state";
-      await room.localParticipant.setMicrophoneEnabled(
-        (this.#settings.micOn || !!fromMute) &&
-          !room.localParticipant.isMicrophoneEnabled,
-      );
 
-      this.#settings.deafen = !this.#settings.deafen;
+      const deafen = !this.#settings.deafen;
+      this.#settings.deafen = deafen;
+
+      // Unmuting while deafened also undeafens and turns the microphone on
       if (fromMute) {
-        this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+        this.#settings.micOn = true;
       }
-      if (this.#settings.deafen) {
-        this.sound.playSound("deafen");
-      } else {
-        this.sound.playSound("undeafen");
-      }
+
+      await this.syncMicrophone(room);
+
+      this.sound.playSound(deafen ? "deafen" : "undeafen");
     } catch (e) {
       this.onErr(e);
     }
@@ -378,23 +410,18 @@ class Voice {
 
   async toggleMute() {
     if (this.#settings.deafen) {
-      this.toggleDeafen(true);
-      return;
+      return this.toggleDeafen(true);
     }
     try {
       const room = this.room();
       if (!room) throw "invalid state";
-      await room.localParticipant.setMicrophoneEnabled(
-        !room.localParticipant.isMicrophoneEnabled,
-      );
 
-      this.#settings.micOn = room.localParticipant.isMicrophoneEnabled;
+      const micOn = !this.#settings.micOn;
+      this.#settings.micOn = micOn;
 
-      if (this.#settings.micOn) {
-        this.sound.playSound("unmute");
-      } else {
-        this.sound.playSound("mute");
-      }
+      await this.syncMicrophone(room);
+
+      this.sound.playSound(micOn ? "unmute" : "mute");
     } catch (e) {
       this.onErr(e);
     }
