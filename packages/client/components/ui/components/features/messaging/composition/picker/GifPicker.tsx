@@ -8,6 +8,7 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  onMount,
   useContext,
 } from "solid-js";
 
@@ -50,7 +51,8 @@ type GifCategory = { title: string; image: string };
 
 type GifResult = {
   url: string;
-  media_formats: Record<"webm" | "tinywebm", { url: string }>;
+  media_formats: Record<"webm" | "tinywebm", { url: string }> &
+    Partial<Record<"tinymp4", { url: string }>>;
 };
 
 const FilterContext = createContext<(value: string) => void>();
@@ -532,8 +534,18 @@ function GifSearch(props: { query: string }) {
                   loop
                   autoplay
                   muted
-                  src={gif.media_formats.tinywebm.url}
-                />
+                  // iOS Safari doesn't start autoplay for videos added after load
+                  ref={(video) => onMount(() => video.play().catch(() => {}))}
+                >
+                  {/* Not every iPhone can decode VP9, so offer MP4 first */}
+                  <Show when={gif.media_formats.tinymp4}>
+                    {(mp4) => <source src={mp4().url} type="video/mp4" />}
+                  </Show>
+                  <source
+                    src={gif.media_formats.tinywebm.url}
+                    type="video/webm"
+                  />
+                </video>
               </GifTile>
             )}
           </For>
