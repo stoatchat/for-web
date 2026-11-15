@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-10-25 23:54+0000\n"
+"PO-Revision-Date: 2026-11-16 10:18+0000\n"
 "Last-Translator: ispik <ispik@team.stoat.chat>\n"
-"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-for-web/tr/>\n"
+"Language-Team: Turkish <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -126,7 +127,7 @@ msgstr "{0}, {1} kullanıcısını yeni grup sahibi yaptı"
 #. placeholder {0}: onlineMembers()
 #: src/interface/channels/text/MemberSidebar.tsx
 msgid "{0} members online"
-msgstr ""
+msgstr "{0} üye çevrimiçi"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -378,11 +379,11 @@ msgstr "Yeni bir arkadaş ekle"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an account"
-msgstr ""
+msgstr "Hesap ekle"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an additional account login for fast-switching"
-msgstr ""
+msgstr "Hesaplar arası hızlı geçiş için hesap ekleyin"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
@@ -523,7 +524,7 @@ msgstr "{0} kullanıcısını {1} grubundan çıkarmak istediğine emin misin?"
 #. placeholder {0}: props.user?.username
 #: components/modal/modals/TransferGroup.tsx
 msgid "Are you sure you want to transfer ownership to <0>{0}</0>?"
-msgstr ""
+msgstr "Grup sahipliğini <0>{0}</0>'a devretmek istediğinizden emin misiniz?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
@@ -645,21 +646,21 @@ msgstr "Hata İzleyici"
 msgid "Busy"
 msgstr "Meşgul"
 
-#: components/modal/modals/CreateBot.tsx
 #~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Bu botu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı kabul etmiş olursunuz."
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
 msgstr ""
+"Bu botu oluşturarak, <0>Topluluk Kuralları</0>'nı kabul etmiş olursunuz."
 
-#: components/modal/modals/CreateServer.tsx
 #~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Bu sunucuyu oluşturarak, <0>Kabul Edilebilir Kullanım Politikası</0>'nı kabul etmiş olursunuz."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Community Guidelines</0>."
 msgstr ""
+"Bu sunucuyu oluşturarak, <0>Topluluk Kuralları</0>'nı kabul etmiş olursunuz."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -859,7 +860,7 @@ msgstr "Bir kullanıcı adı seç"
 
 #: components/modal/modals/SwapUser.tsx
 msgid "Choose an account"
-msgstr ""
+msgstr "Hesap seçin"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
@@ -1398,7 +1399,7 @@ msgstr "Sunucuyu Sil"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Delete session"
-msgstr ""
+msgstr "Oturumu sil"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
@@ -1626,7 +1627,7 @@ msgstr "Saydamlık/bulanıklaştırma efektlerini etkinleştir (eski cihazlarda 
 
 #: components/i18n/errors.tsx
 msgid "Encountered a problem while saving previous session."
-msgstr ""
+msgstr "Önceki oturum kaydedilirken bir sorunla karşılaşıldı."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1977,7 +1978,7 @@ msgstr "Bu arada, Android için tasarlanmış daha hızlı ve sorunsuz bir deney
 
 #: src/interface/Friends.tsx
 msgid "Incoming"
-msgstr ""
+msgstr "Gelen"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -2174,7 +2175,6 @@ msgstr "Giriş Yap"
 #~ msgid "Log In"
 #~ msgstr "Giriş Yap"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Log in again"
 #~ msgstr "Tekrar giriş yap"
 
@@ -2592,7 +2592,6 @@ msgstr "Çevrim içi"
 msgid "Only mentions will notify you"
 msgstr "Sadece bahsetmelerden haberdar edileceksin"
 
-#: components/instance/index.tsx
 #~ msgid "Oops, something went wrong! {e}"
 #~ msgstr "Uh oh! Bir şeyler yanlış gitti! {e}"
 
@@ -2627,7 +2626,7 @@ msgstr "Diğer"
 
 #: src/interface/Friends.tsx
 msgid "Outgoing"
-msgstr ""
+msgstr "Giden"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Output Volume"
@@ -2709,7 +2708,6 @@ msgstr "Lütfen seçilen yöntemi kullanarak bu eylemi onayla."
 msgid "Please enter your email."
 msgstr "Lütfen e-postanızı girin."
 
-#: components/i18n/errors.tsx
 #~ msgid "Please log in again."
 #~ msgstr "Lütfen tekrar giriş yapın."
 
@@ -3471,7 +3469,7 @@ msgstr "Bağış yaparak projeyi destekleyin - teşekkürler!"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Switch Accounts"
-msgstr ""
+msgstr "Hesaplar Arasında Geçiş Yap"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
@@ -3572,7 +3570,7 @@ msgstr "Sunucu halihazırda keşfet listesinde yer almaktadır; kullanıcının 
 
 #: components/i18n/errors.tsx
 msgid "The web socket was unable to connect to the backend."
-msgstr ""
+msgstr "Web soketi, sunucuya bağlanamadı."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3585,7 +3583,7 @@ msgstr "Bu {0} keşfette"
 
 #: components/client/Controller.ts
 msgid "This account is disabled."
-msgstr ""
+msgstr "Bu hesap devre dışı."
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3726,7 +3724,7 @@ msgstr "Geleneksel (GG/AA/YYYY)"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/TransferGroup.tsx
 msgid "Transfer Ownership"
-msgstr ""
+msgstr "Sahipliği Aktar"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
@@ -3828,11 +3826,11 @@ msgstr "Bir kod veya davet bağlantısı kullan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use emoji from other servers"
-msgstr ""
+msgstr "Diğer sunuculardaki emojileri kullan"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use External Emojis"
-msgstr ""
+msgstr "Harici Emojileri Kullan"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
@@ -3878,6 +3876,8 @@ msgstr "Kullanıcı Yönetimi"
 #: components/i18n/errors.tsx
 msgid "User session not found. Try switching users or logging in again."
 msgstr ""
+"Kullanıcı oturumu bulunamadı. Başka bir kullanıcıya geçmeyi veya yeniden "
+"oturum açmayı deneyin."
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "User Settings"
@@ -3996,7 +3996,6 @@ msgstr "Kullanıcı adını değiştirmek mi istiyorsun?"
 msgid "We are working hard on optimising our web app for mobile."
 msgstr "Web uygulamamızı mobil cihazlar için optimize etmek üzere yoğun bir şekilde çalışıyoruz."
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
 #~ msgstr "Giriş işleminizi tamamlayamadık. Lütfen tekrar deneyin; sorun devam ederse Stoat'ın durumunu kontrol edin."
 
@@ -4053,7 +4052,7 @@ msgstr "Bu ayarları başka kullanıcıların düzenleyip düzenleyemeceği"
 
 #: components/i18n/errors.tsx
 msgid "Whoops, you're already logged in as this user!"
-msgstr ""
+msgstr "Oops, bu kullanıcıyla zaten oturum açmışsınız!"
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -4170,7 +4169,7 @@ msgstr "Bunu yapmak için izniniz yok."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "You don't have permission to see past messages."
-msgstr ""
+msgstr "Geçmişteki mesajları görüntüleme izniniz yok."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
