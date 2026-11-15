@@ -100,22 +100,22 @@ export function CategoryButton(props: Props) {
         {(action) => (
           <Switch fallback={action}>
             <Match when={action === "chevron"}>
-              <Action>
+              <Action class="action">
                 <MdChevronRight {...iconSize(18)} />
               </Action>
             </Match>
             <Match when={action === "collapse"}>
-              <Action>
+              <Action class="action">
                 <MdKeyboardDown {...iconSize(18)} />
               </Action>
             </Match>
             <Match when={action === "external"}>
-              <Action>
+              <Action class="action">
                 <MdOpenInNew {...iconSize(18)} />
               </Action>
             </Match>
             <Match when={action === "copy"}>
-              <Action>
+              <Action class="action">
                 <MdContentCopy {...iconSize(18)} />
               </Action>
             </Match>
@@ -513,12 +513,12 @@ const Details = styled("div", {
     },
 
     /* add transition to the icon */
-    "& summary div:last-child svg": {
+    "& summary div.action svg": {
       transition: "0.3s",
     },
 
     /* rotate chevron when it is open */
-    "&.open summary div:last-child svg": {
+    "&.open summary div.action svg": {
       transform: "rotate(180deg)",
     },
 
