@@ -30,7 +30,7 @@ import {
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { Gif } from "@revolt/ui/components/utils/GifEmbed";
-import { VideoEmbed, WebsiteEmbed } from "stoat.js";
+import { ImageEmbed, VideoEmbed, WebsiteEmbed } from "stoat.js";
 import { css } from "styled-system/css";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
@@ -51,9 +51,15 @@ const GIFBOX_UPLOAD_URL = "https://gifbox.me/upload";
 
 type GifCategory = { title: string; image: string };
 
+// The api response from gifbox
 type GifResult = {
   url: string;
   media_formats: Record<"webm" | "tinywebm", { url: string }>;
+};
+
+// Builds on top of the api response to facilitate favourites.
+type GifResultWithImages = GifResult & {
+  image?: string;
 };
 
 export function GifPicker() {
@@ -130,6 +136,7 @@ export function GifPicker() {
             <GifLayout
               data={favourites.gifs().map((gif) => ({
                 url: gif.url,
+                ...(gif.image ? { image: gif.preview } : {}),
                 media_formats: {
                   webm: { url: gif.preview },
                   tinywebm: { url: gif.preview },
@@ -599,7 +606,10 @@ function GifSearch(props: { query: string }) {
   );
 }
 
-function GifLayout(props: { data?: GifResult[]; showingFavourites?: boolean }) {
+function GifLayout(props: {
+  data?: GifResultWithImages[];
+  showingFavourites?: boolean;
+}) {
   const { onMessage } = useContext(CompositionMediaPickerContext);
   const client = useClient();
 
@@ -619,14 +629,25 @@ function GifLayout(props: { data?: GifResult[]; showingFavourites?: boolean }) {
               }}
             >
               <Gif
-                embed={
+                gif={
                   new WebsiteEmbed(client(), {
                     original_url: gif.url,
-                    video: new VideoEmbed(client(), {
-                      url: gif.media_formats.tinywebm.url,
-                      height: 0,
-                      width: 0,
-                    }),
+                    ...(gif.image
+                      ? {
+                          image: new ImageEmbed(client(), {
+                            url: gif.image,
+                            height: 0,
+                            width: 0,
+                            size: "Preview",
+                          }),
+                        }
+                      : {
+                          video: new VideoEmbed(client(), {
+                            url: gif.media_formats.tinywebm.url,
+                            height: 0,
+                            width: 0,
+                          }),
+                        }),
                   })
                 }
                 preSized

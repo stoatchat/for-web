@@ -119,6 +119,10 @@ export function EmojiPicker(props: { channel?: Channel }) {
       return true;
     });
 
+  // favouriteEmojis above rebuilds every time the favourites store changes. This set makes
+  // the items memo only recalculate if the favourite emojis actually change.
+  const favSet = createMemo(() => new Set(favouriteEmojis()));
+
   const topEmoji = () =>
     favourites.topEmoji(colCount() * 3).filter((id) => {
       if (id.length === 26) {
@@ -137,7 +141,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
 
     const filterText = filter().toLowerCase();
 
-    const favEmojis = favouriteEmojis();
+    const favEmojis = favSet();
 
     if (filterText) {
       return [
@@ -147,7 +151,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
             .map((emoji) => ({
               t: 2,
               emoji,
-              favourited: favEmojis.includes(emoji.id),
+              favourited: favEmojis.has(emoji.id),
             })),
         ),
         ...EMOJI_SET.filter(
@@ -158,14 +162,14 @@ export function EmojiPicker(props: { channel?: Channel }) {
           t: 4,
           name: ed.shorthands[0],
           text: ed.emoji,
-          favourited: favEmojis.includes(ed.shorthands[0]),
+          favourited: favEmojis.has(ed.shorthands[0]),
         })),
       ] as Item[];
     }
 
     const items: Item[] = [];
 
-    if (favEmojis.length > 0) {
+    if (favEmojis.size > 0) {
       items.push({
         t: 3,
         title: t`Favourites`,
@@ -224,7 +228,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
           items.push({
             t: 2,
             emoji: emoji!,
-            favourited: favEmojis.includes(id),
+            favourited: favEmojis.has(id),
           });
         } else {
           const emoji = getEmojiByShorthand(id)!;
@@ -232,7 +236,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
             t: 4,
             name: emoji.shorthands[0],
             text: emoji.emoji,
-            favourited: favEmojis.includes(emoji.shorthands[0]),
+            favourited: favEmojis.has(emoji.shorthands[0]),
           });
         }
       }
@@ -260,7 +264,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
         items.push({
           t: 2,
           emoji,
-          favourited: favEmojis.includes(emoji.id),
+          favourited: favEmojis.has(emoji.id),
         });
       }
 
@@ -284,7 +288,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
         t: 4,
         name: emoji.shorthands[0],
         text: emoji.emoji,
-        favourited: favEmojis.includes(emoji.shorthands[0]),
+        favourited: favEmojis.has(emoji.shorthands[0]),
       });
     }
 

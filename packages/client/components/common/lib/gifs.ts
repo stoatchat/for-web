@@ -26,11 +26,5 @@ export function isGif(embed: MessageEmbed) {
       return GIF_PROVIDERS.includes(new URL(chosenURL).origin);
     }
   }
-
-  if (embed.type === "Image" || embed.type === "Video") {
-    const embedWithURL = embed as { url?: string };
-    if (embedWithURL.url)
-      return GIF_PROVIDERS.includes(new URL(embedWithURL.url).origin);
-  }
   return false;
 }

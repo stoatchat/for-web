@@ -135,18 +135,16 @@ export function Message(props: Props) {
 
   /**
    * React with an emoji
-   * @param emoji Emoji
+   * @param emojiId Emoji
    * @param track Whether to track this as a usage
    */
-  const react = (emoji: string, track = true) => {
+  const react = (emojiId: string, track = true) => {
     if (track) {
-      let id = emoji;
-      if (emoji.length !== 26) {
-        id = getEmojiByCodepoint(emoji)!.shorthands[0];
-      }
+      const maybeEmoji = getEmojiByCodepoint(emojiId);
+      const id = maybeEmoji?.shorthands[0] ?? emojiId;
       state.favourites.recordUse(id);
     }
-    return props.message.react(emoji).catch(showError);
+    return props.message.react(emojiId).catch(showError);
   };
 
   /**

@@ -53,7 +53,7 @@ export function Embed(props: { embed: MessageEmbed }) {
   return (
     <Switch fallback={`Could not render ${props.embed.type}!`}>
       <Match when={isGIF()}>
-        <Gif embed={props.embed as ImageEmbed | VideoEmbed | WebsiteEmbed} />
+        <Gif gif={props.embed as WebsiteEmbed} />
       </Match>
       <Match when={image()}>
         <SizedContent width={image()!.width} height={image()!.height}>

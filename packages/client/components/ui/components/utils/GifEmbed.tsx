@@ -3,76 +3,44 @@ import { JSX, Match, Show, Switch } from "solid-js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { ImageEmbed, VideoEmbed, WebsiteEmbed } from "stoat.js";
+import { WebsiteEmbed } from "stoat.js";
 
 import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { SizedContent, Symbol } from "@revolt/ui/components/utils";
 
-export function Gif(props: {
-  embed: ImageEmbed | VideoEmbed | WebsiteEmbed;
-  preSized?: boolean;
-}) {
+export function Gif(props: { gif: WebsiteEmbed; preSized?: boolean }) {
   const { openModal } = useModals();
   const { message, reactPicker } = useMessage();
-
-  const asWebsiteEmbed = () => props.embed as WebsiteEmbed;
-
-  /**
-   * Whether there is a video
-   */
-  const video = () =>
-    (props.embed.type === "Video"
-      ? (props.embed as VideoEmbed)
-      : asWebsiteEmbed().video) || undefined;
-
-  /**
-   * Whether there is a image
-   */
-  const image = () =>
-    (props.embed.type === "Image"
-      ? (props.embed as ImageEmbed)
-      : asWebsiteEmbed().image) || undefined;
-
-  const gifFavouriteURL = () =>
-    asWebsiteEmbed().originalUrl
-      ? asWebsiteEmbed().originalUrl
-      : (video()?.url ?? image()?.url);
-
-  const gifPreviewURL = () => video()?.url || image()!.url;
 
   /**
    * Link to the page the embed came from (not the raw media)
    */
   const pageUrl = () =>
-    props.embed.type === "Website"
-      ? asWebsiteEmbed().originalUrl || asWebsiteEmbed().url
+    props.gif.type === "Website"
+      ? props.gif.originalUrl || props.gif.url
       : undefined;
 
   return (
     <GifFavouriterHolder>
-      <GifFavouriter url={gifFavouriteURL()} preview={gifPreviewURL()} />
+      <GifFavouriter gif={props.gif} />
       <Switch>
-        <Match when={image()}>
+        <Match when={props.gif.image}>
           <MaybeSizedContent
             preSized={props.preSized}
-            width={image()!.width}
-            height={image()!.height}
+            width={props.gif.image!.width}
+            height={props.gif.image!.height}
           >
             <img
-              src={image()!.url}
+              src={props.gif.image!.url}
               use:floating={{
                 contextMenu: () => (
                   <MessageContextMenu
                     message={message}
                     reactPicker={reactPicker}
-                    file={image()}
-                    favourite={{
-                      url: gifFavouriteURL()!,
-                      name: gifFavouriteURL()!,
-                      preview: gifPreviewURL()!,
-                    }}
+                    file={props.gif.image}
+                    gif={props.gif}
                   />
                 ),
               }}
@@ -81,18 +49,18 @@ export function Gif(props: {
               onClick={() =>
                 openModal({
                   type: "image_viewer",
-                  embed: image(),
+                  gif: props.gif,
                   originalUrl: pageUrl(),
                 })
               }
             />
           </MaybeSizedContent>
         </Match>
-        <Match when={video()}>
+        <Match when={props.gif.video}>
           <MaybeSizedContent
             preSized={props.preSized}
-            width={video()!.width}
-            height={video()!.height}
+            width={props.gif.video!.width}
+            height={props.gif.video!.height}
           >
             <video
               playsinline
@@ -100,18 +68,14 @@ export function Gif(props: {
               muted
               autoplay
               preload="metadata"
-              src={video()!.url}
+              src={props.gif.video!.url}
               use:floating={{
                 contextMenu: () => (
                   <MessageContextMenu
                     message={message}
                     reactPicker={reactPicker}
-                    file={video()}
-                    favourite={{
-                      url: gifFavouriteURL()!,
-                      name: gifFavouriteURL()!,
-                      preview: gifPreviewURL()!,
-                    }}
+                    file={props.gif.video}
+                    gif={props.gif}
                   />
                 ),
               }}
@@ -119,7 +83,7 @@ export function Gif(props: {
               onClick={() =>
                 openModal({
                   type: "image_viewer",
-                  gif: video(),
+                  gif: props.gif,
                   originalUrl: pageUrl(),
                 })
               }
@@ -151,28 +115,28 @@ function MaybeSizedContent(props: {
   );
 }
 
-export function GifFavouriter(props: { url?: string; preview?: string }) {
+export function GifFavouriter(props: { gif: WebsiteEmbed }) {
   const { favourites } = useState();
   const { t } = useLingui();
 
   return (
-    <Show when={props.url}>
-      {(url) => (
+    <Show when={props.gif}>
+      {(gif) => (
         <GifFavouriterSpan
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === " " || e.key === "Enter") {
               e.preventDefault();
-              favourites.toggleGif(url(), url(), props.preview);
+              favourites.toggleGif(gif());
             }
           }}
           aria-label={
-            favourites.hasGif(url()) ? t`Unfavourite Gif` : t`Favourite Gif`
+            favourites.hasGif(gif()) ? t`Unfavourite Gif` : t`Favourite Gif`
           }
           onClick={(e) => {
             e.stopPropagation();
-            favourites.toggleGif(url(), url(), props.preview);
+            favourites.toggleGif(gif());
           }}
           onMouseDown={(e) => {
             e.preventDefault();
@@ -180,7 +144,7 @@ export function GifFavouriter(props: { url?: string; preview?: string }) {
             e.stopImmediatePropagation();
           }}
         >
-          <Symbol fill={favourites.hasGif(url())}>star</Symbol>
+          <Symbol fill={favourites.hasGif(gif())}>star</Symbol>
         </GifFavouriterSpan>
       )}
     </Show>

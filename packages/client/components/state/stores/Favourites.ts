@@ -1,4 +1,5 @@
 import { getEmojiByShorthand } from "@revolt/ui";
+import { WebsiteEmbed } from "stoat.js";
 import { AbstractSyncedStore } from ".";
 import { State } from "..";
 
@@ -9,11 +10,12 @@ type FavouriteEmoji = {
   favouritedAt: Date;
 };
 
-type FavouriteGif = {
+export type FavouriteGif = {
   url: string;
   name: string;
   preview: string;
   favouritedAt: Date;
+  image?: boolean;
 };
 
 type EmojiUsage = {
@@ -28,6 +30,19 @@ export type TypeFavourites = {
     usageMap: Record<string, EmojiUsage>;
   };
 };
+
+function websiteEmbedToFavouriteGif(
+  embed: WebsiteEmbed,
+): Omit<FavouriteGif, "favouritedAt"> {
+  const preview = embed.video?.url ?? embed.image!.url;
+  const url = embed.originalUrl ?? preview;
+  return {
+    url: url,
+    name: url,
+    preview: preview,
+    image: !embed.video && !!embed.image,
+  };
+}
 
 export class Favourites extends AbstractSyncedStore<
   "favourites",
@@ -53,7 +68,6 @@ export class Favourites extends AbstractSyncedStore<
     const gifs: FavouriteGif[] = [];
     const emojiFavourites: FavouriteEmoji[] = [];
     const emojiUsage: Record<string, EmojiUsage> = {};
-    const now = new Date();
 
     if (Array.isArray(input.gifs)) {
       for (const entry of input.gifs) {
@@ -134,8 +148,13 @@ export class Favourites extends AbstractSyncedStore<
     };
   }
 
-  hasGif(url: string): boolean {
-    return !!this.get().gifs.find((gif) => gif.url === url);
+  /**
+   * Check for favourability of a gif
+   * @param gif The website embed of the gif to check.
+   */
+  hasGif(gif: WebsiteEmbed): boolean {
+    const f = websiteEmbedToFavouriteGif(gif);
+    return !!this.get().gifs.find((g) => g.url === f.url);
   }
 
   private getScore(score: number, elapsed: number): number {
@@ -144,21 +163,17 @@ export class Favourites extends AbstractSyncedStore<
 
   /**
    * Toggle favourability of a gif
-   * @param url Location of the gif to toggle
-   * @param name Gif name. Defaults to the passed url.
-   * @param preview A preview url for the gif. Defaults to the passed url.
+   * @param gif The website embed of the gif to toggle.
    */
-  toggleGif(url: string, name: string = url, preview: string = url) {
+  toggleGif(gif: WebsiteEmbed) {
+    const f = websiteEmbedToFavouriteGif(gif);
     // Check for favourability
-    const i = this.get().gifs.findIndex((gif) => gif.url === url);
+    const i = this.get().gifs.findIndex((g) => g.url === f.url);
     if (i >= 0) {
       this.set("gifs", [...this.get().gifs.toSpliced(i, 1)]);
       return;
     }
-    this.set("gifs", [
-      ...this.get().gifs,
-      { url, name, preview, favouritedAt: new Date() },
-    ]);
+    this.set("gifs", [...this.get().gifs, { ...f, favouritedAt: new Date() }]);
   }
 
   /**

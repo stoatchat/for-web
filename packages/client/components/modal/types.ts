@@ -18,7 +18,7 @@ import {
   Session,
   File as StoatFile,
   User,
-  VideoEmbed,
+  WebsiteEmbed,
 } from "stoat.js";
 
 import type { SettingsConfigurations } from "@revolt/app";
@@ -168,7 +168,7 @@ export type Modals =
   | {
       type: "image_viewer";
       embed?: ImageEmbed;
-      gif?: VideoEmbed;
+      gif?: WebsiteEmbed;
       file?: StoatFile;
       originalUrl?: string;
     }

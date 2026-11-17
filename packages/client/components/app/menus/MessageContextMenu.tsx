@@ -27,11 +27,7 @@ export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
   file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
-  favourite?: {
-    url: string;
-    name?: string;
-    preview?: string;
-  };
+  gif?: WebsiteEmbed;
   link?: string;
 }) {
   const user = useUser();
@@ -241,28 +237,22 @@ export function MessageContextMenu(props: {
   return (
     <ContextMenu>
       <Show when={props.file}>
-        <Show when={props.favourite}>
+        <Show when={props.gif}>
           {(favourite) => (
             <>
               <ContextMenuButton
                 icon={
                   <Symbol
                     size={16}
-                    fill={!state.favourites.hasGif(favourite().url)}
+                    fill={!state.favourites.hasGif(favourite())}
                   >
                     star
                   </Symbol>
                 }
-                onClick={() =>
-                  state.favourites.toggleGif(
-                    favourite().url,
-                    favourite().name,
-                    favourite().preview,
-                  )
-                }
+                onClick={() => state.favourites.toggleGif(favourite())}
               >
                 <Show
-                  when={state.favourites.hasGif(favourite().url)}
+                  when={state.favourites.hasGif(favourite())}
                   fallback={<Trans>Favourite gif</Trans>}
                 >
                   <Trans>Unfavourite gif</Trans>
