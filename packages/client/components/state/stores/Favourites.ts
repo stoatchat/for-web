@@ -33,8 +33,9 @@ export type TypeFavourites = {
 
 function websiteEmbedToFavouriteGif(
   embed: WebsiteEmbed,
-): Omit<FavouriteGif, "favouritedAt"> {
-  const preview = embed.video?.url ?? embed.image!.url;
+): Omit<FavouriteGif, "favouritedAt"> | undefined {
+  const preview = embed.video?.url ?? embed.image?.url;
+  if (!preview) return undefined;
   const url = embed.originalUrl ?? preview;
   return {
     url: url,
@@ -91,6 +92,7 @@ export class Favourites extends AbstractSyncedStore<
           name: entry.name,
           preview: entry.preview,
           favouritedAt: new Date(entry.favouritedAt),
+          image: typeof entry.image === "boolean" ? entry.image : undefined,
         });
       }
     }
@@ -154,7 +156,7 @@ export class Favourites extends AbstractSyncedStore<
    */
   hasGif(gif: WebsiteEmbed): boolean {
     const f = websiteEmbedToFavouriteGif(gif);
-    return !!this.get().gifs.find((g) => g.url === f.url);
+    return !!f && !!this.get().gifs.find((g) => g.url === f.url);
   }
 
   private getScore(score: number, elapsed: number): number {
@@ -167,6 +169,9 @@ export class Favourites extends AbstractSyncedStore<
    */
   toggleGif(gif: WebsiteEmbed) {
     const f = websiteEmbedToFavouriteGif(gif);
+    // If the gif failed to parse, ignore it
+    if (!f) return;
+
     // Check for favourability
     const i = this.get().gifs.findIndex((g) => g.url === f.url);
     if (i >= 0) {

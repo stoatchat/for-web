@@ -418,7 +418,14 @@ function Categories(props: {
               setFilter={props.setFilter}
               setShowFavourites={props.setShowFavourites}
               videoUrl={
-                item.t === 2 ? favourites.mostRecentGif()?.preview : undefined
+                item.t === 2 && !favourites.mostRecentGif()?.image
+                  ? favourites.mostRecentGif()?.preview
+                  : undefined
+              }
+              imageUrl={
+                item.t === 2 && favourites.mostRecentGif()?.image
+                  ? favourites.mostRecentGif()?.preview
+                  : undefined
               }
             />
           )}
@@ -433,6 +440,7 @@ function Category(props: {
   setFilter: Setter<string>;
   setShowFavourites: Setter<boolean>;
   videoUrl?: string;
+  imageUrl?: string;
 }) {
   return (
     <CategoryBox
@@ -442,7 +450,9 @@ function Category(props: {
       style={
         props.item.t === 0
           ? { "background-image": `url("${props.item.category.image}")` }
-          : undefined
+          : props.imageUrl
+            ? { "background-image": `url("${props.imageUrl}")` }
+            : undefined
       }
       onClick={() =>
         props.item.t === 2
