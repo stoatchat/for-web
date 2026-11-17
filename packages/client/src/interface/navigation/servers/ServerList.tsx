@@ -656,7 +656,10 @@ function FolderEntry(props: {
           }}
           use:floating={{
             contextMenu: () => (
-              <ServerFolderContextMenu folder={props.entry.folder} />
+              <ServerFolderContextMenu
+                folder={props.entry.folder}
+                servers={props.entry.servers}
+              />
             ),
           }}
           style={{ color: props.entry.folder.colour ?? undefined }}
