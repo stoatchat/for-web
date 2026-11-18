@@ -8,7 +8,7 @@ import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Symbol, useSnackbar } from "@revolt/ui";
+import { isCustomEmoji, Symbol, useSnackbar } from "@revolt/ui";
 import { MediaPickerProps } from "@revolt/ui/components/features/messaging/composition/picker/CompositionMediaPicker";
 
 import {
@@ -391,7 +391,7 @@ export function MessageContextMenu(props: {
                   onClick={() => props.message!.unreact(key, true)}
                 >
                   <Switch fallback={<UnicodeEmoji emoji={key} />}>
-                    <Match when={key.length === 26}>
+                    <Match when={isCustomEmoji(key)}>
                       <CustomEmoji id={key} />
                     </Match>
                   </Switch>

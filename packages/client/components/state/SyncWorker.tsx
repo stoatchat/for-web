@@ -16,7 +16,7 @@ export function SyncWorker() {
   const client = useClient();
   const { lifecycle } = useClientLifecycle();
 
-  const debouncedSave = throttle(() => state.sync.save(client()), 250);
+  const throttledSave = throttle(() => state.sync.save(client()), 250);
 
   /**
    * Handle incoming events
@@ -48,8 +48,8 @@ export function SyncWorker() {
     on(
       [() => state.sync.shouldSync, lifecycle.state],
       ([shouldSync, newState]) => {
-        if (shouldSync && newState === State.Connected) debouncedSave();
-        if (newState !== State.Connected) debouncedSave.clear();
+        if (shouldSync && newState === State.Connected) throttledSave();
+        if (newState !== State.Connected) throttledSave.clear();
       },
     ),
   );

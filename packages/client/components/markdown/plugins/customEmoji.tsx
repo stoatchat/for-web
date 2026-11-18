@@ -43,7 +43,7 @@ export function RenderCustomEmoji(props: { id: string }) {
         <div
           onClick={(e) => {
             // Yoink logic
-            if (e.altKey && !favourites.emojis().includes(props.id)) {
+            if (e.altKey && !favourites.hasEmoji(props.id)) {
               favourites.toggleEmoji(props.id);
             }
           }}

@@ -40,3 +40,12 @@ export function getEmojiByShorthand(sh: string): EmojiDefinition | undefined {
 export function getEmojiByCodepoint(cp: string): EmojiDefinition | undefined {
   return CODEPOINT_TO_EMOJI[cp];
 }
+
+export function isCustomEmoji(emoji: string): boolean {
+  return (
+    !!emoji &&
+    !getEmojiByCodepoint(emoji) &&
+    !getEmojiByShorthand(emoji) &&
+    emoji.length === 26
+  );
+}

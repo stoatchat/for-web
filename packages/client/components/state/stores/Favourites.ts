@@ -1,4 +1,8 @@
-import { getEmojiByShorthand } from "@revolt/ui";
+import {
+  getEmojiByCodepoint,
+  getEmojiByShorthand,
+  isCustomEmoji,
+} from "@revolt/ui";
 import { WebsiteEmbed } from "stoat.js";
 import { AbstractSyncedStore } from ".";
 import { State } from "..";
@@ -43,6 +47,14 @@ function websiteEmbedToFavouriteGif(
     preview: preview,
     image: !embed.video && !!embed.image,
   };
+}
+
+function normalizeEmoji(emoji: string): string {
+  return (
+    getEmojiByShorthand(emoji)?.shorthands[0] ??
+    getEmojiByCodepoint(emoji)?.shorthands[0] ??
+    emoji
+  );
 }
 
 export class Favourites extends AbstractSyncedStore<
@@ -197,14 +209,13 @@ export class Favourites extends AbstractSyncedStore<
   }
 
   /**
-   * Toggle favourability of an emoji
-   * @param id id of the emoji to toggle
+   * Toggle favourability of an emoji. This function normalizes emoji to the first shorthand.
+   * @param emoji id of the emoji to toggle
    */
-  toggleEmoji(id: string) {
+  toggleEmoji(emoji: string) {
+    const id = normalizeEmoji(emoji);
     // Check for favourability
-    const i = this.get().emojis.favourites.findIndex(
-      (emoji) => emoji.id === id,
-    );
+    const i = this.get().emojis.favourites.findIndex((e) => e.id === id);
     if (i >= 0) {
       this.set("emojis", "favourites", [
         ...this.get().emojis.favourites.toSpliced(i, 1),
@@ -218,14 +229,16 @@ export class Favourites extends AbstractSyncedStore<
   }
 
   /**
-   * Record a use of an emoji, using the recency algorithm
+   * Record a use of an emoji, using the recency algorithm. This function normalizes emoji to the first shorthand.
    * @param emoji The ID of the emoji to record use
    */
   recordUse(emoji: string) {
     const now = new Date();
+    const id = normalizeEmoji(emoji);
+
     const record = this.get().emojis.usageMap;
     const entry = {
-      ...(record[emoji] ?? {
+      ...(record[id] ?? {
         score: 0,
         lastUsed: now,
       }),
@@ -233,7 +246,7 @@ export class Favourites extends AbstractSyncedStore<
     const elapsed = now.getTime() - entry.lastUsed.getTime();
     entry.score = this.getScore(entry.score, elapsed) + 1;
     entry.lastUsed = now;
-    this.set("emojis", "usageMap", { ...record, [emoji]: entry });
+    this.set("emojis", "usageMap", { ...record, [id]: entry });
   }
 
   /**
@@ -251,7 +264,7 @@ export class Favourites extends AbstractSyncedStore<
       ])
       .filter(
         ([emoji]) =>
-          (emoji as string).length === 26 ||
+          isCustomEmoji(emoji as string) ||
           getEmojiByShorthand(emoji as string),
       )
       .sort((a, b) => (b[1] as number) - (a[1] as number))
@@ -259,14 +272,41 @@ export class Favourites extends AbstractSyncedStore<
       .map(([emoji]) => emoji as string);
   }
 
+  /**
+   * Check for favourability of emoji. This function normalizes emoji to the first shorthand.
+   *
+   * @param emoji The ID of the emoji to check
+   * @returns Whether emoji is in favourites
+   */
+  hasEmoji(emoji: string): boolean {
+    const id = normalizeEmoji(emoji);
+    const emojis = this.emojis();
+    return emojis.includes(id);
+  }
+
+  /**
+   * Get all favourite emoji ids. These emojis will be normalized to the first shorthand.
+   *
+   * @returns List of emoji ids that are favourited
+   */
   emojis(): string[] {
     return this.get().emojis.favourites.map((fav) => fav.id);
   }
 
+  /**
+   * Get all favourite gifs
+   *
+   * @returns List of favourite gifs with media urls
+   */
   gifs(): FavouriteGif[] {
     return this.get().gifs;
   }
 
+  /**
+   * Get the most recently favourited gif.
+   *
+   * @returns The most recently favourited gif, or undefined if there are no favourites
+   */
   mostRecentGif(): FavouriteGif | undefined {
     const gifs = this.gifs();
     if (gifs.length === 0) {

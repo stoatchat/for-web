@@ -30,7 +30,6 @@ import {
   Avatar,
   CompositionMediaPicker,
   Embed,
-  getEmojiByCodepoint,
   MessageContainer,
   MessageReply,
   Reactions,
@@ -140,9 +139,7 @@ export function Message(props: Props) {
    */
   const react = (emojiId: string, track = true) => {
     if (track) {
-      const maybeEmoji = getEmojiByCodepoint(emojiId);
-      const id = maybeEmoji?.shorthands[0] ?? emojiId;
-      state.favourites.recordUse(id);
+      state.favourites.recordUse(emojiId);
     }
     return props.message.react(emojiId).catch(showError);
   };

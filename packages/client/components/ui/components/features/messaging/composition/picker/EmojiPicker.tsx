@@ -26,7 +26,12 @@ import {
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
-import { EMOJI_LIST, EMOJI_SET, getEmojiByShorthand } from "@revolt/ui/emojis";
+import {
+  EMOJI_LIST,
+  EMOJI_SET,
+  getEmojiByShorthand,
+  isCustomEmoji,
+} from "@revolt/ui/emojis";
 
 import { EmojiContextMenu } from "@revolt/app/menus/EmojiContextMenu";
 import { Symbol } from "@revolt/ui/components/utils";
@@ -109,7 +114,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
 
   const favouriteEmojis = () =>
     favourites.emojis().filter((id) => {
-      if (id.length === 26) {
+      if (isCustomEmoji(id)) {
         const emoji = client().emojis.get(id);
         if (!emoji) {
           // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
@@ -125,7 +130,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
 
   const topEmoji = () =>
     favourites.topEmoji(colCount() * 3).filter((id) => {
-      if (id.length === 26) {
+      if (isCustomEmoji(id)) {
         const emoji = client().emojis.get(id);
         if (!emoji) {
           // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
@@ -183,7 +188,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
       }
 
       for (const id of favEmojis) {
-        if (id.length === 26) {
+        if (isCustomEmoji(id)) {
           const emoji = client().emojis.get(id);
           items.push({
             t: 2,
@@ -223,7 +228,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
       }
 
       for (const id of top) {
-        if (id.length === 26) {
+        if (isCustomEmoji(id)) {
           const emoji = client().emojis.get(id);
           items.push({
             t: 2,
@@ -644,16 +649,15 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
         }
 
         if (props.item.t === 4) {
-          const id = getEmojiByShorthand(props.item.name)!.shorthands[0];
           // Toggle favourability if alt is held down.
           if (e.altKey) {
-            favourites.toggleEmoji(id);
+            favourites.toggleEmoji(props.item.name);
             return;
           }
           onTextReplacement(
             `${UNICODE_EMOJI_PACK_PUA[settings.getValue("appearance:unicode_emoji")!] ?? ""}${isRegionalIndicator(props.item.text) ? UNICODE_ZWNJ + props.item.text : props.item.text}`,
           );
-          debouncedRecordUse(id);
+          debouncedRecordUse(props.item.name);
         }
       }}
       onMouseEnter={() => {
