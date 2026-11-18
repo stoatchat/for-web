@@ -339,6 +339,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
                 tabIndex={props.tabIndex}
                 item={props.item}
                 onClick={() => {
+                  setFilter("");
                   const asSymbol = props.item as {
                     id: string;
                     symbol: string;

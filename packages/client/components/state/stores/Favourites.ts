@@ -82,7 +82,8 @@ export class Favourites extends AbstractSyncedStore<
           !entry.preview ||
           typeof entry.preview !== "string" ||
           !entry.favouritedAt ||
-          typeof entry.favouritedAt !== "string"
+          typeof entry.favouritedAt !== "string" ||
+          isNaN(new Date(entry.favouritedAt).getTime())
         ) {
           continue;
         }
@@ -128,7 +129,9 @@ export class Favourites extends AbstractSyncedStore<
             !input.emojis.usageMap[usage].lastUsed ||
             typeof input.emojis.usageMap[usage].lastUsed !== "string" ||
             !input.emojis.usageMap[usage].score ||
-            typeof input.emojis.usageMap[usage].score !== "number"
+            typeof input.emojis.usageMap[usage].score !== "number" ||
+            // Drop emoji usages that are extremely rare to trim data.
+            input.emojis.usageMap[usage].score < 0.001
           ) {
             continue;
           }
