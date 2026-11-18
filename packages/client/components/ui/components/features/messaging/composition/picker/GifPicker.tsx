@@ -412,23 +412,26 @@ function Categories(props: {
     <Scroller>
       <CategoryGrid role="list">
         <For each={items()}>
-          {(item) => (
-            <Category
-              item={item}
-              setFilter={props.setFilter}
-              setShowFavourites={props.setShowFavourites}
-              videoUrl={
-                item.t === 2 && !favourites.mostRecentGif()?.image
-                  ? favourites.mostRecentGif()?.preview
-                  : undefined
-              }
-              imageUrl={
-                item.t === 2 && favourites.mostRecentGif()?.image
-                  ? favourites.mostRecentGif()?.preview
-                  : undefined
-              }
-            />
-          )}
+          {(item) => {
+            const mostRecentGif = favourites.mostRecentGif();
+            return (
+              <Category
+                item={item}
+                setFilter={props.setFilter}
+                setShowFavourites={props.setShowFavourites}
+                videoUrl={
+                  item.t === 2 && !mostRecentGif?.image
+                    ? mostRecentGif?.preview
+                    : undefined
+                }
+                imageUrl={
+                  item.t === 2 && mostRecentGif?.image
+                    ? mostRecentGif?.preview
+                    : undefined
+                }
+              />
+            );
+          }}
         </For>
       </CategoryGrid>
     </Scroller>
@@ -661,6 +664,7 @@ function GifLayout(props: {
                   })
                 }
                 preSized
+                noModalOrContextMenu
               />
             </GifTile>
           )}

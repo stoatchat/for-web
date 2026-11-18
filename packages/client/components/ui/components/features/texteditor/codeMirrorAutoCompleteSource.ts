@@ -13,12 +13,12 @@ import {
   UNICODE_EMOJI_PACK_PUA,
   unicodeEmojiUrl,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
 import { useState } from "@revolt/state";
+import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
-import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
-import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 import { isInCodeBlock } from "./codeMirrorCommon";
 
 const MAPPED_EMOJI_KEYS = EMOJI_KEYS.values()

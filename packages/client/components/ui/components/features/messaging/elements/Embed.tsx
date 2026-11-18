@@ -86,7 +86,6 @@ export function Embed(props: { embed: MessageEmbed }) {
             playsinline
             controls
             preload="metadata"
-            // bypass proxy for known GIF providers
             src={video()!.proxiedURL}
             use:floating={{
               contextMenu: () => (

@@ -12,20 +12,24 @@ import {
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
-import type { Channel, Emoji, Server } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import type { Channel, Emoji, Server } from "stoat.js";
+
+import { EmojiContextMenu } from "@revolt/app/menus/EmojiContextMenu";
 import { useClient } from "@revolt/client";
 import { debounce, useDevice } from "@revolt/common";
-import { UNICODE_ZWNJ, UnicodeEmoji } from "@revolt/markdown/emoji";
 import {
   UNICODE_EMOJI_PACK_PUA,
+  UnicodeEmoji,
   isRegionalIndicator,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
+import { Symbol } from "@revolt/ui/components/utils";
 import {
   EMOJI_LIST,
   EMOJI_SET,
@@ -33,8 +37,6 @@ import {
   isCustomEmoji,
 } from "@revolt/ui/emojis";
 
-import { EmojiContextMenu } from "@revolt/app/menus/EmojiContextMenu";
-import { Symbol } from "@revolt/ui/components/utils";
 import {
   CompositionMediaPickerContext,
   compositionContent,
