@@ -4,9 +4,7 @@ import { Motion, Presence } from "solid-motionone";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Breadcrumbs, IconButton, Text } from "@revolt/ui";
-
-import MdClose from "@material-design-icons/svg/outlined/close.svg?component-solid";
+import { Breadcrumbs, IconButton, Symbol, Text } from "@revolt/ui";
 
 import { SettingsList } from "..";
 import { useSettingsNavigation } from "../Settings";
@@ -53,7 +51,7 @@ export function SettingsContent(props: {
         <Show when={props.onClose}>
           <CloseAction class="close">
             <IconButton variant="tonal" onPress={props.onClose}>
-              <MdClose />
+              <Symbol>close</Symbol>
             </IconButton>
           </CloseAction>
         </Show>

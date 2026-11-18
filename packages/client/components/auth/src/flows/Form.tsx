@@ -3,10 +3,9 @@ import { createSignal, For, JSX, Show } from "solid-js";
 
 import { useLingui } from "@lingui/solid/macro";
 
-import { Checkbox, Column, iconSize, Text, TextField } from "@revolt/ui";
+import { Checkbox, Column, Symbol, Text, TextField } from "@revolt/ui";
 import { styled } from "styled-system/jsx";
 
-import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
 import { TranslatedError } from "@revolt/i18n/errors";
 
 import { useFlowBubble } from "./Flow";
@@ -318,11 +317,9 @@ export function Form(props: Props) {
         {props.children}
         <Show when={error()}>
           <ErrorContainer>
-            <MdError
-              {...iconSize("1rem")}
-              fill="currentColor"
-              style={{ "flex-shrink": 0 }}
-            />
+            <Symbol size={16} fill flexShrink="0">
+              error
+            </Symbol>
             <Text class="label" size="small">
               <TranslatedError error={error()} />
             </Text>

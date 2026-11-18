@@ -6,10 +6,7 @@ import { styled } from "styled-system/jsx";
 import { useInstance } from "@revolt/instance";
 import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 import { Ripple, typography } from "@revolt/ui/components/design";
-import { iconSize, OverflowingText, Symbol } from "@revolt/ui/components/utils";
-
-import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-import MdFile from "@material-design-icons/svg/outlined/description.svg?component-solid";
+import { OverflowingText, Symbol } from "@revolt/ui/components/utils";
 
 interface Props {
   /**
@@ -110,7 +107,7 @@ export function FileCarousel(props: Props) {
                       <Switch
                         fallback={
                           <EmptyEntry>
-                            <MdFile {...iconSize(36)} />
+                            <Symbol size={48}>description</Symbol>
                           </EmptyEntry>
                         }
                       >
@@ -158,7 +155,7 @@ export function FileCarousel(props: Props) {
           </For>
           <EmptyEntry onClick={props.addFile}>
             <Ripple />
-            <MdAdd {...iconSize(48)} />
+            <Symbol size={48}>add</Symbol>
           </EmptyEntry>
         </div>
       </Container>

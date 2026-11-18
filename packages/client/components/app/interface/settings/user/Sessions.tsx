@@ -7,12 +7,12 @@ import {
 import { FaBrandsLinux } from "solid-icons/fa";
 import {
   Accessor,
+  createMemo,
   For,
   Match,
+  onMount,
   Show,
   Switch,
-  createMemo,
-  onMount,
 } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
@@ -25,11 +25,9 @@ import {
   CategoryButton,
   CircularProgress,
   Column,
+  Symbol,
   Time,
-  iconSize,
 } from "@revolt/ui";
-
-import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 
 /**
  * Sessions
@@ -95,10 +93,7 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
       {/* <CategoryButton
         action="chevron"
         icon={
-          <MdAutoMode
-            {...iconSize(24)}
-            fill="var(--md-sys-color-error)"
-          />
+          <Symbol size={24}>auto_mode</Symbol>
         }
         description={Keeps your last sessions active and automatically logs you out of other ones"}
       >
@@ -113,7 +108,11 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
               client: client(),
             })
           }
-          icon={<MdLogout {...iconSize(24)} fill="var(--md-sys-color-error)" />}
+          icon={
+            <Symbol size={22} color={"var(--md-sys-color-error)"}>
+              logout
+            </Symbol>
+          }
           description={
             <Trans>Logs you out of all sessions except this device.</Trans>
           }

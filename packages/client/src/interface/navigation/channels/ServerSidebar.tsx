@@ -28,18 +28,13 @@ import {
   MenuButton,
   OverflowingText,
   Row,
+  Symbol,
   Tooltip,
-  iconSize,
-  symbolSize,
   typography,
 } from "@revolt/ui";
 import { UnreadCallout } from "@revolt/ui/components/features/navigation/UnreadCallout";
 import { VoiceChannelPreview } from "@revolt/ui/components/features/voice/VoiceChannelPreview";
 import { createDragHandle } from "@revolt/ui/components/utils/Draggable";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdChevronRight from "@material-design-icons/svg/filled/chevron_right.svg?component-solid";
-import MdSettings from "@material-symbols/svg-400/outlined/settings-fill.svg?component-solid";
 
 import { SidebarBase } from "./common";
 import {
@@ -335,7 +330,9 @@ function ServerInfo(
           variant={props.server.banner ? "_header" : "standard"}
           onPress={props.openServerSettings}
         >
-          <MdSettings {...symbolSize(24)} />
+          <Symbol size={24} fill>
+            settings
+          </Symbol>
         </IconButton>
       </Show>
     </Row>
@@ -419,7 +416,9 @@ function Category(
             {...createDragHandle(props.dragDisabled, props.setDragDisabled)}
           >
             {props.category.title}
-            <MdChevronRight {...iconSize(12)} />
+            <Symbol size={12} fill>
+              chevron_right
+            </Symbol>
           </CategoryBase>
         </div>
       </Show>
@@ -499,14 +498,14 @@ const CategoryBase = styled("div", {
       "--color": "var(--md-sys-color-on-surface-variant)",
     },
 
-    "& svg": {
+    "& .material-symbols-outlined": {
       transition: "var(--transitions-fast) transform",
     },
   },
   variants: {
     open: {
       true: {
-        "& svg": {
+        "& .material-symbols-outlined": {
           transform: "rotateZ(90deg)",
         },
       },

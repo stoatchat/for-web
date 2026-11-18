@@ -17,12 +17,10 @@ import {
   Form2,
   IconButton,
   Row,
+  Symbol,
   Text,
   TextField,
-  iconSize,
 } from "@revolt/ui";
-
-import Face from "@material-design-icons/svg/filled/face.svg?component-solid";
 
 const NewComponent = styled("div", {
   base: {
@@ -125,33 +123,33 @@ export function DevelopmentPage() {
 
       <Row align>
         <IconButton variant="filled">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton variant="tonal">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton variant="outlined">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton variant="standard">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
       </Row>
       <Row align>
         <IconButton size="xs" shape="square">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton size="sm" shape="square">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton size="md" shape="square">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton size="lg" shape="square">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
         <IconButton size="xl" shape="square">
-          <Face />
+          <Symbol fill>face</Symbol>
         </IconButton>
       </Row>
 
@@ -186,9 +184,12 @@ export function DevelopmentPage() {
           height: "480px",
           display: "grid",
           "place-items": "center",
+          color: "red",
         }}
       >
-        <Face fill="red" {...iconSize(128)} />
+        <Symbol size={128} fill>
+          face
+        </Symbol>
       </div>
 
       <TextField
