@@ -107,7 +107,8 @@ export class Favourites extends AbstractSyncedStore<
             !entry.id ||
             typeof entry.id !== "string" ||
             !entry.favouritedAt ||
-            typeof entry.favouritedAt !== "string"
+            typeof entry.favouritedAt !== "string" ||
+            isNaN(new Date(entry.favouritedAt).getTime())
           ) {
             continue;
           }
@@ -128,16 +129,27 @@ export class Favourites extends AbstractSyncedStore<
             typeof input.emojis.usageMap[usage] !== "object" ||
             !input.emojis.usageMap[usage].lastUsed ||
             typeof input.emojis.usageMap[usage].lastUsed !== "string" ||
+            isNaN(new Date(input.emojis.usageMap[usage].lastUsed).getTime()) ||
             !input.emojis.usageMap[usage].score ||
-            typeof input.emojis.usageMap[usage].score !== "number" ||
-            // Drop emoji usages that are extremely rare to trim data.
-            input.emojis.usageMap[usage].score < 0.001
+            typeof input.emojis.usageMap[usage].score !== "number"
+          ) {
+            continue;
+          }
+
+          const lastUsed = new Date(input.emojis.usageMap[usage].lastUsed);
+
+          // Drop emoji usages that are extremely rare to trim data.
+          if (
+            this.getScore(
+              input.emojis.usageMap[usage].score,
+              new Date().getTime() - lastUsed.getTime(),
+            ) < 0.001
           ) {
             continue;
           }
 
           emojiUsage[usage] = {
-            lastUsed: new Date(input.emojis.usageMap[usage].lastUsed),
+            lastUsed: lastUsed,
             score: input.emojis.usageMap[usage].score,
           };
         }
