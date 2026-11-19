@@ -1,21 +1,24 @@
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Accessor, For, Match, Show, Switch } from "solid-js";
 
 import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
-import { Trans, useLingui } from "@lingui/solid/macro";
 import { useClient, useUser } from "@revolt/client";
 import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Symbol, useSnackbar } from "@revolt/ui";
+import { isCustomEmoji, Symbol, useSnackbar } from "@revolt/ui";
 import { MediaPickerProps } from "@revolt/ui/components/features/messaging/composition/picker/CompositionMediaPicker";
+
 import {
   ContextMenu,
   ContextMenuButton,
   ContextMenuDivider,
   ContextMenuSubMenu,
 } from "./ContextMenu";
+
+// TODO: This context menu should really be split out into two, a message and a file menu.
 
 /**
  * Context menu for messages
@@ -24,6 +27,7 @@ export function MessageContextMenu(props: {
   message?: Message;
   reactPicker?: Accessor<MediaPickerProps | undefined>;
   file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
+  gif?: WebsiteEmbed;
   link?: string;
 }) {
   const user = useUser();
@@ -233,6 +237,31 @@ export function MessageContextMenu(props: {
   return (
     <ContextMenu>
       <Show when={props.file}>
+        <Show when={props.gif}>
+          {(favourite) => (
+            <>
+              <ContextMenuButton
+                icon={
+                  <Symbol
+                    size={16}
+                    fill={!state.favourites.hasGif(favourite())}
+                  >
+                    star
+                  </Symbol>
+                }
+                onClick={() => state.favourites.toggleGif(favourite())}
+              >
+                <Show
+                  when={state.favourites.hasGif(favourite())}
+                  fallback={<Trans>Favourite Gif</Trans>}
+                >
+                  <Trans>Unfavourite Gif</Trans>
+                </Show>
+              </ContextMenuButton>
+              <ContextMenuDivider />
+            </>
+          )}
+        </Show>
         <ContextMenuButton
           icon={<Symbol size={16}>open_in_new</Symbol>}
           onClick={openFile}
@@ -362,7 +391,7 @@ export function MessageContextMenu(props: {
                   onClick={() => props.message!.unreact(key, true)}
                 >
                   <Switch fallback={<UnicodeEmoji emoji={key} />}>
-                    <Match when={key.length === 26}>
+                    <Match when={isCustomEmoji(key)}>
                       <CustomEmoji id={key} />
                     </Match>
                   </Switch>

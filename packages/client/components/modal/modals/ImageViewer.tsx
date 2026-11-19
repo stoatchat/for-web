@@ -191,24 +191,56 @@ export function ImageViewerModal(
                   />
                 </Match>
                 <Match when={props.gif}>
-                  <video
-                    class={Video()}
-                    ref={setRef}
-                    use:floating={{
-                      contextMenu: () => (
-                        <MessageContextMenu file={props.gif} />
-                      ),
-                    }}
-                    playsinline
-                    loop
-                    muted
-                    autoplay
-                    style={{
-                      "aspect-ratio": `${props.gif!.width}/${props.gif!.height}`,
-                    }}
-                    src={props.gif!.url}
-                    onClick={(e) => e.stopPropagation()}
-                  />
+                  {(gif) => (
+                    <Switch>
+                      <Match when={gif().video}>
+                        {(video) => (
+                          <video
+                            class={Video()}
+                            ref={setRef}
+                            use:floating={{
+                              contextMenu: () => (
+                                <MessageContextMenu
+                                  file={video()}
+                                  gif={gif()}
+                                />
+                              ),
+                            }}
+                            playsinline
+                            loop
+                            muted
+                            autoplay
+                            style={{
+                              "aspect-ratio": `${video().width}/${video().height}`,
+                            }}
+                            src={video().url}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        )}
+                      </Match>
+                      <Match when={gif().image}>
+                        {(image) => (
+                          <img
+                            class={Image()}
+                            ref={setRef}
+                            use:floating={{
+                              contextMenu: () => (
+                                <MessageContextMenu
+                                  file={image()}
+                                  gif={gif()}
+                                />
+                              ),
+                            }}
+                            style={{
+                              "aspect-ratio": `${image().width}/${image().height}`,
+                            }}
+                            src={image().url}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        )}
+                      </Match>
+                    </Switch>
+                  )}
                 </Match>
               </Switch>
               <div />

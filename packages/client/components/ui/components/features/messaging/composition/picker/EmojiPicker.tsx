@@ -12,22 +12,30 @@ import {
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { createResizeObserver } from "@solid-primitives/resize-observer";
-import type { Channel, Emoji, Server } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import type { Channel, Emoji, Server } from "stoat.js";
+
+import { EmojiContextMenu } from "@revolt/app/menus/EmojiContextMenu";
 import { useClient } from "@revolt/client";
-import { useDevice } from "@revolt/common";
-import { UnicodeEmoji } from "@revolt/markdown/emoji";
+import { debounce, useDevice } from "@revolt/common";
 import {
   UNICODE_EMOJI_PACK_PUA,
-  UNICODE_ZWNJ,
+  UnicodeEmoji,
   isRegionalIndicator,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
 import { useState } from "@revolt/state";
 import { Avatar, Ripple, TextField } from "@revolt/ui/components/design";
 import { Row } from "@revolt/ui/components/layout";
-import { EMOJI_MAP, EMOJI_MAP_DEDUPE } from "@revolt/ui/emojis";
+import { Symbol } from "@revolt/ui/components/utils";
+import {
+  EMOJI_LIST,
+  EMOJI_SET,
+  getEmojiByShorthand,
+  isCustomEmoji,
+} from "@revolt/ui/emojis";
 
 import {
   CompositionMediaPickerContext,
@@ -54,6 +62,7 @@ type Item =
        */
       t: 2;
       emoji: Emoji;
+      favourited: boolean;
     }
   | {
       /**
@@ -61,6 +70,9 @@ type Item =
        */
       t: 3;
       title: string;
+      id: string;
+      symbol?: string;
+      fill?: boolean;
     }
   | {
       /**
@@ -69,6 +81,7 @@ type Item =
       t: 4;
       name: string;
       text: string;
+      favourited: boolean;
     };
 
 const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
@@ -78,7 +91,7 @@ const [hoveredItem, setHoveredItem] = createSignal<Item | null>(null);
  */
 export function EmojiPicker(props: { channel?: Channel }) {
   const client = useClient();
-  const { ordering, settings } = useState();
+  const { favourites, ordering, settings } = useState();
   const { isMobile } = useDevice();
   const { t } = useLingui();
 
@@ -101,20 +114,53 @@ export function EmojiPicker(props: { channel?: Channel }) {
       : ordering.orderedServers(client()),
   );
 
+  const favouriteEmojis = () =>
+    favourites.emojis().filter((id) => {
+      if (isCustomEmoji(id)) {
+        const emoji = client().emojis.get(id);
+        if (!emoji) {
+          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
+          return false;
+        }
+      }
+      return true;
+    });
+
+  // faster lookups for items below (expensive operation)
+  const favSet = createMemo(() => new Set(favouriteEmojis()));
+
+  const topEmoji = () =>
+    favourites.topEmoji(colCount() * 3).filter((id) => {
+      if (isCustomEmoji(id)) {
+        const emoji = client().emojis.get(id);
+        if (!emoji) {
+          // If the emoji doesn't exist anymore just ignore it, it'll go away eventually.
+          return false;
+        }
+      }
+      return true;
+    });
+
   const items = createMemo(() => {
     const cols = colCount();
     if (!cols) return [];
 
     const filterText = filter().toLowerCase();
 
+    const favEmojis = favSet();
+
     if (filterText) {
       return [
         ...servers().flatMap((server) =>
           server.emojis
             .filter((emoji) => emoji.name.toLowerCase().includes(filterText))
-            .map((emoji) => ({ t: 2, emoji })),
+            .map((emoji) => ({
+              t: 2,
+              emoji,
+              favourited: favEmojis.has(emoji.id),
+            })),
         ),
-        ...EMOJI_MAP_DEDUPE.filter(
+        ...EMOJI_SET.filter(
           (ed) =>
             ed.shorthands.filter((sh) => sh.toLowerCase().includes(filterText))
               .length > 0,
@@ -122,11 +168,89 @@ export function EmojiPicker(props: { channel?: Channel }) {
           t: 4,
           name: ed.shorthands[0],
           text: ed.emoji,
+          favourited: favEmojis.has(ed.shorthands[0]),
         })),
       ] as Item[];
     }
 
     const items: Item[] = [];
+
+    if (favEmojis.size > 0) {
+      items.push({
+        t: 3,
+        title: t`Favourites`,
+        id: "favourites",
+        symbol: "star",
+        fill: true,
+      });
+
+      while (items.length % cols) {
+        items.push({ t: 1 });
+      }
+
+      for (const id of favEmojis) {
+        if (isCustomEmoji(id)) {
+          const emoji = client().emojis.get(id);
+          items.push({
+            t: 2,
+            emoji: emoji!,
+            favourited: true,
+          });
+        } else {
+          const emoji = getEmojiByShorthand(id);
+          // Stale emoji shorthand detection
+          if (!emoji) continue;
+          items.push({
+            t: 4,
+            name: emoji.shorthands[0],
+            text: emoji.emoji,
+            favourited: true,
+          });
+        }
+      }
+
+      while (items.length % cols) {
+        items.push({ t: 1 });
+      }
+    }
+
+    const top = topEmoji();
+
+    if (top.length > 0) {
+      items.push({
+        t: 3,
+        title: t`Frequently Used`,
+        id: "top",
+        symbol: "history",
+      });
+
+      while (items.length % cols) {
+        items.push({ t: 1 });
+      }
+
+      for (const id of top) {
+        if (isCustomEmoji(id)) {
+          const emoji = client().emojis.get(id);
+          items.push({
+            t: 2,
+            emoji: emoji!,
+            favourited: favEmojis.has(id),
+          });
+        } else {
+          const emoji = getEmojiByShorthand(id)!;
+          items.push({
+            t: 4,
+            name: emoji.shorthands[0],
+            text: emoji.emoji,
+            favourited: favEmojis.has(emoji.shorthands[0]),
+          });
+        }
+      }
+
+      while (items.length % cols) {
+        items.push({ t: 1 });
+      }
+    }
 
     for (const server of servers()) {
       const emojis = server.emojis;
@@ -143,7 +267,11 @@ export function EmojiPicker(props: { channel?: Channel }) {
       }
 
       for (const emoji of emojis) {
-        items.push({ t: 2, emoji });
+        items.push({
+          t: 2,
+          emoji,
+          favourited: favEmojis.has(emoji.id),
+        });
       }
 
       while (items.length % cols) {
@@ -153,18 +281,20 @@ export function EmojiPicker(props: { channel?: Channel }) {
 
     items.push({
       t: 3,
-      title: "Default",
+      title: t`Default`,
+      id: "default",
     });
 
     while (items.length % cols) {
       items.push({ t: 1 });
     }
 
-    for (const emoji of EMOJI_MAP) {
+    for (const emoji of EMOJI_LIST) {
       items.push({
         t: 4,
         name: emoji.shorthands[0],
         text: emoji.emoji,
+        favourited: favEmojis.has(emoji.shorthands[0]),
       });
     }
 
@@ -182,7 +312,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
       <TextField
         autoFocus={!isMobile}
         variant="outlined"
-        placeholder="Search for emojis..."
+        placeholder={t`Search for emojis...`}
         value={filter()}
         onInput={(e) => setFilter(e.currentTarget.value)}
         class={searchBar}
@@ -195,7 +325,36 @@ export function EmojiPicker(props: { channel?: Channel }) {
           }}
         >
           <VirtualContainer
-            items={servers().filter((s) => s.emojis.length > 0)}
+            items={[
+              ...(favouriteEmojis().length > 0
+                ? [
+                    {
+                      type: "section",
+                      id: "favourites",
+                      symbol: "star",
+                      fill: true,
+                    } as SidebarSection,
+                  ]
+                : []),
+              ...(topEmoji().length > 0
+                ? [
+                    {
+                      type: "section",
+                      id: "top",
+                      symbol: "history",
+                      fill: false,
+                    } as SidebarSection,
+                  ]
+                : []),
+              ...servers().filter((s) => s.emojis.length > 0),
+              // TODO: Set up emoji groupings and put them in the scroller like other platforms do
+              {
+                type: "section",
+                id: "default",
+                symbol: "mood",
+                fill: true,
+              } as SidebarSection,
+            ]}
             scrollTarget={serverScrollTargetElement}
             itemSize={{ height: 40 }}
           >
@@ -205,9 +364,17 @@ export function EmojiPicker(props: { channel?: Channel }) {
                 tabIndex={props.tabIndex}
                 item={props.item}
                 onClick={() => {
-                  const idx = items().findIndex(
-                    (item) => item.t === 0 && item.server.id === props.item.id,
-                  );
+                  setFilter("");
+                  const asSection = props.item as SidebarSection;
+                  const isSection = asSection.type === "section";
+                  const asServer = props.item as Server;
+
+                  const idx = items().findIndex((item) => {
+                    if (isSection) {
+                      return item.t === 3 && item.id === asSection.id;
+                    }
+                    return item.t === 0 && item.server.id === asServer.id;
+                  });
                   if (idx !== -1 && emojiScrollTargetElement) {
                     emojiScrollTargetElement.scrollTop =
                       Math.floor(idx / colCount()) * 40;
@@ -257,10 +424,26 @@ export function EmojiPicker(props: { channel?: Channel }) {
                       <PreviewName>
                         <Switch>
                           <Match when={item().t === 2}>
-                            :{(item() as Item & { t: 2 }).emoji.name}:
+                            <Row align gap="sm">
+                              <Show
+                                when={(item() as Item & { t: 2 }).favourited}
+                              >
+                                <Symbol fill={true}>star</Symbol>
+                              </Show>
+                              <span>
+                                :{(item() as Item & { t: 2 }).emoji.name}:
+                              </span>
+                            </Row>
                           </Match>
                           <Match when={item().t === 4}>
-                            :{(item() as Item & { t: 4 }).name}:
+                            <Row align gap="sm">
+                              <Show
+                                when={(item() as Item & { t: 4 }).favourited}
+                              >
+                                <Symbol fill={true}>star</Symbol>
+                              </Show>
+                              <span>:{(item() as Item & { t: 4 }).name}:</span>
+                            </Row>
                           </Match>
                         </Switch>
                       </PreviewName>
@@ -347,28 +530,50 @@ const scrollContainer = cva({
   },
 });
 
+type SidebarSection = {
+  type: "section";
+  id: string;
+  symbol: string;
+  fill: boolean;
+};
+
 const ServerItem = (props: {
   style: unknown;
   tabIndex: number;
-  item: Server;
+  item: Server | SidebarSection;
   onClick: (e: MouseEvent) => void;
-}) => (
-  <ServerOption
-    style={props.style as never}
-    tabIndex={props.tabIndex}
-    role="listitem"
-    onClick={(e) => {
-      e.stopPropagation();
-      props.onClick(e);
-    }}
-  >
-    <Avatar
-      size={32}
-      src={props.item.animatedIconURL}
-      fallback={props.item.name}
-    />
-  </ServerOption>
-);
+}) => {
+  const asSection = () => props.item as SidebarSection;
+  const asServer = () => props.item as Server;
+  const isSection = () => asSection().type === "section";
+
+  return (
+    <ServerOption
+      style={props.style as never}
+      tabIndex={props.tabIndex}
+      role="listitem"
+      onClick={(e) => {
+        e.stopPropagation();
+        props.onClick(e);
+      }}
+    >
+      <Show
+        when={isSection()}
+        fallback={
+          <Avatar
+            size={32}
+            src={asServer().animatedIconURL}
+            fallback={asServer().name}
+          />
+        }
+      >
+        <Symbol fill={asSection().fill} size={32}>
+          {asSection().symbol}
+        </Symbol>
+      </Show>
+    </ServerOption>
+  );
+};
 
 const ServerOption = styled("div", {
   base: {
@@ -441,8 +646,14 @@ const PreviewFrom = styled("span", {
 });
 
 const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
-  const state = useState();
+  const { settings, favourites } = useState();
   const { onTextReplacement } = useContext(CompositionMediaPickerContext);
+
+  // Debounce usage tracking to prevent spamclicks from counting as use
+  const debouncedRecordUse = debounce(
+    (id: string) => favourites.recordUse(id),
+    1000,
+  );
 
   return (
     <EmojiOption
@@ -450,15 +661,27 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
       type={props.item.t}
       tabIndex={props.tabIndex}
       role="listitem"
-      onClick={() => {
+      onClick={(e) => {
         if (props.item.t === 2) {
+          // Toggle favourability if alt is held down.
+          if (e.altKey) {
+            favourites.toggleEmoji(props.item.emoji.id);
+            return;
+          }
           onTextReplacement(`:${props.item.emoji.id}:`);
+          debouncedRecordUse(props.item.emoji.id);
         }
 
         if (props.item.t === 4) {
+          // Toggle favourability if alt is held down.
+          if (e.altKey) {
+            favourites.toggleEmoji(props.item.name);
+            return;
+          }
           onTextReplacement(
-            `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${isRegionalIndicator(props.item.text) ? UNICODE_ZWNJ + props.item.text : props.item.text}`,
+            `${UNICODE_EMOJI_PACK_PUA[settings.getValue("appearance:unicode_emoji")!] ?? ""}${isRegionalIndicator(props.item.text) ? UNICODE_ZWNJ + props.item.text : props.item.text}`,
           );
+          debouncedRecordUse(props.item.name);
         }
       }}
       onMouseEnter={() => {
@@ -473,19 +696,43 @@ const EmojiItem = (props: { style: unknown; tabIndex: number; item: Item }) => {
         <Match when={props.item.t === 2}>
           <Ripple />
           <Show keyed when={(props.item as Item & { t: 2 }).emoji.id}>
-            <img src={(props.item as Item & { t: 2 }).emoji.url} />
+            <img
+              use:floating={{
+                contextMenu: () => (
+                  <EmojiContextMenu
+                    id={(props.item as Item & { t: 2 }).emoji.id}
+                  />
+                ),
+              }}
+              src={(props.item as Item & { t: 2 }).emoji.url}
+            />
           </Show>
         </Match>
         <Match when={props.item.t === 3}>
-          <span>{(props.item as Item & { t: 3 }).title}</span>
+          <Row align>
+            <Show when={(props.item as Item & { t: 3 }).symbol}>
+              <Symbol fill={(props.item as Item & { t: 3 }).fill}>
+                {(props.item as Item & { t: 3 }).symbol}
+              </Symbol>
+            </Show>
+            <span>{(props.item as Item & { t: 3 }).title}</span>
+          </Row>
         </Match>
         <Match when={props.item.t === 4}>
           <Ripple />
           <Show keyed when={(props.item as Item & { t: 4 }).text}>
-            <UnicodeEmoji
-              emoji={(props.item as Item & { t: 4 }).text}
-              pack={state.settings.getValue("appearance:unicode_emoji")}
-            />
+            <span
+              use:floating={{
+                contextMenu: () => (
+                  <EmojiContextMenu id={(props.item as Item & { t: 4 }).name} />
+                ),
+              }}
+            >
+              <UnicodeEmoji
+                emoji={(props.item as Item & { t: 4 }).text}
+                pack={settings.getValue("appearance:unicode_emoji")}
+              />
+            </span>
           </Show>
         </Match>
       </Switch>

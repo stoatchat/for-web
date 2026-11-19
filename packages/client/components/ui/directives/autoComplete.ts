@@ -2,7 +2,12 @@ import { Accessor, createSignal, JSX, onCleanup } from "solid-js";
 
 import { Channel, Client, ServerMember, ServerRole, User } from "stoat.js";
 
-import { EMOJI_KEYS, getEmojiByShorthand, MAPPED_EMOJI_KEYS } from "../emojis";
+import {
+  EMOJI_KEYS,
+  getEmojiByShorthand,
+  isCustomEmoji,
+  MAPPED_EMOJI_KEYS,
+} from "../emojis";
 import { registerFloatingElement, unregisterFloatingElement } from "./floating";
 
 type Operator = "@" | ":" | "#" | "%";
@@ -292,7 +297,7 @@ function searchMatches(
       matched: "emoji",
       length: query.length + 1,
       matches: matches.map((id) =>
-        id.length === 26
+        isCustomEmoji(id)
           ? {
               type: "custom",
               id,

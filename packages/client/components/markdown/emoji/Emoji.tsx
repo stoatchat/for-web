@@ -2,6 +2,7 @@ import { Match, Switch } from "solid-js";
 
 import { styled } from "styled-system/jsx";
 
+import { isCustomEmoji } from "@revolt/ui";
 import { CustomEmoji, UnicodeEmoji } from ".";
 
 /**
@@ -36,7 +37,7 @@ export const EmojiBase = styled("img", {
 export function Emoji(props: { emoji: string }) {
   return (
     <Switch fallback={<UnicodeEmoji emoji={props.emoji} />}>
-      <Match when={props.emoji.length === 26}>
+      <Match when={isCustomEmoji(props.emoji)}>
         <CustomEmoji id={props.emoji} />
       </Match>
     </Switch>

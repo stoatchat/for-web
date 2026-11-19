@@ -134,9 +134,15 @@ export function Message(props: Props) {
 
   /**
    * React with an emoji
-   * @param emoji Emoji
+   * @param emojiId Emoji
+   * @param track Whether to track this as a usage
    */
-  const react = (emoji: string) => props.message.react(emoji).catch(showError);
+  const react = (emojiId: string, track = true) => {
+    if (track) {
+      state.favourites.recordUse(emojiId);
+    }
+    return props.message.react(emojiId).catch(showError);
+  };
 
   /**
    * Remove emoji reaction
@@ -371,6 +377,7 @@ export function Message(props: Props) {
                 : startsWithPackPUA(emoji)
                   ? emoji.slice(1)
                   : emoji,
+              false,
             )
           }
         >

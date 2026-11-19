@@ -1,10 +1,11 @@
+import { throttle } from "@solid-primitives/scheduled";
 import { createEffect, on, onCleanup } from "solid-js";
 
 import { ProtocolV1 } from "stoat.js";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
-
 import { State } from "@revolt/client/Controller";
+
 import { useState } from ".";
 
 /**
@@ -14,6 +15,8 @@ export function SyncWorker() {
   const state = useState();
   const client = useClient();
   const { lifecycle } = useClientLifecycle();
+
+  const throttledSave = throttle(() => state.sync.save(client()), 250);
 
   /**
    * Handle incoming events
@@ -44,8 +47,10 @@ export function SyncWorker() {
   createEffect(
     on(
       [() => state.sync.shouldSync, lifecycle.state],
-      ([shouldSync, newState]) =>
-        shouldSync && newState === State.Connected && state.sync.save(client()),
+      ([shouldSync, newState]) => {
+        if (shouldSync && newState === State.Connected) throttledSave();
+        if (newState !== State.Connected) throttledSave.clear();
+      },
     ),
   );
 

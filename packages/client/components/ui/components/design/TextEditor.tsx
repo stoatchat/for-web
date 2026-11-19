@@ -51,7 +51,11 @@ import { useState } from "@revolt/state";
 
 import { AutoCompleteSearchSpace } from "../utils/autoComplete";
 
-import { getEmojiByShorthand, MAPPED_EMOJI_KEYS } from "@revolt/ui";
+import {
+  getEmojiByShorthand,
+  isCustomEmoji,
+  MAPPED_EMOJI_KEYS,
+} from "@revolt/ui";
 import { Avatar } from "./Avatar";
 import { typography } from "./Text";
 
@@ -289,7 +293,7 @@ export function TextEditor(props: Props) {
             if (emote.name.includes(query)) {
               const id = emote.id;
               matches.push(
-                id.length === 26
+                isCustomEmoji(id)
                   ? {
                       type: "custom",
                       id,
