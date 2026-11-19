@@ -253,9 +253,9 @@ export function MessageContextMenu(props: {
               >
                 <Show
                   when={state.favourites.hasGif(favourite())}
-                  fallback={<Trans>Favourite gif</Trans>}
+                  fallback={<Trans>Favourite Gif</Trans>}
                 >
-                  <Trans>Unfavourite gif</Trans>
+                  <Trans>Unfavourite Gif</Trans>
                 </Show>
               </ContextMenuButton>
               <ContextMenuDivider />

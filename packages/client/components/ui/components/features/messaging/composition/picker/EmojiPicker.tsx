@@ -126,8 +126,7 @@ export function EmojiPicker(props: { channel?: Channel }) {
       return true;
     });
 
-  // favouriteEmojis above rebuilds every time the favourites store changes. This set makes
-  // the items memo only recalculate if the favourite emojis actually change.
+  // faster lookups for items below (expensive operation)
   const favSet = createMemo(() => new Set(favouriteEmojis()));
 
   const topEmoji = () =>
@@ -328,14 +327,33 @@ export function EmojiPicker(props: { channel?: Channel }) {
           <VirtualContainer
             items={[
               ...(favouriteEmojis().length > 0
-                ? [{ id: "favourites", symbol: "star", fill: true }]
+                ? [
+                    {
+                      type: "section",
+                      id: "favourites",
+                      symbol: "star",
+                      fill: true,
+                    } as SidebarSection,
+                  ]
                 : []),
               ...(topEmoji().length > 0
-                ? [{ id: "top", symbol: "history", fill: false }]
+                ? [
+                    {
+                      type: "section",
+                      id: "top",
+                      symbol: "history",
+                      fill: false,
+                    } as SidebarSection,
+                  ]
                 : []),
               ...servers().filter((s) => s.emojis.length > 0),
               // TODO: Set up emoji groupings and put them in the scroller like other platforms do
-              { id: "default", symbol: "mood", fill: true },
+              {
+                type: "section",
+                id: "default",
+                symbol: "mood",
+                fill: true,
+              } as SidebarSection,
             ]}
             scrollTarget={serverScrollTargetElement}
             itemSize={{ height: 40 }}
@@ -347,17 +365,13 @@ export function EmojiPicker(props: { channel?: Channel }) {
                 item={props.item}
                 onClick={() => {
                   setFilter("");
-                  const asSymbol = props.item as {
-                    id: string;
-                    symbol: string;
-                    fill: boolean;
-                  };
-                  const isSymbol = !!asSymbol.symbol;
+                  const asSection = props.item as SidebarSection;
+                  const isSection = asSection.type === "section";
                   const asServer = props.item as Server;
 
                   const idx = items().findIndex((item) => {
-                    if (isSymbol) {
-                      return item.t === 3 && item.id === asSymbol.id;
+                    if (isSection) {
+                      return item.t === 3 && item.id === asSection.id;
                     }
                     return item.t === 0 && item.server.id === asServer.id;
                   });
@@ -516,17 +530,22 @@ const scrollContainer = cva({
   },
 });
 
+type SidebarSection = {
+  type: "section";
+  id: string;
+  symbol: string;
+  fill: boolean;
+};
+
 const ServerItem = (props: {
   style: unknown;
   tabIndex: number;
-  item: Server | { symbol: string };
+  item: Server | SidebarSection;
   onClick: (e: MouseEvent) => void;
 }) => {
-  const asSymbol = () =>
-    props.item as { id: string; symbol: string; fill: boolean };
+  const asSection = () => props.item as SidebarSection;
   const asServer = () => props.item as Server;
-
-  const isSymbol = () => !!asSymbol().symbol;
+  const isSection = () => asSection().type === "section";
 
   return (
     <ServerOption
@@ -538,17 +557,20 @@ const ServerItem = (props: {
         props.onClick(e);
       }}
     >
-      {isSymbol() ? (
-        <Symbol fill={asSymbol().fill} size={32}>
-          {asSymbol().symbol}
+      <Show
+        when={isSection()}
+        fallback={
+          <Avatar
+            size={32}
+            src={asServer().animatedIconURL}
+            fallback={asServer().name}
+          />
+        }
+      >
+        <Symbol fill={asSection().fill} size={32}>
+          {asSection().symbol}
         </Symbol>
-      ) : (
-        <Avatar
-          size={32}
-          src={asServer().animatedIconURL}
-          fallback={asServer().name}
-        />
-      )}
+      </Show>
     </ServerOption>
   );
 };

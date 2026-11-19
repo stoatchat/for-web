@@ -460,7 +460,7 @@ function Category(props: {
       onClick={() =>
         props.item.t === 2
           ? props.setShowFavourites(true)
-          : props.setFilter!(
+          : props.setFilter(
               props.item.t === 0 ? props.item.category.title : "trending",
             )
       }

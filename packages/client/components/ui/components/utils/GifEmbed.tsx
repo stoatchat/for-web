@@ -168,7 +168,7 @@ export function GifFavouriter(props: { gif: WebsiteEmbed }) {
 const GifFavouriterSpan = styled("span", {
   base: {
     position: "absolute",
-    margin: "15px",
+    margin: "var(--gap-lg)",
     padding: "var(--gap-sm)",
     backgroundColor: "var(--md-sys-color-surface-container-high)",
     borderRadius: "var(--borderRadius-sm)",
