@@ -1,21 +1,12 @@
 import { useFloating } from "solid-floating-ui";
-import {
-  Component,
-  ComponentProps,
-  createSignal,
-  JSX,
-  Show,
-  splitProps,
-} from "solid-js";
+import { ComponentProps, createSignal, JSX, Show, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
 import { styled } from "styled-system/jsx";
 
-import { iconSize, symbolSize, Text, useActionSheet } from "@revolt/ui";
-
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
+import { Symbol, Text, useActionSheet } from "@revolt/ui";
 
 const Base = styled("div", {
   base: {
@@ -125,37 +116,19 @@ export const ContextMenuItem = styled("a", {
 });
 
 type ButtonProps = ComponentProps<typeof ContextMenuItem> & {
-  icon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  symbol?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  icon?: JSX.Element;
   destructive?: boolean;
-  actionIcon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  actionSymbol?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  actionIcon?: JSX.Element;
 };
 
 export function ContextMenuButton(props: ButtonProps) {
-  const [local, remote] = splitProps(props, [
-    "icon",
-    "symbol",
-    "actionIcon",
-    "actionSymbol",
-    "children",
-  ]);
+  const [local, remote] = splitProps(props, ["icon", "actionIcon", "children"]);
 
   return (
     <ContextMenuItem button {...remote}>
-      {typeof local.icon === "function"
-        ? local.icon?.(iconSize(16))
-        : local.icon}
-      {typeof local.symbol === "function"
-        ? local.symbol(symbolSize(16))
-        : local.symbol}
+      {local.icon}
       <Text>{local.children}</Text>
-      {typeof local.actionIcon === "function"
-        ? local.actionIcon?.(iconSize(20))
-        : local.actionIcon}
-      {typeof local.actionSymbol === "function"
-        ? local.actionSymbol(symbolSize(20))
-        : local.actionSymbol}
+      {local.actionIcon}
     </ContextMenuItem>
   );
 }
@@ -196,7 +169,7 @@ export function ContextMenuSubMenu(
       <ContextMenuButton
         ref={setAnchor}
         selected={isShowing()}
-        actionIcon={MdChevronRight}
+        actionIcon={<Symbol>chevron_right</Symbol>}
         onpointerdown={(e) => {
           e.stopImmediatePropagation();
         }}

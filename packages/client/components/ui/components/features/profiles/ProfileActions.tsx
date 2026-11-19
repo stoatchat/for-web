@@ -9,12 +9,8 @@ import { UserContextMenu } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
-import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
-import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
-
 import { Button, IconButton } from "../../design";
-import { iconSize } from "../../utils";
+import { Symbol } from "../../utils";
 
 /**
  * Actions shown on profile cards
@@ -69,7 +65,7 @@ export function ProfileActions(props: {
           Accept friend request
         </Button>
         <IconButton onPress={() => props.user.removeFriend()}>
-          <MdCancel />
+          <Symbol fill>cancel</Symbol>
         </IconButton>
       </Show>
       <Show when={props.user.relationship === "Outgoing"}>
@@ -106,7 +102,9 @@ export function ProfileActions(props: {
         }
       >
         <IconButton onPress={openEdit}>
-          <MdEdit {...iconSize(16)} />
+          <Symbol size={16} fill>
+            edit
+          </Symbol>
         </IconButton>
       </Show>
 
@@ -122,7 +120,7 @@ export function ProfileActions(props: {
           contextMenuHandler: "click",
         }}
       >
-        <MdMoreVert />
+        <Symbol>more_vert</Symbol>
       </IconButton>
     </Actions>
   );

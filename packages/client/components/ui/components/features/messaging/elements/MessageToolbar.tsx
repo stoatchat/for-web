@@ -8,13 +8,7 @@ import { useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Ripple } from "@revolt/ui/components/design";
-import { iconSize } from "@revolt/ui/components/utils";
-
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
-import MdEmojiEmotions from "@material-design-icons/svg/outlined/emoji_emotions.svg?component-solid";
-import MdMoreVert from "@material-design-icons/svg/outlined/more_vert.svg?component-solid";
-import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
+import { Symbol } from "@revolt/ui/components/utils";
 
 export function MessageToolbar() {
   const user = useUser();
@@ -48,7 +42,7 @@ export function MessageToolbar() {
           onClick={() => state.draft.addReply(message!, user()!.id)}
         >
           <Ripple />
-          <MdReply {...iconSize(20)} />
+          <Symbol size={20}>reply</Symbol>
         </div>
       </Show>
       <Show when={message?.channel?.havePermission("React")}>
@@ -58,7 +52,7 @@ export function MessageToolbar() {
           onClick={(e) => reactPicker!()?.onClickEmoji(e, reactRef)}
         >
           <Ripple />
-          <MdEmojiEmotions {...iconSize(20)} />
+          <Symbol size={20}>mood</Symbol>
         </div>
       </Show>
       <Show when={message?.author?.self}>
@@ -67,7 +61,7 @@ export function MessageToolbar() {
           onClick={() => state.draft.setEditingMessage(message)}
         >
           <Ripple />
-          <MdEdit {...iconSize(20)} />
+          <Symbol size={20}>edit</Symbol>
         </div>
       </Show>
       <Show
@@ -78,7 +72,7 @@ export function MessageToolbar() {
       >
         <div class={tool()} onClick={deleteMessage}>
           <Ripple />
-          <MdDelete {...iconSize(20)} />
+          <Symbol size={20}>delete</Symbol>
         </div>
       </Show>
       <div
@@ -91,7 +85,7 @@ export function MessageToolbar() {
         }}
       >
         <Ripple />
-        <MdMoreVert {...iconSize(20)} />
+        <Symbol size={20}>more_vert</Symbol>
       </div>
     </Base>
   );

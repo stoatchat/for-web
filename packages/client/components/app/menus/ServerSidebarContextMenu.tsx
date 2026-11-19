@@ -5,8 +5,7 @@ import { Server } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 
-import MdLibraryAdd from "@material-design-icons/svg/outlined/library_add.svg?component-solid";
-
+import { Symbol } from "@revolt/ui";
 import { ContextMenu, ContextMenuButton } from "./ContextMenu";
 
 /**
@@ -38,10 +37,16 @@ export function ServerSidebarContextMenu(props: { server: Server }) {
   return (
     <ContextMenu>
       <Show when={props.server?.havePermission("ManageChannel")}>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createChannel}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>library_add</Symbol>}
+          onClick={createChannel}
+        >
           <Trans>Create channel</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdLibraryAdd} onClick={createCategory}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>library_add</Symbol>}
+          onClick={createCategory}
+        >
           <Trans>Create category</Trans>
         </ContextMenuButton>
       </Show>

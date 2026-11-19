@@ -4,8 +4,6 @@ import { styled } from "styled-system/jsx";
 
 import { Column, OverflowingText } from "@revolt/ui";
 
-// import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
-// import MdOpenInNew from "@material-design-icons/svg/filled/open_in_new.svg?component-solid";
 import { SettingsList } from "..";
 import { useSettingsNavigation } from "../Settings";
 
@@ -67,14 +65,8 @@ export function SettingsSidebar(props: {
                                 </SidebarButtonContent>
                               </SidebarButtonTitle>
                               {/*<SidebarButtonIcon>
-                                <MdOpenInNew
-                                  {...iconSize(20)}
-                                  fill={theme!.colour("primary")}
-                                />
-                                <MdError
-                                  {...iconSize(20)}
-                                  fill={theme!.colour("primary")}
-                                />
+                                <Symbol size={20}>open_in_new</Symbol>
+                                <Symbol size={20}>error</Symbol>
                               </SidebarButtonIcon>*/}
                             </SidebarButton>
                           </Show>

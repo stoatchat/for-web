@@ -18,16 +18,11 @@ import {
   NonBreakingText,
   OverflowingText,
   Spacer,
+  Symbol,
   typography,
   UserStatus,
 } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
-import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/outlined/settings.svg?component-solid";
-
-import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
 
 import { canIHasSidebar, SidebarState } from "./text/TextChannel";
@@ -176,7 +171,7 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdSettings />
+          <Symbol>settings</Symbol>
         </IconButton>
       </Show>
 
@@ -198,7 +193,7 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdPersonAdd />
+          <Symbol>person_add</Symbol>
         </Button>
       </Show>
 
@@ -220,7 +215,7 @@ export function ChannelHeader(props: Props) {
                 })
           }
         >
-          <MdKeep />
+          <Symbol>keep</Symbol>
         </IconButton>
       </Show>
 
@@ -251,7 +246,7 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdGroup />
+          <Symbol>group</Symbol>
         </IconButton>
       </Show>
 

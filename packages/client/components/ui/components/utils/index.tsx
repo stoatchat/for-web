@@ -3,7 +3,6 @@ export { cropImage } from "./cropProcessor";
 export { Deferred } from "./Deferred";
 export { Draggable } from "./Draggable";
 export { Form2 } from "./Form2";
-export { iconSize, symbolSize } from "./iconSize";
 export { Initials } from "./Initials";
 export { ListView } from "./ListView";
 export { NonBreakingText } from "./NonBreakingText";

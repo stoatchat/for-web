@@ -4,11 +4,8 @@ import { Server } from "stoat.js";
 
 import { useModals } from "@revolt/modal";
 import { ServerFolder, useState } from "@revolt/state";
+
 import { Symbol } from "@revolt/ui";
-
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdDriveFileRenameOutline from "@material-design-icons/svg/outlined/drive_file_rename_outline.svg?component-solid";
-
 import {
   ContextMenu,
   ContextMenuButton,
@@ -56,18 +53,25 @@ export function ServerFolderContextMenu(props: {
     <ContextMenu>
       <Show when={hasUnread()}>
         <ContextMenuButton
-          symbol={<Symbol>mark_chat_read</Symbol>}
+          icon={<Symbol size={16}>mark_chat_read</Symbol>}
           onClick={markAsRead}
         >
           <Trans>Mark folder as read</Trans>
         </ContextMenuButton>
         <ContextMenuDivider />
       </Show>
-      <ContextMenuButton icon={MdDriveFileRenameOutline} onClick={rename}>
+      <ContextMenuButton
+        icon={<Symbol size={16}>drive_file_rename</Symbol>}
+        onClick={rename}
+      >
         <Trans>Edit folder</Trans>
       </ContextMenuButton>
       <ContextMenuDivider />
-      <ContextMenuButton icon={MdDelete} destructive onClick={remove}>
+      <ContextMenuButton
+        icon={<Symbol size={16}>delete</Symbol>}
+        destructive
+        onClick={remove}
+      >
         <Trans>Delete folder</Trans>
       </ContextMenuButton>
     </ContextMenu>

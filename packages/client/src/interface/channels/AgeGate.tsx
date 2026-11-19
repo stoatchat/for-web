@@ -6,9 +6,7 @@ import { styled } from "styled-system/jsx";
 
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import { Button, Checkbox, CircularProgress, Text, iconSize } from "@revolt/ui";
-
-import MdWarning from "@material-design-icons/svg/round/warning.svg?component-solid";
+import { Button, Checkbox, CircularProgress, Symbol, Text } from "@revolt/ui";
 
 type GeoBlock = {
   countryCode: string;
@@ -57,7 +55,9 @@ export function AgeGate(props: {
           }
         >
           <Base>
-            <MdWarning {...iconSize("8em")} />
+            <Symbol type="rounded" size={128}>
+              warning
+            </Symbol>
             <Text class="headline" size="large">
               {props.contentName}
             </Text>
@@ -80,7 +80,9 @@ export function AgeGate(props: {
         </Match>
         <Match when={props.enabled && (!confirmed() || !allowed())}>
           <Base>
-            <MdWarning {...iconSize("8em")} />
+            <Symbol type="rounded" size={128}>
+              warning
+            </Symbol>
             <Text class="headline" size="large">
               {props.contentName}
             </Text>

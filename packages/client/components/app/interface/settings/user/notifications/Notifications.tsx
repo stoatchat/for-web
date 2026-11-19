@@ -3,10 +3,8 @@ import { Show } from "solid-js";
 
 import { useNotifications } from "@revolt/client";
 import { useState } from "@revolt/state";
-import { CategoryButton, Checkbox, Column, iconSize } from "@revolt/ui";
+import { CategoryButton, Checkbox, Column, Symbol } from "@revolt/ui";
 
-import MdMarkUnreadChatAlt from "@material-design-icons/svg/outlined/mark_unread_chat_alt.svg?component-solid";
-import MdNotifications from "@material-design-icons/svg/outlined/notifications.svg?component-solid";
 import Sounds from "./Sounds";
 
 /**
@@ -30,7 +28,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
                 />
               }
               onClick={() => toggleNotificationPermission(true)}
-              icon={<MdNotifications {...iconSize(22)} />}
+              icon={<Symbol size={22}>notifications</Symbol>}
               description={
                 props.isDesktop ? (
                   <Trans>
@@ -53,7 +51,7 @@ export default function Notifications(props: { isDesktop: boolean }) {
                 />
               }
               onClick={() => togglePushPermission(true)}
-              icon={<MdMarkUnreadChatAlt {...iconSize(22)} />}
+              icon={<Symbol size={22}>mark_unread_chat_alt</Symbol>}
               description={
                 <Trans>
                   Receive push notifications while the app is closed.

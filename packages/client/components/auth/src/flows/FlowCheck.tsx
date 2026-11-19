@@ -3,9 +3,7 @@ import { Show } from "solid-js";
 import { Trans } from "@lingui/solid/macro";
 
 import { A, useNavigate } from "@revolt/routing";
-import { Button, Row, iconSize } from "@revolt/ui";
-
-import MdArrowBack from "@material-design-icons/svg/filled/arrow_back.svg?component-solid";
+import { Button, Row, Symbol } from "@revolt/ui";
 
 import { FlowTitle } from "./Flow";
 import { MailProvider } from "./MailProvider";
@@ -43,7 +41,7 @@ export default function FlowCheck() {
       <Row align justify>
         <A href="..">
           <Button variant="text">
-            <MdArrowBack {...iconSize("1.2em")} /> <Trans>Back</Trans>
+            <Symbol size={18}>arrow_back</Symbol> <Trans>Back</Trans>
           </Button>
         </A>
         <Show when={email}>
