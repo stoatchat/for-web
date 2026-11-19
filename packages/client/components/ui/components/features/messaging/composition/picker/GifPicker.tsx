@@ -664,7 +664,7 @@ function GifLayout(props: {
                   })
                 }
                 preSized
-                noModalOrContextMenu
+                noModal
               />
             </GifTile>
           )}

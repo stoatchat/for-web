@@ -13,7 +13,7 @@ import { SizedContent, Symbol } from "@revolt/ui/components/utils";
 export function Gif(props: {
   gif: WebsiteEmbed;
   preSized?: boolean;
-  noModalOrContextMenu?: boolean;
+  noModal?: boolean;
 }) {
   const { openModal } = useModals();
   const { message, reactPicker } = useMessage();
@@ -38,24 +38,20 @@ export function Gif(props: {
           >
             <img
               src={props.gif.image!.url}
-              use:floating={
-                props.noModalOrContextMenu
-                  ? undefined
-                  : {
-                      contextMenu: () => (
-                        <MessageContextMenu
-                          message={message}
-                          reactPicker={reactPicker}
-                          file={props.gif.image}
-                          gif={props.gif}
-                        />
-                      ),
-                    }
-              }
+              use:floating={{
+                contextMenu: () => (
+                  <MessageContextMenu
+                    message={message}
+                    reactPicker={reactPicker}
+                    file={props.gif.image}
+                    gif={props.gif}
+                  />
+                ),
+              }}
               loading="lazy"
               class={css({ cursor: "pointer" })}
               onClick={() =>
-                !props.noModalOrContextMenu &&
+                !props.noModal &&
                 openModal({
                   type: "image_viewer",
                   gif: props.gif,
@@ -78,23 +74,19 @@ export function Gif(props: {
               autoplay
               preload="metadata"
               src={props.gif.video!.url}
-              use:floating={
-                props.noModalOrContextMenu
-                  ? undefined
-                  : {
-                      contextMenu: () => (
-                        <MessageContextMenu
-                          message={message}
-                          reactPicker={reactPicker}
-                          file={props.gif.video}
-                          gif={props.gif}
-                        />
-                      ),
-                    }
-              }
+              use:floating={{
+                contextMenu: () => (
+                  <MessageContextMenu
+                    message={message}
+                    reactPicker={reactPicker}
+                    file={props.gif.video}
+                    gif={props.gif}
+                  />
+                ),
+              }}
               class={css({ cursor: "pointer" })}
               onClick={() =>
-                !props.noModalOrContextMenu &&
+                !props.noModal &&
                 openModal({
                   type: "image_viewer",
                   gif: props.gif,
