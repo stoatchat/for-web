@@ -199,6 +199,14 @@ msgstr "{0} kullanıcısının rolleri"
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr "Zaman aşımı {0} için kaldırılacak ve sunucu ile tekrar etkileşime girebilecek."
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in category {category}, in server {serverName}"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in server {serverName}"
+msgstr ""
+
 #~ msgid "{h} hours"
 #~ msgstr "{h} saat"
 
@@ -467,6 +475,10 @@ msgstr "Bu kullanıcı ile zaten arkadaşsınız."
 #: components/auth/src/AuthPage.tsx
 msgid "Already have an account?"
 msgstr "Zaten hesabın var mı?"
+
+#: components/markdown/plugins/customEmoji.tsx
+msgid "Alt+Click to yoink"
+msgstr ""
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
@@ -872,6 +884,10 @@ msgstr "Durumu temizle"
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
 msgstr "Değişiklikler hakkında bilgi edinmek için aşağıdakilere tıkla!"
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Click the star on gifs to stash them here."
+msgstr ""
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
@@ -1303,6 +1319,7 @@ msgstr "Üyeleri Sağırlaştırabilme"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/ui/components/design/ColourPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "Default"
 msgstr "Varsayılan"
 
@@ -1718,6 +1735,20 @@ msgstr "Gönderilemedi"
 msgid "Failed to verify!"
 msgstr "Doğrulanamadı!"
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Favourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Favourite Gif"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Favourites"
+msgstr ""
+
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Feedback"
@@ -1778,6 +1809,10 @@ msgstr "8 saat boyunca"
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Forgot password?"
 msgstr "Şifrenizi mi unuttunuz?"
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Frequently Used"
+msgstr ""
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -2268,6 +2303,10 @@ msgstr "Okundu olarak işaretle"
 msgid "Mark as unread"
 msgstr "Okunmamış olarak işaretle"
 
+#: components/app/menus/ServerFolderContextMenu.tsx
+msgid "Mark folder as read"
+msgstr ""
+
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Mark this channel as mature?"
 msgstr "Bu kanalı yetişkin olarak işaretlemek istediğinize emin misiniz?"
@@ -2505,6 +2544,14 @@ msgstr "Hiç GIF bulunamadı"
 msgid "No permissions set yet"
 msgstr "Henüz bir izin ayarlanmadı"
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No recent channels"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No results"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
 msgstr "Hiçbir rol istisnası yapılandırılmadı."
@@ -2737,6 +2784,10 @@ msgstr "RNNoise Tarafından desteklenmektedir"
 msgid "Preview"
 msgstr "Önizleme"
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "PREVIOUS CHANNELS"
+msgstr ""
+
 #: components/app/interface/settings/UserSettings.tsx
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy"
@@ -2752,6 +2803,10 @@ msgstr "Gizlilik politikası"
 #: components/markdown/plugins/anchors.tsx
 msgid "Private Channel"
 msgstr "Gizli Kanal"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Pro tip:"
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -3076,6 +3131,7 @@ msgstr "İzinleri kaydet"
 msgid "Save to your notes"
 msgstr "Notlarına kaydet"
 
+#: components/modal/modals/QuickSwitch.tsx
 #: src/interface/channels/ChannelHeader.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Saved Notes"
@@ -3105,6 +3161,18 @@ msgstr "Ekran Paylaşma Ses Seviyesi"
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
 msgstr "Ara"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Search channels"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Search for emojis..."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Search for GIFs..."
+msgstr ""
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
@@ -3235,6 +3303,10 @@ msgstr "Sunucu Adı"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Server Roles"
 msgstr "Sunucudaki Roller"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Server: {name}"
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Sessions"
@@ -3382,6 +3454,10 @@ msgstr "Kameranı aç"
 #: components/app/interface/settings/user/Native.tsx
 msgid "Start Minimised to Tray"
 msgstr "Küçültülmüş olarak başlat"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Start searches with <0>@</0> <1>#</1> <2>!</2> <3>*</3> to narrow results."
+msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Start the call"
@@ -3754,6 +3830,15 @@ msgstr "Stoat'ta gözden kaçan hata: {0}"
 msgid "Undeafen"
 msgstr "Sağırlaştırmayı Kaldır"
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Unfavourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Unfavourite Gif"
+msgstr ""
+
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Unknown"
 msgstr "Bilinmeyen"
@@ -4046,6 +4131,10 @@ msgstr "Yenilikler"
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
 msgstr "Neler yeni"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Where would you like to go?"
+msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Whether other users can edit these settings"

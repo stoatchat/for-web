@@ -199,6 +199,14 @@ msgstr "Rols de {0}"
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr "Es treurà l'aïllament a {0} i podrà tornar a interactuar amb el servidor."
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in category {category}, in server {serverName}"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in server {serverName}"
+msgstr ""
+
 #~ msgid "{h} hours"
 #~ msgstr ""
 
@@ -467,6 +475,10 @@ msgstr "Ya ets amic d'aquest usuari."
 #: components/auth/src/AuthPage.tsx
 msgid "Already have an account?"
 msgstr "Ja tens un compte?"
+
+#: components/markdown/plugins/customEmoji.tsx
+msgid "Alt+Click to yoink"
+msgstr ""
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
 msgid "Always Ask for Screen Share Quality"
@@ -872,6 +884,10 @@ msgstr "Borrar 'estatus' personalitzat"
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
 msgstr "Fes clic als elements següents per saber-ne més sobre els diferents canvis!"
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Click the star on gifs to stash them here."
+msgstr ""
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
 msgid "Click to copy username"
@@ -1303,6 +1319,7 @@ msgstr "Membres sords"
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/ui/components/design/ColourPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "Default"
 msgstr "Predeterminat"
 
@@ -1718,6 +1735,20 @@ msgstr "No s’ha pogut enviar"
 msgid "Failed to verify!"
 msgstr "Error al verificar!"
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Favourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Favourite Gif"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Favourites"
+msgstr ""
+
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Feedback"
@@ -1778,6 +1809,10 @@ msgstr "Durant 8 hores"
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Forgot password?"
 msgstr "Has olvidat la teva contrasenya?"
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Frequently Used"
+msgstr ""
 
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
@@ -2268,6 +2303,10 @@ msgstr "Marcar com llegit"
 msgid "Mark as unread"
 msgstr "Marcar com no llegit"
 
+#: components/app/menus/ServerFolderContextMenu.tsx
+msgid "Mark folder as read"
+msgstr ""
+
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Mark this channel as mature?"
 msgstr "Marca aquest canal com a contingut per a adults?"
@@ -2505,6 +2544,14 @@ msgstr "No s'han trobat GIFs"
 msgid "No permissions set yet"
 msgstr "No s'ha assignat cap permís encara"
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No recent channels"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No results"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
 msgstr "No s'ha configurat cap sobreescriptura de rol."
@@ -2737,6 +2784,10 @@ msgstr "Funciona amb RNNoise"
 msgid "Preview"
 msgstr "Previsualització"
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "PREVIOUS CHANNELS"
+msgstr ""
+
 #: components/app/interface/settings/UserSettings.tsx
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy"
@@ -2752,6 +2803,10 @@ msgstr "Polítiques de privacitat"
 #: components/markdown/plugins/anchors.tsx
 msgid "Private Channel"
 msgstr "Canal privat"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Pro tip:"
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
@@ -3079,6 +3134,7 @@ msgstr "Desa els permisos"
 msgid "Save to your notes"
 msgstr "Desa a les teves notes"
 
+#: components/modal/modals/QuickSwitch.tsx
 #: src/interface/channels/ChannelHeader.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Saved Notes"
@@ -3108,6 +3164,18 @@ msgstr "Volum de la compartició de pantalla"
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
 msgstr "Recerca"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Search channels"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Search for emojis..."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Search for GIFs..."
+msgstr ""
 
 #: components/modal/modals/AddBot.tsx
 msgid "Search for groups..."
@@ -3238,6 +3306,10 @@ msgstr "Nom del servidor"
 #: components/app/interface/settings/server/roles/ServerRoleOverview.tsx
 msgid "Server Roles"
 msgstr "Rols del servidor"
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Server: {name}"
+msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Sessions"
@@ -3384,6 +3456,10 @@ msgstr "Encén la càmera"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Start Minimised to Tray"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Start searches with <0>@</0> <1>#</1> <2>!</2> <3>*</3> to narrow results."
 msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -3757,6 +3833,15 @@ msgstr ""
 msgid "Undeafen"
 msgstr ""
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Unfavourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Unfavourite Gif"
+msgstr ""
+
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Unknown"
 msgstr ""
@@ -4048,6 +4133,10 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Where would you like to go?"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
