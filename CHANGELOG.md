@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.18.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.17.0...stoat-for-web-v0.18.0) (2026-11-19)
+
+
+### Features
+
+* allow marking an entire server folder as read ([#1802](https://github.com/stoatchat/for-web/issues/1802)) ([4c1493e](https://github.com/stoatchat/for-web/commit/4c1493ea594e4c659da0bd87a38629e544bdf348))
+* Favourite gifs and emojis, recent emojis ([#1714](https://github.com/stoatchat/for-web/issues/1714)) ([5b67751](https://github.com/stoatchat/for-web/commit/5b6775148c2c8d441090ef28601fd686b75fe3e1))
+* quick switcher (ctrl + k) ([#1684](https://github.com/stoatchat/for-web/issues/1684)) ([9e1a259](https://github.com/stoatchat/for-web/commit/9e1a2598e656699a6aa18f6c602633c513cf0b70))
+
+
+### Bug Fixes
+
+* **ios:** recover the drawer after backgrounding and start the slide on tap ([#1789](https://github.com/stoatchat/for-web/issues/1789)) ([d606f88](https://github.com/stoatchat/for-web/commit/d606f88c17f7a69e87c4c34e38f1d0a2114d62fd))
+
 ## [0.17.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.3...stoat-for-web-v0.17.0) (2026-11-13)
 
 ### Features
