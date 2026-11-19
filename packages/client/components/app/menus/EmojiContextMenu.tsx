@@ -12,7 +12,7 @@ export function EmojiContextMenu(props: { id: string }) {
   return (
     <ContextMenu>
       <ContextMenuButton
-        symbol={<Symbol fill={!favourites.hasEmoji(props.id)}>star</Symbol>}
+        icon={<Symbol fill={!favourites.hasEmoji(props.id)}>star</Symbol>}
         onClick={() => favourites.toggleEmoji(props.id)}
       >
         <Show
