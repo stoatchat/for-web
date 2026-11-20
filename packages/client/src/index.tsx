@@ -3,7 +3,7 @@
  */
 import "./sentry";
 
-import { JSX, onMount } from "solid-js";
+import { JSX, createEffect, on, onMount } from "solid-js";
 import { render } from "solid-js/web";
 
 import { attachDevtoolsOverlay } from "@solid-devtools/overlay";
@@ -115,6 +115,16 @@ function BotRedirect() {
   return <PWARedirect />;
 }
 
+/**
+ * Drop cached queries whenever the active client is replaced (logout,
+ * account switch), as they hold onto objects belonging to the old client
+ */
+function QueryCacheReset(props: { client: QueryClient }) {
+  const client = useClient();
+  createEffect(on(client, () => props.client.clear(), { defer: true }));
+  return null;
+}
+
 function MountContext(props: { children?: JSX.Element }) {
   const client = new QueryClient();
 
@@ -126,6 +136,7 @@ function MountContext(props: { children?: JSX.Element }) {
             <SoundContext>
               <VoiceContext>
                 <QueryClientProvider client={client}>
+                  <QueryCacheReset client={client} />
                   {props.children}
                   <ModalRenderer />
                   <FloatingManager />

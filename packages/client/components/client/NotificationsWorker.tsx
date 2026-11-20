@@ -220,8 +220,9 @@ export function NotificationsWorker() {
   }
 
   createEffect(() => {
-    client().addListener("messageCreate", onMessage);
-    onCleanup(() => client().removeListener("messageCreate", onMessage));
+    const c = client();
+    c.addListener("messageCreate", onMessage);
+    onCleanup(() => c.removeListener("messageCreate", onMessage));
   });
 
   /**

@@ -410,7 +410,7 @@ export function Message(props: Props) {
             props.message.reactions as never as Map<string, Set<string>>
           }
           interactions={props.message.interactions}
-          userId={client().user!.id}
+          userId={client().user?.id}
           addReaction={react}
           removeReaction={unreact}
         />

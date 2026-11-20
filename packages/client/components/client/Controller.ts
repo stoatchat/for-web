@@ -73,6 +73,21 @@ export type Transition =
         | TransitionType.Logout;
     };
 
+/**
+ * Drop browser-held references into the old UI. The selection and the focused
+ * element (via Chromium's input method controller) can keep pointing at a
+ * detached node such as the logout button, which pins the old component tree
+ * (through Solid's `_$owner`) and with it the old client.
+ */
+function clearDocumentSelection() {
+  try {
+    document.getSelection()?.removeAllRanges();
+    (document.activeElement as HTMLElement | null)?.blur?.();
+  } catch {
+    // no-op
+  }
+}
+
 type PolicyAttentionRequired = [
   ProtocolV1["types"]["policyChange"][],
   () => Promise<void>,
@@ -182,6 +197,8 @@ class Lifecycle {
         this.#connectionFailures = 0;
         break;
       case State.Dispose:
+        clearDocumentSelection();
+        setTimeout(clearDocumentSelection);
         this.reset();
         if (this.#controller.state.auth.getSession()) {
           this.#controller._login();
@@ -221,14 +238,13 @@ class Lifecycle {
   }
 
   private dispose(logout = false) {
-    if (logout) {
-      this.client.logout().catch(() => {});
-    } else {
-      //TODO Client.dispose() method
-      this.client.events.removeAllListeners();
-      this.client.removeAllListeners();
-      this.client.events.disconnect();
-    }
+    // Invalidate the session server-side; logout() disposes the client
+    // once the request settles, regardless of whether it succeeded.
+    if (logout) this.client.logout().catch(() => {});
+
+    // Always tear down synchronously so the old client can't stay alive
+    // (socket, listeners, timers) while the logout request is in flight.
+    this.client.dispose();
     this.#enter(State.Dispose);
   }
 
@@ -237,7 +253,13 @@ class Lifecycle {
 
     switch (transition.type) {
       case TransitionType.DisposeOnly:
-        this.reset();
+        // The controller is going away: tear down the client without
+        // spinning up a replacement wired to this (dead) lifecycle.
+        if (this.#retryTimeout) {
+          clearTimeout(this.#retryTimeout);
+          this.#retryTimeout = undefined;
+        }
+        this.client.dispose();
         return;
       case TransitionType.Dispose:
         this.#enter(State.Dispose);
