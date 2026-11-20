@@ -87,7 +87,7 @@ export function CompositionInfo(props: Props) {
         props.channel.typing.filter(
           (user) =>
             typeof user !== "undefined" &&
-            user.id !== client().user!.id &&
+            user.id !== client().user?.id &&
             user.relationship !== "Blocked",
         ) as User[]
       )

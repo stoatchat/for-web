@@ -1,4 +1,4 @@
-import { Accessor, createEffect, on, onMount } from "solid-js";
+import { Accessor, createEffect, on, onCleanup, onMount } from "solid-js";
 
 import { defaultKeymap, history } from "@codemirror/commands";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
@@ -245,6 +245,10 @@ export function TextEditor2(props: Props) {
       },
     ),
   );
+
+  // Tear down CodeMirror's window/scroll listeners and observers, which
+  // otherwise keep this editor (and the whole UI around it) alive forever
+  onCleanup(() => view.destroy());
 
   // auto focus on mount
   onMount(

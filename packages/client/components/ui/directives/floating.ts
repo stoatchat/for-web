@@ -38,9 +38,25 @@ export function registerFloatingElement(element: FloatingElement) {
  * @param element DOM Element
  */
 export function unregisterFloatingElement(element: HTMLElement) {
+  const removed: FloatingElement[] = [];
   setFloatingElements((elements) =>
-    elements.filter((entry) => entry.element !== element),
+    elements.filter((entry) => {
+      if (entry.element !== element) return true;
+      removed.push(entry);
+      return false;
+    }),
   );
+
+  // Solid's <For> (mapArray) keeps stale snapshots of this list alive in the
+  // closures of rows that are still mounted, so a removed entry can outlive
+  // its component. Empty it out so it no longer pins the detached element,
+  // its config closure, and through those the objects (and client) they use.
+  for (const entry of removed) {
+    entry.config = () => ({}) as Props;
+    entry.show = () => undefined;
+    entry.hide = () => {};
+    entry.element = null!;
+  }
 }
 
 /**
