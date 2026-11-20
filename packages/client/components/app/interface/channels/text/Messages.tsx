@@ -782,15 +782,18 @@ export function Messages(props: Props) {
   }
 
   // Add listener for messages
+  // Remember which client we subscribed to; by cleanup time `client()` may
+  // already point at a new instance (e.g. after logout / account switch)
+  let c: ReturnType<typeof client> | undefined;
   onMount(() => {
-    const c = client();
+    c = client();
     c.addListener("messageCreate", onMessage);
     c.addListener("messageDelete", onMessageDelete);
     c.addListener("messageDeleteBulk", onMessageDeleteBulk);
   });
 
   onCleanup(() => {
-    const c = client();
+    if (!c) return;
     c.removeListener("messageCreate", onMessage);
     c.removeListener("messageDeleteBulk", onMessageDeleteBulk);
     c.removeListener("messageDelete", onMessageDelete);

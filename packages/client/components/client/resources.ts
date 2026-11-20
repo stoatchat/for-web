@@ -11,8 +11,9 @@ export function createMfaResource() {
   const client = useClient();
 
   return useQuery(() => ({
-    queryKey: ["mfa", client().user!.id],
+    queryKey: ["mfa", client().user?.id],
     queryFn: () => client().account.mfa(),
+    enabled: !!client().user,
     throwOnError: true,
   }));
 }
@@ -46,8 +47,9 @@ export function createOwnProfileResource() {
 export function createOwnBotsResource() {
   const client = useClient();
   return useQuery(() => ({
-    queryKey: ["bots", client().user!.id],
+    queryKey: ["bots", client().user?.id],
     queryFn: () => client().bots.fetchOwned(),
+    enabled: !!client().user,
     throwOnError: true,
   }));
 }

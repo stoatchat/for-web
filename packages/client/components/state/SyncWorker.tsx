@@ -34,10 +34,11 @@ export function SyncWorker() {
       () => lifecycle.state(),
       (newState) => {
         if (newState === State.Connected) {
-          state.sync.initialSync(client());
+          const c = client();
+          state.sync.initialSync(c);
 
-          client().events.addListener("event", handleEvent);
-          onCleanup(() => client().events.removeListener("event", handleEvent));
+          c.events.addListener("event", handleEvent);
+          onCleanup(() => c.events.removeListener("event", handleEvent));
         }
       },
     ),
