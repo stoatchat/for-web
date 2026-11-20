@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-11-03 03:13+0000\n"
+"PO-Revision-Date: 2026-11-15 09:18+0000\n"
 "Last-Translator: World170_ <world170_@users.noreply.translate.stoat.chat>\n"
-"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/revolt-for-web/es/>\n"
+"Language-Team: Spanish <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -123,7 +124,7 @@ msgstr "{0} ha hecho a {1} el nuevo dueño del grupo"
 #. placeholder {0}: onlineMembers()
 #: src/interface/channels/text/MemberSidebar.tsx
 msgid "{0} members online"
-msgstr ""
+msgstr "{0} miembros en línea"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -375,11 +376,11 @@ msgstr "Añadir un nuevo amigo"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an account"
-msgstr ""
+msgstr "Añadir otra cuenta"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an additional account login for fast-switching"
-msgstr ""
+msgstr "Inicia sesión en otra cuenta para cambiar de una a otra al instante"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
@@ -517,7 +518,7 @@ msgstr "¿Estás seguro de que quieres eliminar a {0} de {1}?"
 #. placeholder {0}: props.user?.username
 #: components/modal/modals/TransferGroup.tsx
 msgid "Are you sure you want to transfer ownership to <0>{0}</0>?"
-msgstr ""
+msgstr "¿Seguro que quieres transferir la propiedad a <0>{0}</0>?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
@@ -639,21 +640,19 @@ msgstr "Rastreador de errores"
 msgid "Busy"
 msgstr "Ocupado"
 
-#: components/modal/modals/CreateBot.tsx
 #~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Al crear este bot, aceptas las <0>Condiciones de uso</0>."
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
-msgstr ""
+msgstr "Al crear este bot, aceptas las <0>Directrices de la comunidad</0>."
 
-#: components/modal/modals/CreateServer.tsx
 #~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Al crear este servidor, aceptas las <0>Condiciones de uso</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Community Guidelines</0>."
-msgstr ""
+msgstr "Al crear este servidor, aceptas las <0>Directrices de la comunidad</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -853,7 +852,7 @@ msgstr "Elige un nombre de usuario"
 
 #: components/modal/modals/SwapUser.tsx
 msgid "Choose an account"
-msgstr ""
+msgstr "Elige una cuenta"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
@@ -1392,7 +1391,7 @@ msgstr "Borrar servidor"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Delete session"
-msgstr ""
+msgstr "Eliminar sesión"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
@@ -1617,7 +1616,7 @@ msgstr "Activar efectos de transparencia y desenfoque (lento en dispositivos vie
 
 #: components/i18n/errors.tsx
 msgid "Encountered a problem while saving previous session."
-msgstr ""
+msgstr "Hubo un problema al guardar la sesión anterior."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1968,7 +1967,7 @@ msgstr "Mientras tanto, instala Stoat desde Google Play para disfrutar de una ex
 
 #: src/interface/Friends.tsx
 msgid "Incoming"
-msgstr ""
+msgstr "Recibidas"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -2162,7 +2161,6 @@ msgstr "Inicia sesión"
 #~ msgid "Log In"
 #~ msgstr "Iniciar sesión"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Log in again"
 #~ msgstr "Inicia sesión otra vez"
 
@@ -2580,7 +2578,6 @@ msgstr "Conectado"
 msgid "Only mentions will notify you"
 msgstr "Solo las menciones te notificarán"
 
-#: components/instance/index.tsx
 #~ msgid "Oops, something went wrong! {e}"
 #~ msgstr "¡Vaya! Algo ha salido mal: {e}"
 
@@ -2615,7 +2612,7 @@ msgstr "Otro"
 
 #: src/interface/Friends.tsx
 msgid "Outgoing"
-msgstr ""
+msgstr "Enviadas"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Output Volume"
@@ -2697,7 +2694,6 @@ msgstr "Por favor, confirma esta acción utilizando el método seleccionado."
 msgid "Please enter your email."
 msgstr "Introduce tu correo electrónico."
 
-#: components/i18n/errors.tsx
 #~ msgid "Please log in again."
 #~ msgstr "Por favor, vuelve a iniciar sesión."
 
@@ -3450,7 +3446,7 @@ msgstr "Apoya el proyecto donando - ¡gracias!"
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Switch Accounts"
-msgstr ""
+msgstr "Cambiar de cuenta"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
@@ -3551,7 +3547,7 @@ msgstr "El servidor ya está en Discover; ponte en contacto con nosotros para qu
 
 #: components/i18n/errors.tsx
 msgid "The web socket was unable to connect to the backend."
-msgstr ""
+msgstr "No se pudo conectar el WebSocket con el servidor."
 
 #: components/app/interface/settings/user/Sync.tsx
 msgid "Theme"
@@ -3564,7 +3560,7 @@ msgstr "Este {0} aparece en Discover"
 
 #: components/client/Controller.ts
 msgid "This account is disabled."
-msgstr ""
+msgstr "Esta cuenta esta deshabilitada."
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3705,7 +3701,7 @@ msgstr "Tradicional (DD/MM/AAAA)"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/TransferGroup.tsx
 msgid "Transfer Ownership"
-msgstr ""
+msgstr "Transferir propiedad"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
@@ -3807,11 +3803,11 @@ msgstr "Usar un código o un enlace de invitación"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use emoji from other servers"
-msgstr ""
+msgstr "Usar emojis de otros servidores"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use External Emojis"
-msgstr ""
+msgstr "Usar emojis externos"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
@@ -3857,6 +3853,8 @@ msgstr "Gestión de usuarios"
 #: components/i18n/errors.tsx
 msgid "User session not found. Try switching users or logging in again."
 msgstr ""
+"No se encontró la sesión. Prueba a cambiar de cuenta o vuelve a iniciar "
+"sesión."
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "User Settings"
@@ -3975,7 +3973,6 @@ msgstr "¿Quieres cambiar tu nombre de usuario?"
 msgid "We are working hard on optimising our web app for mobile."
 msgstr "Estamos trabajando duro para optimizar nuestra aplicación web en móviles."
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
 #~ msgstr "No hemos podido acabar de iniciar sesión. Inténtalo de nuevo y, si el problema persiste, comprueba el estado de Stoat."
 
@@ -4032,7 +4029,7 @@ msgstr "Determina si otros usuarios pueden cambiar estos ajustes"
 
 #: components/i18n/errors.tsx
 msgid "Whoops, you're already logged in as this user!"
-msgstr ""
+msgstr "¡Ups, ya has iniciado sesión con esta cuenta!"
 
 #. placeholder {0}: names.join(", ")
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -4149,7 +4146,7 @@ msgstr "No tienes permisos para hacer esto."
 
 #: components/ui/components/features/messaging/elements/ConversationStart.tsx
 msgid "You don't have permission to see past messages."
-msgstr ""
+msgstr "No tienes permiso para ver los mensajes anteriores."
 
 #: components/ui/components/features/messaging/composition/MessageBox.tsx
 msgid "You don't have permission to send messages in this channel."
