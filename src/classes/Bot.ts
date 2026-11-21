@@ -125,6 +125,13 @@ export class Bot {
   }
 
   /**
+   * Bot default permissions
+   */
+  get defaultPermissions(): number | undefined {
+    return this.#collection.getUnderlyingObject(this.id).defaultPermissions;
+  }
+
+  /**
    * Instantiate `PublicBot` class from this bot
    */
   get publicBot(): PublicBot {
@@ -132,6 +139,10 @@ export class Bot {
       _id: this.id,
       username: this.user?.username ?? "",
       avatar: this.user?.avatar?.id,
+      default_permissions:
+        this.defaultPermissions !== undefined
+          ? Number(this.defaultPermissions)
+          : undefined,
     });
   }
 

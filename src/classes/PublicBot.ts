@@ -16,6 +16,10 @@ export class PublicBot {
   readonly username: string;
   readonly avatar?: File;
   readonly description?: string;
+  /**
+   * Permissions the bot asks for (0n when unset or the instance doesn't send them)
+   */
+  readonly defaultPermissions: bigint;
 
   /**
    * Construct Public Bot
@@ -33,15 +37,20 @@ export class PublicBot {
         } as APIFile)
       : undefined;
     this.description = data.description!;
+
+    const requested = data.default_permissions as number | null | undefined;
+    this.defaultPermissions = requested != null ? BigInt(requested) : 0n;
   }
 
   /**
    * Add the bot to a server
    * @param server Server
+   * @param permissions Permissions to grant the bot (requires Manage Roles)
    */
-  addToServer(server: Server | string): void {
+  addToServer(server: Server | string, permissions?: bigint): void {
     this.#client.api.post(`/bots/${this.id as ""}/invite`, {
       server: server instanceof Server ? server.id : server,
+      permissions: permissions ? Number(permissions) : undefined,
     });
   }
 

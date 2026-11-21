@@ -21,6 +21,7 @@ export class ServerRole {
   readonly colour?: string;
   readonly hoist: boolean;
   readonly rank: number;
+  readonly owner: string;
 
   /**
    * Construct server role
@@ -43,6 +44,7 @@ export class ServerRole {
     this.colour = data.colour ?? undefined;
     this.hoist = data.hoist || false;
     this.rank = data.rank ?? 0;
+    this.owner = data.owner ?? "";
   }
 
   /**

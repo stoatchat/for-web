@@ -13,6 +13,7 @@ export type HydratedBot = {
   termsOfServiceUrl?: string;
   privacyPolicyUrl?: string;
   flags: BotFlags;
+  defaultPermissions?: number;
 };
 
 export const botHydration: Hydrate<APIBot, HydratedBot> = {
@@ -22,6 +23,7 @@ export const botHydration: Hydrate<APIBot, HydratedBot> = {
     interactions_url: "interactionsUrl",
     terms_of_service_url: "termsOfServiceUrl",
     privacy_policy_url: "privacyPolicyUrl",
+    default_permissions: "defaultPermissions",
   },
   functions: {
     id: (bot) => bot._id,
@@ -34,6 +36,7 @@ export const botHydration: Hydrate<APIBot, HydratedBot> = {
     termsOfServiceUrl: (bot) => bot.terms_of_service_url!,
     privacyPolicyUrl: (bot) => bot.privacy_policy_url!,
     flags: (bot) => bot.flags!,
+    defaultPermissions: (bot) => bot.default_permissions!,
   },
   initialHydration: () => ({}),
 };
