@@ -7,6 +7,7 @@ import { TypeAuth } from "./Auth";
 import { TypeDraft } from "./Draft";
 import { TypeExperiments } from "./Experiments";
 import { TypeFavourites } from "./Favourites";
+import { TypeHosts } from "./Hosts";
 import { TypeKeybinds } from "./Keybinds";
 import { TypeLayout } from "./Layout";
 import { TypeLinkSafety } from "./LinkSafety";
@@ -25,6 +26,7 @@ export type Store = UnsyncedStore & SyncedStore;
 
 export type UnsyncedStore = {
   auth: TypeAuth;
+  host: TypeHosts;
   draft: TypeDraft;
   experiments: TypeExperiments;
   keybinds: TypeKeybinds;

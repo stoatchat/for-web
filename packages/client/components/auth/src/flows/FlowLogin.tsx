@@ -62,6 +62,12 @@ export default function FlowLogin() {
             <Form onSubmit={performLogin}>
               <Fields fields={["email", "password"]} />
               <Column gap="sm" align class="auth-help-links">
+                <Button
+                  variant="text"
+                  onPress={() => modals.openModal({ type: "login_advanced" })}
+                >
+                  <Trans>Advanced</Trans>
+                </Button>
                 <A href="/login/reset">
                   <Button variant="text">
                     <Trans>Forgot password?</Trans>

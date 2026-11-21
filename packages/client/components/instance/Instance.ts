@@ -17,9 +17,12 @@ export default class Instance {
   readonly #nav;
 
   readonly apiUrl: string;
-  readonly mediaUrl: string;
-  readonly proxyUrl: string;
+  readonly mediaUrl!: string;
+  readonly proxyUrl!: string;
   readonly gifboxUrl: string;
+
+  /** Wordmark SVG content */
+  wordmark!: string;
 
   #cli;
   #setCli;
@@ -32,6 +35,9 @@ export default class Instance {
 
   /** Current enforced limits based on user type */
   readonly limits!: Accessor<UserLimits>;
+
+  /** Trip immediate PermanentError on load if set */
+  globalError?: unknown;
 
   constructor(appCfg: AppConfig, cli: Client, host: string, nav: Navigator) {
     const apiCfg = cli.configuration!;
@@ -123,15 +129,27 @@ export function _newClient(apiUrl: string) {
   });
 
   //Init client with env overrides
-  cli.initConfig((config) => {
-    if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
-      if (CONFIGURATION.DEV_WS_URL) config.ws = CONFIGURATION.DEV_WS_URL;
-      if (CONFIGURATION.DEV_MEDIA_URL)
-        config.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
-      if (CONFIGURATION.DEV_PROXY_URL)
-        config.features.january.url = CONFIGURATION.DEV_PROXY_URL;
-    }
-  });
+  cli
+    .initConfig((config) => {
+      if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
+        if (CONFIGURATION.DEV_WS_URL) config.ws = CONFIGURATION.DEV_WS_URL;
+        if (CONFIGURATION.DEV_MEDIA_URL)
+          config.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
+        if (CONFIGURATION.DEV_PROXY_URL)
+          config.features.january.url = CONFIGURATION.DEV_PROXY_URL;
+      }
+    })
+    .catch(() => {
+      //@ts-expect-error readonly
+      cli.configuration = {
+        features: {
+          autumn: { url: "" },
+          january: { url: "" },
+          limits: { global: {}, new_user: {} },
+          captcha: { key: "" },
+        },
+      };
+    });
 
   return cli;
 }
