@@ -13,7 +13,7 @@ import { useLingui } from "@lingui/solid/macro";
 import type { Channel, Server, ServerFlags } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { getChannelIcon, useDevice } from "@revolt/common";
+import { ChannelIcon, useDevice } from "@revolt/common";
 import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
@@ -565,25 +565,7 @@ function Entry(
         data-mentions={props.channel.mentions?.size || undefined}
         alert={alertState()}
         attention={attentionState()}
-        icon={
-          <>
-            <Symbol
-              color={
-                props.channel.isVoice && inCall()
-                  ? "var(--md-sys-color-primary)"
-                  : undefined
-              }
-            >
-              {getChannelIcon(props.channel)}
-            </Symbol>
-            <Show when={props.channel.icon}>
-              <ChannelIcon
-                src={props.channel.iconURL}
-                css={{ marginEnd: "0.2em" }}
-              />
-            </Show>
-          </>
-        }
+        icon={<ChannelIcon channel={props.channel} />}
         actions={
           <Show when={!isMobile}>
             <Show when={canInvite()}>
@@ -635,14 +617,3 @@ function Entry(
     </Column>
   );
 }
-
-/**
- * Channel icon styling
- */
-const ChannelIcon = styled("img", {
-  base: {
-    width: "16px",
-    height: "16px",
-    objectFit: "contain",
-  },
-});
