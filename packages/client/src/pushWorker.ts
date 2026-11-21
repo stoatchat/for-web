@@ -103,7 +103,7 @@ async function isUnread(chanId: string, msgId: string) {
 
     //Check if newer
     const unread = cache.unreads!.find((u) => u._id.channel === chanId);
-    return unread && msgId > unread.last_id!;
+    return !unread?.last_id || msgId > unread.last_id;
   } catch (e) {
     console.error(e);
     return true;
