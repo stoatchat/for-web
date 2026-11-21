@@ -11,6 +11,7 @@ import {
 
 import type { Client, User } from "stoat.js";
 
+import { useDevice } from "@revolt/common";
 import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
@@ -35,6 +36,7 @@ export function ClientContext(props: {
   const { openModal } = useModals();
   const state = useState();
   const instance = useInstance();
+  const device = useDevice();
   const [ready, setReady] = createSignal(false);
 
   const controller = new ClientController(state, instance, setReady);
@@ -71,6 +73,26 @@ export function ClientContext(props: {
     }
   });
 
+  createEffect(() => {
+    if (!device.isPWA && !window.native && instance.client.ready()) {
+      const badgeVal =
+        //Friend requests
+        instance.client.users.filter((user) => user.relationship === "Incoming")
+          .length +
+        //Unread DMs & Channels
+        instance.client.channels.filter(
+          (chan) =>
+            !chan.muted &&
+            (chan.type === "DirectMessage" ||
+            state.notifications.computeForChannel(chan) === "all"
+              ? chan.unread
+              : (chan.mentions?.size as number) > 0),
+        ).length;
+
+      setBadge(badgeVal);
+    }
+  });
+
   return (
     <clientContext.Provider value={controller}>
       <Show when={ready()} fallback={<LoadingScreen />}>
@@ -79,6 +101,70 @@ export function ClientContext(props: {
       {props.preLoad}
     </clientContext.Provider>
   );
+}
+
+let origIcon: string,
+  lastVal = 0;
+
+/** Set the favicon notification badge */
+async function setBadge(value: number) {
+  const icon = document.querySelector(
+      'link[rel="shortcut icon"]',
+    ) as HTMLLinkElement,
+    c = document.createElement("canvas"),
+    ctx = c.getContext("2d")!,
+    img = new Image(),
+    radius = 14;
+
+  if (value === lastVal) return;
+  lastVal = value;
+  origIcon ||= icon.href;
+  if (!value) {
+    icon.href = origIcon;
+    return;
+  }
+
+  return new Promise<void>((res, rej) => {
+    img.onload = () => {
+      //Only apply if value is still up-to-date
+      if (value !== lastVal) return;
+
+      c.width = img.width;
+      c.height = img.height;
+      ctx.drawImage(img, 0, 0);
+
+      const fontSize = radius * 2,
+        ofsX = value > 9 ? Math.round(radius / 2) : 0,
+        badgeX = c.width - radius,
+        badgeY = c.height - radius;
+
+      //Draw badge
+      ctx.beginPath();
+      ctx.roundRect(
+        badgeX - radius - ofsX,
+        badgeY - radius,
+        radius * 2 + ofsX,
+        radius * 2,
+        radius,
+      );
+      ctx.fillStyle = "#e30";
+      ctx.fill();
+      ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "#fff";
+      ctx.fillText(
+        value > 9 ? "9+" : `${value}`,
+        badgeX - Math.floor(ofsX / 2),
+        badgeY + 2,
+      );
+
+      icon.href = c.toDataURL("image/png");
+      res();
+    };
+    img.onerror = rej;
+    img.src = origIcon;
+  });
 }
 
 /**
