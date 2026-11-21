@@ -29,6 +29,8 @@ const scope = new URL(self.registration.scope),
   root = scope.origin,
   userId = scope.search.slice(2);
 
+self.addEventListener("install", () => self.skipWaiting());
+
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   if (typeof event.notification.data === "string") {

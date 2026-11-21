@@ -3,7 +3,7 @@ import devtools from "@solid-devtools/transform";
 import legacy from "@vitejs/plugin-legacy";
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";
-import { defineConfig } from "vite";
+import { build, defineConfig } from "vite";
 import babelMacrosPlugin from "vite-plugin-babel-macros";
 import Inspect from "vite-plugin-inspect";
 import { VitePWA } from "vite-plugin-pwa";
@@ -15,6 +15,45 @@ import { addFontPreload } from "./fontpreload.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
 const pwaScope = process.env.PWA_SCOPE || base;
+
+const resolves = {
+  alias: {
+    "styled-system": resolve(__dirname, "styled-system"),
+    ...readdirSync(resolve(__dirname, "components")).reduce(
+      (p, f) => ({
+        ...p,
+        [`@revolt/${f}`]: resolve(__dirname, "components", f),
+      }),
+      {},
+    ),
+  },
+};
+
+function buildPushWorker() {
+  return {
+    name: "build-pw",
+    async closeBundle() {
+      await build({
+        configFile: false,
+        build: {
+          emptyOutDir: false,
+          lib: {
+            entry: resolve(__dirname, "src/pushWorker.ts"),
+            formats: ["iife"],
+            name: "pushWorker",
+            fileName: () => "pushWorker.js",
+          },
+          rollupOptions: {
+            output: {
+              inlineDynamicImports: true,
+            },
+          },
+        },
+        resolve: resolves,
+      });
+    },
+  };
+}
 
 export default defineConfig({
   base,
@@ -97,20 +136,8 @@ export default defineConfig({
         // TODO: take advantage of shortcuts
       },
     }),
+    buildPushWorker(),
   ],
-  worker: {
-    format: "es",
-    plugins: () => [
-      //Fix for plugin-legacy not working with Web Workers
-      {
-        name: "no-legacy-worker",
-        renderChunk(code) {
-          if (code.includes("__VITE_IS_LEGACY__"))
-            return code.replaceAll("__VITE_IS_LEGACY__", "!1");
-        },
-      },
-    ],
-  },
   build: {
     target: "esnext",
     cssTarget: "esnext",
@@ -137,16 +164,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["hast"],
   },
-  resolve: {
-    alias: {
-      "styled-system": resolve(__dirname, "styled-system"),
-      ...readdirSync(resolve(__dirname, "components")).reduce(
-        (p, f) => ({
-          ...p,
-          [`@revolt/${f}`]: resolve(__dirname, "components", f),
-        }),
-        {},
-      ),
-    },
-  },
+  resolve: resolves,
 });
