@@ -4,7 +4,7 @@ import localforage from "localforage";
 import { API } from "stoat.js";
 import { decodeTime } from "ulid";
 
-import { CONFIGURATION } from "@revolt/common";
+import CONFIGURATION from "@revolt/common/lib/env";
 import type { Session, TypeAuth } from "@revolt/state/stores/Auth";
 
 declare let self: ServiceWorkerGlobalScope;

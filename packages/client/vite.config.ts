@@ -100,6 +100,16 @@ export default defineConfig({
   ],
   worker: {
     format: "es",
+    plugins: () => [
+      //Fix for plugin-legacy not working with Web Workers
+      {
+        name: "no-legacy-worker",
+        renderChunk(code) {
+          if (code.includes("__VITE_IS_LEGACY__"))
+            return code.replaceAll("__VITE_IS_LEGACY__", "!1");
+        },
+      },
+    ],
   },
   build: {
     target: "esnext",
