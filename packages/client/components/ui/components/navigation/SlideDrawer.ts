@@ -67,6 +67,7 @@ export class SlideDrawer {
   constructor(
     private drawer: HTMLElement,
     private root: HTMLElement,
+    initHide?: boolean,
   ) {
     this.start = this.start.bind(this);
     this.move = this.move.bind(this);
@@ -79,6 +80,9 @@ export class SlideDrawer {
     //iOS can background the app mid-swipe without sending either
     document.addEventListener("visibilitychange", this.onHide);
     window.addEventListener("pagehide", this.onHide);
+
+    //Default hidden
+    if (initHide) this.lShow = false;
 
     createRoot((dispose) => {
       this.dispose = dispose;
