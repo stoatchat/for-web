@@ -70,6 +70,14 @@ export default defineConfig({
         display: "standalone",
         background_color: "#191919",
         theme_color: "#191919",
+        share_target: {
+          action: "/_share",
+          method: "POST",
+          enctype: "multipart/form-data",
+          params: {
+            files: [{ name: "files", accept: "*/*" }],
+          },
+        },
         icons: [
           {
             src: `${base}assets/web/android-chrome-192x192.png`,
