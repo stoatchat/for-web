@@ -191,7 +191,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             {
               id: "account",
               icon: <></>,
-              title: <></>,
+              title: <Trans>My Account</Trans>,
               hidden: true,
             },
             {
