@@ -8,15 +8,27 @@ import {
   createEffect,
   createMemo,
   createSignal,
+  onCleanup,
   useContext,
 } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
-import { useQuery } from "@tanstack/solid-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/solid-query";
+import { ImageEmbed, VideoEmbed, WebsiteEmbed } from "stoat.js";
+import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
 import { debounce, useDevice } from "@revolt/common";
+import {
+  GifboxApi,
+  GifboxCategory,
+  GifboxCategoryList,
+  GifboxPage,
+  gifboxIdFromUrl,
+  gifboxPosterUrl,
+  gifboxPreviewMedia,
+} from "@revolt/common/lib/gifbox";
 import { useInstance } from "@revolt/instance";
 import { useState } from "@revolt/state";
 import {
@@ -27,11 +39,9 @@ import {
   TextField,
   typography,
 } from "@revolt/ui/components/design";
+import { Gif } from "@revolt/ui/components/utils/GifEmbed";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-import { Gif } from "@revolt/ui/components/utils/GifEmbed";
-import { ImageEmbed, VideoEmbed, WebsiteEmbed } from "stoat.js";
-import { css } from "styled-system/css";
 import { CompositionMediaPickerContext } from "./CompositionMediaPicker";
 
 /**
@@ -49,18 +59,64 @@ const GIFBOX_LEARN_MORE_URL = "https://stoat.gg/meet-gifbox";
  */
 const GIFBOX_UPLOAD_URL = "https://gifbox.me/upload";
 
-type GifCategory = { title: string; image: string };
+/**
+ * Filter value used to show featured GIFs instead of searching
+ */
+const FEATURED_FILTER = "trending";
 
-// The api response from gifbox
-type GifResult = {
+/**
+ * Number of GIFs to request per page
+ */
+const PAGE_SIZE = 30;
+
+/**
+ * GIF shown in the picker grid
+ */
+type PickerGif = {
+  /**
+   * URL sent as the message
+   */
   url: string;
-  media_formats: Record<"webm" | "tinywebm", { url: string }>;
+  /**
+   * Gifbox GIF ID, used to report shares
+   */
+  id?: string;
+  title?: string;
+  /**
+   * Still frame shown while the preview loads
+   */
+  poster?: string;
+  preview: {
+    type: "video" | "image";
+    url: string;
+    /**
+     * Dimensions, or 0 if unknown
+     */
+    width: number;
+    height: number;
+  };
 };
 
-// Builds on top of the api response to facilitate favourites.
-type GifResultWithImages = GifResult & {
-  image?: string;
-};
+/**
+ * Preview media for a category tile
+ */
+type TilePreview = { type: "video" | "image"; url: string; poster?: string };
+
+/**
+ * Gifbox client for this instance: the generic picker API when an API key is
+ * configured, otherwise the Stoat picker API with the user's session
+ */
+function useGifboxApi() {
+  const client = useClient();
+  const instance = useInstance();
+
+  return new GifboxApi(
+    instance.gifboxUrl,
+    instance.gifboxApiKey
+      ? { apiKey: instance.gifboxApiKey }
+      : { sessionToken: () => client()!.authenticationHeader[1] },
+  );
+}
 
 export function GifPicker() {
   const { isMobile } = useDevice();
@@ -134,14 +190,18 @@ export function GifPicker() {
           </Match>
           <Match when={showFavourites()}>
             <GifLayout
-              data={favourites.gifs().map((gif) => ({
-                url: gif.url,
-                ...(gif.image ? { image: gif.preview } : {}),
-                media_formats: {
-                  webm: { url: gif.preview },
-                  tinywebm: { url: gif.preview },
-                },
-              }))}
+              data={favourites.gifs().map(
+                (gif): PickerGif => ({
+                  url: gif.url,
+                  id: gifboxIdFromUrl(gif.url),
+                  preview: {
+                    type: gif.image ? "image" : "video",
+                    url: gif.preview,
+                    width: 0,
+                    height: 0,
+                  },
+                }),
+              )}
               showingFavourites={showFavourites()}
             />
           </Match>
@@ -356,7 +416,7 @@ type CategoryItem =
        * Category entry
        */
       t: 0;
-      category: GifCategory;
+      category: GifboxCategory;
     }
   | {
       /**
@@ -375,24 +435,12 @@ function Categories(props: {
   setFilter: Setter<string>;
   setShowFavourites: Setter<boolean>;
 }) {
-  const client = useClient();
-  const instance = useInstance();
+  const gifbox = useGifboxApi();
   const { favourites } = useState();
 
-  const trendingCategories = useQuery<GifCategory[]>(() => ({
-    queryKey: ["trendingGifCategories"],
-    queryFn: () => {
-      const [authHeader, authHeaderValue] = client()!.authenticationHeader;
-
-      return fetch(`${instance.gifboxUrl}/categories?locale=en_US`, {
-        headers: {
-          [authHeader]: authHeaderValue,
-        },
-      }).then((r) => {
-        if (!r.ok) throw new Error(`Gifbox categories failed: ${r.status}`);
-        return r.json();
-      });
-    },
+  const categoryList = useQuery<GifboxCategoryList>(() => ({
+    queryKey: ["gifboxCategories"],
+    queryFn: () => gifbox.categories(),
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   }));
@@ -402,9 +450,10 @@ function Categories(props: {
       [
         ...(favourites.gifs().length > 0 ? [{ t: 2 }] : []),
         { t: 1 },
-        ...(Array.isArray(trendingCategories.data)
-          ? trendingCategories.data.map((category) => ({ t: 0, category }))
-          : []),
+        ...(categoryList.data?.categories ?? []).map((category) => ({
+          t: 0,
+          category,
+        })),
       ] as CategoryItem[],
   );
 
@@ -413,22 +462,39 @@ function Categories(props: {
       <CategoryGrid role="list">
         <For each={items()}>
           {(item) => {
-            const mostRecentGif = favourites.mostRecentGif();
+            // favourites show the most recent favourite, categories their top
+            // result and the featured tile the top featured GIF
+            const preview = (): TilePreview | undefined => {
+              if (item.t === 2) {
+                const gif = favourites.mostRecentGif();
+                return (
+                  gif && {
+                    type: gif.image ? "image" : "video",
+                    url: gif.preview,
+                  }
+                );
+              }
+
+              const media =
+                item.t === 0
+                  ? item.category.preview
+                  : categoryList.data?.featured?.preview;
+              const best = gifboxPreviewMedia(media);
+              return (
+                best && {
+                  type: best.type,
+                  url: best.media.url,
+                  poster: gifboxPosterUrl(media),
+                }
+              );
+            };
+
             return (
               <Category
                 item={item}
                 setFilter={props.setFilter}
                 setShowFavourites={props.setShowFavourites}
-                videoUrl={
-                  item.t === 2 && !mostRecentGif?.image
-                    ? mostRecentGif?.preview
-                    : undefined
-                }
-                imageUrl={
-                  item.t === 2 && mostRecentGif?.image
-                    ? mostRecentGif?.preview
-                    : undefined
-                }
+                preview={preview()}
               />
             );
           }}
@@ -442,26 +508,18 @@ function Category(props: {
   item: CategoryItem;
   setFilter: Setter<string>;
   setShowFavourites: Setter<boolean>;
-  videoUrl?: string;
-  imageUrl?: string;
+  preview?: TilePreview;
 }) {
   return (
     <CategoryBox
-      trending={props.item.t === 1}
+      trending={props.item.t === 1 && !props.preview}
       role="listitem"
       tabIndex={0}
-      style={
-        props.item.t === 0
-          ? { "background-image": `url("${props.item.category.image}")` }
-          : props.imageUrl
-            ? { "background-image": `url("${props.imageUrl}")` }
-            : undefined
-      }
       onClick={() =>
         props.item.t === 2
           ? props.setShowFavourites(true)
           : props.setFilter(
-              props.item.t === 0 ? props.item.category.title : "trending",
+              props.item.t === 0 ? props.item.category.query : FEATURED_FILTER,
             )
       }
       onMouseDown={(e) => {
@@ -470,30 +528,38 @@ function Category(props: {
         e.stopImmediatePropagation();
       }}
     >
-      <Show when={props.videoUrl}>
-        {(videoUrl) => (
-          <video
-            playsinline
-            loop
-            muted
-            autoplay
-            preload="metadata"
-            src={videoUrl()!}
-            class={css({
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-              minWidth: "100%",
-              minHeight: "100%",
-            })}
-          />
+      <Show when={props.preview}>
+        {(preview) => (
+          <>
+            <Switch>
+              <Match when={preview().type === "video"}>
+                <video
+                  class={tileMedia}
+                  playsinline
+                  loop
+                  autoplay
+                  muted
+                  poster={preview().poster}
+                  src={preview().url}
+                />
+              </Match>
+              <Match when={preview().type === "image"}>
+                <img
+                  class={tileMedia}
+                  loading="lazy"
+                  alt=""
+                  src={preview().url}
+                />
+              </Match>
+            </Switch>
+            <Scrim />
+          </>
         )}
       </Show>
       <Label>
         <Switch fallback={<Trans>Trending GIFs</Trans>}>
           <Match when={props.item.t === 0}>
-            {(props.item as CategoryItem & { t: 0 }).category.title}
+            {(props.item as CategoryItem & { t: 0 }).category.name}
           </Match>
           <Match when={props.item.t === 2}>
             <Trans>Favourites</Trans>
@@ -520,16 +586,10 @@ const CategoryBox = styled("div", {
     width: "100%",
     aspectRatio: "16 / 10",
 
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-
     display: "flex",
     alignItems: "end",
     justifyContent: "start",
     padding: "var(--gap-md)",
-
-    // scrim so the label stays legible
-    boxShadow: "inset 0 -56px 48px -16px rgba(0, 0, 0, 0.7)",
   },
   variants: {
     trending: {
@@ -539,6 +599,30 @@ const CategoryBox = styled("div", {
       },
       false: {},
     },
+  },
+});
+
+/**
+ * Animated preview filling a category tile
+ */
+const tileMedia = css({
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  pointerEvents: "none",
+});
+
+/**
+ * Darkens the bottom of a tile, so the label stays properly readable
+ */
+const Scrim = styled("div", {
+  base: {
+    position: "absolute",
+    inset: 0,
+    pointerEvents: "none",
+    boxShadow: "inset 0 -56px 48px -16px rgba(0, 0, 0, 0.7)",
   },
 });
 
@@ -552,38 +636,49 @@ const Label = styled("span", {
 });
 
 function GifSearch(props: { query: string }) {
-  const client = useClient();
-  const instance = useInstance();
+  const gifbox = useGifboxApi();
 
-  const search = useQuery<GifResult[]>(() => ({
-    queryKey: ["gifs", props.query],
-    queryFn: () => {
-      const [authHeader, authHeaderValue] = client()!.authenticationHeader;
-
-      return fetch(
-        `${instance.gifboxUrl}/` +
-          (props.query === "trending"
-            ? `trending?locale=en_US`
-            : `search?locale=en_US&query=${encodeURIComponent(props.query)}`),
-        {
-          headers: {
-            [authHeader]: authHeaderValue,
-          },
-        },
-      )
-        .then((r) => {
-          if (!r.ok) throw new Error(`Gifbox search failed: ${r.status}`);
-          return r.json();
-        })
-        .then((resp) => resp.results);
-    },
+  const search = useInfiniteQuery(() => ({
+    queryKey: ["gifboxGifs", props.query],
+    queryFn: ({ pageParam }: { pageParam?: string }): Promise<GifboxPage> =>
+      props.query === FEATURED_FILTER
+        ? gifbox.featured(pageParam, PAGE_SIZE)
+        : gifbox.search(props.query, pageParam, PAGE_SIZE),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage: GifboxPage) =>
+      lastPage.nextCursor ?? undefined,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   }));
 
+  const gifs = createMemo(
+    () =>
+      search.data?.pages
+        .flatMap((page) => page.results)
+        .flatMap((gif): PickerGif[] => {
+          const preview = gifboxPreviewMedia(gif.media);
+          return preview
+            ? [
+                {
+                  url: gif.url,
+                  id: gif.id,
+                  title: gif.title,
+                  poster: gifboxPosterUrl(gif.media),
+                  preview: {
+                    type: preview.type,
+                    url: preview.media.url,
+                    width: preview.media.width,
+                    height: preview.media.height,
+                  },
+                },
+              ]
+            : [];
+        }) ?? [],
+  );
+
   return (
     <Show
-      when={search.data?.length}
+      when={gifs().length}
       fallback={
         <Centered
           onMouseDown={(e) => {
@@ -614,17 +709,51 @@ function GifSearch(props: { query: string }) {
         </Centered>
       }
     >
-      <GifLayout data={search.data} />
+      <GifLayout
+        data={gifs()}
+        onEndReached={() => {
+          if (search.hasNextPage && !search.isFetchingNextPage) {
+            search.fetchNextPage();
+          }
+        }}
+        loadingMore={search.isFetchingNextPage}
+      />
     </Show>
   );
 }
 
 function GifLayout(props: {
-  data?: GifResultWithImages[];
+  data: PickerGif[];
   showingFavourites?: boolean;
+  /**
+   * Called when the end of the list scrolls into view
+   */
+  onEndReached?: () => void;
+  loadingMore?: boolean;
 }) {
   const { onMessage } = useContext(CompositionMediaPickerContext);
   const client = useClient();
+  const gifbox = useGifboxApi();
+
+  /**
+   * Send a GIF and report the share to Gifbox for popularity ranking
+   */
+  function sendGif(gif: PickerGif) {
+    onMessage(gif.url);
+    if (gif.id) gifbox.share(gif.id).catch(() => {});
+  }
+
+  function observeEnd(element: HTMLDivElement) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) props.onEndReached?.();
+      },
+      { rootMargin: "200px" },
+    );
+
+    observer.observe(element);
+    onCleanup(() => observer.disconnect());
+  }
 
   return (
     <Scroller>
@@ -634,7 +763,15 @@ function GifLayout(props: {
             <GifTile
               role="listitem"
               tabIndex={0}
-              onClick={() => onMessage(gif.url)}
+              title={gif.title}
+              style={
+                gif.preview.width && gif.preview.height
+                  ? {
+                      "aspect-ratio": `${gif.preview.width} / ${gif.preview.height}`,
+                    }
+                  : undefined
+              }
+              onClick={() => sendGif(gif)}
               onMouseDown={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -645,31 +782,38 @@ function GifLayout(props: {
                 gif={
                   new WebsiteEmbed(client(), {
                     original_url: gif.url,
-                    ...(gif.image
+                    ...(gif.preview.type === "image"
                       ? {
                           image: new ImageEmbed(client(), {
-                            url: gif.image,
-                            height: 0,
-                            width: 0,
+                            url: gif.preview.url,
+                            width: gif.preview.width,
+                            height: gif.preview.height,
                             size: "Preview",
                           }),
                         }
                       : {
                           video: new VideoEmbed(client(), {
-                            url: gif.media_formats.tinywebm.url,
-                            height: 0,
-                            width: 0,
+                            url: gif.preview.url,
+                            width: gif.preview.width,
+                            height: gif.preview.height,
                           }),
                         }),
                   })
                 }
                 preSized
                 noModal
+                poster={gif.poster}
               />
             </GifTile>
           )}
         </For>
       </Masonry>
+      <Show when={props.onEndReached}>
+        <div ref={observeEnd} />
+      </Show>
+      <Show when={props.loadingMore}>
+        <Loader />
+      </Show>
       <EndOfResults
         onMouseDown={(e) => {
           e.preventDefault();
@@ -681,7 +825,7 @@ function GifLayout(props: {
           when={!props.showingFavourites}
           fallback={
             <ExplainerBody>
-              <Trans>Click the star on gifs to stash them here.</Trans>
+              <Trans>Click the star on GIFs to stash them here.</Trans>
             </ExplainerBody>
           }
         >
@@ -740,15 +884,10 @@ const GifTile = styled("div", {
     marginBottom: "var(--gap-sm)",
     breakInside: "avoid",
 
-    "& video": {
+    "& video, & img": {
       width: "100%",
-      height: "auto",
-      display: "block",
-    },
-
-    "& img": {
-      width: "100%",
-      height: "auto",
+      height: "100%",
+      objectFit: "cover",
       display: "block",
     },
   },

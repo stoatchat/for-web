@@ -19,7 +19,10 @@ export default class Instance {
   readonly apiUrl: string;
   readonly mediaUrl: string;
   readonly proxyUrl: string;
+  /** Gifbox server origin */
   readonly gifboxUrl: string;
+  /** Gifbox API key; when unset, the Stoat picker API is used */
+  readonly gifboxApiKey: string | undefined;
 
   #cli;
   #setCli;
@@ -43,8 +46,8 @@ export default class Instance {
     this.apiUrl = appCfg.api;
     this.mediaUrl = apiCfg.features.autumn.url;
     this.proxyUrl = apiCfg.features.january.url;
-    //TODO Gifbox URL from backend
-    this.gifboxUrl = CONFIGURATION.DEV_GIFBOX_URL || "https://api.gifbox.me";
+    this.gifboxUrl = CONFIGURATION.DEV_GIFBOX_URL || "https://rpc.gifbox.me";
+    this.gifboxApiKey = CONFIGURATION.GIFBOX_API_KEY || undefined;
 
     //Features
     this.config = apiCfg;
