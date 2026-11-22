@@ -7,10 +7,10 @@ import { useState } from "@revolt/state";
 import { useSnackbar } from "@revolt/ui";
 
 import { IS_DEV, useClient } from ".";
-import pushWorker from "/src/pushWorker?worker&url";
 
-const PushPrefix = "/?@";
-const pwPath = pushWorker.slice(0, pushWorker.lastIndexOf("/")) + PushPrefix;
+const pwURL = "/pushWorker.js",
+  PushPrefix = "/?@",
+  pwPath = pwURL + PushPrefix;
 
 export function useNotifications() {
   const { settings, auth } = useState();
@@ -46,6 +46,8 @@ export function useNotifications() {
   };
 
   const initNotifications = async () => {
+    await clearOldWorkers();
+
     if (
       settings.desktopNotificationsState === "default" ||
       (await notificationStateMismatch())
@@ -81,21 +83,40 @@ export function useNotifications() {
         await enablePushSubscription();
       }
     }
+  };
 
+  async function clearOldWorkers() {
     //Unproductive workers will not be tolerated in Soviet Russia
     const sesList = auth.getSessions().map((s) => pwPath + s.userId);
+    let newUrl = false;
     for (const worker of await navigator.serviceWorker.getRegistrations()) {
       if (worker.scope.indexOf(PushPrefix) !== -1) {
         const wUrl = new URL(worker.scope);
-        if (!sesList.includes(wUrl.pathname + wUrl.search)) {
+        if (sesList.includes(wUrl.pathname + wUrl.search)) {
+          const url = (worker?.active || worker?.waiting || worker?.installing)
+            ?.scriptURL;
+
+          //Worker URL changed
+          if (url && new URL(url).pathname !== pwURL) {
+            await worker.unregister();
+            newUrl = true;
+          } else await worker.update();
+        } else {
           console.warn(
             `[push] Unregistered dead worker for ${wUrl.search.slice(1)}`,
           );
-          worker.unregister();
+          await worker.unregister();
         }
       }
     }
-  };
+
+    if (newUrl && auth.hasMultiSession())
+      snackbar.show({
+        message: t`Push worker updated! Be sure to quick-switch to each at least once to automatically re-enable push notifications.`,
+        closeable: true,
+        autoCloseDelay: 0,
+      });
+  }
 
   const toggleNotificationPermission = async (modalOnDeny?: boolean) => {
     if (settings.desktopNotificationsState !== "allowed") {
@@ -157,7 +178,7 @@ async function setUpServiceWorkerSubscription(client: Client) {
     throw "Client not configured";
   }
 
-  const worker = await navigator.serviceWorker.register(pushWorker, {
+  const worker = await navigator.serviceWorker.register(pwURL, {
     scope: pwPath + client.user.id,
     type: "module",
   });
