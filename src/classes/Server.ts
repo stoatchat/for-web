@@ -338,9 +338,10 @@ export class Server {
    * Own member object for this server
    */
   get member(): ServerMember | undefined {
+    if (!this.#collection.client.user) return undefined;
     return this.#collection.client.serverMembers.getByKey({
       server: this.id,
-      user: this.#collection.client.user!.id,
+      user: this.#collection.client.user.id,
     });
   }
 

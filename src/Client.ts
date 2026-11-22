@@ -200,6 +200,7 @@ export class Client extends AsyncEventEmitter<Events> {
   user: User | undefined;
 
   readonly ready: Accessor<boolean>;
+  #ready: Accessor<boolean>;
   #setReady: Setter<boolean>;
 
   readonly configured: Accessor<boolean>;
@@ -216,6 +217,7 @@ export class Client extends AsyncEventEmitter<Events> {
   readonly entitlements: Accessor<ProtocolV1["types"]["entitlement"][]>;
   #setEntitlements: Setter<ProtocolV1["types"]["entitlement"][]>;
   #reconnectTimeout: number | undefined;
+  #disposed = false;
 
   /**
    * Server and roles to calculate permissions as, for previewing a role
@@ -280,8 +282,9 @@ export class Client extends AsyncEventEmitter<Events> {
     this.#setConfigured = setConfigured;
 
     const [ready, setReady] = createSignal(false);
-    this.ready = ready;
+    this.#ready = ready;
     this.#setReady = setReady;
+    this.ready = () => !this.#disposed && this.#ready();
 
     const [connectionFailureCount, setConnectionFailureCount] = createSignal(0);
     this.connectionFailureCount = connectionFailureCount;
@@ -417,6 +420,7 @@ export class Client extends AsyncEventEmitter<Events> {
    * Connect to Revolt
    */
   connect(): void {
+    if (this.#disposed) return;
     clearTimeout(this.#reconnectTimeout);
     this.#setReady(false);
     this.events.connect(
@@ -517,15 +521,81 @@ export class Client extends AsyncEventEmitter<Events> {
   /**
    * Log out of current session
    *
-   * This function prepares the client for disposal by removing all event listeners and killing the events socket.
+   * This function fully disposes the client by removing all event listeners
+   * and killing the events socket. It is disposed regardless of whether the
+   * logout request is successful or not.
    */
   async logout(): Promise<void> {
-    await this.api.post("/auth/session/logout");
+    if (this.#disposed) return;
+    try {
+      await this.api.post("/auth/session/logout");
+    } catch {
+      // Ignore errors, low risk/priority.
+    } finally {
+      this.dispose();
+    }
+  }
+
+  /**
+   * Whether this client has been disposed
+   */
+  get disposed(): boolean {
+    return this.#disposed;
+  }
+
+  /**
+   * Dispose of this client
+   *
+   * Stops any pending reconnects and timers, removes all event listeners and kills the events socket,
+   * so that the client can be garbage collected. The client must not be used after calling this.
+   * Calling this more than once is a no-op.
+   */
+  dispose(): void {
+    if (this.#disposed) return;
+    this.#disposed = true;
+
+    clearTimeout(this.#reconnectTimeout);
+    this.#reconnectTimeout = undefined;
+
+    // Remove listeners before closing the socket so nobody observes the disconnect
     this.events.removeAllListeners();
     this.removeAllListeners();
     this.events.disconnect();
-    this.#setEntitlements([]);
-    this.#setViewAs(undefined);
+
+    batch(() => {
+      this.#setReady(false);
+      this.#setEntitlements([]);
+      this.#setViewAs(undefined);
+    });
+
+    this.user = undefined;
+    this.#session = undefined;
+    this.#updateHeaders();
+
+    const collections = [
+      this.bots,
+      this.channels,
+      this.channelUnreads,
+      this.channelWebhooks,
+      this.emojis,
+      this.messages,
+      this.servers,
+      this.serverMembers,
+      this.sessions,
+      this.users,
+    ];
+
+    for (const collection of collections) collection._close();
+
+    // Release cached data. If something outside our control (e.g. a detached
+    // DOM node held by the browser) still references this client, it then
+    // pins an empty shell rather than the whole account's state.
+    // Deferred so UI still being torn down doesn't observe empty collections.
+    setTimeout(() =>
+      batch(() => {
+        for (const collection of collections) collection._clear();
+      }),
+    );
   }
 
   /**

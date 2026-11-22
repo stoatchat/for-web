@@ -202,7 +202,8 @@ export class Message {
     return (
       !!(this.flags & MessageFlags.MentionsEveryone) ||
       !!(this.flags & MessageFlags.MentionsOnline) ||
-      this.mentionIds?.includes(this.#collection.client.user!.id) ||
+      (this.#collection.client.user &&
+        this.mentionIds?.includes(this.#collection.client.user.id)) ||
       this.roleMentions?.some((role) => role.assigned) ||
       false
     );

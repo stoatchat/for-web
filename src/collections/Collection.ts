@@ -117,6 +117,7 @@ export abstract class Collection<T> {
 export abstract class StoreCollection<T, V> extends Collection<T> {
   #storage = new ObjectStorage<V>();
   #objects = new ReactiveMap<string, T>();
+  #closed = false;
   readonly getUnderlyingObject: (id: string) => V;
   readonly updateUnderlyingObject: SetStoreFunction<Record<string, V>>;
 
@@ -126,7 +127,11 @@ export abstract class StoreCollection<T, V> extends Collection<T> {
   constructor() {
     super();
     this.getUnderlyingObject = (key) => this.#storage.get(key) ?? ({} as V);
-    this.updateUnderlyingObject = this.#storage.set;
+    const set = this.#storage.set;
+    // Wrapper function that makes the update a no-op if this collection is closed.
+    this.updateUnderlyingObject = ((...args: Parameters<typeof set>) => {
+      if (!this.#closed) set(...args);
+    }) as typeof set;
   }
 
   /**
@@ -153,7 +158,33 @@ export abstract class StoreCollection<T, V> extends Collection<T> {
    */
   delete(id: string): void {
     this.#objects.delete(id);
-    this.updateUnderlyingObject(id, undefined as never);
+    this.#storage.set(id, undefined as never);
+  }
+
+  /**
+   * Close the collection, disallowing any further creation or adding.
+   * @internal
+   */
+  _close(): void {
+    this.#closed = true;
+  }
+
+  get closed(): boolean {
+    return this.#closed;
+  }
+
+  /**
+   * Drop every object held by this collection. If this collection is not
+   * closed, _clear is a no-op.
+   * @returns Whether the clear ran
+   * @internal
+   */
+  _clear(): boolean {
+    if (!this.#closed) return false;
+    for (const id of [...this.#objects.keys()]) {
+      this.delete(id);
+    }
+    return true;
   }
 
   /**
@@ -171,6 +202,7 @@ export abstract class StoreCollection<T, V> extends Collection<T> {
     context: unknown,
     data?: unknown,
   ): void {
+    if (this.#closed) return;
     this.#storage.hydrate(id, type, context, data);
     this.#objects.set(id, instance);
   }
@@ -194,6 +226,7 @@ export abstract class StoreCollection<T, V> extends Collection<T> {
    * @param hydrated Hydrated
    */
   protected add(id: string, instance: T, hydrated: V) {
+    if (this.#closed) return;
     this.#storage.add(id, hydrated);
     this.#objects.set(id, instance);
   }

@@ -59,7 +59,7 @@ export class ChannelUnreadCollection extends ClassCollection<
     return this.getOrCreate(channel.id, {
       _id: {
         channel: channel.id,
-        user: this.client.user!.id,
+        user: this.client.user?.id ?? "",
       },
       last_id: null,
       mentions: [],

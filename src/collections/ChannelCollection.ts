@@ -83,4 +83,9 @@ export class ChannelCollection extends ClassCollection<
 
     return this.getOrCreate(group._id, group, true);
   }
+
+  override _close(): void {
+    super._close();
+    for (const channel of this.values()) channel._dispose();
+  }
 }
