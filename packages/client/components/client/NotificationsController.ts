@@ -110,9 +110,9 @@ export function useNotifications() {
       }
     }
 
-    if (newUrl)
+    if (newUrl && auth.hasMultiSession())
       snackbar.show({
-        message: t`Push worker updated! If you're logged into multiple accounts, be sure to quick-switch to each at least once to automatically re-enable push notifications.`,
+        message: t`Push worker updated! Be sure to quick-switch to each at least once to automatically re-enable push notifications.`,
         closeable: true,
         autoCloseDelay: 0,
       });
