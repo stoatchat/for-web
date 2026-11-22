@@ -827,7 +827,12 @@ function FolderPreview(props: { servers: Server[]; colour?: string }) {
     >
       <For each={props.servers.slice(0, 4)}>
         {(server) => (
-          <Avatar size={size()} src={server.iconURL} fallback={server.name} />
+          <Avatar
+            shape="circle"
+            size={size()}
+            src={server.iconURL}
+            fallback={server.name}
+          />
         )}
       </For>
     </FolderPreviewBase>
