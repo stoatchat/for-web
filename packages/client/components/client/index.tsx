@@ -74,20 +74,22 @@ export function ClientContext(props: {
   });
 
   createEffect(() => {
-    if (!device.isPWA && !window.native && instance.client.ready()) {
-      const badgeVal =
-        //Friend requests
-        instance.client.users.filter((user) => user.relationship === "Incoming")
-          .length +
-        //Unread DMs & Channels
-        instance.client.channels.filter(
-          (chan) =>
-            !chan.muted &&
-            (chan.type === "DirectMessage" ||
-            state.notifications.computeForChannel(chan) === "all"
-              ? chan.unread
-              : (chan.mentions?.size as number) > 0),
-        ).length;
+    if (!device.isPWA && !window.native) {
+      const badgeVal = instance.client.ready()
+        ? //Friend requests
+          instance.client.users.filter(
+            (user) => user.relationship === "Incoming",
+          ).length +
+          //Unread DMs & Channels
+          instance.client.channels.filter(
+            (chan) =>
+              !chan.muted &&
+              (chan.type === "DirectMessage" ||
+              state.notifications.computeForChannel(chan) === "all"
+                ? chan.unread
+                : (chan.mentions?.size as number) > 0),
+          ).length
+        : 0;
 
       setBadge(badgeVal);
     }

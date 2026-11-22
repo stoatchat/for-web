@@ -25,7 +25,7 @@ interface StoatPushNotification {
 }
 
 const scope = new URL(self.registration.scope),
-  badgePath = new URL("../assets/web/monochrome.svg", scope).pathname,
+  badgePath = new URL("./assets/web/monochrome.svg", scope).pathname,
   root = scope.origin,
   userId = scope.search.slice(2);
 
