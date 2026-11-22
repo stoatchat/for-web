@@ -238,9 +238,15 @@ export function gifboxIdFromUrl(url: string | undefined) {
   const match =
     parsed.pathname.match(/^\/view\/([^/]+)/) ??
     parsed.pathname.match(/^\/media\/post\/([^/]+)\//);
-  const id = match
-    ? decodeURIComponent(match[1]).slice(0, GIFBOX_ID_LENGTH)
-    : "";
+  if (!match) return;
+
+  let id: string;
+  try {
+    id = decodeURIComponent(match[1]).slice(0, GIFBOX_ID_LENGTH);
+  } catch {
+    // malformed percent escape
+    return;
+  }
 
   return /^[\w-]+$/.test(id) && id.length === GIFBOX_ID_LENGTH ? id : undefined;
 }
