@@ -7,7 +7,7 @@ import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { getChannelIcon } from "@revolt/common/lib/channels";
 import { normalizeHost } from "@revolt/common/lib/env";
-import { RE_APP_PRIV_PATH } from "@revolt/common/lib/links";
+import { RE_APP_PUB_PATH } from "@revolt/common/lib/links";
 import { DefaultHost, useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { paramsFromPathname } from "@revolt/routing";
@@ -82,7 +82,7 @@ export function RenderAnchor(
     } else url.host = normalizeHost(url.host);
 
     // Determine whether it's in our scope
-    if (RE_APP_PRIV_PATH.test(url.pathname)) {
+    if (RE_APP_PUB_PATH.test(url.pathname)) {
       const client = useClient(),
         params = paramsFromPathname(url.pathname);
 
