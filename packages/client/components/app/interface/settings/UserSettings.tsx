@@ -63,8 +63,11 @@ const Config: SettingsConfiguration<{ server: Server }> = {
 
     if (id?.startsWith("bots/") && id.endsWith("/permissions")) {
       const botId = id.slice("bots/".length, -"/permissions".length);
-      const bot = client().bots.get(botId);
-      return bot ? <ChannelPermissionsEditor type="bot" context={bot} /> : null;
+      return (
+        <Show when={client().bots.get(botId)} keyed>
+          {(bot) => <ChannelPermissionsEditor type="bot" context={bot} />}
+        </Show>
+      );
     }
 
     if (id?.startsWith("bots/")) {
