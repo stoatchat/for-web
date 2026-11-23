@@ -22,7 +22,6 @@ const isNative = !!window.native;
 
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
-    // the desktop app may not have sent its config yet
     isNative
       ? (window.desktopConfig.get()?.windowState?.isMaximised ?? false)
       : false,
@@ -47,7 +46,7 @@ export function Titlebar() {
     <Presence>
       <Show
         when={
-          (isNative && window.desktopConfig?.get().customFrame) ||
+          (isNative && window.desktopConfig?.get()?.customFrame) ||
           isDisconnected()
         }
       >
