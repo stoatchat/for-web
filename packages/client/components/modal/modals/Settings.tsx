@@ -38,6 +38,7 @@ export function SettingsModal(
   return (
     <Portal mount={document.getElementById("floating")!}>
       <div
+        inert={!props.show}
         style={{
           "z-index": 100,
           position: "fixed",
