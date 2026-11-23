@@ -2,7 +2,8 @@ import { Trans, useLingui } from "@lingui/solid/macro";
 import { JSX, Show, createSignal, onCleanup, onMount } from "solid-js";
 import { styled } from "styled-system/jsx";
 
-import { useInstance } from "@revolt/instance";
+import { useClientLifecycle } from "@revolt/client";
+import { ForceSwapUser, useInstance } from "@revolt/instance";
 import Instance from "@revolt/instance/Instance";
 import { Button, CircularProgress, Symbol, Text } from "@revolt/ui";
 
@@ -57,7 +58,10 @@ type StatusResponse = {
  * a troubleshooting notice is shown to help the user diagnose their connection issues.
  * We also link to the support page there.
  */
-export function LoadingScreen(props: { isStoat?: boolean }) {
+export function LoadingScreen(props: {
+  isStoat?: boolean;
+  swapUser?: () => void;
+}) {
   const instance = useInstance() as Instance | undefined;
   const { t } = useLingui();
 
@@ -146,6 +150,7 @@ export function LoadingScreen(props: { isStoat?: boolean }) {
               title={current.title}
               url={STATUS_PAGE_URL}
               action={<Trans>View status page</Trans>}
+              swapUser={props.swapUser}
             />
           ) : (
             <NoticeContent
@@ -154,6 +159,7 @@ export function LoadingScreen(props: { isStoat?: boolean }) {
               title={t`You may be experiencing connection issues.`}
               url={TROUBLESHOOTING_URL}
               action={<Trans>Troubleshooting</Trans>}
+              swapUser={props.swapUser}
             />
           )
         }
@@ -172,7 +178,10 @@ function NoticeContent(props: {
   title: JSX.Element;
   url: string;
   action: JSX.Element;
+  swapUser?: () => void;
 }) {
+  const ctrl = useClientLifecycle();
+
   return (
     <Notice>
       <Header>
@@ -194,6 +203,18 @@ function NoticeContent(props: {
       >
         {props.action}
       </Button>
+      <Show when={props.swapUser ?? ctrl}>
+        <Button
+          variant="text"
+          onPress={() =>
+            props.swapUser
+              ? props.swapUser()
+              : ctrl.lifecycle.showError(ForceSwapUser)
+          }
+        >
+          <Trans>Switch Account</Trans>
+        </Button>
+      </Show>
     </Notice>
   );
 }

@@ -6,9 +6,8 @@ import { styled } from "styled-system/jsx";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
-import { Button, Ripple, Symbol, typography } from "@revolt/ui";
+import { Button, Ripple, Symbol, typography, Wordmark } from "@revolt/ui";
 
-import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
 const isMacOS = navigator.platform.startsWith("Mac");

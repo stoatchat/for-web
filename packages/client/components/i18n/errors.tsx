@@ -3,6 +3,7 @@ import { createMemo, Match, Switch } from "solid-js";
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 
+import { ForceSwapUser } from "@revolt/instance";
 import { AuthError } from "@revolt/state/stores/Auth";
 
 const RE_BREAK = /\s*\n\s*/g;
@@ -22,7 +23,11 @@ function cleanError(error: unknown) {
 }
 
 /** Any error we can translate */
-type KnownError = API.Error | AuthError | { type: "SocketError" };
+type KnownError =
+  | API.Error
+  | AuthError
+  | typeof ForceSwapUser
+  | { type: "SocketError" };
 
 /**
  * Translate any error
@@ -147,6 +152,8 @@ export function useError() {
           }
         case "SocketError":
           return t`The web socket was unable to connect to the backend.`;
+        case "InitSwapUser":
+          return t`But not to worry! You can try logging in or swapping to another account from here.`;
         case "ContactSupport":
           switch (err.locale) {
             case "discover.bot_removal_approved":

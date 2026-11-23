@@ -5,6 +5,7 @@ import { Trans } from "@lingui/solid/macro";
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
 import { useError } from "@revolt/i18n";
+import { ForceSwapUser } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { A, Navigate } from "@revolt/routing";
 import { useState } from "@revolt/state";
@@ -47,6 +48,9 @@ export default function FlowLogin() {
   const invalSession = () =>
     (lifecycle.permanentError as { type: string })?.type === "InvalidSession";
 
+  if (lifecycle.permanentError === ForceSwapUser)
+    modals.openModal({ type: "swap_user" });
+
   return (
     <>
       <Switch
@@ -62,6 +66,12 @@ export default function FlowLogin() {
             <Form onSubmit={performLogin}>
               <Fields fields={["email", "password"]} />
               <Column gap="sm" align class="auth-help-links">
+                <Button
+                  variant="text"
+                  onPress={() => modals.openModal({ type: "login_advanced" })}
+                >
+                  <Trans>Advanced</Trans>
+                </Button>
                 <A href="/login/reset">
                   <Button variant="text">
                     <Trans>Forgot password?</Trans>

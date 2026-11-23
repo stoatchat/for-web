@@ -15,6 +15,7 @@ import { createDateNow } from "@solid-primitives/date";
 import equal from "fast-deep-equal";
 import localforage from "localforage";
 
+import { useInstance } from "@revolt/instance";
 import { LoadingScreen } from "@revolt/ui";
 import { SlideDrawer } from "@revolt/ui/components/navigation/SlideDrawer";
 
@@ -23,6 +24,7 @@ import { Auth, TypeAuth } from "./stores/Auth";
 import { Draft } from "./stores/Draft";
 import { Experiments } from "./stores/Experiments";
 import { Favourites } from "./stores/Favourites";
+import { Hosts } from "./stores/Hosts";
 import { Keybinds } from "./stores/Keybinds";
 import { Layout } from "./stores/Layout";
 import { LinkSafety } from "./stores/LinkSafety";
@@ -86,6 +88,7 @@ export class State {
 
   // define all stores
   auth = new Auth(this);
+  host = new Hosts(this);
   draft = new Draft(this);
   experiments = new Experiments(this);
   favourites = new Favourites(this);
@@ -268,7 +271,10 @@ export class State {
       //If session exists, use session store
       const ses = this.store.auth.session;
       this.db =
-        ses && localforage.createInstance({ storeName: `@${ses.userId}` });
+        ses &&
+        localforage.createInstance({
+          storeName: `${ses.host ?? ""}@${ses.userId}`,
+        });
     }
 
     // load all data first
@@ -304,7 +310,7 @@ export class State {
     if (storeKeys) {
       const ses = this.store.auth.session,
         sesNames = [...(ses ? [ses] : []), ...this.store.auth.saved].map(
-          (s) => `@${s.userId}`,
+          (s) => `${s.host ?? ""}@${s.userId}`,
         );
       for (const key of storeKeys)
         if (key.indexOf("@") !== -1 && !sesNames.includes(key)) {
@@ -326,10 +332,12 @@ const stateContext = createContext<State>(null! as State);
 export function StateContext(props: { children: JSX.Element }) {
   const state = new State();
   const [ready, setReady] = createSignal(false);
+  const instance = useInstance();
 
   onMount(async () => {
     try {
       await state.hydrate(true);
+      if (instance.globalError) throw instance.globalError;
     } catch (e) {
       state.auth.globalError = e;
     }

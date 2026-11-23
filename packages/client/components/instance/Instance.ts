@@ -17,9 +17,12 @@ export default class Instance {
   readonly #nav;
 
   readonly apiUrl: string;
-  readonly mediaUrl: string;
-  readonly proxyUrl: string;
+  readonly mediaUrl!: string;
+  readonly proxyUrl!: string;
   readonly gifboxUrl: string;
+
+  /** Wordmark SVG content */
+  wordmark!: string;
 
   #cli;
   #setCli;
@@ -32,6 +35,9 @@ export default class Instance {
 
   /** Current enforced limits based on user type */
   readonly limits!: Accessor<UserLimits>;
+
+  /** Trip immediate PermanentError on load if set */
+  globalError?: unknown;
 
   constructor(appCfg: AppConfig, cli: Client, host: string, nav: Navigator) {
     const apiCfg = cli.configuration!;
@@ -114,6 +120,56 @@ export default class Instance {
   }
 }
 
+type Config = NonNullable<Client["configuration"]>;
+
+export function _initMock(cli: Client) {
+  const limits: Config["features"]["limits"]["default"] = {
+    outgoing_friend_requests: 0,
+    bots: 0,
+    message_length: 0,
+    message_attachments: 0,
+    servers: 0,
+    voice_quality: 0,
+    video: false,
+    video_resolution: [],
+    video_aspect_ratio: [],
+    file_upload_size_limits: {},
+  };
+
+  cli.setConfig({
+    revolt: "",
+    features: {
+      email: false,
+      invite_only: false,
+      captcha: { enabled: false, key: "" },
+      autumn: { enabled: false, url: "" },
+      january: { enabled: false, url: "" },
+      livekit: { enabled: false, nodes: [] },
+      limits: {
+        global: {
+          group_size: 0,
+          message_embeds: 0,
+          message_replies: 0,
+          message_reactions: 0,
+          server_emoji: 0,
+          server_roles: 0,
+          server_channels: 0,
+          body_limit_size: 0,
+          restrict_server_creation: [],
+          new_user_hours: 0,
+        },
+        new_user: limits,
+        default: limits,
+      },
+      legal_links: {} as Config["features"]["legal_links"],
+    },
+    ws: "",
+    app: "",
+    vapid: "",
+    build: {} as Config["build"],
+  });
+}
+
 export function _newClient(apiUrl: string) {
   const cli = new Client({
     baseURL: apiUrl,
@@ -123,15 +179,17 @@ export function _newClient(apiUrl: string) {
   });
 
   //Init client with env overrides
-  cli.initConfig((config) => {
-    if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
-      if (CONFIGURATION.DEV_WS_URL) config.ws = CONFIGURATION.DEV_WS_URL;
-      if (CONFIGURATION.DEV_MEDIA_URL)
-        config.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
-      if (CONFIGURATION.DEV_PROXY_URL)
-        config.features.january.url = CONFIGURATION.DEV_PROXY_URL;
-    }
-  });
+  cli
+    .initConfig((config) => {
+      if (cli.options.baseURL === CONFIGURATION.DEFAULT_API_URL) {
+        if (CONFIGURATION.DEV_WS_URL) config.ws = CONFIGURATION.DEV_WS_URL;
+        if (CONFIGURATION.DEV_MEDIA_URL)
+          config.features.autumn.url = CONFIGURATION.DEV_MEDIA_URL;
+        if (CONFIGURATION.DEV_PROXY_URL)
+          config.features.january.url = CONFIGURATION.DEV_PROXY_URL;
+      }
+    })
+    .catch(() => _initMock(cli));
 
   return cli;
 }
