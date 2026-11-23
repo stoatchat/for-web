@@ -242,7 +242,15 @@ export function usePermissionEntries() {
         Any: t`React to messages with emoji`,
       },
     },
-
+    {
+      key: "UseExternalEmojis",
+      value: 2n ** 41n,
+      title: t`Use External Emojis`,
+      description: {
+        Server: t`Use emoji from other servers`,
+        TextChannel: t`Use emoji from other servers`,
+      },
+    },
     {
       key: "BypassSlowmode",
       value: 2n ** 39n,
@@ -331,15 +339,6 @@ export function usePermissionEntries() {
       title: t`Mention Roles`,
       description: {
         Any: t`Mention specific roles`,
-      },
-    },
-    {
-      key: "UseExternalEmojis",
-      value: 2n ** 41n,
-      title: t`Use External Emojis`,
-      description: {
-        Server: t`Use emoji from other servers`,
-        TextChannel: t`Use emoji from other servers`,
       },
     },
   ] as {
