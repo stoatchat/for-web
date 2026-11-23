@@ -1,13 +1,16 @@
+import { createMemo } from "solid-js";
+
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { createFormControl, createFormGroup } from "solid-forms";
+import { styled } from "styled-system/jsx";
 
 import { useState } from "@revolt/state";
 import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
-import { Avatar, Column, Dialog, DialogProps, Form2, Ripple } from "@revolt/ui";
+import { Avatar, Dialog, DialogProps, Form2, Ripple } from "@revolt/ui";
 
-import { createMemo } from "solid-js";
-import { styled } from "styled-system/jsx";
 import { Modals } from "../types";
+
+//TODO Need to test w/ desktop build that nothing broke here
 
 export function ScreenSharePickerModal(
   props: DialogProps & Modals & { type: "screen_share_picker" },
@@ -59,42 +62,40 @@ export function ScreenSharePickerModal(
           },
         },
       ]}
+      hasScroll={true}
     >
       <form onSubmit={submit}>
-        <Column>
-          <Form2.VirtualSelect
-            control={group.controls.idx}
-            items={sources()}
-            selectHeight="max(30vh, 200px)"
-            isMaxHeight={true}
-            itemHeight={60}
-          >
-            {(val, selected) => (
-              <Item selected={selected}>
-                <Ripple />
-                <Avatar
-                  src={val.image}
-                  fallback={val.name}
-                  size={36}
-                  shape="rounded-square"
-                />
-                <span>{val.name}</span>
-              </Item>
-            )}
-          </Form2.VirtualSelect>
-          <Form2.ButtonGroup
-            control={group.controls.qualityName}
-            buttonDefinitions={props.qualities.map((quality) => {
-              return {
-                children: quality.fullName,
-                value: quality.name,
-              };
-            })}
-          />
-          <Form2.Checkbox control={group.controls.audio}>
-            <Trans>Share audio</Trans>
-          </Form2.Checkbox>
-        </Column>
+        <Form2.VirtualSelect
+          control={group.controls.idx}
+          items={sources()}
+          maxHeight="max(30vh, 200px)"
+          itemHeight={60}
+        >
+          {(val, selected) => (
+            <Item selected={selected}>
+              <Ripple />
+              <Avatar
+                src={val.image}
+                fallback={val.name}
+                size={36}
+                shape="rounded-square"
+              />
+              <span>{val.name}</span>
+            </Item>
+          )}
+        </Form2.VirtualSelect>
+        <Form2.ButtonGroup
+          control={group.controls.qualityName}
+          buttonDefinitions={props.qualities.map((quality) => {
+            return {
+              children: quality.fullName,
+              value: quality.name,
+            };
+          })}
+        />
+        <Form2.Checkbox control={group.controls.audio}>
+          <Trans>Share audio</Trans>
+        </Form2.Checkbox>
       </form>
     </Dialog>
   );

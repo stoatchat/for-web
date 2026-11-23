@@ -24,7 +24,6 @@ import {
 } from "@revolt/ui";
 
 import { HeaderIcon } from "../common/CommonHeader";
-
 import { canIHasSidebar, SidebarState } from "./text/TextChannel";
 
 interface Props {

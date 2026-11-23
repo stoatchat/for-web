@@ -391,4 +391,7 @@ export type Modals =
     }
   | {
       type: "quick_switch";
+    }
+  | {
+      type: "share_to";
     };
