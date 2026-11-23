@@ -1,5 +1,3 @@
-import { ReactiveSet } from "@solid-primitives/set";
-
 export enum KeybindAction {
   /**
    * Navigate to channel above current channel
@@ -91,25 +89,63 @@ export const ACTION_PRIORITY: KeybindAction[] = [
   KeybindAction.CHAT_FOCUS_COMPOSITION,
 ];
 
+export type KeybindEvent = Pick<
+  KeyboardEvent,
+  "key" | "ctrlKey" | "metaKey" | "altKey" | "shiftKey" | "target"
+>;
+
+export function normalizeKey(key: string) {
+  return key.length === 1 ? key.toLowerCase() : key;
+}
+
+export function matchesSequence(
+  sequence: (string | RegExp)[],
+  event: Pick<
+    KeyboardEvent,
+    "key" | "ctrlKey" | "metaKey" | "altKey" | "shiftKey"
+  >,
+) {
+  const key = normalizeKey(event.key);
+  return sequence.every((part) => {
+    if (part instanceof RegExp) return part.test(key);
+    switch (part) {
+      case "Control":
+        return event.ctrlKey;
+      case "Meta":
+        return event.metaKey;
+      case "Alt":
+        return event.altKey;
+      case "Shift":
+        return event.shiftKey;
+      default:
+        return key === part;
+    }
+  });
+}
+
 /**
  * Filter keybinds with special logic
  * @param keybind Keybind to filter
- * @param currentlyBound Other keybinds currently bound
+ * @param event Keyboard event
+ * @param key Normalized event key
+ * @param isBound Check whether a keybind is currently bound
+ * @param target Event target
  * @returns Whether to include this keybind
  */
 export function keybindFilter(
   keybind: KeybindAction,
-  activeKeys: ReactiveSet<string>,
-  currentlyBound: Record<KeybindAction, number>,
-  target: HTMLElement | null,
+  event: Pick<KeyboardEvent, "ctrlKey" | "metaKey">,
+  key: string,
+  isBound: (action: KeybindAction) => boolean,
+  target: EventTarget | null,
 ) {
   if (keybind === KeybindAction.CHAT_FOCUS_COMPOSITION) {
     // don't allow focusing if modal/floating is open
     // or if we're editing a message
     if (
-      currentlyBound[KeybindAction.CLOSE_FLOATING] ||
-      currentlyBound[KeybindAction.CLOSE_MODAL] ||
-      currentlyBound[KeybindAction.CHAT_CANCEL_EDITING]
+      isBound(KeybindAction.CLOSE_FLOATING) ||
+      isBound(KeybindAction.CLOSE_MODAL) ||
+      isBound(KeybindAction.CHAT_CANCEL_EDITING)
     )
       return false;
 
@@ -117,18 +153,53 @@ export function keybindFilter(
     if (isTypingContext(target)) return false;
 
     // don't allow focusing if modifier key is pressed... except for paste
-    if (
-      (activeKeys.has("Control") || activeKeys.has("Meta")) &&
-      !(activeKeys.has("v") || activeKeys.has("a"))
-    )
+    if ((event.ctrlKey || event.metaKey) && key !== "v" && key !== "a")
       return false;
   }
 
   return true;
 }
 
+/**
+ * Resolve the highest-priority bound keybind matching the given keyboard event
+ */
+export function resolveKeybind(
+  event: KeybindEvent,
+  sequences: Record<KeybindAction, (string | RegExp)[]>,
+  isBound: (action: KeybindAction) => boolean,
+): KeybindAction | undefined {
+  if (!event.key) return undefined;
+
+  const target = event.target;
+  const isInput = isTypingContext(target);
+  const key = normalizeKey(event.key);
+
+  return ACTION_PRIORITY.find((keybind) => {
+    if (!isBound(keybind)) return false;
+    if (!keybindFilter(keybind, event, key, isBound, target)) return false;
+
+    // prevent standard character keybinds from firing inside inputs
+    if (
+      isInput &&
+      !sequences[keybind].some(
+        (k) =>
+          k === "Control" ||
+          k === "Meta" ||
+          k === "Alt" ||
+          k === "Escape" ||
+          k === "Enter",
+      )
+    ) {
+      return false;
+    }
+
+    return matchesSequence(sequences[keybind], event);
+  });
+}
+
 export function isTypingContext(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
+  if (typeof HTMLElement === "undefined" || !(target instanceof HTMLElement))
+    return false;
   return (
     target instanceof HTMLInputElement ||
     target instanceof HTMLTextAreaElement ||
