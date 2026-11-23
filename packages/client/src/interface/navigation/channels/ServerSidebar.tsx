@@ -569,8 +569,10 @@ function Entry(
           <>
             <Symbol
               color={
-                props.channel.isVoice && inCall()
-                  ? "var(--md-sys-color-primary)"
+                inCall()
+                  ? props.active
+                    ? "var(--md-sys-color-on-primary-container)"
+                    : "var(--md-sys-color-primary)"
                   : undefined
               }
             >

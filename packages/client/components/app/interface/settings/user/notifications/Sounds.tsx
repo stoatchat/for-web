@@ -43,7 +43,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -63,7 +68,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -83,7 +93,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -103,7 +118,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -123,7 +143,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -153,7 +178,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -175,7 +205,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -195,7 +230,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>
@@ -215,7 +255,12 @@ export default function Sounds() {
                   },
                 }}
               >
-                <Symbol size={18}>volume_up</Symbol>
+                <Symbol
+                  color={"var(--md-sys-color-on-secondary-container)"}
+                  size={18}
+                >
+                  volume_up
+                </Symbol>
               </IconButton>
             </Content>
           </CategoryButton>

@@ -71,8 +71,6 @@ const Preview = styled("div", {
     flexDirection: "column",
     gap: "var(--gap-sm)",
     padding: "var(--gap-lg)",
-
-    color: "var(--md-sys-color-on-surface)",
   },
 });
 

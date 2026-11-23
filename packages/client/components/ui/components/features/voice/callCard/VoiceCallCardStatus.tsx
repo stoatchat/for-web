@@ -83,13 +83,13 @@ const Status = styled("div", {
     status: {
       READY: {},
       CONNECTED: {
-        color: "var(--md-sys-color-primary)",
+        color: "var(--md-sys-color-on-surface)",
       },
       CONNECTING: {
         color: "var(--md-sys-color-outline)",
       },
       DISCONNECTED: {
-        color: "var(--md-sys-color-outline)",
+        color: "var(--md-sys-color-error)",
       },
       RECONNECTING: {
         color: "var(--md-sys-color-outline)",
