@@ -71,7 +71,7 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
     id: createFormControl([] as string[], { required: true }),
   });
 
-  const availableGroups = createMemo(() => {
+  const allGroups = createMemo(() => {
     const instance = client();
 
     return [
@@ -83,10 +83,15 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
         .filter((channel) => channel.type === "Group")
         .filter((channel) => !channel.recipientIds.has(props.invite.id)),
     ]
-      .filter((group) => group.name.toLowerCase().includes(filterLowercase()))
       .toSorted((a, b) => a.name.localeCompare(b.name))
       .map((item) => ({ item, value: item.id }));
   });
+
+  const availableGroups = createMemo(() =>
+    allGroups().filter((entry) =>
+      entry.item.name.toLowerCase().includes(filterLowercase()),
+    ),
+  );
 
   const entries = usePermissionEntries();
 
@@ -95,10 +100,9 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
    */
   const requested = () => BigInt(props.invite.defaultPermissions ?? 0);
 
+  // resolve against the unfiltered list so searching doesn't drop the selection
   const selectedItem = createMemo(
-    () =>
-      availableGroups().find((e) => e.value === group.controls.id.value[0])
-        ?.item,
+    () => allGroups().find((e) => e.value === group.controls.id.value[0])?.item,
   );
 
   const selectedServer = createMemo(() => {
@@ -149,24 +153,30 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
     return !!server && (BigInt(server.permission) & value) === value;
   };
 
-  async function onSubmit() {
-    try {
-      const entry = availableGroups().find(
-        (entry) => entry.value === group.controls.id.value[0],
-      )!;
+  const [pending, setPending] = createSignal(false);
 
-      if (entry.item instanceof Server) {
+  async function onSubmit() {
+    if (pending()) return;
+
+    const item = selectedItem();
+    if (!item) return;
+
+    setPending(true);
+    try {
+      if (item instanceof Server) {
         await props.invite.addToServer(
-          entry.item,
+          item,
           granted() !== 0n ? granted() : undefined,
         );
       } else {
-        await props.invite.addToGroup(entry.item);
+        await props.invite.addToGroup(item);
       }
 
       props.onClose();
     } catch (error) {
       showError(error);
+    } finally {
+      setPending(false);
     }
   }
 
@@ -191,7 +201,7 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
                   onSubmit();
                   return false;
                 },
-                isDisabled: !Form2.canSubmit(group),
+                isDisabled: !Form2.canSubmit(group) || pending(),
               },
         ]
       : [
@@ -201,6 +211,7 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
               setStep("select");
               return false;
             },
+            isDisabled: pending(),
           },
           {
             text: <Trans>Add</Trans>,
@@ -208,6 +219,7 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
               onSubmit();
               return false;
             },
+            isDisabled: pending(),
           },
         ];
 
@@ -216,7 +228,7 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
       show={props.show}
       onClose={props.onClose}
       actions={actions()}
-      isDisabled={group.isPending}
+      isDisabled={group.isPending || pending()}
     >
       <Switch>
         <Match when={step() === "select"}>
