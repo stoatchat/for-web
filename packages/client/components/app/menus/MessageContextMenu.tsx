@@ -4,6 +4,7 @@ import { Accessor, For, Match, Show, Switch } from "solid-js";
 import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
+import { gifboxIdFromUrl } from "@revolt/common/lib/gifbox";
 import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
@@ -17,6 +18,7 @@ import {
   ContextMenuDivider,
   ContextMenuSubMenu,
 } from "./ContextMenu";
+import { GifboxContextMenuItems } from "./shared/GifboxContextMenu";
 
 // TODO: This context menu should really be split out into two, a message and a file menu.
 
@@ -230,6 +232,22 @@ export function MessageContextMenu(props: {
     return url;
   }
 
+  /**
+   * Gifbox GIF ID of the file, if it is a Gifbox embed
+   */
+  function gifboxId() {
+    if (props.file instanceof WebsiteEmbed) {
+      return (
+        gifboxIdFromUrl(props.file.originalUrl) ??
+        gifboxIdFromUrl(props.file.url)
+      );
+    }
+
+    if (props.file instanceof ImageEmbed || props.file instanceof VideoEmbed) {
+      return gifboxIdFromUrl(props.file.url);
+    }
+  }
+
   function copyLink() {
     navigator.clipboard.writeText(props.link ?? "");
   }
@@ -253,27 +271,30 @@ export function MessageContextMenu(props: {
               >
                 <Show
                   when={state.favourites.hasGif(favourite())}
-                  fallback={<Trans>Favourite Gif</Trans>}
+                  fallback={<Trans>Favourite GIF</Trans>}
                 >
-                  <Trans>Unfavourite Gif</Trans>
+                  <Trans>Unfavourite GIF</Trans>
                 </Show>
               </ContextMenuButton>
               <ContextMenuDivider />
             </>
           )}
         </Show>
-        <ContextMenuButton
-          icon={<Symbol size={16}>open_in_new</Symbol>}
-          onClick={openFile}
-        >
-          <Trans>Open file</Trans>
-        </ContextMenuButton>
-        <ContextMenuButton
-          icon={<Symbol size={16}>link</Symbol>}
-          onClick={copyFileLink}
-        >
-          <Trans>Copy link to file</Trans>
-        </ContextMenuButton>
+        {/* Gifbox GIFs get "Open in Gifbox" and "Copy link to GIF" instead */}
+        <Show when={!gifboxId()}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>open_in_new</Symbol>}
+            onClick={openFile}
+          >
+            <Trans>Open file</Trans>
+          </ContextMenuButton>
+          <ContextMenuButton
+            icon={<Symbol size={16}>link</Symbol>}
+            onClick={copyFileLink}
+          >
+            <Trans>Copy link to file</Trans>
+          </ContextMenuButton>
+        </Show>
         <Show when={props.file instanceof File}>
           <a
             target="_blank"
@@ -290,6 +311,9 @@ export function MessageContextMenu(props: {
           >
             <Trans>Copy file</Trans>
           </ContextMenuButton>
+        </Show>
+        <Show when={gifboxId()}>
+          {(id) => <GifboxContextMenuItems id={id()} />}
         </Show>
 
         <Show when={props.link || props.message}>

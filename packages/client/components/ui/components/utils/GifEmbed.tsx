@@ -14,6 +14,10 @@ export function Gif(props: {
   gif: WebsiteEmbed;
   preSized?: boolean;
   noModal?: boolean;
+  /**
+   * Still frame shown while a video loads
+   */
+  poster?: string;
 }) {
   const { openModal } = useModals();
   const { message, reactPicker } = useMessage();
@@ -73,6 +77,7 @@ export function Gif(props: {
               muted
               autoplay
               preload="metadata"
+              poster={props.poster}
               src={props.gif.video!.url}
               use:floating={{
                 contextMenu: () => (
@@ -138,7 +143,7 @@ export function GifFavouriter(props: { gif: WebsiteEmbed }) {
             }
           }}
           aria-label={
-            favourites.hasGif(gif()) ? t`Unfavourite Gif` : t`Favourite Gif`
+            favourites.hasGif(gif()) ? t`Unfavourite GIF` : t`Favourite GIF`
           }
           onClick={(e) => {
             e.stopPropagation();

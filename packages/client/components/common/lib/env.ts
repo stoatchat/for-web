@@ -59,8 +59,12 @@ export default {
   DEV_MEDIA_URL: getEnv("VITE_DEV_MEDIA_URL"),
   /** Proxy server override for development */
   DEV_PROXY_URL: getEnv("VITE_DEV_PROXY_URL"),
-  /** Gifbox server override for development */
+  /** Gifbox server origin override for development */
   DEV_GIFBOX_URL: getEnv("VITE_DEV_GIFBOX_URL"),
+  /**
+   * Gifbox API key for self-hosted instances
+   */
+  GIFBOX_API_KEY: getEnv("VITE_GIFBOX_API_KEY"),
   /**
    * RNNoise worklet CDN host location. Defaults to blank, which uses the url provided by the livekit-rnnoise-processor package.
    */
