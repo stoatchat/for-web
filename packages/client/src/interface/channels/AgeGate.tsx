@@ -1,7 +1,8 @@
-import { JSXElement, Match, Suspense, Switch } from "solid-js";
+import { createSignal, JSXElement, Match, Suspense, Switch } from "solid-js";
 
 import { Trans } from "@lingui/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
+import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useState } from "@revolt/state";
@@ -16,19 +17,12 @@ type GeoBlock = {
 /**
  * Age gate filter for any content
  */
-export function AgeGate(props: {
-  enabled: boolean;
-  contentId: string;
-  contentName: string;
-  contentType: "channel";
-  children: JSXElement;
-}) {
+export function AgeGate(props: { channel: Channel; children: JSXElement }) {
   const state = useState();
 
-  const confirmed = () =>
-    state.layout.getSectionState(LAYOUT_SECTIONS.MATURE, false);
+  const [confirmed, setConfirm] = createSignal(false);
   const allowed = () =>
-    state.layout.getSectionState(props.contentId + "-nsfw", false);
+    state.layout.getSectionState(LAYOUT_SECTIONS.MATURE, false);
 
   const geoQuery = useQuery(() => ({
     queryKey: ["geoblock"],
@@ -48,7 +42,7 @@ export function AgeGate(props: {
       <Switch fallback={props.children}>
         <Match
           when={
-            props.enabled &&
+            props.channel.mature &&
             (geoQuery.isLoading ||
               geoQuery.error ||
               (geoQuery.data && geoQuery.data.isAgeRestrictedGeo))
@@ -59,7 +53,7 @@ export function AgeGate(props: {
               warning
             </Symbol>
             <Text class="headline" size="large">
-              {props.contentName}
+              {"#" + props.channel.name}
             </Text>
 
             <Text class="body" size="large">
@@ -78,13 +72,13 @@ export function AgeGate(props: {
             </Button>
           </Base>
         </Match>
-        <Match when={props.enabled && (!confirmed() || !allowed())}>
+        <Match when={props.channel.mature && !allowed()}>
           <Base>
             <Symbol type="rounded" size={128}>
               warning
             </Symbol>
             <Text class="headline" size="large">
-              {props.contentName}
+              {"#" + props.channel.name}
             </Text>
 
             <Text class="body" size="large">
@@ -92,15 +86,7 @@ export function AgeGate(props: {
             </Text>
 
             <Confirmation>
-              <Checkbox
-                checked={state.layout.getSectionState(
-                  LAYOUT_SECTIONS.MATURE,
-                  false,
-                )}
-                onChange={() =>
-                  state.layout.toggleSectionState(LAYOUT_SECTIONS.MATURE, false)
-                }
-              />
+              <Checkbox onChange={() => setConfirm((v) => !v)} />
               <Text class="body" size="large">
                 <Trans>I confirm that I am at least 18 years old.</Trans>
               </Text>
@@ -112,9 +98,10 @@ export function AgeGate(props: {
               </Button>
               <Button
                 variant="filled"
+                isDisabled={!confirmed()}
                 onPress={() =>
                   confirmed() &&
-                  state.layout.setSectionState(props.contentId + "-nsfw", true)
+                  state.layout.setSectionState(LAYOUT_SECTIONS.MATURE, true)
                 }
               >
                 <Trans>Enter Channel</Trans>
@@ -135,6 +122,7 @@ const Base = styled("div", {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    textAlign: "center",
     padding: "var(--gap-lg)",
     userSelect: "none",
     overflowY: "auto",
