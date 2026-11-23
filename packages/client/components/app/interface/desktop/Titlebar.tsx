@@ -16,7 +16,9 @@ const isNative = !!window.native;
 
 export function Titlebar() {
   const [isMaximised, setIsMaximised] = createSignal(
-    isNative ? window.desktopConfig.get().windowState.isMaximised : false,
+    isNative
+      ? (window.desktopConfig.get()?.windowState?.isMaximised ?? false)
+      : false,
   );
   const { lifecycle } = useClientLifecycle();
 
@@ -38,7 +40,7 @@ export function Titlebar() {
     <Presence>
       <Show
         when={
-          (isNative && window.desktopConfig?.get().customFrame) ||
+          (isNative && window.desktopConfig?.get()?.customFrame) ||
           isDisconnected()
         }
       >
