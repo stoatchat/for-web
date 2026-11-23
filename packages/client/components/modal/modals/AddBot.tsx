@@ -156,12 +156,12 @@ export function AddBotModal(props: DialogProps & Modals & { type: "add_bot" }) {
       )!;
 
       if (entry.item instanceof Server) {
-        props.invite.addToServer(
+        await props.invite.addToServer(
           entry.item,
           granted() !== 0n ? granted() : undefined,
         );
       } else {
-        props.invite.addToGroup(entry.item);
+        await props.invite.addToGroup(entry.item);
       }
 
       props.onClose();

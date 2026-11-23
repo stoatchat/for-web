@@ -333,6 +333,15 @@ export function usePermissionEntries() {
         Any: t`Mention specific roles`,
       },
     },
+    {
+      key: "UseExternalEmojis",
+      value: 2n ** 41n,
+      title: t`Use External Emojis`,
+      description: {
+        Server: t`Use emoji from other servers`,
+        TextChannel: t`Use emoji from other servers`,
+      },
+    },
   ] as {
     heading?: string;
     key: string;
