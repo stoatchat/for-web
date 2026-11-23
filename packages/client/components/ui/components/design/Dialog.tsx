@@ -130,7 +130,7 @@ Dialog.Scrim = (
   ]);
 
   return (
-    <Scrim {...remote} class="dialog_scrim">
+    <Scrim {...remote} class="dialog_scrim" inert={!props.show}>
       <ScrimSurface {...local} />
     </Scrim>
   );
