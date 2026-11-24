@@ -547,11 +547,11 @@ function Entry(
   /**
    * Join the voice channel on double click, if enabled in voice settings
    */
-  function joinOnDoubleClick() {
+  const joinOnDoubleClick = () => {
     if (!props.channel.isVoice || !state.voice.joinOnDoubleClick) return;
     if (inCall() || !props.channel.havePermission("Connect")) return;
     voice.connect(props.channel);
-  }
+  };
 
   const attentionState = createMemo(() =>
     props.active

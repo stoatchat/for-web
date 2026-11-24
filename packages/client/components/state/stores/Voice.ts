@@ -92,7 +92,7 @@ export class Voice extends AbstractStore<"voice", TypeVoice> {
       userMutes: {},
       screenShareVolumes: {},
       screenShareMutes: {},
-      joinOnDoubleClick: false,
+      joinOnDoubleClick: true,
     };
   }
 
