@@ -2,7 +2,7 @@
 
 import lnk from "lnk";
 import { lstat, mkdir, readdir, rm, unlink } from "node:fs/promises";
-import { dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 // Anchor every path to this file so the script behaves the same from any cwd.
@@ -14,42 +14,36 @@ const brandAssets = resolve(packageFolder, "assets");
 const fallbackAssets = resolve(scriptsFolder, "assets_fallback");
 
 /**
- * List the top-level entries of an assets directory.
- * Returns null when the directory is missing or empty.
+ * Recursively list every node under an assets folder as a map of relative
+ * path -> "file" | "dir". Hidden entries (the submodule .git link,
+ * .DS_Store, ...) are skipped. Returns null when the folder is missing or
+ * has no visible entries.
  */
-async function listEntries(folder) {
-  let entries;
+async function walkTree(folder) {
+  const nodes = new Map();
+  const walk = async (dir, prefix) => {
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      if (entry.name.startsWith(".")) continue;
+      const rel = prefix === "" ? entry.name : `${prefix}/${entry.name}`;
+      if (entry.isDirectory()) {
+        nodes.set(rel, "dir");
+        await walk(join(dir, entry.name), rel);
+      } else {
+        nodes.set(rel, "file");
+      }
+    }
+  };
   try {
-    entries = await readdir(folder);
+    await walk(folder, "");
   } catch (error) {
     if (error.code === "ENOENT") return null;
     throw error;
   }
-  const visible = entries.filter((entry) => !entry.startsWith("."));
-  return visible.length > 0 ? visible : null;
+  return nodes.size > 0 ? nodes : null;
 }
 
 /**
- * Collect all files under an assets directory as paths relative to it.
- */
-async function listFiles(folder) {
-  const files = [];
-  const walk = async (dir) => {
-    for (const entry of await readdir(dir, { withFileTypes: true })) {
-      if (entry.name.startsWith(".")) continue;
-      const full = join(dir, entry.name);
-      if (entry.isDirectory()) await walk(full);
-      else files.push(relative(folder, full));
-    }
-  };
-  await walk(folder);
-  return files;
-}
-
-/**
- * Clear public/assets so the merged layout can be rebuilt from scratch.
- * It is gitignored and this script is its only writer, so removing it
- * (symlink from older runs, or a leftover directory) is always safe.
+ * Clear public/assets so the merged tree can be rebuilt from scratch.
  */
 async function prepareAssetsFolder() {
   try {
@@ -67,65 +61,80 @@ async function prepareAssetsFolder() {
 }
 
 /**
- * Build public/assets as a merged view: whitelabel fallback entries as the
- * base, checked-out Stoat brand entries overriding on name collision.
+ * Build public/assets as a per-node merge. For every file present in the
+ * whitelabel fallback or the checked-out Stoat brand assets, a symlink is
+ * created from the brand copy when both exist, otherwise from the fallback
+ * copy. Directory nodes are created for real (never linked) so the merged
+ * tree can never write through a source, and no fallback file is ever
+ * shadowed by a folder-level choice.
  */
 async function configureAssets() {
-  const brandEntries = await listEntries(brandAssets);
-  const fallbackEntries = await listEntries(fallbackAssets);
+  const brandNodes = await walkTree(brandAssets);
+  const fallbackNodes = await walkTree(fallbackAssets);
 
-  if (fallbackEntries === null) {
+  if (fallbackNodes === null) {
     throw new Error(
       `Whitelabel fallback assets are missing: ${fallbackAssets}`,
     );
   }
-  if (brandEntries === null) {
+  if (brandNodes === null) {
     console.warn(
       `Warning: Stoat brand assets are missing or empty at ${brandAssets}; using whitelabel assets only.`,
     );
   }
 
-  // entry -> source folder; brand wins over fallback on collision
-  const sources = new Map(
-    fallbackEntries.map((entry) => [entry, fallbackAssets]),
+  // relPath -> source folder; brand wins over the fallback per node.
+  const brandFiles = new Set(
+    [...(brandNodes?.entries() ?? [])]
+      .filter(([, type]) => type === "file")
+      .map(([rel]) => rel),
   );
-  if (brandEntries !== null) {
-    for (const entry of brandEntries) {
-      const collides = sources.has(entry);
-      sources.set(entry, brandAssets);
-      if (!collides) continue;
-      // Warn when a brand entry hides fallback files the app may reference.
-      const [fallbackFiles, brandFiles] = await Promise.all([
-        listFiles(join(fallbackAssets, entry)),
-        listFiles(join(brandAssets, entry)),
-      ]);
-      const shadowed = fallbackFiles.filter(
-        (file) => !brandFiles.includes(file),
-      );
-      if (shadowed.length > 0) {
-        console.warn(
-          `Warning: brand assets/${entry} shadows fallback files: ${shadowed.join(", ")}`,
-        );
-      }
+  // A brand file hides any fallback node nested beneath it.
+  const hiddenByBrandFile = (rel) => {
+    let prefix = rel;
+    while ((prefix = prefix.slice(0, prefix.lastIndexOf("/"))).length > 0) {
+      if (brandFiles.has(prefix)) return true;
+    }
+    return false;
+  };
+
+  const sources = new Map();
+  for (const rel of fallbackNodes.keys()) {
+    if (!hiddenByBrandFile(rel)) sources.set(rel, fallbackAssets);
+  }
+  if (brandNodes !== null) {
+    for (const rel of brandNodes.keys()) sources.set(rel, brandAssets);
+  }
+
+  const typeOf = (rel, source) =>
+    source === brandAssets ? brandNodes?.get(rel) : fallbackNodes.get(rel);
+
+  // Directory nodes first, so every symlink's parent already exists.
+  for (const [rel, source] of sources) {
+    if (typeOf(rel, source) === "dir") {
+      await mkdir(join(assetsPath, rel), { recursive: true });
     }
   }
 
-  for (const [entry, source] of sources) {
-    const stat = await lstat(join(source, entry));
-    // Directories use lnk's default type (symlink on POSIX, junction
-    // fallback on Windows) exactly like the old single-link behavior;
-    // files are plain symlinks.
-    const type = stat.isDirectory() ? "default" : "symbolic";
-    await lnk(join(source, entry), assetsPath, { rename: entry, type });
-    console.info(
-      `assets/${entry} -> ${relative(packageFolder, source)}/${entry}`,
-    );
+  let brandCount = 0;
+  let fallbackCount = 0;
+  for (const [rel, source] of sources) {
+    if (typeOf(rel, source) !== "file") continue;
+    if (source === brandAssets) brandCount += 1;
+    else fallbackCount += 1;
+    await lnk(join(source, rel), join(assetsPath, dirname(rel)), {
+      rename: basename(rel),
+      type: "symbolic",
+    });
   }
 
+  const overridden = [...brandFiles].filter(
+    (rel) => fallbackNodes.get(rel) === "file",
+  ).length;
   console.info(
-    brandEntries !== null
-      ? `Configured Stoat assets with whitelabel fallback (${sources.size} entries).`
-      : `Configured whitelabel fallback assets (${sources.size} entries).`,
+    brandNodes !== null
+      ? `Configured Stoat assets with whitelabel fallback: ${brandCount} brand, ${fallbackCount} whitelabel file(s)${overridden > 0 ? `, ${overridden} overridden by brand` : ""}.`
+      : `Configured whitelabel fallback assets: ${fallbackCount} file(s).`,
   );
 }
 
