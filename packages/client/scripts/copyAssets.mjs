@@ -92,7 +92,8 @@ async function configureAssets() {
   // A brand file hides any fallback node nested beneath it.
   const hiddenByBrandFile = (rel) => {
     let prefix = rel;
-    while ((prefix = prefix.slice(0, prefix.lastIndexOf("/"))).length > 0) {
+    while (prefix.includes("/")) {
+      prefix = prefix.slice(0, prefix.lastIndexOf("/"));
       if (brandFiles.has(prefix)) return true;
     }
     return false;
@@ -124,7 +125,7 @@ async function configureAssets() {
     else fallbackCount += 1;
     await lnk(join(source, rel), join(assetsPath, dirname(rel)), {
       rename: basename(rel),
-      type: "symbolic",
+      ...(process.platform === "win32" ? {} : { type: "symbolic" }),
     });
   }
 
