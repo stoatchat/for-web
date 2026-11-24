@@ -210,8 +210,8 @@ export const mention = cva({
     },
     inEditor: {
       true: {
-        color: "var(--md-sys-color-on-primary)",
-        background: "var(--md-sys-color-primary)",
+        color: "var(--md-sys-color-on-primary-fixed)",
+        background: "var(--md-sys-color-primary-fixed-dim)",
 
         "& img": {
           width: "16px",
