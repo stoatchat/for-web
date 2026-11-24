@@ -353,8 +353,9 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
           });
 
           xhr.addEventListener("loadend", () => {
-            uploadProgress[1](1);
-            resolve([xhr.readyState === 4 && xhr.status === 200, xhr.response]);
+            const success = xhr.readyState === 4 && xhr.status === 200;
+            if (success) uploadProgress[1](1);
+            resolve([success, xhr.response]);
           });
 
           xhr.open("POST", `${this.instance.mediaUrl}/attachments`, true);
@@ -366,7 +367,18 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
           xhr.send(body);
         });
 
-        if (!success) throw "Upload Error";
+        if (!success) {
+          this.set(
+            "outbox",
+            channel.id,
+            this.getPendingMessages(channel.id).map((entry) =>
+              entry.idempotencyKey === idempotencyKey
+                ? { ...entry, status: "failed" }
+                : entry,
+            ),
+          );
+          return;
+        }
 
         attachments.push(response.id);
         this.fileCache[fileId].autumnId = response.id;
