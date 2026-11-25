@@ -3,15 +3,17 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-10-06 23:48+0000\n"
-"Last-Translator: Valera <kot-valera123@proton.me>\n"
-"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/revolt-for-web/ru/>\n"
+"PO-Revision-Date: 2026-11-25 14:17+0000\n"
+"Last-Translator: Kemgamer <kemgamer2022@ya.ru>\n"
+"Language-Team: Russian <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.9.1\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -123,7 +125,7 @@ msgstr "{0} назначил {1} владельцем группы"
 #. placeholder {0}: onlineMembers()
 #: src/interface/channels/text/MemberSidebar.tsx
 msgid "{0} members online"
-msgstr ""
+msgstr "{0} участников в сети"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
@@ -375,11 +377,11 @@ msgstr "Добавить нового друга"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an account"
-msgstr ""
+msgstr "Добавить аккаунт"
 
 #: components/app/interface/settings/user/Account.tsx
 msgid "Add an additional account login for fast-switching"
-msgstr ""
+msgstr "Добавить дополнительный аккаунт для переключения между"
 
 #: components/ui/components/features/profiles/ProfileActions.tsx
 msgid "Add Bot"
@@ -517,7 +519,7 @@ msgstr "Вы уверены, что хотите удалить {0} из {1}?"
 #. placeholder {0}: props.user?.username
 #: components/modal/modals/TransferGroup.tsx
 msgid "Are you sure you want to transfer ownership to <0>{0}</0>?"
-msgstr ""
+msgstr "Вы уверены что хотите передать права владельца <0>{0}</0>?"
 
 #: components/modal/modals/PinMessage.tsx
 msgid "Are you sure you want to unpin this message?"
@@ -639,21 +641,19 @@ msgstr "Баг трекер"
 msgid "Busy"
 msgstr "Занят"
 
-#: components/modal/modals/CreateBot.tsx
 #~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Создавая этого бота вы соглашаетесь с <0>Политикой приемлемого использования</0>."
 
 #: components/modal/modals/CreateBot.tsx
 msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
-msgstr ""
+msgstr "Создавая этого бота, вы соглашаетесь на <0>Правила Сообщества</0>."
 
-#: components/modal/modals/CreateServer.tsx
 #~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Создавая сервер вы соглашаетесь с <0>Политикой приемлемого использования</0>."
 
 #: components/modal/modals/CreateServer.tsx
 msgid "By creating this server, you agree to the <0>Community Guidelines</0>."
-msgstr ""
+msgstr "Создавая этот сервер, вы соглашаетесь с <0>Правилами Сообщества</0>."
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Bypass Slowmode"
@@ -853,7 +853,7 @@ msgstr "Введие своё имя пользователя"
 
 #: components/modal/modals/SwapUser.tsx
 msgid "Choose an account"
-msgstr ""
+msgstr "Выберите аккаунт"
 
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
@@ -1392,7 +1392,7 @@ msgstr "Удалить Сервер"
 
 #: components/auth/src/flows/FlowLogin.tsx
 msgid "Delete session"
-msgstr ""
+msgstr "Отключить сессию"
 
 #: components/modal/modals/DeleteEmoji.tsx
 msgid "Deleting this emoji will disallow future use. All past uses will remain."
@@ -1617,7 +1617,7 @@ msgstr "Включить эффект прозрачности/размытия 
 
 #: components/i18n/errors.tsx
 msgid "Encountered a problem while saving previous session."
-msgstr ""
+msgstr "Возникла проблема в сохранении предыдущей сессии."
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "End call"
@@ -1968,7 +1968,7 @@ msgstr "Тем временем можно установить Stoat из Googl
 
 #: src/interface/Friends.tsx
 msgid "Incoming"
-msgstr ""
+msgstr "Входящий"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Input Volume"
@@ -2162,7 +2162,6 @@ msgstr "Войти"
 #~ msgid "Log In"
 #~ msgstr "Войти"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Log in again"
 #~ msgstr "Войти снова"
 
@@ -2580,7 +2579,6 @@ msgstr "В сети"
 msgid "Only mentions will notify you"
 msgstr "Только упоминания будут уведомлять вас"
 
-#: components/instance/index.tsx
 #~ msgid "Oops, something went wrong! {e}"
 #~ msgstr "Упс, что-то пошло не так! {e}"
 
@@ -2615,7 +2613,7 @@ msgstr "Другое"
 
 #: src/interface/Friends.tsx
 msgid "Outgoing"
-msgstr ""
+msgstr "Исходящий"
 
 #: components/app/interface/settings/user/voice/VoiceInputOptions.tsx
 msgid "Output Volume"
@@ -2697,7 +2695,6 @@ msgstr "Пожалуйста, подтвердите это действие в�
 msgid "Please enter your email."
 msgstr "Введите свою электронную почту."
 
-#: components/i18n/errors.tsx
 #~ msgid "Please log in again."
 #~ msgstr "Пожалуйста, водите снова."
 
@@ -3450,7 +3447,7 @@ msgstr "Поддержите проект пожертвованием - спа�
 
 #: src/interface/navigation/servers/UserMenu.tsx
 msgid "Switch Accounts"
-msgstr ""
+msgstr "Сменить Аккаунт"
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 msgid "Switch to this voice channel"
@@ -3564,7 +3561,7 @@ msgstr "{0} отображается в каталоге"
 
 #: components/client/Controller.ts
 msgid "This account is disabled."
-msgstr ""
+msgstr "Этот аккаунт был отключен."
 
 #: components/i18n/errors.tsx
 msgid "This account is not activated! Please check your account's inbox and try again."
@@ -3705,7 +3702,7 @@ msgstr "Традиционный (DD/MM/YYYY)"
 #: components/app/menus/UserContextMenu.tsx
 #: components/modal/modals/TransferGroup.tsx
 msgid "Transfer Ownership"
-msgstr ""
+msgstr "Передать права Владельца"
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
 msgid "Trending GIFs"
@@ -3807,11 +3804,11 @@ msgstr "Использовать код или ссылку приглашени
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use emoji from other servers"
-msgstr ""
+msgstr "Использовать эмодзи с других серверов"
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
 msgid "Use External Emojis"
-msgstr ""
+msgstr "Использовать внешние эмодзи"
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Use the graphics card to improve performance."
@@ -3975,7 +3972,6 @@ msgstr "Хотите поменять имя пользователя?"
 msgid "We are working hard on optimising our web app for mobile."
 msgstr "Мы активно работаем над оптимизацией веб-приложения для мобильных устройств."
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
 #~ msgstr "Не удалось выполнить вход в аккаунт. Повторите попытку позже или проверьте статус работы Stoat."
 
