@@ -29,6 +29,26 @@ export function AddFriendModal(
     group.controls.discriminator.isDirty &&
     !group.controls.discriminator.isValid;
 
+  function onPaste(e: ClipboardEvent) {
+    const match = e.clipboardData
+      ?.getData("text")
+      .trim()
+      .match(/^(.{1,32})#(\d{4})$/);
+
+    if (!match) return;
+    e.preventDefault();
+
+    const [, username, discriminator] = match;
+    for (const [control, value] of [
+      [group.controls.username, username],
+      [group.controls.discriminator, discriminator],
+    ] as const) {
+      control.setValue(value);
+      control.setErrors(null);
+      control.markDirty(true);
+    }
+  }
+
   async function onSubmit() {
     try {
       await props.client.api.post(`/users/friend`, {
@@ -70,6 +90,7 @@ export function AddFriendModal(
               label={t`Username`}
               placeholder={t`username`}
               maxlength={32}
+              onPaste={onPaste}
             />
           </Username>
 
@@ -87,6 +108,7 @@ export function AddFriendModal(
               inputmode="numeric"
               pattern="[0-9]{4}"
               maxlength={4}
+              onPaste={onPaste}
             />
           </Discriminator>
         </Row>
