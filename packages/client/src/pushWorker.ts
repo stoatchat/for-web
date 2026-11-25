@@ -19,7 +19,7 @@ interface StoatPushNotification {
 
 const scope = new URL(self.registration.scope),
   root = scope.origin,
-  userId = scope.search.slice(2);
+  userId = scope.pathname.slice(scope.pathname.lastIndexOf("@") + 1, -1);
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
