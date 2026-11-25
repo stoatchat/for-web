@@ -876,7 +876,7 @@ export function Messages(props: Props) {
           message.replyIds?.length ||
           // next message in history has already been read
           // so there will be a message divider present
-          (next.id.localeCompare(lastReadId) === -1 && !insertedUnreadDivider)
+          (next.id.localeCompare(lastReadId) <= 0 && !insertedUnreadDivider)
         ) {
           tail = false;
         }
@@ -885,10 +885,7 @@ export function Messages(props: Props) {
       }
 
       // Try to add the unread divider
-      if (
-        !insertedUnreadDivider &&
-        message.id.localeCompare(lastReadId) === -1
-      ) {
+      if (!insertedUnreadDivider && message.id.localeCompare(lastReadId) <= 0) {
         insertedUnreadDivider = true;
 
         messagesWithTail.push(
