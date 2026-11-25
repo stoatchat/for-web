@@ -65,9 +65,11 @@ export function LoadTheme() {
 
   //Set PWA theme color
   createEffect(() => {
+    // Switch as soon as a drawer starts opening, not once it's done
+    const isOpen = (s?: SlideState) =>
+      s === SlideState.SHOWN || s === SlideState.SHOWING;
     const drawerShown =
-      state.appDrawer()?.state === SlideState.SHOWN ||
-      state.diagDrawer()?.state === SlideState.SHOWN;
+      isOpen(state.appDrawer()?.state) || isOpen(state.diagDrawer()?.state);
 
     const color =
       getCssProps()[

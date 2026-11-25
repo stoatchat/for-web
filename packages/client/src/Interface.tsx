@@ -184,13 +184,18 @@ const Layout = styled("div", {
   },
   variants: {
     disconnected: {
+      //Shadow paints the home indicator area below in the same colour
       true: {
         color: "var(--md-sys-color-on-primary-container)",
         background: "var(--md-sys-color-primary-container)",
+        boxShadow:
+          "0 var(--inset-bottom) 0 0 var(--md-sys-color-primary-container)",
       },
       false: {
         color: "var(--md-sys-color-outline)",
         background: "var(--md-sys-color-surface-container-high)",
+        boxShadow:
+          "0 var(--inset-bottom) 0 0 var(--md-sys-color-surface-container-high)",
       },
     },
   },
@@ -202,6 +207,8 @@ const Layout = styled("div", {
 const Content = styled("div", {
   base: {
     background: "var(--md-sys-color-surface-container-low)",
+    boxShadow:
+      "0 var(--inset-bottom) 0 0 var(--md-sys-color-surface-container-lowest)",
     display: "flex",
     width: "100%",
     minWidth: 0,

@@ -56,7 +56,8 @@ body {
   height: calc(100svh - var(--inset-top) - var(--inset-bottom));
   margin: var(--inset-top) var(--inset-right) var(--inset-bottom)
     var(--inset-left);
-  overflow: clip;
+  /* Only clip sideways so the panes can draw into the home indicator area */
+  overflow-x: clip;
   /* Keep the app's z-indexes below #floating, as position: fixed used to */
   isolation: isolate;
   background: #191919;
