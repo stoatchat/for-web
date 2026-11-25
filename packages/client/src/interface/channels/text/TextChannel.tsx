@@ -83,35 +83,35 @@ export function TextChannel(props: ChannelPageProps) {
 
   const [atEnd, setEnd] = createSignal(true);
 
-  // Store last unread message id
+  // Store last unread message ID on change and mark the channel as read.
   createEffect(
     on(
-      () => props.channel.id,
-      (id) =>
-        setLastId(
-          props.channel.unread
-            ? (client().channelUnreads.get(id)?.lastMessageId as string)
-            : undefined,
-        ),
-    ),
-  );
+      () => ({
+        id: props.channel.id,
+        unread: props.channel.unread,
+        atEnd: atEnd(),
+      }),
+      ({ id, unread, atEnd }, prev) => {
+        const entered = !prev || prev.id !== id;
 
-  // Mark channel as read whenever it is marked as unread
-  createEffect(
-    on(
-      // must be at the end of the conversation
-      () => props.channel.unread && atEnd(),
-      (unread) => {
-        if (unread) {
+        if (entered) {
+          // Anchor the new channel's first unread position (or clear the
+          // previous channel's anchor when there is none).
+          setLastId(
+            unread
+              ? (client().channelUnreads.get(id)?.lastMessageId as string)
+              : undefined,
+          );
+        }
+
+        if (unread && atEnd) {
           if (document.hasFocus()) {
             // acknowledge the message
             props.channel.ack();
-          } else {
-            // otherwise mark this location as the last read location
-            if (!lastId()) {
-              // (taking away one second from the seed)
-              setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
-            }
+          } else if (!lastId()) {
+            // otherwise mark just below the latest message as the last
+            // read location (taking away one second from the seed)
+            setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
           }
         }
       },
