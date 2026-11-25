@@ -830,8 +830,7 @@ export function TextEditor(props: Props) {
 
   onCleanup(() => {
     proseMirror.removeEventListener("click", onClick);
-    // Tear down ProseMirror's document listeners and observers, which
-    // otherwise keep this editor (and the whole UI around it) alive forever
+    // Tear down ProseMirror to avoid dead DOM
     view.destroy();
   });
 

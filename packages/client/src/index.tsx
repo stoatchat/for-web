@@ -116,8 +116,8 @@ function BotRedirect() {
 }
 
 /**
- * Drop cached queries whenever the active client is replaced (logout,
- * account switch), as they hold onto objects belonging to the old client
+ * Drop cached queries whenever the active client is replaced, so they no longer
+ * hold into old data.
  */
 function QueryCacheReset(props: { client: QueryClient }) {
   const client = useClient();

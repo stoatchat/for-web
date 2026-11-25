@@ -782,8 +782,6 @@ export function Messages(props: Props) {
   }
 
   // Add listener for messages
-  // Remember which client we subscribed to; by cleanup time `client()` may
-  // already point at a new instance (e.g. after logout / account switch)
   let c: ReturnType<typeof client> | undefined;
   onMount(() => {
     c = client();

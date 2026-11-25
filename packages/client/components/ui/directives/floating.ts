@@ -47,10 +47,7 @@ export function unregisterFloatingElement(element: HTMLElement) {
     }),
   );
 
-  // Solid's <For> (mapArray) keeps stale snapshots of this list alive in the
-  // closures of rows that are still mounted, so a removed entry can outlive
-  // its component. Empty it out so it no longer pins the detached element,
-  // its config closure, and through those the objects (and client) they use.
+  // SolidJS <For> can keep stale snapshots of this list, so empty it out to make sure it no longer pins the detached elements
   for (const entry of removed) {
     entry.config = () => ({}) as Props;
     entry.show = () => undefined;

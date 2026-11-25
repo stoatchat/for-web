@@ -74,10 +74,7 @@ export type Transition =
     };
 
 /**
- * Drop browser-held references into the old UI. The selection and the focused
- * element (via Chromium's input method controller) can keep pointing at a
- * detached node such as the logout button, which pins the old component tree
- * (through Solid's `_$owner`) and with it the old client.
+ * Drop browser-held references into the old UI.
  */
 function clearDocumentSelection() {
   try {
@@ -238,12 +235,8 @@ class Lifecycle {
   }
 
   private dispose(logout = false) {
-    // Invalidate the session server-side; logout() disposes the client
-    // once the request settles, regardless of whether it succeeded.
-    if (logout) this.client.logout().catch(() => {});
+    if (logout) this.client.logout();
 
-    // Always tear down synchronously so the old client can't stay alive
-    // (socket, listeners, timers) while the logout request is in flight.
     this.client.dispose();
     this.#enter(State.Dispose);
   }
@@ -253,8 +246,6 @@ class Lifecycle {
 
     switch (transition.type) {
       case TransitionType.DisposeOnly:
-        // The controller is going away: tear down the client without
-        // spinning up a replacement wired to this (dead) lifecycle.
         if (this.#retryTimeout) {
           clearTimeout(this.#retryTimeout);
           this.#retryTimeout = undefined;
