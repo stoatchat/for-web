@@ -1,4 +1,5 @@
 import { createFormControl, createFormGroup } from "solid-forms";
+import { Match, Switch } from "solid-js";
 
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
@@ -21,6 +22,12 @@ export function AddFriendModal(
     username: createFormControl("", { required: true }),
     discriminator: createFormControl("", { required: true }),
   });
+
+  const usernameInvalid = () =>
+    group.controls.username.isDirty && !group.controls.username.isValid;
+  const discriminatorInvalid = () =>
+    group.controls.discriminator.isDirty &&
+    !group.controls.discriminator.isValid;
 
   async function onSubmit() {
     try {
@@ -78,11 +85,25 @@ export function AddFriendModal(
               placeholder={t`1234`}
               type="text"
               inputmode="numeric"
-              pattern="[0-9]*"
+              pattern="[0-9]{4}"
               maxlength={4}
             />
           </Discriminator>
         </Row>
+
+        <Supporting invalid={usernameInvalid() || discriminatorInvalid()}>
+          <Switch>
+            <Match when={usernameInvalid() && discriminatorInvalid()}>
+              <Trans>Please enter a username and a 4-digit tag.</Trans>
+            </Match>
+            <Match when={usernameInvalid()}>
+              <Trans>Please enter a username.</Trans>
+            </Match>
+            <Match when={discriminatorInvalid()}>
+              <Trans>The tag must be exactly 4 digits.</Trans>
+            </Match>
+          </Switch>
+        </Supporting>
       </form>
     </Dialog>
   );
@@ -93,6 +114,29 @@ const Row = styled("div", {
     display: "flex",
     alignItems: "flex-start",
     gap: "var(--gap-md)",
+
+    // TODO: remove once we switch away from mdui (errors are shown in <Supporting>)
+    "& mdui-text-field::part(error-icon), & mdui-text-field::part(supporting)":
+      {
+        display: "none",
+      },
+  },
+});
+
+const Supporting = styled("div", {
+  base: {
+    paddingInline: "16px",
+    paddingTop: "var(--gap-xs)",
+    fontSize: "12px",
+    lineHeight: "16px",
+    color: "var(--md-sys-color-on-surface-variant)",
+  },
+  variants: {
+    invalid: {
+      true: {
+        color: "var(--md-sys-color-error)",
+      },
+    },
   },
 });
 
