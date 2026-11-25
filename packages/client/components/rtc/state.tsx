@@ -58,7 +58,10 @@ type ScreenShareQuality = Required<
   encoding: VideoEncoding;
 };
 
-class Voice {
+/**
+ * Voice call state and controls
+ */
+export class Voice {
   #settings: VoiceSettings;
 
   channel: Accessor<Channel | undefined>;
@@ -310,6 +313,11 @@ class Voice {
       }
     });
 
+    // Another connect() or disconnect() may run while this one is waiting,
+    // e.g. when quickly switching channels. Stop as soon as this room is no
+    // longer the current one, so it can't stay connected in the background.
+    const isCurrent = () => this.room() === room;
+
     // Gather latency
     const selected = await Promise.any(
       this.config.features.livekit.nodes.map(async (node) => {
@@ -318,14 +326,21 @@ class Voice {
         });
       }),
     );
+    if (!isCurrent()) return;
 
     if (!auth) {
       auth = await channel.joinCall(selected);
+      if (!isCurrent()) return;
     }
 
-    await room.connect(auth.url, auth.token, {
-      autoSubscribe: false,
-    });
+    try {
+      await room.connect(auth.url, auth.token, {
+        autoSubscribe: false,
+      });
+    } finally {
+      // disconnect() may have been called while connecting
+      if (!isCurrent()) room.disconnect();
+    }
   }
 
   disconnect() {
