@@ -515,11 +515,10 @@ export function Messages(props: Props) {
     if (!canReadHistory()) return;
 
     // Scroll to the bottom if we're already at the end
+    // Scroll the list itself, scrollIntoView drags the page up on iOS
     if (atEnd()) {
-      listRef()!.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
+      const el = findScrollContainer(listRef());
+      el?.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
     }
     // Otherwise fetch present messages
     else {
@@ -570,16 +569,12 @@ export function Messages(props: Props) {
 
         // Animate scroll to bottom
         setTimeout(() => {
-          listRef()!.scrollIntoView({
-            behavior: "instant",
-            block: "start",
-          });
+          const el = findScrollContainer(listRef());
+          // The list is reversed, so 0 is the bottom and the top is negative
+          el?.scrollTo({ top: -el.scrollHeight, behavior: "instant" });
 
           setTimeout(() => {
-            listRef()!.scrollIntoView({
-              behavior: "smooth",
-              block: "end",
-            });
+            el?.scrollTo({ top: 0, behavior: "smooth" });
 
             // Mark as fetching has ended
             setFetching();
@@ -621,9 +616,18 @@ export function Messages(props: Props) {
 
       if (index === -1) return;
 
-      listRef()!.children[index + (atStart() ? 1 : 0)]?.scrollIntoView({
+      const target = listRef()!.children[index + (atStart() ? 1 : 0)];
+      const el = findScrollContainer(listRef());
+      if (!target || !el) return;
+
+      const offset =
+        target.getBoundingClientRect().top -
+        el.getBoundingClientRect().top +
+        el.scrollTop;
+
+      el.scrollTo({
+        top: offset - el.clientHeight / 2 + target.clientHeight / 2,
         behavior: "smooth",
-        block: "center",
       });
     };
 

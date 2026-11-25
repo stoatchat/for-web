@@ -93,7 +93,20 @@ export function useUnreadCallout(list: Accessor<HTMLElement | undefined>) {
     const nearest =
       current.direction === "above" ? candidates.at(-1) : candidates.at(0);
 
-    nearest?.element.scrollIntoView({ behavior: "smooth", block: "center" });
+    const container = list();
+    if (!nearest || !container) return;
+
+    // Scroll the list itself, scrollIntoView drags the page up on iOS
+    const offset =
+      nearest.element.getBoundingClientRect().top -
+      container.getBoundingClientRect().top +
+      container.scrollTop;
+
+    container.scrollTo({
+      top:
+        offset - container.clientHeight / 2 + nearest.element.clientHeight / 2,
+      behavior: "smooth",
+    });
   }
 
   createEffect(() => {
