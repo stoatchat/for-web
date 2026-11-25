@@ -149,8 +149,8 @@ export class Theme extends AbstractStore<"theme", TypeTheme> {
       m3Contrast: 0.0,
       m3Variant: "tonal_spot",
 
-      interfaceFont: "Inter",
-      monospaceFont: "Fira Code",
+      interfaceFont: "Pretendard",
+      monospaceFont: "JetBrains Mono",
 
       blur: true,
       messageSize: 14,

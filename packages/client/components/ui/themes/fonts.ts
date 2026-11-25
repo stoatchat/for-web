@@ -1,7 +1,18 @@
 export const FONTS = {
-  Inter: {
+  Pretendard: {
     load: async () => {
       // default
+    },
+  },
+
+  Inter: {
+    load: async () => {
+      await import("@fontsource/inter/300.css");
+      await import("@fontsource/inter/400.css");
+      await import("@fontsource/inter/500.css");
+      await import("@fontsource/inter/600.css");
+      await import("@fontsource/inter/700.css");
+      await import("@fontsource/inter/800.css");
     },
   },
 
@@ -161,5 +172,5 @@ export type MonospaceFonts = keyof typeof MONOSPACE_FONTS;
 export const FONT_KEYS = Object.keys(FONTS).sort();
 export const MONOSPACE_FONT_KEYS = Object.keys(MONOSPACE_FONTS).sort();
 
-export const DEFAULT_FONT = "Open Sans";
-export const DEFAULT_MONO_FONT = "Fira Code";
+export const DEFAULT_FONT = "Pretendard";
+export const DEFAULT_MONO_FONT = "JetBrains Mono";
