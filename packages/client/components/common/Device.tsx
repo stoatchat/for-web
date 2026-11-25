@@ -55,14 +55,11 @@ export class Device {
 
   /**
    * Whether this device can play VP9 WebM.
-   * Uses the iOS check if the browser only says "maybe".
+   * iOS says it can, but the video never actually moves, so it always gets MP4.
    */
-  readonly canPlayVp9 = (() => {
-    const support = document
-      .createElement("video")
-      .canPlayType('video/webm; codecs="vp9"');
-    return support === "maybe" ? !this.isIOSTouch : support === "probably";
-  })();
+  readonly canPlayVp9 =
+    !this.isIOSTouch &&
+    !!document.createElement("video").canPlayType('video/webm; codecs="vp9"');
 
   /**
    * Whether this device supports touch input.
