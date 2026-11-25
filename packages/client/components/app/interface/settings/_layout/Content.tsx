@@ -99,17 +99,16 @@ const base = css({
   borderStartStartRadius: "30px",
   borderEndStartRadius: "30px",
 
+  // Keep unpromoted: avoids stale-layer text blur and prevent the fixed action
+  // rail from scrolling with this element instead of the viewport on tablet
+  willChange: "auto !important",
+
   "& > a": {
     textDecoration: "none",
   },
 
   _phone: {
     borderRadius: 0,
-  },
-
-  _tablet: {
-    // prevent the fixed action rail from scroll with this element instead of the viewport
-    willChange: "auto !important",
   },
 });
 
