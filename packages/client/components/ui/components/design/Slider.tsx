@@ -251,7 +251,6 @@ export function Slider2(props: Slider2Props) {
 
     setDragging(false);
     if (value !== undefined && value !== dragStartValue) emitChange(value);
-    setDraftValue(undefined);
   };
 
   const onPointerDown = (
@@ -314,8 +313,7 @@ export function Slider2(props: Slider2Props) {
     const parsed = parseFloat(event.currentTarget.value);
     if (Number.isFinite(parsed)) {
       const value = clampValue(parsed);
-      emitChange(value);
-      setDraftValue(undefined);
+      if (value !== props.value) emitChange(value);
     }
   };
 
@@ -365,9 +363,19 @@ export function Slider2(props: Slider2Props) {
       setDraftValue(updated);
       emitInput(updated);
       emitChange(updated);
-      setDraftValue(undefined);
     }
   };
+
+  createEffect(() =>
+    on(
+      () => props.value,
+      (n) => {
+        if (draftValue() !== n) {
+          setDraftValue(undefined);
+        }
+      },
+    ),
+  );
 
   onMount(() => {
     if (!trackArea) return;

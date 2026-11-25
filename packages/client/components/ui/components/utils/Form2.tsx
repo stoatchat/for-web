@@ -20,7 +20,7 @@ import {
   Checkbox,
   FloatingSelect,
   Radio2,
-  Slider,
+  Slider2,
   Text,
   TextField,
   typography,
@@ -424,12 +424,12 @@ function FormVirtualSelect<K, T>(props: {
 const FormSlider = (
   props: {
     control: IFormControl<number>;
-  } & Omit<ComponentProps<typeof Slider>, "value">,
+  } & Omit<ComponentProps<typeof Slider2>, "value">,
 ) => {
   const [local, remote] = splitProps(props, ["control"]);
 
   return (
-    <Slider
+    <Slider2
       {...remote}
       value={local.control.value}
       onInput={(event) => {

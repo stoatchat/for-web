@@ -17,6 +17,7 @@ import {
   Form2,
   IconButton,
   Row,
+  Slider2,
   Symbol,
   Text,
   TextField,
@@ -121,6 +122,14 @@ export function DevelopmentPage() {
         <Button variant="text">Text</Button>
       </Row>
 
+      <Row>
+        <Slider2 value={50} orientation="vertical" />
+        <Slider2
+          value={50}
+          orientation="vertical"
+          verticalDirection="top-to-bottom"
+        />
+      </Row>
       <Row align>
         <IconButton variant="filled">
           <Symbol fill>face</Symbol>
