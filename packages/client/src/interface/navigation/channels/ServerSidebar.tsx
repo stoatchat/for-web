@@ -42,6 +42,7 @@ import {
   applyChannelOrdering,
   orderedCategories,
 } from "./ordering";
+import { ViewAsBanner } from "./ViewAsBanner";
 
 interface Props {
   /**
@@ -161,7 +162,8 @@ export const ServerSidebar = (props: Props) => {
     }
   });
 
-  const noOrdering = () => !props.server.havePermission("ManageChannel");
+  const noOrdering = () =>
+    !props.server.havePermission("ManageChannel") || props.server.readOnly;
 
   const [list, setList] = createSignal<HTMLDivElement>();
 
@@ -247,6 +249,7 @@ export const ServerSidebar = (props: Props) => {
           </Header>
         </Match>
       </Switch>
+      <ViewAsBanner server={props.server} />
       <ChannelList>
         <UnreadCallout list={list} />
         <div

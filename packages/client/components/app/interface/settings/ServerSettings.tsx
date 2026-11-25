@@ -1,7 +1,6 @@
 import { Trans, useLingui } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 
-import { useUser } from "@revolt/client";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { ColouredText } from "@revolt/ui";
@@ -85,7 +84,6 @@ const Config: SettingsConfiguration<Server> = {
    * @returns List
    */
   list(server, onClose) {
-    const user = useUser();
     const { openModal, pop } = useModals();
 
     return {
@@ -102,7 +100,7 @@ const Config: SettingsConfiguration<Server> = {
             },
             {
               id: "discover",
-              hidden: !(server.ownerId === user()?.id),
+              hidden: !server.hasOwnerPrivileges,
               icon: <Symbol size={20}>public</Symbol>,
               title: <Trans>Discover</Trans>,
             },
@@ -155,7 +153,7 @@ const Config: SettingsConfiguration<Server> = {
           ],
         },
         {
-          hidden: !(server.ownerId === user()?.id),
+          hidden: !server.hasOwnerPrivileges,
           entries: [
             {
               icon: (

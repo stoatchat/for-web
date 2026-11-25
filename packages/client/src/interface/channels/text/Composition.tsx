@@ -78,11 +78,15 @@ export function MessageComposition(props: Props) {
   const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
   const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
 
+  // Sending is blocked while previewing the server as a role
+  const readOnly = () => !!props.channel.server?.readOnly;
+
   // Can the user upload files here?
   const canUploadFiles = createMemo(() => {
     return (
       props.channel.havePermission("SendMessage") &&
-      props.channel.havePermission("UploadFiles")
+      props.channel.havePermission("UploadFiles") &&
+      !readOnly()
     );
   });
 
@@ -437,9 +441,14 @@ export function MessageComposition(props: Props) {
               : t`Message ${props.channel.name}`
         }
         sendingAllowed={
-          props.channel.havePermission("SendMessage") && !isTimedOut()
+          props.channel.havePermission("SendMessage") &&
+          !isTimedOut() &&
+          !readOnly()
         }
         timeoutActive={isTimedOut()}
+        previewActive={
+          readOnly() && props.channel.havePermission("SendMessage")
+        }
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)
