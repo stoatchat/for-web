@@ -53,12 +53,7 @@ export const ChannelPage: Component = () => {
         <Match when={!channel()}>
           <Navigate href={"../.."} />
         </Match>
-        <Match
-          when={
-            channel().server?.previewRoles &&
-            !channel().havePermission("ViewChannel")
-          }
-        >
+        <Match when={!channel().isVisible}>
           <Navigate href={`/server/${channel().serverId}`} />
         </Match>
         <Match when={TEXT_CHANNEL_TYPES.includes(channel()!.type)}>

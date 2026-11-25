@@ -117,12 +117,7 @@ export const ServerSidebar = (props: Props) => {
       ...category,
       channels: category.channelIds
         .map((id) => channels.get(id)!)
-        .filter(
-          (channel) =>
-            channel &&
-            (!props.server.previewRoles ||
-              channel.havePermission("ViewChannel")),
-        ),
+        .filter((channel) => channel),
     }));
   });
 
@@ -168,8 +163,7 @@ export const ServerSidebar = (props: Props) => {
   });
 
   const noOrdering = () =>
-    !props.server.havePermission("ManageChannel") ||
-    !!props.server.previewRoles;
+    !props.server.havePermission("ManageChannel") || props.server.readOnly;
 
   const [list, setList] = createSignal<HTMLDivElement>();
 
@@ -415,12 +409,7 @@ function Category(
 
   return (
     <CategorySection>
-      <Show
-        when={
-          props.category.id !== "default" &&
-          (!props.server.previewRoles || props.category.channels.length)
-        }
-      >
+      <Show when={props.category.id !== "default"}>
         <div use:floating={props.menuGenerator(props.category as never)}>
           <CategoryBase
             open={isOpen()}

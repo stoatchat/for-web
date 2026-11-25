@@ -23,6 +23,10 @@ function setup() {
     owner: "me",
     name: "Server",
     channels: ["general", "memes", "staff"],
+    categories: [
+      { id: "main", title: "Main", channels: ["general", "memes"] },
+      { id: "team", title: "Team", channels: ["staff"] },
+    ],
     default_permissions: VIEW + READ + SEND,
     roles: {
       mod: { name: "Mod", permissions: { a: 0, d: 0 }, rank: 1 },
@@ -57,8 +61,8 @@ function setup() {
   } as never);
 
   const visible = () =>
-    ["general", "memes", "staff"].filter((id) =>
-      client.channels.get(id)!.havePermission("ViewChannel"),
+    ["general", "memes", "staff"].filter(
+      (id) => client.channels.get(id)!.isVisible,
     );
 
   return { client, server: client.servers.get("server")!, visible };
@@ -99,6 +103,44 @@ describe("view server as role", () => {
     client.setViewAs("server", ["member", "mod"]);
     expect(server.member!.ranking).toBe(1);
     expect(server.member!.realRanking).toBe(-Infinity);
+  });
+
+  test("owner privileges are suspended while previewing", () => {
+    const { client, server } = setup();
+    expect(server.hasOwnerPrivileges).toBe(true);
+
+    client.setViewAs("server", ["mod"]);
+    expect(server.hasOwnerPrivileges).toBe(false);
+
+    client.setViewAs();
+    expect(server.hasOwnerPrivileges).toBe(true);
+  });
+
+  test("previewing is judged by our real roles", () => {
+    const { client, server } = setup();
+    client.setViewAs("server", ["helper"]);
+    expect(server.canPreviewRole("mod")).toBe(true);
+    expect(server.canPreviewRole()).toBe(true);
+  });
+
+  test("the channel list follows the preview", () => {
+    const { client, server } = setup();
+    client.setViewAs("server", ["member"]);
+    expect(server.channels.map((channel) => channel.id)).toEqual(["general"]);
+
+    // Members still see empty category headers, so the preview does too
+    expect(server.categories).toHaveLength(2);
+
+    client.setViewAs();
+    expect(server.channels).toHaveLength(3);
+  });
+
+  test("the server is read only while previewing", () => {
+    const { client, server } = setup();
+    expect(server.readOnly).toBe(false);
+
+    client.setViewAs("server", ["mod"]);
+    expect(server.readOnly).toBe(true);
   });
 
   test("the default channel skips channels the role cannot see", () => {

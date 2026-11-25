@@ -264,8 +264,7 @@ export function UserContextMenu(props: {
   function canEditRoles() {
     return (
       props.member &&
-      ((props.member?.server?.owner?.self &&
-        !props.member.server.previewRoles) ||
+      (props.member?.server?.hasOwnerPrivileges ||
         (props.member?.server?.havePermission("AssignRoles") &&
           props.member.inferiorTo(props.member.server.member!)))
     );

@@ -32,10 +32,8 @@ export function ServerRoleOverview(props: { context: Server }) {
   const { t } = useLingui();
   const client = useClient();
 
-  // Only checks owner/ManageRole here, the Manage Server / Ban Members
+  // canPreviewRole only checks ManageRole, the Manage Server / Ban Members
   // requirement comes from the roles page itself being gated in ServerSettings
-  const canViewAs = () =>
-    props.context.owner?.self || props.context.havePermission("ManageRole");
 
   const change = useMutation(() => ({
     mutationFn: (order: string[]) => props.context.setRoleOrdering(order),
@@ -113,13 +111,7 @@ export function ServerRoleOverview(props: { context: Server }) {
                   action={[
                     // This ends up as a button inside CategoryButton's <a>, which
                     // isn't ideal markup; stopPropagation below keeps the row click out
-                    <Show
-                      when={
-                        canViewAs() &&
-                        entry.item.rank! >
-                          (props.context.member?.realRanking ?? Infinity)
-                      }
-                    >
+                    <Show when={props.context.canPreviewRole(entry.item.id)}>
                       <Tooltip content={t`View server as role`} placement="top">
                         <ViewAsAction
                           type="button"
@@ -159,7 +151,7 @@ export function ServerRoleOverview(props: { context: Server }) {
             <CategoryButton
               icon={<Symbol size={20}>public</Symbol>}
               action={[
-                <Show when={canViewAs()}>
+                <Show when={props.context.canPreviewRole()}>
                   <Tooltip content={t`View server as role`} placement="top">
                     <ViewAsAction
                       type="button"

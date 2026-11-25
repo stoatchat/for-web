@@ -17,7 +17,8 @@ export function ViewAsBanner(props: { server: Server; compact?: boolean }) {
 
   // Channels we were never sent can't be previewed
   const hidden = () =>
-    props.server.channelIds.size - props.server.channels.length;
+    [...props.server.channelIds].filter((id) => !client().channels.has(id))
+      .length;
 
   return (
     <Show when={props.server.previewRoles}>

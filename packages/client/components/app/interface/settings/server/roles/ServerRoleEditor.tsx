@@ -247,14 +247,7 @@ export function ServerRoleEditor(props: { context: Server; roleId: string }) {
         >
           <Trans>Copy role ID</Trans>
         </CategoryButton>
-        <Show
-          when={
-            (props.context.owner?.self ||
-              props.context.havePermission("ManageRole")) &&
-            role()?.rank !== undefined &&
-            role().rank! > (props.context.member?.realRanking ?? Infinity)
-          }
-        >
+        <Show when={props.context.canPreviewRole(props.roleId)}>
           <CategoryButton
             action="chevron"
             icon={<Symbol size={20}>visibility</Symbol>}

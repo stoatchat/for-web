@@ -21,10 +21,9 @@ export function ViewAsRoleModal(
     props.server.previewRoles?.map((role) => role.id) ?? [],
   );
 
-  // Only roles ranked below our own can be previewed
   const roles = () =>
-    props.server.orderedRoles.filter(
-      (role) => role.rank! > (props.server.member?.realRanking ?? Infinity),
+    props.server.orderedRoles.filter((role) =>
+      props.server.canPreviewRole(role.id),
     );
 
   function toggle(id: string) {
