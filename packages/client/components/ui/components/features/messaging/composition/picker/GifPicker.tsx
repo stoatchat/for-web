@@ -437,6 +437,7 @@ function Categories(props: {
 }) {
   const gifbox = useGifboxApi();
   const { favourites } = useState();
+  const { canPlayVp9 } = useDevice();
 
   const categoryList = useQuery<GifboxCategoryList>(() => ({
     queryKey: ["gifboxCategories"],
@@ -479,7 +480,7 @@ function Categories(props: {
                 item.t === 0
                   ? item.category.preview
                   : categoryList.data?.featured?.preview;
-              const best = gifboxPreviewMedia(media);
+              const best = gifboxPreviewMedia(media, canPlayVp9);
               return (
                 best && {
                   type: best.type,
@@ -637,6 +638,7 @@ const Label = styled("span", {
 
 function GifSearch(props: { query: string }) {
   const gifbox = useGifboxApi();
+  const { canPlayVp9 } = useDevice();
 
   const search = useInfiniteQuery(() => ({
     queryKey: ["gifboxGifs", props.query],
@@ -656,7 +658,7 @@ function GifSearch(props: { query: string }) {
       search.data?.pages
         .flatMap((page) => page.results)
         .flatMap((gif): PickerGif[] => {
-          const preview = gifboxPreviewMedia(gif.media);
+          const preview = gifboxPreviewMedia(gif.media, canPlayVp9);
           return preview
             ? [
                 {

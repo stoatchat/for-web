@@ -54,6 +54,17 @@ export class Device {
       navigator.maxTouchPoints > 1);
 
   /**
+   * Whether this device can play VP9 WebM.
+   * Uses the iOS check if the browser only says "maybe".
+   */
+  readonly canPlayVp9 = (() => {
+    const support = document
+      .createElement("video")
+      .canPlayType('video/webm; codecs="vp9"');
+    return support === "maybe" ? !this.isIOSTouch : support === "probably";
+  })();
+
+  /**
    * Whether this device supports touch input.
    */
   readonly hasTouch =
