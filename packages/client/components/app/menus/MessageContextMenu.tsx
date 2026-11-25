@@ -178,41 +178,43 @@ export function MessageContextMenu(props: {
    * Download the file from `url` and insert it to the user's clipboard
    */
   function copyFile(url: string, type = "application/octet-stream") {
-    // ClipboardItem.supports is missing before iOS 17.4
-    const supported =
-      typeof ClipboardItem.supports === "function"
-        ? ClipboardItem.supports(type)
-        : ["image/png", "text/plain", "text/html"].includes(type);
+    try {
+      // ClipboardItem.supports is missing before iOS 17.4
+      const supported =
+        typeof ClipboardItem.supports === "function"
+          ? ClipboardItem.supports(type)
+          : ["image/png", "text/plain", "text/html"].includes(type);
 
-    const clipType = supported
-      ? type
-      : type.startsWith("image/")
-        ? "image/png"
-        : // Workaround for copying unsupported formats to the clipboard
-          // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
-          `web ${type}`;
+      const clipType = supported
+        ? type
+        : type.startsWith("image/")
+          ? "image/png"
+          : // Workaround for copying unsupported formats to the clipboard
+            // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+            `web ${type}`;
 
-    const blob = fetch(url)
-      .then((res) => {
-        if (!res.ok)
-          throw new Error(`Failed to download file: ${res.statusText}.`);
-        return res.blob();
-      })
-      .then((b) => {
-        if (clipType === "image/png" && b.type !== "image/png")
-          return convertToPng(b);
-        // The clipboard rejects a blob whose type doesn't match its key
-        return clipType.startsWith("web ")
-          ? b
-          : new Blob([b], { type: clipType });
-      });
+      const blob = fetch(url)
+        .then((res) => {
+          if (!res.ok)
+            throw new Error(`Failed to download file: ${res.statusText}.`);
+          return res.blob();
+        })
+        .then((b) => {
+          if (clipType === "image/png" && b.type !== "image/png")
+            return convertToPng(b);
+          // The clipboard rejects a blob whose type doesn't match its key
+          return new Blob([b], { type: clipType.replace(/^web /, "") });
+        });
 
-    // Safari drops the user gesture after an await, so write straight away
-    // and let the clipboard wait for the download
-    navigator.clipboard
-      .write([new ClipboardItem({ [clipType]: blob })])
-      .then(() => snackbar.show({ message: t`Copied file to clipboard` }))
-      .catch(showError);
+      // Safari drops the user gesture after an await, so write straight away
+      // and let the clipboard wait for the download
+      navigator.clipboard
+        .write([new ClipboardItem({ [clipType]: blob })])
+        .then(() => snackbar.show({ message: t`Copied file to clipboard` }))
+        .catch(showError);
+    } catch (error) {
+      showError(error);
+    }
   }
 
   /**
