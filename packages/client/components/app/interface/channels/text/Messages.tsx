@@ -874,9 +874,12 @@ export function Messages(props: Props) {
           next.systemMessage ||
           // replies present on current message
           message.replyIds?.length ||
-          // next message in history has already been read
-          // so there will be a message divider present
-          (next.id.localeCompare(lastReadId) <= 0 && !insertedUnreadDivider)
+          // this message is the oldest unread one: the unread divider is
+          // rendered between it and the (read) message above, so it must
+          // not tail-attach to it
+          (next.id.localeCompare(lastReadId) <= 0 &&
+            message.id.localeCompare(lastReadId) === 1 &&
+            !insertedUnreadDivider)
         ) {
           tail = false;
         }
