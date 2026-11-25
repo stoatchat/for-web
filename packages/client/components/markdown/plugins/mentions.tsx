@@ -77,7 +77,12 @@ export function UserMention(props: { userId: string; disabled?: boolean }) {
                 }
           }
         >
-          <Avatar size={16} src={user().avatar} fallback={user().username} />
+          <Avatar
+            shape="circle"
+            size={16}
+            src={user().avatar}
+            fallback={user().username}
+          />
           <ColouredText colour={user().colour!}>{user().username}</ColouredText>
         </div>
       </Match>
