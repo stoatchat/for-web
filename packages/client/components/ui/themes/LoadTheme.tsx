@@ -64,10 +64,17 @@ export function LoadTheme() {
   });
 
   //Set PWA theme color
+  let settledShown = false;
   createEffect(() => {
-    const drawerShown =
-      state.appDrawer()?.state === SlideState.SHOWN ||
-      state.diagDrawer()?.state === SlideState.SHOWN;
+    const states = [state.appDrawer()?.state, state.diagDrawer()?.state];
+    const moving = states.includes(SlideState.MOVING);
+    const shown = states.some(
+      (s) => s === SlideState.SHOWN || s === SlideState.SHOWING,
+    );
+
+    // Switch as soon as a drawer starts moving, a swipe heads to the other side
+    const drawerShown = moving ? !settledShown : shown;
+    if (!moving) settledShown = shown;
 
     const color =
       getCssProps()[
