@@ -197,7 +197,9 @@ export function Titlebar() {
             </Motion.div>
           }
         >
-          <div style={wcoStyle}><Bar pwa={true} /></div>
+          <div style={wcoStyle}>
+            <Bar pwa={true} />
+          </div>
         </Show>
       </Show>
     </Presence>
