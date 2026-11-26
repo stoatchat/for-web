@@ -49,6 +49,21 @@ function isDisconnected(state: State) {
   return DISCONNECTED_STATES.has(state);
 }
 
+function ReconnectLink() {
+  return (
+    <a
+      onClick={() =>
+        lifecycle.transition({
+          type: TransitionType.Retry,
+        })
+      }
+      style={noDrag}
+    >
+      <strong> (reconnect now)</strong>
+    </a>
+  );
+}
+
 function Bar(props: { pwa: boolean }) {
   const { lifecycle } = useClientLifecycle();
 
@@ -62,19 +77,6 @@ function Bar(props: { pwa: boolean }) {
     window.native.maximise();
     setIsMaximised((t) => !t);
   }
-
-  const ReconnectLink = () => (
-    <a
-      onClick={() =>
-        lifecycle.transition({
-          type: TransitionType.Retry,
-        })
-      }
-      style={noDrag}
-    >
-      <strong> (reconnect now)</strong>
-    </a>
-  );
 
   return (
     <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
