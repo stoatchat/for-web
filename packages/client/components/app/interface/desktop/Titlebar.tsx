@@ -6,6 +6,7 @@ import {
   Show,
   Switch,
 } from "solid-js";
+import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { css } from "styled-system/css";
@@ -60,7 +61,11 @@ function Bar(props: { pwa: boolean }) {
   );
 
   return (
-    <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
+    <Base
+      disconnected={isDisconnected(lifecycle.state())}
+      pwa={props.pwa}
+      style={props.pwa ? { background: "transparent" } : undefined}
+    >
       <Title
         macos={isMacOS}
         style={{
@@ -149,17 +154,16 @@ export function Titlebar() {
   });
 
   return (
-    <Presence>
-      <Show
-        when={
-          isWCO() ||
-          (isNative && window.desktopConfig?.get()?.customFrame) ||
-          isDisconnected(lifecycle.state())
-        }
-      >
-        <Show
-          when={isWCO()}
-          fallback={
+    <Show
+      when={isWCO()}
+      fallback={
+        <Presence>
+          <Show
+            when={
+              (isNative && window.desktopConfig?.get()?.customFrame) ||
+              isDisconnected(lifecycle.state())
+            }
+          >
             <Motion.div
               initial={{ height: 0 }}
               animate={{ height: "29px" }}
@@ -167,14 +171,16 @@ export function Titlebar() {
             >
               <Bar pwa={false} />
             </Motion.div>
-          }
-        >
-          <WindowControlsOverlay>
-            <Bar pwa={true} />
-          </WindowControlsOverlay>
-        </Show>
-      </Show>
-    </Presence>
+          </Show>
+        </Presence>
+      }
+    >
+      <Portal mount={document.getElementById("floating")!}>
+        <WindowControlsOverlay>
+          <Bar pwa={true} />
+        </WindowControlsOverlay>
+      </Portal>
+    </Show>
   );
 }
 
@@ -271,7 +277,7 @@ const WindowControlsOverlay = styled("div", {
     top: "env(titlebar-area-y, 0px)",
     width: "env(titlebar-area-width, 100%)",
     height: "env(titlebar-area-height, 29px)",
-    zIndex: 9999,
+    zIndex: 1001,
     appRegion: "drag",
   },
 });
