@@ -109,31 +109,14 @@ function Bar(props: { pwa: boolean }) {
           {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
           <Match when={lifecycle.state() === State.Disconnected}>
             Disconnected
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
-            >
-              <strong> (reconnect now)</strong>
-            </a>
+            <ReconnectLink />
           </Match>
           <Match when={lifecycle.state() === State.Reconnecting}>
             Reconnecting
           </Match>
           <Match when={lifecycle.state() === State.Offline}>
             Device is offline
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
-              style={noDrag}
-            >
-              <strong> (reconnect now)</strong>
-            </a>
+            <ReconnectLink />
           </Match>
         </Switch>
         <Show when={pendingUpdate()}>
