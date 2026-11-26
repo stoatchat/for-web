@@ -38,16 +38,18 @@ const wcoStyle = {
   "-webkit-app-region": "drag",
 } as JSX.CSSProperties;
 
+const DISCONNECTED_STATES = new Set([
+  State.Connecting,
+  State.Disconnected,
+  State.Reconnecting,
+  State.Offline,
+]);
+
 function Bar(props: { pwa: boolean }) {
   const { lifecycle } = useClientLifecycle();
 
   function isDisconnected() {
-    return [
-      State.Connecting,
-      State.Disconnected,
-      State.Reconnecting,
-      State.Offline,
-    ].includes(lifecycle.state());
+    return DISCONNECTED_STATES.has(lifecycle.state());
   }
 
   const [isMaximised, setIsMaximised] = createSignal(
