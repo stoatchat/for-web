@@ -1,6 +1,5 @@
 import {
   createSignal,
-  JSX,
   Match,
   onCleanup,
   onMount,
