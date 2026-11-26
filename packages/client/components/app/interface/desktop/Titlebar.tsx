@@ -63,20 +63,18 @@ function Bar(props: { pwa: boolean }) {
     setIsMaximised((t) => !t);
   }
 
-  function ReconnectLink() {
-    return (
-      <a
-        onClick={() =>
-          lifecycle.transition({
-            type: TransitionType.Retry,
-          })
-        }
-        style={noDrag}
-      >
-        <strong> (reconnect now)</strong>
-      </a>
-    );
-  }
+  const ReconnectLink = () => (
+    <a
+      onClick={() =>
+        lifecycle.transition({
+          type: TransitionType.Retry,
+        })
+      }
+      style={noDrag}
+    >
+      <strong> (reconnect now)</strong>
+    </a>
+  );
 
   return (
     <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
