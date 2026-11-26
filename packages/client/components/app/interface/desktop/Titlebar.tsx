@@ -38,6 +38,101 @@ const wcoStyle = {
   "-webkit-app-region": "drag",
 } as JSX.CSSProperties;
 
+type BarProps = {
+  pwa: boolean;
+};
+
+function Bar({ pwa: boolean) => (
+  <Base disconnected={isDisconnected()} pwa={pwa}>
+    <Title
+      macos={isMacOS}
+      style={{
+        "-webkit-user-select": "none",
+        "-webkit-app-region": "drag",
+      }}
+    >
+      <Wordmark
+        class={css({
+          height: "18px",
+          marginBlockStart: "1px",
+        })}
+      />{" "}
+      <Show when={import.meta.env.DEV}>
+        <Symbol size={16}>build</Symbol>
+      </Show>
+    </Title>
+    <DragHandle
+      macos={isMacOS && isNative}
+      style={{
+        "-webkit-user-select": "none",
+        "-webkit-app-region": "drag",
+      }}
+    >
+      <Switch>
+        <Match when={lifecycle.state() === State.Connecting}>
+          Connecting
+        </Match>
+        {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
+        <Match when={lifecycle.state() === State.Disconnected}>
+          Disconnected
+          <a
+            onClick={() =>
+              lifecycle.transition({
+                type: TransitionType.Retry,
+              })
+            }
+          >
+            <strong> (reconnect now)</strong>
+          </a>
+        </Match>
+        <Match when={lifecycle.state() === State.Reconnecting}>
+          Reconnecting
+        </Match>
+        <Match when={lifecycle.state() === State.Offline}>
+          Device is offline
+          <a
+            onClick={() =>
+              lifecycle.transition({
+                type: TransitionType.Retry,
+              })
+            }
+            style={noDrag}
+          >
+            <strong> (reconnect now)</strong>
+          </a>
+        </Match>
+      </Switch>
+      <Show when={pendingUpdate()}>
+        {" "}
+        <div style={noDrag}>
+          <Button size="sm" onPress={pendingUpdate()}>
+            Update
+          </Button>
+        </div>
+      </Show>
+    </DragHandle>
+    <Show when={isNative && !isMacOS}>
+      <Action onClick={window.native.minimise}>
+        <Ripple />
+        <Symbol size={20}>minimize</Symbol>
+      </Action>
+      <Action onClick={maximise}>
+        <Ripple />
+        <Show
+          when={isMaximised()}
+          fallback={<Symbol size={20}>expand_content</Symbol>}
+        >
+          <Symbol size={20}>collapse_content</Symbol>
+        </Show>
+      </Action>
+      <Action onClick={window.native.close}>
+        <Ripple />
+        <Symbol size={20}>close</Symbol>
+      </Action>
+    </Show>
+  </Base>
+);
+
 export function Titlebar() {
   const [isWCO, setIsWCO] = createSignal(
     matchMedia("(display-mode: window-controls-overlay)").matches,
@@ -70,96 +165,7 @@ export function Titlebar() {
     onCleanup(() => query.removeEventListener("change", update));
   });
 
-  const bar = (pwa: boolean) => (
-    <Base disconnected={isDisconnected()} pwa={pwa}>
-      <Title
-        macos={isMacOS}
-        style={{
-          "-webkit-user-select": "none",
-          "-webkit-app-region": "drag",
-        }}
-      >
-        <Wordmark
-          class={css({
-            height: "18px",
-            marginBlockStart: "1px",
-          })}
-        />{" "}
-        <Show when={import.meta.env.DEV}>
-          <Symbol size={16}>build</Symbol>
-        </Show>
-      </Title>
-      <DragHandle
-        macos={isMacOS && isNative}
-        style={{
-          "-webkit-user-select": "none",
-          "-webkit-app-region": "drag",
-        }}
-      >
-        <Switch>
-          <Match when={lifecycle.state() === State.Connecting}>
-            Connecting
-          </Match>
-          {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
-          <Match when={lifecycle.state() === State.Disconnected}>
-            Disconnected
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
-            >
-              <strong> (reconnect now)</strong>
-            </a>
-          </Match>
-          <Match when={lifecycle.state() === State.Reconnecting}>
-            Reconnecting
-          </Match>
-          <Match when={lifecycle.state() === State.Offline}>
-            Device is offline
-            <a
-              onClick={() =>
-                lifecycle.transition({
-                  type: TransitionType.Retry,
-                })
-              }
-              style={noDrag}
-            >
-              <strong> (reconnect now)</strong>
-            </a>
-          </Match>
-        </Switch>
-        <Show when={pendingUpdate()}>
-          {" "}
-          <div style={noDrag}>
-            <Button size="sm" onPress={pendingUpdate()}>
-              Update
-            </Button>
-          </div>
-        </Show>
-      </DragHandle>
-      <Show when={isNative && !isMacOS}>
-        <Action onClick={window.native.minimise}>
-          <Ripple />
-          <Symbol size={20}>minimize</Symbol>
-        </Action>
-        <Action onClick={maximise}>
-          <Ripple />
-          <Show
-            when={isMaximised()}
-            fallback={<Symbol size={20}>expand_content</Symbol>}
-          >
-            <Symbol size={20}>collapse_content</Symbol>
-          </Show>
-        </Action>
-        <Action onClick={window.native.close}>
-          <Ripple />
-          <Symbol size={20}>close</Symbol>
-        </Action>
-      </Show>
-    </Base>
-  );
+
 
   return (
     <Presence>
