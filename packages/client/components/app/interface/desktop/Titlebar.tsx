@@ -281,15 +281,14 @@ const Action = styled("a", {
   },
 });
 
-const ControlsOverlay = styled("div", {
+const WindowControlsOverlay = styled("div", {
   base: {
     position: "fixed",
     left: "env(titlebar-area-x, 0px)",
     top: "env(titlebar-area-y, 0px)",
     width: "env(titlebar-area-width, 100%)",
     height: "env(titlebar-area-height, 29px)",
-    zIndex: "9999",
-    "app-region": "drag",
-    "-webkit-app-region": "drag",
+    zIndex: 9999,
+    WebkitAppRegion: "drag",
   },
 });
