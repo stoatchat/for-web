@@ -1,11 +1,12 @@
 import { mergeProps, splitProps } from "solid-js";
 
-import { CONFIGURATION } from "@revolt/common";
+import { IS_DEV } from "@revolt/client";
 
 import { type ActiveModal } from ".";
 import { AddBotModal } from "./modals/AddBot";
 import { AddFriendModal } from "./modals/AddFriend";
 import { AddMembersToGroupModal } from "./modals/AddMembersToGroup";
+import { AvatarRadiusModal } from "./modals/AvatarRadius";
 import { BanMemberModal } from "./modals/BanMember";
 import { BanNonMemberModal } from "./modals/BanNonMember";
 import { ChangelogModal } from "./modals/Changelog";
@@ -21,15 +22,21 @@ import { CreateOrJoinServerModal } from "./modals/CreateOrJoinServer";
 import { CreateRoleModal } from "./modals/CreateRole";
 import { CreateServerModal } from "./modals/CreateServer";
 import { CreateWebhookModal } from "./modals/CreateWebhook";
+import { CropModal } from "./modals/CropProcess";
 import { CustomStatusModal } from "./modals/CustomStatus";
 import { DeleteBotModal } from "./modals/DeleteBot";
 import { DeleteCategoryModal } from "./modals/DeleteCategory";
 import { DeleteChannelModal } from "./modals/DeleteChannel";
+import { DeleteEmojiModal } from "./modals/DeleteEmoji";
 import { DeleteMessageModal } from "./modals/DeleteMessage";
 import { DeleteRoleModal } from "./modals/DeleteRole";
 import { DeleteServerModal } from "./modals/DeleteServer";
+import { EditBotUsernameModal } from "./modals/EditBotUsername";
+import { EditCategoryModal } from "./modals/EditCategory";
 import { EditEmailModal } from "./modals/EditEmail";
+import { EditEmojiModal } from "./modals/EditEmoji";
 import { EditPasswordModal } from "./modals/EditPassword";
+import { EditServerFolderModal } from "./modals/EditServerFolder";
 import { EditUsernameModal } from "./modals/EditUsername";
 import { EmojiPreviewModal } from "./modals/EmojiPreview";
 import { Error2Modal } from "./modals/Error2";
@@ -43,15 +50,24 @@ import { MFAEnableTOTPModal } from "./modals/MFAEnableTOTP";
 import { MFAFlowModal } from "./modals/MFAFlow";
 import { MFARecoveryModal } from "./modals/MFARecovery";
 import { OnboardingModal } from "./modals/Onboarding";
+import { PinMessageModal } from "./modals/PinMessage";
 import { PolicyChangeModal } from "./modals/PolicyChange";
+import { QuickSwitchModal } from "./modals/QuickSwitch";
+import { RemoveMemberModal } from "./modals/RemoveMember";
+import { RemoveTimeoutModal } from "./modals/RemoveTimeout";
 import { RenameSessionModal } from "./modals/RenameSession";
 import { ReportContentModal } from "./modals/ReportContent";
 import { ResetBotTokenModal } from "./modals/ResetBotToken";
+import { ScreenSharePickerModal } from "./modals/ScreenSharePicker";
+import { ScreenShareSettingsModal } from "./modals/ScreenShareSettings";
 import { ServerIdentityModal } from "./modals/ServerIdentity";
 import { ServerInfoModal } from "./modals/ServerInfo";
 import { SettingsModal } from "./modals/Settings";
 import { SignOutSessionsModal } from "./modals/SignOutSessions";
 import { SignedOutModal } from "./modals/SignedOut";
+import { SwapUserModal } from "./modals/SwapUser";
+import { TimeoutMemberModal } from "./modals/TimeoutMember";
+import { TransferOwnershipModal } from "./modals/TransferGroup";
 import { UserProfileModal } from "./modals/UserProfile";
 import { UserProfileMutualFriendsModal } from "./modals/UserProfileMutualFriends";
 import { UserProfileMutualGroupsModal } from "./modals/UserProfileMutualGroups";
@@ -63,7 +79,7 @@ import { UserProfileRolesModal } from "./modals/UserProfileRoles";
 /* eslint-disable solid/reactivity */
 /* eslint-disable solid/components-return-once */
 export function RenderModal(props: ActiveModal & { onClose: () => void }) {
-  if (CONFIGURATION.DEBUG) {
+  if (IS_DEV) {
     console.info(
       "components/modal — modal renderer created for type:",
       props.props.type,
@@ -180,7 +196,39 @@ export function RenderModal(props: ActiveModal & { onClose: () => void }) {
       return <UserProfileMutualGroupsModal {...modalProps} />;
     case "reset_bot_token":
       return <ResetBotTokenModal {...modalProps} />;
+    case "edit_category":
+      return <EditCategoryModal {...modalProps} />;
+    case "edit_server_folder":
+      return <EditServerFolderModal {...modalProps} />;
+    case "remove_member":
+      return <RemoveMemberModal {...modalProps} />;
+    case "pin_message":
+      return <PinMessageModal {...modalProps} />;
+    case "edit_bot_username":
+      return <EditBotUsernameModal {...modalProps} />;
+    case "avatar_radius":
+      return <AvatarRadiusModal {...modalProps} />;
+    case "screen_share_settings":
+      return <ScreenShareSettingsModal {...modalProps} />;
+    case "screen_share_picker":
+      return <ScreenSharePickerModal {...modalProps} />;
+    case "timeout_member":
+      return <TimeoutMemberModal {...modalProps} />;
+    case "remove_timeout":
+      return <RemoveTimeoutModal {...modalProps} />;
+    case "edit_emoji":
+      return <EditEmojiModal {...modalProps} />;
+    case "delete_emoji":
+      return <DeleteEmojiModal {...modalProps} />;
+    case "crop":
+      return <CropModal {...modalProps} />;
+    case "swap_user":
+      return <SwapUserModal {...modalProps} />;
+    case "transfer_ownership":
+      return <TransferOwnershipModal {...modalProps} />;
 
+    case "quick_switch":
+      return <QuickSwitchModal {...modalProps} />;
     default:
       console.error(
         "Failed to create modal for",

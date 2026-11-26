@@ -4,8 +4,6 @@
  * Missing from Material 3 specification:
  * - App bars
  * - Button groups
- * - Extended FAB
- * - FAB
  * - FAB menu
  * - Split button
  * - Cards
@@ -21,7 +19,6 @@
  * - Search
  * - Sheets (N/A desktop)
  * - Range Sliders
- * - Snackbar
  * - Switch
  * - Tabs
  * - Toolbars
@@ -31,18 +28,37 @@
 export { Avatar } from "./Avatar";
 export { Badge } from "./Badge";
 export { Button } from "./Button";
-export { CategoryButton } from "./CategoryButton";
+export { type CategorySelectOption, CategoryButton } from "./CategoryButton";
 export { Checkbox } from "./Checkbox";
+export { COLOUR_PALETTE, ColourPicker } from "./ColourPicker";
 export { DataTable } from "./DataTable";
 export { type DialogProps, Dialog } from "./Dialog";
+export { Fab } from "./Fab";
+export { FloatingSelect } from "./FloatingSelect";
 export { IconButton } from "./IconButton";
+export {
+  type ImageCropperHandle,
+  type ImageCropperProps,
+  CropSizeError,
+  ImageCropper,
+} from "./ImageCropper";
 export { List } from "./List";
 export { CircularProgress } from "./LoadingProgress";
+export { LoadingScreen } from "./LoadingScreen";
 export { MenuItem } from "./Menu";
 export { MenuButton } from "./MenuButton";
 export { Radio2 } from "./Radio";
 export { Ripple } from "./Ripple";
+export { Searchbar } from "./Searchbar";
 export { Slider } from "./Slider";
+export {
+  type ShowSnackbarOptions,
+  type SnackbarItem,
+  SnackbarContext,
+  SnackbarController,
+  SnackbarProvider,
+  useSnackbar,
+} from "./Snackbar";
 export { Switch } from "./Switch";
 export { Text, typography } from "./Text";
 export { TextEditor } from "./TextEditor";

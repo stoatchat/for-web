@@ -1,13 +1,14 @@
 import { BiSolidFile } from "solid-icons/bi";
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { type Message } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { floatingUserMenusFromMessage } from "@revolt/app/menus/UserContextMenu";
 import { renderSimpleMarkdown } from "@revolt/markdown";
+import { truncateKeepingEmoji } from "@revolt/markdown/emoji/util";
 import { Avatar, typography } from "@revolt/ui/components/design";
 import { NonBreakingText } from "@revolt/ui/components/utils";
 
@@ -28,6 +29,11 @@ interface Props {
    * Whether to hide the left side reply indicator
    */
   noDecorations?: boolean;
+
+  /**
+   * Whether to inherit the parent container's text colour
+   */
+  preview?: boolean;
 }
 
 export const Base = styled("div", {
@@ -67,6 +73,12 @@ export const Base = styled("div", {
         },
       },
     },
+    preview: {
+      true: {
+        color: "inherit",
+      },
+      false: {},
+    },
   },
   defaultVariants: {
     noDecorations: false,
@@ -95,8 +107,8 @@ const Attachments = styled("em", {
  */
 const Link = styled("a", {
   base: {
-    minWidth: 0,
     display: "flex",
+    minWidth: 0,
     alignItems: "center",
     gap: "var(--gap-md)",
   },
@@ -108,14 +120,18 @@ const Link = styled("a", {
 export function MessageReply(props: Props) {
   const renderReplyContent = (content: string) => {
     if (content.length > 128) {
-      content = content.slice(0, 128) + "...";
+      content = truncateKeepingEmoji(content, 128) + "...";
     }
 
     return renderSimpleMarkdown(content.replace(/\n/g, " "));
   };
 
   return (
-    <Base noDecorations={props.noDecorations}>
+    <Base
+      class="msgreply"
+      noDecorations={props.noDecorations}
+      preview={props.preview}
+    >
       <Switch fallback={<Trans>Message not loaded, click to jump</Trans>}>
         <Match when={props.message?.author?.relationship === "Blocked"}>
           <Trans>Blocked User</Trans>
@@ -129,7 +145,13 @@ export function MessageReply(props: Props) {
             <NonBreakingText>
               <Username
                 colour={props.message!.roleColour!}
-                username={(props.mention ? "@" : "") + props.message!.username}
+                username={
+                  (props.mention ? "@" : "") +
+                  (props.message!.masquerade?.name ??
+                    props.message!.member?.nickname ??
+                    props.message!.author?.displayName ??
+                    props.message!.username)
+                }
               />
             </NonBreakingText>
           </div>
@@ -158,7 +180,6 @@ export function MessageReply(props: Props) {
 
 const ReplyContent = styled("div", {
   base: {
-    display: "flex",
     overflow: "hidden",
     alignItems: "center",
     whiteSpace: "nowrap",

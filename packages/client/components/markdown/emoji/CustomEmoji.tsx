@@ -1,7 +1,6 @@
 import { ComponentProps, splitProps } from "solid-js";
 
-import { useClient } from "@revolt/client";
-
+import { useInstance } from "@revolt/instance";
 import { EmojiBase } from ".";
 
 /**
@@ -14,13 +13,7 @@ export function CustomEmoji(
   >,
 ) {
   const [local, remote] = splitProps(props, ["id"]);
-  const client = useClient();
-
-  /**
-   * Resolve emoji URL
-   */
-  const url = () =>
-    `${client()?.configuration?.features.autumn.url}/emojis/${local.id}`;
+  const { mediaUrl } = useInstance();
 
   return (
     <EmojiBase
@@ -28,7 +21,7 @@ export function CustomEmoji(
       loading="lazy"
       class="emoji"
       draggable={false}
-      src={url()}
+      src={`${mediaUrl}/emojis/${local.id}`}
       alt={`:${local.id}:`}
     />
   );

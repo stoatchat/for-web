@@ -1,10 +1,14 @@
 import {
+  acceptCompletion,
   autocompletion,
-  closeCompletion,
+  Completion,
   currentCompletions,
+  pickedCompletion,
 } from "@codemirror/autocomplete";
 import { EditorView, keymap } from "@codemirror/view";
 import { Accessor } from "solid-js";
+
+import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 import { codeMirrorAutoCompleteSource } from "./codeMirrorAutoCompleteSource";
 
@@ -27,6 +31,7 @@ const completionTheme = EditorView.theme({
   ".cm-tooltip.cm-tooltip-autocomplete > ul": {
     "min-width": "10em",
     "max-width": "50vw",
+    "max-height": "min(50vh, 490px)",
     "font-family": "inherit",
   },
   ".cm-tooltip.cm-tooltip-autocomplete > ul > li": {
@@ -77,7 +82,10 @@ const completionTheme = EditorView.theme({
 
 export function codeMirrorAutoComplete(
   searchSpace?: Accessor<AutoCompleteSearchSpace>,
+  onEmojiAccept?: (emoji: string) => void,
 ) {
+  const autocompleteScrollbarClasses = scrollableStyles();
+
   const extension = autocompletion({
     activateOnTyping: true,
     aboveCursor: true,
@@ -87,16 +95,28 @@ export function codeMirrorAutoComplete(
     tooltipClass: (state) => {
       const completions = currentCompletions(state);
       if (completions[0]?.type == "emoji") {
-        return "autocomplete-tooltip autocomplete-tooltip-emoji";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-emoji " +
+          autocompleteScrollbarClasses
+        );
       } else if (
         completions[0]?.type == "user" ||
         completions[0]?.type == "role"
       ) {
-        return "autocomplete-tooltip autocomplete-tooltip-mention";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-mention " +
+          autocompleteScrollbarClasses
+        );
       } else if (completions[0]?.type == "channel") {
-        return "autocomplete-tooltip autocomplete-tooltip-channel";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-channel " +
+          autocompleteScrollbarClasses
+        );
       } else {
-        return "autocomplete-tooltip autocomplete-tooltip-unknown";
+        return (
+          "autocomplete-tooltip autocomplete-tooltip-unknown " +
+          autocompleteScrollbarClasses
+        );
       }
     },
     // optionClass: (completion) => "example-option-class",
@@ -137,15 +157,30 @@ export function codeMirrorAutoComplete(
     ],
   });
 
+  function accept(view: EditorView, key: string) {
+    const completions = currentCompletions(view.state);
+    if (
+      key === ":" ? completions[0]?.type === "emoji" : completions.length > 0
+    ) {
+      acceptCompletion(view as never);
+      return true;
+    }
+    return false;
+  }
+
   const emojiKeymap = keymap.of([
-    {
-      key: ":",
-      run: (view) => {
-        closeCompletion(view as never);
-        return false;
-      },
-    },
+    { key: ":", run: (v) => accept(v, ":") },
+    { key: "Tab", run: (v) => accept(v, "Tab") },
   ]);
 
-  return [extension, emojiKeymap, completionTheme];
+  const recordAccept = EditorView.updateListener.of((update) => {
+    for (const tr of update.transactions) {
+      const completion = tr.annotation(pickedCompletion);
+      if (completion?.type === "emoji") {
+        onEmojiAccept?.((completion as Completion & { id: string }).id);
+      }
+    }
+  });
+
+  return [extension, emojiKeymap, recordAccept, completionTheme];
 }

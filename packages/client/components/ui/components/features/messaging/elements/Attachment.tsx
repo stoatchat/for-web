@@ -4,7 +4,7 @@ import { File, ImageEmbed, Message, VideoEmbed } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { MessageContextMenu } from "@revolt/app";
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useModals } from "@revolt/modal";
 import { Column } from "@revolt/ui/components/layout";
 import { SizedContent, Spoiler } from "@revolt/ui/components/utils";
@@ -19,8 +19,28 @@ export const AttachmentContainer = styled(Column, {
   base: {
     padding: "var(--gap-md)",
     borderRadius: "var(--borderRadius-md)",
-    color: "var(--md-sys-color-inverse-on-surface)",
-    background: "var(--md-sys-color-inverse-surface)",
+    color: "var(--md-sys-color-on-secondary-container)",
+    background: "var(--md-sys-color-secondary-container)",
+    alignSelf: "start",
+    width: "420px",
+    maxWidth: "100%",
+    overflow: "hidden",
+
+    "& audio": {
+      width: "100%",
+    },
+  },
+  variants: {
+    dynamic: {
+      grow: {
+        width: "auto",
+        minWidth: "min(420px, 100%)",
+      },
+      shrink: {
+        width: "auto",
+        maxWidth: "min(420px, 100%)",
+      },
+    },
   },
 });
 
@@ -29,6 +49,7 @@ export const AttachmentContainer = styled(Column, {
  */
 export function Attachment(props: { file: File; message?: Message }) {
   const { openModal } = useModals();
+  const { reactPicker } = useMessage();
 
   return (
     <Switch fallback={`Could not render ${props.file.metadata.type}!`}>
@@ -52,7 +73,11 @@ export function Attachment(props: { file: File; message?: Message }) {
             src={props.file.createFileURL()}
             use:floating={{
               contextMenu: () => (
-                <MessageContextMenu message={props.message} file={props.file} />
+                <MessageContextMenu
+                  message={props.message}
+                  reactPicker={reactPicker}
+                  file={props.file}
+                />
               ),
             }}
           />
@@ -68,11 +93,16 @@ export function Attachment(props: { file: File; message?: Message }) {
           </Show>
           <video
             controls
+            playsinline
             preload="metadata"
             src={props.file.originalUrl}
             use:floating={{
               contextMenu: () => (
-                <MessageContextMenu message={props.message} file={props.file} />
+                <MessageContextMenu
+                  message={props.message}
+                  reactPicker={reactPicker}
+                  file={props.file}
+                />
               ),
             }}
           />
@@ -81,33 +111,30 @@ export function Attachment(props: { file: File; message?: Message }) {
       <Match when={props.file.metadata.type === "Audio"}>
         <AttachmentContainer>
           <FileInfo file={props.file} />
-          <SizedContent width={360} height={48}>
-            <audio
-              controls
-              src={props.file.originalUrl}
-              use:floating={{
-                contextMenu: () => (
-                  <MessageContextMenu
-                    message={props.message}
-                    file={props.file}
-                  />
-                ),
-              }}
-            />
-          </SizedContent>
+          <audio
+            controls
+            src={props.file.originalUrl}
+            use:floating={{
+              contextMenu: () => (
+                <MessageContextMenu
+                  message={props.message}
+                  reactPicker={reactPicker}
+                  file={props.file}
+                />
+              ),
+            }}
+          />
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "File"}>
-        <AttachmentContainer>
+        <AttachmentContainer dynamic="shrink">
           <FileInfo file={props.file} />
         </AttachmentContainer>
       </Match>
       <Match when={props.file.metadata.type === "Text"}>
-        <AttachmentContainer>
+        <AttachmentContainer dynamic="grow">
           <FileInfo file={props.file} />
-          <SizedContent width={480} height={120}>
-            <TextFile file={props.file} />
-          </SizedContent>
+          <TextFile file={props.file} />
         </AttachmentContainer>
       </Match>
     </Switch>

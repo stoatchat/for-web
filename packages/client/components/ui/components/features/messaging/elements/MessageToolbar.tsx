@@ -1,29 +1,22 @@
 import { Show } from "solid-js";
 
-import { Message } from "stoat.js";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { MessageContextMenu } from "@revolt/app";
+import { MessageContextMenu, useMessage } from "@revolt/app";
 import { useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import { Ripple } from "@revolt/ui/components/design";
-import { iconSize } from "@revolt/ui/components/utils";
+import { Symbol } from "@revolt/ui/components/utils";
 
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
-import MdEmojiEmotions from "@material-design-icons/svg/outlined/emoji_emotions.svg?component-solid";
-import MdMoreVert from "@material-design-icons/svg/outlined/more_vert.svg?component-solid";
-import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
-
-import { startsWithPackPUA } from "@revolt/markdown/emoji/UnicodeEmoji";
-import { CompositionMediaPicker } from "../composition";
-
-export function MessageToolbar(props: { message?: Message }) {
+export function MessageToolbar() {
   const user = useUser();
   const state = useState();
   const { openModal } = useModals();
+  const { message, reactPicker } = useMessage();
+
+  let reactRef;
 
   // todo: a11y for buttons; tabindex
 
@@ -32,85 +25,67 @@ export function MessageToolbar(props: { message?: Message }) {
    */
   function deleteMessage(ev: MouseEvent) {
     if (ev.shiftKey) {
-      props.message?.delete();
-    } else if (props.message) {
+      message?.delete();
+    } else if (message) {
       openModal({
         type: "delete_message",
-        message: props.message,
+        message: message,
       });
     }
   }
 
   return (
     <Base class="Toolbar">
-      <Show when={props.message?.channel?.havePermission("SendMessage")}>
+      <Show when={message?.channel?.havePermission("SendMessage")}>
         <div
           class={tool()}
-          onClick={() => state.draft.addReply(props.message!, user()!.id)}
+          onClick={() => state.draft.addReply(message!, user()!.id)}
         >
           <Ripple />
-          <MdReply {...iconSize(20)} />
+          <Symbol size={20}>reply</Symbol>
         </div>
       </Show>
-      <Show when={props.message?.channel?.havePermission("React")}>
-        <CompositionMediaPicker
-          onMessage={(content) =>
-            props.message?.channel?.sendMessage({
-              content,
-              replies: [{ id: props.message.id, mention: true }],
-            })
-          }
-          onTextReplacement={(emoji) =>
-            props.message!.react(
-              emoji.startsWith(":")
-                ? emoji.slice(1, emoji.length - 1)
-                : startsWithPackPUA(emoji)
-                  ? emoji.slice(1)
-                  : emoji,
-            )
-          }
-        >
-          {(triggerProps) => (
-            <div
-              ref={triggerProps.ref}
-              class={tool()}
-              onClick={triggerProps.onClickEmoji}
-            >
-              <Ripple />
-              <MdEmojiEmotions {...iconSize(20)} />
-            </div>
-          )}
-        </CompositionMediaPicker>
-      </Show>
-      <Show when={props.message?.author?.self}>
+      <Show when={message?.channel?.havePermission("React")}>
         <div
+          ref={reactRef}
           class={tool()}
-          onClick={() => state.draft.setEditingMessage(props.message)}
+          onClick={(e) => reactPicker!()?.onClickEmoji(e, reactRef)}
         >
           <Ripple />
-          <MdEdit {...iconSize(20)} />
+          <Symbol size={20}>mood</Symbol>
+        </div>
+      </Show>
+      <Show when={message?.author?.self}>
+        <div
+          class={tool()}
+          onClick={() => state.draft.setEditingMessage(message)}
+        >
+          <Ripple />
+          <Symbol size={20}>edit</Symbol>
         </div>
       </Show>
       <Show
         when={
-          props.message?.author?.self ||
-          props.message?.channel?.havePermission("ManageMessages")
+          message?.author?.self ||
+          message?.channel?.havePermission("ManageMessages")
         }
       >
         <div class={tool()} onClick={deleteMessage}>
           <Ripple />
-          <MdDelete {...iconSize(20)} />
+          <Symbol size={20}>delete</Symbol>
         </div>
       </Show>
       <div
         class={tool()}
         use:floating={{
-          contextMenu: () => <MessageContextMenu message={props.message!} />,
+          contextMenu: () => (
+            <MessageContextMenu message={message!} reactPicker={reactPicker} />
+          ),
           contextMenuHandler: "click",
         }}
       >
         <Ripple />
-        <MdMoreVert {...iconSize(20)} />
+        <Symbol size={20}>more_vert</Symbol>
       </div>
     </Base>
   );
@@ -127,9 +102,9 @@ const Base = styled("div", {
     display: "none",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-xs)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-2)",
 
-    fill: "var(--md-sys-color-on-secondary-container)",
+    color: "var(--md-sys-color-on-secondary-container)",
     background: "var(--md-sys-color-secondary-container)",
   },
 });

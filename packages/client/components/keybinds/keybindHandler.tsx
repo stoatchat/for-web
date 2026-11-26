@@ -6,12 +6,10 @@ import {
   useContext,
 } from "solid-js";
 
-import { ReactiveSet } from "@solid-primitives/set";
-
 import {
   ACTION_PRIORITY,
   KeybindAction,
-  keybindFilter,
+  resolveKeybind,
 } from "./keybindActions";
 import { DEFAULT_MAC_SEQUENCES, DEFAULT_SEQUENCES } from "./keybindSequences";
 
@@ -21,25 +19,22 @@ type KeybindContext = {
 
 const keybindContext = createContext<KeybindContext>(null! as KeybindContext);
 
+/**
+ * Keybinds whose browser default must be suppressed
+ * (e.g. Ctrl+K focuses the address/search bar in Firefox)
+ */
+const PREVENT_DEFAULT = new Set<KeybindAction>([KeybindAction.QUICK_SWITCH]);
+
 export function KeybindContext(props: { children: JSXElement }) {
   /**
-   * Last event target, used for filtering
+   * Keep track of active callbacks for each keybind action
    */
-  let target: HTMLElement | null;
-
-  /**
-   * Keep track of pressed keys to match sequences
-   */
-  const activeKeys = new ReactiveSet<string>();
-
-  /**
-   * Keep track of which keybinds are currently bound
-   * to filter the firing keybindings list
-   */
-  const currentlyBound = ACTION_PRIORITY.reduce(
-    (d, k) => ({ ...d, [k]: 0 }),
-    {} as Record<KeybindAction, number>,
+  const listeners = ACTION_PRIORITY.reduce(
+    (d, k) => ({ ...d, [k]: new Set<{ callback: () => void }>() }),
+    {} as Record<KeybindAction, Set<{ callback: () => void }>>,
   );
+
+  const isBound = (action: KeybindAction) => listeners[action].size > 0;
 
   /**
    * Sequences for use
@@ -49,107 +44,48 @@ export function KeybindContext(props: { children: JSXElement }) {
     : DEFAULT_SEQUENCES;
 
   /**
-   * Get the currently firing keybind
-   */
-  function firing() {
-    return (
-      ACTION_PRIORITY
-        // filter to those keybinds that are bound
-        .filter((keybind) => currentlyBound[keybind])
-        // apply custom filtering logic
-        .filter((keybind) =>
-          keybindFilter(keybind, activeKeys, currentlyBound, target),
-        )
-        // check whether the keybind is being pressed
-        .filter((keybind) =>
-          sequences[keybind].every((key) =>
-            key instanceof RegExp
-              ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
-              : activeKeys.has(key),
-          ),
-        )
-        // return the highest priority keybind
-        .shift()
-    );
-  }
-
-  /**
-   * Debug currently pressed sequences
-   */
-  if (import.meta.env.DEV) {
-    createEffect(() =>
-      console.debug(
-        "[keybinds] Currently pressing",
-        [...activeKeys],
-        "which selects",
-        ACTION_PRIORITY
-          // filter to those keybinds that are bound
-          .filter((keybind) => currentlyBound[keybind])
-          // apply custom filtering logic
-          .filter((keybind) =>
-            keybindFilter(keybind, activeKeys, currentlyBound, target),
-          )
-          // check whether the keybind is being pressed
-          .reduce(
-            (d, keybind) => ({
-              ...d,
-              [keybind]: sequences[keybind].every((key) =>
-                key instanceof RegExp
-                  ? [...activeKeys].findIndex((item) => key.test(item)) !== -1
-                  : activeKeys.has(key),
-              ),
-            }),
-            {},
-          ),
-      ),
-    );
-  }
-
-  /**
-   * Check whether a given keybind fired
-   * @param keybind Keybind
-   */
-  function isFired(keybind: KeybindAction) {
-    return firing() === keybind;
-  }
-
-  /**
-   * Handle key down event by adding it to active keys
+   * Handle key down event by resolving and firing the highest-priority matching keybind
    */
   function onKeyDown(event: KeyboardEvent) {
-    target = event.target as HTMLElement;
-    activeKeys.add(event.key);
-  }
+    const fired = resolveKeybind(event, sequences, isBound);
+    if (!fired) return;
 
-  /**
-   * Handle key up event by removing it from active keys
-   */
-  function onKeyUp(event: KeyboardEvent) {
-    target = event.target as HTMLElement;
-    activeKeys.delete(event.key);
+    if (PREVENT_DEFAULT.has(fired)) {
+      event.preventDefault();
+    }
+
+    if (event.repeat) return;
+
+    if (import.meta.env.DEV) {
+      console.debug("[keybinds] Fired", fired, {
+        key: event.key,
+        ctrlKey: event.ctrlKey,
+        metaKey: event.metaKey,
+        altKey: event.altKey,
+        shiftKey: event.shiftKey,
+      });
+    }
+
+    for (const entry of [...listeners[fired]]) {
+      if (listeners[fired].has(entry)) {
+        entry.callback();
+      }
+    }
   }
 
   document.body.addEventListener("keydown", onKeyDown);
-  document.body.addEventListener("keyup", onKeyUp);
 
   onCleanup(() => {
     document.body.removeEventListener("keydown", onKeyDown);
-    document.body.removeEventListener("keyup", onKeyUp);
   });
 
   return (
     <keybindContext.Provider
       value={{
         createKeybind(keybind, callback) {
-          currentlyBound[keybind]++;
-          onCleanup(() => currentlyBound[keybind]--);
-
-          createEffect(() => {
-            const _ = [...activeKeys]; // track dependency
-            if (isFired(keybind)) {
-              callback();
-            }
-          });
+          const entry = { callback };
+          listeners[keybind].add(entry);
+          onCleanup(() => listeners[keybind].delete(entry));
         },
       }}
     >

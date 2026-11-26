@@ -22,5 +22,9 @@ export const SidebarBase = styled("div", {
     "& a": {
       textDecoration: "none",
     },
+
+    _phone: {
+      flexGrow: 1,
+    },
   },
 });

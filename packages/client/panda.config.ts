@@ -1,4 +1,12 @@
 import { defineConfig } from "@pandacss/dev";
+import Breakpoint from "./components/common/Breakpoint";
+
+const condExt: Record<string, string> = {};
+
+//Load breakpoint conditions
+for (const bp in Breakpoint) {
+  condExt[bp] = `@media ${Breakpoint[bp as keyof typeof Breakpoint]}`;
+}
 
 export default defineConfig({
   // Whether to use css reset
@@ -7,8 +15,7 @@ export default defineConfig({
   // Where to look for your css declarations
   include: ["./src/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
 
-  // Files to exclude
-  exclude: [],
+  conditions: { extend: condExt },
 
   // Useful for theme customization
   theme: {
@@ -50,12 +57,28 @@ export default defineConfig({
           },
           "5%": {
             background: "var(--md-sys-color-primary-container)",
+            color: "var(--md-sys-color-on-primary-container)",
           },
           "95%": {
             background: "var(--md-sys-color-primary-container)",
+            color: "var(--md-sys-color-on-primary-container)",
           },
           "100%": {
             background: "transparent",
+          },
+        },
+        highlightMessageInfo: {
+          "0%": {
+            color: "inherit",
+          },
+          "5%": {
+            color: "var(--md-sys-color-on-primary-container)",
+          },
+          "95%": {
+            color: "var(--md-sys-color-on-primary-container)",
+          },
+          "100%": {
+            color: "inherit",
           },
         },
         skeletonShimmer: {
@@ -64,6 +87,26 @@ export default defineConfig({
           },
           "100%": {
             backgroundPosition: "-200% 0",
+          },
+        },
+        authHintIn: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(4px)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+        authDotIn: {
+          "0%": {
+            opacity: 0,
+            transform: "translateY(8px)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateY(0)",
           },
         },
       },
@@ -76,6 +119,6 @@ export default defineConfig({
   // Enable jsx code gen
   jsxFramework: "solid",
 
-  // Use template style
-  // syntax: "template-literal",
+  hash: true,
+  minify: true,
 });

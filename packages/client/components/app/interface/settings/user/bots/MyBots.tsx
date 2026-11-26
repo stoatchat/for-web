@@ -1,6 +1,6 @@
 import { ErrorBoundary, For, Suspense } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import { createOwnBotsResource } from "@revolt/client/resources";
@@ -8,14 +8,10 @@ import { useModals } from "@revolt/modal";
 import {
   Avatar,
   CategoryButton,
-  CategoryButtonGroup,
   CircularProgress,
   Column,
-  iconSize,
+  Symbol,
 } from "@revolt/ui";
-
-import MdLibraryBooks from "@material-design-icons/svg/outlined/library_books.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -40,10 +36,10 @@ function CreateBot() {
   const { navigate } = useSettingsNavigation();
 
   return (
-    <CategoryButtonGroup>
+    <CategoryButton.Group>
       <CategoryButton
         action="chevron"
-        icon={<MdSmartToy {...iconSize(22)} />}
+        icon={<Symbol size={22}>smart_toy</Symbol>}
         onClick={() =>
           openModal({
             type: "create_bot",
@@ -63,7 +59,7 @@ function CreateBot() {
       </CategoryButton>
       <CategoryButton
         action="external"
-        icon={<MdLibraryBooks {...iconSize(22)} />}
+        icon={<Symbol size={22}>library_books</Symbol>}
         onClick={() => window.open("https://developers.stoat.chat", "_blank")}
         description={
           <Trans>Learn more about how to create bots on Stoat.</Trans>
@@ -71,7 +67,7 @@ function CreateBot() {
       >
         <Trans>Developer Documentation</Trans>
       </CategoryButton>
-    </CategoryButtonGroup>
+    </CategoryButton.Group>
   );
 }
 
@@ -85,7 +81,7 @@ function ListBots() {
   return (
     <ErrorBoundary fallback="Failed to load bots...">
       <Suspense fallback={<CircularProgress />}>
-        <CategoryButtonGroup>
+        <CategoryButton.Group>
           <For each={bots.data}>
             {(bot) => (
               <CategoryButton
@@ -104,7 +100,7 @@ function ListBots() {
               </CategoryButton>
             )}
           </For>
-        </CategoryButtonGroup>
+        </CategoryButton.Group>
       </Suspense>
     </ErrorBoundary>
   );

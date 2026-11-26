@@ -7,15 +7,15 @@ import {
 import { FaBrandsLinux } from "solid-icons/fa";
 import {
   Accessor,
+  createMemo,
   For,
   Match,
+  onMount,
   Show,
   Switch,
-  createMemo,
-  onMount,
 } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Session } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -23,15 +23,11 @@ import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
-  CategoryButtonGroup,
-  CategoryCollapse,
   CircularProgress,
   Column,
+  Symbol,
   Time,
-  iconSize,
 } from "@revolt/ui";
-
-import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
 
 /**
  * Sessions
@@ -74,8 +70,8 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
   const currentSession = () => client().sessions.get(client().sessionId!);
 
   return (
-    <CategoryButtonGroup>
-      <CategoryCollapse
+    <CategoryButton.Group>
+      <CategoryButton.Collapse
         title={<Trans>Current Session</Trans>}
         description={currentSession()?.name}
         icon={<SessionIcon session={currentSession()} />}
@@ -93,14 +89,11 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
         >
           <Trans>Rename</Trans>
         </CategoryButton>
-      </CategoryCollapse>
+      </CategoryButton.Collapse>
       {/* <CategoryButton
         action="chevron"
         icon={
-          <MdAutoMode
-            {...iconSize(24)}
-            fill="var(--md-sys-color-error)"
-          />
+          <Symbol size={24}>auto_mode</Symbol>
         }
         description={Keeps your last sessions active and automatically logs you out of other ones"}
       >
@@ -115,7 +108,11 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
               client: client(),
             })
           }
-          icon={<MdLogout {...iconSize(24)} fill="var(--md-sys-color-error)" />}
+          icon={
+            <Symbol size={22} color={"var(--md-sys-color-error)"}>
+              logout
+            </Symbol>
+          }
           description={
             <Trans>Logs you out of all sessions except this device.</Trans>
           }
@@ -123,7 +120,7 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
           <Trans>Log Out Other Sessions</Trans>
         </CategoryButton>
       </Show>
-    </CategoryButtonGroup>
+    </CategoryButton.Group>
   );
 }
 
@@ -131,15 +128,16 @@ function ManageCurrentSession(props: { otherSessions: Accessor<Session[]> }) {
  * List other logged in sessions
  */
 function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
-  const { openModal } = useModals();
+  const { openModal, mfaFlow } = useModals();
+  const client = useClient();
 
   return (
     <Show when={props.otherSessions().length}>
       <Column>
-        <CategoryButtonGroup>
+        <CategoryButton.Group>
           <For each={props.otherSessions()}>
             {(session) => (
-              <CategoryCollapse
+              <CategoryButton.Collapse
                 icon={<SessionIcon session={session} />}
                 title={<Capitalise>{session.name}</Capitalise>}
                 description={
@@ -163,14 +161,20 @@ function ListOtherSessions(props: { otherSessions: Accessor<Session[]> }) {
                 <CategoryButton
                   icon="blank"
                   action="chevron"
-                  onClick={() => session.delete()}
+                  onClick={() => {
+                    (async () => {
+                      const mfa = await client().account.mfa();
+                      const ticket = await mfaFlow(mfa as never);
+                      session.delete(ticket!);
+                    })();
+                  }}
                 >
                   <Trans>Log Out</Trans>
                 </CategoryButton>
-              </CategoryCollapse>
+              </CategoryButton.Collapse>
             )}
           </For>
-        </CategoryButtonGroup>
+        </CategoryButton.Group>
       </Column>
     </Show>
   );

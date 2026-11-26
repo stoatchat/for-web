@@ -1,21 +1,12 @@
 import { useFloating } from "solid-floating-ui";
-import {
-  Component,
-  ComponentProps,
-  JSX,
-  Show,
-  createSignal,
-  splitProps,
-} from "solid-js";
+import { ComponentProps, createSignal, JSX, Show, splitProps } from "solid-js";
 import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
 import { styled } from "styled-system/jsx";
 
-import { Text, iconSize, symbolSize } from "@revolt/ui";
-
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
+import { Symbol, Text, useActionSheet } from "@revolt/ui";
 
 const Base = styled("div", {
   base: {
@@ -27,7 +18,7 @@ const Base = styled("div", {
     background: "var(--md-sys-color-surface-container)",
     color: "var(--md-sys-color-on-surface)",
     fill: "var(--md-sys-color-on-surface)",
-    boxShadow: "0 0 3px var(--md-sys-color-shadow)",
+    boxShadow: "var(--md-sys-elevation-2)",
 
     userSelect: "none",
   },
@@ -37,7 +28,9 @@ export function ContextMenu(props: ComponentProps<typeof Base>) {
   return (
     <Base
       // prevent context menu closing itself before click event
-      onMouseDown={(e) => e.stopImmediatePropagation()}
+      onpointerdown={(e) => e.stopImmediatePropagation()}
+      // Prevent context menu closing the picker.
+      onmousedown={(e) => e.stopPropagation()}
       {...props}
     />
   );
@@ -63,7 +56,14 @@ export const ContextMenuItem = styled("a", {
         "color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent)",
     },
 
-    "& span": {
+    // Touch devices have no hover, so provide feedback while pressing
+    "&:active": {
+      background:
+        "color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent)",
+    },
+
+    // let the label fill the row, but not <Symbol> icons (also spans)
+    "& span:not([aria-hidden='true'])": {
       flexGrow: 1,
     },
   },
@@ -118,33 +118,19 @@ export const ContextMenuItem = styled("a", {
 });
 
 type ButtonProps = ComponentProps<typeof ContextMenuItem> & {
-  icon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  symbol?: Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  icon?: JSX.Element;
   destructive?: boolean;
-  actionIcon?: JSX.Element | Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
-  actionSymbol?: Component<JSX.SvgSVGAttributes<SVGSVGElement>>;
+  actionIcon?: JSX.Element;
 };
 
 export function ContextMenuButton(props: ButtonProps) {
-  const [local, remote] = splitProps(props, [
-    "icon",
-    "symbol",
-    "actionIcon",
-    "actionSymbol",
-    "children",
-  ]);
+  const [local, remote] = splitProps(props, ["icon", "actionIcon", "children"]);
 
   return (
     <ContextMenuItem button {...remote}>
-      {typeof local.icon === "function"
-        ? local.icon?.(iconSize(16))
-        : local.icon}
-      {local.symbol?.(symbolSize(16))}
+      {local.icon}
       <Text>{local.children}</Text>
-      {typeof local.actionIcon === "function"
-        ? local.actionIcon?.(iconSize(20))
-        : local.actionIcon}
-      {local.actionSymbol?.(symbolSize(20))}
+      {local.actionIcon}
     </ContextMenuItem>
   );
 }
@@ -168,6 +154,8 @@ export function ContextMenuSubMenu(
     "onClick",
   ]);
 
+  const sheet = useActionSheet();
+
   function isShowing() {
     return show() === true || show() === "show";
   }
@@ -183,11 +171,31 @@ export function ContextMenuSubMenu(
       <ContextMenuButton
         ref={setAnchor}
         selected={isShowing()}
-        actionIcon={MdChevronRight}
-        onMouseDown={(e) => {
+        actionIcon={<Symbol>chevron_right</Symbol>}
+        onpointerdown={(e) => {
           e.stopImmediatePropagation();
         }}
         onClick={(e) => {
+          // mobile: always drill down, the shortcut becomes the first row of the page
+          if (sheet) {
+            e.stopImmediatePropagation();
+            sheet.push({
+              title: () => local.buttonContent,
+              content: () => (
+                <>
+                  <Show when={local.onClick}>
+                    <ContextMenuButton onClick={() => local.onClick!()}>
+                      {local.buttonContent}
+                    </ContextMenuButton>
+                    <ContextMenuDivider />
+                  </Show>
+                  {local.children}
+                </>
+              ),
+            });
+            return;
+          }
+
           if (local.onClick) {
             local.onClick();
           } else {
@@ -195,58 +203,72 @@ export function ContextMenuSubMenu(
             setShow(isShowing() ? false : "show");
           }
         }}
-        onMouseEnter={() => setShow((show) => (show === "hide" ? show : true))}
+        onMouseEnter={() => {
+          if (sheet) return;
+          setShow((show) => (show === "hide" ? show : true));
+        }}
         {...buttonProps}
       >
         {local.buttonContent}
       </ContextMenuButton>
-      <Portal mount={document.getElementById("floating")!}>
-        <Presence>
+      <Show
+        when={!sheet}
+        fallback={
           <Show when={isShowing()}>
-            <Motion
-              ref={setRef}
-              style={{
-                position: position.strategy,
-                top: `${position.y ?? 0}px`,
-                left: `${position.x ?? 0}px`,
-                "z-index": 1000,
-              }}
-              initial={{ opacity: 0, x: -24 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2, easing: [0.87, 0, 0.13, 1] }}
-              onMouseLeave={() =>
-                setShow((show) => (show === true ? false : show))
-              }
-              // stop submenu from closing context menu
-              onMouseDown={(e) => e.stopImmediatePropagation()}
-            >
-              <div
-                onClick={(e) => {
-                  if (local.onClick) {
-                    local.onClick();
-                  } else {
-                    // prevent submenu trigger from closing context menu
-                    e.stopImmediatePropagation();
-                    setShow((show) => (show ? "hide" : true));
-                  }
-                }}
-                // float a virtual element to ensure the mouseLeave event covers
-                // both the anchor/button we attached to and the newly created context menu
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: `-${(anchor()?.clientWidth ?? 0) + 5}px`,
-                  width: `${(anchor()?.clientWidth ?? 0) + 5}px`,
-                  height: `${anchor()?.clientHeight ?? 0}px`,
-                  cursor: "pointer",
-                }}
-              />
-              <ContextMenu>{local.children}</ContextMenu>
-            </Motion>
+            <div style={{ "padding-inline-start": "var(--gap-lg)" }}>
+              {local.children}
+            </div>
           </Show>
-        </Presence>
-      </Portal>
+        }
+      >
+        <Portal mount={document.getElementById("floating")!}>
+          <Presence>
+            <Show when={isShowing()}>
+              <Motion
+                ref={setRef}
+                style={{
+                  position: position.strategy,
+                  top: `${position.y ?? 0}px`,
+                  left: `${position.x ?? 0}px`,
+                  "z-index": 1000,
+                }}
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, easing: [0.87, 0, 0.13, 1] }}
+                onMouseLeave={() =>
+                  setShow((show) => (show === true ? false : show))
+                }
+                // stop submenu from closing context menu
+                onpointerdown={(e) => e.stopImmediatePropagation()}
+              >
+                <div
+                  onClick={(e) => {
+                    if (local.onClick) {
+                      local.onClick();
+                    } else {
+                      // prevent submenu trigger from closing context menu
+                      e.stopImmediatePropagation();
+                      setShow((show) => (show ? "hide" : true));
+                    }
+                  }}
+                  // float a virtual element to ensure the mouseLeave event covers
+                  // both the anchor/button we attached to and the newly created context menu
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: `-${(anchor()?.clientWidth ?? 0) + 5}px`,
+                    width: `${(anchor()?.clientWidth ?? 0) + 5}px`,
+                    height: `${anchor()?.clientHeight ?? 0}px`,
+                    cursor: "pointer",
+                  }}
+                />
+                <ContextMenu>{local.children}</ContextMenu>
+              </Motion>
+            </Show>
+          </Presence>
+        </Portal>
+      </Show>
     </>
   );
 }

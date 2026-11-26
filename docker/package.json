@@ -1,0 +1,14 @@
+{
+  "name": "stoat-web-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node inject.js && sirv dist_injected --port 5000 --cors --single --host"
+  },
+  "dependencies": {
+    "sirv-cli": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

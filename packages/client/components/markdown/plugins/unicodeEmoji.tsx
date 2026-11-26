@@ -2,9 +2,9 @@ import { Handler } from "mdast-util-to-hast";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 
-import { UnicodeEmoji } from "../emoji";
+import { RE_UNICODE_EMOJI, UNICODE_ZWNJ, UnicodeEmoji } from "../emoji";
 import {
-  RE_UNICODE_EMOJI,
+  isRegionalIndicator,
   UNICODE_EMOJI_MAX_PACK,
   UNICODE_EMOJI_MIN_PACK,
   UNICODE_EMOJI_PUA_PACK,
@@ -32,13 +32,23 @@ export function parseUnicodeEmoji(str: string): {
     selector >= UNICODE_EMOJI_MIN_PACK &&
     selector <= UNICODE_EMOJI_MAX_PACK
   ) {
+    const subStr = str.substring(1);
     return {
-      str: str.substring(1),
+      str:
+        // Remove the ZWNJ if this is a single regional indicator
+        subStr.startsWith(UNICODE_ZWNJ) &&
+        isRegionalIndicator(subStr.substring(1))
+          ? subStr.substring(1)
+          : subStr,
       pack: UNICODE_EMOJI_PUA_PACK[selectorChar],
     };
   } else {
     return {
-      str,
+      str:
+        // Remove the ZWNJ if this is a single regional indicator
+        str.startsWith(UNICODE_ZWNJ) && isRegionalIndicator(str.substring(1))
+          ? str.substring(1)
+          : str,
     };
   }
 }

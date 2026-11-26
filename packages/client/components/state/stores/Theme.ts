@@ -1,6 +1,11 @@
 import { Accessor, createSignal } from "solid-js";
 
-import { Fonts, MonospaceFonts } from "@revolt/ui/themes/fonts";
+import {
+  FONT_KEYS,
+  Fonts,
+  MONOSPACE_FONT_KEYS,
+  MonospaceFonts,
+} from "@revolt/ui/themes/fonts";
 
 import { State } from "..";
 
@@ -68,9 +73,21 @@ export type TypeTheme = {
    * Spacing between message groups
    */
   messageGroupSpacing: number;
+
+  /**
+   * Avatar radius
+   */
+  avatarRadius: number;
 };
 
-export type SelectedTheme = Pick & {
+export type SelectedTheme = Pick<
+  TypeTheme,
+  | "blur"
+  | "interfaceFont"
+  | "monospaceFont"
+  | "messageSize"
+  | "messageGroupSpacing"
+> & {
   preset: "you";
   darkMode: boolean;
 
@@ -80,10 +97,16 @@ export type SelectedTheme = Pick & {
 };
 
 /**
+ * Clamps a value between min and max
+ */
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(Math.max(value, min), max);
+
+/**
  * Manages theme information
  */
-export class Theme extends AbstractStore {
-  prefersDark: Accessor;
+export class Theme extends AbstractStore<"theme", TypeTheme> {
+  prefersDark: Accessor<boolean>;
 
   /**
    * Construct store
@@ -132,13 +155,14 @@ export class Theme extends AbstractStore {
       blur: true,
       messageSize: 14,
       messageGroupSpacing: 12,
+      avatarRadius: 50,
     };
   }
 
   /**
    * Validate the given data to see if it is compliant and return a compliant object
    */
-  clean(input: Partial): TypeTheme {
+  clean(input: Partial<TypeTheme>): TypeTheme {
     const data: TypeTheme = this.default();
 
     if (["light", "dark", "system"].includes(input.mode!)) {
@@ -186,6 +210,24 @@ export class Theme extends AbstractStore {
 
     if (typeof input.messageGroupSpacing === "number") {
       data.messageGroupSpacing = input.messageGroupSpacing;
+    }
+
+    if (
+      typeof input.monospaceFont === "string" &&
+      MONOSPACE_FONT_KEYS.includes(input.monospaceFont)
+    ) {
+      data.monospaceFont = input.monospaceFont;
+    }
+
+    if (
+      typeof input.interfaceFont === "string" &&
+      FONT_KEYS.includes(input.interfaceFont)
+    ) {
+      data.interfaceFont = input.interfaceFont;
+    }
+
+    if (typeof input.avatarRadius === "number") {
+      data.avatarRadius = clamp(input.avatarRadius, 0, 50);
     }
 
     return data;
@@ -360,5 +402,19 @@ export class Theme extends AbstractStore {
    */
   set messageGroupSpacing(space: number) {
     this.set("messageGroupSpacing", space);
+  }
+
+  /**
+   * Get the current avatar radius
+   */
+  get avatarRadius() {
+    return this.get().avatarRadius;
+  }
+
+  /**
+   * Set avatar radius
+   */
+  set avatarRadius(radius: number) {
+    this.set("avatarRadius", radius);
   }
 }

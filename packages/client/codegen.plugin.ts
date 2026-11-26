@@ -1,3 +1,4 @@
+import MagicString from "magic-string";
 import { readdirSync } from "node:fs";
 
 const fileRegex = /\.tsx$/;
@@ -14,51 +15,62 @@ export default function codegenPlugin() {
     name: "codegen",
     enforce: "pre" as const,
     transform(src: string, id: string) {
-      if (fileRegex.test(id)) {
-        src = src.replace(codegenRegex, (substring, group1) => {
-          const rawArgs: string[] = group1.split(" ");
-          const type = rawArgs.shift();
+      if (!fileRegex.test(id)) return null;
 
-          const args = rawArgs.reduce(
-            (d, arg) => {
-              const [key, value] = arg.split("=");
-              return {
-                ...d,
-                [key]: value,
-              };
-            },
-            { type },
-          ) as {
-            type: "directives";
-            props?: string;
-            include?: string;
-          };
+      const s = new MagicString(src);
+      let changed = false;
 
-          switch (args.type) {
-            case "directives": {
-              // Generate directives forwarding
-              const source = args.props ?? "props";
-              const permitted: string[] =
-                args.include?.split(",") ?? DIRECTIVES;
-              return DIRECTIVES.filter((d) => permitted.includes(d))
-                .map((d) => `use:${d}={${source}["use:${d}"]}`)
-                .join("\n");
-            }
-            default:
-              return substring;
-          }
-        });
+      for (const match of src.matchAll(codegenRegex)) {
+        const rawArgs: string[] = match[1].split(" ");
+        const type = rawArgs.shift();
 
-        if (directiveRegex.test(src)) {
-          if (!id.endsWith("client/components/ui/index.tsx"))
-            src =
-              `import { ${DIRECTIVES.join(
-                ", ",
-              )} } from "@revolt/ui/directives";\n` + src;
-        }
+        const args = rawArgs.reduce(
+          (d, arg) => {
+            const [key, value] = arg.split("=");
+            return {
+              ...d,
+              [key]: value,
+            };
+          },
+          { type },
+        ) as {
+          type: "directives";
+          props?: string;
+          include?: string;
+        };
 
-        return src;
+        if (args.type !== "directives") continue;
+
+        // Generate directives forwarding
+        const source = args.props ?? "props";
+        const permitted: string[] = args.include?.split(",") ?? DIRECTIVES;
+        const replacement = DIRECTIVES.filter((d) => permitted.includes(d))
+          .map((d) => `use:${d}={${source}["use:${d}"]}`)
+          .join("\n");
+
+        s.overwrite(match.index, match.index + match[0].length, replacement);
+        changed = true;
       }
+
+      if (directiveRegex.test(s.toString())) {
+        if (!id.endsWith("client/components/ui/index.tsx")) {
+          s.prepend(
+            `import { ${DIRECTIVES.join(", ")} } from "@revolt/ui/directives";\n`,
+          );
+          changed = true;
+        }
+      }
+
+      if (!changed) return null;
+
+      return {
+        code: s.toString(),
+        map: s.generateMap({
+          hires: true,
+          source: id.split("?")[0],
+          includeContent: false,
+        }),
+      };
     },
   };
 }

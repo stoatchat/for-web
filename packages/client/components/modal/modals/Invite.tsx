@@ -1,6 +1,6 @@
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
 import { useMutation } from "@tanstack/solid-query";
 import { ServerPublicInvite } from "stoat.js";

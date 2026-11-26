@@ -1,8 +1,8 @@
+import Instance from "@revolt/instance/Instance";
 import { paramsFromPathname } from "@revolt/routing";
 
-import { State } from "..";
-
 import { AbstractStore } from ".";
+import { State } from "..";
 
 /**
  * Static section IDs
@@ -13,13 +13,9 @@ export enum LAYOUT_SECTIONS {
   MENTION_REPLY = "MENTION_REPLY",
   MATURE = "nsfw",
 }
+const MAX_RECENT_CHANNELS = 20;
 
 export interface TypeLayout {
-  /**
-   * URL to redirect to after login
-   */
-  nextPath?: string;
-
   /**
    * The current section of the program we are in
    *
@@ -41,6 +37,11 @@ export interface TypeLayout {
    * Only the contrary is ever stored
    */
   openSections: Record<string, boolean>;
+
+  /**
+   * Last visited channels
+   */
+  recentChannelIds: string[];
 }
 
 /**
@@ -68,11 +69,9 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   default(): TypeLayout {
     return {
       activeInterface: "home",
-      activePath: {
-        home: "/",
-        discover: "/discover/servers",
-      },
+      activePath: {},
       openSections: {},
+      recentChannelIds: [],
     };
   }
 
@@ -82,10 +81,6 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   clean(input: Partial<TypeLayout>): TypeLayout {
     const layout: TypeLayout = this.default();
 
-    if (typeof input.nextPath === "string") {
-      layout.nextPath = input.nextPath;
-    }
-
     if (typeof input.activeInterface === "string") {
       layout.activeInterface = input.activeInterface;
     }
@@ -93,7 +88,9 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
     if (typeof input.activePath === "object") {
       for (const interfaceId of Object.keys(input.activePath)) {
         if (typeof input.activePath[interfaceId] === "string") {
-          layout.activePath[interfaceId] = input.activePath[interfaceId];
+          layout.activePath[interfaceId] = Instance.relPath(
+            input.activePath[interfaceId],
+          );
         }
       }
     }
@@ -106,16 +103,17 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
       }
     }
 
-    return layout;
-  }
+    if (Array.isArray(input.recentChannelIds)) {
+      layout.recentChannelIds = [
+        ...new Set(
+          input.recentChannelIds.filter(
+            (id): id is string => typeof id === "string",
+          ),
+        ),
+      ].slice(0, MAX_RECENT_CHANNELS);
+    }
 
-  /**
-   * Pop the next redirect path
-   */
-  popNextPath() {
-    const nextUrl = this.get().nextPath;
-    this.set("nextPath", undefined);
-    return nextUrl;
+    return layout;
   }
 
   /**
@@ -130,7 +128,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
    * Get the last active discover path in the app
    */
   getLastActiveDiscoverPath() {
-    return this.get().activePath["discover"];
+    return this.get().activePath["discover"] ?? "/discover/servers";
   }
 
   /**
@@ -141,17 +139,14 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
   }
 
   /**
-   * Set the next redirect path
-   */
-  setNextPath(pathname: string) {
-    this.set("nextPath", pathname);
-  }
-
-  /**
    * Set the last active path in the app
    */
   setLastActivePath(pathname: string) {
-    if (pathname.startsWith("/settings") || pathname.startsWith("/invite"))
+    if (
+      pathname.startsWith("/settings") ||
+      pathname.startsWith("/invite") ||
+      pathname.startsWith("/login")
+    )
       return;
 
     const params = paramsFromPathname(pathname);
@@ -159,7 +154,7 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
       ? "discover"
       : (params.serverId ?? "home");
     this.set("activeInterface", section);
-    this.set("activePath", section, pathname);
+    this.set("activePath", section, Instance.relPath(pathname));
   }
 
   /**
@@ -193,5 +188,25 @@ export class Layout extends AbstractStore<"layout", TypeLayout> {
       !this.getSectionState(id, defaultValue),
       defaultValue,
     );
+  }
+
+  /**
+   * Set recent channels up to 20 of them
+   * @param id channel ID
+   */
+  pushRecentChannel(id: string) {
+    const current = this.get().recentChannelIds;
+    const next = [id, ...current.filter((x) => x !== id)].slice(
+      0,
+      MAX_RECENT_CHANNELS,
+    );
+    this.set("recentChannelIds", next);
+  }
+
+  /**
+   * Get the list of recently visited channel IDs, most recent first
+   */
+  getRecentChannelIds() {
+    return this.get().recentChannelIds;
   }
 }

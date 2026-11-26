@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { createMemo, createSignal } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useClient } from "@revolt/client";
 import {
@@ -84,6 +84,9 @@ export function CreateGroupModal(
       <form onSubmit={submit}>
         <Column>
           <Form2.TextField
+            minlength={1}
+            maxlength={32}
+            counter
             name="name"
             control={group.controls.name}
             label={t`Group Name`}

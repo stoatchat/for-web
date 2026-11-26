@@ -1,42 +1,47 @@
-import { createFormControl, createFormGroup } from "solid-forms";
-import { Show, createEffect, createSignal, on } from "solid-js";
+import { createFormControl, createFormGroup, IFormGroup } from "solid-forms";
+import { createEffect, createSignal, JSX, on, Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
-import { useQuery, useQueryClient } from "@tanstack/solid-query";
-import { API, User } from "stoat.js";
+import { Trans, useLingui } from "@lingui/solid/macro";
+import { useQueryClient } from "@tanstack/solid-query";
+import { API, User, UserProfile } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import {
   CategoryButton,
   CircularProgress,
   Column,
   Form2,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
 
-import MdBadge from "@material-design-icons/svg/filled/badge.svg?component-solid";
-
+import { useModals } from "@revolt/modal";
+import { cropProcess } from "@revolt/modal/modals/CropProcess";
 import { useSettingsNavigation } from "../../Settings";
+
+type AttachedControl<T> = {
+  name: string;
+  value: T;
+};
 
 interface Props {
   user: User;
+  profile?: UserProfile;
+  attach?: AttachedControl<unknown>[];
+  onSubmit?: (g: IFormGroup) => void;
+  onReset?: (g: IFormGroup) => void;
+  children?: (g: IFormGroup) => JSX.Element;
 }
 
 export function UserProfileEditor(props: Props) {
   const { t } = useLingui();
   const client = useClient();
   const queryClient = useQueryClient();
-
-  const profile = useQuery(() => ({
-    queryKey: ["profile", props.user.id],
-    queryFn: () => props.user.fetchProfile(),
-    refetchOnReconnect: false,
-    refetchOnWindowFocus: false,
-  }));
-
+  const instance = useInstance();
   const { navigate } = useSettingsNavigation();
+  const { openModal } = useModals();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -45,21 +50,27 @@ export function UserProfileEditor(props: Props) {
     avatar: createFormControl<string | File[] | null>(
       props.user.animatedAvatarURL,
     ),
+    pronouns: createFormControl<string>(props.user.pronouns),
     banner: createFormControl<string | File[] | null>(null),
     bio: createFormControl(""),
+    ...(props.attach
+      ? props.attach.reduce(
+          (attached, toAttach) => ({
+            [toAttach.name]: createFormControl(toAttach.value),
+            ...attached,
+          }),
+          {},
+        )
+      : {}),
   });
   /* eslint-enable solid/reactivity */
-
-  // unlike the other forms, this one does not react to
-  // further changes outside of our control because it's
-  // unlikely that the user is going to be doing this
 
   const [initialBio, setInitialBio] = createSignal<readonly [string]>();
 
   // once profile data is loaded, copy it into the form
   createEffect(
     on(
-      () => profile.data,
+      () => props.profile,
       (profileData) => {
         if (profileData) {
           editGroup.controls.banner.setValue(
@@ -76,13 +87,18 @@ export function UserProfileEditor(props: Props) {
   function onReset() {
     editGroup.controls.displayName.setValue(props.user.displayName);
     editGroup.controls.avatar.setValue(props.user.animatedAvatarURL);
+    editGroup.controls.pronouns.setValue(props.user.pronouns || "");
 
-    if (profile.data) {
+    if (props.profile) {
       editGroup.controls.banner.setValue(
-        profile.data.animatedBannerURL || null,
+        props.profile.animatedBannerURL || null,
       );
-      editGroup.controls.bio.setValue(profile.data.content || "");
-      setInitialBio([profile.data.content || ""]);
+      editGroup.controls.bio.setValue(props.profile.content || "");
+      setInitialBio([props.profile.content || ""]);
+    }
+
+    if (props.onReset) {
+      props.onReset(editGroup);
     }
   }
 
@@ -92,7 +108,11 @@ export function UserProfileEditor(props: Props) {
     };
 
     if (editGroup.controls.displayName.isDirty) {
-      changes.display_name = editGroup.controls.displayName.value.trim();
+      if (!editGroup.controls.displayName.value) {
+        changes.remove!.push("DisplayName");
+      } else {
+        changes.display_name = editGroup.controls.displayName.value.trim();
+      }
     }
 
     if (editGroup.controls.avatar.isDirty) {
@@ -102,8 +122,16 @@ export function UserProfileEditor(props: Props) {
         changes.avatar = await client().uploadFile(
           "avatars",
           editGroup.controls.avatar.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
+      }
+    }
+
+    if (editGroup.controls.pronouns.isDirty) {
+      if (!editGroup.controls.pronouns.value) {
+        changes.remove?.push("Pronouns");
+      } else {
+        changes.pronouns = editGroup.controls.pronouns.value.trim();
       }
     }
 
@@ -126,10 +154,10 @@ export function UserProfileEditor(props: Props) {
         changes.profile.background = await client().uploadFile(
           "backgrounds",
           editGroup.controls.banner.value[0],
-          CONFIGURATION.DEFAULT_MEDIA_URL,
+          instance.mediaUrl,
         );
 
-        newBannerUrl = `${CONFIGURATION.DEFAULT_MEDIA_URL}/backgrounds/${changes.profile.background}`;
+        newBannerUrl = `${instance.mediaUrl}/backgrounds/${changes.profile.background}`;
       } else {
         newBannerUrl = editGroup.controls.banner.value;
       }
@@ -137,12 +165,20 @@ export function UserProfileEditor(props: Props) {
 
     await props.user.edit(changes);
 
-    if (editGroup.controls.banner.isDirty && profile.data) {
+    if (
+      (editGroup.controls.banner.isDirty || editGroup.controls.bio.isDirty) &&
+      props.profile
+    ) {
       queryClient.setQueryData(["profile", props.user.id], {
-        ...profile.data,
+        ...props.profile,
         animatedBannerURL: newBannerUrl,
         bannerURL: newBannerUrl,
+        content: editGroup.controls.bio.value,
       });
+    }
+
+    if (props.onSubmit) {
+      props.onSubmit(editGroup);
     }
   }
 
@@ -156,6 +192,15 @@ export function UserProfileEditor(props: Props) {
           accept="image/*"
           label={t`Avatar`}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["avatars"]}
+          process={cropProcess({
+            ratio: 1,
+            ratioLabel: t`Square`,
+            openModal,
+            allowModeToggle: false,
+            dialogTitle: t`Crop Avatar`,
+            circularMask: true,
+          })}
         />
         <Form2.FileInput
           control={editGroup.controls.banner}
@@ -164,16 +209,33 @@ export function UserProfileEditor(props: Props) {
           imageAspect="232/100"
           imageRounded={false}
           imageJustify={false}
+          maxSize={instance.limits().file_upload_size_limits["backgrounds"]}
+          process={cropProcess({
+            ratio: 232 / 100,
+            ratioLabel: t`Banner`,
+            openModal,
+            dialogTitle: t`Crop Banner`,
+          })}
         />
         <Form2.TextField
+          minlength={2}
+          maxlength={32}
+          counter
           name="displayName"
           control={editGroup.controls.displayName}
           label={t`Display Name`}
         />
-
+        <Form2.TextField
+          minlength={1}
+          maxlength={24}
+          counter
+          name="pronouns"
+          control={editGroup.controls.pronouns}
+          label={t`Pronouns`}
+        />
         <Show when={!props.user.bot}>
           <CategoryButton
-            icon={<MdBadge />}
+            icon={<Symbol>badge</Symbol>}
             action="chevron"
             description={
               <Trans>Go to account settings to edit your username</Trans>
@@ -183,7 +245,6 @@ export function UserProfileEditor(props: Props) {
             <Trans>Want to change username?</Trans>
           </CategoryButton>
         </Show>
-
         <Text class="label">
           <Trans>Profile Bio</Trans>
         </Text>
@@ -192,6 +253,7 @@ export function UserProfileEditor(props: Props) {
           control={editGroup.controls.bio}
           placeholder={t`Something cool about me...`}
         />
+        {props.children?.(editGroup)}
 
         <Row>
           <Form2.Reset group={editGroup} onReset={onReset} />

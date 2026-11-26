@@ -12,7 +12,7 @@ import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { autoUpdate, offset, shift } from "@floating-ui/dom";
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { API } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -25,13 +25,7 @@ import {
 import { useClient, useUser } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-import { Avatar, Column, Row, Text, UserStatus, iconSize } from "@revolt/ui";
-
-import MdContactPage from "@material-design-icons/svg/outlined/contact_page.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdEditNote from "@material-design-icons/svg/outlined/edit_note.svg?component-solid";
-import MdInfo from "@material-design-icons/svg/outlined/info.svg?component-solid";
-import MdNotificationsOff from "@material-design-icons/svg/outlined/notifications_off.svg?component-solid";
+import { Avatar, Column, Row, Symbol, Text, UserStatus } from "@revolt/ui";
 
 interface Props {
   anchor: Accessor<HTMLDivElement | undefined>;
@@ -73,8 +67,16 @@ export function UserMenu(props: Props) {
     setShow(false);
   }
 
-  onMount(() => document.addEventListener("mousedown", close));
-  onCleanup(() => document.removeEventListener("mousedown", close));
+  function onMouseDown(event: MouseEvent) {
+    const target = event.target as Node;
+    // Ignore clicks on the anchor (avatar) — the click handler on the anchor
+    // will toggle the menu. Ignore clicks inside the menu itself too.
+    if (props.anchor()?.contains(target)) return;
+    close();
+  }
+
+  onMount(() => document.addEventListener("pointerdown", onMouseDown));
+  onCleanup(() => document.removeEventListener("pointerdown", onMouseDown));
 
   createEffect(
     on(
@@ -131,6 +133,14 @@ export function UserMenu(props: Props) {
                   </Column>
                 </Row>
               </ContextMenuItem>
+              <Show when={state.auth.hasMultiSession()}>
+                <ContextMenuButton
+                  icon={<Symbol size={16}>autorenew</Symbol>}
+                  onClick={() => openModal({ type: "swap_user" })}
+                >
+                  <Trans>Switch Accounts</Trans>
+                </ContextMenuButton>
+              </Show>
 
               <ContextMenuDivider />
 
@@ -172,7 +182,7 @@ export function UserMenu(props: Props) {
                       },
                     }}
                   >
-                    <MdInfo {...iconSize(12)} />
+                    <Symbol size={12}>info</Symbol>
                   </div>
                 </Row>
               </ContextMenuButton>
@@ -194,7 +204,7 @@ export function UserMenu(props: Props) {
                       },
                     }}
                   >
-                    <MdNotificationsOff {...iconSize(12)} />
+                    <Symbol size={12}>notifications_off</Symbol>
                   </div>
                 </Row>
               </ContextMenuButton>
@@ -215,7 +225,7 @@ export function UserMenu(props: Props) {
                 when={user()?.status?.text}
                 fallback={
                   <ContextMenuButton
-                    icon={MdEditNote}
+                    icon={<Symbol size={16}>edit_note</Symbol>}
                     onClick={() =>
                       openModal({ type: "custom_status", client: client() })
                     }
@@ -225,7 +235,7 @@ export function UserMenu(props: Props) {
                 }
               >
                 <ContextMenuButton
-                  icon={MdEditNote}
+                  icon={<Symbol size={16}>edit_note</Symbol>}
                   onClick={() =>
                     openModal({ type: "custom_status", client: client() })
                   }
@@ -236,7 +246,7 @@ export function UserMenu(props: Props) {
                   </TruncatedStatusText>
                 </ContextMenuButton>
                 <ContextMenuButton
-                  icon={MdDelete}
+                  icon={<Symbol size={16}>delete</Symbol>}
                   onClick={() => user()?.edit({ remove: ["StatusText"] })}
                 >
                   <Trans>Clear status</Trans>
@@ -244,7 +254,10 @@ export function UserMenu(props: Props) {
               </Show>
 
               <Show when={state.settings.getValue("advanced:copy_id")}>
-                <ContextMenuButton icon={MdContactPage} onClick={copyId}>
+                <ContextMenuButton
+                  icon={<Symbol size={16}>contact_page</Symbol>}
+                  onClick={copyId}
+                >
                   <Trans>Copy user ID</Trans>
                 </ContextMenuButton>
               </Show>

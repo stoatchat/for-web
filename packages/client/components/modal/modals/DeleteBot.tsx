@@ -1,4 +1,4 @@
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 
 import { useClient } from "@revolt/client";
@@ -19,8 +19,11 @@ export function DeleteBotModal(
   const deleteBot = useMutation(() => ({
     mutationFn: async () => {
       const mfa = await client().account.mfa();
-      await mfaFlow(mfa as never);
-      await props.bot.delete(); // TODO: should use ticket in API
+      const ticket = await mfaFlow(mfa);
+      if (ticket) {
+        await ticket.deleteBot(props.bot);
+        props.onDelete();
+      }
     },
     onError: showError,
   }));
@@ -29,7 +32,9 @@ export function DeleteBotModal(
     <Dialog
       show={props.show}
       onClose={props.onClose}
-      title={<Trans>Delete {props.bot.user!.displayName}?</Trans>}
+      title={
+        <Trans>Delete {props.bot.user?.displayName ?? props.bot.id}?</Trans>
+      }
       actions={[
         { text: <Trans>Cancel</Trans> },
         {

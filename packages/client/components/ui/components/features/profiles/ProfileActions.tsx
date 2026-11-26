@@ -1,19 +1,16 @@
-import { Show } from "solid-js";
+import { Show, createResource } from "solid-js";
 
+import { Trans } from "@lingui/solid/macro";
 import { useNavigate } from "@solidjs/router";
-import { ServerMember, User } from "stoat.js";
+import { PublicBot, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { UserContextMenu } from "@revolt/app";
+import { useClient } from "@revolt/client";
 import { useModals } from "@revolt/modal";
 
-import MdCancel from "@material-design-icons/svg/filled/cancel.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/filled/edit.svg?component-solid";
-import MdMoreVert from "@material-design-icons/svg/filled/more_vert.svg?component-solid";
-
 import { Button, IconButton } from "../../design";
-import { dismissFloatingElements } from "../../floating";
-import { iconSize } from "../../utils";
+import { Symbol } from "../../utils";
 
 /**
  * Actions shown on profile cards
@@ -23,28 +20,39 @@ export function ProfileActions(props: {
 
   user: User;
   member?: ServerMember;
+  onClose: () => void;
 }) {
   const navigate = useNavigate();
+  const client = useClient();
   const { openModal } = useModals();
+
+  const [publicBot] = createResource(
+    () => props.user.bot && props.user.id,
+    (id) =>
+      client()
+        .bots.fetchPublic(id)
+        .then((b) => (b instanceof PublicBot ? b : new PublicBot(client(), b)))
+        .catch(() => {}),
+  );
 
   /**
    * Open direct message channel
    */
   function openDm() {
-    props.user.openDM().then((channel) => navigate(channel.url));
+    props.user.openDM().then((channel) => navigate(channel.path));
+    props.onClose();
   }
 
   /**
    * Open edit menu
    */
   function openEdit() {
-    if (props.member) {
-      openModal({ type: "server_identity", member: props.member });
-    } else {
-      openModal({ type: "settings", config: "user" });
-    }
-
-    dismissFloatingElements();
+    openModal(
+      props.member
+        ? { type: "server_identity", member: props.member }
+        : { type: "settings", config: "user" },
+    );
+    if (!props.member) props.onClose();
   }
 
   return (
@@ -57,7 +65,7 @@ export function ProfileActions(props: {
           Accept friend request
         </Button>
         <IconButton onPress={() => props.user.removeFriend()}>
-          <MdCancel />
+          <Symbol fill>cancel</Symbol>
         </IconButton>
       </Show>
       <Show when={props.user.relationship === "Outgoing"}>
@@ -67,6 +75,18 @@ export function ProfileActions(props: {
       </Show>
       <Show when={props.user.relationship === "Friend"}>
         <Button onPress={openDm}>Message</Button>
+      </Show>
+      <Show when={publicBot()}>
+        <Button
+          onPress={() =>
+            openModal({
+              type: "add_bot",
+              invite: publicBot()!,
+            })
+          }
+        >
+          <Trans>Add Bot</Trans>
+        </Button>
       </Show>
 
       <Show
@@ -82,19 +102,25 @@ export function ProfileActions(props: {
         }
       >
         <IconButton onPress={openEdit}>
-          <MdEdit {...iconSize(16)} />
+          <Symbol size={16} fill>
+            edit
+          </Symbol>
         </IconButton>
       </Show>
 
       <IconButton
         use:floating={{
           contextMenu: () => (
-            <UserContextMenu user={props.user} member={props.member} />
+            <UserContextMenu
+              user={props.user}
+              member={props.member}
+              onClose={props.onClose}
+            />
           ),
           contextMenuHandler: "click",
         }}
       >
-        <MdMoreVert />
+        <Symbol>more_vert</Symbol>
       </IconButton>
     </Actions>
   );

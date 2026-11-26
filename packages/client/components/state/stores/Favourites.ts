@@ -1,0 +1,325 @@
+import {
+  getEmojiByCodepoint,
+  getEmojiByShorthand,
+  isCustomEmoji,
+} from "@revolt/ui";
+import { WebsiteEmbed } from "stoat.js";
+import { AbstractSyncedStore } from ".";
+import { State } from "..";
+
+const RECENCY_HALFLIFE_MS = 7 * 24 * 60 * 60 * 1000; // a week
+
+type FavouriteEmoji = {
+  id: string;
+  favouritedAt: Date;
+};
+
+export type FavouriteGif = {
+  url: string;
+  name: string;
+  preview: string;
+  favouritedAt: Date;
+  image?: boolean;
+};
+
+type EmojiUsage = {
+  lastUsed: Date;
+  score: number;
+};
+
+export type TypeFavourites = {
+  gifs: FavouriteGif[];
+  emojis: {
+    favourites: FavouriteEmoji[];
+    usageMap: Record<string, EmojiUsage>;
+  };
+};
+
+function websiteEmbedToFavouriteGif(
+  embed: WebsiteEmbed,
+): Omit<FavouriteGif, "favouritedAt"> | undefined {
+  const preview = embed.video?.url ?? embed.image?.url;
+  if (!preview) return undefined;
+  const url = embed.originalUrl ?? preview;
+  return {
+    url: url,
+    name: url,
+    preview: preview,
+    image: !embed.video && !!embed.image,
+  };
+}
+
+function normalizeEmoji(emoji: string): string {
+  return (
+    getEmojiByShorthand(emoji)?.shorthands[0] ??
+    getEmojiByCodepoint(emoji)?.shorthands[0] ??
+    emoji
+  );
+}
+
+export class Favourites extends AbstractSyncedStore<
+  "favourites",
+  TypeFavourites
+> {
+  constructor(state: State) {
+    super(state, "favourites");
+  }
+
+  hydrate(): void {}
+
+  default(): TypeFavourites {
+    return {
+      gifs: [],
+      emojis: {
+        favourites: [],
+        usageMap: {},
+      },
+    };
+  }
+
+  clean(input: Partial<TypeFavourites>): TypeFavourites {
+    const gifs: FavouriteGif[] = [];
+    const emojiFavourites: FavouriteEmoji[] = [];
+    const emojiUsage: Record<string, EmojiUsage> = {};
+
+    if (Array.isArray(input.gifs)) {
+      for (const entry of input.gifs) {
+        if (
+          !entry ||
+          typeof entry !== "object" ||
+          !entry.url ||
+          typeof entry.url !== "string" ||
+          !entry.name ||
+          typeof entry.name !== "string" ||
+          !entry.preview ||
+          typeof entry.preview !== "string" ||
+          !entry.favouritedAt ||
+          typeof entry.favouritedAt !== "string" ||
+          isNaN(new Date(entry.favouritedAt).getTime())
+        ) {
+          continue;
+        }
+
+        gifs.push({
+          url: entry.url,
+          name: entry.name,
+          preview: entry.preview,
+          favouritedAt: new Date(entry.favouritedAt),
+          image: typeof entry.image === "boolean" ? entry.image : undefined,
+        });
+      }
+    }
+
+    if (typeof input.emojis === "object" && input.emojis) {
+      if (Array.isArray(input.emojis.favourites)) {
+        for (const entry of input.emojis.favourites) {
+          if (
+            !entry ||
+            typeof entry !== "object" ||
+            !entry.id ||
+            typeof entry.id !== "string" ||
+            !entry.favouritedAt ||
+            typeof entry.favouritedAt !== "string" ||
+            isNaN(new Date(entry.favouritedAt).getTime())
+          ) {
+            continue;
+          }
+
+          emojiFavourites.push({
+            id: entry.id,
+            favouritedAt: new Date(entry.favouritedAt),
+          });
+        }
+      }
+
+      if (typeof input.emojis.usageMap === "object" && input.emojis.usageMap) {
+        for (const usage in input.emojis.usageMap) {
+          if (
+            !usage ||
+            typeof usage !== "string" ||
+            !input.emojis.usageMap[usage] ||
+            typeof input.emojis.usageMap[usage] !== "object" ||
+            !input.emojis.usageMap[usage].lastUsed ||
+            typeof input.emojis.usageMap[usage].lastUsed !== "string" ||
+            isNaN(new Date(input.emojis.usageMap[usage].lastUsed).getTime()) ||
+            !input.emojis.usageMap[usage].score ||
+            typeof input.emojis.usageMap[usage].score !== "number"
+          ) {
+            continue;
+          }
+
+          const lastUsed = new Date(input.emojis.usageMap[usage].lastUsed);
+
+          // Drop emoji usages that are extremely rare to trim data.
+          if (
+            this.getScore(
+              input.emojis.usageMap[usage].score,
+              new Date().getTime() - lastUsed.getTime(),
+            ) < 0.001
+          ) {
+            continue;
+          }
+
+          emojiUsage[usage] = {
+            lastUsed: lastUsed,
+            score: input.emojis.usageMap[usage].score,
+          };
+        }
+      }
+    }
+
+    return {
+      gifs,
+      emojis: {
+        favourites: emojiFavourites,
+        usageMap: emojiUsage,
+      },
+    };
+  }
+
+  /**
+   * Check for favourability of a gif
+   * @param gif The website embed of the gif to check.
+   */
+  hasGif(gif: WebsiteEmbed): boolean {
+    const f = websiteEmbedToFavouriteGif(gif);
+    return !!f && !!this.get().gifs.find((g) => g.url === f.url);
+  }
+
+  private getScore(score: number, elapsed: number): number {
+    return score * Math.pow(0.5, elapsed / RECENCY_HALFLIFE_MS);
+  }
+
+  /**
+   * Toggle favourability of a gif
+   * @param gif The website embed of the gif to toggle.
+   */
+  toggleGif(gif: WebsiteEmbed) {
+    const f = websiteEmbedToFavouriteGif(gif);
+    // If the gif failed to parse, ignore it
+    if (!f) return;
+
+    // Check for favourability
+    const i = this.get().gifs.findIndex((g) => g.url === f.url);
+    if (i >= 0) {
+      this.set("gifs", [...this.get().gifs.toSpliced(i, 1)]);
+      return;
+    }
+    this.set("gifs", [...this.get().gifs, { ...f, favouritedAt: new Date() }]);
+  }
+
+  /**
+   * Toggle favourability of an emoji. This function normalizes emoji to the first shorthand.
+   * @param emoji id of the emoji to toggle
+   */
+  toggleEmoji(emoji: string) {
+    const id = normalizeEmoji(emoji);
+    // Check for favourability
+    const i = this.get().emojis.favourites.findIndex((e) => e.id === id);
+    if (i >= 0) {
+      this.set("emojis", "favourites", [
+        ...this.get().emojis.favourites.toSpliced(i, 1),
+      ]);
+      return;
+    }
+    this.set("emojis", "favourites", [
+      ...this.get().emojis.favourites,
+      { id, favouritedAt: new Date() },
+    ]);
+  }
+
+  /**
+   * Record a use of an emoji, using the recency algorithm. This function normalizes emoji to the first shorthand.
+   * @param emoji The ID of the emoji to record use
+   */
+  recordUse(emoji: string) {
+    const now = new Date();
+    const id = normalizeEmoji(emoji);
+
+    const record = this.get().emojis.usageMap;
+    const entry = {
+      ...(record[id] ?? {
+        score: 0,
+        lastUsed: now,
+      }),
+    };
+    const elapsed = now.getTime() - entry.lastUsed.getTime();
+    entry.score = this.getScore(entry.score, elapsed) + 1;
+    entry.lastUsed = now;
+    this.set("emojis", "usageMap", { ...record, [id]: entry });
+  }
+
+  /**
+   * Get the top used emojis according to the recency algorithm
+   * @param n How many emojis to return
+   * @returns An ordered list of most used emojis according to the recency algorithm
+   */
+  topEmoji(n = 27): string[] {
+    const now = new Date();
+    const record = this.get().emojis.usageMap;
+    return Object.entries(record)
+      .map(([emoji, { score, lastUsed }]) => [
+        emoji,
+        this.getScore(score, now.getTime() - lastUsed.getTime()),
+      ])
+      .filter(
+        ([emoji]) =>
+          isCustomEmoji(emoji as string) ||
+          getEmojiByShorthand(emoji as string),
+      )
+      .sort((a, b) => (b[1] as number) - (a[1] as number))
+      .slice(0, n)
+      .map(([emoji]) => emoji as string);
+  }
+
+  /**
+   * Check for favourability of emoji. This function normalizes emoji to the first shorthand.
+   *
+   * @param emoji The ID of the emoji to check
+   * @returns Whether emoji is in favourites
+   */
+  hasEmoji(emoji: string): boolean {
+    const id = normalizeEmoji(emoji);
+    const emojis = this.emojis();
+    return emojis.includes(id);
+  }
+
+  /**
+   * Get all favourite emoji ids. These emojis will be normalized to the first shorthand.
+   *
+   * @returns List of emoji ids that are favourited
+   */
+  emojis(): string[] {
+    return this.get().emojis.favourites.map((fav) => fav.id);
+  }
+
+  /**
+   * Get all favourite gifs
+   *
+   * @returns List of favourite gifs with media urls
+   */
+  gifs(): FavouriteGif[] {
+    return this.get().gifs;
+  }
+
+  /**
+   * Get the most recently favourited gif.
+   *
+   * @returns The most recently favourited gif, or undefined if there are no favourites
+   */
+  mostRecentGif(): FavouriteGif | undefined {
+    const gifs = this.gifs();
+    if (gifs.length === 0) {
+      return;
+    }
+    if (gifs.length === 1) {
+      return gifs[0];
+    }
+    return (
+      gifs
+        // Copy the array as it's currently referencing the solid array
+        .map((g) => g)
+        .sort((a, b) => b.favouritedAt.getTime() - a.favouritedAt.getTime())[0]
+    );
+  }
+}

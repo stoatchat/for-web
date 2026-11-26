@@ -6,8 +6,11 @@ import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView, keymap, placeholder } from "@codemirror/view";
 import { css } from "styled-system/css";
 
+import { scrollableStyles } from "../../../directives/scrollable";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
+import { useDevice } from "@revolt/common";
+import { useState } from "@revolt/state";
 import { codeMirrorAutoComplete } from "./codeMirrorAutoComplete";
 import { isInFencedCodeBlock } from "./codeMirrorCommon";
 import { smartLineWrapping } from "./codeMirrorLineWrap";
@@ -70,8 +73,15 @@ const placeholderCompartment = new Compartment();
  * Text editor powered by CodeMirror
  */
 export function TextEditor2(props: Props) {
+  const editorScrollbarClasses = scrollableStyles();
+
+  const { isMobile } = useDevice();
+  const { favourites } = useState();
   const codeMirror = document.createElement("div");
   codeMirror.className = editor;
+
+  //Custom CSS
+  codeMirror.style.minWidth = "0";
 
   /**
    * Handle 'Enter' key presses
@@ -79,7 +89,8 @@ export function TextEditor2(props: Props) {
    */
   const enterKeymap = keymap.of([
     {
-      key: "Enter",
+      key: isMobile ? "Ctrl-Enter" : "Enter",
+      //TODO Ctrl-Enter is only detected on Firefox mobile, not Chrome mobile
       run: (view) => {
         if (!props.onComplete) return false;
 
@@ -117,12 +128,16 @@ export function TextEditor2(props: Props) {
       doc: props.initialValue?.[0],
       extensions: [
         /* Enable browser spellchecking */
-        EditorView.contentAttributes.of({ spellcheck: "true" }),
+        EditorView.contentAttributes.of({
+          spellcheck: "true",
+          autocorrect: "true",
+          autocapitalize: "true",
+        }),
 
         /* Mount keymaps */
         enterKeymap,
-        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
         arrowUpKeymap,
+        keymap.of(defaultKeymap as never), // required for atomic ranges to work: https://github.com/codemirror/dev/issues/923
 
         /* Enable history */
         history(),
@@ -141,7 +156,9 @@ export function TextEditor2(props: Props) {
 
         /* Autocomplete */
         // eslint-disable-next-line solid/reactivity
-        codeMirrorAutoComplete(props.autoCompleteSearchSpace),
+        codeMirrorAutoComplete(props.autoCompleteSearchSpace, (emoji) =>
+          favourites.recordUse(emoji),
+        ),
 
         /* Custom items */
         codeMirrorWidgets(),
@@ -162,6 +179,12 @@ export function TextEditor2(props: Props) {
       ],
     }),
   });
+
+  // Apply shared scrollbar styles from the exported scrollable style classes.
+  const scroller = codeMirror.querySelector<HTMLDivElement>(".cm-scroller");
+  if (scroller) {
+    scroller.classList.add(...editorScrollbarClasses.split(" "));
+  }
 
   // connect signals to extensions
   createEffect(
@@ -206,13 +229,14 @@ export function TextEditor2(props: Props) {
       () => props.nodeReplacement,
       (value) => {
         if (value) {
-          view.focus();
-
           const text = value[0];
           if (text !== "_focus") {
+            if (!isMobile) view.focus();
             view.dispatch(view.state.replaceSelection(text));
             if (text) props.onTyping?.();
             props.onChange(view.state.doc.toString());
+          } else {
+            view.focus();
           }
         }
       },
@@ -258,6 +282,7 @@ const editor = css({
   "& .cm-editor": {
     width: "100%",
     alignSelf: "center",
+    maxHeight: "100%",
   },
 
   "& .cm-editor.cm-focused": {
@@ -329,6 +354,7 @@ const editor = css({
     padding: "0.5px 4px",
 
     color: "#c9d1d9",
+    caretColor: "currentColor",
     background: "#0d1117",
   },
 

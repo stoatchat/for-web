@@ -1,12 +1,19 @@
-import { Match, Show, Switch, splitProps } from "solid-js";
+import {
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createSignal,
+  splitProps,
+} from "solid-js";
 
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import MdClose from "@material-design-icons/svg/filled/close.svg?component-solid";
-
+import { ALLOWED_IMAGE_TYPES } from "@revolt/state";
 import { Button, Ripple } from "../../design";
 import { Row } from "../../layout";
+import { Symbol } from "../Symbol";
 
 interface Props {
   /**
@@ -42,26 +49,79 @@ interface Props {
 
   required: boolean;
   disabled: boolean;
+
+  /**
+   * Threaded through to `process` as the single source of
+   * truth, so a crop/resize/etc. step can validate its actual output
+   * against the same number the caller already configured, instead of
+   * the caller having to repeat the limit separately for the processor.
+   */
+  maxSize?: number;
+
+  /**
+   * Optional pipeline step between the native picker and `onFiles`.
+   */
+  process?: (
+    files: File[],
+    resolve: (files: File[] | null) => void,
+    maxSize: number | undefined,
+  ) => void;
 }
 
 /**
  * Form element for collecting files
  */
 export function FileInput(props: Props) {
-  const [local, remote] = splitProps(props, ["file", "onFiles", "multiple"]);
+  const [local, remote] = splitProps(props, [
+    "file",
+    "onFiles",
+    "multiple",
+    "accept",
+    "process",
+    "maxSize",
+  ]);
   let inputRef: HTMLInputElement | undefined;
+
+  const [pendingProcess, setPendingProcess] = createSignal<File[] | null>(null);
 
   /**
    * Handle file selection
    */
   function onChange(e: Event & { currentTarget: HTMLInputElement }) {
-    console.info(e.currentTarget);
-    if (e.currentTarget.files) {
-      // NB. need to help out with the reactivity by
-      //     first removing the array, and then setting
-      //     the new one; otherwise no update! ¯\_(ツ)_/¯
+    if (!e.currentTarget.files) return;
+
+    // If accept is an image, check all the files submitted if they match our accept values
+    if (local.accept === "image/*") {
+      for (const file of e.currentTarget.files) {
+        if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+          // If they were stubborn enough to disable our filter for files then just ignore the file.
+          // No need for feedback, they know what they did.
+          local.onFiles(null);
+          e.currentTarget.files = null;
+          return;
+        }
+      }
+    }
+
+    const selected = [...e.currentTarget.files];
+
+    if (local.process) {
+      setPendingProcess(selected);
+      return;
+    }
+
+    // NB. need to help out with the reactivity by
+    //     first removing the array, and then setting
+    //     the new one; otherwise no update! ¯\_(ツ)_/¯
+    local.onFiles(null);
+    local.onFiles(selected);
+  }
+
+  function resolveProcess(result: File[] | null) {
+    setPendingProcess(null);
+    if (result) {
       local.onFiles(null);
-      local.onFiles([...e.currentTarget.files]);
+      local.onFiles(result);
     }
   }
 
@@ -85,60 +145,71 @@ export function FileInput(props: Props) {
     }
   }
 
+  createEffect(() => {
+    const filesToProcess = pendingProcess();
+    if (local.process && filesToProcess) {
+      local.process!(filesToProcess, resolveProcess, local.maxSize);
+    }
+  });
+
   return (
-    <Switch
-      fallback={
-        <>
-          <input ref={inputRef} type="file" onChange={onChange} {...remote} />
-          <Show when={local.file?.length || 0 > 0}>
-            <Button
-              size="icon"
-              variant="text"
-              onPress={onClear}
-              isDisabled={!props.file}
-            >
-              X
-            </Button>
-          </Show>
-        </>
-      }
-    >
-      <Match when={props.accept === "image/*"}>
-        <input
-          type="file"
-          ref={inputRef}
-          class={css({
-            display: "none",
-          })}
-          onChange={onChange}
-          {...remote}
-        />
-        <Row align justify={props.imageJustify ?? true} gap="lg">
-          <ImagePreview
-            onClick={() => inputRef!.click()}
-            style={{
-              "aspect-ratio": props.imageAspect ?? "1/1",
-            }}
-            rounded={props.imageRounded ?? true}
-          >
-            <Ripple />
-            <Show when={local.file}>
-              <img src={imageSrc()} />
+    <>
+      <Switch
+        fallback={
+          <>
+            <input ref={inputRef} type="file" onChange={onChange} {...remote} />
+            <Show when={local.file?.length || 0 > 0}>
+              <Button
+                size="icon"
+                variant="text"
+                onPress={onClear}
+                isDisabled={!props.file}
+              >
+                X
+              </Button>
             </Show>
-          </ImagePreview>
-          <Show when={props.allowRemoval !== false}>
-            <Button
-              size="icon"
-              variant="text"
-              onPress={onClear}
-              isDisabled={!props.file}
+          </>
+        }
+      >
+        <Match when={local.accept === "image/*"}>
+          <input
+            type="file"
+            ref={inputRef}
+            class={css({
+              display: "none",
+            })}
+            onChange={onChange}
+            accept={ALLOWED_IMAGE_TYPES.join(",")}
+            {...remote}
+          />
+          <Row align justify={props.imageJustify ?? true} gap="lg">
+            <ImagePreview
+              onClick={() => inputRef!.click()}
+              style={{
+                "aspect-ratio": props.imageAspect ?? "1/1",
+              }}
+              rounded={props.imageRounded ?? true}
             >
-              <MdClose />
-            </Button>
-          </Show>
-        </Row>
-      </Match>
-    </Switch>
+              <Ripple />
+              <Show when={local.file}>
+                <img src={imageSrc()} />
+              </Show>
+            </ImagePreview>
+
+            <Show when={props.allowRemoval !== false}>
+              <Button
+                size="icon"
+                variant="text"
+                onPress={onClear}
+                isDisabled={!props.file}
+              >
+                <Symbol>close</Symbol>
+              </Button>
+            </Show>
+          </Row>
+        </Match>
+      </Switch>
+    </>
   );
 }
 

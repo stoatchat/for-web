@@ -1,6 +1,6 @@
-import { Match, Show, Switch, createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
 import {
@@ -8,24 +8,15 @@ import {
   createOwnProfileResource,
 } from "@revolt/client/resources";
 import { useModals } from "@revolt/modal";
-import { CategoryButton, Column, Row, iconSize } from "@revolt/ui";
-
-import MdAlternateEmail from "@material-design-icons/svg/outlined/alternate_email.svg?component-solid";
-import MdBlock from "@material-design-icons/svg/outlined/block.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdLock from "@material-design-icons/svg/outlined/lock.svg?component-solid";
-import MdMail from "@material-design-icons/svg/outlined/mail.svg?component-solid";
-import MdPassword from "@material-design-icons/svg/outlined/password.svg?component-solid";
-import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
+import { CategoryButton, Column, Row, Symbol, useSnackbar } from "@revolt/ui";
 
 import { useSettingsNavigation } from "../Settings";
-
 import { UserSummary } from "./account/index";
 
 /**
  * Account Page
  */
-export function MyAccount() {
+export function MyAccount(props: { onClose?: () => void }) {
   const client = useClient();
   const profile = createOwnProfileResource();
   const { navigate } = useSettingsNavigation();
@@ -38,7 +29,7 @@ export function MyAccount() {
         onEdit={() => navigate("profile")}
         showBadges
       />
-      <EditAccount />
+      <EditAccount onClose={props.onClose} />
       <MultiFactorAuth />
       <ManageAccount />
     </Column>
@@ -48,13 +39,27 @@ export function MyAccount() {
 /**
  * Edit account details
  */
-function EditAccount() {
+function EditAccount(props: { onClose?: () => void }) {
   const client = useClient();
   const { openModal } = useModals();
+  const { stow } = useClientLifecycle();
   const [email, setEmail] = createSignal("•••••••••••@•••••••••••");
 
   return (
     <CategoryButton.Group>
+      <CategoryButton
+        action="chevron"
+        onClick={() => {
+          props.onClose?.();
+          stow();
+        }}
+        icon={<Symbol size={22}>group_add</Symbol>}
+        description={
+          <Trans>Add an additional account login for fast-switching</Trans>
+        }
+      >
+        <Trans>Add an account</Trans>
+      </CategoryButton>
       <CategoryButton
         action="chevron"
         onClick={() =>
@@ -63,7 +68,7 @@ function EditAccount() {
             client: client(),
           })
         }
-        icon={<MdAlternateEmail {...iconSize(22)} />}
+        icon={<Symbol size={22}>alternate_email</Symbol>}
         description={client().user?.username}
       >
         <Trans>Username</Trans>
@@ -76,7 +81,7 @@ function EditAccount() {
             client: client(),
           })
         }
-        icon={<MdMail {...iconSize(22)} />}
+        icon={<Symbol size={22}>mail</Symbol>}
         description={
           <Row>
             {email()}{" "}
@@ -103,7 +108,7 @@ function EditAccount() {
             client: client(),
           })
         }
-        icon={<MdPassword {...iconSize(22)} />}
+        icon={<Symbol size={22}>password</Symbol>}
         description={"•••••••••"}
       >
         <Trans>Password</Trans>
@@ -118,6 +123,8 @@ function EditAccount() {
 function MultiFactorAuth() {
   const client = useClient();
   const mfa = createMfaResource();
+  const snackbar = useSnackbar();
+  const { t } = useLingui();
   const { openModal, mfaFlow, mfaEnableTOTP, showError } = useModals();
 
   /**
@@ -155,20 +162,29 @@ function MultiFactorAuth() {
    */
   async function setupAuthenticatorApp() {
     const ticket = await mfaFlow(mfa.data!);
+    if (!ticket) {
+      snackbar.show({ message: t`MFA setup canceled.` });
+      return;
+    }
     const secret = await ticket!.generateAuthenticatorSecret();
 
-    let success;
-    while (!success) {
-      try {
-        const code = await mfaEnableTOTP(secret, client().user!.username);
+    try {
+      const enabled = await mfaEnableTOTP(
+        secret,
+        client().user!.username,
+        (code) => mfa.data!.enableAuthenticator(code),
+      );
 
-        if (code) {
-          await mfa.data!.enableAuthenticator(code);
-          success = true;
-        }
-      } catch (err) {
-        showError(err);
+      if (!enabled) {
+        snackbar.show({ message: t`MFA setup canceled.` });
       }
+    } catch (err) {
+      if (err === "MFACancelled") {
+        snackbar.show({ message: t`MFA setup canceled.` });
+        return;
+      }
+
+      showError(err);
     }
   }
 
@@ -182,7 +198,7 @@ function MultiFactorAuth() {
   return (
     <CategoryButton.Group>
       <CategoryButton.Collapse
-        icon={<MdVerifiedUser {...iconSize(22)} />}
+        icon={<Symbol size={22}>verified_user</Symbol>}
         title={<Trans>Recovery Codes</Trans>}
         description={
           <Trans>
@@ -222,7 +238,7 @@ function MultiFactorAuth() {
         </Switch>
       </CategoryButton.Collapse>
       <CategoryButton.Collapse
-        icon={<MdLock {...iconSize(22)} />}
+        icon={<Symbol size={22}>lock</Symbol>}
         title={<Trans>Authenticator App</Trans>}
         description={<Trans>Configure one-time password authentication</Trans>}
       >
@@ -294,7 +310,11 @@ function ManageAccount() {
         action="chevron"
         disabled={mfa.isLoading}
         onClick={disableAccount}
-        icon={<MdBlock {...iconSize(22)} fill="var(--md-sys-color-error)" />}
+        icon={
+          <Symbol size={22} color="var(--md-sys-color-error)">
+            block
+          </Symbol>
+        }
         description={
           <Trans>
             You won't be able to access your account unless you contact support
@@ -308,7 +328,11 @@ function ManageAccount() {
         action={stillOwnServers() ? undefined : "chevron"}
         disabled={mfa.isLoading || stillOwnServers()}
         onClick={deleteAccount}
-        icon={<MdDelete {...iconSize(22)} fill="var(--md-sys-color-error)" />}
+        icon={
+          <Symbol size={22} color="var(--md-sys-color-error)">
+            delete
+          </Symbol>
+        }
         description={
           <Trans>
             Your account and all of your data (including your messages and

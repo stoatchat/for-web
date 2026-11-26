@@ -1,12 +1,12 @@
 import { Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { PublicChannelInvite } from "stoat.js";
 import { css, cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { IS_DEV, useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
 import {
@@ -14,17 +14,9 @@ import {
   CategoryButton,
   Column,
   Header,
-  iconSize,
   main,
+  Symbol,
 } from "@revolt/ui";
-
-import MdAddCircle from "@material-design-icons/svg/filled/add_circle.svg?component-solid";
-import MdExplore from "@material-design-icons/svg/filled/explore.svg?component-solid";
-import MdGroups3 from "@material-design-icons/svg/filled/groups_3.svg?component-solid";
-import MdHome from "@material-design-icons/svg/filled/home.svg?component-solid";
-import MdPayments from "@material-design-icons/svg/filled/payments.svg?component-solid";
-import MdRateReview from "@material-design-icons/svg/filled/rate_review.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/filled/settings.svg?component-solid";
 
 import Wordmark from "../../public/assets/web/wordmark.svg?component-solid";
 
@@ -66,6 +58,8 @@ const Buttons = styled("div", {
     gap: "8px",
     padding: "8px",
     display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     borderRadius: "var(--borderRadius-lg)",
 
     color: "var(--md-sys-color-on-surface-variant)",
@@ -94,9 +88,10 @@ export function HomePage() {
   const { openModal } = useModals();
   const navigate = useNavigate();
   const client = useClient();
+  const instance = useInstance();
 
   // check if we're stoat.chat; if so, check if the user is in the Lounge
-  const showLoungeButton = CONFIGURATION.IS_STOAT;
+  const showLoungeButton = instance.isStoat;
   const isInLounge =
     client()!.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") !== undefined;
 
@@ -104,7 +99,9 @@ export function HomePage() {
     <Base>
       <Header placement="primary">
         <HeaderIcon>
-          <MdHome {...iconSize(22)} />
+          <Symbol size={22} fill>
+            home
+          </Symbol>
         </HeaderIcon>
         <Trans>Home</Trans>
       </Header>
@@ -132,7 +129,7 @@ export function HomePage() {
                   party.
                 </Trans>
               }
-              icon={<MdAddCircle />}
+              icon={<Symbol fill>add_circle</Symbol>}
             >
               <Trans>Create a group or server</Trans>
             </CategoryButton>
@@ -146,7 +143,7 @@ export function HomePage() {
                       directly here.
                     </Trans>
                   }
-                  icon={<MdGroups3 />}
+                  icon={<Symbol fill>groups_3</Symbol>}
                 >
                   <Trans>Go to the Stoat Lounge</Trans>
                 </CategoryButton>
@@ -167,7 +164,7 @@ export function HomePage() {
                       directly here.
                     </Trans>
                   }
-                  icon={<MdGroups3 />}
+                  icon={<Symbol fill>groups_3</Symbol>}
                 >
                   <Trans>Join the Stoat Lounge</Trans>
                 </CategoryButton>
@@ -175,21 +172,17 @@ export function HomePage() {
             </Switch>
             <CategoryButton
               variant="tertiary"
-              onClick={() =>
-                window.open(
-                  "https://wiki.revolt.chat/notes/project/financial-support/",
-                )
-              }
+              onClick={() => window.open("https://ko-fi.com/stoatchat")}
               description={
                 <Trans>Support the project by donating - thank you!</Trans>
               }
-              icon={<MdPayments />}
+              icon={<Symbol fill>payments</Symbol>}
             >
               <Trans>Donate to Stoat</Trans>
             </CategoryButton>
           </SeparatedColumn>
           <SeparatedColumn>
-            <Show when={CONFIGURATION.IS_STOAT}>
+            <Show when={instance.isStoat}>
               <CategoryButton
                 onClick={() => navigate("/discover")}
                 description={
@@ -197,7 +190,7 @@ export function HomePage() {
                     Find a community based on your hobbies or interests.
                   </Trans>
                 }
-                icon={<MdExplore />}
+                icon={<Symbol fill>explore</Symbol>}
               >
                 <Trans>Discover Stoat</Trans>
               </CategoryButton>
@@ -215,7 +208,11 @@ export function HomePage() {
                   Let us know how we can improve our app by giving us feedback.
                 </Trans>
               }
-              icon={<MdRateReview {...iconSize(22)} />}
+              icon={
+                <Symbol size={22} fill>
+                  rate_review
+                </Symbol>
+              }
             >
               <Trans>Give feedback on Stoat</Trans>
             </CategoryButton>
@@ -226,7 +223,7 @@ export function HomePage() {
                   You can also click the gear icon in the bottom left.
                 </Trans>
               }
-              icon={<MdSettings />}
+              icon={<Symbol fill>settings</Symbol>}
             >
               <Trans>Open settings</Trans>
             </CategoryButton>

@@ -1,41 +1,30 @@
 import { Show } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Server } from "stoat.js";
 import { css } from "styled-system/css";
 
 import { useClient, useClientLifecycle } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
 import { useUser } from "@revolt/markdown/users";
 import { useModals } from "@revolt/modal";
-import { ColouredText, Column, Text, iconSize } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdAccountCircle from "@material-design-icons/svg/outlined/account_circle.svg?component-solid";
-import MdCoffee from "@material-design-icons/svg/outlined/coffee.svg?component-solid";
-import MdLanguage from "@material-design-icons/svg/outlined/language.svg?component-solid";
-import MdLogout from "@material-design-icons/svg/outlined/logout.svg?component-solid";
-import MdMemory from "@material-design-icons/svg/outlined/memory.svg?component-solid";
-import MdMic from "@material-design-icons/svg/outlined/mic.svg?component-solid";
-import MdPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
-import MdRateReview from "@material-design-icons/svg/outlined/rate_review.svg?component-solid";
-import MdScience from "@material-design-icons/svg/outlined/science.svg?component-solid";
-import MdSmartToy from "@material-design-icons/svg/outlined/smart_toy.svg?component-solid";
-import MdVerifiedUser from "@material-design-icons/svg/outlined/verified_user.svg?component-solid";
-import MdWorkspacePremium from "@material-design-icons/svg/outlined/workspace_premium.svg?component-solid";
+import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
+import { ColouredText, Column, Symbol, Text } from "@revolt/ui";
 
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
+import { AccountCard, BackCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
+import { AppearanceMenu } from "./user/appearance";
+import { MyBots, ViewBot } from "./user/bots";
 import { Feedback } from "./user/Feedback";
 import { LanguageSettings } from "./user/Language";
 import Native from "./user/Native";
-import { Sessions } from "./user/Sessions";
-import { AccountCard } from "./user/_AccountCard";
-import { AppearanceMenu } from "./user/appearance";
-import { MyBots, ViewBot } from "./user/bots";
+import Notifications from "./user/notifications/Notifications";
 import { EditProfile } from "./user/profile";
+import { Sessions } from "./user/Sessions";
 import { EditSubscription } from "./user/subscriptions";
 import { VoiceSettings } from "./user/voice/VoiceSettings";
 
@@ -72,7 +61,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
 
     switch (id) {
       case "account":
-        return <MyAccount />;
+        return <MyAccount onClose={props.onClose} />;
       case "appearance":
         return <AppearanceMenu />;
       case "advanced":
@@ -93,6 +82,8 @@ const Config: SettingsConfiguration<{ server: Server }> = {
         return <Native />;
       case "voice":
         return <VoiceSettings />;
+      case "notifications":
+        return <Notifications isDesktop={!!window.native} />;
       default:
         return null;
     }
@@ -104,14 +95,16 @@ const Config: SettingsConfiguration<{ server: Server }> = {
    * Generate list of categories / entries for client settings
    * @returns List
    */
-  list() {
-    const { pop } = useModals();
+  list(_, onClose) {
+    const { pop, openModal } = useModals();
     const { logout } = useClientLifecycle();
+    const { limits, config } = useInstance();
 
     return {
       context: null!,
       prepend: (
         <Column gap="s">
+          <BackCard onClose={onClose} />
           <AccountCard />
           <div />
         </Column>
@@ -122,9 +115,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             <span class={css({ userSelect: "none", fontWeight: "bold" })}>
               <Trans>Version:</Trans>
             </span>{" "}
-            <span class={css({ userSelect: "all" })}>
-              {pkg.version} ({pkg["version-date"]})
-            </span>
+            <span class={css({ userSelect: "all" })}>{pkg.version}</span>
           </Text>
           <Show when={window.native}>
             <Text class="label">
@@ -144,6 +135,53 @@ const Config: SettingsConfiguration<{ server: Server }> = {
               </span>
             </Text>
           </Show>
+          <Show when={config.features.legal_links}>
+            {(links) => (
+              <Text class="label">
+                <span
+                  class={css({
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.5em",
+                    opacity: "0.5",
+                    "& a": {
+                      color: "inherit",
+                      textDecoration: "none",
+                      "&:hover": { textDecoration: "underline" },
+                    },
+                  })}
+                >
+                  <Show when={links().terms_of_service}>
+                    <a
+                      href={links().terms_of_service}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Terms</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().privacy_policy}>
+                    <a
+                      href={links().privacy_policy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Privacy</Trans>
+                    </a>
+                  </Show>
+                  <Show when={links().guidelines}>
+                    <a
+                      href={links().guidelines}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Trans>Guidelines</Trans>
+                    </a>
+                  </Show>
+                </span>
+              </Text>
+            )}
+          </Show>
         </Column>
       ),
       entries: [
@@ -158,12 +196,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             },
             {
               id: "profile",
-              icon: <MdAccountCircle {...iconSize(20)} />,
+              icon: <Symbol size={20}>account_circle</Symbol>,
               title: <Trans>Profile</Trans>,
             },
             {
               id: "sessions",
-              icon: <MdVerifiedUser {...iconSize(20)} />,
+              icon: <Symbol size={20}>verified_user</Symbol>,
               title: <Trans>Sessions</Trans>,
             },
           ],
@@ -173,12 +211,12 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           entries: [
             {
               id: "bots",
-              icon: <MdSmartToy {...iconSize(20)} />,
+              icon: <Symbol size={20}>smart_toy</Symbol>,
               title: <Trans>My Bots</Trans>,
             },
             {
               id: "feedback",
-              icon: <MdRateReview {...iconSize(20)} />,
+              icon: <Symbol size={20}>rate_review</Symbol>,
               title: <Trans>Feedback</Trans>,
             },
           ],
@@ -189,7 +227,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           entries: [
             {
               id: "subscribe",
-              icon: <MdWorkspacePremium {...iconSize(20)} />,
+              icon: <Symbol size={20}>workspace_premium</Symbol>,
               title: "[premium]",
             },
           ],
@@ -199,50 +237,54 @@ const Config: SettingsConfiguration<{ server: Server }> = {
           entries: [
             // {
             //   id: "audio",
-            //   icon: <MdSpeaker {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>speaker</Symbol>,
             //   title: t("app.settings.pages.audio.title"),
             //   hidden:
             //     !getController("state").experiments.isEnabled("voice_chat"),
             // },
             {
               id: "voice",
-              icon: <MdMic {...iconSize(20)} />,
-              title: <Trans>Voice</Trans>,
+              icon: <Symbol size={20}>mic</Symbol>,
+              title: limits().video ? (
+                <Trans>Voice & Video</Trans>
+              ) : (
+                <Trans>Voice</Trans>
+              ),
             },
             {
               id: "appearance",
-              icon: <MdPalette {...iconSize(20)} />,
+              icon: <Symbol size={20}>palette</Symbol>,
               title: <Trans>Appearance</Trans>,
             },
             // {
             //   id: "accessibility",
-            //   icon: <MdAccessibility {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>accessibility</Symbol>,
             //   title: t("app.settings.pages.accessibility.title"),
             // },
             // {
             //   id: "plugins",
-            //   icon: <MdExtension {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>extension</Symbol>,
             //   title: t("app.settings.pages.plugins.title"),
             //   hidden: !getController("state").experiments.isEnabled("plugins"),
             // },
-            // {
-            //   id: "notifications",
-            //   icon: <MdNotifications {...iconSize(20)} />,
-            //   title: t("app.settings.pages.notifications.title"),
-            // },
+            {
+              id: "notifications",
+              icon: <Symbol size={20}>notifications</Symbol>,
+              title: <Trans>Notifications</Trans>,
+            },
             // {
             //   id: "keybinds",
-            //   icon: <MdKeybinds {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>keyboard</Symbol>,
             //   title: t("app.settings.pages.keybinds.title"),
             // },
             {
               id: "language",
-              icon: <MdLanguage {...iconSize(20)} />,
+              icon: <Symbol size={20}>language</Symbol>,
               title: <Trans>Language</Trans>,
             },
             // {
             //   id: "sync",
-            //   icon: <MdSync {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>sync</Symbol>,
             //   title: t("app.settings.pages.sync.title"),
             // },
             {
@@ -253,38 +295,43 @@ const Config: SettingsConfiguration<{ server: Server }> = {
             },
             // {
             //   id: "experiments",
-            //   icon: <MdScience {...iconSize(20)} />,
+            //   icon: <Symbol size={20}>science</Symbol>,
             //   title: <Trans>Experiments</Trans>,
             // },
           ],
         },
         {
           entries: [
-            // {
-            //   onClick: () =>
-            //     getController("modal").push({ type: "changelog", posts: [] }),
-            //   icon: <MdFormatListBulleted {...iconSize(20)} />,
-            //   title: t("app.special.modals.changelogs.title"),
-            // },
+            {
+              onClick: async () => {
+                const changelog = await fetchLatestChangelog();
+                if (!changelog) return;
+                openModal({ type: "changelog", changelog });
+              },
+              icon: <Symbol size={20}>campaign</Symbol>,
+              title: <Trans>What's New</Trans>,
+            },
             {
               href: "https://github.com/stoatchat",
-              icon: <MdMemory {...iconSize(20)} />,
+              icon: <Symbol size={20}>memory</Symbol>,
               title: <Trans>Source Code</Trans>,
             },
             {
               id: "advanced",
-              icon: <MdScience {...iconSize(20)} />,
+              icon: <Symbol size={20}>science</Symbol>,
               title: <Trans>Advanced</Trans>,
             },
             {
               href: "https://ko-fi.com/stoatchat",
-              icon: <MdCoffee {...iconSize(20)} />,
+              icon: <Symbol size={20}>coffee</Symbol>,
               title: <Trans>Donate</Trans>,
             },
             {
               id: "logout",
               icon: (
-                <MdLogout {...iconSize(20)} fill="var(--md-sys-color-error)" />
+                <Symbol size={20} color="var(--md-sys-color-error)">
+                  logout
+                </Symbol>
               ),
               title: (
                 <ColouredText colour="var(--md-sys-color-error)">

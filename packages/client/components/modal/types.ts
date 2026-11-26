@@ -1,26 +1,33 @@
+import { TrackReference } from "solid-livekit-components";
 import {
   API,
   Bot,
   Channel,
   Client,
   Emoji,
-  File,
   ImageEmbed,
+  Message,
   MFA,
   MFATicket,
-  Message,
+  ProtocolV1,
   PublicBot,
   PublicChannelInvite,
   Server,
   ServerMember,
   ServerRole,
   Session,
+  File as StoatFile,
   User,
-  VideoEmbed,
+  WebsiteEmbed,
 } from "stoat.js";
-import { ProtocolV1 } from "stoat.js/lib/events/v1";
 
 import type { SettingsConfigurations } from "@revolt/app";
+import { CategoryData } from "@revolt/app/menus/CategoryContextMenu";
+import { ServerFolder } from "@revolt/state/stores/ServerFolders";
+import { ScreenShareQualityName } from "@revolt/state/stores/Voice";
+
+import type { ChangelogResponse } from "./modals/Changelog";
+import { CropProcessOptions } from "./modals/CropProcess";
 
 export type Modals =
   | {
@@ -47,7 +54,7 @@ export type Modals =
     }
   | {
       type: "changelog";
-      initial?: number;
+      changelog: ChangelogResponse;
     }
   | {
       type: "channel_info";
@@ -69,6 +76,7 @@ export type Modals =
   | {
       type: "create_channel";
       server: Server;
+      categoryId?: string;
       cb?: (channel: Channel) => void;
     }
   | {
@@ -108,6 +116,7 @@ export type Modals =
   | {
       type: "delete_bot";
       bot: Bot;
+      onDelete: () => void;
     }
   | {
       type: "delete_channel";
@@ -123,8 +132,13 @@ export type Modals =
       message: Message;
     }
   | {
+      type: "pin_message";
+      message: Message;
+    }
+  | {
       type: "delete_server";
       server: Server;
+      onDelete: () => void;
     }
   | {
       type: "delete_role";
@@ -148,25 +162,15 @@ export type Modals =
       emoji: Emoji;
     }
   | {
-      /**
-       * @deprecated build proper error handling!
-       */
-      type: "error";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
-    }
-  | {
       type: "error2";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      error: any;
+      error: unknown;
     }
   | {
       type: "image_viewer";
       embed?: ImageEmbed;
-      gif?: VideoEmbed;
-      file?: File;
+      gif?: WebsiteEmbed;
+      file?: StoatFile;
+      originalUrl?: string;
     }
   | {
       type: "join_server";
@@ -184,7 +188,8 @@ export type Modals =
       type: "mfa_enable_totp";
       identifier: string;
       secret: string;
-      callback: (code?: string) => void;
+      callback: (code?: string) => Promise<void>;
+      reject?: (reason?: string) => void;
     }
   | ({
       type: "mfa_flow";
@@ -227,6 +232,11 @@ export type Modals =
   | {
       type: "server_info";
       server: Server;
+    }
+  | {
+      type: "transfer_ownership";
+      channel: Channel;
+      user: User;
     }
   | {
       type: "invite";
@@ -277,6 +287,7 @@ export type Modals =
       user: User;
       isPlaceholder?: boolean;
       placeholderProfile?: API.UserProfile;
+      member?: ServerMember;
     }
   | {
       type: "user_profile_roles";
@@ -285,6 +296,7 @@ export type Modals =
   | {
       type: "user_profile_mutual_friends";
       users: User[];
+      server?: Server;
     }
   | {
       type: "user_profile_mutual_groups";
@@ -308,4 +320,78 @@ export type Modals =
     }
   | {
       type: "import_theme";
+    }
+  | {
+      type: "edit_category";
+      server: Server;
+      category: CategoryData;
+    }
+  | {
+      type: "edit_server_folder";
+      folder: ServerFolder;
+    }
+  | {
+      type: "remove_member";
+      group: Channel;
+      user: User;
+    }
+  | {
+      type: "screen_share_settings";
+      trackReference: TrackReference;
+      qualities: { name: string; fullName: string }[];
+      audio: boolean;
+      callback: (qualityName: ScreenShareQualityName, audio: boolean) => void;
+      onCancel: () => void;
+    }
+  | {
+      type: "screen_share_picker";
+      callback: (
+        idx: number,
+        qualityName: ScreenShareQualityName,
+        audio: boolean,
+      ) => void;
+      qualities: { name: string; fullName: string }[];
+      sources: {
+        idx: number;
+        name: string;
+        isFullScreen: boolean;
+        image?: string;
+      }[];
+      onCancel: () => void;
+    }
+  | {
+      type: "timeout_member";
+      member: ServerMember;
+    }
+  | {
+      type: "remove_timeout";
+      member: ServerMember;
+    }
+  | {
+      type: "edit_bot_username";
+      bot: Bot;
+    }
+  | {
+      type: "edit_emoji";
+      emoji: Emoji;
+    }
+  | {
+      type: "delete_emoji";
+      emoji: Emoji;
+    }
+  | {
+      type: "crop";
+      options: CropProcessOptions;
+      files: File[];
+      resolve: (files: File[] | null) => void;
+      maxSize: number | undefined;
+    }
+  | {
+      type: "swap_user";
+    }
+  | {
+      type: "quick_switch";
+    }
+  | {
+      type: "avatar_radius";
     };

@@ -1,4 +1,4 @@
-import { Show, createRenderEffect, on, splitProps } from "solid-js";
+import { Show, createRenderEffect, mergeProps, on, splitProps } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 
 import { AriaButtonProps, createButton } from "@solid-aria/button";
@@ -118,7 +118,16 @@ export function Button(props: Props) {
     ),
   );
 
-  const { buttonProps } = createButton(rest, () => ref);
+  const [btn, noBtnRest] = splitProps(rest, ["onPress"]);
+
+  //Emulate delay of native onClick
+  // See issue https://github.com/solidjs-community/solid-aria/issues/84
+  // Delay must be at least 32ms for Safari
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 32),
+    btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
+
+  const { buttonProps } = createButton(btnRest, () => ref);
   return (
     <button
       {...passthrough}
@@ -281,22 +290,27 @@ const button = cva({
     size: {
       xs: {
         height: "32px",
+        "--max-radius": "16px",
         "--padding-inline": "12px",
       },
       sm: {
         height: "40px",
+        "--max-radius": "20px",
         "--padding-inline": "16px",
       },
       md: {
         height: "56px",
+        "--max-radius": "28px",
         "--padding-inline": "24px",
       },
       lg: {
         height: "96px",
+        "--max-radius": "48px",
         "--padding-inline": "48px",
       },
       xl: {
         height: "136px",
+        "--max-radius": "68px",
         "--padding-inline": "64px",
       },
 
@@ -304,6 +318,7 @@ const button = cva({
       icon: {
         width: "36px",
         height: "36px",
+        "--max-radius": "18px",
       },
       /**
        * @deprecated
@@ -387,29 +402,42 @@ const button = cva({
       css: {
         "--color":
           "color-mix(in srgb, 38% var(--md-sys-color-on-surface), transparent)",
-        background:
-          "color-mix(in srgb, 10% var(--md-sys-color-on-surface), transparent)",
+        background: "transparent",
       },
     },
 
     // border radius for different squared sizes
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       css: {
-        borderRadius: "var(--borderRadius-md)",
+        borderRadius: "var(--borderRadius-xs)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      css: {
+        borderRadius: "var(--borderRadius-sm)",
       },
     },
     {
       shape: "square",
       size: "md",
       css: {
+        borderRadius: "var(--borderRadius-md)",
+      },
+    },
+    {
+      shape: "square",
+      size: "lg",
+      css: {
         borderRadius: "var(--borderRadius-lg)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "xl",
       css: {
         borderRadius: "var(--borderRadius-xl)",
       },
@@ -418,33 +446,28 @@ const button = cva({
     // hard-code values for rounded connected group shapes
     {
       shape: "round",
-      size: ["sm", "xs"],
       css: {
-        borderRadius: "48px",
-      },
-    },
-    {
-      shape: "round",
-      size: ["md"],
-      css: {
-        borderRadius: "64px",
-      },
-    },
-    {
-      shape: "round",
-      size: ["xl", "lg"],
-      css: {
-        borderRadius: "160px",
+        borderRadius: "var(--max-radius)",
       },
     },
 
     // left-side connected group
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       group: "connected-start",
       css: {
-        borderRadius: "48px var(--borderRadius-md) var(--borderRadius-md) 48px",
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-xs) var(--borderRadius-xs) var(--max-radius)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      group: "connected-start",
+      css: {
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-sm) var(--borderRadius-sm) var(--max-radius)",
       },
     },
     {
@@ -452,26 +475,46 @@ const button = cva({
       size: "md",
       group: "connected-start",
       css: {
-        borderRadius: "64px var(--borderRadius-lg) var(--borderRadius-lg) 64px",
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-md) var(--borderRadius-md) var(--max-radius)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "lg",
       group: "connected-start",
       css: {
         borderRadius:
-          "160px var(--borderRadius-xl) var(--borderRadius-xl) 160px",
+          "var(--max-radius) var(--borderRadius-lg) var(--borderRadius-lg) var(--max-radius)",
+      },
+    },
+    {
+      shape: "square",
+      size: "xl",
+      group: "connected-start",
+      css: {
+        borderRadius:
+          "var(--max-radius) var(--borderRadius-xl) var(--borderRadius-xl) var(--max-radius)",
       },
     },
 
     // right-side connected group
     {
       shape: "square",
-      size: ["sm", "xs"],
+      size: "xs",
       group: "connected-end",
       css: {
-        borderRadius: "var(--borderRadius-md) 48px 48px var(--borderRadius-md)",
+        borderRadius:
+          "var(--borderRadius-xs) var(--max-radius) var(--max-radius) var(--borderRadius-xs)",
+      },
+    },
+    {
+      shape: "square",
+      size: "sm",
+      group: "connected-end",
+      css: {
+        borderRadius:
+          "var(--borderRadius-sm) var(--max-radius) var(--max-radius) var(--borderRadius-sm)",
       },
     },
     {
@@ -479,16 +522,26 @@ const button = cva({
       size: "md",
       group: "connected-end",
       css: {
-        borderRadius: "var(--borderRadius-lg) 64px 64px var(--borderRadius-lg)",
+        borderRadius:
+          "var(--borderRadius-md) var(--max-radius) var(--max-radius) var(--borderRadius-md)",
       },
     },
     {
       shape: "square",
-      size: ["xl", "lg"],
+      size: "lg",
       group: "connected-end",
       css: {
         borderRadius:
-          "var(--borderRadius-xl) 160px 160px var(--borderRadius-xl)",
+          "var(--borderRadius-lg) var(--max-radius) var(--max-radius) var(--borderRadius-lg)",
+      },
+    },
+    {
+      shape: "square",
+      size: "xl",
+      group: "connected-end",
+      css: {
+        borderRadius:
+          "var(--borderRadius-xl) var(--max-radius) var(--max-radius) var(--borderRadius-xl)",
       },
     },
 

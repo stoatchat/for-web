@@ -3,310 +3,349 @@ import {
   Match,
   Show,
   Switch,
-  batch,
   createContext,
   createEffect,
   createSignal,
-  on,
   onCleanup,
+  onMount,
   useContext,
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
-import { AutoSizer } from "@dschz/solid-auto-sizer";
+import { createResizeObserver } from "@solid-primitives/resize-observer";
 import { Channel } from "stoat.js";
-import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { InRoom, useVoice } from "@revolt/rtc";
+import { useVoice } from "@revolt/rtc";
+import { VoiceLayout } from "@revolt/rtc/state";
+import { useState } from "@revolt/state";
+import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
 
 import { VoiceCallCardActiveRoom } from "./VoiceCallCardActiveRoom";
 import { VoiceCallCardPiP } from "./VoiceCallCardPiP";
 import { VoiceCallCardPreview } from "./VoiceCallCardPreview";
 
-type State =
-  | {
-      type: "floating";
-      corner: "top-left" | "top-right" | "bottom-left" | "bottom-right";
-    }
-  | {
-      type: "fixed";
-      x: number;
-      y: number;
-      width: number;
-      channel: Channel;
-    };
+type Mode = "floating" | "moving";
+type FloatType = "tl" | "tr" | "bl" | "br";
 
-type NewState = { channel: Channel; x: number; y: number; width: number };
+type Info = {
+  channel: Channel;
+  pos: DOMRect;
+  parentRect: DOMRect;
+  drawer?: SlideState;
+};
 
-const callCardContext = createContext<(state?: NewState) => void>(null!);
+const PAD = 16,
+  PAD_X = `${PAD}px`,
+  PAD_Y = `${PAD + 56}px`;
 
-/**
- * Voice call card context
- */
+const callCardContext = createContext<(info?: Info) => void>();
+
+/** Voice call card context */
 export function VoiceCallCardContext(props: { children: JSX.Element }) {
   const voice = useVoice();
+  const inCall = () => !!voice.channel();
 
-  const [state, setState] = createSignal<State>({
-    type: "floating",
-    corner: "bottom-right",
+  const [mode, setMode] = createSignal<Mode>();
+  const [info, setInfo] = createSignal<Info>();
+
+  let ref: HTMLDivElement | undefined,
+    events: AbortController | null,
+    pid = 0,
+    ofsX = 0,
+    ofsY = 0;
+
+  function mouseDown(e: PointerEvent) {
+    pid = e.pointerId;
+    if (mode() === "floating") {
+      const pos = ref!.getBoundingClientRect();
+      ofsX = e.clientX - pos.x;
+      ofsY = e.clientY - pos.y;
+      setMode("moving");
+      addEvents();
+    }
+  }
+
+  function mouseMove(e: PointerEvent) {
+    if (e.pointerId !== pid) return;
+    e.preventDefault();
+    const x = e.clientX - ofsX,
+      y = e.clientY - ofsY;
+    ref!.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  function mouseUp(e: PointerEvent) {
+    if (e.pointerId !== pid) return;
+    const sty = ref!.style,
+      pos = ref!.getBoundingClientRect(),
+      left = e.clientX - ofsX + pos.width / 2 < innerWidth / 2,
+      top = e.clientY - ofsY + pos.height / 2 < innerHeight / 2;
+
+    sty.transition = "all .2s cubic-bezier(0, 1.5, 0.85, 0.8)";
+    setFloat(left ? (top ? "tl" : "bl") : top ? "tr" : "br");
+    //Reset CSS transition on next render pass
+    setTimeout(() => (sty.transition = ""), 1);
+    resetEvents();
+  }
+
+  function addEvents() {
+    if (events) return;
+    events = new AbortController();
+    const opt = { passive: false, signal: events.signal };
+    document.addEventListener("pointermove", mouseMove, opt);
+    document.addEventListener("pointerup", mouseUp, opt);
+  }
+
+  function resetEvents() {
+    events?.abort();
+    events = null;
+  }
+
+  createEffect(() => {
+    const inf = info();
+    if (!ref) return;
+    const sty = ref.style;
+    resetEvents();
+
+    //Set mode based on state
+    if (voice.layout() === "fullscreen") {
+      sty.transform = ``;
+      sty.width = `100%`;
+      sty.height = "";
+      setMode();
+    } else if (
+      voice.layout() === "expanded" &&
+      inf?.parentRect &&
+      (!inf.drawer || inf.drawer === SlideState.SHOWN)
+    ) {
+      sty.transform = `translate(${inf.parentRect.x}px, ${inf.parentRect.y}px)`;
+      sty.width = `${inf.parentRect.width}px`;
+      sty.height = `${inf.parentRect.height}px`;
+      setMode();
+    } else if (inf?.pos && (!inf.drawer || inf.drawer === SlideState.SHOWN)) {
+      sty.transform = `translate(${inf.pos.x}px, ${inf.pos.y}px)`;
+      sty.width = `${inf.pos.width}px`;
+      sty.height = voice.layout() === "collapsed" ? "56px" : "";
+      setMode();
+    } else if (!inCall()) {
+      const y = inf?.pos.y ?? ref.getBoundingClientRect().y;
+      sty.transform = `translate(${innerWidth + 50}px, ${y}px)`;
+      sty.width = "";
+      sty.height = "";
+      setMode();
+    } else if (!mode()) setFloat("tr");
   });
 
-  const [moving, setMoving] = createSignal<boolean>();
-  const [offset, setOffset] = createSignal({ x: 0, y: 0 });
+  const channel = () => info()?.channel;
 
-  function position() {
-    const position = state();
-
-    switch (position.type) {
-      case "fixed":
-        return {
-          transform: `translate(${position.x}px, ${position.y}px)`,
-          // top: position.y + "px",
-          // left: position.x + "px",
-          width: position.width + "px",
-          height: "40vh",
-        };
-      case "floating":
-        return {
-          "--width": "280px",
-          "--height": "158px",
-          "--padding-x": "32px",
-          "--padding-y": "96px",
-          transform: `translate(${
-            position.corner === "top-left" || position.corner === "bottom-left"
-              ? "calc(var(--padding-x) + var(--offset-x))"
-              : "calc(100vw - var(--padding-x) - var(--width) + var(--offset-x))"
-          }, ${
-            position.corner === "top-left" || position.corner === "top-right"
-              ? "calc(var(--padding-y) + var(--offset-y))"
-              : "calc(100vh - var(--padding-y) - var(--height) + var(--offset-y))"
-          })`,
-          width: "var(--width)",
-          height: "var(--height)",
-        };
-    }
+  function setFloat(float: FloatType) {
+    const sty = ref!.style,
+      x = float[1] === "l" ? PAD_X : `calc(100vw - var(--flt-w) - ${PAD_X})`,
+      y =
+        float[0] === "t"
+          ? `calc(var(--inset-top) + ${PAD_Y})`
+          : `calc(100dvh - var(--inset-bottom) - var(--flt-h) - ${PAD_Y})`;
+    sty.transform = `translate(${x}, ${y})`;
+    sty.width = "";
+    sty.height = "";
+    setMode("floating");
   }
 
-  createEffect(
-    on(moving, (moving) => {
-      if (moving) {
-        const controller = new AbortController();
+  onCleanup(resetEvents);
 
-        document.addEventListener(
-          "mousemove",
-          (event) => {
-            const position = state();
-            if (position.type !== "floating") return controller.abort();
+  onMount(() => {
+    document
+      .getElementById("floating")
+      ?.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement) voice.resetLayout();
+      });
+  });
 
-            setOffset((pos) => ({
-              x: pos.x + event.movementX,
-              y: pos.y + event.movementY,
-            }));
-          },
-          { signal: controller.signal },
-        );
-
-        document.addEventListener(
-          "mouseup",
-          (event) => {
-            batch(() => {
-              setMoving(false);
-
-              const left = event.clientX < window.outerWidth / 2;
-              const top = event.clientY < window.outerHeight / 2;
-
-              setState({
-                type: "floating",
-                corner: left
-                  ? top
-                    ? "top-left"
-                    : "bottom-left"
-                  : top
-                    ? "top-right"
-                    : "bottom-right",
-              });
-            });
-          },
-          { signal: controller.signal },
-        );
-
-        onCleanup(() => controller.abort());
+  createEffect(() => {
+    if (voice.layout() === "fullscreen" && inCall()) {
+      if (
+        !document
+          .getElementById("floating")
+          ?.isSameNode(document.fullscreenElement)
+      ) {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+        // iPhone has no element fullscreen, so stick to the CSS layout there
+        const floating = document.getElementById("floating");
+        if (floating?.requestFullscreen) {
+          floating.requestFullscreen().catch(() => {});
+        }
       }
-    }),
-  );
-
-  function updateState(state?: NewState) {
-    if (state) {
-      setState({
-        type: "fixed",
-        width: state.width,
-        x: state.x,
-        y: state.y,
-        channel: state.channel,
-      });
-    } else {
-      setState({
-        type: "floating",
-        corner: "bottom-right",
-      });
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen();
     }
-  }
-
-  function updateStateWithTransition(state?: NewState) {
-    // no clue if this works
-
-    if (!document.startViewTransition) {
-      updateState(state);
-      return;
-    }
-
-    document.startViewTransition(() => updateState(state));
-  }
+  });
 
   return (
-    <callCardContext.Provider value={updateStateWithTransition}>
+    <callCardContext.Provider value={setInfo}>
       {props.children}
-
-      <Portal ref={document.getElementById("floating")! as HTMLDivElement}>
-        <div
-          style={{
-            position: "fixed",
-            "z-index": 10,
-            "transition-duration": moving() ? ".2s" : voice.room() && ".3s",
-            "transition-property": "all",
-            "transition-timing-function": moving()
-              ? "cubic-bezier(0, 1.67, 0.85, 0.8)"
-              : "cubic-bezier(1, 0, 0, 1)",
-            ...position(),
-            "pointer-events": "none",
-            cursor: moving() ? "grabbing" : "grab",
-            "--offset-x": `${moving() ? offset().x : 0}px`,
-            "--offset-y": `${moving() ? offset().y : 0}px`,
-          }}
-          // dragging logic for mice
-          onMouseDown={() => {
-            if (state().type === "floating") {
-              batch(() => {
-                setMoving(true);
-                setOffset({ x: 0, y: 0 });
-              });
-            }
-          }}
-          // dragging logic for touch input
-          // todo
+      <Portal mount={document.getElementById("floating")! as HTMLDivElement}>
+        <Float
+          ref={ref}
+          mode={mode()}
+          onPointerDown={mouseDown}
+          fullscreen={voice.layout() === "fullscreen"}
         >
           <Switch>
-            <Match when={state().type === "fixed"}>
+            <Match when={mode() && inCall()}>
+              <VoiceCallCardPiP />
+            </Match>
+            <Match when={channel()}>
               <VoiceCallCard
-                channel={(state() as { channel: Channel }).channel}
+                channel={channel()!}
+                inCall={inCall()}
+                showCard={voice.showCard(channel()!)}
+                layout={voice.layout()}
               />
             </Match>
-            <Match when={state().type === "floating"}>
-              <InRoom>
-                <VoiceCallCardPiP />
-              </InRoom>
-            </Match>
           </Switch>
-        </div>
+        </Float>
       </Portal>
     </callCardContext.Provider>
   );
 }
 
-/**
- * 'Marker' to send position information for mounting the floating call card
- */
+const Float = styled("div", {
+  base: {
+    // Anchor to the viewport, the transform below does the positioning
+    position: "fixed",
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    pointerEvents: "none",
+    transition: "all .3s cubic-bezier(1, 0, 0, 1)",
+    height: "40vh",
+    touchAction: "none",
+  },
+  variants: {
+    mode: {
+      floating: { cursor: "grab" },
+      moving: {
+        cursor: "grabbing",
+        transition: "none",
+      },
+    },
+    fullscreen: {
+      true: {
+        zIndex: 90,
+        height: "100dvh",
+        top: 0,
+        // Width is set by floating logic in effect above
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      mode: ["floating", "moving"],
+      css: {
+        "--flt-w": "300px",
+        "--flt-h": "170px",
+        width: "var(--flt-w)",
+        height: "var(--flt-h)",
+      },
+    },
+  ],
+});
+
+/** 'Marker' to send position information for mounting the floating call card */
 export function VoiceChannelCallCardMount(props: { channel: Channel }) {
   const voice = useVoice();
-  const [width, setWidth] = createSignal(0);
+  const state = useState();
+  const setInfo = useContext(callCardContext)!;
+  let ref: HTMLDivElement | undefined;
 
-  const [ref, setRef] = createSignal<HTMLDivElement>();
-  const updateSize = useContext(callCardContext)!;
+  function updateInfo() {
+    const vc = voice.channel();
+    setInfo(
+      !vc || vc.id === props.channel.id
+        ? {
+            channel: props.channel,
+            pos: ref!.getBoundingClientRect(),
+            parentRect: ref!.parentElement!.getBoundingClientRect(),
+            drawer: state.appDrawer()?.state,
+          }
+        : undefined,
+    );
+  }
 
-  const ongoingCallElsewhere = () =>
-    voice.channel() && voice.channel()?.id !== props.channel.id;
+  createEffect(updateInfo);
 
-  createEffect(() => {
-    const rect = ref()?.getBoundingClientRect();
-    const w = width();
+  onMount(() => {
+    const target = ref?.parentElement;
+    if (!target) return;
 
-    const activeChannel = voice.channel();
-    const canUpdate = !activeChannel || activeChannel.id === props.channel.id;
-
-    if (rect?.left && w) {
-      if (canUpdate) {
-        updateSize({
-          x: rect.left,
-          y: rect.top,
-          width: w,
-          channel: props.channel,
-        });
-      } else {
-        updateSize();
-      }
-    }
+    createResizeObserver(target, updateInfo);
+  });
+  onCleanup(() => {
+    setInfo();
   });
 
-  onCleanup(() => updateSize());
-
-  return (
-    <div
-      ref={setRef}
-      class={css({ position: "relative", pointerEvents: "none" })}
-    >
-      <div class={css({ position: "absolute", width: "100%" })}>
-        <AutoSizer>
-          {({ width }) => {
-            setWidth(width);
-            return null;
-          }}
-        </AutoSizer>
-      </div>
-
-      <Show when={ongoingCallElsewhere()}>
-        <VoiceCallCard channel={props.channel} />
-      </Show>
-    </div>
-  );
+  return <div ref={ref!} />;
 }
 
 /**
  * Call card
  */
-function VoiceCallCard(props: { channel: Channel }) {
-  const voice = useVoice();
-  const inCall = () => voice.channel()?.id === props.channel.id;
-
+function VoiceCallCard(props: {
+  channel: Channel;
+  inCall: boolean;
+  showCard: boolean;
+  layout: VoiceLayout;
+}) {
   return (
-    <Base>
-      <Card active={inCall()}>
-        <Show
-          when={inCall()}
-          fallback={<VoiceCallCardPreview channel={props.channel} />}
-        >
-          <VoiceCallCardActiveRoom />
-        </Show>
-      </Card>
-    </Base>
+    <Show when={props.showCard}>
+      <Base layout={props.layout as never}>
+        <Card active={props.inCall} layout={props.layout}>
+          <Show
+            when={props.inCall}
+            fallback={<VoiceCallCardPreview channel={props.channel} />}
+          >
+            <VoiceCallCardActiveRoom />
+          </Show>
+        </Card>
+      </Base>
+    </Show>
   );
 }
 
 const Base = styled("div", {
   base: {
-    // todo: temp for Mount
+    left: 0,
     top: "var(--gap-md)",
     padding: "var(--gap-md)",
 
     width: "100%",
+    height: "100%",
     position: "absolute",
 
     zIndex: 2,
     userSelect: "none",
+    pointerEvents: "none",
 
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
+    transition: "all var(--transitions-medium)",
+  },
+  variants: {
+    layout: {
+      fullscreen: {
+        top: 0,
+        height: "100%",
+        padding: 0,
+      },
+      expanded: {
+        top: 0,
+        height: "100%",
+        padding: 0,
+      },
+    },
   },
 });
 
@@ -319,13 +358,14 @@ const Card = styled("div", {
     transitionTimingFunction: "ease-in-out",
 
     borderRadius: "var(--borderRadius-lg)",
-    background: "var(--md-sys-color-secondary-container)",
+    background: "var(--md-sys-color-surface-container-high)",
+    color: "var(--md-sys-color-on-surface)",
   },
   variants: {
     active: {
       true: {
         width: "100%",
-        height: "40vh",
+        height: "100%",
       },
       false: {
         width: "360px",
@@ -333,8 +373,16 @@ const Card = styled("div", {
         cursor: "pointer",
       },
     },
-  },
-  defaultVariants: {
-    active: false,
+    layout: {
+      fullscreen: {
+        borderRadius: 0,
+      },
+      expanded: {
+        borderRadius: "var(--borderRadius-xl)",
+      },
+      collapsed: {
+        background: "none",
+      },
+    },
   },
 });

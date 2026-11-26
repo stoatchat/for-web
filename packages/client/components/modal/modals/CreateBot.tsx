@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 
@@ -58,13 +58,23 @@ export function CreateBotModal(
           <Text>
             <Trans>
               By creating this bot, you agree to the{" "}
-              <a href="https://stoat.chat/aup" target="_blank" rel="noreferrer">
-                <Trans>Acceptable Use Policy</Trans>
+              <a
+                href="https://stoat.chat/legal/community-guidelines"
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  color: "var(--md-sys-color-primary)",
+                }}
+              >
+                <Trans>Community Guidelines</Trans>
               </a>
               .
             </Trans>
           </Text>
           <Form2.TextField
+            minlength={2}
+            maxlength={32}
+            counter
             name="username"
             control={group.controls.username}
             label={t`Username`}

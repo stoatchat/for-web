@@ -1,14 +1,8 @@
-import extractor from "@lingui-solid/babel-plugin-extract-messages/extractor";
-import { defineConfig } from "@lingui/cli";
 import { LinguiConfig } from "@lingui/conf";
+import { formatter } from "@lingui/format-po";
+import { defineConfig } from "@lingui/solid/config";
 
 import { Languages } from "./components/i18n/Languages";
-
-/* eslint-disable */
-const supressWarningIfWereNotInLinguiExtract = !(
-  process as any
-)?.argv[1]?.includes("lingui-extract.js");
-/* eslint-enable */
 
 export default defineConfig({
   sourceLocale: "en",
@@ -21,20 +15,11 @@ export default defineConfig({
     },
   ],
   runtimeConfigModule: {
-    Trans: ["@lingui-solid/solid", "Trans"],
-    useLingui: ["@lingui-solid/solid", "useLingui"],
-    extractors: [extractor],
+    Trans: ["@lingui/solid", "Trans"],
+    useLingui: ["@lingui/solid", "useLingui"],
   },
-  formatOptions: {
+  format: formatter({
     origins: true,
     lineNumbers: false,
-  },
-  ...(supressWarningIfWereNotInLinguiExtract
-    ? {}
-    : {
-        macro: {
-          corePackage: ["@lingui-solid/solid"],
-          jsxPackage: ["@lingui-solid/solid/macro"],
-        },
-      }),
+  }),
 } as LinguiConfig);

@@ -1,11 +1,13 @@
 import { BiRegularChevronLeft, BiRegularChevronRight } from "solid-icons/bi";
+
 import { JSX, Match, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
+import { Symbol } from "@revolt/ui";
 
 /**
  * Wrapper for header icons which adds the chevron on the
@@ -19,9 +21,15 @@ export function HeaderIcon(props: { children: JSX.Element }) {
   return (
     <div
       class={container}
-      onClick={() =>
-        state.layout.toggleSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, true)
-      }
+      onClick={() => {
+        const ad = state.appDrawer();
+        if (ad) ad.setShown(false);
+        else
+          state.layout.toggleSectionState(
+            LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
+            true,
+          );
+      }}
       use:floating={{
         tooltip: {
           placement: "bottom",
@@ -29,7 +37,17 @@ export function HeaderIcon(props: { children: JSX.Element }) {
         },
       }}
     >
-      <Switch fallback={<BiRegularChevronRight size={20} />}>
+      <Switch
+        fallback={
+          <>
+            <BiRegularChevronRight size={20} />
+            {props.children}
+          </>
+        }
+      >
+        <Match when={state.appDrawer()}>
+          <Symbol>arrow_back</Symbol>
+        </Match>
         <Match
           when={state.layout.getSectionState(
             LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
@@ -37,9 +55,9 @@ export function HeaderIcon(props: { children: JSX.Element }) {
           )}
         >
           <BiRegularChevronLeft size={20} />
+          {props.children}
         </Match>
       </Switch>
-      {props.children}
     </div>
   );
 }

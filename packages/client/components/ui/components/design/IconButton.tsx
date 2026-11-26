@@ -1,4 +1,4 @@
-import { Show, splitProps } from "solid-js";
+import { mergeProps, Show, splitProps } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 
 import { AriaButtonProps, createButton } from "@solid-aria/button";
@@ -13,7 +13,7 @@ type Props = Omit<
     JSX.DirectiveAttributes &
     Pick<
       JSX.ButtonHTMLAttributes<HTMLButtonElement>,
-      "role" | "tabIndex" | "aria-selected"
+      "role" | "tabIndex" | "aria-selected" | "style"
     >,
   "onClick" | "disabled"
 >;
@@ -28,6 +28,7 @@ export function IconButton(props: Props) {
     "aria-selected",
     "tabIndex",
     "role",
+    "style",
   ]);
 
   const [style, rest] = splitProps(propsRest, [
@@ -35,11 +36,21 @@ export function IconButton(props: Props) {
     "shape",
     "width",
     "variant",
+    "selected",
     "_compositionSendMessage",
   ]);
   let ref: HTMLButtonElement | undefined;
 
-  const { buttonProps } = createButton(rest, () => ref);
+  const [btn, noBtnRest] = splitProps(rest, ["onPress"]);
+
+  //Emulate delay of native onClick
+  // See issue https://github.com/solidjs-community/solid-aria/issues/84
+  // Delay must be at least 32ms for Safari
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onPress = (e: any) => setTimeout(() => btn.onPress?.(e), 32),
+    btnRest = mergeProps(noBtnRest, { onPress, preventFocusOnPress: true });
+
+  const { buttonProps } = createButton(btnRest, () => ref);
   return (
     <button
       {...passthrough}
@@ -81,29 +92,29 @@ const iconButton2 = cva({
     border: "none",
     transition: "var(--transitions-fast) all",
 
-    color: "var(--colour)",
-    fill: "var(--colour)",
+    color: "var(--color)",
+    fill: "var(--color)",
   },
   variants: {
     variant: {
       filled: {
         background: "var(--md-sys-color-primary)",
-        "--colour": "var(--md-sys-color-on-primary)",
+        "--color": "var(--md-sys-color-on-primary)",
       },
       tonal: {
         background: "var(--md-sys-color-secondary-container)",
-        "--colour": "var(--md-sys-color-on-secondary-container)",
+        "--color": "var(--md-sys-color-on-secondary-container)",
       },
       outlined: {
         border: "1px solid var(--md-sys-color-outline-variant)",
-        "--colour": "var(--md-sys-color-on-surface-variant)",
+        "--color": "var(--md-sys-color-on-surface-variant)",
       },
       standard: {
-        "--colour": "var(--md-sys-color-on-surface-variant)",
+        "--color": "var(--md-sys-color-on-surface-variant)",
       },
 
       _header: {
-        "--colour": "white",
+        "--color": "white",
       },
     },
     size: {
@@ -143,6 +154,10 @@ const iconButton2 = cva({
       },
       false: {},
     },
+    selected: {
+      true: {},
+      false: {},
+    },
     _compositionSendMessage: {
       true: {
         width: "48px",
@@ -161,6 +176,38 @@ const iconButton2 = cva({
     _compositionSendMessage: false,
   },
   compoundVariants: [
+    {
+      variant: "filled",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-primary)",
+        "--color": "var(--md-sys-color-on-primary)",
+      },
+    },
+    {
+      variant: "filled",
+      selected: false,
+      css: {
+        background: "var(--md-sys-color-surface-container)",
+        "--color": "var(--md-sys-color-on-surface)",
+      },
+    },
+    {
+      variant: "tonal",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-secondary)",
+        "--color": "var(--md-sys-color-on-secondary)",
+      },
+    },
+    {
+      variant: "outlined",
+      selected: true,
+      css: {
+        backgroundColor: "var(--md-sys-color-inverse-surface)",
+        "--color": "var(--md-sys-color-inverse-on-surface)",
+      },
+    },
     // disabled styles
     {
       variant: ["filled", "tonal", "outlined"],

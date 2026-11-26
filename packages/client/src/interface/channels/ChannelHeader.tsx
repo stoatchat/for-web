@@ -1,13 +1,15 @@
 import { Accessor, Match, Setter, Show, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useClient } from "@revolt/client";
+import { getChannelIcon, useDevice } from "@revolt/common";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
+import { useVoice } from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
 import {
@@ -16,19 +18,14 @@ import {
   NonBreakingText,
   OverflowingText,
   Spacer,
-  UserStatus,
+  Symbol,
   typography,
+  UserStatus,
 } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
-import MdGroup from "@material-design-icons/svg/outlined/group.svg?component-solid";
-import MdPersonAdd from "@material-design-icons/svg/outlined/person_add.svg?component-solid";
-import MdSettings from "@material-design-icons/svg/outlined/settings.svg?component-solid";
-
-import MdKeep from "../../svg/keep.svg?component-solid";
 import { HeaderIcon } from "../common/CommonHeader";
 
-import { SidebarState } from "./text/TextChannel";
+import { canIHasSidebar, SidebarState } from "./text/TextChannel";
 
 interface Props {
   /**
@@ -55,16 +52,15 @@ export function ChannelHeader(props: Props) {
   const client = useClient();
   const { t } = useLingui();
   const state = useState();
+  const voice = useVoice();
+  const { layout } = useDevice();
 
   const searchValue = () => {
     if (!props.sidebarState) return null;
 
     const state = props.sidebarState();
-    if (state.state === "search") {
-      return state.query;
-    } else {
-      return "";
-    }
+    if (state.state === "search") return state.query;
+    return "";
   };
 
   return (
@@ -77,10 +73,14 @@ export function ChannelHeader(props: Props) {
           }
         >
           <HeaderIcon>
-            <Symbol>grid_3x3</Symbol>
+            <Symbol>{getChannelIcon(props.channel)}</Symbol>
           </HeaderIcon>
           <NonBreakingText
-            class={typography({ class: "title", size: "medium" })}
+            class={
+              typography({ class: "title", size: "medium" }) +
+              " " +
+              mobileOverflow
+            }
             onClick={() =>
               openModal({
                 type: "channel_info",
@@ -90,7 +90,7 @@ export function ChannelHeader(props: Props) {
           >
             <TextWithEmoji content={props.channel.name!} />
           </NonBreakingText>
-          <Show when={props.channel.description}>
+          <Show when={layout() !== "phone" && props.channel.description}>
             <Divider />
             <a
               class={descriptionLink}
@@ -121,7 +121,9 @@ export function ChannelHeader(props: Props) {
           <HeaderIcon>
             <Symbol>alternate_email</Symbol>
           </HeaderIcon>
-          <TextWithEmoji content={props.channel.recipient?.username} />
+          <OverflowingText>
+            <TextWithEmoji content={props.channel.recipient?.username} />
+          </OverflowingText>
           <UserStatus status={props.channel.recipient?.presence} size="8px" />
         </Match>
         <Match when={props.channel.type === "SavedMessages"}>
@@ -133,6 +135,20 @@ export function ChannelHeader(props: Props) {
       </Switch>
 
       <Spacer />
+
+      <Show when={props.channel.isVoice && !voice.showCard(props.channel)}>
+        <IconButton
+          onPress={() => voice.connect(props.channel)}
+          use:floating={{
+            tooltip: {
+              placement: "bottom",
+              content: t`Join the voice channel`,
+            },
+          }}
+        >
+          <Symbol>call</Symbol>
+        </IconButton>
+      </Show>
 
       <Show
         when={
@@ -155,7 +171,7 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdSettings />
+          <Symbol>settings</Symbol>
         </IconButton>
       </Show>
 
@@ -177,7 +193,7 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdPersonAdd />
+          <Symbol>person_add</Symbol>
         </Button>
       </Show>
 
@@ -199,11 +215,11 @@ export function ChannelHeader(props: Props) {
                 })
           }
         >
-          <MdKeep />
+          <Symbol>keep</Symbol>
         </IconButton>
       </Show>
 
-      <Show when={props.sidebarState && props.channel.type !== "SavedMessages"}>
+      <Show when={props.sidebarState && canIHasSidebar(props.channel)}>
         <IconButton
           onPress={() => {
             if (props.sidebarState!().state === "default") {
@@ -230,36 +246,60 @@ export function ChannelHeader(props: Props) {
             },
           }}
         >
-          <MdGroup />
+          <Symbol>group</Symbol>
         </IconButton>
       </Show>
 
       <Show when={searchValue() !== null}>
-        <input
-          class={css({
-            height: "40px",
-            width: "240px",
-            paddingInline: "16px",
-            borderRadius: "var(--borderRadius-full)",
-            background: "var(--md-sys-color-surface-container-high)",
-          })}
-          placeholder="Search messages..."
-          value={searchValue()!}
-          onChange={(e) =>
-            e.currentTarget.value
-              ? props.setSidebarState!({
-                  state: "search",
-                  query: e.currentTarget.value,
-                })
-              : props.setSidebarState!({
-                  state: "default",
-                })
+        <Show
+          when={
+            layout() === "desktop" || props.sidebarState!().state !== "default"
           }
-        />
+          fallback={
+            <IconButton
+              onPress={() =>
+                props.setSidebarState!({ state: "search", query: "" })
+              }
+              use:floating={{
+                tooltip: {
+                  placement: "bottom",
+                  content: t`Search`,
+                },
+              }}
+            >
+              <Symbol>search</Symbol>
+            </IconButton>
+          }
+        >
+          <SearchBox
+            placeholder="Search messages..."
+            value={searchValue()!}
+            onChange={(e) =>
+              e.currentTarget.value
+                ? props.setSidebarState!({
+                    state: "search",
+                    query: e.currentTarget.value,
+                  })
+                : props.setSidebarState!({
+                    state: "default",
+                  })
+            }
+          />
+        </Show>
       </Show>
     </>
   );
 }
+
+const SearchBox = styled("input", {
+  base: {
+    height: "40px",
+    width: "240px",
+    paddingInline: "16px",
+    borderRadius: "var(--borderRadius-full)",
+    background: "var(--md-sys-color-surface-container-high)",
+  },
+});
 
 /**
  * Vertical divider between name and topic
@@ -278,4 +318,11 @@ const Divider = styled("div", {
  */
 const descriptionLink = css({
   minWidth: 0,
+});
+
+const mobileOverflow = css({
+  _phone: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  },
 });

@@ -13,7 +13,11 @@ declare global {
 declare module "solid-js" {
   namespace JSX {
     interface Directives {
-      dndzone: SolidOptions;
+      dndzone: SolidOptions & {
+        transformDraggedElement?: () => (element?: HTMLElement) => void;
+        useCursorForDetection?: boolean | (() => boolean);
+        dropAnimationDisabled?: boolean | (() => boolean);
+      };
 
       scrollable:
         | true
@@ -96,9 +100,22 @@ declare module "solid-js" {
            * Member to display
            */
           member?: ServerMember;
+
+          /**
+           * Bot to display
+           */
+          bot?: { owner: string };
         };
         contextMenu?: Component;
         contextMenuHandler?: "click" | "contextmenu";
+
+        /**
+         * Pointer type that triggered the context menu
+         *
+         * Used to decide whether to present the menu as a desktop popup or a
+         * mobile action sheet. Set internally by the floating directive.
+         */
+        contextMenuPointerType?: string;
         autoComplete?: {
           state: Accessor<AutoCompleteState>;
           selection: Accessor<number>;

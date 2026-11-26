@@ -1,6 +1,6 @@
-import { For, Match, Switch, createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, For, Match, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
 import { Server, ServerBan } from "stoat.js";
 
@@ -11,10 +11,9 @@ import {
   CircularProgress,
   DataTable,
   Row,
+  Symbol,
   TextField,
 } from "@revolt/ui";
-
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
 /**
  * List and invalidate server bans
@@ -121,7 +120,7 @@ export function ListServerBans(props: { server: Server }) {
                       }}
                       onPress={() => pardon(item)}
                     >
-                      <MdDelete />
+                      <Symbol>delete</Symbol>
                     </Button>
                   </DataTable.Cell>
                 </DataTable.Row>

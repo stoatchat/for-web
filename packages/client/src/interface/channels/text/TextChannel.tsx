@@ -23,7 +23,6 @@ import {
   Header,
   NewMessages,
   Text,
-  TypingIndicator,
   main,
 } from "@revolt/ui";
 import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/callCard/VoiceCallCard";
@@ -31,7 +30,9 @@ import { VoiceChannelCallCardMount } from "@revolt/ui/components/features/voice/
 import { ChannelHeader } from "../ChannelHeader";
 import { ChannelPageProps } from "../ChannelPage";
 
+import { Channel } from "stoat.js";
 import { MessageComposition } from "./Composition";
+import { isLargeServer } from "./largeServer";
 import { MemberSidebar } from "./MemberSidebar";
 import { TextSearchSidebar } from "./TextSearchSidebar";
 
@@ -49,6 +50,10 @@ export type SidebarState =
   | {
       state: "default";
     };
+
+export function canIHasSidebar(ch: Channel) {
+  return !["SavedMessages", "DirectMessage"].includes(ch.type);
+}
 
 /**
  * Channel component
@@ -70,11 +75,13 @@ export function TextChannel(props: ChannelPageProps) {
    */
   const highlightMessageId = () => params().messageId;
 
+  const canConnect = () =>
+    props.channel.isVoice && props.channel.havePermission("Connect");
+
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
-  // Get a reference to the message list's "end status"
-  let atEndRef: (() => boolean) | undefined;
+  const [atEnd, setEnd] = createSignal(true);
 
   // Store last unread message id
   createEffect(
@@ -93,7 +100,7 @@ export function TextChannel(props: ChannelPageProps) {
   createEffect(
     on(
       // must be at the end of the conversation
-      () => props.channel.unread && (atEndRef ? atEndRef() : true),
+      () => props.channel.unread && atEnd(),
       (unread) => {
         if (unread) {
           if (document.hasFocus()) {
@@ -113,13 +120,29 @@ export function TextChannel(props: ChannelPageProps) {
 
   // Mark as read on re-focus
   function onFocus() {
-    if (props.channel.unread && (atEndRef ? atEndRef() : true)) {
+    if (props.channel.unread && atEnd()) {
       props.channel.ack();
     }
   }
 
+  function onVisibilityChange() {
+    if (document.visibilityState === "visible") onFocus();
+  }
+
+  // Chromium + webkit
+  window.addEventListener("focus", onFocus);
+  // Gecko
   document.addEventListener("focus", onFocus);
-  onCleanup(() => document.removeEventListener("focus", onFocus));
+  // Mobile (eg. unlock screen)
+  document.addEventListener("visibilitychange", onVisibilityChange);
+  onCleanup(() => {
+    // Mobile
+    document.removeEventListener("visibilitychange", onVisibilityChange);
+    // Gecko
+    document.removeEventListener("focus", onFocus);
+    // Chromium + webkit
+    window.removeEventListener("focus", onFocus);
+  });
 
   // Register ack/jump latest
   createKeybind(KeybindAction.CHAT_JUMP_END, () => {
@@ -153,6 +176,20 @@ export function TextChannel(props: ChannelPageProps) {
     ),
   );
 
+  // If this is a server text channel, sync the members
+  // todo: useQuery
+  createEffect(
+    on(
+      () => props.channel.serverId,
+      (serverId, prevServerId) =>
+        // This effect tracks channel, not serverId, therefore we must ensure the old serverId
+        // is not the same as the current serverId
+        prevServerId !== serverId &&
+        props.channel.type === "TextChannel" &&
+        props.channel.server?.syncMembers(isLargeServer(props.channel.server)),
+    ),
+  );
+
   return (
     <>
       <Header placement="primary">
@@ -165,7 +202,7 @@ export function TextChannel(props: ChannelPageProps) {
       <Content>
         <main class={main()}>
           <Show
-            when={props.channel.isVoice}
+            when={canConnect()}
             fallback={
               <BelowFloatingHeader>
                 <div>
@@ -191,16 +228,10 @@ export function TextChannel(props: ChannelPageProps) {
                 sentIds={pendingProps.ids}
               />
             )}
-            typingIndicator={
-              <TypingIndicator
-                users={props.channel.typing}
-                ownId={client().user!.id}
-              />
-            }
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
-            atEndRef={(ref) => (atEndRef = ref)}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
+            atEnd={[atEnd, setEnd]}
           />
 
           <MessageComposition
@@ -214,7 +245,7 @@ export function TextChannel(props: ChannelPageProps) {
               LAYOUT_SECTIONS.MEMBER_SIDEBAR,
               true,
             ) &&
-              props.channel.type !== "SavedMessages") ||
+              canIHasSidebar(props.channel)) ||
             sidebarState().state !== "default"
           }
         >
@@ -234,6 +265,7 @@ export function TextChannel(props: ChannelPageProps) {
                 <MemberSidebar
                   channel={props.channel}
                   scrollTargetElement={sidebarScrollTargetElement}
+                  isLargeServer={isLargeServer(props.channel.server)}
                 />
               }
             >

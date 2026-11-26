@@ -14,6 +14,7 @@ interface GroupProps {
 interface Props {
   value?: string;
   children?: JSX.Element;
+  checked?: boolean;
 }
 
 /**

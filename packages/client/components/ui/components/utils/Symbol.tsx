@@ -1,4 +1,4 @@
-import { JSX, createMemo, splitProps } from "solid-js";
+import { createMemo, JSX, splitProps } from "solid-js";
 
 import { css } from "styled-system/css";
 import { splitCssProps, styled } from "styled-system/jsx";
@@ -59,6 +59,7 @@ export function Symbol(rawProps: Props & HTMLStyledProps<"span">) {
         fontSize: local.fontSize ?? "inherit",
         fontWeight: `${local.weight} !important`,
         fontOpticalSizing: local.opticalSize === "auto" ? "auto" : undefined,
+        userSelect: "none",
       },
       cssProps,
     );

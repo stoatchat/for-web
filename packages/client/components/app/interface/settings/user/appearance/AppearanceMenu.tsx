@@ -1,6 +1,6 @@
-import { For, Match, Show, Switch, createSignal } from "solid-js";
+import { createSignal, For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
@@ -10,28 +10,35 @@ import {
   UnicodeEmoji,
   UnicodeEmojiPacks,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
   Avatar,
   Button,
   Checkbox,
   Column,
+  FloatingSelect,
   IconButton,
   MenuItem,
   MessageContainer,
   Row,
   Slider,
+  Symbol,
   Text,
-  TextField,
 } from "@revolt/ui";
 import {
   FONT_KEYS,
+  FONTS,
   Fonts,
   MONOSPACE_FONT_KEYS,
+  MONOSPACE_FONTS,
   MonospaceFonts,
 } from "@revolt/ui/themes/fonts";
 
-import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component-solid";
+import SDCornerCircular from "../../../../../../public/assets/icons/corner_circular.svg?component-solid";
+import SDCornerOther from "../../../../../../public/assets/icons/corner_other.svg?component-solid";
+import SDCornerRounded from "../../../../../../public/assets/icons/corner_rounded.svg?component-solid";
+import SDCornerSharp from "../../../../../../public/assets/icons/corner_sharp.svg?component-solid";
 
 /**
  * All appearance options for the client
@@ -39,7 +46,18 @@ import MDPalette from "@material-design-icons/svg/outlined/palette.svg?component
 export function AppearanceMenu() {
   const user = useUser();
   const state = useState();
+  const { t } = useLingui();
   const [pickerRef, setPickerRef] = createSignal<HTMLDivElement>();
+  const { openModal } = useModals();
+
+  function loadFonts() {
+    for (const f in FONTS) FONTS[f as Fonts].load();
+  }
+
+  function loadMonoFonts() {
+    for (const f in MONOSPACE_FONTS)
+      MONOSPACE_FONTS[f as MonospaceFonts].load();
+  }
 
   return (
     <Column gap="lg">
@@ -56,7 +74,7 @@ export function AppearanceMenu() {
           Colours
         </Text>
 
-        <Row justify="stretch">
+        <Row gap="xs" justify="stretch">
           <Button
             group="connected-start"
             groupActive={state.theme.mode === "light"}
@@ -80,7 +98,7 @@ export function AppearanceMenu() {
           </Button>
         </Row>
 
-        {/* <Row justify="stretch">
+        {/* <Row gap="xs justify="stretch">
           <Button
             group="connected-start"
             groupActive={state.theme.preset === "stoat"}
@@ -98,7 +116,7 @@ export function AppearanceMenu() {
         </Row> */}
 
         <Show when={state.theme.preset === "you"}>
-          <Row align justify>
+          <Row align justify wrap>
             <IconButton
               ref={setPickerRef}
               variant="filled"
@@ -106,7 +124,7 @@ export function AppearanceMenu() {
               size="md"
               onPress={() => pickerRef()?.click()}
             >
-              <MDPalette />
+              <Symbol>palette</Symbol>
             </IconButton>
             <input
               ref={setPickerRef}
@@ -164,11 +182,13 @@ export function AppearanceMenu() {
               cursor: "pointer",
             })}
           >
-            <MdColorize />
+            <Symbol>colorize</Symbol>
           </div> */}
           </Row>
 
-          <Row justify="stretch">
+          {/* TODO: Cursed on mobile; may need to be replaced
+          with FloatingSelect / similar on small screens */}
+          <Row gap="xs" justify="stretch">
             <Button
               size="xs"
               group="connected-start"
@@ -203,7 +223,7 @@ export function AppearanceMenu() {
             </Button>
           </Row>
 
-          <Row justify="stretch">
+          <Row gap="xs" justify="stretch">
             <Button
               size="xs"
               group="connected-start"
@@ -303,6 +323,7 @@ export function AppearanceMenu() {
               }
               timestamp={new Date()}
               username={user()?.displayName}
+              pronouns={user()?.pronouns}
               isLink="hide"
             >
               Sphinx of black quartz, judge my vow
@@ -346,34 +367,106 @@ export function AppearanceMenu() {
       />
 
       <Text class="label">
+        <Trans>Profile Picture shape</Trans>
+      </Text>
+      <Row justify="stretch">
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 0}
+          onPress={() => (state.theme.avatarRadius = 0)}
+        >
+          <Row justify align>
+            <SDCornerSharp
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
+            <Trans>Sharp</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 15}
+          onPress={() => (state.theme.avatarRadius = 15)}
+        >
+          <Row justify align>
+            <SDCornerRounded
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
+            <Trans>Rounded</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={state.theme.avatarRadius === 50}
+          onPress={() => (state.theme.avatarRadius = 50)}
+        >
+          <Row justify align>
+            <SDCornerCircular
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
+            <Trans>Circular</Trans>
+          </Row>
+        </Button>
+        <Button
+          group="standard"
+          groupActive={
+            (state.theme.avatarRadius > 0 && state.theme.avatarRadius < 15) ||
+            (state.theme.avatarRadius > 15 && state.theme.avatarRadius < 50)
+          }
+          onPress={() => openModal({ type: "avatar_radius" })}
+        >
+          <Row justify align>
+            <SDCornerOther
+              class={css({ flex: "none !important" })}
+              width={25}
+              height={25}
+            />
+            <Trans>Custom</Trans>
+          </Row>
+        </Button>
+      </Row>
+
+      <Text class="label">
         <Trans>Interface Font</Trans>
       </Text>
-      <TextField.Select
-        title="Interface Font"
+      <FloatingSelect
+        label={t`Interface Font`}
         value={state.theme.interfaceFont}
         onChange={(e) =>
           state.theme.setInterfaceFont(e.currentTarget.value as Fonts)
         }
+        onOpened={loadFonts}
       >
         <For each={FONT_KEYS}>
-          {(key) => <MenuItem value={key}>{key}</MenuItem>}
+          {(key) => (
+            <MenuItem value={key} style={{ "font-family": key }}>
+              {key}
+            </MenuItem>
+          )}
         </For>
-      </TextField.Select>
+      </FloatingSelect>
 
-      <Text class="label">
-        <Trans>Monospace Font</Trans>
-      </Text>
-      <TextField.Select
-        title="Monospace Font"
+      <FloatingSelect
+        label={t`Monospace Font`}
         value={state.theme.monospaceFont}
         onChange={(e) =>
           state.theme.setMonospaceFont(e.currentTarget.value as MonospaceFonts)
         }
+        onOpened={loadMonoFonts}
       >
         <For each={MONOSPACE_FONT_KEYS}>
-          {(key) => <MenuItem value={key}>{key}</MenuItem>}
+          {(key) => (
+            <MenuItem value={key} style={{ "font-family": key }}>
+              {key}
+            </MenuItem>
+          )}
         </For>
-      </TextField.Select>
+      </FloatingSelect>
 
       <Column>
         <Text class="title" size="small">
@@ -392,10 +485,8 @@ export function AppearanceMenu() {
           <Trans>Show send message button</Trans>
         </Checkbox>
 
-        <Text class="label">
-          <Trans>Emoji Pack (affects your messages only)</Trans>
-        </Text>
-        <TextField.Select
+        <FloatingSelect
+          label={t`Emoji Pack (affects your messages only)`}
           value={state.settings.getValue("appearance:unicode_emoji")}
           onChange={(e) =>
             state.settings.setValue(
@@ -407,7 +498,7 @@ export function AppearanceMenu() {
           <For each={UNICODE_EMOJI_PACKS}>
             {(pack) => <EmojiPack pack={pack} />}
           </For>
-        </TextField.Select>
+        </FloatingSelect>
       </Column>
     </Column>
   );
@@ -432,7 +523,7 @@ function EmojiPack(props: { pack: UnicodeEmojiPacks }) {
           <Match when={props.pack === "fluent-flat"}>Fluent Flat</Match>
           <Match when={props.pack === "mutant"}>Mutant Remix</Match>
           <Match when={props.pack === "noto"}>Noto</Match>
-          <Match when={props.pack === "openmoji"}>OpenMoji</Match>
+          {/* <Match when={props.pack === "openmoji"}>OpenMoji</Match> */}
           <Match when={props.pack === "twemoji"}>Twemoji</Match>
         </Switch>
       </Row>
@@ -445,7 +536,7 @@ const Preview = styled("div", {
     height: "126px",
     overflow: "hidden",
     borderRadius: "var(--borderRadius-lg)",
-    background: "var(--md-sys-color-surface-container-highest)",
+    background: "var(--md-sys-color-surface-container-lowest)",
   },
 });
 

@@ -10,18 +10,56 @@
   box-sizing: border-box;
 }
 
+/* The app never scrolls the page itself, so stop scroll gestures from
+   chaining up to it, otherwise iOS Safari can pull-to-refresh mid-scroll */
+html,
+body {
+  overscroll-behavior-y: none;
+}
+
+/* Usable area after safe areas, also for #floating */
+:root {
+  --inset-top: env(safe-area-inset-top);
+  --inset-right: env(safe-area-inset-right);
+  --inset-bottom: env(safe-area-inset-bottom);
+  --inset-left: env(safe-area-inset-left);
+}
+
+/* The keyboard covers the home indicator, so sit right on top of it */
+:root:has(
+  :is(
+    textarea,
+    [contenteditable="true"],
+    input:not([type="checkbox"], [type="radio"], [type="range"])
+  ):focus
+) {
+  --inset-bottom: 0px;
+}
+
+/* The page itself never scrolls, colours here are just until the theme loads */
+html {
+  overflow: hidden;
+  background: #191919;
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   background: #191919;
   font-family: var(--fonts-primary);
 }
 
+/* iOS pans the page up for the keyboard instead of resizing it, so keep
+   #root a plain box and let Safari move it */
 #root {
-  position: fixed;
-  top: env(safe-area-inset-top);
-  left: env(safe-area-inset-left);
-  right: env(safe-area-inset-right);
-  bottom: env(safe-area-inset-bottom);
+  position: relative;
+  height: calc(100svh - var(--inset-top) - var(--inset-bottom));
+  margin: var(--inset-top) var(--inset-right) var(--inset-bottom)
+    var(--inset-left);
+  overflow: clip;
+  /* Keep the app's z-indexes below #floating, as position: fixed used to */
+  isolation: isolate;
+  background: #191919;
 }
 
 /* HighlightJs */

@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { Avatar, Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
 
@@ -64,6 +64,8 @@ export function BanNonMemberModal(
             </Trans>
           </Text>
           <Form2.TextField
+            maxlength={1024}
+            counter
             name="reason"
             control={group.controls.reason}
             label={t`Reason`}

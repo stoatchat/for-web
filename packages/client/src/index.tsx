@@ -17,22 +17,29 @@ import FlowCheck from "@revolt/auth/src/flows/FlowCheck";
 import FlowConfirmReset from "@revolt/auth/src/flows/FlowConfirmReset";
 import FlowCreate from "@revolt/auth/src/flows/FlowCreate";
 import FlowDeleteAccount from "@revolt/auth/src/flows/FlowDelete";
-import FlowHome from "@revolt/auth/src/flows/FlowHome";
 import FlowLogin from "@revolt/auth/src/flows/FlowLogin";
 import FlowResend from "@revolt/auth/src/flows/FlowResend";
 import FlowReset from "@revolt/auth/src/flows/FlowReset";
 import FlowVerify from "@revolt/auth/src/flows/FlowVerify";
-import { ClientContext, useClient } from "@revolt/client";
+import { ClientContext, SoundContext, useClient } from "@revolt/client";
+import { DeviceContext } from "@revolt/common";
 import { I18nProvider } from "@revolt/i18n";
+import { InstanceContext } from "@revolt/instance";
 import { KeybindContext } from "@revolt/keybinds";
 import { ModalContext, ModalRenderer, useModals } from "@revolt/modal";
 import { VoiceContext } from "@revolt/rtc";
 import { StateContext, SyncWorker, useState } from "@revolt/state";
-import { FloatingManager, LoadTheme } from "@revolt/ui";
+import {
+  FloatingManager,
+  LoadTheme,
+  SnackbarController,
+  SnackbarProvider,
+} from "@revolt/ui";
 
 /* @refresh reload */
 import "@revolt/ui/styles";
 
+import { AndroidNag } from "./AndroidNag";
 import AuthPage from "./Auth";
 import Interface from "./Interface";
 import "./index.css";
@@ -109,68 +116,100 @@ function BotRedirect() {
 }
 
 function MountContext(props: { children?: JSX.Element }) {
-  const state = useState();
-
-  /**
-   * Tanstack Query client
-   */
   const client = new QueryClient();
 
   return (
-    <KeybindContext>
-      <ModalContext>
-        <ClientContext state={state}>
-          <I18nProvider>
-            <VoiceContext>
-              <QueryClientProvider client={client}>
-                {props.children}
-                <ModalRenderer />
-                <FloatingManager />
-              </QueryClientProvider>
-            </VoiceContext>
-          </I18nProvider>
-          <SyncWorker />
-        </ClientContext>
-      </ModalContext>
-    </KeybindContext>
+    <StateContext>
+      <KeybindContext>
+        <ModalContext>
+          <ClientContext preLoad={<LoadTheme />}>
+            <SoundContext>
+              <VoiceContext>
+                <QueryClientProvider client={client}>
+                  {props.children}
+                  <ModalRenderer />
+                  <FloatingManager />
+                  <AndroidNag />
+                </QueryClientProvider>
+              </VoiceContext>
+            </SoundContext>
+            <SyncWorker />
+          </ClientContext>
+        </ModalContext>
+      </KeybindContext>
+    </StateContext>
   );
 }
 
-render(
-  () => (
-    <StateContext>
-      <Router root={MountContext}>
-        <Route path="/login" component={AuthPage as never}>
-          <Route path="/delete/:token" component={FlowDeleteAccount} />
-          <Route path="/check" component={FlowCheck} />
-          <Route path="/create" component={FlowCreate} />
-          <Route path="/auth" component={FlowLogin} />
-          <Route path="/resend" component={FlowResend} />
-          <Route path="/reset" component={FlowReset} />
-          <Route path="/verify/:token" component={FlowVerify} />
-          <Route path="/reset/:token" component={FlowConfirmReset} />
-          <Route path="/*" component={FlowHome} />
-        </Route>
-        <Route path="/" component={Interface as never}>
-          <Route path="/pwa" component={PWARedirect} />
-          <Route path="/dev" component={DevelopmentPage} />
-          <Route path="/discover/*" component={Discover} />
-          <Route path="/settings" component={SettingsRedirect} />
-          <Route path="/invite/:code" component={InviteRedirect} />
-          <Route path="/bot/:code" component={BotRedirect} />
-          <Route path="/friends" component={Friends} />
-          <Route path="/server/:server/*">
-            <Route path="/channel/:channel/*" component={ChannelPage} />
-            <Route path="/*" component={ServerHome} />
-          </Route>
-          <Route path="/channel/:channel/*" component={ChannelPage} />
-          <Route path="/*" component={HomePage} />
-        </Route>
-      </Router>
-
-      <LoadTheme />
-      {/* <ReportBug /> */}
-    </StateContext>
-  ),
-  document.getElementById("root") as HTMLElement,
+const routes = () => (
+  <Route component={MountContext}>
+    <Route path="/login" component={AuthPage as never}>
+      <Route path="/delete/:token" component={FlowDeleteAccount} />
+      <Route path="/check" component={FlowCheck} />
+      <Route path="/create" component={FlowCreate} />
+      <Route path="/create/:code" component={FlowCreate} />
+      <Route path="/auth" component={FlowLogin} />
+      <Route path="/resend" component={FlowResend} />
+      <Route path="/reset" component={FlowReset} />
+      <Route path="/verify/:token" component={FlowVerify} />
+      <Route path="/reset/:token" component={FlowConfirmReset} />
+      <Route path="/*" component={FlowLogin} />
+    </Route>
+    <Route path="/" component={Interface as never}>
+      <Route path="/pwa" component={PWARedirect} />
+      <Route path="/dev" component={DevelopmentPage} />
+      <Route path="/discover/*" component={Discover} />
+      <Route path="/settings" component={SettingsRedirect} />
+      <Route path="/invite/:code" component={InviteRedirect} />
+      <Route path="/bot/:code" component={BotRedirect} />
+      <Route path="/friends" component={Friends} />
+      <Route path="/server/:server/*">
+        <Route path="/channel/:channel/*" component={ChannelPage} />
+        <Route path="/*" component={ServerHome} />
+      </Route>
+      <Route path="/channel/:channel/*" component={ChannelPage} />
+      <Route path="/*" component={HomePage} />
+    </Route>
+  </Route>
 );
+
+const snackbarCtrl = new SnackbarController();
+
+/**
+ * Move into top window if the client was loaded inside itself
+ */
+function escapeSelfEmbed() {
+  if (window.self === window.top) return false;
+
+  try {
+    // reading a cross-origin parent's location throws, leave those embeds be
+    if (window.top!.location.origin !== window.location.origin) return false;
+  } catch {
+    return false;
+  }
+
+  window.top!.location.href = window.location.href;
+  return true;
+}
+
+if (!escapeSelfEmbed())
+  render(
+    () => (
+      <DeviceContext>
+        <I18nProvider>
+          <SnackbarProvider controller={snackbarCtrl}>
+            <Router>
+              <Route path="/i/:host" component={InstanceContext}>
+                {routes()}
+              </Route>
+              <Route path="/" component={InstanceContext}>
+                {routes()}
+              </Route>
+            </Router>
+            {/* <ReportBug /> */}
+          </SnackbarProvider>
+        </I18nProvider>
+      </DeviceContext>
+    ),
+    document.getElementById("root") as HTMLElement,
+  );

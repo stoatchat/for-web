@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Run unit tests for web"
+set -e
+
+pnpm --filter client run test:unit

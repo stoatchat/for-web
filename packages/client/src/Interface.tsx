@@ -1,4 +1,11 @@
-import { JSX, Match, Switch, createEffect } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  JSX,
+  Match,
+  onCleanup,
+  Switch,
+} from "solid-js";
 
 import { Server } from "stoat.js";
 import { styled } from "styled-system/jsx";
@@ -10,11 +17,18 @@ import { useClient, useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
 import { NotificationsWorker } from "@revolt/client/NotificationsWorker";
 import { useModals } from "@revolt/modal";
-import { Navigate, useBeforeLeave, useLocation } from "@revolt/routing";
+import {
+  Navigate,
+  paramsFromPathname,
+  useBeforeLeave,
+  useLocation,
+} from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import { CircularProgress } from "@revolt/ui";
+import { LoadingScreen } from "@revolt/ui";
 
+import { Keybind, KeybindAction } from "@revolt/keybinds";
+import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
 import { Sidebar } from "./interface/Sidebar";
 
 /**
@@ -23,28 +37,26 @@ import { Sidebar } from "./interface/Sidebar";
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
-  const { openModal } = useModals();
-  const { isLoggedIn, lifecycle } = useClientLifecycle();
+  const { openModal, modals, remove } = useModals();
+  const { isLoggedIn, isSwapping, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
 
   useBeforeLeave((e) => {
     if (!e.defaultPrevented) {
       if (e.to === "/settings") {
         e.preventDefault();
-        openModal({
-          type: "settings",
-          config: "user",
-        });
+        openModal({ type: "settings", config: "user" });
       } else if (typeof e.to === "string") {
         state.layout.setLastActivePath(e.to);
+        const params = paramsFromPathname(e.to);
+        if (params.channelId) state.layout.pushRecentChannel(params.channelId);
       }
     }
   });
 
   createEffect(() => {
-    if (!isLoggedIn()) {
-      state.layout.setNextPath(pathname);
-      console.debug("WAITING... currently", lifecycle.state());
+    if (!isLoggedIn() && !isSwapping()) {
+      state.auth.setNextPath(pathname);
     }
   });
 
@@ -57,21 +69,59 @@ const Interface = (props: { children: JSX.Element }) => {
     ].includes(lifecycle.state());
   }
 
+  //Drawer slider for mobile
+  let rootRef, sDrawer: SlideDrawer | undefined, sDrawerEl: HTMLElement;
+  const [contRef, setContRef] = createSignal<HTMLDivElement>();
+  function rstLayout() {
+    state.layout.setSectionState(LAYOUT_SECTIONS.PRIMARY_SIDEBAR, false, false);
+    state.layout.setSectionState(LAYOUT_SECTIONS.MEMBER_SIDEBAR, false, true);
+  }
+  createEffect(() => {
+    //Create drawer, again if Content is recreated (e.g. switching accounts)
+    const cont = contRef();
+    if (cont && cont !== sDrawerEl) {
+      sDrawer?.delete();
+      sDrawer = new SlideDrawer(cont, rootRef!);
+      sDrawerEl = cont;
+    }
+    //Update on layout change
+    if (sDrawer) {
+      const en = sDrawer.enabled;
+      setTimeout(() => {
+        state.setAppDrawer(en ? sDrawer : undefined);
+        if (en) rstLayout();
+      }, 1);
+    }
+  });
+  onCleanup(() => {
+    sDrawer?.delete();
+    state.setAppDrawer((sDrawer = undefined));
+  });
+
   return (
     <MessageCache client={client()}>
-      <div
-        style={{
-          display: "flex",
-          "flex-direction": "column",
-          height: "100%",
-        }}
-      >
+      <AppRoot ref={rootRef} class="app_root">
         <Titlebar />
-        <Switch fallback={<CircularProgress />}>
+        <Switch fallback={<LoadingScreen />}>
           <Match when={!isLoggedIn()}>
             <Navigate href="/login" />
           </Match>
           <Match when={lifecycle.loadedOnce()}>
+            <Keybind
+              keybind={KeybindAction.QUICK_SWITCH}
+              onPressed={() => {
+                const top = [...modals].reverse().find((m) => m.show);
+                if (top?.props.type === "quick_switch") {
+                  remove(top.id);
+                  return;
+                }
+                if (
+                  !modals.some((m) => m.show && m.props.type === "quick_switch")
+                ) {
+                  openModal({ type: "quick_switch" });
+                }
+              }}
+            />
             <Layout
               disconnected={isDisconnected()}
               style={{ "flex-grow": 1, "min-height": 0 }}
@@ -96,6 +146,8 @@ const Interface = (props: { children: JSX.Element }) => {
                 })}
               />
               <Content
+                ref={setContRef}
+                class="app_body"
                 sidebar={state.layout.getSectionState(
                   LAYOUT_SECTIONS.PRIMARY_SIDEBAR,
                   true,
@@ -108,10 +160,18 @@ const Interface = (props: { children: JSX.Element }) => {
         </Switch>
 
         <NotificationsWorker />
-      </div>
+      </AppRoot>
     </MessageCache>
   );
 };
+
+const AppRoot = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+  },
+});
 
 /**
  * Parent container
@@ -142,7 +202,6 @@ const Layout = styled("div", {
 const Content = styled("div", {
   base: {
     background: "var(--md-sys-color-surface-container-low)",
-
     display: "flex",
     width: "100%",
     minWidth: 0,
@@ -150,9 +209,14 @@ const Content = styled("div", {
   variants: {
     sidebar: {
       false: {
+        paddingLeft: "var(--gap-md)",
         borderTopLeftRadius: "var(--borderRadius-lg)",
         borderBottomLeftRadius: "var(--borderRadius-lg)",
         overflow: "hidden",
+
+        _tablet: {
+          paddingLeft: 0,
+        },
       },
     },
   },

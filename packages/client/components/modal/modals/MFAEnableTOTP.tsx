@@ -1,7 +1,7 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { QRCodeSVG } from "solid-qr-code";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Column, Dialog, DialogProps, Form2, Text } from "@revolt/ui";
@@ -24,9 +24,10 @@ const Code = styled("code", {
 const Qr = styled("div", {
   base: {
     borderRadius: "4px",
+    padding: "8px",
     background: "white",
-    width: "140px",
-    height: "140px",
+    width: "156px",
+    height: "156px",
     display: "grid",
     placeItems: "center",
   },
@@ -75,7 +76,7 @@ export function MFAEnableTOTPModal(
         {
           text: <Trans>Cancel</Trans>,
           onClick() {
-            props.callback();
+            props.reject?.("MFACancelled");
           },
         },
         {

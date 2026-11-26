@@ -1,6 +1,6 @@
 import { Match, Switch, createSignal, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { File } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
@@ -24,6 +24,12 @@ const Container = styled("pre", {
     overflow: "auto",
     scrollbarWidth: "thin",
     flexDirection: "column",
+    maxHeight: "120px",
+    whiteSpace: "pre-wrap",
+
+    "& code": {
+      overflowWrap: "anywhere",
+    },
   },
 });
 

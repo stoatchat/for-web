@@ -1,6 +1,6 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Checkbox, Column, Dialog, DialogProps, Row } from "@revolt/ui";
@@ -56,9 +56,10 @@ export function UserProfileRolesModal(
                   disabled={
                     // this needs a better API
                     // not sure if this actually works
+                    !props.member.server?.owner?.self &&
                     (role.rank ?? 0) <
-                    (props.member.server?.member?.orderedRoles.toReversed()[0]
-                      ?.rank ?? 0)
+                      (props.member.server?.member?.orderedRoles.toReversed()[0]
+                        ?.rank ?? 0)
                   }
                   onChange={() =>
                     props.member.edit({
@@ -69,7 +70,11 @@ export function UserProfileRolesModal(
                         ...(props.member.roles.includes(role.id)
                           ? []
                           : [role.id]),
-                      ],
+                      ].filter((roleId) =>
+                        props.member.server
+                          ? props.member.server.roles.has(roleId)
+                          : true,
+                      ),
                     })
                   }
                 >

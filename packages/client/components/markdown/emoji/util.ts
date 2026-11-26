@@ -1,19 +1,55 @@
+import { RE_CUSTOM_EMOJI } from "stoat.js";
+
 import emojiRegex from "emoji-regex";
 
 import { MarkdownProps } from "..";
 
+const UNICODE_EMOJI_REGIONAL_INDICATORS =
+  "\u{1f1e6}|\u{1f1e7}|\u{1f1e8}|\u{1f1e9}|\u{1f1ea}|\u{1f1eb}|\u{1f1ec}|\u{1f1ed}|\u{1f1ee}|\u{1f1ef}|\u{1f1f0}|\u{1f1f1}|\u{1f1f2}|\u{1f1f3}|\u{1f1f4}|\u{1f1f5}|\u{1f1f6}|\u{1f1f7}|\u{1f1f8}|\u{1f1f9}|\u{1f1fa}|\u{1f1fb}|\u{1f1fc}|\u{1f1fd}|\u{1f1fe}|\u{1f1ff}";
+export const UNICODE_ZWNJ = "\u200C";
+
+export const RE_UNICODE_EMOJI_REGIONAL_INDICATOR = new RegExp(
+  `^(?:${UNICODE_EMOJI_REGIONAL_INDICATORS})$`,
+);
+
 /**
- * Regex for custom emoji
+ * Regex for matching emoji
  */
-export const RE_CUSTOM_EMOJI = /:([0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}):/g;
+export const RE_UNICODE_EMOJI = new RegExp(
+  `([\uE0E0-\uE0E6]?(?:${emojiRegex().source}|(?:${UNICODE_ZWNJ}?(?:${UNICODE_EMOJI_REGIONAL_INDICATORS}))))`,
+  "g",
+);
 
 /**
  * Regex for any emoji
  */
 export const RE_ANY_EMOJI = new RegExp(
-  RE_CUSTOM_EMOJI.source + "|[\uE0E0-\uE0E6]?(?:" + emojiRegex().source + ")",
+  RE_CUSTOM_EMOJI.source + "|" + RE_UNICODE_EMOJI.source,
   "g",
 );
+
+/**
+ * Truncate text without cutting a custom emoji in half
+ *
+ * Cutting one leaves a fragment which renders as text instead of an image.
+ *
+ * @param text Text to truncate
+ * @param limit Maximum number of characters to keep
+ * @returns Truncated text
+ */
+export function truncateKeepingEmoji(text: string, limit: number) {
+  if (text.length <= limit) return text;
+
+  for (const match of text.matchAll(RE_CUSTOM_EMOJI)) {
+    const start = match.index!;
+
+    if (start < limit && start + match[0].length > limit) {
+      return text.slice(0, start);
+    }
+  }
+
+  return text.slice(0, limit);
+}
 
 /**
  * Check if a piece of text is only comprised of emoji
@@ -36,9 +72,11 @@ export function injectEmojiSize(
   const content = props.content ?? "";
 
   // inject emoji size information
+  // (there is no first child when content renders to nothing,
+  //  such as a message containing only link reference definitions)
   const properties = (
     hastNode as { children?: { properties: Record<string, string> }[] }
-  ).children?.[0].properties;
+  ).children?.[0]?.properties;
 
   // inject custom property
   if (properties) {

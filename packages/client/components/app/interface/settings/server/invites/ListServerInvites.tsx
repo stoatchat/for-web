@@ -1,10 +1,13 @@
 import { For, Match, Switch } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useQuery, useQueryClient } from "@tanstack/solid-query";
-import { Server, ServerInvite } from "stoat.js";
+import { Channel, Server, ServerInvite } from "stoat.js";
+import { css } from "styled-system/css";
 
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
+import { getInviteLink } from "@revolt/modal/modals/CreateInvite";
 import {
   Avatar,
   Button,
@@ -12,10 +15,9 @@ import {
   Column,
   DataTable,
   Row,
+  Symbol,
   Text,
 } from "@revolt/ui";
-
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
 /**
  * List and invalidate server invites
@@ -23,21 +25,24 @@ import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-s
 export function ListServerInvites(props: { server: Server }) {
   const { t } = useLingui();
   const client = useQueryClient();
+  const instance = useInstance();
   const { showError, openModal } = useModals();
   const query = useQuery(() => ({
     queryKey: ["invites", props.server.id],
     queryFn: () => props.server.fetchInvites() as Promise<ServerInvite[]>,
   }));
 
-  const serverDoesntHaveChannels = () =>
-    !props.server.defaultChannel || props.server.channels.length == 0;
+  const defaultChannel = () =>
+    (props.server.defaultChannel || props.server.channels[0]) as
+      | Channel
+      | undefined;
 
   async function deleteInvite(invite: ServerInvite) {
     try {
       await invite.delete();
       client.setQueryData(
         ["invites", props.server.id],
-        query.data!.filter((entry) => entry.id !== entry.id),
+        query.data!.filter((entry) => entry.id !== invite.id),
       );
     } catch (error) {
       showError(error);
@@ -45,14 +50,8 @@ export function ListServerInvites(props: { server: Server }) {
   }
 
   async function createInvite() {
-    const defaultChannel =
-      props.server.defaultChannel || props.server.channels[0] || null;
-    if (defaultChannel) {
-      openModal({
-        type: "create_invite",
-        channel: defaultChannel,
-      });
-    }
+    const channel = defaultChannel();
+    if (channel) openModal({ type: "create_invite", channel });
   }
 
   return (
@@ -60,9 +59,9 @@ export function ListServerInvites(props: { server: Server }) {
       <Button
         group="standard"
         onPress={createInvite}
-        isDisabled={serverDoesntHaveChannels()}
+        isDisabled={!defaultChannel()}
         use:floating={{
-          tooltip: serverDoesntHaveChannels()
+          tooltip: !defaultChannel()
             ? {
                 content: t`Create a channel before inviting others!`,
                 placement: "bottom",
@@ -108,11 +107,30 @@ export function ListServerInvites(props: { server: Server }) {
                         </Column>
                       </Row>
                     </DataTable.Cell>
-                    <DataTable.Cell>{item.id}</DataTable.Cell>
+                    <DataTable.Cell class={itemIds}>
+                      {item.id}
+                      <Button
+                        size="icon"
+                        variant="text"
+                        use:floating={{
+                          tooltip: {
+                            placement: "bottom",
+                            content: t`Copy invite link`,
+                          },
+                        }}
+                        onPress={() =>
+                          navigator.clipboard.writeText(
+                            getInviteLink(item.id, instance),
+                          )
+                        }
+                      >
+                        <Symbol size={20}>content_copy</Symbol>
+                      </Button>
+                    </DataTable.Cell>
                     <DataTable.Cell width="40px">
                       <Button
                         size="icon"
-                        variant="filled"
+                        variant="_error"
                         use:floating={{
                           tooltip: {
                             placement: "bottom",
@@ -121,7 +139,7 @@ export function ListServerInvites(props: { server: Server }) {
                         }}
                         onPress={() => deleteInvite(item)}
                       >
-                        <MdDelete />
+                        <Symbol>delete</Symbol>
                       </Button>
                     </DataTable.Cell>
                   </DataTable.Row>
@@ -134,3 +152,11 @@ export function ListServerInvites(props: { server: Server }) {
     </Column>
   );
 }
+
+const itemIds = css({
+  "& button": {
+    display: "inline-block",
+    verticalAlign: "middle",
+    marginLeft: "var(--gap-sm)",
+  },
+});

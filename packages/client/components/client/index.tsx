@@ -3,75 +3,80 @@ import {
   Accessor,
   createContext,
   createEffect,
-  on,
+  createSignal,
   onCleanup,
+  Show,
   useContext,
 } from "solid-js";
 
 import type { Client, User } from "stoat.js";
 
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
-import { State } from "@revolt/state";
+import { fetchLatestChangelog } from "@revolt/modal/modals/Changelog";
+import { useState } from "@revolt/state";
+import { LoadingScreen } from "@revolt/ui";
 
-import { State as LifecycleState } from "./Controller";
-
-import { CHANGELOG_MODAL_CONST } from "@revolt/modal/modals/Changelog";
 import ClientController from "./Controller";
 
 export type { default as ClientController } from "./Controller";
+export { useNotifications } from "./NotificationsController";
+export { SoundContext, SoundController, useSound } from "./Sounds";
 
 const clientContext = createContext(null! as ClientController);
 
 /**
  * Mount the modal controller
  */
-export function ClientContext(props: { state: State; children: JSXElement }) {
+export function ClientContext(props: {
+  children: JSXElement;
+  preLoad: JSXElement;
+}) {
   const { openModal } = useModals();
+  const state = useState();
+  const instance = useInstance();
+  const [ready, setReady] = createSignal(false);
 
-  // eslint-disable-next-line solid/reactivity
-  const controller = new ClientController(props.state);
+  const controller = new ClientController(state, instance, setReady);
   onCleanup(() => controller.dispose());
 
+  let fetchedChangelog = false;
   createEffect(() => {
-    const lastIndex = props.state.settings.getValue("changelog:last_index");
-    if (controller.lifecycle.state() === LifecycleState.Ready) return;
+    if (!controller.isLoggedIn() || fetchedChangelog) return;
+    fetchedChangelog = true;
 
-    if (
-      lastIndex !== CHANGELOG_MODAL_CONST.index &&
-      new Date() < CHANGELOG_MODAL_CONST.until
-    ) {
+    fetchLatestChangelog().then((changelog) => {
+      if (!changelog) return;
+      if (state["release-notes"].lastSeenId === changelog.id) return;
+
+      state["release-notes"].markSeen(changelog.id, changelog.published_at);
+
       openModal({
         type: "changelog",
-        initial: CHANGELOG_MODAL_CONST.index,
+        changelog,
       });
+    });
+  });
 
-      props.state.settings.setValue(
-        "changelog:last_index",
-        CHANGELOG_MODAL_CONST.index,
-      );
+  createEffect(() => {
+    const policy = controller.lifecycle.policyAttentionRequired();
+    if (policy) {
+      const [changes, acknowledge] = policy;
+
+      openModal({
+        type: "policy_change",
+        changes,
+        acknowledge,
+      });
     }
   });
 
-  createEffect(
-    on(
-      () => controller.lifecycle.policyAttentionRequired(),
-      (attentionRequired) => {
-        if (typeof attentionRequired !== "undefined") {
-          const [changes, acknowledge] = attentionRequired;
-
-          openModal({
-            type: "policy_change",
-            changes,
-            acknowledge,
-          });
-        }
-      },
-    ),
-  );
-
   return (
     <clientContext.Provider value={controller}>
-      {props.children}
+      <Show when={ready()} fallback={<LoadingScreen />}>
+        {props.children}
+      </Show>
+      {props.preLoad}
     </clientContext.Provider>
   );
 }
@@ -81,26 +86,16 @@ export function ClientContext(props: { state: State; children: JSXElement }) {
  * @returns Lifecycle information
  */
 export function useClientLifecycle() {
-  const { login, logout, selectUsername, lifecycle, isLoggedIn, isError } =
-    useContext(clientContext);
-
-  return {
-    login,
-    logout,
-    selectUsername,
-    lifecycle,
-    isLoggedIn,
-    isError,
-  };
+  return useContext(clientContext);
 }
 
 /**
- * Get the currently active client if one is available
+ * Get the currently active client
  * @returns Client
  */
 export function useClient(): Accessor<Client> {
-  const controller = useContext(clientContext);
-  return () => controller.getCurrentClient()!;
+  const instance = useInstance();
+  return () => instance.client;
 }
 
 /**
@@ -108,8 +103,8 @@ export function useClient(): Accessor<Client> {
  * @returns User
  */
 export function useUser(): Accessor<User | undefined> {
-  const controller = useContext(clientContext);
-  return () => controller.getCurrentClient()!.user;
+  const instance = useInstance();
+  return () => instance.client.user;
 }
 
 /**

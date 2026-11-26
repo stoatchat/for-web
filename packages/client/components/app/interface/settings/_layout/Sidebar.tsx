@@ -2,10 +2,8 @@ import { Accessor, For, Setter, Show, onMount } from "solid-js";
 
 import { styled } from "styled-system/jsx";
 
-import { Column, OverflowingText, Ripple } from "@revolt/ui";
+import { Column, OverflowingText } from "@revolt/ui";
 
-// import MdError from "@material-design-icons/svg/filled/error.svg?component-solid";
-// import MdOpenInNew from "@material-design-icons/svg/filled/open_in_new.svg?component-solid";
 import { SettingsList } from "..";
 import { useSettingsNavigation } from "../Settings";
 
@@ -20,7 +18,6 @@ import {
  */
 export function SettingsSidebar(props: {
   list: Accessor<SettingsList<unknown>>;
-
   setPage: Setter<string | undefined>;
   page: Accessor<string | undefined>;
 }) {
@@ -36,9 +33,9 @@ export function SettingsSidebar(props: {
   });
 
   return (
-    <Base>
+    <Base class="settings_sidebar">
       <div use:invisibleScrollable>
-        <Content>
+        <Content class="content">
           <Column gap="lg">
             {props.list().prepend}
             <For each={props.list().entries}>
@@ -59,7 +56,6 @@ export function SettingsSidebar(props: {
                                 entry.id?.split("/")[0]
                               }
                             >
-                              <Ripple />
                               <SidebarButtonTitle>
                                 {entry.icon}
                                 <SidebarButtonContent>
@@ -69,14 +65,8 @@ export function SettingsSidebar(props: {
                                 </SidebarButtonContent>
                               </SidebarButtonTitle>
                               {/*<SidebarButtonIcon>
-                                <MdOpenInNew
-                                  {...iconSize(20)}
-                                  fill={theme!.colour("primary")}
-                                />
-                                <MdError
-                                  {...iconSize(20)}
-                                  fill={theme!.colour("primary")}
-                                />
+                                <Symbol size={20}>open_in_new</Symbol>
+                                <Symbol size={20}>error</Symbol>
                               </SidebarButtonIcon>*/}
                             </SidebarButton>
                           </Show>
@@ -104,6 +94,20 @@ const Base = styled("div", {
     flex: "1 0 218px",
     paddingLeft: "8px",
     justifyContent: "flex-end",
+    height: "100%",
+
+    _phone: {
+      position: "absolute",
+      top: "var(--inset-top)",
+      bottom: "var(--inset-bottom)",
+      height: "auto",
+      width: "100vw",
+      paddingLeft: "12px",
+
+      "& > *": {
+        width: "100%",
+      },
+    },
   },
 });
 
@@ -122,6 +126,14 @@ const Content = styled("div", {
 
     "& a > div": {
       margin: 0,
+    },
+
+    _tablet: {
+      padding: "8px 0",
+    },
+    _phone: {
+      padding: "8px 0",
+      maxWidth: "unset",
     },
   },
 });

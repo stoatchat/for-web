@@ -1,12 +1,12 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 import { Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { useMutation } from "@tanstack/solid-query";
 import { API, ChannelWebhook } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 import { useModals } from "@revolt/modal";
 import {
   CategoryButton,
@@ -14,10 +14,8 @@ import {
   Column,
   Form2,
   Row,
+  Symbol,
 } from "@revolt/ui";
-
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -29,6 +27,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
   const client = useClient();
   const { showError } = useModals();
   const { navigate } = useSettingsNavigation();
+  const instance = useInstance();
 
   /* eslint-disable solid/reactivity */
   const editGroup = createFormGroup({
@@ -63,7 +62,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
 
         const [key, value] = client().authenticationHeader;
         const data: { id: string } = await fetch(
-          `${CONFIGURATION.DEFAULT_MEDIA_URL}/avatars`,
+          `${instance.mediaUrl}/avatars`,
           {
             method: "POST",
             body,
@@ -96,6 +95,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
             accept="image/*"
             label={t`Webhook Icon`}
             imageJustify={false}
+            maxSize={instance.limits().file_upload_size_limits["icons"]}
           />
           <Form2.TextField
             name="name"
@@ -117,10 +117,11 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
       <Column>
         <CategoryButton
           action="chevron"
-          icon={<MdContentCopy />}
+          icon={<Symbol>content_copy</Symbol>}
           onClick={() =>
             navigator.clipboard.writeText(
-              `${CONFIGURATION.DEFAULT_API_URL}/webhooks/${props.webhook.id}/${props.webhook.token}`,
+              client().options.baseURL +
+                `/webhooks/${props.webhook.id}/${props.webhook.token}`,
             )
           }
         >
@@ -128,7 +129,7 @@ export function ViewWebhook(props: { webhook: ChannelWebhook }) {
         </CategoryButton>
         <CategoryButton
           action="chevron"
-          icon={<MdDelete />}
+          icon={<Symbol>delete</Symbol>}
           disabled={deleteWebhook.isPending}
           onClick={() => deleteWebhook.mutate()}
         >

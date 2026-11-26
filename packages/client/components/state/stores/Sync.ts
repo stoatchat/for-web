@@ -5,14 +5,10 @@ import { Client } from "stoat.js";
 
 import { State } from "..";
 
-import { AbstractStore } from ".";
-
-type SynchronisedStores = "ordering" | "notifications";
-
-const STORE_KEYS: SynchronisedStores[] = ["ordering", "notifications"];
+import { AbstractStore, SYNCED_KEYS, SyncedStore } from ".";
 
 export interface TypeSynchronisation {
-  revision: Record<SynchronisedStores, number>;
+  revision: Record<keyof SyncedStore, number>;
 }
 
 /**
@@ -22,12 +18,12 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
   /**
    * Block sync for remote updates
    */
-  #blockSync: Set<SynchronisedStores>;
+  #blockSync: Set<keyof SyncedStore>;
 
   /**
    * Keys that need to be synced out
    */
-  #syncQueue: ReactiveSet<SynchronisedStores>;
+  #syncQueue: ReactiveSet<keyof SyncedStore>;
 
   /**
    * Construct store
@@ -50,8 +46,11 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
   default(): TypeSynchronisation {
     return {
       revision: {
+        favourites: 0,
         ordering: 0,
         notifications: 0,
+        "release-notes": 0,
+        "server-folders": 0,
       },
     };
   }
@@ -62,10 +61,10 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
   clean(input: Partial<TypeSynchronisation>): TypeSynchronisation {
     return {
       revision: Object.keys(input.revision ?? {})
-        .filter((key) => STORE_KEYS.includes(key as SynchronisedStores))
-        .filter((key) => input.revision?.[key as SynchronisedStores])
+        .filter((key) => SYNCED_KEYS.includes(key as keyof SyncedStore))
+        .filter((key) => input.revision?.[key as keyof SyncedStore])
         .reduce(
-          (d, k) => ({ ...d, [k]: input.revision?.[k as SynchronisedStores] }),
+          (d, k) => ({ ...d, [k]: input.revision?.[k as keyof SyncedStore] }),
           {} as TypeSynchronisation["revision"],
         ),
     };
@@ -77,12 +76,12 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    */
   async initialSync(client: Client) {
     const response = await client.api.post("/sync/settings/fetch", {
-      keys: STORE_KEYS,
+      keys: SYNCED_KEYS,
     });
 
     for (const key in response) {
       const [ts, data] = response[key];
-      this.merge(ts, key as SynchronisedStores, data);
+      this.merge(ts, key as keyof SyncedStore, data);
     }
   }
 
@@ -125,7 +124,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    * @param key Key
    * @returns Revision timestamp
    */
-  private ts(key: SynchronisedStores) {
+  private ts(key: keyof SyncedStore) {
     return this.get().revision[key];
   }
 
@@ -133,7 +132,7 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    * Update timestamp for key
    * @param key Key
    */
-  touch(key: SynchronisedStores) {
+  touch(key: keyof SyncedStore) {
     if (this.#blockSync.has(key)) {
       this.#blockSync.delete(key);
       return;
@@ -148,8 +147,8 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    * @param key Key
    */
   touchIfSyncable(key: string) {
-    if (STORE_KEYS.includes(key as SynchronisedStores)) {
-      this.touch(key as SynchronisedStores);
+    if (SYNCED_KEYS.includes(key as keyof SyncedStore)) {
+      this.touch(key as keyof SyncedStore);
     }
   }
 
@@ -159,19 +158,22 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    * @param key Store key
    * @param data Data to merge
    */
-  merge(ts: number, key: SynchronisedStores, data: string) {
+  merge(ts: number, key: keyof SyncedStore, data: string) {
     if (import.meta.env.DEV)
       console.info(`[sync] merge ${key} at ${ts} with`, data);
 
-    if (ts > this.ts(key)) {
-      // if ts is newer, hydrate the store with it
-      const parsed = this.state[key].clean(JSON.parse(data));
+    // Parse the json blob before in-case the data is malformed.
+    const blob = JSON.parse(data);
+    if (!this.ts(key) || ts > this.ts(key)) {
+      // if ts is newer or this value does not exist on the local store, hydrate the store with it
       this.set("revision", key, ts);
       this.#blockSync.add(key);
-      this.state.set(key, parsed);
+      this.state[key].setFromSync(blob);
     } else if (ts !== this.ts(key)) {
-      // if ts is old, trigger write to synchronise to remote
-      this.touch(key);
+      // if ts is old, trigger write to synchronise to remote, but only if the data has been updated
+      if (!this.state[key].equalsClean(blob)) {
+        this.touch(key);
+      }
     }
   }
 
@@ -181,9 +183,9 @@ export class Sync extends AbstractStore<"sync", TypeSynchronisation> {
    */
   consumeEvent(event: Record<string, [number, string]>) {
     for (const key in event) {
-      if (STORE_KEYS.includes(key as SynchronisedStores)) {
+      if (SYNCED_KEYS.includes(key as keyof SyncedStore)) {
         const [ts, data] = event[key];
-        this.merge(ts, key as SynchronisedStores, data);
+        this.merge(ts, key as keyof SyncedStore, data);
       }
     }
   }

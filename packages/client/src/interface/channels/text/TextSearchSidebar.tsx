@@ -1,6 +1,6 @@
 import { For, Show, Suspense, createSignal } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { useQuery } from "@tanstack/solid-query";
 import { API, Channel } from "stoat.js";
 
@@ -34,7 +34,7 @@ export function TextSearchSidebar(props: {
   return (
     <>
       <Show when={!props.query.sort}>
-        <Row justify="stretch">
+        <Row gap="xs" justify="stretch">
           <Button
             group="connected-start"
             groupActive={sort() === "Relevance"}

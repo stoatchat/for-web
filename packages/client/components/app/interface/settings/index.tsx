@@ -9,9 +9,10 @@ export { Settings } from "./Settings";
 export type SettingsConfiguration<T> = {
   /**
    * Generate list of categories and entries
+   * @param props State information
    * @returns List
    */
-  list: (context: T) => SettingsList<T>;
+  list: (context: T, onClose?: () => void) => SettingsList<T>;
 
   /**
    * Render the title of the current breadcrumb key
@@ -25,7 +26,10 @@ export type SettingsConfiguration<T> = {
    * @param props State information
    */
   render: (
-    props: { page: Accessor<undefined | string> },
+    props: {
+      page: Accessor<undefined | string>;
+      onClose?: () => void;
+    },
     context: T,
   ) => JSX.Element;
 };

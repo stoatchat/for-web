@@ -9,9 +9,7 @@ import { visit } from "unist-util-visit";
 import { UserContextMenu } from "@revolt/app";
 import { useClient } from "@revolt/client";
 import { useSmartParams } from "@revolt/routing";
-import { Avatar, ColouredText, iconSize } from "@revolt/ui";
-
-import MdAt from "@material-design-icons/svg/filled/alternate_email.svg?component-solid";
+import { Avatar, ColouredText, Symbol } from "@revolt/ui";
 
 import { useUser } from "../users";
 
@@ -29,13 +27,17 @@ export function RenderMention(props: {
       </Match>
       <Match when={props.mentions === "everyone"}>
         <span class={mention()}>
-          <MdAt {...iconSize(16)} />
+          <Symbol size={16} position="relative" top="1px">
+            alternate_email
+          </Symbol>
           everyone
         </span>
       </Match>
       <Match when={props.mentions === "online"}>
         <span class={mention()}>
-          <MdAt {...iconSize(16)} />
+          <Symbol size={16} position="relative" top="1px">
+            alternate_email
+          </Symbol>
           online
         </span>
       </Match>
@@ -75,7 +77,12 @@ export function UserMention(props: { userId: string; disabled?: boolean }) {
                 }
           }
         >
-          <Avatar size={16} src={user().avatar} fallback={user().username} />
+          <Avatar
+            shape="circle"
+            size={16}
+            src={user().avatar}
+            fallback={user().username}
+          />
           <ColouredText colour={user().colour!}>{user().username}</ColouredText>
         </div>
       </Match>
@@ -120,7 +127,7 @@ const RoleIcon = styled("div", {
 });
 
 const RE_MENTION =
-  /(<@[0-9ABCDEFGHJKMNPQRSTVWXYZ]{26}>|@everyone|@online|<%[0-9ABCDEFGHJKMNPQRSTVWXYZ]{26}>)/;
+  /(<@[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}>|@everyone|@online|<%[ABCDEFGHJKMNPQRSTVWXYZ\d]{26}>)/;
 
 export const remarkMentions: Plugin = () => (tree) => {
   visit(
@@ -191,8 +198,8 @@ export const mention = cva({
     fontWeight: 600,
     borderRadius: "var(--borderRadius-lg)",
 
-    color: "var(--md-sys-color-on-primary-container)",
-    background: "var(--md-sys-color-primary-container)",
+    color: "var(--md-sys-color-on-primary-fixed)",
+    background: "var(--md-sys-color-primary-fixed-dim)",
   },
   variants: {
     isLink: {
@@ -208,8 +215,8 @@ export const mention = cva({
     },
     inEditor: {
       true: {
-        color: "var(--md-sys-color-on-primary)",
-        background: "var(--md-sys-color-primary)",
+        color: "var(--md-sys-color-on-primary-fixed)",
+        background: "var(--md-sys-color-primary-fixed-dim)",
 
         "& img": {
           width: "16px",

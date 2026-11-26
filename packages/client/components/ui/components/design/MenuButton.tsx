@@ -1,8 +1,11 @@
-import { JSX, Show, splitProps } from "solid-js";
+import { createEffect, JSX, Show, splitProps } from "solid-js";
 
+import { MdRipple } from "@material/web/ripple/ripple";
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useState } from "@revolt/state";
+import { SlideState } from "../navigation/SlideDrawer";
 import { Ripple } from "./Ripple";
 import { Unreads } from "./Unreads";
 
@@ -38,13 +41,22 @@ export type Props = {
    * Hover actions
    */
   readonly actions?: JSX.Element;
+
+  readonly noDrawer?: boolean;
 };
 
 /**
  * Button intended for sidebar contexts
  */
-export function MenuButton(props: Props & JSX.HTMLAttributes<HTMLDivElement>) {
+export function MenuButton(
+  props: Props &
+    JSX.HTMLAttributes<HTMLAnchorElement> &
+    JSX.HTMLAttributes<HTMLDivElement> & { href?: string },
+) {
+  const { appDrawer } = useState();
   const [local, other] = splitProps(props, [
+    "onClick",
+    "noDrawer",
     "attention",
     "size",
     "icon",
@@ -52,21 +64,46 @@ export function MenuButton(props: Props & JSX.HTMLAttributes<HTMLDivElement>) {
     "alert",
     "actions",
   ]);
+  let ripple: MdRipple | undefined;
 
-  return (
-    // TODO: port to panda-css to merge down components
-    <div
-      {...other}
-      classList={{
-        [base({
-          attention: local.attention,
-          size: local.size,
-        })]: true,
-      }}
-      // @codegen directives props=other include=floating
-    >
-      <Ripple />
-      {/* <Base {...other} align> */}
+  createEffect(() => {
+    const sPos = appDrawer()?.state;
+    if (sPos === SlideState.SHOWN || sPos === SlideState.HIDDEN)
+      //@ts-expect-error private call
+      ripple?.endPressAnimation();
+  });
+
+  let replaying = false;
+
+  function onClick(e: Event) {
+    const drawer = appDrawer();
+    if (
+      !replaying &&
+      !local.noDrawer &&
+      drawer?.setShown(true) &&
+      other.href &&
+      drawer.state === SlideState.SHOWING
+    ) {
+      // Opening a channel can block for a while, so let the slide start first
+      e.preventDefault();
+      const link = e.currentTarget as HTMLElement;
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          replaying = true;
+          link.click();
+          replaying = false;
+        }),
+      );
+      return;
+    }
+
+    // @ts-expect-error callable listener
+    if (local.onClick) local.onClick(e);
+  }
+
+  const cont = (
+    <>
+      <Ripple ref={ripple} />
       {local.icon}
       <Content>{local.children}</Content>
       <Show when={local.alert}>
@@ -83,8 +120,43 @@ export function MenuButton(props: Props & JSX.HTMLAttributes<HTMLDivElement>) {
           {local.actions}
         </Actions>
       )}
-      {/* </Base> */}
-    </div>
+    </>
+  );
+
+  return (
+    // TODO: port to panda-css to merge down components
+    <Show
+      when={other.href}
+      fallback={
+        <div
+          {...other}
+          onClick={onClick}
+          classList={{
+            [base({
+              attention: local.attention,
+              size: local.size,
+            })]: true,
+          }}
+          // @codegen directives props=other include=floating
+        >
+          {cont}
+        </div>
+      }
+    >
+      <a
+        {...other}
+        onClick={onClick}
+        classList={{
+          [base({
+            attention: local.attention,
+            size: local.size,
+          })]: true,
+        }}
+        // @codegen directives props=other include=floating
+      >
+        {cont}
+      </a>
+    </Show>
   );
 }
 
@@ -141,11 +213,12 @@ const base = cva({
         background: "transparent",
       },
       muted: {
-        "--color": "var(--md-sys-color-outline-variant)",
+        "--color":
+          "color-mix(in srgb, var(--md-sys-color-outline-variant), transparent 38%)",
         background: "transparent",
 
         "& img": {
-          opacity: "0.3",
+          opacity: "0.38",
         },
       },
       active: {

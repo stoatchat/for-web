@@ -5,6 +5,9 @@ import {
   Match,
   Show,
   Switch,
+  createEffect,
+  createMemo,
+  createRenderEffect,
   createSignal,
   splitProps,
 } from "solid-js";
@@ -12,13 +15,9 @@ import {
 import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import MdChevronRight from "@material-design-icons/svg/outlined/chevron_right.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdKeyboardDown from "@material-design-icons/svg/outlined/keyboard_arrow_down.svg?component-solid";
-import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
+import { OverflowingText, Symbol } from "../utils";
 
-import { OverflowingText, iconSize } from "../utils";
-
+import { Radio2 } from "./Radio";
 import { Ripple } from "./Ripple";
 import { typography } from "./Text";
 
@@ -43,14 +42,15 @@ export interface Props {
   readonly action?: Action | Action[];
 
   readonly roundedIcon?: boolean;
+  readonly iconBackground?: boolean;
 
-  readonly variant?: "filled" | "tonal" | "tertiary";
+  readonly variant?: "filled" | "tonal" | "tertiary" | "tertiaryAlt";
+
+  readonly ignoreClick?: boolean;
 }
 
 /**
  * Category Button
- *
- * @specification none
  */
 export function CategoryButton(props: Props) {
   return (
@@ -59,12 +59,24 @@ export function CategoryButton(props: Props) {
       isLink={!!props.onClick}
       disabled={props.disabled}
       aria-disabled={props.disabled}
-      onClick={props.disabled ? undefined : props.onClick}
+      onClick={(e: Event) => {
+        // Disable action when button is disabled
+        if (props.disabled || props.ignoreClick) return;
+
+        // Prevent propagation when action is called
+        e.preventDefault();
+        props.onClick?.();
+      }}
     >
       <Ripple />
 
       <Show when={props.icon !== "blank"}>
-        <IconWrapper rounded={props.roundedIcon}>{props.icon}</IconWrapper>
+        <IconWrapper
+          rounded={props.roundedIcon}
+          transparent={props.iconBackground === false}
+        >
+          {props.icon}
+        </IconWrapper>
       </Show>
 
       <Show when={props.icon === "blank"}>
@@ -84,22 +96,22 @@ export function CategoryButton(props: Props) {
           <Switch fallback={action}>
             <Match when={action === "chevron"}>
               <Action>
-                <MdChevronRight {...iconSize(18)} />
+                <Symbol size={18}>chevron_right</Symbol>
               </Action>
             </Match>
             <Match when={action === "collapse"}>
               <Action>
-                <MdKeyboardDown {...iconSize(18)} />
+                <Symbol size={18}>keyboard_arrow_down</Symbol>
               </Action>
             </Match>
             <Match when={action === "external"}>
               <Action>
-                <MdOpenInNew {...iconSize(18)} />
+                <Symbol size={18}>open_in_new</Symbol>
               </Action>
             </Match>
             <Match when={action === "copy"}>
               <Action>
-                <MdContentCopy {...iconSize(18)} />
+                <Symbol size={18}>content_copy</Symbol>
               </Action>
             </Match>
           </Switch>
@@ -145,6 +157,12 @@ const Base = styled("a", {
       tertiary: {
         background: "var(--md-sys-color-tertiary-container)",
         "--color": "var(--md-sys-color-on-tertiary-container)",
+        "--mdui-color-primary": "var(--color)",
+      },
+      tertiaryAlt: {
+        background: "var(--md-sys-color-tertiary)",
+        "--color": "var(--md-sys-color-on-tertiary)",
+        "--mdui-color-primary": "var(--color)",
       },
     },
     isLink: {
@@ -189,6 +207,7 @@ const Content = styled("div", {
  */
 const IconWrapper = styled("div", {
   base: {
+    color: "var(--md-sys-color-on-surface)",
     fill: "var(--md-sys-color-on-surface)",
     background: "var(--md-sys-color-surface-dim)",
 
@@ -206,6 +225,11 @@ const IconWrapper = styled("div", {
       },
       false: {
         borderRadius: "var(--borderRadius-md)",
+      },
+    },
+    transparent: {
+      true: {
+        background: "transparent",
       },
     },
   },
@@ -255,7 +279,7 @@ const Action = styled("div", {
 /**
  * Group a set of category buttons
  */
-export const CategoryButtonGroup = styled("div", {
+CategoryButton.Group = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
@@ -265,8 +289,6 @@ export const CategoryButtonGroup = styled("div", {
     overflow: "hidden",
   },
 });
-
-CategoryButton.Group = CategoryButtonGroup;
 
 type CollapseProps = Omit<
   ComponentProps<typeof CategoryButton>,
@@ -278,51 +300,38 @@ type CollapseProps = Omit<
   scrollable?: boolean;
 };
 
+const MAX_HEIGHT = 340;
+
 /**
  * Category button with collapsed children
  */
-export function CategoryCollapse(props: CollapseProps) {
-  const [local, remote] = splitProps(props, ["action", "children"]);
+CategoryButton.Collapse = (props: CollapseProps) => {
+  const [_, remote] = splitProps(props, ["action", "children"]);
 
   const [opened, setOpened] = createSignal(false);
-
-  let details: HTMLDivElement | undefined;
   let column: HTMLDivElement | undefined;
 
-  /**
-   * Toggle the opened state and scroll to the beginning of contents
-   */
+  //Toggle the opened state and scroll to the beginning of contents
   const toggleOpened = () => {
-    const openedState = opened();
-
-    if (!openedState) {
-      column?.scroll({ top: 0 });
-    }
-
-    setOpened(!openedState);
+    const open = !opened();
+    if (open) column?.scroll({ top: 0 });
+    setOpened(open);
   };
 
-  /**
-   * Recalculate the column height for transition
-   */
-  const updatedHeight = () => {
-    const calculatedHeight = opened()
-      ? Math.min(column?.scrollHeight || 0, 340)
+  //Recalculate the column height for transition
+  const updatedHeight = createMemo(() => {
+    const height = opened()
+      ? Math.min(column?.scrollHeight || 0, MAX_HEIGHT)
       : 0;
-
-    return `${calculatedHeight}px`;
-  };
+    return `${height}px`;
+  });
 
   return (
-    <Details
-      ref={details!}
-      onClick={toggleOpened}
-      class={opened() ? "open" : undefined}
-    >
+    <Details onClick={toggleOpened} class={opened() ? "open" : undefined}>
       <summary>
         <CategoryButton
           {...remote}
-          action={[local.action, "collapse"].flat()}
+          action={[props.action, "collapse"].flat()}
           onClick={() => void 0}
         >
           {props.title}
@@ -351,9 +360,117 @@ export function CategoryCollapse(props: CollapseProps) {
       </Switch>
     </Details>
   );
-}
+};
 
-CategoryButton.Collapse = CategoryCollapse;
+export type CategorySelectOption = Omit<
+  ComponentProps<typeof CategoryButton>,
+  "onClick" | "children"
+> &
+  (
+    | {
+        title: JSX.Element;
+        shortDesc?: JSX.Element;
+      }
+    | {
+        title?: JSX.Element;
+        shortDesc: JSX.Element;
+      }
+  );
+
+type SelectProps<T extends string> = Omit<
+  ComponentProps<typeof CategoryButton>,
+  "onClick" | "children" | "description"
+> & {
+  title?: JSX.Element;
+  options: { [k in T]: CategorySelectOption };
+  value?: T;
+  onUpdate: (v: T) => void;
+};
+
+/**
+ * Select dropdown with options from a dictionary
+ */
+CategoryButton.Select = <T extends string>(props: SelectProps<T>) => {
+  const [_, remote] = splitProps(props, [
+    "action",
+    "options",
+    "value",
+    "onUpdate",
+  ]);
+
+  const [opened, setOpened] = createSignal(false);
+  let column: HTMLDivElement | undefined, lastVal: T;
+
+  const opts = createMemo(() => Object.keys(props.options) as T[]);
+
+  const [value, setValue] = createSignal(undefined as unknown as T);
+
+  //Update if props.value changes, but don't run onUpdate
+  createRenderEffect(() => {
+    //@ts-expect-error Type check breaks
+    setValue((lastVal = props.value ?? opts()[0]));
+  });
+
+  //Send user input to onUpdate
+  createEffect(() => {
+    const val = value();
+    if (val !== lastVal) props.onUpdate((lastVal = val));
+  });
+
+  //Toggle the opened state and scroll to the beginning of contents
+  const toggleOpened = () => {
+    const open = !opened();
+    if (open && column && column.scrollHeight > MAX_HEIGHT)
+      column.children[opts().indexOf(value())]?.scrollIntoView();
+    setOpened(open);
+  };
+
+  //Recalculate the column height for transition
+  const updatedHeight = createMemo(() => {
+    const height = opened()
+      ? Math.min(column?.scrollHeight || 0, MAX_HEIGHT)
+      : 0;
+    return `${height}px`;
+  });
+
+  return (
+    <Details onClick={toggleOpened} class={opened() ? "open" : undefined}>
+      <summary>
+        <CategoryButton
+          {...remote}
+          description={(() => {
+            const opt = props.options[value()];
+            if (opt) return opt.shortDesc ?? opt.description ?? opt.title;
+          })()}
+          action={[props.action, "collapse"].flat()}
+          onClick={() => void 0}
+        >
+          {props.title}
+        </CategoryButton>
+      </summary>
+      <div
+        ref={column!}
+        style={{ height: updatedHeight() }}
+        use:scrollable={{ class: innerColumn() }}
+      >
+        <For each={opts()}>
+          {(val) => (
+            <CategoryButton
+              icon="blank"
+              variant={value() === val ? "tertiaryAlt" : "tertiary"}
+              action={<Radio2.Option checked={value() === val} />}
+              //@ts-expect-error Type check breaks
+              onClick={() => setValue(val)}
+              {...props.options[val]}
+            >
+              {props.options[val].title ?? props.options[val].shortDesc}
+            </CategoryButton>
+          )}
+        </For>
+      </div>
+    </Details>
+  );
+};
 
 /**
  * Column with inner content
@@ -392,12 +509,12 @@ const Details = styled("div", {
     },
 
     /* add transition to the icon */
-    "& summary div:last-child svg": {
+    "& summary div:last-child .material-symbols-outlined": {
       transition: "0.3s",
     },
 
     /* rotate chevron when it is open */
-    "&.open summary div:last-child svg": {
+    "&.open summary div:last-child .material-symbols-outlined": {
       transform: "rotate(180deg)",
     },
 

@@ -3,6 +3,7 @@ import type { ComponentProps } from "solid-js";
 import type { Badge } from "mdui/components/badge";
 import type { Checkbox } from "mdui/components/checkbox";
 import type { CircularProgress } from "mdui/components/circular-progress";
+import type { Fab } from "mdui/components/fab";
 import type { List } from "mdui/components/list";
 import type { ListItem } from "mdui/components/list-item";
 import type { ListSubheader } from "mdui/components/list-subheader";
@@ -15,6 +16,7 @@ import type { SegmentedButton } from "mdui/components/segmented-button";
 import type { SegmentedButtonGroup } from "mdui/components/segmented-button-group";
 import type { Select } from "mdui/components/select";
 import type { Slider } from "mdui/components/slider";
+import type { Snackbar } from "mdui/components/snackbar";
 import type { TextField } from "mdui/components/text-field";
 
 declare module "solid-js" {
@@ -24,6 +26,7 @@ declare module "solid-js" {
 
       "mdui-checkbox": ComponentProps<Checkbox>;
       "mdui-circular-progress": ComponentProps<CircularProgress>;
+      "mdui-fab": ComponentProps<Fab>;
       "mdui-segmented-button": ComponentProps<SegmentedButton>;
       "mdui-segmented-button-group": ComponentProps<SegmentedButtonGroup>;
       "mdui-menu-item": ComponentProps<MenuItem>;
@@ -38,6 +41,7 @@ declare module "solid-js" {
       "mdui-slider": ComponentProps<Slider>;
       "mdui-radio": ComponentProps<Radio>;
       "mdui-radio-group": ComponentProps<RadioGroup>;
+      "mdui-snackbar": ComponentProps<Snackbar>;
     }
   }
 }

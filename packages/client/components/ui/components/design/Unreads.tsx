@@ -2,9 +2,7 @@ import { Match, Switch } from "solid-js";
 
 import { styled } from "styled-system/jsx";
 
-import MdAdd from "@material-design-icons/svg/outlined/add.svg?component-solid";
-
-import { iconSize } from "../utils";
+import { Symbol } from "../utils";
 
 export type Props = {
   unread: boolean;
@@ -18,7 +16,9 @@ const UnreadCounter = styled("div", {
   base: {
     width: "10px",
     height: "10px",
-    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
 
     fontSize: "8px",
     fontWeight: 600,
@@ -38,7 +38,7 @@ function UnreadsGraphic(props: Props) {
         <circle cx="27" cy="5" r="5" fill="var(--md-sys-color-error)" />
         <foreignObject x="22" y="0" width="10" height="10">
           <UnreadCounter>
-            {props.count < 10 ? props.count : <MdAdd {...iconSize(10)} />}
+            {props.count < 10 ? props.count : <Symbol size={10}>add</Symbol>}
           </UnreadCounter>
         </foreignObject>
       </Match>

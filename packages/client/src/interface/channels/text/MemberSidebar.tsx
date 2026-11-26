@@ -1,12 +1,13 @@
-import { Match, Show, Switch, createEffect, createMemo, on } from "solid-js";
+import { createMemo, Match, Show, Switch } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { VirtualContainer } from "@minht11/solid-virtual-container";
 import { Channel, ServerMember, User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { floatingUserMenus } from "@revolt/app/menus/UserContextMenu";
 import { useClient } from "@revolt/client";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
 import { TextWithEmoji } from "@revolt/markdown";
 import { userInformation } from "@revolt/markdown/users";
 import {
@@ -15,10 +16,11 @@ import {
   MenuButton,
   OverflowingText,
   Row,
+  Symbol,
   Tooltip,
-  UserStatus,
-  Username,
   typography,
+  Username,
+  UserStatus,
 } from "@revolt/ui";
 
 interface Props {
@@ -31,6 +33,11 @@ interface Props {
    * Scroll target element
    */
   scrollTargetElement: HTMLDivElement;
+
+  /**
+   * Whether the server is very large and should not display all member information
+   */
+  isLargeServer?: boolean;
 }
 
 /**
@@ -49,6 +56,7 @@ export function MemberSidebar(props: Props) {
         <ServerMemberSidebar
           channel={props.channel}
           scrollTargetElement={props.scrollTargetElement}
+          isLargeServer={props.isLargeServer}
         />
       </Match>
     </Switch>
@@ -56,82 +64,57 @@ export function MemberSidebar(props: Props) {
 }
 
 /**
- * Servers to not fetch all members for
- */
-const LARGE_SERVERS = [
-  "01F7ZSBSFHQ8TA81725KQCSDDP",
-  "01G3PKD1YJ2H484MDX6KP9WRBN",
-  // top servers on discover
-  "01K313D0VP0HPNG30DNZ4Q672H",
-  "01J31CCMTYKFPGCM13VRP3B289",
-  "01H2Y4Y97PW6584PHN1TAVN5WR",
-  "01HVKQBBQ3DQVVNK3M8DHXV30D",
-  "01GDS83RMZW89AV0BZG24NEXYC",
-  "01J5W0XERBBGK77BMDVPZJ20JW",
-];
-
-/**
  * Server Member Sidebar
  */
 export function ServerMemberSidebar(props: Props) {
   const client = useClient();
 
-  // todo: useQuery
-  createEffect(
-    on(
-      () => props.channel.serverId,
-      (serverId) =>
-        props.channel.server?.syncMembers(
-          LARGE_SERVERS.includes(serverId) ? true : false,
-          200,
-        ),
-    ),
-  );
+  type MemberRoleElement =
+    | { t: 0; name: string; count: number; icon?: string | null }
+    | { t: 1; member: ServerMember; icon?: never; isOnline: boolean };
 
-  // Stage 1: Find roles and members
-  const stage1 = createMemo(() => {
+  const elements = createMemo(() => {
     const hoistedRoles = props.channel.server!.orderedRoles.filter(
       (role) => role.hoist,
     );
 
-    const members = client().serverMembers.filter(
-      (member) => member.id.server === props.channel.serverId,
-    );
+    const restricted = props.channel.potentiallyRestrictedChannel;
+    const byRole: Map<string, { member: ServerMember; displayName: string }[]> =
+      new Map();
+    byRole.set("default", []);
+    byRole.set("offline", []);
+    hoistedRoles.forEach((role) => byRole.set(role.id, []));
 
-    return [members, hoistedRoles] as const;
-  });
-
-  // Stage 2: Filter members by permissions (if necessary)
-  const stage2 = createMemo(() => {
-    const [members] = stage1();
-    if (props.channel.potentiallyRestrictedChannel) {
-      return members.filter((member) =>
-        member.hasPermission(props.channel, "ViewChannel"),
-      );
-    } else {
-      return members;
-    }
-  });
-
-  // Stage 3: Categorise each member entry into role lists
-  const stage3 = createMemo(() => {
-    const [, hoistedRoles] = stage1();
-    const members = stage2();
-
-    const byRole: Record<string, ServerMember[]> = { default: [], offline: [] };
-    hoistedRoles.forEach((role) => (byRole[role.id] = []));
-
-    for (const member of members) {
-      if (!member.user?.online) {
-        byRole["offline"].push(member);
+    for (const member of client().serverMembers.values()) {
+      if (member.id.server !== props.channel.serverId) {
+        continue;
+      }
+      // If the channel is restricted, check for permission
+      if (restricted && !member.hasPermission(props.channel, "ViewChannel")) {
         continue;
       }
 
-      if (member.roles.length) {
+      // Only hit the store once to reduce watchers.
+      // If you need to access anything on the member in a loop define a const here.
+      const memberRoles = member.roles;
+      const memberName = member.nickname ?? member.user?.displayName ?? "";
+
+      if (!member.user?.online) {
+        byRole.get("offline")!.push({
+          member,
+          displayName: memberName,
+        });
+        continue;
+      }
+
+      if (memberRoles.length) {
         let assigned;
         for (const hoistedRole of hoistedRoles) {
-          if (member.roles.includes(hoistedRole.id)) {
-            byRole[hoistedRole.id].push(member);
+          if (memberRoles.includes(hoistedRole.id)) {
+            byRole.get(hoistedRole.id)!.push({
+              member,
+              displayName: memberName,
+            });
             assigned = true;
             break;
           }
@@ -140,90 +123,48 @@ export function ServerMemberSidebar(props: Props) {
         if (assigned) continue;
       }
 
-      byRole["default"].push(member);
+      byRole.get("default")!.push({
+        member,
+        displayName: memberName,
+      });
     }
 
-    return [
-      ...hoistedRoles.map((role) => ({
-        role,
-        members: byRole[role.id],
-      })),
-      {
-        role: {
-          id: "default",
-          name: "Online",
-        },
-        members: byRole["default"],
-      },
-      {
-        role: {
-          id: "offline",
-          name: "Offline",
-        },
-        members: byRole["offline"],
-      },
-    ].filter((entry) => entry.members.length);
-  });
+    const roles: { id: string; name: string; icon?: string }[] = [];
 
-  // Stage 4: Perform sorting on role lists
-  const roles = createMemo(() => {
-    const roles = stage3();
+    const elements: MemberRoleElement[] = [];
 
-    return roles.map((entry) => ({
-      ...entry,
-      members: [...entry.members].sort(
-        (a, b) =>
-          (a.nickname ?? a.user?.displayName)?.localeCompare(
-            b.nickname ?? b.user?.displayName ?? "",
-          ) || 0,
-      ),
-    }));
-  });
+    for (const role of hoistedRoles) {
+      roles.push({
+        id: role.id,
+        name: role.name,
+        icon: role.icon?.previewUrl,
+      });
+    }
+    roles.push({ id: "default", name: "Online" });
+    roles.push({ id: "offline", name: "Offline" });
 
-  // Stage 5: Flatten into a single list with caching
-  const objectCache = new Map();
+    for (const role of roles) {
+      const roleMembers = byRole
+        .get(role.id)!
+        .sort((a, b) => a.displayName?.localeCompare(b.displayName) || 0);
 
-  const elements = createMemo(() => {
-    const elements: (
-      | { t: 0; name: string; count: number }
-      | { t: 1; member: ServerMember }
-    )[] = [];
+      if (!roleMembers?.length) {
+        continue;
+      }
 
-    // Create elements
-    for (const role of roles()) {
-      const roleElement = objectCache.get(role.role.name + role.members.length);
-      if (roleElement) {
-        elements.push(roleElement);
-      } else {
+      elements.push({
+        t: 0,
+        name: role.name,
+        icon: role.icon,
+        count: roleMembers.length,
+      });
+
+      for (const member of roleMembers) {
         elements.push({
-          t: 0,
-          name: role.role.name,
-          count: role.members.length,
+          t: 1,
+          member: member.member,
+          isOnline: role.id !== "offline",
         });
-      }
-
-      for (const member of role.members) {
-        const memberElement = objectCache.get(member.id);
-        if (memberElement) {
-          elements.push(memberElement);
-        } else {
-          elements.push({
-            t: 1,
-            member,
-          });
-        }
-      }
-    }
-
-    // Flush cache
-    objectCache.clear();
-
-    // Populate cache
-    for (const element of elements) {
-      if (element.t === 0) {
-        objectCache.set(element.name + element.count, element);
-      } else {
-        objectCache.set(element.member.id, element);
       }
     }
 
@@ -231,22 +172,16 @@ export function ServerMemberSidebar(props: Props) {
   });
 
   const onlineMembers = createMemo(
-    () =>
-      client().serverMembers.filter(
-        (member) =>
-          (member.id.server === props.channel.serverId &&
-            member.user?.online) ||
-          false,
-      ).length,
+    () => elements().filter((ele) => ele.t === 1 && ele.isOnline).length,
   );
 
   return (
     <Container>
-      <Show when={!LARGE_SERVERS.includes(props.channel.serverId)}>
+      <Show when={!props.isLargeServer}>
         <MemberTitle bottomMargin="yes">
           <Row align>
             <UserStatus size="0.7em" status="Online" />
-            {onlineMembers()} members online
+            <Trans>{onlineMembers()} members online</Trans>
           </Row>
         </MemberTitle>
       </Show>
@@ -267,8 +202,14 @@ export function ServerMemberSidebar(props: Props) {
               <Switch
                 fallback={
                   <CategoryTitle>
-                    {(item.item as { name: string }).name} {"–"}{" "}
-                    {(item.item as { count: number }).count}
+                    <Show when={item.item.icon}>
+                      <RoleIcon src={item.item.icon!} alt="" />
+                    </Show>
+                    <span>{(item.item as { name: string }).name}</span>
+                    <span>
+                      {" – "}
+                      {(item.item as { count: number }).count}
+                    </span>
                   </CategoryTitle>
                 }
               >
@@ -311,7 +252,7 @@ export function GroupMemberSidebar(props: Props) {
                 width: "100%",
               }}
             >
-              <Member user={item.item} />
+              <Member user={item.item} group={props.channel} />
             </div>
           )}
         </VirtualContainer>
@@ -337,8 +278,20 @@ const CategoryTitle = styled("div", {
   base: {
     padding: "28px 14px 0",
     color: "var(--md-sys-color-on-surface)",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
 
     ...typography.raw({ class: "label", size: "small" }),
+  },
+});
+
+const RoleIcon = styled("img", {
+  base: {
+    width: "16px",
+    height: "16px",
+    borderRadius: "var(--borderRadius-sm)",
+    objectFit: "cover",
   },
 });
 
@@ -375,10 +328,11 @@ const NameStatusStack = styled("div", {
   },
 });
 
-/**
- * Member
- */
-function Member(props: { user?: User; member?: ServerMember }) {
+function Member(props: {
+  user?: User;
+  member?: ServerMember;
+  group?: Channel;
+}) {
   const { t } = useLingui();
 
   /**
@@ -387,9 +341,15 @@ function Member(props: { user?: User; member?: ServerMember }) {
   const user = () =>
     userInformation((props.user ?? props.member?.user)!, props.member);
 
-  /**
-   * Get user status
-   */
+  const timedOut = createIsTimedOut(() => props.member?.timeout);
+
+  const moderationPerms = createMemo(() =>
+    props.member?.server?.member?.hasPermission(
+      props.member!.server! ?? props.group!,
+      "TimeoutMembers",
+    ),
+  );
+
   const status = () =>
     (props.user ?? props.member?.user)?.statusMessage((s) =>
       s === "Online"
@@ -408,6 +368,9 @@ function Member(props: { user?: User; member?: ServerMember }) {
       use:floating={floatingUserMenus(
         (props.user ?? props.member?.user)!,
         props.member,
+        (props.user ?? props.member?.user)?.bot,
+        undefined,
+        props.group,
       )}
     >
       <MenuButton
@@ -416,21 +379,37 @@ function Member(props: { user?: User; member?: ServerMember }) {
           (props.user ?? props.member?.user)?.online ? "active" : "muted"
         }
         icon={
-          <Avatar
-            src={user().avatar}
-            size={32}
-            holepunch="bottom-right"
-            overlay={
-              <UserStatus.Graphic
-                status={(props.user ?? props.member?.user)?.presence}
-              />
-            }
-          />
+          <div
+            style={{
+              opacity: timedOut() && moderationPerms() ? 0.5 : 1,
+            }}
+          >
+            <Avatar
+              src={user().avatar}
+              size={32}
+              holepunch="bottom-right"
+              overlay={
+                <UserStatus.Graphic
+                  status={(props.user ?? props.member?.user)?.presence}
+                />
+              }
+            />
+          </div>
         }
       >
         <NameStatusStack>
           <OverflowingText>
-            <Username username={user().username} colour={user().colour!} />
+            <Row align gap="xs">
+              <Username username={user().username} colour={user().colour!} />
+              <Show when={timedOut() && moderationPerms}>
+                <Tooltip
+                  content={t`Timed out until ${props.member!.timeout!.toLocaleString()}`}
+                  placement="top"
+                >
+                  <Symbol size={14}>timer_off</Symbol>
+                </Tooltip>
+              </Show>
+            </Row>
           </OverflowingText>
           <Show when={status()}>
             <Tooltip

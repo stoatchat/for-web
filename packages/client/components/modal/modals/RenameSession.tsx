@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
@@ -53,6 +53,7 @@ export function RenameSessionModal(
       <form onSubmit={submit}>
         <Column>
           <Form2.TextField
+            //TODO: the length should probably be limited here, I couldn't find the server-side validator
             name="name"
             control={group.controls.name}
             label={t`Name`}

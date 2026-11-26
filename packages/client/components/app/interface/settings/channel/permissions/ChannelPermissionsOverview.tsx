@@ -1,10 +1,11 @@
-import { For, createMemo } from "solid-js";
+import { For, Show, createMemo } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
-import { CategoryButton, Column, Text } from "@revolt/ui";
+import { CategoryButton, Column, Text, typography } from "@revolt/ui";
+import { Symbol } from "@revolt/ui/components/utils/Symbol";
 
 import { useSettingsNavigation } from "../../Settings";
 
@@ -34,12 +35,12 @@ export function ChannelPermissionsOverview(props: { context: Channel }) {
     const ordered = props.context.server?.orderedRoles;
 
     return {
-      active: ordered?.filter(
+      overrides: ordered?.filter(
         (role) =>
           countBits(props.context.rolePermissions?.[role.id]?.a || 0n) > 0 ||
           countBits(props.context.rolePermissions?.[role.id]?.d || 0n) > 0,
       ),
-      unused: ordered?.filter(
+      withoutOverrides: ordered?.filter(
         (role) =>
           countBits(props.context.rolePermissions?.[role.id]?.a || 0n) === 0 &&
           countBits(props.context.rolePermissions?.[role.id]?.d || 0n) === 0,
@@ -50,65 +51,96 @@ export function ChannelPermissionsOverview(props: { context: Channel }) {
   return (
     <Column gap="lg">
       <CategoryButton
-        icon="blank"
+        icon={<Symbol size={20}>public</Symbol>}
         action="chevron"
-        description={<Trans>Affects all roles and users</Trans>}
+        description={
+          <Trans>Permissions available when no role overrides apply</Trans>
+        }
         onClick={() => navigate("permissions/default")}
       >
-        <Trans>Default Permissions</Trans>
+        <Trans>Everyone</Trans>
       </CategoryButton>
 
       <Column gap="sm">
-        <Text class="label">Role Permissions</Text>
-        <For each={roles().active}>
-          {(role) => (
-            <CategoryButton
-              icon={
-                <RoleIcon
-                  style={{
-                    background:
-                      role.colour ?? "var(--md-sys-color-outline-variant)",
-                  }}
-                />
-              }
-              action="chevron"
-              onClick={() => navigate(`permissions/${role.id}`)}
-              description={
-                <Trans>
-                  Grants {countBits(props.context.rolePermissions![role.id].a)}{" "}
-                  permissions and denies{" "}
-                  {countBits(props.context.rolePermissions![role.id].d)}{" "}
-                  permissions
-                </Trans>
-              }
-            >
-              {role.name}
-            </CategoryButton>
-          )}
-        </For>
+        <Text class="label">
+          <Trans>Role Overrides</Trans>
+        </Text>
+        <Show
+          when={roles().overrides?.length}
+          fallback={
+            <EmptyState>
+              <Trans>No role overrides have been configured.</Trans>
+            </EmptyState>
+          }
+        >
+          <For each={roles().overrides}>
+            {(role) => (
+              <CategoryButton
+                icon={
+                  <RoleIcon
+                    style={{
+                      background: role.colour ?? "transparent",
+                      border: role.colour
+                        ? undefined
+                        : "2px dashed var(--md-sys-color-on-surface-variant)",
+                    }}
+                  />
+                }
+                iconBackground={!!role.colour}
+                action="chevron"
+                onClick={() => navigate(`permissions/${role.id}`)}
+                description={
+                  <Trans>
+                    Grants{" "}
+                    {countBits(props.context.rolePermissions![role.id].a)}{" "}
+                    permissions and denies{" "}
+                    {countBits(props.context.rolePermissions![role.id].d)}{" "}
+                    permissions
+                  </Trans>
+                }
+              >
+                {role.name}
+              </CategoryButton>
+            )}
+          </For>
+        </Show>
       </Column>
 
       <Column gap="sm">
-        <Text class="label">Unused Roles</Text>
-        <For each={roles().unused}>
-          {(role) => (
-            <CategoryButton
-              icon={
-                <RoleIcon
-                  style={{
-                    background:
-                      role.colour ?? "var(--md-sys-color-outline-variant)",
-                  }}
-                />
-              }
-              action="chevron"
-              onClick={() => navigate(`permissions/${role.id}`)}
-              description={<Trans>No permissions set yet</Trans>}
-            >
-              {role.name}
-            </CategoryButton>
-          )}
-        </For>
+        <Text class="label">
+          <Trans>Roles with No Overrides</Trans>
+        </Text>
+        <Show
+          when={roles().withoutOverrides?.length}
+          fallback={
+            <EmptyState>
+              <Trans>All roles have overrides.</Trans>
+            </EmptyState>
+          }
+        >
+          <For each={roles().withoutOverrides}>
+            {(role) => (
+              <CategoryButton
+                icon={
+                  <RoleIcon
+                    style={{
+                      background: role.colour ?? "transparent",
+                      border: role.colour
+                        ? undefined
+                        : "2px dashed var(--md-sys-color-on-surface-variant)",
+                    }}
+                  />
+                }
+                iconBackground={!!role.colour}
+                action="chevron"
+                onClick={() => navigate(`permissions/${role.id}`)}
+                description={<Trans>No permissions set yet</Trans>}
+              >
+                {role.name}
+              </CategoryButton>
+            )}
+          </For>
+        </Show>
       </Column>
     </Column>
   );
@@ -120,5 +152,12 @@ const RoleIcon = styled("div", {
     height: "100%",
     aspectRatio: "1/1",
     borderRadius: "100%",
+  },
+});
+
+const EmptyState = styled("span", {
+  base: {
+    color: "var(--md-sys-color-on-surface-variant)",
+    ...typography.raw({ class: "body", size: "medium" }),
   },
 });

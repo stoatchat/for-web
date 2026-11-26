@@ -1,7 +1,7 @@
 import { BiRegularBlock } from "solid-icons/bi";
 import { Accessor, JSX, Match, Show, Switch, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { Row } from "@revolt/ui";
@@ -77,6 +77,11 @@ interface Props {
   sendingAllowed: boolean;
 
   /**
+   * Whether the user is currently timed out in this channel/server
+   */
+  timeoutActive?: boolean;
+
+  /**
    * Auto complete config
    */
   autoCompleteSearchSpace?: Accessor<AutoCompleteSearchSpace>;
@@ -95,9 +100,9 @@ interface Props {
 const Base = styled("div", {
   base: {
     flexGrow: 1,
+    minWidth: 0,
 
-    paddingInlineEnd: "var(--gap-md)",
-    paddingBlock: "var(--gap-sm)",
+    padding: "var(--gap-sm) var(--gap-md)",
     borderStartRadius: "var(--borderRadius-xl)",
 
     display: "flex",
@@ -127,6 +132,7 @@ const Parent = styled("div", {
     display: "flex",
     gap: "var(--gap-md)",
     margin: "0 0 var(--gap-md) 0",
+    maxHeight: "var(--layout-height-message-box)",
   },
 });
 
@@ -139,6 +145,9 @@ const Blocked = styled(Row, {
     fontSize: "14px",
     userSelect: "none",
     padding: "var(--gap-md)",
+  },
+  variants: {
+    noPad: { true: { padding: 0 } },
   },
 });
 
@@ -154,14 +163,53 @@ export const InlineIcon = styled("div", {
   },
   variants: {
     size: {
+      short: { width: "14px" },
+      normal: { width: "42px" },
+    },
+  },
+  defaultVariants: {
+    size: "normal",
+  },
+});
+
+const FloatingAction = styled("div", {
+  base: {
+    flexShrink: 0,
+    flexGrow: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+  },
+  variants: {
+    size: {
       short: {
-        width: "14px",
+        height: "1em",
       },
       normal: {
-        width: "42px",
+        height: "1.5em",
       },
-      wide: {
-        width: "62px",
+      tall: {
+        height: "2em",
+      },
+    },
+    error: {
+      true: {
+        color: "var(--md-sys-color-error)",
+      },
+    },
+  },
+});
+
+const ActionContainer = styled("div", {
+  base: {
+    flexShrink: 0,
+    display: "flex",
+    flexGrow: 1,
+  },
+  variants: {
+    column: {
+      true: {
+        flexFlow: "column",
       },
     },
   },
@@ -187,8 +235,8 @@ export function MessageBox(props: Props) {
     <Parent>
       <Base hasActionsAppend={props.hasActionsAppend}>
         <Switch fallback={props.actionsStart}>
-          <Match when={!props.sendingAllowed}>
-            <InlineIcon size="wide">
+          <Match when={props.timeoutActive || !props.sendingAllowed}>
+            <InlineIcon>
               <Blocked>
                 <BiRegularBlock size={24} />
               </Blocked>
@@ -212,8 +260,15 @@ export function MessageBox(props: Props) {
             </>
           }
         >
+          <Match when={props.timeoutActive}>
+            <Blocked align noPad>
+              <Trans>
+                You are timed out and can't send messages right now.
+              </Trans>
+            </Blocked>
+          </Match>
           <Match when={!props.sendingAllowed}>
-            <Blocked align>
+            <Blocked align noPad>
               <Trans>
                 You don't have permission to send messages in this channel.
               </Trans>
@@ -227,3 +282,7 @@ export function MessageBox(props: Props) {
 }
 
 MessageBox.InlineIcon = InlineIcon;
+
+MessageBox.FloatingAction = FloatingAction;
+
+MessageBox.ActionContainer = ActionContainer;

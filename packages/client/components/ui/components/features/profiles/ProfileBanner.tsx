@@ -1,9 +1,11 @@
-import { Show } from "solid-js";
+import { Show, createSignal } from "solid-js";
 
 import { ServerMember, User } from "stoat.js";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
+import { useLingui } from "@lingui/solid/macro";
+import { OverflowingText, Tooltip } from "@revolt/ui";
 import { Avatar, Ripple, UserStatus, typography } from "../../design";
 import { Row } from "../../layout";
 
@@ -15,6 +17,28 @@ export function ProfileBanner(props: {
   onClickAvatar?: (e: MouseEvent) => void;
   width: 2 | 3;
 }) {
+  const { t } = useLingui();
+
+  const [isCopied, setIsCopied] = createSignal(false);
+
+  function copyUsername() {
+    navigator.clipboard.writeText(
+      `${props.user.username}#${props.user.discriminator}`,
+    );
+  }
+
+  function onUsernameClick(e: MouseEvent) {
+    e.stopPropagation();
+    copyUsername();
+    setIsCopied(true);
+
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  }
+
+  const pronouns = () => props.member?.pronouns ?? props.user.pronouns;
+
   return (
     <Banner
       style={{
@@ -37,7 +61,7 @@ export function ProfileBanner(props: {
           interactive={props.user.avatar && !!props.onClickAvatar}
           overlay={<UserStatus.Graphic status={props.user.presence} />}
         />
-        <UserShort>
+        <UserDetails>
           <Show
             when={
               (props.member?.displayName ?? props.user.displayName) !==
@@ -48,13 +72,25 @@ export function ProfileBanner(props: {
               {props.member?.displayName ?? props.user.displayName}
             </span>
           </Show>
-          <span>
-            {props.user.username}
-            <span class={css({ fontWeight: 200 })}>
-              #{props.user.discriminator}
-            </span>
-          </span>
-        </UserShort>
+          <Row>
+            <UsernameContainer>
+              <Tooltip
+                content={isCopied() ? t`Copied!` : t`Click to copy username`}
+                placement="top"
+              >
+                <Username onClick={onUsernameClick}>
+                  {props.user.username}
+                  <LowEmphasis>#{props.user.discriminator}</LowEmphasis>
+                </Username>
+              </Tooltip>
+            </UsernameContainer>
+            <Pronouns>
+              <OverflowingText>
+                <LowEmphasis>{pronouns() ?? ""}</LowEmphasis>
+              </OverflowingText>
+            </Pronouns>
+          </Row>
+        </UserDetails>
       </Row>
     </Banner>
   );
@@ -98,13 +134,45 @@ const Banner = styled("div", {
   },
 });
 
-const UserShort = styled("div", {
+const UserDetails = styled("div", {
   base: {
     ...typography.raw(),
 
+    flexGrow: 1,
     display: "flex",
-    lineHeight: "1em",
+    lineHeight: "1rem",
     gap: "var(--gap-xs)",
     flexDirection: "column",
+  },
+});
+
+const UsernameContainer = styled("div", {
+  base: {
+    flexShrink: 0,
+  },
+});
+
+const Username = styled("span", {
+  base: {
+    _hover: {
+      textDecoration: "underline",
+    },
+  },
+});
+
+const LowEmphasis = styled("span", {
+  base: {
+    fontWeight: 200,
+  },
+});
+
+const Pronouns = styled("div", {
+  base: {
+    ...typography.raw(),
+    minWidth: 0,
+    flexGrow: 1,
+    lineHeight: "1rem",
+    gap: "var(--gap-xs)",
+    textAlign: "right",
   },
 });

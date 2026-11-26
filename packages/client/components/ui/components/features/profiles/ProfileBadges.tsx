@@ -1,7 +1,7 @@
 import { BiSolidShield } from "solid-icons/bi";
 import { Show } from "solid-js";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 import { User, UserBadges } from "stoat.js";
 import { styled } from "styled-system/jsx";
 

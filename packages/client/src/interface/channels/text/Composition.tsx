@@ -1,21 +1,21 @@
 import {
-  For,
-  Match,
-  Show,
-  Switch,
   createEffect,
   createMemo,
   createSignal,
+  For,
   on,
   onCleanup,
+  Show,
 } from "solid-js";
 
-import { useLingui } from "@lingui-solid/solid/macro";
+import { useLingui } from "@lingui/solid/macro";
 import { Channel } from "stoat.js";
 
 import { useClient } from "@revolt/client";
-import { CONFIGURATION, debounce } from "@revolt/common";
-import { Keybind, KeybindAction, createKeybind } from "@revolt/keybinds";
+import { debounce } from "@revolt/common";
+import { createIsTimedOut } from "@revolt/common/lib/createIsTimedOut";
+import { useInstance } from "@revolt/instance";
+import { createKeybind, Keybind, KeybindAction } from "@revolt/keybinds";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 import {
@@ -23,10 +23,10 @@ import {
   FileCarousel,
   FileDropAnywhereCollector,
   FilePasteCollector,
+  humanFileSize,
   IconButton,
   MessageBox,
   MessageReplyPreview,
-  humanFileSize,
 } from "@revolt/ui";
 import { Symbol } from "@revolt/ui/components/utils/Symbol";
 import { useSearchSpace } from "@revolt/ui/components/utils/autoComplete";
@@ -50,7 +50,12 @@ export function MessageComposition(props: Props) {
   const state = useState();
   const { t } = useLingui();
   const client = useClient();
-  const { openModal } = useModals();
+  const { limits } = useInstance();
+  const { showError } = useModals();
+
+  const isTimedOut = createIsTimedOut(
+    () => props.channel.server?.member?.timeout,
+  );
 
   createKeybind(KeybindAction.CHAT_JUMP_END, () =>
     setNodeReplacement(["_focus"]),
@@ -68,12 +73,34 @@ export function MessageComposition(props: Props) {
     return state.draft.getDraft(props.channel.id);
   }
 
+  const messageLength = () => draft().content?.length ?? 0;
+  const maxMessageLength = () => limits().message_length;
+  const isAlmostTooLong = () => messageLength() > maxMessageLength() - 200;
+  const wayTooLong = () => messageLength() > maxMessageLength() + 9999;
+
+  // Can the user upload files here?
+  const canUploadFiles = createMemo(() => {
+    return (
+      props.channel.havePermission("SendMessage") &&
+      props.channel.havePermission("UploadFiles")
+    );
+  });
+
   // Whether the send button should be active/clickable
   const canSend = createMemo(() => {
     const draftContent = draft()?.content ?? "";
     const draftFiles = draft()?.files ?? [];
 
-    return draftContent.trim().length > 0 || draftFiles.length > 0;
+    const tooLong = messageLength() > maxMessageLength();
+
+    const isSlowmode = props.channel.userSlowmode();
+
+    return (
+      !tooLong &&
+      (draftContent.trim().length > 0 || draftFiles.length > 0) &&
+      !isSlowmode &&
+      !isTimedOut()
+    );
   });
 
   // TEMP
@@ -160,6 +187,11 @@ export function MessageComposition(props: Props) {
    * @param useContent Content to send
    */
   async function sendMessage(useContent?: unknown) {
+    if (!canSend() && typeof useContent !== "string") {
+      return;
+    } else if (props.channel.userSlowmode()) {
+      return;
+    }
     stopTyping();
     props.onMessageSend?.();
 
@@ -195,11 +227,13 @@ export function MessageComposition(props: Props) {
    * @param files List of files
    */
   function onFiles(files: File[]) {
+    if (!canUploadFiles()) return;
     const rejectedFiles: File[] = [];
     const validFiles: File[] = [];
+    const maxSize = limits().file_upload_size_limits.attachments;
 
     for (const file of files) {
-      if (file.size > CONFIGURATION.MAX_FILE_SIZE) {
+      if (file.size > maxSize) {
         console.log("File too large:", file);
         rejectedFiles.push(file);
       } else {
@@ -208,29 +242,22 @@ export function MessageComposition(props: Props) {
     }
 
     if (rejectedFiles.length > 0) {
-      const maxSizeFormatted = humanFileSize(CONFIGURATION.MAX_FILE_SIZE);
-
+      const maxSizeFormatted = humanFileSize(maxSize);
+      let error;
       if (rejectedFiles.length === 1) {
         const file = rejectedFiles[0];
         const fileSize = humanFileSize(file.size);
-        const error = new Error(
+        error = new Error(
           t`The file "${file.name}" (${fileSize}) exceeds the maximum size limit of ${maxSizeFormatted}.`,
         );
         error.name = "File too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       } else {
-        const error = new Error(
+        error = new Error(
           t`${rejectedFiles.length} files exceed the maximum size limit of ${maxSizeFormatted} and were not uploaded.`,
         );
         error.name = "Files too large";
-        openModal({
-          type: "error2",
-          error,
-        });
       }
+      showError(error);
     }
 
     for (const file of validFiles) {
@@ -242,6 +269,8 @@ export function MessageComposition(props: Props) {
    * Add a file to the message
    */
   function addFile() {
+    if (!canUploadFiles()) return;
+
     const input = document.createElement("input");
     input.accept = "*";
     input.type = "file";
@@ -274,6 +303,22 @@ export function MessageComposition(props: Props) {
     state.draft.removeFile(props.channel.id, fileId);
   }
 
+  /**
+   * Check if a file is marked as a spoiler
+   * @param fileId File ID
+   */
+  function isSpoiler(fileId: string) {
+    return state.draft.isFileSpoiler(fileId);
+  }
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId File ID
+   */
+  function toggleSpoiler(fileId: string) {
+    state.draft.toggleFileSpoiler(fileId);
+  }
+
   const searchSpace = useSearchSpace(() => props.channel, client);
 
   return (
@@ -289,6 +334,8 @@ export function MessageComposition(props: Props) {
         getFile={state.draft.getFile}
         addFile={addFile}
         removeFile={removeFile}
+        isSpoiler={isSpoiler}
+        toggleSpoiler={toggleSpoiler}
       />
       <For each={draft().replies ?? []}>
         {(reply) => {
@@ -328,38 +375,59 @@ export function MessageComposition(props: Props) {
         content={draft()?.content ?? ""}
         setContent={setContent}
         actionsStart={
-          <Switch fallback={<MessageBox.InlineIcon size="short" />}>
-            <Match when={props.channel.havePermission("UploadFiles")}>
-              <MessageBox.InlineIcon size="wide">
-                <IconButton onPress={addFile}>
-                  <Symbol>add</Symbol>
-                </IconButton>
-              </MessageBox.InlineIcon>
-            </Match>
-          </Switch>
+          <Show
+            when={props.channel.havePermission("UploadFiles")}
+            fallback={<MessageBox.InlineIcon size="short" />}
+          >
+            <MessageBox.InlineIcon>
+              <IconButton onPress={addFile}>
+                <Symbol>add</Symbol>
+              </IconButton>
+            </MessageBox.InlineIcon>
+          </Show>
         }
         actionsEnd={
-          <CompositionMediaPicker
-            onMessage={sendMessage}
-            onTextReplacement={(text) => setNodeReplacement([text])}
-          >
-            {(triggerProps) => (
-              <>
-                <MessageBox.InlineIcon size="normal">
-                  <IconButton onPress={triggerProps.onClickGif}>
-                    <Symbol>gif</Symbol>
-                  </IconButton>
-                </MessageBox.InlineIcon>
-                <MessageBox.InlineIcon size="normal">
-                  <IconButton onPress={triggerProps.onClickEmoji}>
-                    <Symbol>emoticon</Symbol>
-                  </IconButton>
-                </MessageBox.InlineIcon>
-
-                <div ref={triggerProps.ref} />
-              </>
-            )}
-          </CompositionMediaPicker>
+          <MessageBox.ActionContainer column>
+            <Show when={isAlmostTooLong()}>
+              <MessageBox.FloatingAction
+                size="normal"
+                error={messageLength() > maxMessageLength()}
+              >
+                {wayTooLong()
+                  ? "Too Long"
+                  : maxMessageLength() - messageLength()}
+              </MessageBox.FloatingAction>
+            </Show>
+            <MessageBox.ActionContainer>
+              <CompositionMediaPicker
+                onMessage={sendMessage}
+                onTextReplacement={(text) => setNodeReplacement([text])}
+                channel={props.channel}
+              >
+                {(triggerProps) => (
+                  <>
+                    <Show
+                      when={
+                        !canSend() && props.channel.havePermission("SendEmbeds")
+                      }
+                    >
+                      <MessageBox.InlineIcon>
+                        <IconButton onPress={triggerProps.onClickGif}>
+                          <Symbol>gif</Symbol>
+                        </IconButton>
+                      </MessageBox.InlineIcon>
+                    </Show>
+                    <MessageBox.InlineIcon>
+                      <IconButton onPress={triggerProps.onClickEmoji}>
+                        <Symbol>mood</Symbol>
+                      </IconButton>
+                    </MessageBox.InlineIcon>
+                    <div ref={triggerProps.ref} />
+                  </>
+                )}
+              </CompositionMediaPicker>
+            </MessageBox.ActionContainer>
+          </MessageBox.ActionContainer>
         }
         placeholder={
           props.channel.type === "SavedMessages"
@@ -368,7 +436,10 @@ export function MessageComposition(props: Props) {
               ? t`Message ${props.channel.recipient?.username}`
               : t`Message ${props.channel.name}`
         }
-        sendingAllowed={props.channel.havePermission("SendMessage")}
+        sendingAllowed={
+          props.channel.havePermission("SendMessage") && !isTimedOut()
+        }
+        timeoutActive={isTimedOut()}
         autoCompleteSearchSpace={searchSpace}
         updateDraftSelection={(start, end) =>
           state.draft.setSelection(props.channel.id, start, end)
@@ -381,7 +452,8 @@ export function MessageComposition(props: Props) {
             <IconButton
               _compositionSendMessage
               size="sm"
-              variant={canSend() ? "filled" : "tonal"}
+              variant="filled"
+              selected={canSend()}
               shape="square"
               isDisabled={!canSend()}
               onPress={sendMessage}
@@ -391,8 +463,10 @@ export function MessageComposition(props: Props) {
           </Show>
         }
       />
-      <FilePasteCollector onFiles={onFiles} />
-      <FileDropAnywhereCollector onFiles={onFiles} />
+      <Show when={canUploadFiles()}>
+        <FilePasteCollector onFiles={onFiles} />
+        <FileDropAnywhereCollector onFiles={onFiles} />
+      </Show>
     </>
   );
 }

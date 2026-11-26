@@ -4,10 +4,7 @@ import { User } from "stoat.js";
 import { styled } from "styled-system/jsx";
 
 import { useTime } from "@revolt/i18n";
-import { Avatar, CategoryButton, IconButton, iconSize } from "@revolt/ui";
-
-import MdCakeFill from "@material-design-icons/svg/filled/cake.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
+import { Avatar, CategoryButton, IconButton, Symbol } from "@revolt/ui";
 
 export function UserSummary(props: {
   user: User;
@@ -19,12 +16,12 @@ export function UserSummary(props: {
   const bannerStyle = () =>
     props.bannerUrl
       ? {
-          "background-image": `linear-gradient(color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent), color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent)), url("${props.bannerUrl}")`,
-          color: "black",
+          "background-image": `linear-gradient(color-mix(in srgb, var(--md-sys-color-surface-container-low) 70%, transparent), color-mix(in srgb, var(--md-sys-color-surface-container-high) 70%, transparent)), url("${props.bannerUrl}")`,
+          color: "var(--md-sys-color-on-surface)",
         }
       : {
           background: `var(--md-sys-color-primary-container)`,
-          color: "var(--md-sys-color-on-primary)",
+          color: "var(--md-sys-color-on-primary-container)",
         };
 
   return (
@@ -40,7 +37,7 @@ export function UserSummary(props: {
           </Username>
           <Show when={props.onEdit}>
             <IconButton variant="filled" shape="square" onPress={props.onEdit}>
-              <MdEdit />
+              <Symbol>edit</Symbol>
             </IconButton>
           </Show>
         </ProfileDetails>
@@ -48,9 +45,9 @@ export function UserSummary(props: {
           <BottomBar>
             <DummyPadding />
             {/* <ProfileBadges>
-              <MdDraw {...iconSize(20)} />
-              <MdDraw {...iconSize(20)} />
-              <MdDraw {...iconSize(20)} />
+              <Symbol size={20}>draw</Symbol>
+              <Symbol size={20}>draw</Symbol>
+              <Symbol size={20}>draw</Symbol>
             </ProfileBadges> */}
             <ProfileBadges>
               <span
@@ -64,7 +61,9 @@ export function UserSummary(props: {
                   },
                 }}
               >
-                <MdCakeFill {...iconSize(14)} />
+                <Symbol size={14} fill={true}>
+                  cake
+                </Symbol>
               </span>
             </ProfileBadges>
           </BottomBar>
@@ -99,8 +98,6 @@ const Username = styled("div", {
 
     display: "flex",
     flexDirection: "column",
-
-    color: "var(--md-sys-color-on-secondary-container)",
 
     // Display Name
     "& :nth-child(1)": {

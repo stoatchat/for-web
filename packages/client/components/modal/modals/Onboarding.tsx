@@ -1,6 +1,6 @@
 import { createFormControl, createFormGroup } from "solid-forms";
 
-import { Trans, useLingui } from "@lingui-solid/solid/macro";
+import { Trans, useLingui } from "@lingui/solid/macro";
 
 import { Column, Dialog, DialogProps, Form2 } from "@revolt/ui";
 
@@ -54,6 +54,9 @@ export function OnboardingModal(
       <form onSubmit={submit}>
         <Column>
           <Form2.TextField
+            minlength={1}
+            maxlength={32}
+            counter
             name="username"
             control={group.controls.username}
             label={t`Username`}

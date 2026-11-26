@@ -1,6 +1,7 @@
 import { Match, Switch, createSignal, onMount } from "solid-js";
 
 import { Handler } from "mdast-util-to-hast";
+import { RE_CUSTOM_EMOJI } from "stoat.js";
 import { cva } from "styled-system/css";
 import { Plugin } from "unified";
 import { visit } from "unist-util-visit";
@@ -8,7 +9,9 @@ import { visit } from "unist-util-visit";
 import { useClient } from "@revolt/client";
 import { Avatar, Column, Row } from "@revolt/ui";
 
-import { CustomEmoji, Emoji, RE_CUSTOM_EMOJI } from "../emoji";
+import { Trans } from "@lingui/solid/macro";
+import { useState } from "@revolt/state";
+import { CustomEmoji, Emoji } from "../emoji";
 
 /**
  * Render a custom emoji
@@ -19,6 +22,7 @@ export function RenderCustomEmoji(props: { id: string }) {
   const [exists, setExists] = createSignal(true);
 
   const client = useClient();
+  const { favourites } = useState();
 
   /**
    * Resolve emoji
@@ -37,6 +41,12 @@ export function RenderCustomEmoji(props: { id: string }) {
     <Switch fallback={<span>{`:${emoji()?.name ?? props.id}:`}</span>}>
       <Match when={exists()}>
         <div
+          onClick={(e) => {
+            // Yoink logic
+            if (e.altKey && !favourites.hasEmoji(props.id)) {
+              favourites.toggleEmoji(props.id);
+            }
+          }}
           class={tooltipTrigger()}
           use:floating={{
             tooltip: {
@@ -68,6 +78,9 @@ export function RenderCustomEmoji(props: { id: string }) {
                             </Row>
                           </Match>
                         </Switch>
+                        <span>
+                          <Trans>Alt+Click to yoink</Trans>
+                        </span>
                       </Column>
                     </Match>
                   </Switch>

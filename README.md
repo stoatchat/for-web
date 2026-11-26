@@ -20,8 +20,8 @@ Before contributing, make yourself familiar with [our contribution guidelines](h
 
 Before getting started, you'll want to install:
 
-- Git
-- mise-en-place
+- [Git](https://git-scm.com/install/)
+- [mise-en-place](https://mise.jdx.dev/getting-started.html)
 
 Then proceed to setup:
 
@@ -54,21 +54,18 @@ mise check
 
 Finally, navigate to http://local.revolt.chat:5173.
 
-### Pulling in Stoat's brand assets
+### Using the official backend
 
-If you want to pull in Stoat brand assets after pulling, run the following:
+By default, the client connects to a backend running on the same host (localhost).
 
-```bash
-# update the assets
-git -c submodule."packages/client/assets".update=checkout submodule update --init packages/client/assets
+If you want the client to connect to the official hosted backend instead, open the .env file at /packages/client/.env and comment out the local URL varaibles like this:
+
+```env
+# connect to local Stoat instance
+#VITE_API_URL=http://localhost:14702
 ```
 
-You can switch back to the fallback assets by running deinit and continuing as normal:
-
-```bash
-# deinit submodule which clears directory
-git submodule deinit packages/client/assets
-```
+When these variables are not set, the client automatically falls back to the official backend. (See https://github.com/stoatchat/for-web/blob/main/packages/client/components/common/lib/env.ts)
 
 ## Deployment Guide
 

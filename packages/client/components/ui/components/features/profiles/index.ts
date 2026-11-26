@@ -5,6 +5,7 @@ import { ProfileBio } from "./ProfileBio";
 import { ProfileCard } from "./ProfileCard";
 import { ProfileJoined } from "./ProfileJoined";
 import { ProfileMutuals } from "./ProfileMutuals";
+import { ProfileOwner } from "./ProfileOwner";
 import { ProfileRoles } from "./ProfileRoles";
 import { ProfileStatus } from "./ProfileStatus";
 
@@ -18,4 +19,5 @@ export const Profile = {
   Mutuals: ProfileMutuals,
   Roles: ProfileRoles,
   Status: ProfileStatus,
+  Owner: ProfileOwner,
 };

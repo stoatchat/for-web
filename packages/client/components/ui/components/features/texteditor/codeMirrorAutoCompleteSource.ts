@@ -9,31 +9,35 @@ import { User } from "stoat.js";
 
 import { useClient } from "@revolt/client";
 import {
+  isRegionalIndicator,
   UNICODE_EMOJI_PACK_PUA,
   unicodeEmojiUrl,
 } from "@revolt/markdown/emoji/UnicodeEmoji";
+import { UNICODE_ZWNJ } from "@revolt/markdown/emoji/util";
 import { useState } from "@revolt/state";
+import { EMOJI_KEYS, getEmojiByShorthand } from "@revolt/ui/emojis";
 
-import emojiMapping from "../../../emojiMapping.json";
 import { AutoCompleteSearchSpace } from "../../utils/autoComplete";
 
 import { isInCodeBlock } from "./codeMirrorCommon";
 
-const EMOJI_KEYS = Object.keys(emojiMapping).sort();
-const MAPPED_EMOJI_KEYS = EMOJI_KEYS.map(
-  (id) =>
-    ({
-      type: "emoji",
-      label: `:${id}:`,
-      apply: emojiMapping[id as keyof typeof emojiMapping],
-    }) as Completion,
-);
+const MAPPED_EMOJI_KEYS = EMOJI_KEYS.values()
+  .toArray()
+  .map(
+    (id) =>
+      ({
+        type: "emoji",
+        label: `:${id}:`,
+        apply: getEmojiByShorthand(id)?.emoji,
+        id: id,
+      }) as Completion,
+  );
 
-const RE_match = /(?<!\w)[:@%#]\w*/;
-const RE_emojiValidFor = /(?<!\w):\w*/;
-const RE_mentionValidFor = /(?<!\w)@\w*/;
-const RE_roleValidFor = /(?<!\w)@\w*/;
-const RE_channelValidFor = /(?<!\w)#\w*/;
+const RE_match = /(?<!\p{L}\w)[:@%#][\p{L}\w\-+]*/u;
+const RE_emojiValidFor = /(?<!\p{L}\w):[\p{L}\w\-+]*/u;
+const RE_mentionValidFor = /(?<!\p{L}\w)@[\p{L}\w\-+]*/u;
+const RE_roleValidFor = /(?<!\p{L}\w)@[\p{L}\w\-+]*/u;
+const RE_channelValidFor = /(?<!\p{L}\w)#[\p{L}\w\-+]*/u;
 
 export function codeMirrorAutoCompleteSource(
   searchSpace: Accessor<AutoCompleteSearchSpace>,
@@ -45,17 +49,18 @@ export function codeMirrorAutoCompleteSource(
     return ([] as Completion[]).concat(
       MAPPED_EMOJI_KEYS.map((emoji) => ({
         ...emoji,
-        apply: `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${emoji.apply as string}`,
+        apply: `${UNICODE_EMOJI_PACK_PUA[state.settings.getValue("appearance:unicode_emoji")!] ?? ""}${isRegionalIndicator(emoji.apply as string) ? UNICODE_ZWNJ : ""}${emoji.apply as string}`,
         url: unicodeEmojiUrl(
           state.settings.getValue("appearance:unicode_emoji"),
           emoji.apply as string,
         ),
       })),
-      client().emojis.map((emoji) => ({
+      (searchSpace()?.emojis ?? client().emojis.toList()).map((emoji) => ({
         type: "emoji",
         label: `:${emoji.name}:`,
         apply: `:${emoji.id}: `,
         url: emoji.url,
+        id: emoji.id,
       })),
     );
   });
@@ -69,15 +74,21 @@ export function codeMirrorAutoCompleteSource(
       // avoiding using `instanceof`, presumed slow
       const user = ((entry as { user: User })?.user ?? entry) as User;
 
+      // Only hit the store once to reduce watchers.
+      // If you need to access anything on the member more than once define a const here.
+      const displayName = entry.displayName;
+      const userName = user.username;
+      const id = entry.id;
+
       return {
         type: "user",
-        label: "@" + entry.displayName,
-        displayLabel: entry.displayName,
+        label: ("@" + displayName).normalize("NFKC"),
+        displayLabel: displayName,
         detail:
-          entry.displayName !== user.username
-            ? `${user.username}#${user.discriminator}`
+          displayName !== userName
+            ? `${userName}#${user.discriminator}`
             : undefined,
-        apply: `<@${typeof entry.id === "string" ? entry.id : entry.id.user}> `,
+        apply: `<@${typeof id === "string" ? id : id.user}> `,
         url: entry.animatedAvatarURL,
       };
     }),
@@ -89,7 +100,7 @@ export function codeMirrorAutoCompleteSource(
         (entry) =>
           ({
             type: "role",
-            label: "%" + entry.name,
+            label: ("%" + entry.name).normalize("NFKC"),
             displayLabel: entry.name,
             apply: `<%${entry.id}> `,
             colour: entry.colour,
@@ -103,7 +114,8 @@ export function codeMirrorAutoCompleteSource(
       (entry) =>
         ({
           type: "channel",
-          label: "#" + entry.name,
+          label: ("#" + entry.name).normalize("NFKC"),
+          displayLabel: "#" + entry.name,
           apply: `<#${entry.id}> `,
         }) as Completion,
     ),
@@ -116,7 +128,9 @@ export function codeMirrorAutoCompleteSource(
     }
 
     const token = context.matchBefore(RE_match);
-    switch (token?.text[0]) {
+    if (!token || token.text.length <= 2) return null;
+    const normalizedText = token.text.normalize("NFKC");
+    switch (normalizedText[0]) {
       case ":":
         return {
           from: token.from,

@@ -11,7 +11,7 @@ export default function Accessibility() {
           <CategoryButton
             action={<Checkbox value onChange={(value) => void value} />}
             onClick={() => void 0}
-            icon={<MdAnimation {...iconSize(22)} />}
+            icon={<Symbol size={22}>animation</Symbol>}
             description={
               <Trans>
                 If this is enabled, animations and motion effects won't play or

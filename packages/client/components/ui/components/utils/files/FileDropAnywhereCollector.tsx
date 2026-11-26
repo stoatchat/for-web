@@ -15,7 +15,7 @@ import {
 import { Portal } from "solid-js/web";
 import { Motion } from "solid-motionone";
 
-import { Plural } from "@lingui-solid/solid/macro";
+import { Plural } from "@lingui/solid/macro";
 import { styled } from "styled-system/jsx";
 
 import { useModals } from "@revolt/modal";
@@ -45,6 +45,8 @@ const Container = styled("div", {
     height: "100%",
     display: "grid",
     position: "fixed",
+    top: 0,
+    left: 0,
     placeItems: "center",
     pointerEvents: "none",
 
@@ -84,8 +86,9 @@ const DropText = styled("div", {
  */
 export function FileDropAnywhereCollector(props: Props) {
   const { isOpen } = useModals();
-  const [showIndicator, setShowIndicator] = createSignal(false);
-  const [hideIndicator, setHideIndicator] = createSignal(false);
+  const [showIndicator, setShowIndicator] = createSignal(false, {
+    name: "showIndicator",
+  });
   const [items, setItems] = createSignal<DataTransferItem[]>([]);
 
   /**
@@ -107,11 +110,14 @@ export function FileDropAnywhereCollector(props: Props) {
 
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "copy";
+      const files = [...event.dataTransfer.items].filter(
+        (i) => i.kind === "file",
+      );
+      if (files.length === 0) return; // We only want files
 
       if (!showIndicator()) {
         setShowIndicator(true);
-        setHideIndicator(false);
-        setItems([...event.dataTransfer.items]);
+        setItems(files);
       }
     }
   }
@@ -120,13 +126,17 @@ export function FileDropAnywhereCollector(props: Props) {
    * Handle cancelled drag event
    */
   function onDragLeave() {
-    deferredHide = setTimeout(() => {
-      setHideIndicator(true);
+    // Make sure the timeout is properly cleaned up
+    if (deferredHide) {
+      clearTimeout(deferredHide);
+      deferredHide = undefined;
+    }
 
-      setTimeout(() => {
-        setShowIndicator(false);
-      }, 300);
-    }) as never;
+    deferredHide = setTimeout(() => {
+      setShowIndicator(false);
+      setItems([]);
+      deferredHide = undefined;
+    }, 300) as never;
   }
 
   /**
@@ -142,6 +152,7 @@ export function FileDropAnywhereCollector(props: Props) {
     }
 
     setShowIndicator(false);
+    setItems([]);
   }
 
   onMount(() => {
@@ -172,13 +183,10 @@ export function FileDropAnywhereCollector(props: Props) {
   return (
     <Show when={showIndicator()}>
       <Portal>
-        <Show when={!hideIndicator()}>
-          <DimScreen />
-        </Show>
+        <DimScreen />
         <Container>
           <PreviewStack
             items={previewItems()}
-            hideStack={hideIndicator}
             overlay={
               <DropText>
                 <Motion.div

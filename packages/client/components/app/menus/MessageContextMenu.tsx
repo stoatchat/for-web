@@ -1,29 +1,16 @@
-import { For, Match, Show, Switch } from "solid-js";
+import { Trans, useLingui } from "@lingui/solid/macro";
+import { Accessor, For, Match, Show, Switch } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
-import { File, Message } from "stoat.js";
+import { File, ImageEmbed, Message, VideoEmbed, WebsiteEmbed } from "stoat.js";
 
 import { useClient, useUser } from "@revolt/client";
+import { gifboxIdFromUrl } from "@revolt/common/lib/gifbox";
+import { useInstance } from "@revolt/instance";
 import { CustomEmoji, UnicodeEmoji } from "@revolt/markdown/emoji";
 import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
-
-import MdBadge from "@material-design-icons/svg/outlined/badge.svg?component-solid";
-import MdContentCopy from "@material-design-icons/svg/outlined/content_copy.svg?component-solid";
-import MdDelete from "@material-design-icons/svg/outlined/delete.svg?component-solid";
-import MdDeleteSweep from "@material-design-icons/svg/outlined/delete_sweep.svg?component-solid";
-import MdDownload from "@material-design-icons/svg/outlined/download.svg?component-solid";
-import MdEdit from "@material-design-icons/svg/outlined/edit.svg?component-solid";
-import MdLink from "@material-design-icons/svg/outlined/link.svg?component-solid";
-import MdMarkChatUnread from "@material-design-icons/svg/outlined/mark_chat_unread.svg?component-solid";
-import MdOpenInNew from "@material-design-icons/svg/outlined/open_in_new.svg?component-solid";
-import MdPin from "@material-design-icons/svg/outlined/pin_invoke.svg?component-solid";
-import MdReply from "@material-design-icons/svg/outlined/reply.svg?component-solid";
-import MdReport from "@material-design-icons/svg/outlined/report.svg?component-solid";
-import MdShare from "@material-design-icons/svg/outlined/share.svg?component-solid";
-import MdShield from "@material-design-icons/svg/outlined/shield.svg?component-solid";
-
-import MdSentimentContent from "@material-symbols/svg-400/outlined/sentiment_content.svg?component-solid";
+import { isCustomEmoji, Symbol, useSnackbar } from "@revolt/ui";
+import { MediaPickerProps } from "@revolt/ui/components/features/messaging/composition/picker/CompositionMediaPicker";
 
 import {
   ContextMenu,
@@ -31,14 +18,26 @@ import {
   ContextMenuDivider,
   ContextMenuSubMenu,
 } from "./ContextMenu";
+import { GifboxContextMenuItems } from "./shared/GifboxContextMenu";
+
+// TODO: This context menu should really be split out into two, a message and a file menu.
 
 /**
  * Context menu for messages
  */
-export function MessageContextMenu(props: { message?: Message; file?: File }) {
+export function MessageContextMenu(props: {
+  message?: Message;
+  reactPicker?: Accessor<MediaPickerProps | undefined>;
+  file?: File | ImageEmbed | VideoEmbed | WebsiteEmbed;
+  gif?: WebsiteEmbed;
+  link?: string;
+}) {
   const user = useUser();
   const state = useState();
+  const instance = useInstance();
   const client = useClient();
+  const snackbar = useSnackbar();
+  const { t } = useLingui();
   const { openModal, showError } = useModals();
 
   /**
@@ -88,11 +87,29 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
   }
 
   /**
+   * Pin/unpin the message
+   */
+  function pinMessage(ev: MouseEvent) {
+    if (ev.shiftKey) {
+      if (props.message!.pinned) {
+        props.message!.unpin().catch(showError);
+      } else {
+        props.message!.pin().catch(showError);
+      }
+    } else {
+      openModal({
+        type: "pin_message",
+        message: props.message!,
+      });
+    }
+  }
+
+  /**
    * Open message in Stoat Admin Panel
    */
   function openAdminPanel() {
     window.open(
-      `https://old-admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
+      `https://admin.stoatinternal.com/panel/inspect/message/${props.message!.id}`,
       "_blank",
     );
   }
@@ -100,11 +117,13 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
   /**
    * Copy message link to clipboard
    */
-  function copyLink() {
+  function copyMessageLink() {
     navigator.clipboard.writeText(
-      `${location.origin}${
-        props.message!.server ? `/server/${props.message!.server?.id}` : ""
-      }/channel/${props.message!.channelId}/${props.message!.id}`,
+      instance.href(
+        `${
+          props.message!.server ? `/server/${props.message!.server?.id}` : ""
+        }/channel/${props.message!.channelId}/${props.message!.id}`,
+      ),
     );
   }
 
@@ -118,51 +137,236 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
   /**
    * Opens the file preview in a new tab
    */
-  function OpenFile() {
-    window.open(props.file?.originalUrl, "_blank");
+  function openFile() {
+    window.open(getFileUrl(), "_blank");
   }
 
   /**
    * Copies the link to the original url of the file
    */
-  function CopyLink() {
-    navigator.clipboard.writeText(props.file?.originalUrl ?? "");
+  function copyFileLink() {
+    navigator.clipboard.writeText(getFileUrl());
+  }
+
+  /**
+   * Write a blob to the navigator clipboard
+   * @param [type] - The blob's MIME type, optional
+   */
+  async function writeBlobToClipboard(blob: Blob | null, type?: string) {
+    if (!blob) throw new Error("Can't write nothing to the clipboard");
+
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        // Workaround for the clipboard API being extremely picky
+        // https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+        [type ?? blob.type]: blob,
+      }),
+    ]);
+
+    snackbar.show({ message: t`Copied file to clipboard` });
+  }
+
+  /**
+   * Download the file from `url` and insert it to the user's clipboard
+   */
+  async function copyFile(url: string) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok)
+        throw new Error(`Failed to download file: ${res.statusText}.`);
+
+      const blob = await res.blob();
+      if (ClipboardItem.supports(blob.type)) {
+        await writeBlobToClipboard(blob);
+      } else {
+        if (blob.type.startsWith("image/")) {
+          // Naively convert to PNG
+          const c = document.createElement("canvas"),
+            ctx = c.getContext("2d"),
+            img = new Image();
+
+          img.onload = () => {
+            c.width = img.width;
+            c.height = img.height;
+            ctx!.drawImage(img, 0, 0);
+            URL.revokeObjectURL(img.src);
+            c.toBlob(async (b) => {
+              try {
+                await writeBlobToClipboard(b, "image/png");
+              } catch (error) {
+                showError(error);
+              }
+            }, "image/png");
+          };
+
+          img.onerror = showError;
+          img.src = URL.createObjectURL(blob);
+        } else {
+          // Workaround for copying unsupported formats to the clipboard
+          // See: https://developer.chrome.com/blog/web-custom-formats-for-the-async-clipboard-api
+          await writeBlobToClipboard(blob, `web ${blob.type}`);
+        }
+      }
+    } catch (error) {
+      showError(error);
+    }
+  }
+
+  /**
+   * Get the preview URL of a file or embed.
+   */
+  function getFileUrl(): string {
+    let url: string = "";
+
+    if (props.file instanceof File) {
+      url = props.file.previewUrl;
+    } else if (
+      props.file instanceof ImageEmbed ||
+      props.file instanceof VideoEmbed ||
+      (props.file instanceof WebsiteEmbed &&
+        props.file.specialContent?.type === "GIF")
+    ) {
+      url = props.file.url!;
+    }
+
+    return url;
+  }
+
+  /**
+   * Gifbox GIF ID of the file, if it is a Gifbox embed
+   */
+  function gifboxId() {
+    if (props.file instanceof WebsiteEmbed) {
+      return (
+        gifboxIdFromUrl(props.file.originalUrl) ??
+        gifboxIdFromUrl(props.file.url)
+      );
+    }
+
+    if (props.file instanceof ImageEmbed || props.file instanceof VideoEmbed) {
+      return gifboxIdFromUrl(props.file.url);
+    }
+  }
+
+  function copyLink() {
+    navigator.clipboard.writeText(props.link ?? "");
   }
 
   return (
     <ContextMenu>
       <Show when={props.file}>
-        <ContextMenuButton icon={MdOpenInNew} onClick={OpenFile}>
-          <Trans>Open file</Trans>
-        </ContextMenuButton>
-        <ContextMenuButton icon={MdLink} onClick={CopyLink}>
+        <Show when={props.gif}>
+          {(favourite) => (
+            <>
+              <ContextMenuButton
+                icon={
+                  <Symbol
+                    size={16}
+                    fill={!state.favourites.hasGif(favourite())}
+                  >
+                    star
+                  </Symbol>
+                }
+                onClick={() => state.favourites.toggleGif(favourite())}
+              >
+                <Show
+                  when={state.favourites.hasGif(favourite())}
+                  fallback={<Trans>Favourite GIF</Trans>}
+                >
+                  <Trans>Unfavourite GIF</Trans>
+                </Show>
+              </ContextMenuButton>
+              <ContextMenuDivider />
+            </>
+          )}
+        </Show>
+        {/* Gifbox GIFs get "Open in Gifbox" and "Copy link to GIF" instead */}
+        <Show when={!gifboxId()}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>open_in_new</Symbol>}
+            onClick={openFile}
+          >
+            <Trans>Open file</Trans>
+          </ContextMenuButton>
+          <ContextMenuButton
+            icon={<Symbol size={16}>link</Symbol>}
+            onClick={copyFileLink}
+          >
+            <Trans>Copy link to file</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={props.file instanceof File}>
+          <a
+            target="_blank"
+            download={(props.file as File)?.filename}
+            href={(props.file as File)?.originalUrl}
+          >
+            <ContextMenuButton icon={<Symbol size={16}>download</Symbol>}>
+              <Trans>Save file</Trans>
+            </ContextMenuButton>
+          </a>
+          <ContextMenuButton
+            icon={<Symbol size={16}>content_copy</Symbol>}
+            onClick={() => copyFile((props.file as File)!.originalUrl)}
+          >
+            <Trans>Copy file</Trans>
+          </ContextMenuButton>
+        </Show>
+        <Show when={gifboxId()}>
+          {(id) => <GifboxContextMenuItems id={id()} />}
+        </Show>
+
+        <Show when={props.link || props.message}>
+          <ContextMenuDivider />
+        </Show>
+      </Show>
+      <Show when={props.link}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>link</Symbol>}
+          onClick={copyLink}
+        >
           <Trans>Copy link</Trans>
         </ContextMenuButton>
-        <a
-          target="_blank"
-          download={props.file?.filename}
-          href={props.file?.originalUrl}
-        >
-          <ContextMenuButton icon={MdDownload}>
-            <Trans>Save file</Trans>
-          </ContextMenuButton>
-        </a>
 
         <ContextMenuDivider />
       </Show>
       <Show when={props.message}>
         <Show when={props.message!.channel?.havePermission("SendMessage")}>
-          <ContextMenuButton icon={MdReply} onClick={reply}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>reply</Symbol>}
+            onClick={reply}
+          >
             <Trans>Reply</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuButton icon={MdMarkChatUnread} onClick={markAsUnread}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>mark_chat_unread</Symbol>}
+          onClick={markAsUnread}
+        >
           <Trans>Mark as unread</Trans>
         </ContextMenuButton>
-        <ContextMenuButton icon={MdContentCopy} onClick={copyText}>
+        <ContextMenuButton
+          icon={<Symbol size={16}>content_copy</Symbol>}
+          onClick={copyText}
+        >
           <Trans>Copy text</Trans>
         </ContextMenuButton>
+
         <ContextMenuDivider />
+
+        <Show
+          when={
+            props.reactPicker && props.message?.channel?.havePermission("React")
+          }
+        >
+          <ContextMenuButton
+            icon={<Symbol size={16}>mood</Symbol>}
+            onClick={(e) => props.reactPicker!()?.onClickEmoji(e)}
+          >
+            <Trans>React</Trans>
+          </ContextMenuButton>
+        </Show>
+
         <Show
           when={
             props.message!.author?.self &&
@@ -170,7 +374,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
           }
         >
           <ContextMenuButton
-            icon={MdEdit}
+            icon={<Symbol size={16}>edit</Symbol>}
             onClick={() => state.draft.setEditingMessage(props.message!)}
           >
             <Trans>Edit message</Trans>
@@ -183,14 +387,8 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
           }
         >
           <ContextMenuButton
-            icon={MdPin}
-            onClick={() => {
-              if (props.message!.pinned) {
-                props.message!.unpin().catch(showError);
-              } else {
-                props.message!.pin().catch(showError);
-              }
-            }}
+            icon={<Symbol size={16}>pin_invoke</Symbol>}
+            onClick={pinMessage}
           >
             <Switch fallback={<Trans>Pin message</Trans>}>
               <Match when={props.message!.pinned}>
@@ -206,7 +404,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
           }
         >
           <ContextMenuSubMenu
-            icon={MdDeleteSweep}
+            icon={<Symbol size={16}>delete_sweep</Symbol>}
             onClick={() => props.message!.clearReactions()}
             destructive
             buttonContent={<Trans>Remove reaction</Trans>}
@@ -217,7 +415,7 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
                   onClick={() => props.message!.unreact(key, true)}
                 >
                   <Switch fallback={<UnicodeEmoji emoji={key} />}>
-                    <Match when={key.length === 26}>
+                    <Match when={isCustomEmoji(key)}>
                       <CustomEmoji id={key} />
                     </Match>
                   </Switch>
@@ -226,9 +424,14 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
             </For>
           </ContextMenuSubMenu>
         </Show>
-        <Show when={props.message!.reactions.size}>
+        <Show
+          when={
+            props.message!.reactions.size &&
+            props.message!.channel?.havePermission("ManageMessages")
+          }
+        >
           <ContextMenuButton
-            symbol={MdSentimentContent}
+            icon={<Symbol size={16}>sentiment_content</Symbol>}
             onClick={() => props.message!.clearReactions()}
             destructive
           >
@@ -242,29 +445,44 @@ export function MessageContextMenu(props: { message?: Message; file?: File }) {
           }
         >
           <ContextMenuButton
-            icon={MdDelete}
+            icon={<Symbol size={16}>delete</Symbol>}
             onClick={deleteMessage}
             destructive
           >
             <Trans>Delete message</Trans>
           </ContextMenuButton>
         </Show>
-        <Show when={!props.message!.author?.self}>
-          <ContextMenuButton icon={MdReport} onClick={report} destructive>
+        <Show
+          when={!props.message!.author?.self && !props.message!.systemMessage}
+        >
+          <ContextMenuButton
+            icon={<Symbol size={16}>report</Symbol>}
+            onClick={report}
+            destructive
+          >
             <Trans>Report message</Trans>
           </ContextMenuButton>
         </Show>
         <ContextMenuDivider />
         <Show when={state.settings.getValue("advanced:admin_panel")}>
-          <ContextMenuButton icon={MdShield} onClick={openAdminPanel}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>shield</Symbol>}
+            onClick={openAdminPanel}
+          >
             <Trans>Admin Panel</Trans>
           </ContextMenuButton>
         </Show>
-        <ContextMenuButton icon={MdShare} onClick={copyLink}>
-          <Trans>Copy link</Trans>
+        <ContextMenuButton
+          icon={<Symbol size={16}>share</Symbol>}
+          onClick={copyMessageLink}
+        >
+          <Trans>Copy message link</Trans>
         </ContextMenuButton>
         <Show when={state.settings.getValue("advanced:copy_id")}>
-          <ContextMenuButton icon={MdBadge} onClick={copyId}>
+          <ContextMenuButton
+            icon={<Symbol size={16}>badge</Symbol>}
+            onClick={copyId}
+          >
             <Trans>Copy message ID</Trans>
           </ContextMenuButton>
         </Show>

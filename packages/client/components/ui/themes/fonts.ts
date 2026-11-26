@@ -122,6 +122,11 @@ export const FONTS = {
       await import("@fontsource-variable/plus-jakarta-sans/index.css");
     },
   },
+  "Google Sans Flex Variable": {
+    load: async () => {
+      await import("@fontsource-variable/google-sans-flex/full.css");
+    },
+  },
 };
 
 export const MONOSPACE_FONTS = {

@@ -3,11 +3,11 @@ import { Accessor, Setter, batch, createSignal } from "solid-js";
 import { API, Channel, Client, Message } from "stoat.js";
 import { ulid } from "ulid";
 
-import { CONFIGURATION, insecureUniqueId } from "@revolt/common";
-
-import { State } from "..";
+import { insecureUniqueId } from "@revolt/common";
+import { useInstance } from "@revolt/instance";
 
 import { AbstractStore } from ".";
+import { State } from "..";
 import { LAYOUT_SECTIONS } from "./Layout";
 
 export interface DraftData {
@@ -104,6 +104,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       dimensions?: [number, number];
       autumnId?: string;
       uploadProgress: [Accessor<number>, Setter<number>];
+      spoiler: [Accessor<boolean>, Setter<boolean>];
     }
   >;
 
@@ -114,6 +115,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
 
   _setNodeReplacement?: Setter<readonly [string | "_focus"] | undefined>;
 
+  private instance;
+
   /**
    * Construct store
    * @param state State
@@ -123,7 +126,10 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     this.fileCache = {};
 
     this.getFile = this.getFile.bind(this);
+    this.isFileSpoiler = this.isFileSpoiler.bind(this);
+    this.toggleFileSpoiler = this.toggleFileSpoiler.bind(this);
     this.setEditingMessageContent = this.setEditingMessageContent.bind(this);
+    this.instance = useInstance();
   }
 
   /**
@@ -252,16 +258,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
     channelId: string,
     data?: DraftData | ((data: DraftData) => DraftData),
   ) {
-    if (typeof data === "function") {
-      data = data(this.getDraft(channelId));
-    }
-
-    if (typeof data === "undefined") {
-      console.info("[draft] cleared!");
-      return this.clearDraft(channelId);
-    }
-
-    console.info("[draft] updated to ", data);
+    if (typeof data === "function") data = data(this.getDraft(channelId));
+    if (!data) return this.clearDraft(channelId);
     this.set("drafts", channelId, data);
   }
 
@@ -293,6 +291,9 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
 
     // Check if this is something we can even send
     if (!draft.content && !draft.files?.length) return;
+
+    //Don't send empty replies
+    if (draft.replies?.length === 0) delete draft.replies;
 
     // Add message to the outbox
     const idempotencyKey = ulid();
@@ -333,7 +334,11 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
           continue;
         }
 
-        body.set("file", file);
+        body.set(
+          "file",
+          file,
+          this.isFileSpoiler(fileId) ? `SPOILER_${file.name}` : file.name,
+        );
 
         // We have to use XMLHttpRequest because modern fetch duplex streams require QUIC or HTTP/2
         const xhr = new XMLHttpRequest();
@@ -352,11 +357,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
             resolve([xhr.readyState === 4 && xhr.status === 200, xhr.response]);
           });
 
-          xhr.open(
-            "POST",
-            `${client.configuration!.features.autumn.url}/attachments`,
-            true,
-          );
+          xhr.open("POST", `${this.instance.mediaUrl}/attachments`, true);
 
           const [authHeader, authHeaderValue] = client.authenticationHeader;
           xhr.setRequestHeader(authHeader, authHeaderValue);
@@ -417,17 +418,18 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   popDraft(channelId: string) {
     const { content, replies, files } = this.getDraft(channelId);
+    const maxAttachments = this.instance.limits().message_attachments;
 
     this.setDraft(channelId, {
       content: "",
       replies: [],
-      files: files?.splice(CONFIGURATION.MAX_ATTACHMENTS),
+      files: files?.splice(maxAttachments),
     });
 
     return {
       content,
       replies,
-      files: files?.slice(0, CONFIGURATION.MAX_ATTACHMENTS),
+      files: files?.slice(0, maxAttachments),
     };
   }
 
@@ -537,7 +539,7 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
 
     if (
       (this.getDraft(message.channelId).replies?.length ?? 0) >=
-      CONFIGURATION.MAX_REPLIES
+      this.instance.globalLimits.message_replies
     ) {
       return;
     }
@@ -610,6 +612,8 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
       // we know what we're doing here...
       // eslint-disable-next-line solid/reactivity
       uploadProgress: createSignal(0),
+      // eslint-disable-next-line solid/reactivity
+      spoiler: createSignal(false),
     };
 
     if (this.fileCache[id].dataUri) {
@@ -665,6 +669,24 @@ export class Draft extends AbstractStore<"draft", TypeDraft> {
    */
   getFile(fileId: string) {
     return this.fileCache[fileId];
+  }
+
+  /**
+   * Whether a file is currently marked as a spoiler
+   * @param fileId File ID
+   */
+  isFileSpoiler(fileId: string): boolean {
+    return this.fileCache[fileId]?.spoiler[0]() ?? false;
+  }
+
+  /**
+   * Toggle spoiler state for a file
+   * @param fileId File ID
+   */
+  toggleFileSpoiler(fileId: string) {
+    const entry = this.fileCache[fileId];
+    if (!entry) return;
+    entry.spoiler[1]((value) => !value);
   }
 
   /**

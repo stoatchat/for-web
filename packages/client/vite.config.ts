@@ -1,5 +1,6 @@
-import { lingui as linguiSolidPlugin } from "@lingui-solid/vite-plugin";
+import { lingui as linguiSolidPlugin } from "@lingui/vite-plugin";
 import devtools from "@solid-devtools/transform";
+import legacy from "@vitejs/plugin-legacy";
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
@@ -10,8 +11,10 @@ import solidPlugin from "vite-plugin-solid";
 import solidSvg from "vite-plugin-solid-svg";
 
 import codegenPlugin from "./codegen.plugin";
+import { addFontPreload } from "./fontpreload.plugin";
 
 const base = process.env.BASE_PATH ?? "/";
+const pwaScope = process.env.PWA_SCOPE || base;
 
 export default defineConfig({
   base,
@@ -20,10 +23,28 @@ export default defineConfig({
     devtools(),
     codegenPlugin(),
     babelMacrosPlugin(),
+    solidPlugin({
+      babel: {
+        plugins: ["@lingui/babel-plugin-lingui-macro"],
+      },
+    }),
     linguiSolidPlugin(),
-    solidPlugin(),
     solidSvg({
       defaultAsComponent: false,
+    }),
+    addFontPreload(),
+    legacy({
+      // Chrome, Edge and Firefox are set by Uint8Array.prototype.toBase64.
+      // Safari stays at 17 on purpose: iPad 6 and similar devices can't update past iPadOS 17
+      modernTargets: [
+        "chrome >= 140",
+        "edge >= 140",
+        "firefox >= 133",
+        "safari >= 17",
+        "ios_saf >= 17",
+      ],
+      modernPolyfills: true,
+      renderLegacyChunks: false,
     }),
     VitePWA({
       srcDir: "src",
@@ -31,7 +52,12 @@ export default defineConfig({
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 4000000,
+        maximumFileSizeToCacheInBytes: 8000000,
+        globPatterns: ["**/*.{js,css,html}", "**/material-symbols-*.woff2"],
+      },
+      devOptions: {
+        enabled: true,
+        type: "module",
       },
       manifest: {
         name: "Stoat",
@@ -39,11 +65,11 @@ export default defineConfig({
         description: "User-first open source chat platform.",
         categories: ["communication", "chat", "messaging"],
         start_url: base,
-        orientation: "portrait",
+        scope: pwaScope,
         display_override: ["window-controls-overlay"],
         display: "standalone",
-        background_color: "#101823",
-        theme_color: "#101823",
+        background_color: "#191919",
+        theme_color: "#191919",
         icons: [
           {
             src: `${base}assets/web/android-chrome-192x192.png`,
@@ -74,8 +100,24 @@ export default defineConfig({
   ],
   build: {
     target: "esnext",
+    cssTarget: "esnext",
     rollupOptions: {
       external: ["hast"],
+      output: {
+        manualChunks: {
+          markdown: [
+            "lowlight",
+            "rehype-highlight",
+            "rehype-katex",
+            "remark-breaks",
+            "remark-gfm",
+            "remark-math",
+            "remark-parse",
+            "remark-rehype",
+            "vfile",
+          ],
+        },
+      },
     },
     sourcemap: true,
   },

@@ -1,23 +1,14 @@
-import { Trans } from "@lingui-solid/solid/macro";
-import { styled } from "styled-system/jsx";
-
-import {
-  CategoryButton,
-  CategoryButtonGroup,
-  Column,
-  iconSize,
-} from "@revolt/ui";
-
-import MdGroups3 from "@material-design-icons/svg/filled/groups_3.svg?component-solid";
-import MdBugReport from "@material-design-icons/svg/outlined/bug_report.svg?component-solid";
-import MdFormatListNumbered from "@material-design-icons/svg/outlined/format_list_numbered.svg?component-solid";
-import MdStar from "@material-design-icons/svg/outlined/star_outline.svg?component-solid";
-import { useClient } from "@revolt/client";
-import { CONFIGURATION } from "@revolt/common";
-import { useModals } from "@revolt/modal";
 import { useNavigate } from "@solidjs/router";
 import { Match, Switch } from "solid-js";
+
+import { Trans } from "@lingui/solid/macro";
 import { PublicChannelInvite } from "stoat.js";
+import { styled } from "styled-system/jsx";
+
+import { useClient } from "@revolt/client";
+import { useInstance } from "@revolt/instance";
+import { useModals } from "@revolt/modal";
+import { CategoryButton, Column, Symbol } from "@revolt/ui";
 
 /**
  * Feedback
@@ -26,21 +17,22 @@ export function Feedback() {
   const { openModal, pop } = useModals();
   const navigate = useNavigate();
   const client = useClient();
+  const instance = useInstance();
 
-  const showLoungeButton = CONFIGURATION.IS_STOAT;
+  const showLoungeButton = instance.isStoat;
   const isInLounge =
     client()!.servers.get("01F7ZSBSFHQ8TA81725KQCSDDP") !== undefined;
 
   return (
     <Column gap="lg">
-      <CategoryButtonGroup>
+      <CategoryButton.Group>
         {/* <Link
           href="https://example.com"
           target="_blank"
         >
           <CategoryButton
             action="external"
-            icon={<MdViewKanban {...iconSize(22)} />}
+            icon={<Symbol size={22}>view_kanban</Symbol>}
             onClick={() => void 0}
             description={<Trans>See what we're currently working on.</Trans>}
           >
@@ -53,8 +45,8 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdStar {...iconSize(22)} />}
-            onClick={() => void 0}
+            icon={<Symbol size={22}>star</Symbol>}
+            ignoreClick
             description={
               <Trans>Suggest new Stoat features on GitHub discussions.</Trans>
             }
@@ -68,8 +60,8 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdFormatListNumbered {...iconSize(22)} />}
-            onClick={() => void 0}
+            icon={<Symbol size={22}>format_list_numbered</Symbol>}
+            ignoreClick
             description={<Trans>Submit feedback</Trans>}
           >
             <Trans>Feedback</Trans>
@@ -81,8 +73,8 @@ export function Feedback() {
         >
           <CategoryButton
             action="external"
-            icon={<MdBugReport {...iconSize(22)} />}
-            onClick={() => void 0}
+            icon={<Symbol size={22}>bug_report</Symbol>}
+            ignoreClick
             description={<Trans>View currently active bug reports here.</Trans>}
           >
             <Trans>Bug Tracker</Trans>
@@ -101,7 +93,7 @@ export function Feedback() {
                   directly here.
                 </Trans>
               }
-              icon={<MdGroups3 />}
+              icon={<Symbol>groups_3</Symbol>}
             >
               <Trans>Go to the Stoat Lounge</Trans>
             </CategoryButton>
@@ -120,13 +112,13 @@ export function Feedback() {
                   directly here.
                 </Trans>
               }
-              icon={<MdGroups3 />}
+              icon={<Symbol>groups_3</Symbol>}
             >
               <Trans>Join the Stoat Lounge</Trans>
             </CategoryButton>
           </Match>
         </Switch>
-      </CategoryButtonGroup>
+      </CategoryButton.Group>
     </Column>
   );
 }

@@ -1,6 +1,6 @@
 import { For, createSignal, onMount } from "solid-js";
 
-import { Trans } from "@lingui-solid/solid/macro";
+import { Trans } from "@lingui/solid/macro";
 
 import {
   Checkbox,
@@ -9,12 +9,10 @@ import {
   DialogProps,
   List,
   Row,
+  Symbol,
   Text,
   Time,
 } from "@revolt/ui";
-import { Symbol } from "@revolt/ui/components/utils/Symbol";
-
-import MdPolicy from "@material-design-icons/svg/outlined/policy.svg?component-solid";
 
 import { useModals } from "..";
 import { Modals } from "../types";
@@ -34,7 +32,7 @@ export function PolicyChangeModal(
 
   return (
     <Dialog
-      icon={<MdPolicy />}
+      icon={<Symbol>policy</Symbol>}
       show={allowDisplay && props.show}
       onClose={props.onClose}
       title={<Trans>Review policy changes</Trans>}

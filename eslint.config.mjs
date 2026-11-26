@@ -17,6 +17,13 @@ export default defineConfig([
       "**/styled-system/**",
     ],
   },
+  {
+    languageOptions: {
+      parserOptions: {
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   eslint.configs.recommended,
   tseslint.configs.recommended,
   solid,
