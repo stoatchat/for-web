@@ -81,7 +81,9 @@ export function TextChannel(props: ChannelPageProps) {
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
-  const [atEnd, setEnd] = createSignal(true);
+  const [atEndFor, setAtEndFor] = createSignal("");
+
+  const isAtEnd = () => atEndFor() === props.channel.id;
 
   // Store last unread message ID on change and mark the channel as read.
   createEffect(
@@ -89,7 +91,7 @@ export function TextChannel(props: ChannelPageProps) {
       () => ({
         id: props.channel.id,
         unread: props.channel.unread,
-        atEnd: atEnd(),
+        atEnd: isAtEnd(),
       }),
       ({ id, unread, atEnd }, prev) => {
         const entered = !prev || prev.id !== id;
@@ -120,7 +122,7 @@ export function TextChannel(props: ChannelPageProps) {
 
   // Mark as read on re-focus
   function onFocus() {
-    if (props.channel.unread && atEnd()) {
+    if (props.channel.unread && isAtEnd()) {
       props.channel.ack();
     }
   }
@@ -231,7 +233,7 @@ export function TextChannel(props: ChannelPageProps) {
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
-            atEnd={[atEnd, setEnd]}
+            atEndFor={[atEndFor, setAtEndFor]}
           />
 
           <MessageComposition

@@ -87,7 +87,7 @@ interface Props {
    */
   jumpToBottomRef?: (fn: (nearby?: string) => void) => void;
 
-  atEnd?: Signal<boolean>;
+  atEndFor?: Signal<string>;
 }
 
 /**
@@ -114,7 +114,9 @@ export function Messages(props: Props) {
    * Whether we've reached the end of the conversation
    */
   // eslint-disable-next-line solid/reactivity
-  const [atEnd, setEnd] = props.atEnd ?? createSignal(true);
+  const [atEndFor, setAtEndFor] = props.atEndFor ?? createSignal("");
+
+  const isAtEnd = () => atEndFor() === props.channel.id;
 
   /**
    * The current direction of fetching
@@ -243,7 +245,7 @@ export function Messages(props: Props) {
 
     // Set the initial position
     setStart(false);
-    setEnd(true);
+    setAtEndFor(props.channel.id);
 
     // Start collecting messages
     const collected: MessageInterface[] = [];
@@ -259,7 +261,7 @@ export function Messages(props: Props) {
         collectedMessages = undefined;
         batch(() => {
           setStart(true);
-          setEnd(true);
+          setAtEndFor(props.channel.id);
           setFetching();
         });
         return;
@@ -284,12 +286,14 @@ export function Messages(props: Props) {
       // Assume we are not at the end if we jumped to a message
       // NB. we set this late to not display the "jump to bottom" bar
       if (typeof nearby === "string") {
-        setEnd(
+        setAtEndFor(
           // If the messages fetched include the latest message,
           // then we are at the end and mark the channel as such.
           messages.findIndex(
             (msg) => msg.id === props.channel.lastMessageId,
-          ) !== -1,
+          ) !== -1
+            ? props.channel.id
+            : "",
         );
       }
       // Check if we're at the start of the conversation otherwise
@@ -299,11 +303,11 @@ export function Messages(props: Props) {
       // Apply existing state if present
       else if (existingState) {
         setStart(existingState.atStart);
-        setEnd(existingState.atEnd);
+        setAtEndFor(existingState.atEnd ? props.channel.id : "");
       }
 
       // Merge list with any new ones that have come in if we are at the end
-      if (atEnd()) {
+      if (isAtEnd()) {
         const knownIds = new Set(collected.map((x) => x.id));
         setMessagesSafely(
           collected,
@@ -331,7 +335,7 @@ export function Messages(props: Props) {
         );
       }
       // Or... reset scroll to the end
-      else if (atEnd()) {
+      else if (isAtEnd()) {
         setTimeout(() =>
           findScrollContainer(listRef())?.scrollTo({
             top: 9999999,
@@ -395,7 +399,7 @@ export function Messages(props: Props) {
 
         // If it's at least one element, we are no longer at the end
         if (tooManyBy > 0) {
-          setEnd(false);
+          setAtEndFor("");
         }
 
         const msgs = messages();
@@ -435,7 +439,7 @@ export function Messages(props: Props) {
     // Pre-conditions:
     // - Must not already be at the end
     // - Must not already be fetching (or otherwise the fetch must have failed)
-    if (atEnd() || !canFetch()) return;
+    if (isAtEnd() || !canFetch()) return;
 
     // In-case initial load failed and left us with an empty message list
     if (messages().length === 0) {
@@ -462,7 +466,7 @@ export function Messages(props: Props) {
 
       // If it's less than we expected, we are at the end
       if (result.messages.length < FETCH_LIMIT) {
-        setEnd(true);
+        setAtEndFor(props.channel.id);
       }
 
       // If we received any messages at all, append them to the bottom
@@ -515,7 +519,7 @@ export function Messages(props: Props) {
     if (!canReadHistory()) return;
 
     // Scroll to the bottom if we're already at the end
-    if (atEnd()) {
+    if (isAtEnd()) {
       listRef()!.scrollIntoView({
         behavior: "smooth",
         block: "end",
@@ -556,7 +560,7 @@ export function Messages(props: Props) {
         }
 
         // Indicate we are at the end now
-        setEnd(true);
+        setAtEndFor(props.channel.id);
 
         // Merge list with any new ones that have come in
         const knownIds = new Set(collected.map((x) => x.id));
@@ -652,7 +656,7 @@ export function Messages(props: Props) {
       // Assume we are somewhere in history
       // NB. we could be clever here, but best not to be
       setStart(false);
-      setEnd(false);
+      setAtEndFor("");
 
       // Replace the messages
       setMessagesSafely(messages);
@@ -698,7 +702,7 @@ export function Messages(props: Props) {
             cache!.manage(channel, {
               messages: messages(),
               atStart: atStart(),
-              atEnd: atEnd(),
+              atEnd: atEndFor() === channel.id, // Deliberately not isAtEnd as we want the cleanup channel, not the props channel
               scrollTop: findScrollContainer(listRef())?.scrollTop,
             });
           }
@@ -746,7 +750,7 @@ export function Messages(props: Props) {
         collectedMessages.push(message);
         return;
       }
-      if (atEnd()) {
+      if (isAtEnd()) {
         setMessages([message, ...messages()]);
       }
     }
@@ -803,7 +807,7 @@ export function Messages(props: Props) {
       (state) => {
         if (
           state === State.Connected &&
-          atEnd() &&
+          isAtEnd() &&
           canReadHistory() &&
           !props.highlightedMessageId()
         ) {
@@ -1016,7 +1020,7 @@ export function Messages(props: Props) {
         fetchTop={caseFetchUpwards}
         fetchBottom={caseFetchDownwards}
         atStart={atStart}
-        atEnd={atEnd}
+        atEnd={isAtEnd}
         permitFetching={() =>
           canReadHistory() && typeof fetching() !== "string" && renderSettled()
         }
@@ -1041,7 +1045,7 @@ export function Messages(props: Props) {
               )}
             </For>
             {/* TODO: show (loading icon) OR (load more) */}
-            <Show when={atEnd()}>
+            <Show when={isAtEnd()}>
               {props.pendingMessages?.({
                 tail: pendingMessageIsTrailing(),
                 ids: sentMessageIdempotency(),
@@ -1053,7 +1057,7 @@ export function Messages(props: Props) {
       </ListView2>
       <AnchorToEnd>
         <div>
-          <Show when={!atEnd()}>
+          <Show when={!isAtEnd()}>
             <JumpToBottom onClick={jumpToBottom} />
           </Show>
           <CompositionInfo
