@@ -45,13 +45,12 @@ const DISCONNECTED_STATES = new Set([
   State.Offline,
 ]);
 
-function isDisconnected(lifecycle: Lifecycle) {
-  return DISCONNECTED_STATES.has(lifecycle.state());
+function isDisconnected(state: State) {
+  return DISCONNECTED_STATES.has(state);
 }
 
 function Bar(props: { pwa: boolean }) {
   const { lifecycle } = useClientLifecycle();
-
 
   const [isMaximised, setIsMaximised] = createSignal(
     isNative
@@ -65,7 +64,7 @@ function Bar(props: { pwa: boolean }) {
   }
 
   return (
-    <Base disconnected={isDisconnected()} pwa={props.pwa}>
+    <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
       <Title
         macos={isMacOS}
         style={{
@@ -163,15 +162,6 @@ export function Titlebar() {
 
   const { lifecycle } = useClientLifecycle();
 
-  function isDisconnected() {
-    return [
-      State.Connecting,
-      State.Disconnected,
-      State.Reconnecting,
-      State.Offline,
-    ].includes(lifecycle.state());
-  }
-
   onMount(() => {
     const query = matchMedia("(display-mode: window-controls-overlay)");
     const update = () => setIsWCO(query.matches);
@@ -185,7 +175,7 @@ export function Titlebar() {
         when={
           isWCO() ||
           (isNative && window.desktopConfig?.get()?.customFrame) ||
-          isDisconnected()
+          isDisconnected(lifecycle.state())
         }
       >
         <Show
