@@ -2,6 +2,11 @@ import { getVirtmic } from "./virtualMic";
 
 export { useVoice, VoiceContext } from "./state";
 
+export {
+  isDoubleClickJoinAvailable,
+  shouldJoinOnDoubleClick,
+} from "./doubleClickJoin";
+
 export { InRoom } from "./components/InRoom";
 export { RoomAudioManager } from "./components/RoomAudioManager";
 export { stoatSinkName } from "./virtualMic";

@@ -18,7 +18,11 @@ import { KeybindAction, createKeybind } from "@revolt/keybinds";
 import { TextWithEmoji } from "@revolt/markdown";
 import { useModals } from "@revolt/modal";
 import { useNavigate } from "@revolt/routing";
-import { useVoice } from "@revolt/rtc";
+import {
+  isDoubleClickJoinAvailable,
+  shouldJoinOnDoubleClick,
+  useVoice,
+} from "@revolt/rtc";
 import { useState } from "@revolt/state";
 import {
   Column,
@@ -522,7 +526,7 @@ function Entry(
   const state = useState();
   const voice = useVoice();
   const { openModal } = useModals();
-  const { isMobile } = useDevice();
+  const { isMobile, hasCoarsePointer } = useDevice();
 
   const canEditChannel = createMemo(() =>
     (["ManageChannel", "ManagePermissions", "ManageWebhooks"] as const).some(
@@ -543,6 +547,21 @@ function Entry(
 
   const inCall = () => props.channel.id === voice.channel()?.id;
 
+  /**
+   * Join the voice channel on double click, if enabled in voice settings
+   */
+  const joinOnDoubleClick = () => {
+    const shouldJoin = shouldJoinOnDoubleClick({
+      available: isDoubleClickJoinAvailable({ isMobile, hasCoarsePointer }),
+      enabled: state.voice.joinOnDoubleClick,
+      isVoice: props.channel.isVoice,
+      inCall: inCall(),
+      canConnect: props.channel.havePermission("Connect"),
+    });
+
+    if (shouldJoin) voice.connect(props.channel);
+  };
+
   const attentionState = createMemo(() =>
     props.active
       ? "selected"
@@ -560,6 +579,7 @@ function Entry(
       <MenuButton
         href={`/server/${props.channel.serverId}/channel/${props.channel.id}`}
         use:floating={props.menuGenerator(props.channel)}
+        onDblClick={joinOnDoubleClick}
         size="normal"
         data-unread={props.channel.unread ? "" : undefined}
         data-mentions={props.channel.mentions?.size || undefined}
