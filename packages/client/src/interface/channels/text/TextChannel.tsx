@@ -81,37 +81,39 @@ export function TextChannel(props: ChannelPageProps) {
   // Get a reference to the message box's load latest function
   let jumpToBottomRef: ((nearby?: string) => void) | undefined;
 
-  const [atEnd, setEnd] = createSignal(true);
+  const [atEndFor, setAtEndFor] = createSignal("");
 
-  // Store last unread message id
+  const isAtEnd = () => atEndFor() === props.channel.id;
+
+  // Store last unread message ID on change and mark the channel as read.
   createEffect(
     on(
-      () => props.channel.id,
-      (id) =>
-        setLastId(
-          props.channel.unread
-            ? (client().channelUnreads.get(id)?.lastMessageId as string)
-            : undefined,
-        ),
-    ),
-  );
+      () => ({
+        id: props.channel.id,
+        unread: props.channel.unread,
+        atEnd: isAtEnd(),
+      }),
+      ({ id, unread, atEnd }, prev) => {
+        const entered = !prev || prev.id !== id;
 
-  // Mark channel as read whenever it is marked as unread
-  createEffect(
-    on(
-      // must be at the end of the conversation
-      () => props.channel.unread && atEnd(),
-      (unread) => {
-        if (unread) {
+        if (entered) {
+          // Anchor the new channel's first unread position (or clear the
+          // previous channel's anchor when there is none).
+          setLastId(
+            unread
+              ? (client().channelUnreads.get(id)?.lastMessageId as string)
+              : undefined,
+          );
+        }
+
+        if (unread && atEnd) {
           if (document.hasFocus()) {
             // acknowledge the message
             props.channel.ack();
-          } else {
-            // otherwise mark this location as the last read location
-            if (!lastId()) {
-              // (taking away one second from the seed)
-              setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
-            }
+          } else if (!lastId()) {
+            // otherwise mark just below the latest message as the last
+            // read location (taking away one second from the seed)
+            setLastId(ulid(decodeTime(props.channel.lastMessageId!) - 1));
           }
         }
       },
@@ -120,7 +122,7 @@ export function TextChannel(props: ChannelPageProps) {
 
   // Mark as read on re-focus
   function onFocus() {
-    if (props.channel.unread && atEnd()) {
+    if (props.channel.unread && isAtEnd()) {
       props.channel.ack();
     }
   }
@@ -231,7 +233,7 @@ export function TextChannel(props: ChannelPageProps) {
             highlightedMessageId={highlightMessageId}
             clearHighlightedMessage={() => navigate(".")}
             jumpToBottomRef={(ref) => (jumpToBottomRef = ref)}
-            atEnd={[atEnd, setEnd]}
+            atEndFor={[atEndFor, setAtEndFor]}
           />
 
           <MessageComposition
