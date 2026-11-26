@@ -61,11 +61,7 @@ function Bar(props: { pwa: boolean }) {
   );
 
   return (
-    <Base
-      disconnected={isDisconnected(lifecycle.state())}
-      pwa={props.pwa}
-      style={props.pwa ? { background: "transparent" } : undefined}
-    >
+    <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
       <Title
         macos={isMacOS}
         style={{
@@ -211,6 +207,7 @@ const Base = styled("div", {
     pwa: {
       true: {
         height: "100%",
+        background: "transparent !important",
       },
     },
   },
