@@ -31,9 +31,7 @@ const DISCONNECTED_STATES = new Set([
   State.Offline,
 ]);
 
-function isDisconnected(state: State) {
-  return DISCONNECTED_STATES.has(state);
-}
+const isDisconnected = (state: State) => DISCONNECTED_STATES.has(state);
 
 function Bar(props: { pwa: boolean }) {
   const { lifecycle } = useClientLifecycle();
