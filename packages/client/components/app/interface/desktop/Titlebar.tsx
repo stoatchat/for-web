@@ -58,6 +58,7 @@ function Bar(props: { pwa: boolean }) {
 
   function maximise() {
     window.native.maximise();
+    setIsMaximised((t) => !t);
   }
 
   return (
@@ -155,57 +156,52 @@ function Bar(props: { pwa: boolean }) {
 export function Titlebar() {
   const [isWCO, setIsWCO] = createSignal(
     matchMedia("(display-mode: window-controls-overlay)").matches,
-  ); etIsMaximised((t) => !t);
-}
+  );
 
-const { lifecycle } = useClientLifecycle();
+  const { lifecycle } = useClientLifecycle();
 
-function isDisconnected() {
-  return [
-    State.Connecting,
-    State.Disconnected,
-    State.Reconnecting,
-    State.Offline,
-  ].includes(lifecycle.state());
-}
+  function isDisconnected() {
+    return [
+      State.Connecting,
+      State.Disconnected,
+      State.Reconnecting,
+      State.Offline,
+    ].includes(lifecycle.state());
+  }
 
+  onMount(() => {
+    const query = matchMedia("(display-mode: window-controls-overlay)");
+    const update = () => setIsWCO(query.matches);
+    query.addEventListener("change", update);
+    onCleanup(() => query.removeEventListener("change", update));
+  });
 
-
-onMount(() => {
-  const query = matchMedia("(display-mode: window-controls-overlay)");
-  const update = () => setIsWCO(query.matches);
-  query.addEventListener("change", update);
-  onCleanup(() => query.removeEventListener("change", update));
-});
-
-
-
-return (
-  <Presence>
-    <Show
-      when={
-        isWCO() ||
-        (isNative && window.desktopConfig?.get()?.customFrame) ||
-        isDisconnected()
-      }
-    >
+  return (
+    <Presence>
       <Show
-        when={isWCO()}
-        fallback={
-          <Motion.div
-            initial={{ height: 0 }}
-            animate={{ height: "29px" }}
-            exit={{ height: 0 }}
-          >
-            {bar(false)}
-          </Motion.div>
+        when={
+          isWCO() ||
+          (isNative && window.desktopConfig?.get()?.customFrame) ||
+          isDisconnected()
         }
       >
-        <div style={wcoStyle}>{bar(true)}</div>
+        <Show
+          when={isWCO()}
+          fallback={
+            <Motion.div
+              initial={{ height: 0 }}
+              animate={{ height: "29px" }}
+              exit={{ height: 0 }}
+            >
+              <Bar pwa={false} />
+            </Motion.div>
+          }
+        >
+          <div style={wcoStyle}><Bar pwa={true} /></div>
+        </Show>
       </Show>
-    </Show>
-  </Presence>
-);
+    </Presence>
+  );
 }
 
 const Base = styled("div", {
