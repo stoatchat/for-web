@@ -245,7 +245,8 @@ export function Messages(props: Props) {
 
     // Set the initial position
     setStart(false);
-    setAtEndFor(props.channel.id);
+    // Assume that nearby = not at end as most linked messages will be in the past
+    setAtEndFor(nearby ? "" : props.channel.id);
 
     // Start collecting messages
     const collected: MessageInterface[] = [];
@@ -882,7 +883,7 @@ export function Messages(props: Props) {
           // rendered between it and the (read) message above, so it must
           // not tail-attach to it
           (next.id.localeCompare(lastReadId) <= 0 &&
-            message.id.localeCompare(lastReadId) === 1 &&
+            message.id.localeCompare(lastReadId) > 0 &&
             !insertedUnreadDivider)
         ) {
           tail = false;
