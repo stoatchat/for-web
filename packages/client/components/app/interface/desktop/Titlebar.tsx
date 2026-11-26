@@ -22,21 +22,7 @@ import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 const isMacOS = navigator.platform.startsWith("Mac");
 const isNative = !!window.native;
 
-const noDrag = {
-  "app-region": "no-drag",
-  "-webkit-app-region": "no-drag",
-} as JSX.CSSProperties;
-
-const wcoStyle = {
-  position: "fixed",
-  left: "env(titlebar-area-x, 0px)",
-  top: "env(titlebar-area-y, 0px)",
-  width: "env(titlebar-area-width, 100%)",
-  height: "env(titlebar-area-height, 29px)",
-  zIndex: "9999",
-  "app-region": "drag",
-  "-webkit-app-region": "drag",
-} as JSX.CSSProperties;
+const noDrag = css({ appRegion: "no-drag" });
 
 const DISCONNECTED_STATES = new Set([
   State.Connecting,
@@ -186,9 +172,9 @@ export function Titlebar() {
             </Motion.div>
           }
         >
-          <div style={wcoStyle}>
+          <WindowControlsOverlay>
             <Bar pwa={true} />
-          </div>
+          </WindowControlsOverlay>
         </Show>
       </Show>
     </Presence>
@@ -289,6 +275,6 @@ const WindowControlsOverlay = styled("div", {
     width: "env(titlebar-area-width, 100%)",
     height: "env(titlebar-area-height, 29px)",
     zIndex: 9999,
-    WebkitAppRegion: "drag",
+    appRegion: "drag",
   },
 });

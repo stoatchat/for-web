@@ -17,6 +17,7 @@ export default defineConfig({
 
   conditions: { extend: condExt },
 
+  // Extra CSS definitions
   utilities: {
     extend: {
       appRegion: {
