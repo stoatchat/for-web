@@ -45,12 +45,13 @@ const DISCONNECTED_STATES = new Set([
   State.Offline,
 ]);
 
+function isDisconnected(lifecycle: Lifecycle) {
+  return DISCONNECTED_STATES.has(lifecycle.state());
+}
+
 function Bar(props: { pwa: boolean }) {
   const { lifecycle } = useClientLifecycle();
 
-  function isDisconnected() {
-    return DISCONNECTED_STATES.has(lifecycle.state());
-  }
 
   const [isMaximised, setIsMaximised] = createSignal(
     isNative
