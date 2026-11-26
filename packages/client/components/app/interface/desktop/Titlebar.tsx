@@ -280,3 +280,16 @@ const Action = styled("a", {
     aspectRatio: "3/2",
   },
 });
+
+const ControlsOverlay = styled("div", {
+  base: {
+    position: "fixed",
+    left: "env(titlebar-area-x, 0px)",
+    top: "env(titlebar-area-y, 0px)",
+    width: "env(titlebar-area-width, 100%)",
+    height: "env(titlebar-area-height, 29px)",
+    zIndex: "9999",
+    "app-region": "drag",
+    "-webkit-app-region": "drag",
+  },
+});
