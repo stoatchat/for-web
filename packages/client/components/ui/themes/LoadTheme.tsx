@@ -78,6 +78,8 @@ export function LoadTheme() {
             : "--md-sys-color-surface-container-high"
       ];
 
+    document.documentElement.style.setProperty("--stoat-titlebar-color", color);
+
     for (const meta of document.head.querySelectorAll("meta[name=theme-color]"))
       (meta as HTMLMetaElement).content = color;
 
