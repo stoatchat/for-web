@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-29 18:29-0500\n"
-"PO-Revision-Date: 2026-08-14 02:29+0000\n"
-"Last-Translator: Elli Niemeläinen <blarpdog@gmail.com>\n"
-"Language-Team: Finnish <https://translate.stoat.chat/projects/revolt/revolt-for-web/fi/>\n"
+"PO-Revision-Date: 2026-11-20 22:18+0000\n"
+"Last-Translator: MrNamelessKnight <laeppamoogle@gmail.com>\n"
+"Language-Team: Finnish <https://translate.stoat.chat/projects/revolt/revolt-"
+"for-web/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.9.1\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #. js-lingui-explicit-id
 #: components/i18n/dayjs.tsx
@@ -53,7 +54,7 @@ msgstr "{0, plural, one {# estetty viesti} other {# estettyä viestiä}}"
 #. placeholder {0}: mentions()
 #: components/ui/components/features/navigation/UnreadCallout.tsx
 msgid "{0, plural, one {# new mention} other {# new mentions}}"
-msgstr ""
+msgstr "{0, plural, one {# uusi maininta} other {# uudet maininnat}}"
 
 #. placeholder {0}: items().length
 #: components/ui/components/utils/files/FileDropAnywhereCollector.tsx
@@ -80,7 +81,7 @@ msgstr "{0} muutti kanavan kuvakkeen"
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} dropped"
-msgstr ""
+msgstr "{0} pudotettu"
 
 #. placeholder {0}: instance.globalLimits.server_emoji - props.server.emojis.length
 #: components/app/interface/settings/server/emojis/EmojiList.tsx
@@ -95,12 +96,12 @@ msgstr "{0} tiedostoa ylittivät {maxSizeFormatted} enimmäiskokorajan eikä nii
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the bottom"
-msgstr ""
+msgstr "{0} on jo pohjalla"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} is already at the top"
-msgstr ""
+msgstr "{0} on jo ylhäällä"
 
 #. placeholder {0}: users()[0]!.username
 #: components/app/interface/channels/text/CompositionInfo.tsx
@@ -126,19 +127,21 @@ msgstr "{0} siirsi kanavan omistajuuden {1}lle"
 #. placeholder {0}: onlineMembers()
 #: src/interface/channels/text/MemberSidebar.tsx
 msgid "{0} members online"
-msgstr ""
+msgstr "{0} jäseniä paikalla"
 
 #. placeholder {0}: name(id)
 #. placeholder {1}: to + 1
 #. placeholder {2}: list.length
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} moved to position {1} of {2}"
-msgstr ""
+msgstr "{0} siirrettiin {1} paikasta {2} paikkaan"
 
 #. placeholder {0}: name(id)
 #: src/interface/navigation/servers/railDrag.ts
 msgid "{0} picked up, use the arrow keys to move it and space to drop it"
 msgstr ""
+"{0} poimittiin, käytä nuolinäppäimiä liikuttaaksesi sitä ja välilyöntiä "
+"pudottaaksesi sen"
 
 #. placeholder {0}: (message.systemMessage as MessagePinnedSystemMessage).by?.username
 #: components/client/NotificationsWorker.tsx
@@ -351,7 +354,6 @@ msgstr "Pääsee tälle kanavalle"
 msgid "Able to speak in voice call"
 msgstr "Pystyy puhumaan puhekanavilla"
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "About"
 #~ msgstr "Tietoa"
 
@@ -646,7 +648,6 @@ msgstr "Bugiseuranta"
 msgid "Busy"
 msgstr "Kiireinen"
 
-#: components/modal/modals/CreateBot.tsx
 #~ msgid "By creating this bot, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Luomalla tämän botin, hyväksyt Stoatin <0>Hyväksyttävän Käytön Ehdot</0>."
 
@@ -654,7 +655,6 @@ msgstr "Kiireinen"
 msgid "By creating this bot, you agree to the <0>Community Guidelines</0>."
 msgstr ""
 
-#: components/modal/modals/CreateServer.tsx
 #~ msgid "By creating this server, you agree to the <0>Acceptable Use Policy</0>."
 #~ msgstr "Luomalla tämän palvelimen, hyväksyt Stoatin <0>Hyväksyttävän Käytön Ehdot</0>."
 
@@ -847,7 +847,6 @@ msgstr ""
 msgid "Check your email"
 msgstr ""
 
-#: components/auth/src/flows/FlowCheck.tsx
 #~ msgid "Check your mail!"
 #~ msgstr "Tarkista sähköpostisi!"
 
@@ -1026,7 +1025,6 @@ msgstr "Kopioi kanavan tunniste"
 msgid "Copy file"
 msgstr ""
 
-#: components/app/menus/MessageContextMenu.tsx
 #~ msgid "Copy file link"
 #~ msgstr ""
 
@@ -1148,7 +1146,6 @@ msgstr "Luo webhook"
 msgid "Create account"
 msgstr ""
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Create an account"
 #~ msgstr "Luo tili"
 
@@ -1736,7 +1733,6 @@ msgstr ""
 msgid "Find a community based on your hobbies or interests."
 msgstr "Löydä harrastuksiisi tai kiinnostuksen kohteisiisi pohjautuva yhteisö."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Find your com<0/>munity,<1/>connect with the world."
 #~ msgstr ""
 
@@ -1908,7 +1904,6 @@ msgstr "Laitteistokiihdytys"
 msgid "Hear other people and see their video"
 msgstr "Voi kuulla muita käyttäjiä ja nähdä heidän videokuvansa"
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Hello!"
 #~ msgstr "Hei!"
 
@@ -2177,11 +2172,9 @@ msgstr "Lataa tiedosto ({0})"
 msgid "Log in"
 msgstr ""
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Log In"
 #~ msgstr "Kirjaudu sisään"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Log in again"
 #~ msgstr ""
 
@@ -2206,7 +2199,6 @@ msgstr "Kirjaudu ulos muista istunnoista"
 msgid "Logging you in…"
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Login"
 #~ msgstr "Kirjaudu sisään"
 
@@ -2600,7 +2592,6 @@ msgstr "Paikalla"
 msgid "Only mentions will notify you"
 msgstr "Vain maininnat ilmoittavat sinulle"
 
-#: components/instance/index.tsx
 #~ msgid "Oops, something went wrong! {e}"
 #~ msgstr ""
 
@@ -2717,7 +2708,6 @@ msgstr "Vahvista tämä toimenpide valitulla menetelmällä."
 msgid "Please enter your email."
 msgstr "Anna sähköpostiosoitteesi."
 
-#: components/i18n/errors.tsx
 #~ msgid "Please log in again."
 #~ msgstr "Kirjaudu sisään uudelleen."
 
@@ -2754,7 +2744,6 @@ msgstr ""
 msgid "Privacy policy"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Privacy Policy"
 #~ msgstr "Tietosuojakäytäntö"
 
@@ -2860,7 +2849,6 @@ msgstr "Palautuskoodit"
 msgid "Reduced"
 msgstr "Vähennetty"
 
-#: components/auth/src/flows/FlowCreate.tsx
 #~ msgid "Register"
 #~ msgstr "Rekisteröidy"
 
@@ -3311,11 +3299,9 @@ msgstr ""
 msgid "Show send message button"
 msgstr "Näytä lähetä viesti -painike"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Sign into Stoat"
 #~ msgstr "Kirjaudu sisään Stoatiin"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Sign Up"
 #~ msgstr "Rekisteröidy"
 
@@ -3422,7 +3408,6 @@ msgstr "Stoat-työpöytäsovellus"
 msgid "Stoat Founder"
 msgstr "Stoatin Perustaja"
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "Stoat is one of the best ways to stay connected with your friends and community, anywhere, anytime."
 #~ msgstr "Stoat on yksi parhaista tavoista pysyä yhteydessä ystäviisi ja yhteisöihisi missä vain, milloin vain."
 
@@ -3535,7 +3520,6 @@ msgstr "Voi estää alempiasemaisten jäsenten vuorovaikutuksen väliaikaisesti"
 msgid "Terms"
 msgstr ""
 
-#: components/auth/src/AuthPage.tsx
 #~ msgid "Terms of Service"
 #~ msgstr "Käyttöehdot"
 
@@ -4010,7 +3994,6 @@ msgstr "Haluatko vaihtaa käyttäjänimeä?"
 msgid "We are working hard on optimising our web app for mobile."
 msgstr ""
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "We couldn't finish logging you in. Try again, and if it keeps happening, check Stoat's status."
 #~ msgstr ""
 
@@ -4050,7 +4033,6 @@ msgstr ""
 #~ msgid "Welcome to"
 #~ msgstr "Tervetuloa"
 
-#: components/auth/src/flows/FlowLogin.tsx
 #~ msgid "Welcome!"
 #~ msgstr "Tervetuloa!"
 
@@ -4075,8 +4057,6 @@ msgstr ""
 msgid "with {0}"
 msgstr ""
 
-#. placeholder {0}: names.join(", ")
-#: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
 #~ msgid "With {0}"
 #~ msgstr "{0}n kanssa"
 
@@ -4218,7 +4198,6 @@ msgstr ""
 msgid "You muted this user."
 msgstr "Tämä käyttäjä on mykistetty."
 
-#: components/auth/src/flows/FlowHome.tsx
 #~ msgid "You were logged out!"
 #~ msgstr "Sinut on kirjattu ulos!"
 
