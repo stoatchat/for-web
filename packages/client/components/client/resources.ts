@@ -37,7 +37,12 @@ export function createProfileResource(user: User) {
  */
 export function createOwnProfileResource() {
   const client = useClient();
-  return createProfileResource(client().user!);
+  return useQuery(() => ({
+    queryKey: ["profile", client().user?.id],
+    queryFn: () => client().user!.fetchProfile(),
+    enabled: !!client().user,
+    throwOnError: true,
+  }));
 }
 
 /**
