@@ -38,9 +38,22 @@ export function registerFloatingElement(element: FloatingElement) {
  * @param element DOM Element
  */
 export function unregisterFloatingElement(element: HTMLElement) {
+  const removed: FloatingElement[] = [];
   setFloatingElements((elements) =>
-    elements.filter((entry) => entry.element !== element),
+    elements.filter((entry) => {
+      if (entry.element !== element) return true;
+      removed.push(entry);
+      return false;
+    }),
   );
+
+  // SolidJS <For> can keep stale snapshots of this list, so empty it out to make sure it no longer pins the detached elements
+  for (const entry of removed) {
+    entry.config = () => ({}) as Props;
+    entry.show = () => undefined;
+    entry.hide = () => {};
+    entry.element = null!;
+  }
 }
 
 /**

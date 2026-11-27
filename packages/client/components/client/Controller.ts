@@ -73,6 +73,18 @@ export type Transition =
         | TransitionType.Logout;
     };
 
+/**
+ * Drop browser-held references into the old UI.
+ */
+function clearDocumentSelection() {
+  try {
+    document.getSelection()?.removeAllRanges();
+    (document.activeElement as HTMLElement | null)?.blur?.();
+  } catch {
+    // no-op
+  }
+}
+
 type PolicyAttentionRequired = [
   ProtocolV1["types"]["policyChange"][],
   () => Promise<void>,
@@ -182,6 +194,8 @@ class Lifecycle {
         this.#connectionFailures = 0;
         break;
       case State.Dispose:
+        clearDocumentSelection();
+        setTimeout(clearDocumentSelection);
         this.reset();
         if (this.#controller.state.auth.getSession()) {
           this.#controller._login();
@@ -221,14 +235,9 @@ class Lifecycle {
   }
 
   private dispose(logout = false) {
-    if (logout) {
-      this.client.logout().catch(() => {});
-    } else {
-      //TODO Client.dispose() method
-      this.client.events.removeAllListeners();
-      this.client.removeAllListeners();
-      this.client.events.disconnect();
-    }
+    if (logout) this.client.logout();
+
+    this.client.dispose();
     this.#enter(State.Dispose);
   }
 
@@ -237,7 +246,11 @@ class Lifecycle {
 
     switch (transition.type) {
       case TransitionType.DisposeOnly:
-        this.reset();
+        if (this.#retryTimeout) {
+          clearTimeout(this.#retryTimeout);
+          this.#retryTimeout = undefined;
+        }
+        this.client.dispose();
         return;
       case TransitionType.Dispose:
         this.#enter(State.Dispose);

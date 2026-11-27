@@ -828,7 +828,11 @@ export function TextEditor(props: Props) {
 
   proseMirror.addEventListener("click", onClick);
 
-  onCleanup(() => proseMirror.removeEventListener("click", onClick));
+  onCleanup(() => {
+    proseMirror.removeEventListener("click", onClick);
+    // Tear down ProseMirror to avoid dead DOM
+    view.destroy();
+  });
 
   // auto focus on mount
   onMount(

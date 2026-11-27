@@ -31,12 +31,12 @@ export function AccountCard() {
     >
       <Ripple />
       <SidebarButtonTitle>
-        <Avatar size={36} src={client().user!.animatedAvatarURL} />
+        <Avatar size={36} src={client().user?.animatedAvatarURL} />
         <SidebarButtonContent>
           <OverflowingText
             class={typography({ class: "label", size: "small" })}
           >
-            {client().user!.displayName}
+            {client().user?.displayName}
           </OverflowingText>
           <Trans>My Account</Trans>
         </SidebarButtonContent>
