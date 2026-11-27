@@ -8,14 +8,14 @@ export { pendingUpdate };
 
 const updateSW = registerSW({
   onNeedRefresh() {
-    setPendingUpdate(() => void updateSW(true));
+    setPendingUpdate(() => () => void updateSW(true));
   },
   onOfflineReady() {
-    console.info("Ready to work offline =)");
+    console.info("Stoat is ready to work offline :3");
     // toast to users
   },
   onRegistered(r) {
     // Check for updates every hour
-    setInterval(() => r!.update(), 36e5);
+    setInterval(() => r && r.update(), 36e5);
   },
 });

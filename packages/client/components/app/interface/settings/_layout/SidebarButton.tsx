@@ -5,6 +5,7 @@ import { MdRipple } from "@material/web/ripple/ripple";
 import { useState } from "@revolt/state";
 import { Ripple } from "@revolt/ui";
 import { SlideState } from "@revolt/ui/components/navigation/SlideDrawer";
+import { cva } from "styled-system/css";
 
 /**
  * Sidebar button
@@ -33,18 +34,20 @@ export function SidebarButton(
   }
 
   return (
-    <SidebarButtonBase
+    <a
       {...other}
-      class={"button" + (local.class ? " " + local.class : "")}
+      class={
+        `button ${SidebarButtonBase()}` + (local.class ? " " + local.class : "")
+      }
       onClick={onClick}
     >
       <Ripple ref={ripple} />
       {props.children}
-    </SidebarButtonBase>
+    </a>
   );
 }
 
-const SidebarButtonBase = styled("a", {
+export const SidebarButtonBase = cva({
   base: {
     // for <Ripple />:
     position: "relative",
@@ -65,14 +68,10 @@ const SidebarButtonBase = styled("a", {
     "& svg": {
       flexShrink: 0,
     },
-  },
-  variants: {
-    "aria-selected": {
-      true: {
-        background: "var(--md-sys-color-primary-container)",
-        color: "var(--md-sys-color-on-primary-container)",
-        fill: "var(--md-sys-color-on-primary-container)",
-      },
+    "&[aria-selected=true]": {
+      background: "var(--md-sys-color-primary-container)",
+      color: "var(--md-sys-color-on-primary-container)",
+      fill: "var(--md-sys-color-on-primary-container)",
     },
   },
 });

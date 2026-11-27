@@ -14,7 +14,7 @@ import { ColouredText, Column, Symbol, Text } from "@revolt/ui";
 import pkg from "../../../../../../package.json";
 
 import { SettingsConfiguration } from ".";
-import { AccountCard, BackCard } from "./user/_AccountCard";
+import { AccountCard, BackCard, UpdateCard } from "./user/_AccountCard";
 import { MyAccount } from "./user/Account";
 import AdvancedSettings from "./user/Advanced";
 import { AppearanceMenu } from "./user/appearance";
@@ -105,6 +105,7 @@ const Config: SettingsConfiguration<{ server: Server }> = {
       prepend: (
         <Column gap="s">
           <BackCard onClose={onClose} />
+          <UpdateCard />
           <AccountCard />
           <div />
         </Column>

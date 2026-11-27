@@ -6,8 +6,9 @@ import { styled } from "styled-system/jsx";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State, TransitionType } from "@revolt/client/Controller";
-import { Button, Ripple, Symbol, typography } from "@revolt/ui";
+import { IconButton, Ripple, Symbol, typography } from "@revolt/ui";
 
+import { useLingui } from "@lingui/solid/macro";
 import Wordmark from "../../../../public/assets/web/wordmark.svg?component-solid";
 import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 
@@ -20,6 +21,7 @@ export function Titlebar() {
       ? (window.desktopConfig.get()?.windowState?.isMaximised ?? false)
       : false,
   );
+  const { t } = useLingui();
   const { lifecycle } = useClientLifecycle();
 
   function isDisconnected() {
@@ -111,15 +113,28 @@ export function Titlebar() {
                 </Match>
               </Switch>
               <Show when={pendingUpdate()}>
-                {" "}
                 <div
                   style={{
                     "-webkit-app-region": "no-drag",
                   }}
                 >
-                  <Button size="sm" onPress={pendingUpdate()}>
-                    Update
-                  </Button>
+                  <IconButton
+                    onPress={pendingUpdate()}
+                    aria-label={t`Update available, click to reload`}
+                    use:floating={{
+                      tooltip: {
+                        placement: "bottom",
+                        content: t`Update available, click to reload`,
+                      },
+                    }}
+                  >
+                    <Symbol
+                      size={16}
+                      style={{ color: "var(--md-sys-color-tertiary)" }}
+                    >
+                      update
+                    </Symbol>
+                  </IconButton>
                 </div>
               </Show>
             </DragHandle>

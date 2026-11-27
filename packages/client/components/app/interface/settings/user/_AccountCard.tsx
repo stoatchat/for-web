@@ -9,10 +9,13 @@ import {
   typography,
 } from "@revolt/ui";
 
-import { css } from "styled-system/css";
+import { Show } from "solid-js";
+import { css, cva } from "styled-system/css";
+import { pendingUpdate } from "../../../../../src/serviceWorkerInterface";
 import { useSettingsNavigation } from "../Settings";
 import {
   SidebarButton,
+  SidebarButtonBase,
   SidebarButtonContent,
   SidebarButtonTitle,
 } from "../_layout/SidebarButton";
@@ -66,7 +69,51 @@ export function BackCard(props: { onClose?: () => void }) {
   );
 }
 
+export function UpdateCard() {
+  return (
+    <Show when={pendingUpdate()}>
+      <button
+        style={{ overflow: "clip" }}
+        class={css(SidebarButtonBase.raw(), UpdateSidebarButton.raw())}
+        onClick={pendingUpdate()}
+      >
+        <div role="presentation" class={CTABackgroundOverlay()}>
+          <Symbol>update</Symbol>
+        </div>
+        <Ripple />
+        <SidebarButtonTitle>
+          <SidebarButtonContent>
+            <span class={typography({ class: "title", size: "medium" })}>
+              <Trans>Update available</Trans>
+            </span>
+            <p class={typography({ class: "body" })}>
+              <Trans>Click to update to the latest version</Trans>
+            </p>
+          </SidebarButtonContent>
+        </SidebarButtonTitle>
+      </button>
+    </Show>
+  );
+}
+
 const mobileOnly = css({
   display: "none",
   _tablet: { display: "flex" },
+});
+
+const UpdateSidebarButton = cva({
+  base: {
+    textAlign: "start",
+    background: "var(--md-sys-color-tertiary-fixed-dim)",
+    color: "var(--md-sys-color-on-tertiary-fixed)",
+  },
+});
+
+const CTABackgroundOverlay = cva({
+  base: {
+    position: "absolute",
+    opacity: "10%",
+    color: "var(--md-sys-color-on-tertiary-fixed-variant)",
+    transform: "scale(3) translateY(5px)",
+  },
 });

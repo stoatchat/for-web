@@ -48,7 +48,7 @@ export default defineConfig({
     }),
     VitePWA({
       srcDir: "src",
-      registerType: "autoUpdate",
+      registerType: "prompt",
       filename: "serviceWorker.ts",
       strategies: "injectManifest",
       injectManifest: {

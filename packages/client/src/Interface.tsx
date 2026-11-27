@@ -3,6 +3,7 @@ import {
   createSignal,
   JSX,
   Match,
+  on,
   onCleanup,
   Switch,
 } from "solid-js";
@@ -25,11 +26,13 @@ import {
 } from "@revolt/routing";
 import { useState } from "@revolt/state";
 import { LAYOUT_SECTIONS } from "@revolt/state/stores/Layout";
-import { LoadingScreen } from "@revolt/ui";
+import { LoadingScreen, useSnackbar } from "@revolt/ui";
 
+import { useLingui } from "@lingui/solid/macro";
 import { Keybind, KeybindAction } from "@revolt/keybinds";
 import { SlideDrawer } from "../components/ui/components/navigation/SlideDrawer";
 import { Sidebar } from "./interface/Sidebar";
+import { pendingUpdate } from "./serviceWorkerInterface";
 
 /**
  * Application layout
@@ -37,6 +40,9 @@ import { Sidebar } from "./interface/Sidebar";
 const Interface = (props: { children: JSX.Element }) => {
   const state = useState();
   const client = useClient();
+  const snackbar = useSnackbar();
+
+  const { t } = useLingui();
   const { openModal, modals, remove } = useModals();
   const { isLoggedIn, isSwapping, lifecycle } = useClientLifecycle();
   const { pathname } = useLocation();
@@ -59,6 +65,25 @@ const Interface = (props: { children: JSX.Element }) => {
       state.auth.setNextPath(pathname);
     }
   });
+
+  createEffect(
+    on(pendingUpdate, (reload) => {
+      if (
+        !reload ||
+        (window.native && window.desktopConfig?.get()?.customFrame)
+      )
+        return;
+
+      snackbar.show({
+        message: t`An update was downloaded and is ready to install.`,
+        action: t`Install update`,
+        onAction: reload,
+        closeOnAction: true,
+        autoCloseDelay: 1e4, // Close after 10 seconds have passed
+        closeable: true,
+      });
+    }),
+  );
 
   function isDisconnected() {
     return [
