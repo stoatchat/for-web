@@ -2,4 +2,4 @@
 #MISE description="Lint code and find issues"
 set -e
 
-pnpm exec eslint --ext .ts,.tsx packages/client
+pnpm exec eslint --ext .ts,.tsx packages/client packages/stoat.js

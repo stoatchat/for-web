@@ -2,4 +2,4 @@
 #MISE description="Fix code formatting"
 set -e
 
-pnpm exec prettier --write 'packages/client/**/*.{ts,tsx,json}'
+pnpm exec prettier --write 'packages/{client,stoat.js}/**/*.{ts,tsx,json}'
