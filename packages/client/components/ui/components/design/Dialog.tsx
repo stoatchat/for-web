@@ -390,6 +390,10 @@ const Title = styled("span", {
 });
 
 const ScrollContent = styled("div", {
+  base: {
+    display: "flex",
+    minHeight: "0",
+  },
   variants: {
     fullscreen: {
       true: {
