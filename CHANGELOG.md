@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.18.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.17.0...stoat-for-web-v0.18.0) (2026-11-27)
+
+
+### Features
+
+* allow marking an entire server folder as read ([#1802](https://github.com/stoatchat/for-web/issues/1802)) ([4c1493e](https://github.com/stoatchat/for-web/commit/4c1493ea594e4c659da0bd87a38629e544bdf348))
+* avatar radius setting ([#1585](https://github.com/stoatchat/for-web/issues/1585)) ([4e540e0](https://github.com/stoatchat/for-web/commit/4e540e0928cb1bcb1da78839ca1f2e461abbab7b))
+* clearer error messages in add friend UI ([#1827](https://github.com/stoatchat/for-web/issues/1827)) ([064b818](https://github.com/stoatchat/for-web/commit/064b81852560183537aa7b5498b564cd5d1b4917))
+* Favourite gifs and emojis, recent emojis ([#1714](https://github.com/stoatchat/for-web/issues/1714)) ([5b67751](https://github.com/stoatchat/for-web/commit/5b6775148c2c8d441090ef28601fd686b75fe3e1))
+* optionally join voice channels with a double click ([#1792](https://github.com/stoatchat/for-web/issues/1792)) ([25f757e](https://github.com/stoatchat/for-web/commit/25f757eae7a1df63c940ece7916a8ea77d6034b8))
+* quick switcher (ctrl + k) ([#1684](https://github.com/stoatchat/for-web/issues/1684)) ([9e1a259](https://github.com/stoatchat/for-web/commit/9e1a2598e656699a6aa18f6c602633c513cf0b70))
+* **ui:** full-screen dialogs ([#1765](https://github.com/stoatchat/for-web/issues/1765)) ([5401edb](https://github.com/stoatchat/for-web/commit/5401edb52d11a80ef2b8a41649e1b3ff5309dc8e))
+* use gifbox api directly ([#1811](https://github.com/stoatchat/for-web/issues/1811)) ([a97fa9c](https://github.com/stoatchat/for-web/commit/a97fa9c626ab8320cd9783e4d563def2b1a642f2))
+* Use new full screen modal for changelog on phone breakpoint ([#1835](https://github.com/stoatchat/for-web/issues/1835)) ([e4af906](https://github.com/stoatchat/for-web/commit/e4af9069ec8ef7cb58ac895a4e6554fe2d53dadb))
+
+
+### Bug Fixes
+
+* accidental macOS key retention ([#1812](https://github.com/stoatchat/for-web/issues/1812)) ([81d6248](https://github.com/stoatchat/for-web/commit/81d62489e2890a43d605a3181418983254203032))
+* Desktop config getter hardened ([#1816](https://github.com/stoatchat/for-web/issues/1816)) ([71b6cb1](https://github.com/stoatchat/for-web/commit/71b6cb16ebf3b31823be7b3f47f575b98a1eeacc))
+* high contrast themes being unreadable in some places ([#1577](https://github.com/stoatchat/for-web/issues/1577)) ([13d27e1](https://github.com/stoatchat/for-web/commit/13d27e1ac4b3e0c5064bef0c9532cfdd401b7e10))
+* in-editor mention chip not using correct colour ([#1818](https://github.com/stoatchat/for-web/issues/1818)) ([20623fb](https://github.com/stoatchat/for-web/commit/20623fb854c65691e321d5b47bc5a422ab269938))
+* **ios:** recover the drawer after backgrounding and start the slide on tap ([#1789](https://github.com/stoatchat/for-web/issues/1789)) ([d606f88](https://github.com/stoatchat/for-web/commit/d606f88c17f7a69e87c4c34e38f1d0a2114d62fd))
+* Make unread divider more reliable ([#1823](https://github.com/stoatchat/for-web/issues/1823)) ([a9c422e](https://github.com/stoatchat/for-web/commit/a9c422e3ee2b4779398354a27ee8d4e6779ed47a))
+* memory leak on logout and account switch ([#1808](https://github.com/stoatchat/for-web/issues/1808)) ([20e4540](https://github.com/stoatchat/for-web/commit/20e45401d1ddcd0d5e0060996f2688725b88c0bf))
+* Modal scrim inert when not showing ([#1815](https://github.com/stoatchat/for-web/issues/1815)) ([e5a98c3](https://github.com/stoatchat/for-web/commit/e5a98c33051a66d42ff1adbfa093580c1c45d086))
+* Remove gpu rasterization layer on settings modal causing text blur ([#1821](https://github.com/stoatchat/for-web/issues/1821)) ([ab26e56](https://github.com/stoatchat/for-web/commit/ab26e563b6c80ff62b9ef2def7742df2315dea72))
+* Rewrite copyAssets to work with missing assets ([#1817](https://github.com/stoatchat/for-web/issues/1817)) ([60748fd](https://github.com/stoatchat/for-web/commit/60748fde2142ffda0abc0c0131ab73887caa8ed7))
+* use circular avatar shape on mention chips ([#1829](https://github.com/stoatchat/for-web/issues/1829)) ([ba27ab8](https://github.com/stoatchat/for-web/commit/ba27ab8a82f2f57902a2707ed886e5d589e6b3c8))
+
 ## [0.17.0](https://github.com/stoatchat/for-web/compare/stoat-for-web-v0.16.3...stoat-for-web-v0.17.0) (2026-11-13)
 
 ### Features
