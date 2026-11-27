@@ -199,6 +199,14 @@ msgstr "{0} -এর সমস্ত রোলগুলো"
 msgid "{0}'s timeout will be removed and they will be able to interact with the server again."
 msgstr "{0}-এর টাইমআউট তুলে নেওয়া হবে। এরপর সে আবার সার্ভারে কাজ করতে পারবে।"
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in category {category}, in server {serverName}"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "{channel}, in server {serverName}"
+msgstr ""
+
 #~ msgid "{h} hours"
 #~ msgstr "{h} ঘণ্টা"
 
@@ -310,6 +318,10 @@ msgstr "1 জন রিয়্যাক্ট করেছেন"
 #: components/app/interface/settings/user/Language.tsx
 msgid "12 hours"
 msgstr "12 ঘণ্টা"
+
+#: components/modal/modals/AddFriend.tsx
+msgid "1234"
+msgstr ""
 
 #~ msgid "2 hours"
 #~ msgstr ""
@@ -466,6 +478,10 @@ msgstr "আপনি ইতিমধ্যেই এই ইউজারের �
 
 #: components/auth/src/AuthPage.tsx
 msgid "Already have an account?"
+msgstr ""
+
+#: components/markdown/plugins/customEmoji.tsx
+msgid "Alt+Click to yoink"
 msgstr ""
 
 #: components/app/interface/settings/user/voice/ScreenShareOptions.tsx
@@ -679,6 +695,7 @@ msgstr ""
 
 #: components/auth/src/flows/FlowLogin.tsx
 #: components/modal/modals/AddBot.tsx
+#: components/modal/modals/AvatarRadius.tsx
 #: components/modal/modals/BanMember.tsx
 #: components/modal/modals/BanNonMember.tsx
 #: components/modal/modals/CropProcess.tsx
@@ -861,8 +878,16 @@ msgstr ""
 msgid "Choose an account"
 msgstr ""
 
+#: components/modal/modals/AvatarRadius.tsx
+msgid "Choose radius"
+msgstr ""
+
 #: components/modal/modals/Onboarding.tsx
 msgid "Choose username"
+msgstr ""
+
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+msgid "Circular"
 msgstr ""
 
 #: src/interface/navigation/servers/UserMenu.tsx
@@ -871,6 +896,10 @@ msgstr "স্ট্যাটাস মুছুন"
 
 #: components/modal/modals/PolicyChange.tsx
 msgid "Click on the items below to learn more about different changes!"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Click the star on GIFs to stash them here."
 msgstr ""
 
 #: components/ui/components/features/profiles/ProfileBanner.tsx
@@ -1050,6 +1079,10 @@ msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Copy link to file"
+msgstr ""
+
+#: components/app/menus/shared/GifboxContextMenu.tsx
+msgid "Copy link to GIF"
 msgstr ""
 
 #: components/app/menus/MessageContextMenu.tsx
@@ -1258,6 +1291,10 @@ msgstr "বর্তমান পাসওয়ার্ড"
 msgid "Current Session"
 msgstr ""
 
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+msgid "Custom"
+msgstr ""
+
 #: components/ui/components/design/ColourPicker.tsx
 msgid "Custom colour"
 msgstr ""
@@ -1303,6 +1340,7 @@ msgstr "সদস্যদের ভয়েস চ্যানেলে ব্
 
 #: components/app/menus/shared/NotificationContextMenu.tsx
 #: components/ui/components/design/ColourPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
 msgid "Default"
 msgstr "ডিফল্ট"
 
@@ -1501,6 +1539,10 @@ msgstr ""
 #: components/modal/modals/MFARecovery.tsx
 msgid "Done"
 msgstr "হয়ে গেছে"
+
+#: components/app/interface/settings/user/voice/VoiceChannelOptions.tsx
+msgid "Double-click a voice channel in the channel list to join it straight away."
+msgstr ""
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Download for desktop"
@@ -1718,6 +1760,20 @@ msgstr ""
 msgid "Failed to verify!"
 msgstr "যাচাই করা যায়নি!"
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Favourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Favourite GIF"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Favourites"
+msgstr ""
+
 #: components/app/interface/settings/user/Feedback.tsx
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Feedback"
@@ -1779,6 +1835,10 @@ msgstr ""
 msgid "Forgot password?"
 msgstr ""
 
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Frequently Used"
+msgstr ""
+
 #: src/interface/Friends.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Friends"
@@ -1823,6 +1883,10 @@ msgstr ""
 
 #: components/auth/src/AppUpsell.tsx
 msgid "Get the desktop app for Windows, macOS and Linux and keep your conversations one click away."
+msgstr ""
+
+#: components/app/menus/shared/GifboxContextMenu.tsx
+msgid "Gifbox Admin Panel"
 msgstr ""
 
 #: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
@@ -2062,6 +2126,10 @@ msgstr ""
 msgid "Join the voice channel"
 msgstr ""
 
+#: components/app/interface/settings/user/voice/VoiceChannelOptions.tsx
+msgid "Join voice channels with a double click"
+msgstr ""
+
 #: components/ui/components/features/messaging/elements/Invite.tsx
 #: components/ui/components/features/profiles/ProfileJoined.tsx
 msgid "Joined"
@@ -2267,6 +2335,10 @@ msgstr "পঠিত হিসেবে মার্ক করে রাখু�
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Mark as unread"
 msgstr "অপঠিত হিসেবে মার্ক করে রাখুন"
+
+#: components/app/menus/ServerFolderContextMenu.tsx
+msgid "Mark folder as read"
+msgstr ""
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Mark this channel as mature?"
@@ -2505,6 +2577,14 @@ msgstr ""
 msgid "No permissions set yet"
 msgstr ""
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No recent channels"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "No results"
+msgstr ""
+
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsOverview.tsx
 msgid "No role overrides have been configured."
 msgstr ""
@@ -2613,6 +2693,10 @@ msgstr ""
 msgid "Open file"
 msgstr ""
 
+#: components/app/menus/shared/GifboxContextMenu.tsx
+msgid "Open in Gifbox"
+msgstr ""
+
 #: components/app/menus/ServerContextMenu.tsx
 msgid "Open server settings"
 msgstr ""
@@ -2705,6 +2789,14 @@ msgstr ""
 msgid "Please confirm this action using the selected method."
 msgstr "নির্বাচিত পদ্ধতিকে ব্যবহার করে এটি নিশ্চিত করুন।"
 
+#: components/modal/modals/AddFriend.tsx
+msgid "Please enter a username and a 4-digit tag."
+msgstr ""
+
+#: components/modal/modals/AddFriend.tsx
+msgid "Please enter a username."
+msgstr ""
+
 #: components/auth/src/flows/Form.tsx
 msgid "Please enter your email."
 msgstr "দয়া করে আপনার ইমেইল লিখুন।"
@@ -2737,6 +2829,10 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "PREVIOUS CHANNELS"
+msgstr ""
+
 #: components/app/interface/settings/UserSettings.tsx
 #: components/auth/src/AuthPage.tsx
 msgid "Privacy"
@@ -2753,6 +2849,10 @@ msgstr ""
 msgid "Private Channel"
 msgstr ""
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Pro tip:"
+msgstr ""
+
 #: components/app/interface/settings/UserSettings.tsx
 #: components/app/menus/UserContextMenu.tsx
 msgid "Profile"
@@ -2760,6 +2860,10 @@ msgstr "প্রোফাইল"
 
 #: components/app/interface/settings/user/profile/UserProfileEditor.tsx
 msgid "Profile Bio"
+msgstr ""
+
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+msgid "Profile Picture shape"
 msgstr ""
 
 #: components/modal/modals/ReportContent.tsx
@@ -2952,6 +3056,10 @@ msgstr "উত্তর দিচ্ছেন"
 msgid "Report"
 msgstr "রিপোর্ট করুন"
 
+#: components/app/menus/shared/GifboxContextMenu.tsx
+msgid "Report GIF"
+msgstr ""
+
 #: components/app/menus/MessageContextMenu.tsx
 msgid "Report message"
 msgstr "মেসেজ রিপোর্ট করুন"
@@ -3053,6 +3161,10 @@ msgstr "রোলগুলো"
 msgid "Roles with No Overrides"
 msgstr ""
 
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+msgid "Rounded"
+msgstr ""
+
 #: components/app/interface/settings/channel/Overview.tsx
 #: components/app/interface/settings/channel/webhooks/ViewWebhook.tsx
 #: components/app/interface/settings/server/Overview.tsx
@@ -3076,6 +3188,7 @@ msgstr ""
 msgid "Save to your notes"
 msgstr "আপনার নোটসে সেভ করুন"
 
+#: components/modal/modals/QuickSwitch.tsx
 #: src/interface/channels/ChannelHeader.tsx
 #: src/interface/navigation/channels/HomeSidebar.tsx
 msgid "Saved Notes"
@@ -3104,6 +3217,18 @@ msgstr ""
 
 #: src/interface/channels/ChannelHeader.tsx
 msgid "Search"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Search channels"
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/EmojiPicker.tsx
+msgid "Search for emojis..."
+msgstr ""
+
+#: components/ui/components/features/messaging/composition/picker/GifPicker.tsx
+msgid "Search for GIFs..."
 msgstr ""
 
 #: components/modal/modals/AddBot.tsx
@@ -3236,6 +3361,10 @@ msgstr "সার্ভারের নাম"
 msgid "Server Roles"
 msgstr ""
 
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Server: {name}"
+msgstr ""
+
 #: components/app/interface/settings/UserSettings.tsx
 msgid "Sessions"
 msgstr "সেশনগুলো"
@@ -3287,6 +3416,10 @@ msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardActions.tsx
 msgid "Share screen"
+msgstr ""
+
+#: components/app/interface/settings/user/appearance/AppearanceMenu.tsx
+msgid "Sharp"
 msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
@@ -3381,6 +3514,10 @@ msgstr ""
 
 #: components/app/interface/settings/user/Native.tsx
 msgid "Start Minimised to Tray"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Start searches with <0>@</0> <1>#</1> <2>!</2> <3>*</3> to narrow results."
 msgstr ""
 
 #: components/ui/components/features/voice/callCard/VoiceCallCardPreview.tsx
@@ -3497,6 +3634,10 @@ msgstr ""
 msgid "System message channels"
 msgstr ""
 
+#: components/modal/modals/AddFriend.tsx
+msgid "Tag"
+msgstr ""
+
 #: components/auth/src/AppUpsell.tsx
 msgid "Take your communities <0>with you.</0>"
 msgstr ""
@@ -3568,6 +3709,10 @@ msgstr ""
 
 #: components/i18n/errors.tsx
 msgid "The server is already on discover, the user must contact support to have it removed."
+msgstr ""
+
+#: components/modal/modals/AddFriend.tsx
+msgid "The tag must be exactly 4 digits."
 msgstr ""
 
 #: components/i18n/errors.tsx
@@ -3754,6 +3899,15 @@ msgstr ""
 msgid "Undeafen"
 msgstr ""
 
+#: components/app/menus/EmojiContextMenu.tsx
+msgid "Unfavourite emoji"
+msgstr ""
+
+#: components/app/menus/MessageContextMenu.tsx
+#: components/ui/components/utils/GifEmbed.tsx
+msgid "Unfavourite GIF"
+msgstr ""
+
 #: components/ui/components/design/LoadingScreen.tsx
 msgid "Unknown"
 msgstr ""
@@ -3822,6 +3976,10 @@ msgstr "ফাইল আপলোড করুন"
 msgid "Upload to Gifbox"
 msgstr ""
 
+#: components/modal/modals/AvatarRadius.tsx
+msgid "Use"
+msgstr ""
+
 #: components/modal/modals/JoinServer.tsx
 msgid "Use a code or invite link"
 msgstr ""
@@ -3887,6 +4045,10 @@ msgstr "ইউজার সেটিংস"
 msgid "User's profile has inappropriate content"
 msgstr ""
 
+#: components/modal/modals/AddFriend.tsx
+msgid "username"
+msgstr ""
+
 #: components/app/interface/settings/user/Account.tsx
 #: components/auth/src/flows/Form.tsx
 #: components/modal/modals/AddFriend.tsx
@@ -3898,8 +4060,8 @@ msgid "Username"
 msgstr "ইউজারনেম"
 
 #: components/modal/modals/AddFriend.tsx
-msgid "username#1234"
-msgstr ""
+#~ msgid "username#1234"
+#~ msgstr ""
 
 #: components/modal/modals/ChannelToggleMature.tsx
 msgid "Users will be asked to confirm their age before joining this channel."
@@ -3980,6 +4142,10 @@ msgstr ""
 msgid "Voice Channel"
 msgstr "ভয়েস চ্যানেল"
 
+#: components/app/interface/settings/user/voice/VoiceChannelOptions.tsx
+msgid "Voice Channels"
+msgstr ""
+
 #: components/app/interface/settings/user/voice/VoiceProcessingOptions.tsx
 msgid "Voice Processing"
 msgstr ""
@@ -4045,6 +4211,10 @@ msgstr ""
 
 #: components/app/interface/settings/UserSettings.tsx
 msgid "What's New"
+msgstr ""
+
+#: components/modal/modals/QuickSwitch.tsx
+msgid "Where would you like to go?"
 msgstr ""
 
 #: components/app/interface/settings/channel/permissions/ChannelPermissionsEditor.tsx
