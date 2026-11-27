@@ -60,6 +60,7 @@ export {
   useSnackbar,
 } from "./Snackbar";
 export { Switch } from "./Switch";
+export { TabGroup } from "./Tabs";
 export { Text, typography } from "./Text";
 export { TextEditor } from "./TextEditor";
 export { TextField } from "./TextField";

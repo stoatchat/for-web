@@ -2,10 +2,8 @@ import { useFloating } from "solid-floating-ui";
 import {
   Accessor,
   JSX,
-  Match,
   Setter,
   Show,
-  Switch,
   createContext,
   createSignal,
   onCleanup,
@@ -20,8 +18,7 @@ import { cva } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
 import { useDevice } from "@revolt/common";
-import { Button } from "@revolt/ui/components/design";
-import { Row } from "@revolt/ui/components/layout";
+import { TabGroup } from "@revolt/ui/components/design";
 
 import { EmojiPicker } from "./EmojiPicker";
 import { GifPicker } from "./GifPicker";
@@ -172,7 +169,7 @@ function Picker(
       }
     >
       <Container>
-        <Row gap="xs" justify class="CompositionButton">
+        {/*<Row gap="xs" justify class="CompositionButton">
           <Show
             when={!props.channel || props.channel.havePermission("SendEmbeds")}
           >
@@ -196,16 +193,30 @@ function Picker(
           >
             Emoji
           </Button>
-        </Row>
-
-        <Switch fallback={<span>Not available yet.</span>}>
+        </Row>*/}
+        <TabGroup
+          startingAt={props.show()}
+          pages={{
+            gif: {
+              title: "GIFs",
+              hidden:
+                props.channel && !props.channel?.havePermission("SendEmbeds"),
+              children: () => <GifPicker />,
+            },
+            emoji: {
+              title: "Emoji",
+              children: () => <EmojiPicker channel={props.channel} />,
+            },
+          }}
+        />
+        {/*<Switch fallback={<span>Not available yet.</span>}>
           <Match when={props.show() === "gif"}>
             <GifPicker />
           </Match>
           <Match when={props.show() === "emoji"}>
             <EmojiPicker channel={props.channel} />
           </Match>
-        </Switch>
+        </Switch>*/}
       </Container>
     </Base>
   );
@@ -241,7 +252,6 @@ const Container = styled("div", {
     alignItems: "stretch",
 
     overflow: "hidden",
-    padding: "var(--gap-md) 0",
 
     borderRadius: "var(--borderRadius-lg)",
     color: "var(--md-sys-color-on-surface)",
