@@ -163,9 +163,11 @@ export function Dialog(props: Props) {
                     </div>
                   </Match>
                 </Switch>
-                <Content class={typography()} fullscreen={fullscreen()}>
-                  {props.children}
-                </Content>
+                <ScrollContent fullscreen={fullscreen()}>
+                  <Content class={typography()} fullscreen={fullscreen()}>
+                    {props.children}
+                  </Content>
+                </ScrollContent>
                 <Show when={props.actions && !fullscreen()}>
                   <Actions fullscreen={fullscreen()}>
                     <For each={props.actions}>
@@ -387,6 +389,19 @@ const Title = styled("span", {
   },
 });
 
+const ScrollContent = styled("div", {
+  variants: {
+    fullscreen: {
+      true: {
+        overflowY: "auto",
+      },
+    },
+  },
+  defaultVariants: {
+    fullscreen: false,
+  },
+});
+
 const Content = styled("div", {
   base: {
     color: "var(--md-sys-color-on-surface-variant)",
@@ -397,7 +412,6 @@ const Content = styled("div", {
         marginTop: "1.5rem",
         marginInline: "1.5rem",
         flex: 1,
-        overflowY: "auto",
       },
     },
   },
