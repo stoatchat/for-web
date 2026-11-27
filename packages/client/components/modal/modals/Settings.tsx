@@ -26,7 +26,7 @@ export function SettingsModal(
   createEffect(
     on(contRef, (cont) => {
       if (!cont || sDrawer) return;
-      sDrawer = new SlideDrawer(cont, rootRef!);
+      sDrawer = new SlideDrawer(cont, rootRef!, true);
       setDiagDrawer(sDrawer);
     }),
   );

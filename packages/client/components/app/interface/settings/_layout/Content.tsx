@@ -4,7 +4,9 @@ import { Motion, Presence } from "solid-motionone";
 import { css } from "styled-system/css";
 import { styled } from "styled-system/jsx";
 
-import { Breadcrumbs, IconButton, Symbol, Text } from "@revolt/ui";
+import { useDevice } from "@revolt/common";
+import { useState } from "@revolt/state";
+import { Breadcrumbs, IconButton, Symbol, typography } from "@revolt/ui";
 
 import { SettingsList } from "..";
 import { useSettingsNavigation } from "../Settings";
@@ -22,6 +24,8 @@ export function SettingsContent(props: {
   action: Accessor<(() => JSX.Element) | undefined>;
 }) {
   const { navigate } = useSettingsNavigation();
+  const device = useDevice();
+  const state = useState();
   const reduceMotion =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,8 +35,17 @@ export function SettingsContent(props: {
       <Show when={props.page()}>
         <InnerContent class="settings_cont">
           <InnerColumn>
-            <Show when={props.page() !== "account"}>
-              <Text class="title" size="large">
+            <Show
+              when={props.page() !== "account" || device.layout() === "phone"}
+            >
+              <PaneTitle class={typography({ class: "title", size: "large" })}>
+                <Show when={device.layout() === "phone"}>
+                  <IconButton
+                    onPress={() => state.diagDrawer()?.setShown(false)}
+                  >
+                    <Symbol>arrow_back</Symbol>
+                  </IconButton>
+                </Show>
                 <Breadcrumbs
                   elements={props.page()!.split("/")}
                   renderElement={(key) =>
@@ -40,7 +53,7 @@ export function SettingsContent(props: {
                   }
                   navigate={(keys) => navigate(keys.join("/"))}
                 />
-              </Text>
+              </PaneTitle>
             </Show>
             {props.children}
             <div class={css({ minHeight: "80px" })} />
@@ -141,6 +154,14 @@ const InnerColumn = styled("div", {
     display: "flex",
     flexDirection: "column",
     marginBlockEnd: "80px",
+  },
+});
+
+const PaneTitle = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "4px",
   },
 });
 
