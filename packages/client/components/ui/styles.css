@@ -25,6 +25,16 @@ body {
   --inset-left: env(safe-area-inset-left);
 }
 
+/* Reserve the area used by the PWA's window controls overlay titlebar */
+@media (display-mode: window-controls-overlay) {
+  :root {
+    --inset-top: calc(
+      env(titlebar-area-y, 0px) + env(titlebar-area-height, 29px) +
+        env(safe-area-inset-top, 0px)
+    );
+  }
+}
+
 /* The keyboard covers the home indicator, so sit right on top of it */
 :root:has(
   :is(

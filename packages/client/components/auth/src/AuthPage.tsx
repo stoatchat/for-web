@@ -37,6 +37,9 @@ const root = css({
   width: "100%",
   height: "100%",
   minHeight: 0,
+  overflowX: "hidden",
+  overflowY: "auto",
+  scrollbarColor: "var(--md-sys-color-primary) transparent",
   color: "var(--md-sys-color-on-surface)",
   background: "var(--md-sys-color-surface)",
 });
@@ -501,7 +504,7 @@ export function AuthPage(props: { children: JSX.Element }) {
   );
 
   return (
-    <div use:scrollable={{ class: root }}>
+    <div class={root}>
       <Titlebar />
       <Page>
         <Hero>

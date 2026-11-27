@@ -17,6 +17,19 @@ export default defineConfig({
 
   conditions: { extend: condExt },
 
+  // Extra CSS definitions
+  utilities: {
+    extend: {
+      appRegion: {
+        className: "app-region",
+        values: ["drag", "no-drag"],
+        transform: (value: string) => ({
+          "-webkit-app-region": value,
+        }),
+      },
+    },
+  },
+
   // Useful for theme customization
   theme: {
     extend: {

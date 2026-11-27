@@ -1,4 +1,12 @@
-import { createSignal, Match, Show, Switch } from "solid-js";
+import {
+  createSignal,
+  Match,
+  onCleanup,
+  onMount,
+  Show,
+  Switch,
+} from "solid-js";
+import { Portal } from "solid-js/web";
 import { Motion, Presence } from "solid-motionone";
 
 import { css } from "styled-system/css";
@@ -14,138 +22,161 @@ import { pendingUpdate } from "../../../../src/serviceWorkerInterface";
 const isMacOS = navigator.platform.startsWith("Mac");
 const isNative = !!window.native;
 
-export function Titlebar() {
+const noDrag = css({ appRegion: "no-drag" });
+
+const DISCONNECTED_STATES = new Set([
+  State.Connecting,
+  State.Disconnected,
+  State.Reconnecting,
+  State.Offline,
+]);
+
+const isDisconnected = (state: State) => DISCONNECTED_STATES.has(state);
+
+function Bar(props: { pwa: boolean }) {
+  const { lifecycle } = useClientLifecycle();
+
   const [isMaximised, setIsMaximised] = createSignal(
     isNative
       ? (window.desktopConfig.get()?.windowState?.isMaximised ?? false)
       : false,
   );
-  const { lifecycle } = useClientLifecycle();
-
-  function isDisconnected() {
-    return [
-      State.Connecting,
-      State.Disconnected,
-      State.Reconnecting,
-      State.Offline,
-    ].includes(lifecycle.state());
-  }
 
   function maximise() {
     window.native.maximise();
     setIsMaximised((t) => !t);
   }
 
+  const ReconnectLink = () => (
+    <a
+      onClick={() =>
+        lifecycle.transition({
+          type: TransitionType.Retry,
+        })
+      }
+      style={noDrag}
+    >
+      <strong> (reconnect now)</strong>
+    </a>
+  );
+
   return (
-    <Presence>
-      <Show
-        when={
-          (isNative && window.desktopConfig?.get()?.customFrame) ||
-          isDisconnected()
-        }
+    <Base disconnected={isDisconnected(lifecycle.state())} pwa={props.pwa}>
+      <Title
+        macos={isMacOS}
+        style={{
+          "-webkit-user-select": "none",
+          "-webkit-app-region": "drag",
+        }}
       >
-        <Motion.div
-          initial={{ height: 0 }}
-          animate={{ height: "29px" }}
-          exit={{ height: 0 }}
-        >
-          <Base disconnected={isDisconnected()}>
-            <Title
-              macos={isMacOS}
-              style={{
-                "-webkit-user-select": "none",
-                "-webkit-app-region": "drag",
-              }}
-            >
-              <Wordmark
-                class={css({
-                  height: "18px",
-                  marginBlockStart: "1px",
-                })}
-              />{" "}
-              <Show when={import.meta.env.DEV}>
-                <Symbol size={16}>build</Symbol>
-              </Show>
-            </Title>
-            <DragHandle
-              macos={isMacOS && isNative}
-              style={{
-                "-webkit-user-select": "none",
-                "-webkit-app-region": "drag",
-              }}
-            >
-              <Switch>
-                <Match when={lifecycle.state() === State.Connecting}>
-                  Connecting
-                </Match>
-                {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
-                <Match when={lifecycle.state() === State.Disconnected}>
-                  Disconnected
-                  <a
-                    onClick={() =>
-                      lifecycle.transition({
-                        type: TransitionType.Retry,
-                      })
-                    }
-                  >
-                    <strong> (reconnect now)</strong>
-                  </a>
-                </Match>
-                <Match when={lifecycle.state() === State.Reconnecting}>
-                  Reconnecting
-                </Match>
-                <Match when={lifecycle.state() === State.Offline}>
-                  Device is offline
-                  <a
-                    onClick={() =>
-                      lifecycle.transition({
-                        type: TransitionType.Retry,
-                      })
-                    }
-                    style={{
-                      "-webkit-app-region": "no-drag",
-                    }}
-                  >
-                    <strong> (reconnect now)</strong>
-                  </a>
-                </Match>
-              </Switch>
-              <Show when={pendingUpdate()}>
-                {" "}
-                <div
-                  style={{
-                    "-webkit-app-region": "no-drag",
-                  }}
-                >
-                  <Button size="sm" onPress={pendingUpdate()}>
-                    Update
-                  </Button>
-                </div>
-              </Show>
-            </DragHandle>
-            <Show when={isNative && !isMacOS}>
-              <Action onClick={window.native.minimise}>
-                <Ripple />
-                <Symbol size={20}>minimize</Symbol>
-              </Action>
-              <Action onClick={maximise}>
-                <Ripple />
-                <Show
-                  when={isMaximised()}
-                  fallback={<Symbol size={20}>expand_content</Symbol>}
-                >
-                  <Symbol size={20}>collapse_content</Symbol>
-                </Show>
-              </Action>
-              <Action onClick={window.native.close}>
-                <Ripple />
-                <Symbol size={20}>close</Symbol>
-              </Action>
-            </Show>
-          </Base>
-        </Motion.div>
+        <Wordmark
+          class={css({
+            height: "18px",
+            marginBlockStart: "1px",
+          })}
+        />{" "}
+        <Show when={import.meta.env.DEV}>
+          <Symbol size={16}>build</Symbol>
+        </Show>
+      </Title>
+      <DragHandle
+        macos={isMacOS && isNative}
+        style={{
+          "-webkit-user-select": "none",
+          "-webkit-app-region": "drag",
+        }}
+      >
+        <Switch>
+          <Match when={lifecycle.state() === State.Connecting}>
+            Connecting
+          </Match>
+          {/* <Match when={lifecycle.state() === State.Connected}>Connected</Match> */}
+          <Match when={lifecycle.state() === State.Disconnected}>
+            Disconnected
+            <ReconnectLink />
+          </Match>
+          <Match when={lifecycle.state() === State.Reconnecting}>
+            Reconnecting
+          </Match>
+          <Match when={lifecycle.state() === State.Offline}>
+            Device is offline
+            <ReconnectLink />
+          </Match>
+        </Switch>
+        <Show when={pendingUpdate()}>
+          {" "}
+          <div style={noDrag}>
+            <Button size="sm" onPress={pendingUpdate()}>
+              Update
+            </Button>
+          </div>
+        </Show>
+      </DragHandle>
+      <Show when={isNative && !isMacOS}>
+        <Action onClick={window.native.minimise}>
+          <Ripple />
+          <Symbol size={20}>minimize</Symbol>
+        </Action>
+        <Action onClick={maximise}>
+          <Ripple />
+          <Show
+            when={isMaximised()}
+            fallback={<Symbol size={20}>expand_content</Symbol>}
+          >
+            <Symbol size={20}>collapse_content</Symbol>
+          </Show>
+        </Action>
+        <Action onClick={window.native.close}>
+          <Ripple />
+          <Symbol size={20}>close</Symbol>
+        </Action>
       </Show>
-    </Presence>
+    </Base>
+  );
+}
+
+export function Titlebar() {
+  const [isWCO, setIsWCO] = createSignal(
+    matchMedia("(display-mode: window-controls-overlay)").matches,
+  );
+
+  const { lifecycle } = useClientLifecycle();
+
+  onMount(() => {
+    const query = matchMedia("(display-mode: window-controls-overlay)");
+    const update = () => setIsWCO(query.matches);
+    query.addEventListener("change", update);
+    onCleanup(() => query.removeEventListener("change", update));
+  });
+
+  return (
+    <Show
+      when={isWCO()}
+      fallback={
+        <Presence>
+          <Show
+            when={
+              (isNative && window.desktopConfig?.get()?.customFrame) ||
+              isDisconnected(lifecycle.state())
+            }
+          >
+            <Motion.div
+              initial={{ height: 0 }}
+              animate={{ height: "29px" }}
+              exit={{ height: 0 }}
+            >
+              <Bar pwa={false} />
+            </Motion.div>
+          </Show>
+        </Presence>
+      }
+    >
+      <Portal mount={document.getElementById("floating")!}>
+        <WindowControlsOverlay>
+          <Bar pwa={true} />
+        </WindowControlsOverlay>
+      </Portal>
+    </Show>
   );
 }
 
@@ -159,16 +190,24 @@ const Base = styled("div", {
     alignItems: "center",
 
     fill: "var(--md-sys-color-on-surface)",
+    background:
+      "var(--stoat-titlebar-color, var(--md-sys-color-surface-container-high))",
   },
   variants: {
     disconnected: {
       true: {
         color: "var(--md-sys-color-on-primary-container)",
-        background: "var(--md-sys-color-primary-container)",
+        background:
+          "var(--stoat-titlebar-color, var(--md-sys-color-primary-container))",
       },
       false: {
         color: "var(--md-sys-color-outline)",
-        background: "var(--md-sys-color-surface-container-high)",
+      },
+    },
+    pwa: {
+      true: {
+        height: "100%",
+        background: "transparent !important",
       },
     },
   },
@@ -225,5 +264,17 @@ const Action = styled("a", {
 
     height: "100%",
     aspectRatio: "3/2",
+  },
+});
+
+const WindowControlsOverlay = styled("div", {
+  base: {
+    position: "fixed",
+    left: "env(titlebar-area-x, 0px)",
+    top: "env(titlebar-area-y, 0px)",
+    width: "env(titlebar-area-width, 100%)",
+    height: "env(titlebar-area-height, 29px)",
+    zIndex: 1001,
+    appRegion: "drag",
   },
 });

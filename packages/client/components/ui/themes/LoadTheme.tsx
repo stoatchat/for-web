@@ -2,6 +2,7 @@ import { createEffect, createMemo } from "solid-js";
 
 import { useClientLifecycle } from "@revolt/client";
 import { State } from "@revolt/client/Controller";
+import { useModals } from "@revolt/modal";
 import { useState } from "@revolt/state";
 
 import {
@@ -20,6 +21,7 @@ import { legacyThemeUnsetShim } from "./legacyThemeGeneratorCode";
 export function LoadTheme() {
   const state = useState();
   const { lifecycle } = useClientLifecycle();
+  const { isOpen } = useModals();
 
   const bannerShown = createMemo(() =>
     [
@@ -71,12 +73,16 @@ export function LoadTheme() {
 
     const color =
       getCssProps()[
-        bannerShown()
-          ? "--md-sys-color-primary-container"
-          : drawerShown
-            ? "--md-sys-color-surface-container-low"
-            : "--md-sys-color-surface-container-high"
+        isOpen("settings")
+          ? "--md-sys-color-surface-container-highest"
+          : bannerShown()
+            ? "--md-sys-color-primary-container"
+            : drawerShown
+              ? "--md-sys-color-surface-container-low"
+              : "--md-sys-color-surface-container-high"
       ];
+
+    document.documentElement.style.setProperty("--stoat-titlebar-color", color);
 
     for (const meta of document.head.querySelectorAll("meta[name=theme-color]"))
       (meta as HTMLMetaElement).content = color;
