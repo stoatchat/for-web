@@ -5,6 +5,17 @@ export const FONTS = {
     },
   },
 
+  Pretendard: {
+    load: async () => {
+      await import("@fontsource/pretendard/300.css");
+      await import("@fontsource/pretendard/400.css");
+      await import("@fontsource/pretendard/500.css");
+      await import("@fontsource/pretendard/600.css");
+      await import("@fontsource/pretendard/700.css");
+      await import("@fontsource/pretendard/800.css");
+    },
+  },
+
   "Open Sans": {
     load: async () => {
       await import("@fontsource/open-sans/300.css");
