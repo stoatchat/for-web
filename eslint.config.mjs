@@ -14,6 +14,7 @@ export default defineConfig([
       // build artifacts
       "**/coverage/**",
       "**/dist/**",
+      "packages/stoat.js/lib/**",
       "**/styled-system/**",
     ],
   },

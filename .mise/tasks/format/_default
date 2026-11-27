@@ -2,4 +2,4 @@
 #MISE description="Check code formatting"
 set -e
 
-pnpm exec prettier --check 'packages/client/**/*.{ts,tsx,json}'
+pnpm exec prettier --check 'packages/{client,stoat.js}/**/*.{ts,tsx,json}'
