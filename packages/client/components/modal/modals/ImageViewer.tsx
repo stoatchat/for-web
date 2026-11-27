@@ -27,10 +27,35 @@ export function ImageViewerModal(
 
   let panzoom: PanzoomObject;
 
+  const pointers = new Set<number>();
+  let tapStart: { x: number; y: number } | undefined,
+    lastTap = 0;
+
   function onPointerDown(e: PointerEvent) {
-    if (e.button !== 2) {
-      panzoom.handleDown(e);
-      return;
+    if (e.button === 2) return;
+    // Let the second finger land anywhere so small images can be pinched
+    if (e.target !== ref() && !pointers.size) return;
+
+    pointers.add(e.pointerId);
+    tapStart = pointers.size === 1 ? { x: e.clientX, y: e.clientY } : undefined;
+    panzoom.handleDown(e);
+  }
+
+  function onPointerUp(e: PointerEvent) {
+    if (!pointers.delete(e.pointerId)) return;
+    panzoom.handleUp(e);
+
+    // Double tap zooms in on that spot, or back out
+    if (e.type !== "pointerup" || pointers.size || !tapStart) return;
+    if (Math.hypot(e.clientX - tapStart.x, e.clientY - tapStart.y) > 10) return;
+
+    const now = performance.now();
+    if (now - lastTap < 300) {
+      lastTap = 0;
+      if (panzoom.getScale() > 1) panzoom.reset();
+      else panzoom.zoomToPoint(2.5, e);
+    } else {
+      lastTap = now;
     }
   }
 
@@ -50,21 +75,23 @@ export function ImageViewerModal(
           });
 
           panzoom = zoom;
+          const area = ref.parentElement!;
 
-          ref.addEventListener("pointerdown", onPointerDown);
+          area.addEventListener("pointerdown", onPointerDown);
           document.addEventListener("pointermove", panzoom.handleMove);
-          document.addEventListener("pointerup", panzoom.handleUp);
-          document.addEventListener("pointerleave", panzoom.handleUp);
-          document.addEventListener("pointercancel", panzoom.handleUp);
+          document.addEventListener("pointerup", onPointerUp);
+          document.addEventListener("pointerleave", onPointerUp);
+          document.addEventListener("pointercancel", onPointerUp);
           document.addEventListener("wheel", onMouseWheel as never);
 
           onCleanup(() => {
-            ref.removeEventListener("pointerdown", onPointerDown);
-            document.removeEventListener("pointercancel", panzoom.handleUp);
+            area.removeEventListener("pointerdown", onPointerDown);
+            document.removeEventListener("pointercancel", onPointerUp);
             document.removeEventListener("pointermove", panzoom.handleMove);
-            document.removeEventListener("pointerup", panzoom.handleUp);
-            document.removeEventListener("pointerleave", panzoom.handleUp);
+            document.removeEventListener("pointerup", onPointerUp);
+            document.removeEventListener("pointerleave", onPointerUp);
             document.removeEventListener("wheel", onMouseWheel as never);
+            pointers.clear();
           });
         }
       },
