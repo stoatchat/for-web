@@ -9,8 +9,9 @@ import { useSnackbar } from "@revolt/ui";
 import { IS_DEV, useClient } from ".";
 import pushWorker from "/src/pushWorker?worker&url";
 
-const PushPrefix = "/?@";
-const pwPath = pushWorker.slice(0, pushWorker.lastIndexOf("/")) + PushPrefix;
+const pwDir = pushWorker.slice(0, pushWorker.lastIndexOf("/") + 1);
+//Scope goes in the path, Safari drops the query from saved registrations
+const pushScope = (userId: string) => `${pwDir}@${userId}/`;
 
 export function useNotifications() {
   const { settings, auth } = useState();
@@ -31,7 +32,7 @@ export function useNotifications() {
     await killServiceWorkerSubscription(getClient());
   };
 
-  const notificationStateMismatch = async () => {
+  const notificationStateMismatch = () => {
     const areNotificationsAllowed =
       settings.desktopNotificationsState === "allowed" ||
       settings.pushNotificationsState === "allowed";
@@ -39,16 +40,13 @@ export function useNotifications() {
     const notificationPermissionGranted =
       !supportsNotification || Notification.permission === "granted";
 
-    return (
-      areNotificationsAllowed &&
-      (!notificationPermissionGranted || !(await getPushWorker(getClient())))
-    );
+    return areNotificationsAllowed && !notificationPermissionGranted;
   };
 
   const initNotifications = async () => {
     if (
       settings.desktopNotificationsState === "default" ||
-      (await notificationStateMismatch())
+      notificationStateMismatch()
     ) {
       // We do this before permission checking because the constructor will still work fine if we don't have permission.
       if (supportsNotification) {
@@ -80,19 +78,26 @@ export function useNotifications() {
       } else {
         await enablePushSubscription();
       }
+    } else if (
+      settings.pushNotificationsState === "allowed" &&
+      !(await getPushWorker(getClient()))
+    ) {
+      // Push is on but the worker is gone, so quietly subscribe again
+      await enablePushSubscription();
     }
 
     //Unproductive workers will not be tolerated in Soviet Russia
-    const sesList = auth.getSessions().map((s) => pwPath + s.userId);
+    //Also catches old ?@ workers. Safari can't always remove those, so only log real removals
+    const sesList = auth.getSessions().map((s) => pushScope(s.userId));
     for (const worker of await navigator.serviceWorker.getRegistrations()) {
-      if (worker.scope.indexOf(PushPrefix) !== -1) {
-        const wUrl = new URL(worker.scope);
-        if (!sesList.includes(wUrl.pathname + wUrl.search)) {
-          console.warn(
-            `[push] Unregistered dead worker for ${wUrl.search.slice(1)}`,
-          );
-          worker.unregister();
-        }
+      const wUrl = new URL(worker.scope);
+      const path = wUrl.pathname + wUrl.search;
+      if (
+        path.startsWith(pwDir) &&
+        !sesList.includes(path) &&
+        (await worker.unregister())
+      ) {
+        console.warn(`[push] Unregistered dead worker at ${path}`);
       }
     }
   };
@@ -158,7 +163,7 @@ async function setUpServiceWorkerSubscription(client: Client) {
   }
 
   const worker = await navigator.serviceWorker.register(pushWorker, {
-    scope: pwPath + client.user.id,
+    scope: pushScope(client.user.id),
     type: "module",
   });
 
@@ -199,7 +204,7 @@ function arrayBufferToBase64URL(buffer: ArrayBuffer): string {
 }
 
 async function getPushWorker(client: Client) {
-  const scope = client.user && pwPath + client.user.id;
+  const scope = client.user && pushScope(client.user.id);
   if (!scope) return;
   const worker = await navigator.serviceWorker.getRegistration(scope);
   if (!worker) return;
