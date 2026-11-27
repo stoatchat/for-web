@@ -54,6 +54,14 @@ export class Device {
       navigator.maxTouchPoints > 1);
 
   /**
+   * Whether this device can play VP9 WebM.
+   * iOS says it can, but the video never actually moves, so it always gets MP4.
+   */
+  readonly canPlayVp9 =
+    !this.isIOSTouch &&
+    !!document.createElement("video").canPlayType('video/webm; codecs="vp9"');
+
+  /**
    * Whether this device supports touch input.
    */
   readonly hasTouch =

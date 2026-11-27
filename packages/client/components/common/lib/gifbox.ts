@@ -177,10 +177,13 @@ export class GifboxApi {
  */
 export function gifboxPreviewMedia(
   media: GifboxGif["media"] | undefined,
+  canPlayVp9 = true,
 ): { type: "video" | "image"; media: GifboxMedia } | undefined {
   if (!media) return;
 
-  const video = media.mp4 ?? media.webm;
+  const video = canPlayVp9
+    ? (media.webm ?? media.mp4)
+    : (media.mp4 ?? media.webm);
   if (video) return { type: "video", media: video };
 
   const image =
