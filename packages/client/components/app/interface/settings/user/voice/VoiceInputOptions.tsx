@@ -10,7 +10,7 @@ import {
   CategoryButton,
   CategorySelectOption,
   Column,
-  Slider,
+  Slider2,
   Symbol,
   Text,
 } from "@revolt/ui";
@@ -119,7 +119,7 @@ function VolumeSliders() {
       <Text class="label">
         <Trans>Input Volume</Trans>
       </Text>
-      <Slider
+      <Slider2
         min={0}
         max={3}
         step={0.1}
@@ -132,7 +132,7 @@ function VolumeSliders() {
       <Text class="label">
         <Trans>Output Volume</Trans>
       </Text>
-      <Slider
+      <Slider2
         min={0}
         max={3}
         step={0.1}

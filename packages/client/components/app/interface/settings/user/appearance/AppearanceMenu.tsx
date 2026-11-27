@@ -22,7 +22,7 @@ import {
   MenuItem,
   MessageContainer,
   Row,
-  Slider,
+  Slider2,
   Symbol,
   Text,
 } from "@revolt/ui";
@@ -344,7 +344,7 @@ export function AppearanceMenu() {
         <Text class="label">
           <Trans>Message Size</Trans>
         </Text>
-        <Slider
+        <Slider2
           min={12}
           max={24}
           value={state.theme.messageSize}
@@ -357,7 +357,7 @@ export function AppearanceMenu() {
       <Text class="label">
         <Trans>Message Group Spacing</Trans>
       </Text>
-      <Slider
+      <Slider2
         min={0}
         max={16}
         value={state.theme.messageGroupSpacing}
