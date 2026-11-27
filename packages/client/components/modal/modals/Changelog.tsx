@@ -61,6 +61,7 @@ export function ChangelogModal(
       onClose={props.onClose}
       title={<Trans>What's new</Trans>}
       actions={actions}
+      fullscreen="phone"
     >
       <Column>
         <Subtitle>{dayjs(props.changelog.published_at).format("LL")}</Subtitle>
